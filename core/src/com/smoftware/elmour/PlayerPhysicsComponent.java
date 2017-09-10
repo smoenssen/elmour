@@ -8,7 +8,6 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 
 public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
@@ -73,7 +72,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&
                 !isCollisionWithMapEntities(entity, mapMgr) &&
-                _state == Entity.State.WALKING){
+                (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)){
             setNextPositionToCurrent(entity);
 
             Camera camera = mapMgr.getCamera();
@@ -83,7 +82,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
-        calculateNextPosition(delta);
+        calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
     private void selectMapEntityCandidate(MapManager mapMgr){

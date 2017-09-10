@@ -34,7 +34,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 _currentPosition = json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
-                _currentState = json.fromJson(Entity.State.class, string[1]);
+                currentState = json.fromJson(Entity.State.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 _currentDirection = json.fromJson(Entity.Direction.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
@@ -54,7 +54,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                         animation = loadAnimation(textureNames.get(0), textureNames.get(1), points, frameDuration);
                     }
 
-                    _animations.put(animationType, animation);
+                    animations.put(animationType, animation);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         camera.update();
 
         batch.begin();
-        batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);
+        batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
         batch.end();
 
         //Used to graphically debug boundingboxes

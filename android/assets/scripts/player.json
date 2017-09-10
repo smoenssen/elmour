@@ -49,7 +49,7 @@ inventory : [
 ]
 animationConfig: [
 	{
-		frameDuration: 0.25
+		frameDuration: 0.15
 		animationType: IDLE
 		texturePaths: [
 			sprites/characters/Warrior.png
@@ -75,7 +75,7 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.1
+		frameDuration: 0.15
 		animationType: WALK_DOWN
 		texturePaths: [
 			sprites/characters/Warrior.png
@@ -101,7 +101,7 @@ animationConfig: [
 		]
 	}
 	{
-	    frameDuration: 0.1
+	    frameDuration: 0.15
 		animationType: WALK_LEFT
 		texturePaths: [
 			sprites/characters/Warrior.png
@@ -127,7 +127,7 @@ animationConfig: [
 		]
 	}
 	{
-	    frameDuration: 0.1
+	    frameDuration: 0.15
 		animationType: WALK_RIGHT
 		texturePaths: [
 			sprites/characters/Warrior.png
@@ -153,7 +153,7 @@ animationConfig: [
 		]
 	}
 	{
-	    frameDuration: 0.1
+	    frameDuration: 0.15
 		animationType: WALK_UP
 		texturePaths: [
 			sprites/characters/Warrior.png
@@ -177,6 +177,110 @@ animationConfig: [
 				y: 3
 			}
 		]
-	}	
+	}
+  {
+    frameDuration: 0.10
+    animationType: RUN_DOWN
+    texturePaths: [
+      sprites/characters/Warrior.png
+    ]
+    gridPoints: [
+      {
+        x: 0
+        y: 0
+      }
+
+      {
+        x: 0
+        y: 1
+      }
+      {
+        x: 0
+        y: 2
+      }
+      {
+        x: 0
+        y: 3
+      }
+    ]
+  }
+  {
+    frameDuration: 0.10
+    animationType: RUN_LEFT
+    texturePaths: [
+      sprites/characters/Warrior.png
+    ]
+    gridPoints: [
+      {
+        x: 1
+        y: 0
+      }
+
+      {
+        x: 1
+        y: 1
+      }
+      {
+        x: 1
+        y: 2
+      }
+      {
+        x: 1
+        y: 3
+      }
+    ]
+  }
+  {
+    frameDuration: 0.10
+    animationType: RUN_RIGHT
+    texturePaths: [
+      sprites/characters/Warrior.png
+    ]
+    gridPoints: [
+      {
+        x: 2
+        y: 0
+      }
+
+      {
+        x: 2
+        y: 1
+      }
+      {
+        x: 2
+        y: 2
+      }
+      {
+        x: 2
+        y: 3
+      }
+    ]
+  }
+  {
+    frameDuration: 0.10
+    animationType: RUN_UP
+    texturePaths: [
+      sprites/characters/Warrior.png
+    ]
+    gridPoints: [
+      {
+        x: 3
+        y: 0
+      }
+
+      {
+        x: 3
+        y: 1
+      }
+      {
+        x: 3
+        y: 2
+      }
+      {
+        x: 3
+        y: 3
+      }
+    ]
+  }
 ]
 }	

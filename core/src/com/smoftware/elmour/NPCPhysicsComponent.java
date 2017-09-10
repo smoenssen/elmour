@@ -48,12 +48,12 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&
                 !isCollisionWithMapEntities(entity, mapMgr) &&
-                _state == Entity.State.WALKING){
+                (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)){
             setNextPositionToCurrent(entity);
         } else {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
-        calculateNextPosition(delta);
+        calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
     private boolean isEntityFarFromPlayer(MapManager mapMgr){

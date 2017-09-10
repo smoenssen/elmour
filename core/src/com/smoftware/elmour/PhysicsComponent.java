@@ -117,10 +117,15 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         entity.sendMessage(MESSAGE.CURRENT_POSITION, _json.toJson(_currentEntityPosition));
     }
 
-    protected void calculateNextPosition(float deltaTime){
+    protected void calculateNextPosition(float deltaTime, boolean isRunning){
         if( _currentDirection == null ) return;
 
         if( deltaTime > .7) return;
+
+        float velocityFactor = 2.0f;
+
+        if (isRunning)
+            velocityFactor = 3.75f;
 
         float testX = _currentEntityPosition.x;
         float testY = _currentEntityPosition.y;
@@ -129,16 +134,16 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         switch (_currentDirection) {
             case LEFT :
-                testX -=  _velocity.x;
+                testX -=  _velocity.x * velocityFactor;
                 break;
             case RIGHT :
-                testX += _velocity.x;
+                testX += _velocity.x * velocityFactor;
                 break;
             case UP :
-                testY += _velocity.y;
+                testY += _velocity.y * velocityFactor;
                 break;
             case DOWN :
-                testY -= _velocity.y;
+                testY -= _velocity.y * velocityFactor;
                 break;
             default:
                 break;

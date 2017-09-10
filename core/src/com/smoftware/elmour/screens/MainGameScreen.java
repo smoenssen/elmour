@@ -2,30 +2,28 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Json;
-
+import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.MapFactory;
-import com.smoftware.elmour.MapManager;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.Map;
+import com.smoftware.elmour.MapFactory;
+import com.smoftware.elmour.MapManager;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
-import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
-import com.smoftware.elmour.Component;
 
 public class MainGameScreen extends GameScreen {
 	private static final String TAG = MainGameScreen.class.getSimpleName();
+
+	private final float V_WIDTH = 12;//2.4f;//srm
+	private final float V_HEIGHT = 8;//1.6f;
 
 	public static class VIEWPORT {
 		public static float viewportWidth;
@@ -66,7 +64,8 @@ public class MainGameScreen extends GameScreen {
 		setGameState(GameState.RUNNING);
 
 		//_camera setup
-		setupViewport(10, 10);
+		//setupViewport(V_WIDTH, V_HEIGHT);//srm
+		setupViewport(V_WIDTH, V_HEIGHT);
 
 		//get the current size
 		_camera = new OrthographicCamera();
@@ -198,7 +197,7 @@ public class MainGameScreen extends GameScreen {
 
 	@Override
 	public void resize(int width, int height) {
-		setupViewport(10, 10);
+		setupViewport(V_WIDTH, V_HEIGHT);
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 		_playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
 	}
@@ -260,7 +259,7 @@ public class MainGameScreen extends GameScreen {
 
 	}
 
-	private void setupViewport(int width, int height){
+	private void setupViewport(float width, float height){
 		//Make the viewport a percentage of the total display area
 		VIEWPORT.virtualWidth = width;
 		VIEWPORT.virtualHeight = height;

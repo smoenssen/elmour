@@ -45,7 +45,7 @@ public class Entity {
 	public static enum State {
 		IDLE,
 		WALKING,
-
+		RUNNING,
 		IMMOBILE;//This should always be last
 
 		static public State getRandomNext() {
@@ -59,6 +59,10 @@ public class Entity {
 		WALK_RIGHT,
 		WALK_UP,
 		WALK_DOWN,
+		RUN_LEFT,
+		RUN_RIGHT,
+		RUN_UP,
+		RUN_DOWN,
 		IDLE,
 		IMMOBILE
 	}

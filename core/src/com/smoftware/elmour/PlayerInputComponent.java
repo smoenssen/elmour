@@ -61,6 +61,12 @@ public class PlayerInputComponent extends InputComponent {
 			}
 		}
 
+		if (keys.get(Keys.LEFT) || keys.get(Keys.RIGHT) || keys.get(Keys.UP) || keys.get(Keys.DOWN)) {
+			if (keys.get(Keys.SPACE)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
+			}
+		}
+
 		//Mouse input
 		if( mouseButtons.get(Mouse.SELECT)) {
 			//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );
@@ -69,22 +75,21 @@ public class PlayerInputComponent extends InputComponent {
 		}
 	}
 
+	//srm to get correct diagonal speed
+	//http://www.java-gaming.org/index.php?topic=32544.0
+
 	@Override
 	public boolean keyDown(int keycode) {
 		if( keycode == Input.Keys.LEFT || keycode == Input.Keys.A){
-			Gdx.app.debug(TAG, "left");
 			this.leftPressed();
 		}
 		if( keycode == Input.Keys.RIGHT || keycode == Input.Keys.D){
-			Gdx.app.debug(TAG, "right");
 			this.rightPressed();
 		}
 		if( keycode == Input.Keys.UP || keycode == Input.Keys.W){
-			Gdx.app.debug(TAG, "up");
 			this.upPressed();
 		}
 		if( keycode == Input.Keys.DOWN || keycode == Input.Keys.S){
-			Gdx.app.debug(TAG, "down");
 			this.downPressed();
 		}
 		if( keycode == Input.Keys.Q){
@@ -92,6 +97,9 @@ public class PlayerInputComponent extends InputComponent {
 		}
 		if( keycode == Input.Keys.P ){
 			this.pausePressed();
+		}
+		if (keycode == Input.Keys.SPACE) {
+			this.spacePressed();
 		}
 
 		return true;
@@ -116,6 +124,9 @@ public class PlayerInputComponent extends InputComponent {
 		}
 		if( keycode == Input.Keys.P ){
 			this.pauseReleased();
+		}
+		if (keycode == Input.Keys.SPACE) {
+			this.spaceReleased();
 		}
 		return true;
 	}
@@ -186,6 +197,7 @@ public class PlayerInputComponent extends InputComponent {
 	public void downPressed(){
 		keys.put(Keys.DOWN, true);
 	}
+
 	public void quitPressed(){
 		keys.put(Keys.QUIT, true);
 	}
@@ -193,6 +205,8 @@ public class PlayerInputComponent extends InputComponent {
 	public void pausePressed() {
 		keys.put(Keys.PAUSE, true);
 	}
+
+	public void spacePressed() { keys.put(Keys.SPACE, true); }
 	
 	public void setClickedMouseCoordinates(int x,int y){
 		_lastMouseCoordinates.set(x, y, 0);
@@ -228,7 +242,9 @@ public class PlayerInputComponent extends InputComponent {
 		keys.put(Keys.QUIT, false);
 	}
 
-	public void pauseReleased() { keys.put(Keys.PAUSE, false);}
+	public void pauseReleased() { keys.put(Keys.PAUSE, false); }
+
+	public void spaceReleased() { keys.put(Keys.SPACE, false); }
 	
 	public void selectMouseButtonReleased(int x, int y){
 		mouseButtons.put(Mouse.SELECT, false);
@@ -244,5 +260,6 @@ public class PlayerInputComponent extends InputComponent {
 		keys.put(Keys.UP, false);
 		keys.put(Keys.DOWN, false);
 		keys.put(Keys.QUIT, false);
+		keys.put(Keys.SPACE, false);
 	}
 }

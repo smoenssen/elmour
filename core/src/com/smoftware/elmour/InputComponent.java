@@ -13,7 +13,7 @@ public abstract class InputComponent extends ComponentSubject implements Compone
     protected Json _json;
 
     protected enum Keys {
-        LEFT, RIGHT, UP, DOWN, QUIT, PAUSE
+        LEFT, RIGHT, UP, DOWN, QUIT, PAUSE, SPACE
     }
 
     protected enum Mouse {
@@ -31,6 +31,7 @@ public abstract class InputComponent extends ComponentSubject implements Compone
         keys.put(Keys.DOWN, false);
         keys.put(Keys.QUIT, false);
         keys.put(Keys.PAUSE, false);
+        keys.put(Keys.SPACE, false);
     };
 
     static {

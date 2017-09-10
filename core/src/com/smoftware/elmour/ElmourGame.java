@@ -14,6 +14,8 @@ import com.smoftware.elmour.screens.NewGameScreen;
 
 public class ElmourGame extends Game {
 
+	//public static final float PPM = 100;
+
 	private static MainGameScreen _mainGameScreen;
 	private static MainMenuScreen _mainMenuScreen;
 	private static LoadGameScreen _loadGameScreen;
