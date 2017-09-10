@@ -101,6 +101,9 @@ public class ProfileManager extends ProfileSubject {
     }
 
     public void setProperty(String key, Object object){
+        if (key == "currentMapType") {
+            int x=0;
+        }
         _profileProperties.put(key, object);
     }
 

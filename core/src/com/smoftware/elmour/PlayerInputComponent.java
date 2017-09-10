@@ -72,15 +72,19 @@ public class PlayerInputComponent extends InputComponent {
 	@Override
 	public boolean keyDown(int keycode) {
 		if( keycode == Input.Keys.LEFT || keycode == Input.Keys.A){
+			Gdx.app.debug(TAG, "left");
 			this.leftPressed();
 		}
 		if( keycode == Input.Keys.RIGHT || keycode == Input.Keys.D){
+			Gdx.app.debug(TAG, "right");
 			this.rightPressed();
 		}
 		if( keycode == Input.Keys.UP || keycode == Input.Keys.W){
+			Gdx.app.debug(TAG, "up");
 			this.upPressed();
 		}
 		if( keycode == Input.Keys.DOWN || keycode == Input.Keys.S){
+			Gdx.app.debug(TAG, "down");
 			this.downPressed();
 		}
 		if( keycode == Input.Keys.Q){

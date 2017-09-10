@@ -1,7 +1,6 @@
 package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.maps.MapLayer;
@@ -72,13 +71,13 @@ public abstract class Map implements AudioSubject{
     protected MapLayer _lightMapNightLayer = null;
 
     protected MapFactory.MapType _currentMapType;
-    protected Array<Entity> _mapEntities;
+    protected Array<Entity> mapEntities;
     protected Array<Entity> _mapQuestEntities;
     protected Array<ParticleEffect> _mapParticleEffects;
 
     Map( MapFactory.MapType mapType, String fullMapPath){
         _json = new Json();
-        _mapEntities = new Array<Entity>(10);
+        mapEntities = new Array<Entity>(10);
         _observers = new Array<AudioObserver>();
         _mapQuestEntities = new Array<Entity>();
         _mapParticleEffects = new Array<ParticleEffect>();
@@ -236,7 +235,7 @@ public abstract class Map implements AudioSubject{
     }
 
     public Array<Entity> getMapEntities(){
-        return _mapEntities;
+        return mapEntities;
     }
 
     public Array<Entity> getMapQuestEntities(){
@@ -264,8 +263,8 @@ public abstract class Map implements AudioSubject{
     }
 
     protected void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
-        for( int i=0; i < _mapEntities.size; i++){
-            _mapEntities.get(i).update(mapMgr, batch, delta);
+        for(int i = 0; i < mapEntities.size; i++){
+            mapEntities.get(i).update(mapMgr, batch, delta);
         }
         for( int i=0; i < _mapQuestEntities.size; i++){
             _mapQuestEntities.get(i).update(mapMgr, batch, delta);
@@ -281,8 +280,8 @@ public abstract class Map implements AudioSubject{
     }
 
     protected void dispose(){
-        for( int i=0; i < _mapEntities.size; i++){
-            _mapEntities.get(i).dispose();
+        for(int i = 0; i < mapEntities.size; i++){
+            mapEntities.get(i).dispose();
         }
         for( int i=0; i < _mapQuestEntities.size; i++){
             _mapQuestEntities.get(i).dispose();

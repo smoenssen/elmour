@@ -17,7 +17,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     protected float _frameTime = 0f;
     protected Entity.State _currentState;
     protected Entity.Direction _currentDirection;
-    protected Json _json;
+    protected Json json;
     protected Vector2 _currentPosition;
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> _animations;
     protected ShapeRenderer _shapeRenderer;
@@ -26,7 +26,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         _currentPosition = new Vector2(0,0);
         _currentState = Entity.State.WALKING;
         _currentDirection = Entity.Direction.DOWN;
-        _json = new Json();
+        json = new Json();
         _animations = new Hashtable<>();
         _shapeRenderer = new ShapeRenderer();
     }

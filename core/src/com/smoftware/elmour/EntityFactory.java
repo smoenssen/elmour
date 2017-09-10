@@ -8,9 +8,9 @@ import java.util.Hashtable;
 public class EntityFactory {
     private static final String TAG = EntityFactory.class.getSimpleName();
 
-    private static Json _json = new Json();
-    private static EntityFactory _instance = null;
-    private Hashtable<String, EntityConfig> _entities;
+    private static Json json = new Json();
+    private static EntityFactory instance = null;
+    private Hashtable<String, EntityConfig> entities;
 
     public static enum EntityType{
         PLAYER,
@@ -39,31 +39,31 @@ public class EntityFactory {
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
 
     private EntityFactory(){
-        _entities = new Hashtable<String, EntityConfig>();
+        entities = new Hashtable<String, EntityConfig>();
 
         Array<EntityConfig> townFolkConfigs = Entity.getEntityConfigs(TOWN_FOLK_CONFIGS);
         for( EntityConfig config: townFolkConfigs){
-            _entities.put(config.getEntityID(), config);
+            entities.put(config.getEntityID(), config);
         }
 
         Array<EntityConfig> environmentalEntityConfigs = Entity.getEntityConfigs(ENVIRONMENTAL_ENTITY_CONFIGS);
         for( EntityConfig config: environmentalEntityConfigs){
-            _entities.put(config.getEntityID(), config);
+            entities.put(config.getEntityID(), config);
         }
 
-        _entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
-        _entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
-        _entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));
-        _entities.put(EntityName.TOWN_INNKEEPER.toString(), Entity.loadEntityConfigByPath(TOWN_INNKEEPER_CONFIG));
-        _entities.put(EntityName.PLAYER_PUPPET.toString(), Entity.loadEntityConfigByPath(PLAYER_CONFIG));
+        entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
+        entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
+        entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));
+        entities.put(EntityName.TOWN_INNKEEPER.toString(), Entity.loadEntityConfigByPath(TOWN_INNKEEPER_CONFIG));
+        entities.put(EntityName.PLAYER_PUPPET.toString(), Entity.loadEntityConfigByPath(PLAYER_CONFIG));
     }
 
     public static EntityFactory getInstance() {
-        if (_instance == null) {
-            _instance = new EntityFactory();
+        if (instance == null) {
+            instance = new EntityFactory();
         }
 
-        return _instance;
+        return instance;
     }
 
     public static Entity getEntity(EntityType entityType){
@@ -72,7 +72,7 @@ public class EntityFactory {
             case PLAYER:
                 entity = new Entity(new PlayerInputComponent(), new PlayerPhysicsComponent(), new PlayerGraphicsComponent());
                 entity.setEntityConfig(Entity.getEntityConfig(EntityFactory.PLAYER_CONFIG));
-                entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, _json.toJson(entity.getEntityConfig()));
+                entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
                 return entity;
             case PLAYER_DEMO:
                 entity = new Entity(new NPCInputComponent(), new PlayerPhysicsComponent(), new PlayerGraphicsComponent());
@@ -86,7 +86,7 @@ public class EntityFactory {
     }
 
     public Entity getEntityByName(EntityName entityName){
-        EntityConfig config = new EntityConfig(_entities.get(entityName.toString()));
+        EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
         Entity entity = Entity.initEntity(config);
         return entity;
     }

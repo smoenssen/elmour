@@ -46,15 +46,15 @@ public class NPCGraphicsComponent extends GraphicsComponent {
 
         if( string.length == 2 ) {
             if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
-                _currentPosition = _json.fromJson(Vector2.class, string[1]);
+                _currentPosition = json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
-                _currentPosition = _json.fromJson(Vector2.class, string[1]);
+                _currentPosition = json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
-                _currentState = _json.fromJson(Entity.State.class, string[1]);
+                _currentState = json.fromJson(Entity.State.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
-                _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
+                _currentDirection = json.fromJson(Entity.Direction.class, string[1]);
             }else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
-                EntityConfig entityConfig = _json.fromJson(EntityConfig.class, string[1]);
+                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
                 for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
@@ -84,13 +84,13 @@ public class NPCGraphicsComponent extends GraphicsComponent {
             drawSelected(entity, mapMgr);
             mapMgr.setCurrentSelectedMapEntity(entity);
             if( _sentShowConversationMessage == false){
-                notify(_json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
+                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
                 _sentShowConversationMessage = true;
                 _sentHideCoversationMessage = false;
             }
         }else{
             if( _sentHideCoversationMessage == false ){
-                notify(_json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
+                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
                 _sentHideCoversationMessage = true;
                 _sentShowConversationMessage = false;
             }
