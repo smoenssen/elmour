@@ -2,12 +2,16 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame.ScreenType;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
@@ -18,11 +22,21 @@ public class MainMenuScreen extends GameScreen {
 	private Stage _stage;
 	private ElmourGame _game;
 
+	/////////////
+	OrthographicCamera camera;
+	Viewport viewport;
+	/////////////
+
 	public MainMenuScreen(ElmourGame game){
 		_game = game;
 
+		//////////////////
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(800, 480, camera);
+		_stage = new Stage(viewport);
+		//////////////////
 		//creation
-		_stage = new Stage();
+		//_stage = new Stage();
 		Table table = new Table();
 		table.setFillParent(true);
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -22,12 +25,23 @@ public class LoadGameScreen extends GameScreen {
     private Stage _stage;
 	private ElmourGame _game;
 	private List _listItems;
+
+	/////////////
+	OrthographicCamera camera;
+	Viewport viewport;
+	/////////////
 	
 	public LoadGameScreen(ElmourGame game){
 		_game = game;
 
+		//////////////////
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(800, 480, camera);
+		_stage = new Stage(viewport);
+		//////////////////
+
 		//create
-		_stage = new Stage();
+		//_stage = new Stage();
 		TextButton loadButton = new TextButton("Load", Utility.STATUSUI_SKIN);
 		TextButton backButton = new TextButton("Back",Utility.STATUSUI_SKIN);
 

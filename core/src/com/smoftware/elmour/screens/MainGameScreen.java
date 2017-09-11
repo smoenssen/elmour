@@ -1,5 +1,6 @@
 package com.smoftware.elmour.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
@@ -17,6 +19,7 @@ import com.smoftware.elmour.MapFactory;
 import com.smoftware.elmour.MapManager;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.UI.ActionButtons;
 import com.smoftware.elmour.profile.ProfileManager;
 
 public class MainGameScreen extends GameScreen {
@@ -48,6 +51,7 @@ public class MainGameScreen extends GameScreen {
 	protected MapManager _mapMgr;
 	protected OrthographicCamera _camera = null;
 	protected OrthographicCamera _hudCamera = null;
+	protected OrthographicCamera controllersCam = null;
 
 	private Json _json;
 	private ElmourGame _game;
@@ -55,6 +59,7 @@ public class MainGameScreen extends GameScreen {
 
 	private Entity _player;
 	private PlayerHUD _playerHUD;
+	private ActionButtons actionButtons;
 
 	public MainGameScreen(ElmourGame game){
 		_game = game;
@@ -83,6 +88,21 @@ public class MainGameScreen extends GameScreen {
 		_multiplexer = new InputMultiplexer();
 		_multiplexer.addProcessor(_playerHUD.getStage());
 		_multiplexer.addProcessor(_player.getInputProcessor());
+
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+
+			controllersCam = new OrthographicCamera();
+			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+			actionButtons = new ActionButtons(controllersCam);
+
+			// todo: FloatingThumbpadController has an issue with being reset to 0 position if the A or B button are pressed
+			//touchpad = new FixedThumbpadController();//FloatingThumbpadController();
+			//stage.addActor(touchpad.getTouchpad());
+
+			_multiplexer.addProcessor(actionButtons.getStage());
+		}
+
 		Gdx.input.setInputProcessor(_multiplexer);
 
 		//Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
