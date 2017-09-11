@@ -19,8 +19,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private String _previousEnemySpawn;
 
     public PlayerPhysicsComponent(){
-        _boundingBoxLocation = BoundingBoxLocation.BOTTOM_CENTER;
-        initBoundingBox(0.3f, 0.5f);
+        _boundingBoxLocation = BoundingBoxLocation.CENTER;
+        initBoundingBox(0.3f, 0f);
         _previousDiscovery = "";
         _previousEnemySpawn = "0";
 
