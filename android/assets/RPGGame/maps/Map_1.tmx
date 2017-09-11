@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="16" tileheight="16" nextobjectid="462">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="16" tileheight="16" nextobjectid="471">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -643,6 +643,8 @@
  </objectgroup>
  <objectgroup name="MAP_PORTAL_LAYER">
   <object id="167" x="639" y="7" width="1" height="91"/>
+  <object id="462" name="TO_MAP2" x="642" y="11" width="10" height="88"/>
+  <object id="463" x="278" y="825"/>
  </objectgroup>
  <objectgroup name="MAP_SPAWNS_LAYER">
   <object id="461" name="PLAYER_START" x="167.333" y="934.667" width="17.3333" height="16.6667"/>

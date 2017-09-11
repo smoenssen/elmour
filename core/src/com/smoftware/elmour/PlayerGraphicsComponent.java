@@ -2,12 +2,14 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import com.smoftware.elmour.EntityConfig.AnimationConfig;
 
 public class PlayerGraphicsComponent extends GraphicsComponent {
@@ -71,8 +73,17 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             previousPosition = _currentPosition.cpy();
         }
 
+        TiledMap map = mapMgr.getCurrentTiledMap();
+        MapProperties prop = map.getProperties();
+        int mapWidthInTiles = prop.get("width", Integer.class);
+        int mapHeightInTiles = prop.get("height", Integer.class);
+
         Camera camera = mapMgr.getCamera();
-        camera.position.set(_currentPosition.x, _currentPosition.y, 0f);
+
+        //keep camera within map
+        camera.position.set(MathUtils.clamp(_currentPosition.x, camera.viewportWidth / 2f, mapWidthInTiles - (camera.viewportWidth  / 2f)),
+                            MathUtils.clamp(_currentPosition.y, camera.viewportHeight / 2f, mapHeightInTiles - (camera.viewportHeight / 2f)), 0f);
+
         camera.update();
 
         batch.begin();

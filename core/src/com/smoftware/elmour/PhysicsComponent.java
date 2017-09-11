@@ -125,7 +125,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float velocityFactor = 2.0f;
 
         if (isRunning)
-            velocityFactor = 3.75f;
+            velocityFactor = 4.0f;
 
         float testX = _currentEntityPosition.x;
         float testY = _currentEntityPosition.y;
