@@ -21,22 +21,16 @@ public class MainMenuScreen extends GameScreen {
 
 	private Stage _stage;
 	private ElmourGame _game;
-
-	/////////////
 	OrthographicCamera camera;
 	Viewport viewport;
-	/////////////
 
 	public MainMenuScreen(ElmourGame game){
 		_game = game;
-
-		//////////////////
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(800, 480, camera);
+		viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
 		_stage = new Stage(viewport);
-		//////////////////
+
 		//creation
-		//_stage = new Stage();
 		Table table = new Table();
 		table.setFillParent(true);
 
@@ -49,7 +43,7 @@ public class MainMenuScreen extends GameScreen {
 
 
 		//Layout
-		table.add(title).spaceBottom(75).row();
+		table.add(title).spaceBottom(50).row();
 		table.add(newGameButton).spaceBottom(10).row();
 		table.add(loadGameButton).spaceBottom(10).row();
 		table.add(watchIntroButton).spaceBottom(10).row();

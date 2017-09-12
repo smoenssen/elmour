@@ -1,5 +1,7 @@
 package com.smoftware.elmour;
 
+//todo: good article on Entity Component System architecture (ECS)
+//https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Animation;

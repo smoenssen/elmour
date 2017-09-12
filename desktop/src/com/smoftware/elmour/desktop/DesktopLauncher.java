@@ -8,8 +8,17 @@ import com.smoftware.elmour.ElmourGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		Application app = new LwjglApplication(new ElmourGame(), config);
+		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+
+		//cfg.width = 1280;
+		//cfg.height = 720;
+
+		// fullscreen
+		//cfg.fullscreen = true;
+		// vSync
+		//cfg.vSyncEnabled = true;
+
+		Application app = new LwjglApplication(new ElmourGame(), cfg);
 
 		Gdx.app = app;
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);

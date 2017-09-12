@@ -1,6 +1,5 @@
 package com.smoftware.elmour.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
@@ -19,7 +17,7 @@ import com.smoftware.elmour.MapFactory;
 import com.smoftware.elmour.MapManager;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
-import com.smoftware.elmour.UI.ActionButtons;
+import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.profile.ProfileManager;
 
 public class MainGameScreen extends GameScreen {
@@ -59,7 +57,7 @@ public class MainGameScreen extends GameScreen {
 
 	private Entity _player;
 	private PlayerHUD _playerHUD;
-	private ActionButtons actionButtons;
+	private MobileControls mobileControls;
 
 	public MainGameScreen(ElmourGame game){
 		_game = game;
@@ -80,30 +78,25 @@ public class MainGameScreen extends GameScreen {
 		_mapMgr.setPlayer(_player);
 		_mapMgr.setCamera(_camera);
 
-		_hudCamera = new OrthographicCamera();
-		_hudCamera.setToOrtho(false, VIEWPORT.physicalWidth, VIEWPORT.physicalHeight);
 
-		_playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
 
-		_multiplexer = new InputMultiplexer();
-		_multiplexer.addProcessor(_playerHUD.getStage());
-		_multiplexer.addProcessor(_player.getInputProcessor());
-
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
-
+		if (ElmourGame.isAndroid()) {
 			controllersCam = new OrthographicCamera();
 			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-			actionButtons = new ActionButtons(controllersCam);
-
-			// todo: FloatingThumbpadController has an issue with being reset to 0 position if the A or B button are pressed
-			//touchpad = new FixedThumbpadController();//FloatingThumbpadController();
-			//stage.addActor(touchpad.getTouchpad());
-
-			_multiplexer.addProcessor(actionButtons.getStage());
+			mobileControls = new MobileControls(controllersCam, _player, _mapMgr);
+			Gdx.input.setInputProcessor(mobileControls.getStage());
 		}
+		else {
+			_hudCamera = new OrthographicCamera();
+			_hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-		Gdx.input.setInputProcessor(_multiplexer);
+			_playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
+
+			_multiplexer = new InputMultiplexer();
+			_multiplexer.addProcessor(_playerHUD.getStage());
+			_multiplexer.addProcessor(_player.getInputProcessor());
+			Gdx.input.setInputProcessor(_multiplexer);
+		}
 
 		//Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
 	}
@@ -111,10 +104,16 @@ public class MainGameScreen extends GameScreen {
 	@Override
 	public void show() {
 		ProfileManager.getInstance().addObserver(_mapMgr);
-		ProfileManager.getInstance().addObserver(_playerHUD);
+		if (_playerHUD != null)
+			ProfileManager.getInstance().addObserver(_playerHUD);
 
 		setGameState(GameState.LOADING);
-		Gdx.input.setInputProcessor(_multiplexer);
+
+		if (ElmourGame.isAndroid()) {
+			Gdx.input.setInputProcessor(mobileControls.getStage());
+		}
+		else
+			Gdx.input.setInputProcessor(_multiplexer);
 
 
 		if( _mapRenderer == null ){
@@ -157,14 +156,17 @@ public class MainGameScreen extends GameScreen {
 			_camera.position.set(_mapMgr.getPlayerStartUnitScaled().x, _mapMgr.getPlayerStartUnitScaled().y, 0f);
 			_camera.update();
 
-			_playerHUD.updateEntityObservers();
+			if (_playerHUD != null)
+				_playerHUD.updateEntityObservers();
 
 			_mapMgr.setMapChanged(false);
 
-			_playerHUD.addTransitionToScreen();
+			if (_playerHUD != null)
+				_playerHUD.addTransitionToScreen();
 		}
 
-		_mapMgr.updateLightMaps(_playerHUD.getCurrentTimeOfDay());
+		if (_playerHUD != null)
+			_mapMgr.updateLightMaps(_playerHUD.getCurrentTimeOfDay());
 		TiledMapImageLayer lightMap = (TiledMapImageLayer)_mapMgr.getCurrentLightMapLayer();
 		TiledMapImageLayer previousLightMap = (TiledMapImageLayer)_mapMgr.getPreviousLightMapLayer();
 
@@ -212,26 +214,32 @@ public class MainGameScreen extends GameScreen {
 			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
 		}
 
-		_playerHUD.render(delta);
+		if (_playerHUD != null)
+			_playerHUD.render(delta);
+		mobileControls.render(delta);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		setupViewport(V_WIDTH, V_HEIGHT);
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-		_playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+
+		if (_playerHUD != null)
+			_playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
 	}
 
 	@Override
 	public void pause() {
 		setGameState(GameState.SAVING);
-		_playerHUD.pause();
+		if (_playerHUD != null)
+			_playerHUD.pause();
 	}
 
 	@Override
 	public void resume() {
 		setGameState(GameState.LOADING);
-		_playerHUD.resume();
+		if (_playerHUD != null)
+			_playerHUD.resume();
 	}
 
 	@Override

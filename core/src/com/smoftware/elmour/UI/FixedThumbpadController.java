@@ -29,8 +29,8 @@ public class FixedThumbpadController {
         //Create Drawable's from TouchPad skin
         touchBackground = touchpadSkin.getDrawable("touchBackground");
         touchKnob = touchpadSkin.getDrawable("touchKnob");
-        touchKnob.setMinWidth(16);
-        touchKnob.setMinHeight(16);
+        touchKnob.setMinWidth(32);
+        touchKnob.setMinHeight(32);
 
         //Apply the Drawables to the TouchPad Style
         touchpadStyle.background = touchBackground;
@@ -41,7 +41,7 @@ public class FixedThumbpadController {
         touchpad = new Touchpad(3, touchpadStyle);
 
         //setBounds(x,y,width,height)
-        touchpad.setBounds(5, 5, 60, 60);
+        touchpad.setBounds(10, 10, 120, 120);
     }
 
     public Touchpad getTouchpad() {

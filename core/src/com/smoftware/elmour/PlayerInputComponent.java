@@ -182,9 +182,7 @@ public class PlayerInputComponent extends InputComponent {
 	}
 	
 	//Key presses
-	public void leftPressed(){
-		keys.put(Keys.LEFT, true);
-	}
+	public void leftPressed() { keys.put(Keys.LEFT, true); }
 	
 	public void rightPressed(){
 		keys.put(Keys.RIGHT, true);

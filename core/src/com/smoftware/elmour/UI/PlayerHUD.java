@@ -12,10 +12,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
+import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryItem;
@@ -68,7 +70,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
-        _viewport = new ScreenViewport(_camera);
+        //_viewport = new ScreenViewport(_camera);
+        _viewport = new FitViewport(ElmourGame.V_WIDTH*2, ElmourGame.V_HEIGHT*2, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
 

@@ -25,23 +25,16 @@ public class LoadGameScreen extends GameScreen {
     private Stage _stage;
 	private ElmourGame _game;
 	private List _listItems;
-
-	/////////////
-	OrthographicCamera camera;
-	Viewport viewport;
-	/////////////
+	private OrthographicCamera camera;
+	private Viewport viewport;
 	
 	public LoadGameScreen(ElmourGame game){
 		_game = game;
-
-		//////////////////
 		camera = new OrthographicCamera();
-		viewport = new FitViewport(800, 480, camera);
+		viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
 		_stage = new Stage(viewport);
-		//////////////////
 
 		//create
-		//_stage = new Stage();
 		TextButton loadButton = new TextButton("Load", Utility.STATUSUI_SKIN);
 		TextButton backButton = new TextButton("Back",Utility.STATUSUI_SKIN);
 
@@ -66,7 +59,7 @@ public class LoadGameScreen extends GameScreen {
 		table.add(scrollPane).center();
 
 		bottomTable.setHeight(loadButton.getHeight());
-		bottomTable.setWidth(Gdx.graphics.getWidth());
+		bottomTable.setWidth(ElmourGame.V_WIDTH);
 		bottomTable.center();
 		bottomTable.add(loadButton).padRight(50);
 		bottomTable.add(backButton);

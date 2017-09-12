@@ -3,6 +3,7 @@ package com.smoftware.elmour.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame.ScreenType;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
@@ -23,13 +26,16 @@ public class NewGameScreen extends GameScreen {
 	private ElmourGame _game;
 	private TextField _profileText;
 	private Dialog _overwriteDialog;
+	private OrthographicCamera camera;
+	private Viewport viewport;
 
 	public NewGameScreen(ElmourGame game){
 		_game = game;
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
+        _stage = new Stage(viewport);
 
 		//create
-		_stage = new Stage();
-
 		Label profileName = new Label("Enter Profile Name: ", Utility.STATUSUI_SKIN);
 		_profileText  = new TextField("",Utility.STATUSUI_SKIN, "inventory");
 		_profileText.setMaxLength(20);
@@ -56,10 +62,11 @@ public class NewGameScreen extends GameScreen {
 		topTable.setFillParent(true);
 		topTable.add(profileName).center();
 		topTable.add(_profileText).center();
+		topTable.padBottom(150);
 
 		Table bottomTable = new Table();
 		bottomTable.setHeight(startButton.getHeight());
-		bottomTable.setWidth(Gdx.graphics.getWidth());
+        bottomTable.setWidth(ElmourGame.V_WIDTH);
 		bottomTable.center();
 		bottomTable.add(startButton).padRight(50);
 		bottomTable.add(backButton);
