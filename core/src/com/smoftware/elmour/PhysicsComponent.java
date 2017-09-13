@@ -109,6 +109,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
+    protected void setNextPosition(Vector2 position){
+        this._nextEntityPosition.x = position.x;
+        this._nextEntityPosition.y = position.y;
+    }
+
     protected void setNextPositionToCurrent(Entity entity){
         this._currentEntityPosition.x = _nextEntityPosition.x;
         this._currentEntityPosition.y = _nextEntityPosition.y;

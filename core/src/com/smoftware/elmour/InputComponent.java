@@ -24,9 +24,15 @@ public abstract class InputComponent extends ComponentSubject implements Compone
         A_BUTTON, B_BUTTON
     }
 
+    protected class TogglePosition {
+        float x = 0;
+        float y = 0;
+    }
+
     protected static Map<Keys, Boolean> keys = new HashMap<Keys, Boolean>();
     protected static Map<Mouse, Boolean> mouseButtons = new HashMap<Mouse, Boolean>();
     protected static Map<ActionButtons, Boolean> actionButtons = new HashMap<ActionButtons, Boolean>();
+    protected static TogglePosition togglePosition;
 
     //initialize the hashmap for inputs
     static {

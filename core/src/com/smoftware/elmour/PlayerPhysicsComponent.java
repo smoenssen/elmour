@@ -82,7 +82,12 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
-        calculateNextPosition(delta, _state == Entity.State.RUNNING);
+        if (ElmourGame.isAndroid()) {
+            setNextPosition();
+        }
+        else {
+            calculateNextPosition(delta, _state == Entity.State.RUNNING);
+        }
     }
 
     private void selectMapEntityCandidate(MapManager mapMgr){
