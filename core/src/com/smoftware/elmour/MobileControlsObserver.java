@@ -1,4 +1,4 @@
-package com.smoftware.elmour.UI;
+package com.smoftware.elmour;
 
 import com.smoftware.elmour.Entity;
 
@@ -12,10 +12,9 @@ public interface MobileControlsObserver {
         A_BUTTON_RELEASED,
         B_BUTTON_PRESSED,
         B_BUTTON_RELEASED,
-        TOUCHPAD_POSITION,
+        JOYSTICK_POSITION,
         NONE
     }
 
-    Entity or new MobileControlsValues??
-    void onNotify(final Entity enemyEntity, MobileControlEvent event);
+    void onNotify(final Entity entity, MobileControlEvent event, Object data);
 }

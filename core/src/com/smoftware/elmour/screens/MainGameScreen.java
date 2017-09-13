@@ -84,7 +84,11 @@ public class MainGameScreen extends GameScreen {
 			controllersCam = new OrthographicCamera();
 			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 			mobileControls = new MobileControls(controllersCam, _player, _mapMgr);
-			Gdx.input.setInputProcessor(mobileControls.getStage());
+			//Gdx.input.setInputProcessor(mobileControls.getStage());
+
+			_multiplexer = new InputMultiplexer();
+			_multiplexer.addProcessor(mobileControls.getStage());
+			Gdx.input.setInputProcessor(_multiplexer);
 		}
 		else {
 			_hudCamera = new OrthographicCamera();

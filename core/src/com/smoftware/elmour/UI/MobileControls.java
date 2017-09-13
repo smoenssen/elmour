@@ -11,19 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ComponentObserver;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.MapManager;
-import com.smoftware.elmour.audio.AudioObserver;
-import com.smoftware.elmour.audio.AudioSubject;
-import com.smoftware.elmour.battle.BattleObserver;
-import com.smoftware.elmour.dialog.ConversationGraph;
-import com.smoftware.elmour.dialog.ConversationGraphObserver;
-import com.smoftware.elmour.profile.ProfileManager;
-import com.smoftware.elmour.profile.ProfileObserver;
+import com.smoftware.elmour.*;
 
-public class MobileControls implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
+public class MobileControls implements Screen {
     private static final String TAG = MobileControls.class.getSimpleName();
 
     private Stage _stage;
@@ -106,7 +96,7 @@ public class MobileControls implements Screen, AudioSubject, ProfileObserver,Com
         _stage.addActor(buttonTable);
 
         //Observers
-        _player.registerObserver(this);
+        //_player.registerObserver(this);
     }
 
     public Stage getStage() {
@@ -118,29 +108,8 @@ public class MobileControls implements Screen, AudioSubject, ProfileObserver,Com
 
     }
 
-
     @Override
-    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
-
-    }
-
-    @Override
-    public void onNotify(String value, ComponentEvent event) {
-
-    }
-
-    @Override
-    public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
-
-    }
-
-    @Override
-    public void onNotify(String value, StoreInventoryEvent event) {
-
-    }
-
-    @Override
-    public void onNotify(int value, StatusEvent event) {
+    public void onNotify(Entity entity, MobileControlEvent event, Object data) {
 
     }
 
@@ -179,22 +148,12 @@ public class MobileControls implements Screen, AudioSubject, ProfileObserver,Com
     }
 
     @Override
-    public void onNotify(Entity enemyEntity, BattleEvent event) {
+    public void addObserver(com.smoftware.elmour.MobileControlsObserver inventoryObserver) {
 
     }
 
     @Override
-    public void onNotify(String value, InventoryEvent event) {
-
-    }
-
-    @Override
-    public void addObserver(AudioObserver audioObserver) {
-
-    }
-
-    @Override
-    public void removeObserver(AudioObserver audioObserver) {
+    public void removeObserver(com.smoftware.elmour.MobileControlsObserver inventoryObserver) {
 
     }
 
@@ -203,11 +162,7 @@ public class MobileControls implements Screen, AudioSubject, ProfileObserver,Com
     }
 
     @Override
-    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+    public void notify(Object data, MobileControlEvent event) {
 
     }
-
-
-
-
 }

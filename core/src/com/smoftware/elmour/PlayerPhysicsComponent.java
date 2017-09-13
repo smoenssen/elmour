@@ -59,7 +59,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
     @Override
     public void update(Entity entity, MapManager mapMgr, float delta) {
-        //We want the hitbox to be at the feet for a better feel
         updateBoundingBoxPosition(_nextEntityPosition);
         updatePortalLayerActivation(mapMgr);
         updateDiscoverLayerActivation(mapMgr);
@@ -83,7 +82,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
 
         if (ElmourGame.isAndroid()) {
-            setNextPosition();
+            //setNextPosition();
         }
         else {
             calculateNextPosition(delta, _state == Entity.State.RUNNING);

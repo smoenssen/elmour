@@ -21,18 +21,17 @@ public abstract class InputComponent extends ComponentSubject implements Compone
     }
 
     protected enum ActionButtons {
-        A_BUTTON, B_BUTTON
+        A_BUTTON_PRESSED, A_BUTTON_RELEASED, B_BUTTON_PRESSED, B_BUTTON_RELEASED
     }
 
-    protected class TogglePosition {
-        float x = 0;
-        float y = 0;
+    protected enum JoystickPosition {
+        X, Y
     }
 
     protected static Map<Keys, Boolean> keys = new HashMap<Keys, Boolean>();
     protected static Map<Mouse, Boolean> mouseButtons = new HashMap<Mouse, Boolean>();
     protected static Map<ActionButtons, Boolean> actionButtons = new HashMap<ActionButtons, Boolean>();
-    protected static TogglePosition togglePosition;
+    protected static Map<JoystickPosition, Float> joystickPosition = new HashMap<JoystickPosition, Float>();
 
     //initialize the hashmap for inputs
     static {
@@ -51,9 +50,16 @@ public abstract class InputComponent extends ComponentSubject implements Compone
     };
 
     static {
-        actionButtons.put(ActionButtons.A_BUTTON, false);
-        actionButtons.put(ActionButtons.B_BUTTON, false);
+        actionButtons.put(ActionButtons.A_BUTTON_PRESSED, false);
+        actionButtons.put(ActionButtons.A_BUTTON_RELEASED, false);
+        actionButtons.put(ActionButtons.B_BUTTON_PRESSED, false);
+        actionButtons.put(ActionButtons.B_BUTTON_RELEASED, false);
     };
+
+    static {
+        joystickPosition.put(JoystickPosition.X, new Float(0));
+        joystickPosition.put(JoystickPosition.Y, new Float(0));
+    }
 
     InputComponent(){
         _json = new Json();
