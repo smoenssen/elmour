@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,7 +25,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
     @Override
     public void receiveMessage(String message) {
-        //Gdx.app.debug(TAG, "Got message " + message);
+        //Gdx.app.log(TAG, "Got message " + message);
         String[] string = message.split(MESSAGE_TOKEN);
 
         if( string.length == 0 ) return;
@@ -87,7 +88,8 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         camera.update();
 
         batch.begin();
-        batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
+        if (_currentFrame != null && _currentPosition != null)
+            batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
         batch.end();
 
         //Used to graphically debug boundingboxes

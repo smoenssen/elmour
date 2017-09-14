@@ -1,6 +1,7 @@
 package com.smoftware.elmour;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public abstract class InputComponent extends ComponentSubject implements Compone
     protected static Map<Keys, Boolean> keys = new HashMap<Keys, Boolean>();
     protected static Map<Mouse, Boolean> mouseButtons = new HashMap<Mouse, Boolean>();
     protected static Map<ActionButtons, Boolean> actionButtons = new HashMap<ActionButtons, Boolean>();
-    protected static Map<JoystickPosition, Float> joystickPosition = new HashMap<JoystickPosition, Float>();
+    protected static Vector2 joystickPosition = new Vector2(0, 0);
 
     //initialize the hashmap for inputs
     static {
@@ -55,11 +56,6 @@ public abstract class InputComponent extends ComponentSubject implements Compone
         actionButtons.put(ActionButtons.B_BUTTON_PRESSED, false);
         actionButtons.put(ActionButtons.B_BUTTON_RELEASED, false);
     };
-
-    static {
-        joystickPosition.put(JoystickPosition.X, new Float(0));
-        joystickPosition.put(JoystickPosition.Y, new Float(0));
-    }
 
     InputComponent(){
         _json = new Json();

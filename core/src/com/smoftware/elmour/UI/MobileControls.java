@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.*;
 
-public class MobileControls implements Screen {
+public class MobileControls extends MobileControlsSubject implements Screen {
     private static final String TAG = MobileControls.class.getSimpleName();
 
     private Stage _stage;
@@ -25,7 +26,8 @@ public class MobileControls implements Screen {
     private FixedThumbpadController touchpad;
 
 
-    public MobileControls(Camera camera, Entity player, MapManager mapMgr) {
+    public MobileControls(Camera camera, Entity player) {
+        initMobileControlsSubject();
         _camera = camera;
         _player = player;
 
@@ -46,7 +48,7 @@ public class MobileControls implements Screen {
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("tag", "A pressed");
+                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_PRESSED);
                 //rightPressed = true;
                 //BensRPG.player.handleAButtonPressed();
                 return true;
@@ -54,7 +56,7 @@ public class MobileControls implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("tag", "A released");
+                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_RELEASED);
                 //rightPressed = false;
                 //BensRPG.player.handleAButtonReleased();
             }
@@ -67,7 +69,7 @@ public class MobileControls implements Screen {
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("tag", "B pressed");
+                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_PRESSED);
                 //leftPressed = true;
                 //BensRPG.player.handleBButtonPressed();
                 return true;
@@ -75,7 +77,7 @@ public class MobileControls implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Gdx.app.log("tag", "B released");
+                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_RELEASED);
                 //leftPressed = false;
                //BensRPG.player.handleBButtonReleased();
             }
@@ -94,23 +96,10 @@ public class MobileControls implements Screen {
         buttonTable.setX(ElmourGame.V_WIDTH - buttonTable.getWidth() - 10);
 
         _stage.addActor(buttonTable);
-
-        //Observers
-        //_player.registerObserver(this);
     }
 
     public Stage getStage() {
         return _stage;
-    }
-
-
-    public void updateEntityObservers(){
-
-    }
-
-    @Override
-    public void onNotify(Entity entity, MobileControlEvent event, Object data) {
-
     }
 
     @Override
@@ -122,6 +111,7 @@ public class MobileControls implements Screen {
     public void render(float delta) {
         _stage.act(delta);
         _stage.draw();
+        MobileControlsSubject.notify(touchpad.getDirection(), MobileControlsObserver.MobileControlEvent.JOYSTICK_POSITION);
     }
 
     @Override
@@ -145,24 +135,6 @@ public class MobileControls implements Screen {
     @Override
     public void dispose() {
         _stage.dispose();
-    }
-
-    @Override
-    public void addObserver(com.smoftware.elmour.MobileControlsObserver inventoryObserver) {
-
-    }
-
-    @Override
-    public void removeObserver(com.smoftware.elmour.MobileControlsObserver inventoryObserver) {
-
-    }
-
-    @Override
-    public void removeAllObservers(){
-    }
-
-    @Override
-    public void notify(Object data, MobileControlEvent event) {
-
+        removeAllObservers();
     }
 }

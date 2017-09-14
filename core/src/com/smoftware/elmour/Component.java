@@ -9,6 +9,7 @@ public interface Component {
         CURRENT_POSITION,
         INIT_START_POSITION,
         CURRENT_DIRECTION,
+        CURRENT_JOYSTICK_POSITION,
         CURRENT_STATE,
         COLLISION_WITH_MAP,
         COLLISION_WITH_ENTITY,

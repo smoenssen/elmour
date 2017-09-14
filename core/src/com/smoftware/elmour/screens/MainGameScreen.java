@@ -74,16 +74,10 @@ public class MainGameScreen extends GameScreen {
 		_camera = new OrthographicCamera();
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-		_player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-		_mapMgr.setPlayer(_player);
-		_mapMgr.setCamera(_camera);
-
-
-
 		if (ElmourGame.isAndroid()) {
 			controllersCam = new OrthographicCamera();
 			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-			mobileControls = new MobileControls(controllersCam, _player, _mapMgr);
+			mobileControls = new MobileControls(controllersCam, _player);
 			//Gdx.input.setInputProcessor(mobileControls.getStage());
 
 			_multiplexer = new InputMultiplexer();
@@ -101,6 +95,10 @@ public class MainGameScreen extends GameScreen {
 			_multiplexer.addProcessor(_player.getInputProcessor());
 			Gdx.input.setInputProcessor(_multiplexer);
 		}
+
+		_player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+		_mapMgr.setPlayer(_player);
+		_mapMgr.setCamera(_camera);
 
 		//Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
 	}
@@ -214,7 +212,8 @@ public class MainGameScreen extends GameScreen {
 		}else{
 			_mapRenderer.render();
 			_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
-			_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+			if (_player != null)
+				_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
 		}
 

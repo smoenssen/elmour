@@ -2,17 +2,23 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.smoftware.elmour.UI.MobileControlsObserver;
+import com.smoftware.elmour.UI.MobileControlsSubject;
 import com.smoftware.elmour.screens.MainGameScreen;
 
-public class PlayerInputComponent extends InputComponent {
+public class PlayerInputComponent extends InputComponent implements MobileControlsObserver{
 
 	private final static String TAG = PlayerInputComponent.class.getSimpleName();
 	private Vector3 _lastMouseCoordinates;
 
 	public PlayerInputComponent(){
 		this._lastMouseCoordinates = new Vector3();
+		MobileControlsSubject.addObserver(this);
 	}
+
+	//todo: do I need a receiveMessage that takes a Vector2 for direction?
 
 	@Override
 	public void receiveMessage(String message) {
@@ -35,43 +41,68 @@ public class PlayerInputComponent extends InputComponent {
 
 	@Override
 	public void update(Entity entity, float delta){
-		//Keyboard input
-		if(keys.get(Keys.PAUSE)) {
-			MainGameScreen.setGameState(MainGameScreen.GameState.PAUSED);
-			pauseReleased();
-		}else if( keys.get(Keys.LEFT)){
-			entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
-			entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.LEFT));
-		}else if( keys.get(Keys.RIGHT)){
-			entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
-			entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.RIGHT));
-		}else if( keys.get(Keys.UP)){
-			entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
-			entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.UP));
-		}else if(keys.get(Keys.DOWN)){
-			entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
-			entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
-		}else if(keys.get(Keys.QUIT)) {
-			quitReleased();
-			Gdx.app.exit();
-		}else{
-			entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
-			if( _currentDirection == null ){
+		if (ElmourGame.isAndroid()) {
+			// Mobile control input
+			//todo: how to pause or quit?
+			//if (paused) {
+			//
+			//}
+			//else if (quit) {
+			//
+			//}
+			//else {
+				if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
+					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
+				}
+				else if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
+					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+				}
+				else {
+					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+				}
+
+				entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
+			//}
+		}
+		else {
+			//Keyboard input
+			if (keys.get(Keys.PAUSE)) {
+				MainGameScreen.setGameState(MainGameScreen.GameState.PAUSED);
+				pauseReleased();
+			} else if (keys.get(Keys.LEFT)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.LEFT));
+			} else if (keys.get(Keys.RIGHT)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.RIGHT));
+			} else if (keys.get(Keys.UP)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.UP));
+			} else if (keys.get(Keys.DOWN)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
 				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
+			} else if (keys.get(Keys.QUIT)) {
+				quitReleased();
+				Gdx.app.exit();
+			} else {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+				if (_currentDirection == null) {
+					entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
+				}
 			}
-		}
 
-		if (keys.get(Keys.LEFT) || keys.get(Keys.RIGHT) || keys.get(Keys.UP) || keys.get(Keys.DOWN)) {
-			if (keys.get(Keys.SPACE)) {
-				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
+			if (keys.get(Keys.LEFT) || keys.get(Keys.RIGHT) || keys.get(Keys.UP) || keys.get(Keys.DOWN)) {
+				if (keys.get(Keys.SPACE)) {
+					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
+				}
 			}
-		}
 
-		//Mouse input
-		if( mouseButtons.get(Mouse.SELECT)) {
-			//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );
-			entity.sendMessage(MESSAGE.INIT_SELECT_ENTITY, _json.toJson(_lastMouseCoordinates));
-			mouseButtons.put(Mouse.SELECT, false);
+			//Mouse input
+			if (mouseButtons.get(Mouse.SELECT)) {
+				//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );
+				entity.sendMessage(MESSAGE.INIT_SELECT_ENTITY, _json.toJson(_lastMouseCoordinates));
+				mouseButtons.put(Mouse.SELECT, false);
+			}
 		}
 	}
 
@@ -181,7 +212,7 @@ public class PlayerInputComponent extends InputComponent {
 		return false;
 	}
 	
-	//Key presses
+	//Key/button presses
 	public void leftPressed() { keys.put(Keys.LEFT, true); }
 	
 	public void rightPressed(){
@@ -217,9 +248,18 @@ public class PlayerInputComponent extends InputComponent {
 	public void doActionMouseButtonPressed(int x, int y){
 		mouseButtons.put(Mouse.DOACTION, true);
 	}
+
+	public void a_Pressed() {
+		actionButtons.put(ActionButtons.A_BUTTON_PRESSED, true);
+		actionButtons.put(ActionButtons.A_BUTTON_RELEASED, false);
+	}
+
+	public void b_Pressed() {
+		actionButtons.put(ActionButtons.B_BUTTON_PRESSED, true);
+		actionButtons.put(ActionButtons.B_BUTTON_RELEASED, false);
+	}
 	
 	//Releases
-	
 	public void leftReleased(){
 		keys.put(Keys.LEFT, false);
 	}
@@ -252,6 +292,19 @@ public class PlayerInputComponent extends InputComponent {
 		mouseButtons.put(Mouse.DOACTION, false);
 	}
 
+	public void a_Released() {
+		actionButtons.put(ActionButtons.A_BUTTON_RELEASED, true);
+		actionButtons.put(ActionButtons.A_BUTTON_PRESSED, false);
+	}
+
+	public void b_Released() {
+		actionButtons.put(ActionButtons.B_BUTTON_RELEASED, true);
+		actionButtons.put(ActionButtons.B_BUTTON_PRESSED, false);
+	}
+
+	//Joystick
+	public void setJoystickPosition(Vector2 position) { joystickPosition = position; }
+
 	public static void clear(){
 		keys.put(Keys.LEFT, false);
 		keys.put(Keys.RIGHT, false);
@@ -259,5 +312,34 @@ public class PlayerInputComponent extends InputComponent {
 		keys.put(Keys.DOWN, false);
 		keys.put(Keys.QUIT, false);
 		keys.put(Keys.SPACE, false);
+		actionButtons.put(ActionButtons.A_BUTTON_PRESSED, false);
+		actionButtons.put(ActionButtons.A_BUTTON_RELEASED, false);
+		actionButtons.put(ActionButtons.B_BUTTON_PRESSED, false);
+		actionButtons.put(ActionButtons.B_BUTTON_RELEASED, false);
+		joystickPosition.x = 0;
+		joystickPosition.y = 0;
+	}
+
+	@Override
+	public void onMobileControlsNotify(Object data, MobileControlEvent event) {
+		if (event == MobileControlEvent.A_BUTTON_PRESSED) {
+			Gdx.app.log("tag", "A pressed");
+			this.a_Pressed();
+		}
+		else if (event == MobileControlEvent.A_BUTTON_RELEASED) {
+			Gdx.app.log("tag", "A released");
+			this.a_Released();
+		}
+		else if (event == MobileControlEvent.B_BUTTON_PRESSED) {
+			Gdx.app.log("tag", "B pressed");
+			this.b_Pressed();
+		}
+		else if (event == MobileControlEvent.B_BUTTON_RELEASED) {
+			Gdx.app.log("tag", "B released");
+			this.b_Released();
+		}
+		else if (event == MobileControlEvent.JOYSTICK_POSITION) {
+			this.setJoystickPosition((Vector2)data);
+		}
 	}
 }

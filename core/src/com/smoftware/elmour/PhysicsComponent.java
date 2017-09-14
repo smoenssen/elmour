@@ -19,6 +19,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Vector2 _nextEntityPosition;
     protected Vector2 _currentEntityPosition;
     protected Entity.Direction _currentDirection;
+    protected Vector2 currentJoystickPosition;
     protected Json _json;
     protected Vector2 _velocity;
 
@@ -38,7 +39,13 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     PhysicsComponent(){
         this._nextEntityPosition = new Vector2(0,0);
         this._currentEntityPosition = new Vector2(0,0);
-        this._velocity = new Vector2(2f,2f);
+        this.currentJoystickPosition = new Vector2(0,0);
+
+        if (ElmourGame.isAndroid())
+            this._velocity = new Vector2(0,0);
+        else
+            this._velocity = new Vector2(2f,2f);
+
         this._boundingBox = new Rectangle();
         this._json = new Json();
         this._tempEntities = new Array<Entity>();
@@ -109,11 +116,6 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
-    protected void setNextPosition(Vector2 position){
-        this._nextEntityPosition.x = position.x;
-        this._nextEntityPosition.y = position.y;
-    }
-
     protected void setNextPositionToCurrent(Entity entity){
         this._currentEntityPosition.x = _nextEntityPosition.x;
         this._currentEntityPosition.y = _nextEntityPosition.y;
@@ -127,38 +129,49 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         if( deltaTime > .7) return;
 
-        float velocityFactor = 2.0f;
-
-        if (isRunning)
-            velocityFactor = 4.0f;
-
         float testX = _currentEntityPosition.x;
         float testY = _currentEntityPosition.y;
 
-        _velocity.scl(deltaTime);
+        if (ElmourGame.isAndroid()) {
+            float velocityFactor = 0.1f;
+            if (isRunning)
+                velocityFactor = 0.2f;
 
-        switch (_currentDirection) {
-            case LEFT :
-                testX -=  _velocity.x * velocityFactor;
-                break;
-            case RIGHT :
-                testX += _velocity.x * velocityFactor;
-                break;
-            case UP :
-                testY += _velocity.y * velocityFactor;
-                break;
-            case DOWN :
-                testY -= _velocity.y * velocityFactor;
-                break;
-            default:
-                break;
+            // velocity is directly proportional to joystick position
+            _velocity = currentJoystickPosition;
+            testX += _velocity.x * velocityFactor;
+            testY += _velocity.y * velocityFactor;
+        }
+        else {
+            float velocityFactor = 2.0f;
+            if (isRunning)
+                velocityFactor = 4.0f;
+
+            _velocity.scl(deltaTime);
+
+            switch (_currentDirection) {
+                case LEFT:
+                    testX -= _velocity.x * velocityFactor;
+                    break;
+                case RIGHT:
+                    testX += _velocity.x * velocityFactor;
+                    break;
+                case UP:
+                    testY += _velocity.y * velocityFactor;
+                    break;
+                case DOWN:
+                    testY -= _velocity.y * velocityFactor;
+                    break;
+                default:
+                    break;
+            }
+
+            //velocity
+            _velocity.scl(1 / deltaTime);
         }
 
         _nextEntityPosition.x = testX;
         _nextEntityPosition.y = testY;
-
-        //velocity
-        _velocity.scl(1 / deltaTime);
     }
 
     protected void initBoundingBox(float percentageWidthReduced, float percentageHeightReduced){

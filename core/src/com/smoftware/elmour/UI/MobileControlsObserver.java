@@ -1,6 +1,4 @@
-package com.smoftware.elmour;
-
-import com.smoftware.elmour.Entity;
+package com.smoftware.elmour.UI;
 
 /**
  * Created by steve on 9/12/17.
@@ -16,5 +14,5 @@ public interface MobileControlsObserver {
         NONE
     }
 
-    void onNotify(final Entity entity, MobileControlEvent event, Object data);
+    void onMobileControlsNotify(Object data, MobileControlEvent event);
 }

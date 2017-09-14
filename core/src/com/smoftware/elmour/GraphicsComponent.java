@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -34,8 +35,13 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
 
     protected void updateAnimations(float delta){
-        //srm to slow down animation?
-        _frameTime = (_frameTime + delta)%5; //Want to avoid overflow
+
+        _frameTime = (_frameTime + delta)%5;
+
+        if (_currentDirection == null)
+            return;
+
+        //Gdx.app.log("tag", String.format("Graphics: State = %s, Direction = %s", currentState.toString(), _currentDirection.toString()));
 
         //Look into the appropriate variable when changing position
         switch (_currentDirection) {

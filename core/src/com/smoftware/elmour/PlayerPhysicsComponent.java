@@ -40,19 +40,54 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
-            if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
-                _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
-                _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
-                _previousDiscovery = "";
-                _previousEnemySpawn = "0";
-                notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
-                _state = _json.fromJson(Entity.State.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
-                _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_SELECT_ENTITY.toString())) {
-                _mouseSelectCoordinates = _json.fromJson(Vector3.class, string[1]);
-                _isMouseSelectEnabled = true;
+            if (ElmourGame.isAndroid()) {
+                // mobile controls
+                if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+                    _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
+                    _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
+                    _previousDiscovery = "";
+                    _previousEnemySpawn = "0";
+                    notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+                    _state = _json.fromJson(Entity.State.class, string[1]);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
+                    currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
+
+                    // need to figure out direction based on joystick coordinates for purposes of image to display
+                    //_velocity.y != 0 &&
+                    if (_velocity.y != 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
+                        _currentDirection = Entity.Direction.UP;
+                    else if (_velocity.x != 0 && currentJoystickPosition.angle() > 144 && currentJoystickPosition.angle() <= 216)
+                        _currentDirection = Entity.Direction.LEFT;
+                    else if (_velocity.y != 0 && currentJoystickPosition.angle() > 216 && currentJoystickPosition.angle() <= 324)
+                        _currentDirection = Entity.Direction.DOWN;
+                    else if (_velocity.x != 0 && (currentJoystickPosition.angle() > 324 || currentJoystickPosition.angle() <= 36))
+                        _currentDirection = Entity.Direction.RIGHT;
+                    else {
+                        _currentDirection = Entity.Direction.DOWN;
+                        _state = Entity.State.IDLE;
+                    }
+
+                    //Gdx.app.log("tag", String.format(" Physics: State = %s, Direction = %s", _state.toString(), _currentDirection.toString()));
+                }
+            }
+            else {
+                if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+                    _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
+                    _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
+                    _previousDiscovery = "";
+                    _previousEnemySpawn = "0";
+                    notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
+                } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+                    _state = _json.fromJson(Entity.State.class, string[1]);
+                } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+                    _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
+                } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_SELECT_ENTITY.toString())) {
+                    _mouseSelectCoordinates = _json.fromJson(Vector3.class, string[1]);
+                    _isMouseSelectEnabled = true;
+                }
             }
         }
     }
@@ -77,16 +112,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             Camera camera = mapMgr.getCamera();
             camera.position.set(_currentEntityPosition.x, _currentEntityPosition.y, 0f);
             camera.update();
+
+            if (_currentDirection != null)
+                entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
         }else{
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
-        if (ElmourGame.isAndroid()) {
-            //setNextPosition();
-        }
-        else {
-            calculateNextPosition(delta, _state == Entity.State.RUNNING);
-        }
+        calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
     private void selectMapEntityCandidate(MapManager mapMgr){
