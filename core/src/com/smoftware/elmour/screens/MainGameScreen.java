@@ -15,9 +15,9 @@ import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.Map;
 import com.smoftware.elmour.MapFactory;
 import com.smoftware.elmour.MapManager;
+import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
-import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.profile.ProfileManager;
 
 public class MainGameScreen extends GameScreen {
@@ -74,6 +74,8 @@ public class MainGameScreen extends GameScreen {
 		_camera = new OrthographicCamera();
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
+		_player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+
 		if (ElmourGame.isAndroid()) {
 			controllersCam = new OrthographicCamera();
 			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
@@ -96,7 +98,6 @@ public class MainGameScreen extends GameScreen {
 			Gdx.input.setInputProcessor(_multiplexer);
 		}
 
-		_player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
 		_mapMgr.setPlayer(_player);
 		_mapMgr.setCamera(_camera);
 
@@ -219,7 +220,9 @@ public class MainGameScreen extends GameScreen {
 
 		if (_playerHUD != null)
 			_playerHUD.render(delta);
-		mobileControls.render(delta);
+
+		if (ElmourGame.isAndroid())
+			mobileControls.render(delta);
 	}
 
 	@Override

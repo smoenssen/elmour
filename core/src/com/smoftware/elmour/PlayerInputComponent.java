@@ -15,7 +15,9 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 
 	public PlayerInputComponent(){
 		this._lastMouseCoordinates = new Vector3();
-		MobileControlsSubject.addObserver(this);
+
+		if (ElmourGame.isAndroid())
+			MobileControlsSubject.addObserver(this);
 	}
 
 	//todo: do I need a receiveMessage that takes a Vector2 for direction?
