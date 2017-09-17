@@ -9,16 +9,30 @@ public class MapFactory {
     private static Hashtable<MapType,Map> _mapTable = new Hashtable<MapType, Map>();
 
     public static enum MapType{
+        Grass_Temple,
         MAP1,
         MAP2,
+        MAP3,
+        MAP4,
+        MAP5,
+        Shnarfulapogus,
         TOP_WORLD,
         TOWN,
+        TOWN1,
+        TOWN_SQUARE,
         CASTLE_OF_DOOM
     }
 
     static public Map getMap(MapType mapType){
         Map map = null;
         switch(mapType){
+            case Grass_Temple:
+                map = _mapTable.get(MapType.Grass_Temple);
+                if( map == null ){
+                    map = new GrassTemple();
+                    _mapTable.put(MapType.Grass_Temple, map);
+                }
+                break;
             case MAP1:
                 map = _mapTable.get(MapType.MAP1);
                 if( map == null ){
@@ -31,6 +45,27 @@ public class MapFactory {
                 if( map == null ){
                     map = new Map2();
                     _mapTable.put(MapType.MAP2, map);
+                }
+                break;
+            case MAP3:
+                map = _mapTable.get(MapType.MAP3);
+                if( map == null ){
+                    map = new Map3();
+                    _mapTable.put(MapType.MAP3, map);
+                }
+                break;
+            case MAP4:
+                map = _mapTable.get(MapType.MAP4);
+                if( map == null ){
+                    map = new Map4();
+                    _mapTable.put(MapType.MAP4, map);
+                }
+                break;
+            case Shnarfulapogus:
+                map = _mapTable.get(MapType.Shnarfulapogus);
+                if( map == null ){
+                    map = new Shnarfulapogus();
+                    _mapTable.put(MapType.Shnarfulapogus, map);
                 }
                 break;
             case TOP_WORLD:

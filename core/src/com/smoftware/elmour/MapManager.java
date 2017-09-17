@@ -70,7 +70,7 @@ public class MapManager implements ProfileObserver {
                 break;
             case CLEAR_CURRENT_PROFILE:
                 _currentMap = null;
-                //profileManager.setProperty("currentMapType", MapFactory.MapType.TOWN.toString());
+                //profileManager.setProperty("currentMapType", MapFactory.MapType.TOWN.toString());//srm
                 profileManager.setProperty("currentMapType", MapFactory.MapType.MAP1.toString());
 
                 MapFactory.clearCache();
@@ -187,7 +187,7 @@ public class MapManager implements ProfileObserver {
 
     public TiledMap getCurrentTiledMap(){
         if( _currentMap == null ) {
-            //loadMap(MapFactory.MapType.TOWN);
+            //loadMap(MapFactory.MapType.TOWN);//srm
             loadMap(MapFactory.MapType.MAP1);
         }
         return _currentMap.getCurrentTiledMap();

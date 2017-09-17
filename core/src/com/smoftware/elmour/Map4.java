@@ -6,18 +6,17 @@ import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**
- * Created by steve on 9/14/17.
+ * Created by steve on 9/16/17.
  */
 
-public class Map2 extends Map {
-
+public class Map4  extends Map {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Map_2.tmx";
+    private static String mapPath = "RPGGame/maps/Map_4.tmx";
     private Json json;
 
-    Map2(){
-        super(MapFactory.MapType.MAP2, mapPath);
+    Map4() {
+        super(MapFactory.MapType.MAP4, mapPath);
 
         json = new Json();
 
@@ -34,17 +33,17 @@ public class Map2 extends Map {
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
     }
 
-    private void initSpecialEntityPosition(Entity entity){
-        Vector2 position = new Vector2(0,0);
+    private void initSpecialEntityPosition(Entity entity) {
+        Vector2 position = new Vector2(0, 0);
 
-        if( _specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID()) ) {
+        if (_specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID())) {
             position = _specialNPCStartPositions.get(entity.getEntityConfig().getEntityID());
         }
         entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
 
         //Overwrite default if special config is found
         EntityConfig entityConfig = ProfileManager.getInstance().getProperty(entity.getEntityConfig().getEntityID(), EntityConfig.class);
-        if( entityConfig != null ){
+        if (entityConfig != null) {
             entity.setEntityConfig(entityConfig);
         }
     }

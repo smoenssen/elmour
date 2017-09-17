@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE map SYSTEM "http://mapeditor.org/dtd/1.0/map.dtd">
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="80" tilewidth="16" tileheight="16" nextobjectid="277">
- <tileset firstgid="1" name="Decor0" tilewidth="16" tileheight="16">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="32" height="80" tilewidth="16" tileheight="16" nextobjectid="277">
+ <tileset firstgid="1" name="Decor0" tilewidth="16" tileheight="16" tilecount="176" columns="8">
   <image source="../sprites/objects/Decor0.png" width="128" height="352"/>
  </tileset>
- <tileset firstgid="177" name="Wall" tilewidth="16" tileheight="16">
+ <tileset firstgid="177" name="Wall" tilewidth="16" tileheight="16" tilecount="1020" columns="20">
   <image source="../sprites/objects/Wall.png" width="320" height="816"/>
  </tileset>
- <tileset firstgid="1197" name="Floor" tilewidth="16" tileheight="16">
+ <tileset firstgid="1197" name="Floor" tilewidth="16" tileheight="16" tilecount="819" columns="21">
   <image source="../sprites/objects/Floor.png" width="336" height="624"/>
  </tileset>
- <tileset firstgid="2016" name="Pit0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2016" name="Pit0" tilewidth="16" tileheight="16" tilecount="256" columns="8">
   <image source="../sprites/objects/Pit0.png" width="128" height="512"/>
  </tileset>
- <tileset firstgid="2272" name="Door0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2272" name="Door0" tilewidth="16" tileheight="16" tilecount="40" columns="8">
   <image source="../sprites/objects/Door0.png" width="128" height="80"/>
  </tileset>
- <tileset firstgid="2312" name="Ground0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2312" name="Ground0" tilewidth="16" tileheight="16" tilecount="56" columns="8">
   <image source="../sprites/objects/Ground0.png" width="128" height="112"/>
  </tileset>
- <tileset firstgid="2368" name="Player0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2368" name="Player0" tilewidth="16" tileheight="16" tilecount="120" columns="8">
   <image source="../sprites/characters/Player0.png" width="128" height="240"/>
  </tileset>
- <tileset firstgid="2488" name="Tree0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2488" name="Tree0" tilewidth="16" tileheight="16" tilecount="264" columns="8">
   <image source="../sprites/objects/Tree0.png" width="128" height="528"/>
  </tileset>
- <tileset firstgid="2752" name="Humanoid0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2752" name="Humanoid0" tilewidth="16" tileheight="16" tilecount="216" columns="8">
   <image source="../sprites/characters/Humanoid0.png" width="128" height="432"/>
  </tileset>
- <tileset firstgid="2968" name="Cat0" tilewidth="16" tileheight="16">
+ <tileset firstgid="2968" name="Cat0" tilewidth="16" tileheight="16" tilecount="40" columns="8">
   <image source="../sprites/characters/Cat0.png" width="128" height="80"/>
  </tileset>
- <tileset firstgid="3008" name="Quadraped0" tilewidth="16" tileheight="16">
+ <tileset firstgid="3008" name="Quadraped0" tilewidth="16" tileheight="16" tilecount="96" columns="8">
   <image source="../sprites/characters/Quadraped0.png" width="128" height="192"/>
  </tileset>
- <tileset firstgid="3104" name="Container0" tilewidth="16" tileheight="16">
+ <tileset firstgid="3104" name="Container0" tilewidth="16" tileheight="16" tilecount="24" columns="8">
   <image source="../sprites/items/Chest0.png" width="128" height="48"/>
  </tileset>
  <layer name="Background_Layer" width="32" height="80">
@@ -289,7 +288,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="MAP_COLLISION_LAYER" visible="0">
+ <objectgroup name="COLLISION_LAYER" visible="0">
   <object id="1" x="274" y="1234" width="60" height="44"/>
   <object id="2" x="178" y="1234" width="60" height="44"/>
   <object id="3" x="178" y="1138" width="60" height="76"/>
@@ -425,10 +424,10 @@
   <object id="147" x="514" y="977" width="20" height="300"/>
   <object id="152" x="-48" y="1288" width="616" height="36"/>
  </objectgroup>
- <objectgroup name="MAP_SPAWNS_LAYER" visible="0">
+ <objectgroup name="SPAWNS_LAYER" visible="0">
   <object id="149" name="PLAYER_START" x="248" y="1240" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="MAP_PORTAL_LAYER" visible="0">
+ <objectgroup name="PORTAL_LAYER" visible="0">
   <object id="150" name="TOP_WORLD" x="-8" y="1281" width="540" height="32"/>
  </objectgroup>
  <objectgroup name="MAP_ENEMY_SPAWN_LAYER" visible="0">
@@ -437,16 +436,16 @@
   <object id="155" name="10" x="24" y="16" width="192" height="72"/>
  </objectgroup>
  <imagelayer name="MAP_LIGHTMAP_LAYER_NIGHT" visible="0">
-  <image source="castle_of_doom_lightmap_night.png"/>
+  <image source="castle_of_doom_lightmap_night.png" width="512" height="1280"/>
  </imagelayer>
  <imagelayer name="MAP_LIGHTMAP_LAYER_DUSK" visible="0">
-  <image source="castle_of_doom_lightmap_dusk.png"/>
+  <image source="castle_of_doom_lightmap_dusk.png" width="512" height="1280"/>
  </imagelayer>
  <imagelayer name="MAP_LIGHTMAP_LAYER_DAWN" visible="0" opacity="0.9">
-  <image source="castle_of_doom_lightmap_dawn.png"/>
+  <image source="castle_of_doom_lightmap_dawn.png" width="512" height="1280"/>
  </imagelayer>
  <imagelayer name="MAP_LIGHTMAP_LAYER_AFTERNOON" visible="0">
-  <image source="castle_of_doom_lightmap_afternoon.png"/>
+  <image source="castle_of_doom_lightmap_afternoon.png" width="512" height="1280"/>
  </imagelayer>
  <objectgroup name="PARTICLE_EFFECT_SPAWN_LAYER">
   <object id="156" name="CANDLE_FIRE" x="19" y="804" width="4" height="4"/>

@@ -269,6 +269,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         return false;
                     }
 
+                    Gdx.app.debug(TAG, "loading map " + mapName);
                     mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
                     mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
 

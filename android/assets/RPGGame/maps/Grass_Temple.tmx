@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" nextobjectid="25">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="16" tileheight="16" nextobjectid="30">
  <tileset firstgid="1" name="Sand_To _Grass" tilewidth="16" tileheight="16" tilecount="18" columns="3">
   <image source="Game/Tiles/Outside/Sand/Sand_To _Grass.png" width="48" height="96"/>
  </tileset>
@@ -114,7 +114,7 @@
 281,282,281,282,281,282,0,0,0,0,0,0,0,0,281,282,281,282,281,282
 </data>
  </layer>
- <objectgroup name="MAP_COLLISION_LAYER">
+ <objectgroup name="COLLISION_LAYER">
   <object id="1" x="0" y="256" width="96" height="64"/>
   <object id="2" x="96" y="256" width="16" height="7"/>
   <object id="3" x="0" y="224" width="112" height="32"/>
@@ -135,10 +135,13 @@
   <object id="19" x="66" y="155" width="7" height="3"/>
   <object id="21" x="66" y="0" width="188" height="84"/>
  </objectgroup>
- <objectgroup name="MAP_PORTAL_LAYER">
+ <objectgroup name="SPAWNS_LAYER">
+  <object id="26" name="PLAYER_START" x="144" y="299" width="32" height="16"/>
+ </objectgroup>
+ <objectgroup name="PORTAL_LAYER">
   <object id="22" name="MAP3" x="96" y="319" width="128" height="1"/>
  </objectgroup>
- <objectgroup name="Interaction">
+ <objectgroup name="INTERACTION">
   <object id="23" name="GTDOOR" x="145" y="84" width="30" height="9"/>
  </objectgroup>
 </map>

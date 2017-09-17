@@ -26,9 +26,9 @@ public abstract class Map implements AudioSubject{
     private Array<AudioObserver> _observers;
 
     //Map layers
-    protected final static String COLLISION_LAYER = "MAP_COLLISION_LAYER";
-    protected final static String SPAWNS_LAYER = "MAP_SPAWNS_LAYER";
-    protected final static String PORTAL_LAYER = "MAP_PORTAL_LAYER";
+    protected final static String COLLISION_LAYER = "COLLISION_LAYER";
+    protected final static String SPAWNS_LAYER = "SPAWNS_LAYER";
+    protected final static String PORTAL_LAYER = "PORTAL_LAYER";
     protected final static String QUEST_ITEM_SPAWN_LAYER = "MAP_QUEST_ITEM_SPAWN_LAYER";
     protected final static String QUEST_DISCOVER_LAYER = "MAP_QUEST_DISCOVER_LAYER";
     protected final static String ENEMY_SPAWN_LAYER = "MAP_ENEMY_SPAWN_LAYER";

@@ -6,18 +6,18 @@ import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**
- * Created by steve on 9/14/17.
+ * Created by steve on 9/16/17.
  */
 
-public class Map2 extends Map {
+public class Map3 extends Map {
 
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Map_2.tmx";
+    private static String mapPath = "RPGGame/maps/Map_3.tmx";
     private Json json;
 
-    Map2(){
-        super(MapFactory.MapType.MAP2, mapPath);
+    Map3(){
+        super(MapFactory.MapType.MAP3, mapPath);
 
         json = new Json();
 

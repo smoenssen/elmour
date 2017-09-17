@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="16" tileheight="16" nextobjectid="247">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="16" tileheight="16" nextobjectid="255">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -620,7 +620,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="MAP_COLLISION_LAYER">
+ <objectgroup name="COLLISION_LAYER">
   <object id="1" x="0" y="770" width="39" height="18"/>
   <object id="2" x="0" y="788" width="31" height="172"/>
   <object id="3" x="31" y="864" width="33" height="96"/>
@@ -720,11 +720,15 @@
   <object id="244" x="48" y="288" width="16" height="23"/>
   <object id="245" x="64" y="320" width="16" height="7"/>
  </objectgroup>
- <objectgroup name="MAP_PORTAL_LAYER">
-  <object id="135" name="SHNARF" x="639" y="14" width="1" height="116"/>
+ <objectgroup name="SPAWNS_LAYER">
+  <object id="250" name="PLAYER_START" x="6" y="720" width="16" height="16"/>
+  <object id="253" name="PLAYER_START" x="618" y="64" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="PORTAL_LAYER">
+  <object id="135" name="Shnarfulapogus" x="639" y="14" width="1" height="116"/>
   <object id="246" name="MAP1" x="0" y="684" width="1" height="86"/>
  </objectgroup>
- <objectgroup name="Bridge Obstacle">
+ <objectgroup name="BRIDGE_OBSTACLE">
   <object id="65" x="256" y="542" width="128" height="1"/>
   <object id="82" x="31" y="247" width="225" height="1"/>
   <object id="83" x="256" y="279" width="128" height="1"/>
@@ -732,20 +736,20 @@
   <object id="85" x="256" y="318" width="128" height="1"/>
   <object id="102" x="256" y="247" width="1" height="9"/>
  </objectgroup>
- <objectgroup name="Underbridge Obstacle">
+ <objectgroup name="UNDERBRIDGE_OBSTACLE">
   <object id="183" x="256" y="504" width="32" height="39"/>
   <object id="184" x="286" y="543" width="2" height="14"/>
   <object id="185" x="352" y="504" width="32" height="40"/>
   <object id="186" x="256" y="279" width="32" height="40"/>
   <object id="187" x="352" y="279" width="32" height="40"/>
  </objectgroup>
- <objectgroup name="Interaction">
+ <objectgroup name="INTERACTION">
   <object id="99" name="M2SWITCH" x="490" y="407" width="12" height="9"/>
  </objectgroup>
- <objectgroup name="Waterfall Obstacle">
+ <objectgroup name="WATERFALL_OBSTACLE">
   <object id="179" x="288" y="782" width="64" height="66"/>
  </objectgroup>
- <objectgroup name="Water Obstacle">
+ <objectgroup name="WATER_OBSTACLE">
   <object id="138" x="39" y="783" width="105" height="1"/>
   <object id="139" x="144" y="768" width="4" height="16"/>
   <object id="140" x="148" y="767" width="12" height="1"/>
@@ -788,7 +792,7 @@
   <object id="177" x="31" y="844" width="141" height="4"/>
   <object id="189" x="112" y="191" width="64" height="1"/>
  </objectgroup>
- <objectgroup name="0 Opacity">
+ <objectgroup name="0_OPACITY">
   <object id="198" x="110" y="384" width="67" height="71"/>
  </objectgroup>
 </map>

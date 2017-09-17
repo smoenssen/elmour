@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" nextobjectid="123">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="16" tileheight="16" nextobjectid="129">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -343,7 +343,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="MAP_COLLISION_LAYER">
+ <objectgroup name="COLLISION_LAYER">
   <object id="1" x="0" y="448" width="103" height="55"/>
   <object id="3" x="0" y="432" width="96" height="16"/>
   <object id="5" x="0" y="0" width="80" height="432"/>
@@ -377,19 +377,23 @@
   <object id="118" x="240" y="336" width="16" height="87"/>
   <object id="121" x="80" y="311" width="16" height="32"/>
  </objectgroup>
- <objectgroup name="MAP_PORTAL_LAYER">
+ <objectgroup name="SPAWNS_LAYER">
+  <object id="124" name="PLAYER_START" x="6" y="560" width="16" height="16"/>
+  <object id="128" name="PLAYER_START" x="542" y="146" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="PORTAL_LAYER">
   <object id="97" name="MAP3" x="639" y="87" width="1" height="91"/>
   <object id="122" name="MAP2" x="0" y="503" width="1" height="107"/>
  </objectgroup>
- <objectgroup name="Bridge Obstacle">
+ <objectgroup name="BRIDGE_OBSTACLE">
   <object id="90" x="304" y="336" width="96" height="1"/>
   <object id="112" x="304" y="310" width="96" height="1"/>
  </objectgroup>
- <objectgroup name="Underbridge Obstacle">
+ <objectgroup name="UNDERBRIDGE_OBSTACLE">
   <object id="113" x="400" y="311" width="1" height="25"/>
   <object id="114" x="303" y="311" width="1" height="25"/>
  </objectgroup>
- <objectgroup name="Interaction">
+ <objectgroup name="INTERACTION">
   <object id="8" name="ARMORY" x="129" y="87" width="14" height="9"/>
   <object id="14" name="INN" x="257" y="87" width="14" height="9"/>
   <object id="36" name="T2DOOR1" x="369" y="87" width="14" height="9"/>
@@ -397,10 +401,10 @@
   <object id="43" name="T2DOOR3" x="577" y="247" width="14" height="9"/>
   <object id="47" name="T2SIGN1" x="191" y="331" width="18" height="8"/>
  </objectgroup>
- <objectgroup name="Waterfall Obstacle">
+ <objectgroup name="WATERFALL_OBSTACLE">
   <object id="61" x="304" y="288" width="96" height="96"/>
  </objectgroup>
- <objectgroup name="Water Obstacle">
+ <objectgroup name="WATER_OBSTACLE">
   <object id="48" x="256" y="480" width="4" height="16"/>
   <object id="49" x="260" y="492" width="12" height="4"/>
   <object id="50" x="272" y="492" width="4" height="20"/>
