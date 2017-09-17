@@ -53,7 +53,10 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			//
 			//}
 			//else {
-				if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
+				if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
+					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING));
+				}
+				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
 					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
 				}
 				else if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
@@ -83,6 +86,8 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			} else if (keys.get(Keys.DOWN)) {
 				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
 				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
+			} else if (keys.get(Keys.SPACE)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING));
 			} else if (keys.get(Keys.QUIT)) {
 				quitReleased();
 				Gdx.app.exit();
@@ -237,7 +242,9 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 		keys.put(Keys.PAUSE, true);
 	}
 
-	public void spacePressed() { keys.put(Keys.SPACE, true); }
+	public void spacePressed() {
+		keys.put(Keys.SPACE, true);
+	}
 	
 	public void setClickedMouseCoordinates(int x,int y){
 		_lastMouseCoordinates.set(x, y, 0);

@@ -2,11 +2,9 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
@@ -67,6 +65,8 @@ public class ElmourGame extends Game {
 
 	@Override
 	public void create(){
+		Utility.initializeElmourUISkin();
+
 		// set width and height to fill screen
 		if (isAndroid()) {
 			V_WIDTH = 512;

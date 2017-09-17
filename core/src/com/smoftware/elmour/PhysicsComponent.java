@@ -116,6 +116,30 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
+    protected boolean isCollisionWithInteractionLayer(Entity entity, MapManager mapMgr){
+        MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
+
+        if( mapInteractionLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapInteractionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( _boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
+                    entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     protected void setNextPositionToCurrent(Entity entity){
         this._currentEntityPosition.x = _nextEntityPosition.x;
         this._currentEntityPosition.y = _nextEntityPosition.y;

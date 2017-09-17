@@ -1,6 +1,5 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -22,11 +21,13 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     protected Vector2 _currentPosition;
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations;
     protected ShapeRenderer _shapeRenderer;
+    protected Entity.Interaction currentInteraction;
 
     protected GraphicsComponent(){
         _currentPosition = new Vector2(0,0);
         currentState = Entity.State.WALKING;
         _currentDirection = Entity.Direction.DOWN;
+        currentInteraction = Entity.Interaction.NONE;
         json = new Json();
         animations = new Hashtable<>();
         _shapeRenderer = new ShapeRenderer();

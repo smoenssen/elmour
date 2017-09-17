@@ -157,6 +157,10 @@ public class MapManager implements ProfileObserver {
         return _currentMap.getCollisionLayer();
     }
 
+    public MapLayer getInteractionLayer(){
+        return _currentMap.getInteractionLayer();
+    }
+
     public MapLayer getPortalLayer(){
         return _currentMap.getPortalLayer();
     }

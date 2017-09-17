@@ -19,8 +19,13 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private String _previousEnemySpawn;
 
     public PlayerPhysicsComponent(){
+        //_boundingBoxLocation = BoundingBoxLocation.CENTER;
+        //initBoundingBox(0.3f, 0f);
+
+        //reduce width and height of bounding box for better feel of collisions
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
-        initBoundingBox(0.3f, 0f);
+        initBoundingBox(0.4f, 0.4f);
+
         _previousDiscovery = "";
         _previousEnemySpawn = "0";
 
@@ -56,7 +61,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
 
                     // need to figure out direction based on joystick coordinates for purposes of image to display
-                    //_velocity.y != 0 &&
                     if (_velocity.y != 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
                         _currentDirection = Entity.Direction.UP;
                     else if (_velocity.x != 0 && currentJoystickPosition.angle() > 144 && currentJoystickPosition.angle() <= 216)
@@ -102,6 +106,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         if( _isMouseSelectEnabled ){
             selectMapEntityCandidate(mapMgr);
             _isMouseSelectEnabled = false;
+        }
+
+        if (_state == Entity.State.INTERACTING) {
+            _state = Entity.State.IDLE;
+
+            if (isCollisionWithInteractionLayer(entity, mapMgr)) {
+                //todo: does anything else need to be done here?
+            }
         }
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&

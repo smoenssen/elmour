@@ -33,6 +33,7 @@ public abstract class Map implements AudioSubject{
     protected final static String QUEST_DISCOVER_LAYER = "MAP_QUEST_DISCOVER_LAYER";
     protected final static String ENEMY_SPAWN_LAYER = "MAP_ENEMY_SPAWN_LAYER";
     protected final static String PARTICLE_EFFECT_SPAWN_LAYER = "PARTICLE_EFFECT_SPAWN_LAYER";
+    protected final static String INTERACTION_LAYER = "INTERACTION";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -64,6 +65,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer _questDiscoverLayer = null;
     protected MapLayer _enemySpawnLayer = null;
     protected MapLayer _particleEffectSpawnLayer = null;
+    protected MapLayer interactionLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -156,6 +158,11 @@ public abstract class Map implements AudioSubject{
         _particleEffectSpawnLayer = _currentMap.getLayers().get(PARTICLE_EFFECT_SPAWN_LAYER);
         if( _particleEffectSpawnLayer == null ){
             Gdx.app.debug(TAG, "No particle effect spawn layer!");
+        }
+
+        interactionLayer = _currentMap.getLayers().get(INTERACTION_LAYER);
+        if( interactionLayer == null ){
+            Gdx.app.debug(TAG, "No interaction layer!");
         }
 
         _npcStartPositions = getNPCStartPositions();
@@ -293,6 +300,10 @@ public abstract class Map implements AudioSubject{
 
     public MapLayer getCollisionLayer(){
         return _collisionLayer;
+    }
+
+    public MapLayer getInteractionLayer(){
+        return interactionLayer;
     }
 
     public MapLayer getPortalLayer(){

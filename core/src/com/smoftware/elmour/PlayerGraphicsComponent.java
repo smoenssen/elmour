@@ -1,6 +1,5 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -18,6 +17,9 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     private static final String TAG = PlayerGraphicsComponent.class.getSimpleName();
 
     protected Vector2 previousPosition;
+    protected boolean showPopup = false;
+    protected boolean sentShowPopupMessage = false;
+    protected boolean sentHidePopupMessage = false;
 
     public PlayerGraphicsComponent(){
         previousPosition = new Vector2(0,0);
@@ -38,6 +40,8 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                 _currentPosition = json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
+                if (currentState != Entity.State.IDLE)
+                    showPopup = false;
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 _currentDirection = json.fromJson(Entity.Direction.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
@@ -59,6 +63,9 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
                     animations.put(animationType, animation);
                 }
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
+                currentInteraction = json.fromJson(Entity.Interaction.class, string[1]);
+                showPopup = true;
             }
         }
     }
@@ -73,6 +80,21 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             notify("", ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
             previousPosition = _currentPosition.cpy();
         }
+
+        if (showPopup) {
+            if (sentShowPopupMessage == false) {
+                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.SHOW_POPUP);
+                sentShowPopupMessage = true;
+                sentHidePopupMessage = false;
+            }
+        }
+        else {
+        if (sentHidePopupMessage == false ){
+            notify("", ComponentObserver.ComponentEvent.HIDE_POPUP);
+            sentHidePopupMessage = true;
+            sentShowPopupMessage = false;
+        }
+    }
 
         TiledMap map = mapMgr.getCurrentTiledMap();
         MapProperties prop = map.getProperties();
@@ -93,14 +115,14 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         batch.end();
 
         //Used to graphically debug boundingboxes
-        /*
+/*
         Rectangle rect = entity.getCurrentBoundingBox();
         _shapeRenderer.setProjectionMatrix(camera.combined);
         _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         _shapeRenderer.setColor(Color.RED);
         _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight()*Map.UNIT_SCALE);
         _shapeRenderer.end();
-        */
+*/
     }
 
     @Override

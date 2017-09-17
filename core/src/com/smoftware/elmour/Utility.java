@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.MusicLoader;
@@ -8,12 +9,14 @@ import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -28,6 +31,36 @@ public final class Utility {
 	public static TextureAtlas STATUSUI_TEXTUREATLAS = new TextureAtlas(STATUSUI_TEXTURE_ATLAS_PATH);
 	public static TextureAtlas ITEMS_TEXTUREATLAS = new TextureAtlas(ITEMS_TEXTURE_ATLAS_PATH);
 	public static Skin STATUSUI_SKIN = new Skin(Gdx.files.internal(STATUSUI_SKIN_PATH), STATUSUI_TEXTUREATLAS);
+
+	private final static String ELMOUR_TEXTURE_ATLAS_PATH = "skins/elmour_ui.atlas";
+	private final static String ELMOUR_SKIN_PATH = "skins/elmour_ui.json";
+	public static TextureAtlas ELMOUR_UI_TEXTUREATLAS = new TextureAtlas(ELMOUR_TEXTURE_ATLAS_PATH);
+	public static Skin ELMOUR_UI_SKIN;
+
+	public static void initializeElmourUISkin() {
+		//NOTE!!! if elmour_ui.json is generated again, then need to replace instances of default-font with myFont:
+		//	font: myFont
+		//Need to initialize skin before using it because of customized TT nyFont that is used in .json
+		ELMOUR_UI_SKIN = new Skin();
+
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		if (Gdx.app.getType() == Application.ApplicationType.Android)
+			parameter.size = 64;
+		else
+			parameter.size = 24;
+
+		parameter.color = Color.DARK_GRAY;
+		parameter.shadowColor = Color.LIGHT_GRAY;
+		parameter.shadowOffsetX = 2;
+		parameter.shadowOffsetY = 2;
+		BitmapFont fontSign = generator.generateFont(parameter);
+		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+
+		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
+		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
+		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
+	}
 
 	public static void unloadAsset(String assetFilenamePath){
 	// once the asset manager is done loading

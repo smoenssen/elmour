@@ -1,5 +1,6 @@
 package com.smoftware.elmour.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -52,6 +53,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     private BattleUI _battleUI;
+    private PopUp popUp;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -70,7 +72,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _player = player;
         _mapMgr = mapMgr;
         //_viewport = new ScreenViewport(_camera);
-        _viewport = new FitViewport(ElmourGame.V_WIDTH*2, ElmourGame.V_HEIGHT*2, camera);
+        _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
 
@@ -106,6 +108,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _statusUI.setPosition(0, 0);
         _statusUI.setKeepWithinStage(false);
         _statusUI.setMovable(false);
+        _statusUI.setVisible(false);
 
         _inventoryUI = new InventoryUI();
         _inventoryUI.setKeepWithinStage(false);
@@ -139,6 +142,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _battleUI.clearListeners();
         _battleUI.setVisible(false);
 
+        popUp = new PopUp();
+        popUp.setWidth(_stage.getWidth() / 1.1f);
+        popUp.setHeight(_stage.getHeight() / 4);
+        popUp.setPosition(_stage.getWidth() / 2 - popUp.getWidth() / 2, 25);
+
+        popUp.setVisible(false);
+
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
@@ -147,6 +157,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(_statusUI);
         _stage.addActor(_inventoryUI);
         _stage.addActor(_clock);
+        _stage.addActor(popUp);
 
         _battleUI.validate();
         _questUI.validate();
@@ -381,6 +392,16 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 if( configHide.getEntityID().equalsIgnoreCase(_conversationUI.getCurrentEntityID())) {
                     _conversationUI.setVisible(false);
                 }
+                break;
+            case SHOW_POPUP:
+                Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
+                Gdx.app.debug(TAG, "show popup for " + interaction.toString());
+                popUp.loadTextForInteraction(interaction);
+                popUp.setVisible(true);
+                break;
+            case HIDE_POPUP:
+                Gdx.app.debug(TAG, "hide popup");
+                popUp.setVisible(false);
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);

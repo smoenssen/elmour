@@ -48,6 +48,7 @@ public class Entity {
 		IDLE,
 		WALKING,
 		RUNNING,
+		INTERACTING,
 		IMMOBILE;//This should always be last
 
 		static public State getRandomNext() {
@@ -67,6 +68,21 @@ public class Entity {
 		RUN_DOWN,
 		IDLE,
 		IMMOBILE
+	}
+
+	public static enum Interaction {
+		M1SIGN1 {
+			@Override
+			public String toString() { return "M1SIGN1"; }
+		},
+		M1SIGN2 {
+			@Override
+			public String toString() { return "M1SIGN2"; }
+		},
+		NONE {
+			@Override
+			public String toString() { return "NONE"; }
+		},
 	}
 
 	public static final int FRAME_WIDTH = 16;
