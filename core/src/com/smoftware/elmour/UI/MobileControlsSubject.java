@@ -13,7 +13,7 @@ public class MobileControlsSubject {
     private static Array<MobileControlsObserver> observers;
 
     public static void addObserver(MobileControlsObserver observer) {
-        observers.add(observer);
+              observers.add(observer);
     }
 
     public static void removeObserver(MobileControlsObserver observer) {

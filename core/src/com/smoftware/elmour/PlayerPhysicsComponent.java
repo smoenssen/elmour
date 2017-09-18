@@ -17,6 +17,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean _isMouseSelectEnabled = false;
     private String _previousDiscovery;
     private String _previousEnemySpawn;
+    private boolean interactionMsgReceived = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -56,6 +57,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                     _state = _json.fromJson(Entity.State.class, string[1]);
+                    if (_state == Entity.State.INTERACTING)
+                        interactionMsgReceived = true;
+                    //Gdx.app.log(TAG, "_state = " + _state.toString());
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
@@ -108,8 +112,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             _isMouseSelectEnabled = false;
         }
 
-        if (_state == Entity.State.INTERACTING) {
-            _state = Entity.State.IDLE;
+        if (interactionMsgReceived) {
+            interactionMsgReceived = false;
+        //    _state = Entity.State.IDLE;
 
             if (isCollisionWithInteractionLayer(entity, mapMgr)) {
                 //todo: does anything else need to be done here?

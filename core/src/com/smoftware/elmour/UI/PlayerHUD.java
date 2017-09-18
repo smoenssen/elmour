@@ -143,8 +143,14 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _battleUI.setVisible(false);
 
         popUp = new PopUp();
-        popUp.setWidth(_stage.getWidth() / 1.1f);
-        popUp.setHeight(_stage.getHeight() / 4);
+        if (ElmourGame.isAndroid()) {
+            popUp.setWidth(_stage.getWidth() / 1.1f);
+            popUp.setHeight(_stage.getHeight() / 3.1f);
+        }
+        else {
+            popUp.setWidth(_stage.getWidth() / 1.1f);
+            popUp.setHeight(_stage.getHeight() / 4f);
+        }
         popUp.setPosition(_stage.getWidth() / 2 - popUp.getWidth() / 2, 25);
 
         popUp.setVisible(false);

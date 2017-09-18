@@ -46,7 +46,7 @@ public final class Utility {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		if (Gdx.app.getType() == Application.ApplicationType.Android)
-			parameter.size = 64;
+			parameter.size = 18;
 		else
 			parameter.size = 24;
 

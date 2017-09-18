@@ -18,11 +18,11 @@ public class PopUp extends Window {
     TextArea textArea;
 
     public PopUp() {
+        //font is set in the Utility class
         super("", Utility.ELMOUR_UI_SKIN, "default");
 
         float signHeight;
         float padding;
-        String text = "This is me testing the popup This is me testing the popup This is me testing the popup This is me testing the popup";
         textArea = new TextArea("", Utility.ELMOUR_UI_SKIN);
 
         /*
@@ -57,17 +57,9 @@ public class PopUp extends Window {
     }
 
     public void loadTextForInteraction(Entity.Interaction interaction) {
-        String filePath = "RPGGame/text/" + interaction.toString() + ".txt";
-        boolean doesProfileFileExist = Gdx.files.internal(filePath).exists();
-
-        if( !Gdx.files.local(filePath).exists() ){
-            text = "Oops!";
-        }
-        else {
-            FileHandle file = Gdx.files.internal(filePath);
-            text = file.readString();
-            Gdx.app.debug(TAG, "file text = " + text);
-        }
+        FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
+        text = file.readString();
+        Gdx.app.debug(TAG, "file text = " + text);
 
         Runnable r = new Runnable() {
             public void run() {

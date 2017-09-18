@@ -20,16 +20,14 @@ public class MobileControls extends MobileControlsSubject implements Screen {
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
-    private Entity _player;
 
     public Table buttonTable;
     private FixedThumbpadController touchpad;
 
 
-    public MobileControls(Camera camera, Entity player) {
+    public MobileControls(Camera camera) {
         initMobileControlsSubject();
         _camera = camera;
-        _player = player;
 
         //_viewport = new ScreenViewport(_camera);
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);

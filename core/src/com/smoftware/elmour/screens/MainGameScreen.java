@@ -74,19 +74,25 @@ public class MainGameScreen extends GameScreen {
 		_camera = new OrthographicCamera();
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-		_player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-
 		if (ElmourGame.isAndroid()) {
+            //NOTE!!! Need to create mobileControls before player because player
+            //is an observer of mobileControls
 			controllersCam = new OrthographicCamera();
 			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-			mobileControls = new MobileControls(controllersCam, _player);
-			//Gdx.input.setInputProcessor(mobileControls.getStage());
+			mobileControls = new MobileControls(controllersCam);
+
+            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+			_hudCamera = new OrthographicCamera();
+			_hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+			_playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
 
 			_multiplexer = new InputMultiplexer();
 			_multiplexer.addProcessor(mobileControls.getStage());
 			Gdx.input.setInputProcessor(_multiplexer);
 		}
 		else {
+            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
 			_hudCamera = new OrthographicCamera();
 			_hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
