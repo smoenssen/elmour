@@ -54,10 +54,16 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			//}
 			//else {
 				if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
-					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING));
+					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
+				}
+				else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {
+					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
 				}
 				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
-					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));
+					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.PRESSED));
+				}
+				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
+					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
 				}
 				else if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
 					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
@@ -87,7 +93,7 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
 				entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
 			} else if (keys.get(Keys.SPACE)) {
-				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING));
+				entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
 			} else if (keys.get(Keys.QUIT)) {
 				quitReleased();
 				Gdx.app.exit();
@@ -99,7 +105,7 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			}
 
 			if (!keys.get(Keys.SPACE)) {
-				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING_RELEASED));
+				entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
 			}
 
 			if (keys.get(Keys.LEFT) || keys.get(Keys.RIGHT) || keys.get(Keys.UP) || keys.get(Keys.DOWN)) {

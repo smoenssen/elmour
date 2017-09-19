@@ -13,6 +13,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
     private Entity.State _state;
+    private Entity.A_ButtonAction a_BtnStatus;
+    private Entity.B_ButtonAction b_BtnStatus;
+    private Entity.ButtonState a_BtnState = Entity.ButtonState.IS_UP;
+    private Entity.ButtonState b_BtnState = Entity.ButtonState.IS_UP;
+
     private Vector3 _mouseSelectCoordinates;
     private boolean _isMouseSelectEnabled = false;
     private String _previousDiscovery;
@@ -57,9 +62,20 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                     _state = _json.fromJson(Entity.State.class, string[1]);
-                    if (_state == Entity.State.INTERACTING)
-                        interactionMsgReceived = true;
-                    //Gdx.app.log(TAG, "_state = " + _state.toString());
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
+                    a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
+
+                    // the following message should only be sent once
+                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
+                        a_BtnState = Entity.ButtonState.IS_DOWN;
+                    }
+                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
+                        a_BtnState = Entity.ButtonState.IS_UP;
+                    }
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
+                    b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
@@ -91,10 +107,12 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                     _state = _json.fromJson(Entity.State.class, string[1]);
-                    if (_state == Entity.State.INTERACTING)
-                        interactionMsgReceived = true;
-                    else if (_state == Entity.State.INTERACTING_RELEASED)
-                        interactionMsgReceived = true;
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
+                    a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
+                    b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                     _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
@@ -121,11 +139,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         if (interactionMsgReceived) {
             interactionMsgReceived = false;
-        //    _state = Entity.State.IDLE;
-
-            if (isCollisionWithInteractionLayer(entity, mapMgr)) {
-                //todo: does anything else need to be done here?
-            }
+            MapObject object = checkCollisionWithInteractionLayer(mapMgr);
+            if (object != null)
+                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+            else
+                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
         }
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&

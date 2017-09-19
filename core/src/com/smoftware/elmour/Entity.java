@@ -48,7 +48,6 @@ public class Entity {
 		IDLE,
 		WALKING,
 		RUNNING,
-		INTERACTING,
 		IMMOBILE;//This should always be last
 
 		static public State getRandomNext() {
@@ -56,6 +55,10 @@ public class Entity {
 			return State.values()[MathUtils.random(State.values().length - 2)];
 		}
 	}
+
+	public static enum ButtonState { IS_UP, IS_DOWN }
+	public static enum A_ButtonAction { PRESSED, RELEASED }
+	public static enum B_ButtonAction { PRESSED, RELEASED }
 
 	public static enum AnimationType {
 		WALK_LEFT,

@@ -84,7 +84,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
         if (showPopup) {
             if (sentShowPopupMessage == false) {
-                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.SHOW_POPUP);
+                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                 sentShowPopupMessage = true;
                 sentHidePopupMessage = false;
             }
@@ -97,7 +97,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         }
         else {
             if (sentHidePopupMessage == false ){
-                notify("", ComponentObserver.ComponentEvent.HIDE_POPUP);
+                notify("", ComponentObserver.ComponentEvent.POPUP_HIDE);
                 sentHidePopupMessage = true;
                 sentShowPopupMessage = false;
             }

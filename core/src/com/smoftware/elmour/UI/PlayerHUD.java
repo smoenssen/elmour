@@ -399,18 +399,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _conversationUI.setVisible(false);
                 }
                 break;
-            case SHOW_POPUP:
+            case POPUP_INTERACT:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
-                Gdx.app.debug(TAG, "show popup for " + interaction.toString());
-                popUp.loadTextForInteraction(interaction);
-                popUp.setVisible(true);
+                popUp.interact(interaction);
                 break;
-            case HIDE_POPUP:
-                Gdx.app.debug(TAG, "hide popup");
-                popUp.setVisible(false);
+            case POPUP_HIDE:
+                popUp.hide();
                 break;
             case UPDATE_POPUP:
-                popUp.update();
+                //popUp.update();
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);

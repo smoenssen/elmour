@@ -14,8 +14,11 @@ import com.smoftware.elmour.Utility;
 public class PopUp extends Window {
     private static final String TAG = PopUp.class.getSimpleName();
 
+    private enum State { HIDDEN, SHOWING, LISTENING }
+
     String text;
     TextArea textArea;
+    State state = State.HIDDEN;
 
     public PopUp() {
         //Notes:
@@ -31,11 +34,26 @@ public class PopUp extends Window {
         this.add(textArea);
     }
 
-    public void update() {
-        Gdx.app.debug(TAG, "update called!");
+    public void interact (Entity.Interaction interaction){
+        switch (state) {
+            case HIDDEN:
+                loadTextForInteraction(interaction);
+                this.setVisible(true);
+                state = State.SHOWING;
+                break;
+            case SHOWING:
+                break;
+            case LISTENING:
+                break;
+        }
     }
 
-    public void loadTextForInteraction(Entity.Interaction interaction) {
+    public void hide() {
+        this.setVisible(false);
+        state = State.HIDDEN;
+    }
+
+    private void loadTextForInteraction(Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         text = file.readString();
         Gdx.app.debug(TAG, "file text = " + text);

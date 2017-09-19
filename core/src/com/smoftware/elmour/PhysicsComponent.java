@@ -116,11 +116,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
-    protected boolean isCollisionWithInteractionLayer(Entity entity, MapManager mapMgr){
+    protected MapObject checkCollisionWithInteractionLayer(MapManager mapMgr){
         MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
 
         if( mapInteractionLayer == null ){
-            return false;
+            return null;
         }
 
         Rectangle rectangle = null;
@@ -131,13 +131,12 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 if( _boundingBox.overlaps(rectangle) ){
                     //Collision
                     //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
-                    entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
-                    return true;
+                    return object;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     protected void setNextPositionToCurrent(Entity entity){
