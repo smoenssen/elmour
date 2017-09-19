@@ -98,6 +98,10 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				}
 			}
 
+			if (!keys.get(Keys.SPACE)) {
+				entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.INTERACTING_RELEASED));
+			}
+
 			if (keys.get(Keys.LEFT) || keys.get(Keys.RIGHT) || keys.get(Keys.UP) || keys.get(Keys.DOWN)) {
 				if (keys.get(Keys.SPACE)) {
 					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.RUNNING));

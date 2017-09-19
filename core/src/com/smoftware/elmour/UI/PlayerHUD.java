@@ -409,6 +409,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 Gdx.app.debug(TAG, "hide popup");
                 popUp.setVisible(false);
                 break;
+            case UPDATE_POPUP:
+                popUp.update();
+                break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);
                 String questID = string[0];

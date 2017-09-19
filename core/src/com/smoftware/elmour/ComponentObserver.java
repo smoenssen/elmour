@@ -7,6 +7,7 @@ public interface ComponentObserver {
         HIDE_CONVERSATION,
         SHOW_POPUP,
         HIDE_POPUP,
+        UPDATE_POPUP,
         QUEST_LOCATION_DISCOVERED,
         ENEMY_SPAWN_LOCATION_CHANGED,
         PLAYER_HAS_MOVED

@@ -1,6 +1,5 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,6 +20,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     protected boolean showPopup = false;
     protected boolean sentShowPopupMessage = false;
     protected boolean sentHidePopupMessage = false;
+    protected boolean sentUpdatePopupMessage = false;
 
     public PlayerGraphicsComponent(){
         previousPosition = new Vector2(0,0);
@@ -88,14 +88,20 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                 sentShowPopupMessage = true;
                 sentHidePopupMessage = false;
             }
+            else {
+                if (sentUpdatePopupMessage == false) {
+                    notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.UPDATE_POPUP);
+                    sentUpdatePopupMessage = true;
+                }
+            }
         }
         else {
-        if (sentHidePopupMessage == false ){
-            notify("", ComponentObserver.ComponentEvent.HIDE_POPUP);
-            sentHidePopupMessage = true;
-            sentShowPopupMessage = false;
+            if (sentHidePopupMessage == false ){
+                notify("", ComponentObserver.ComponentEvent.HIDE_POPUP);
+                sentHidePopupMessage = true;
+                sentShowPopupMessage = false;
+            }
         }
-    }
 
         TiledMap map = mapMgr.getCurrentTiledMap();
         MapProperties prop = map.getProperties();

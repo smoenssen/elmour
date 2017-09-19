@@ -18,42 +18,21 @@ public class PopUp extends Window {
     TextArea textArea;
 
     public PopUp() {
+        //Notes:
         //font is set in the Utility class
+        //popup is created in ElmourGame class
         super("", Utility.ELMOUR_UI_SKIN, "default");
-
-        float signHeight;
-        float padding;
         textArea = new TextArea("", Utility.ELMOUR_UI_SKIN);
-
-        /*
-        if (Gdx.app.getType() == Application.ApplicationType.Android)  {
-            signHeight = 180;
-            padding = 64;
-        }
-        else {
-            signHeight = 148;
-            padding = 48;
-        }
-*/
-        //float signWidth = Gdx.graphics.getWidth()- (padding * 2);
-
-        //textArea.setX(padding);
-        //srm top of screen: textArea.setY(Gdx.graphics.getHeight() - padding - signHeight);
-        //textArea.setY(padding);
-        //textArea.setWidth(signWidth);
-        //textArea.setHeight(signHeight);
-        //textArea.setAlignment(Align.center);
         textArea.layout();
 
         //layout
         this.add();
         this.defaults().expand().fill();
         this.add(textArea);
-        //this.row();
-        //this.add(scrollPane).pad(10,10,10,10);
+    }
 
-        //this.debug();
-        //this.pack();
+    public void update() {
+        Gdx.app.debug(TAG, "update called!");
     }
 
     public void loadTextForInteraction(Entity.Interaction interaction) {

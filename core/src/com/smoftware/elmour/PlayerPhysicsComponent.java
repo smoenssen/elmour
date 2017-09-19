@@ -88,11 +88,18 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     _previousDiscovery = "";
                     _previousEnemySpawn = "0";
                     notify(_previousEnemySpawn, ComponentObserver.ComponentEvent.ENEMY_SPAWN_LOCATION_CHANGED);
-                } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                     _state = _json.fromJson(Entity.State.class, string[1]);
-                } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+                    if (_state == Entity.State.INTERACTING)
+                        interactionMsgReceived = true;
+                    else if (_state == Entity.State.INTERACTING_RELEASED)
+                        interactionMsgReceived = true;
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                     _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
-                } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_SELECT_ENTITY.toString())) {
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.INIT_SELECT_ENTITY.toString())) {
                     _mouseSelectCoordinates = _json.fromJson(Vector3.class, string[1]);
                     _isMouseSelectEnabled = true;
                 }
