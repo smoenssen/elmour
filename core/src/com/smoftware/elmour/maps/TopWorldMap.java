@@ -1,6 +1,5 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.maps;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.audio.AudioObserver;

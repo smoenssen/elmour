@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.maps;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -8,6 +8,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.Component;
+import com.smoftware.elmour.ComponentObserver;
+import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.sfx.ClockActor;

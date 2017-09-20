@@ -1,8 +1,8 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.maps;
 
 import java.util.Hashtable;
 
-import static com.smoftware.elmour.MapFactory.MapType.TOP_WORLD;
+import static com.smoftware.elmour.maps.MapFactory.MapType.TOP_WORLD;
 
 public class MapFactory {
     //All maps for the game

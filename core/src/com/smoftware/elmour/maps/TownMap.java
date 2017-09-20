@@ -1,8 +1,13 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.maps;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.Component;
+import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.PlayerPhysicsComponent;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ParticleEffectFactory;
