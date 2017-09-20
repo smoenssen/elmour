@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.Utility;
 
@@ -17,7 +19,8 @@ public class PopUp extends Window {
     private enum State { HIDDEN, SHOWING, LISTENING }
 
     String text;
-    TextArea textArea;
+    MyTextArea textArea;
+    IntArray lineBreaks;
     State state = State.HIDDEN;
 
     public PopUp() {
@@ -25,7 +28,7 @@ public class PopUp extends Window {
         //font is set in the Utility class
         //popup is created in ElmourGame class
         super("", Utility.ELMOUR_UI_SKIN, "default");
-        textArea = new TextArea("", Utility.ELMOUR_UI_SKIN);
+        textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
         textArea.layout();
 
         //layout
@@ -36,7 +39,7 @@ public class PopUp extends Window {
 
     public void interact (){
 
-        Gdx.app.debug(TAG, "popup interact cur state = " + state.toString());
+        Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
 
         switch (state) {
             case HIDDEN:
@@ -50,7 +53,7 @@ public class PopUp extends Window {
                 break;
         }
 
-        Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
+        Gdx.app.log(TAG, "popup interact new state = " + state.toString());
     }
 
     public void hide() {
@@ -60,20 +63,94 @@ public class PopUp extends Window {
         //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
+    /** SRM - returns an array of strings **/
+    public Array<String> getLineStrings() {
+        Array<String> strings = new Array<String>();
+        String currString = new String();
+
+        lineBreaks = new IntArray(textArea.getLines());
+
+        int currLineBreak = 1;
+        for (int i = 0; i < text.length(); i++) {
+            if (currLineBreak < lineBreaks.size) {
+                if (i > 0 && i == lineBreaks.get(currLineBreak)) {
+                    // new line
+                    strings.add(currString);
+                    Gdx.app.log("tag", String.format("adding currString = %s", currString));
+                    currString = "";
+                    currLineBreak += 2;
+                }
+            }
+
+            currString += text.charAt(i);
+        }
+
+        if (currString.length() > 0)
+            strings.add(currString);
+
+        return strings;
+    }
+
     public void loadTextForInteraction(Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         text = file.readString();
-        Gdx.app.debug(TAG, "file text = " + text);
+        Gdx.app.log(TAG, "file text = " + text);
+
+        String pendingText = "";
+        boolean isEndOfLine = false;
+        boolean addSpaceToPendingText = false;
+        //int numLines = 0;
+
+        textArea.setText(text, true);
+        final Array<String> lines = textArea.getLineStrings();
+        textArea.setText("", true);
 
         Runnable r = new Runnable() {
             public void run() {
-                String pendingText = "";
-                String currentVisibleText = "";
                 char currentChar = ' ';
-                boolean isEndOfLine = false;
-                boolean addSpaceToPendingText = false;
-                int numLines = 0;
+                String currentVisibleText = "";
 
+                for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
+                    String line = lines.get(lineIdx);
+
+                    int len = line.length();
+                    Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
+
+                    for (int i = 0; i < line.length(); i++) {
+
+                        currentChar = line.charAt(i);
+                        Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
+
+                        if (currentChar != '\n') {
+                            currentVisibleText += currentChar;
+                            textArea.setText(currentVisibleText, true);
+                        }
+
+                        if ((lineIdx != 0 && lineIdx % 2 == 0) || currentChar == '\n') {
+                            // done populating current box
+                            // wrapped to third line so need to pause for next request
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            currentVisibleText = "";
+                        }
+
+                        if (i == line.length() - 1) {
+                            currentVisibleText += '\n';
+                            textArea.setText(currentVisibleText, true);
+                        }
+
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+/*
                 for (int i = 0; i < text.length(); i++) {
 
                     if (addSpaceToPendingText) {
@@ -170,6 +247,7 @@ public class PopUp extends Window {
                         e.printStackTrace();
                     }
                 }
+                */
             }
         };
 

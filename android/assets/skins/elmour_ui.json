@@ -137,7 +137,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		checked: default-round-down
 	}
 }
-com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 	default: {
 		font: myFont
 		fontColor: white

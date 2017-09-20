@@ -54,6 +54,7 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			//}
 			//else {
 				if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
+					Gdx.app.log(TAG, "A_BUTTON_PRESSED");
 					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
 				}
 				else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {

@@ -6,8 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.Map;
-import com.smoftware.elmour.MapManager;
+import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;

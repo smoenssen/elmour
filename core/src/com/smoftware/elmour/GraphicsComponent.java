@@ -33,7 +33,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         _shapeRenderer = new ShapeRenderer();
     }
 
-    public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
+    public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);
 
     protected void updateAnimations(float delta){
 

@@ -10,11 +10,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.maps.MapManager;
 
 public abstract class PhysicsComponent extends ComponentSubject implements Component{
     private static final String TAG = PhysicsComponent.class.getSimpleName();
 
-    public abstract void update(Entity entity, MapManager mapMgr, float delta);
+    public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta);
 
     protected Vector2 _nextEntityPosition;
     protected Vector2 _currentEntityPosition;
@@ -53,7 +54,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         _selectionRay = new Ray(new Vector3(), new Vector3());
     }
 
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
+    protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         _tempEntities.clear();
         _tempEntities.addAll(mapMgr.getCurrentMapEntities());
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
@@ -93,7 +94,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return isCollisionWithMapEntities;
     }
 
-    protected boolean isCollisionWithMapLayer(Entity entity, MapManager mapMgr){
+    protected boolean isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
 
         if( mapCollisionLayer == null ){
@@ -228,9 +229,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float minX;
         float minY;
 
-        if( Map.UNIT_SCALE > 0 ) {
-            minX = _nextEntityPosition.x / Map.UNIT_SCALE;
-            minY = _nextEntityPosition.y / Map.UNIT_SCALE;
+        if( com.smoftware.elmour.maps.Map.UNIT_SCALE > 0 ) {
+            minX = _nextEntityPosition.x / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+            minY = _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE;
         }else{
             minX = _nextEntityPosition.x;
             minY = _nextEntityPosition.y;
@@ -259,9 +260,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float minX;
         float minY;
 
-        if( Map.UNIT_SCALE > 0 ) {
-            minX = position.x / Map.UNIT_SCALE;
-            minY = position.y / Map.UNIT_SCALE;
+        if( com.smoftware.elmour.maps.Map.UNIT_SCALE > 0 ) {
+            minX = position.x / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+            minY = position.y / com.smoftware.elmour.maps.Map.UNIT_SCALE;
         }else{
             minX = position.x;
             minY = position.y;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.maps.MapManager;
 
 public class NPCGraphicsComponent extends GraphicsComponent {
     private static final String TAG = NPCGraphicsComponent.class.getSimpleName();
@@ -77,7 +78,7 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta){
+    public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
         updateAnimations(delta);
 
         if( _isSelected ){
@@ -121,10 +122,10 @@ public class NPCGraphicsComponent extends GraphicsComponent {
         _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         _shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
 
-        float width =  rect.getWidth() * Map.UNIT_SCALE*2f;
-        float height = rect.getHeight() * Map.UNIT_SCALE/2f;
-        float x = rect.x * Map.UNIT_SCALE - width/4;
-        float y = rect.y * Map.UNIT_SCALE - height/2;
+        float width =  rect.getWidth() * com.smoftware.elmour.maps.Map.UNIT_SCALE*2f;
+        float height = rect.getHeight() * com.smoftware.elmour.maps.Map.UNIT_SCALE/2f;
+        float x = rect.x * com.smoftware.elmour.maps.Map.UNIT_SCALE - width/4;
+        float y = rect.y * com.smoftware.elmour.maps.Map.UNIT_SCALE - height/2;
 
         _shapeRenderer.ellipse(x,y,width,height);
         _shapeRenderer.end();

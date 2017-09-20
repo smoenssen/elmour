@@ -165,7 +165,7 @@ public class Entity {
 		_graphicsComponent.removeAllObservers();
 	}
 
-	public void update(MapManager mapMgr, Batch batch, float delta){
+	public void update(com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
 		_inputComponent.update(this, delta);
 		_physicsComponent.update(this, mapMgr, delta);
 		_graphicsComponent.update(this, mapMgr, batch, delta);

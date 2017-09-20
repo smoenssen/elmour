@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -71,7 +72,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
             if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
                 currentInteraction = json.fromJson(Entity.Interaction.class, string[1]);
-
+                Gdx.app.log(TAG, "received INTERACTION_COLLISION");
                 if (currentInteraction != Entity.Interaction.NONE)
                     receivedInteractionCollision = true;
             }
@@ -79,7 +80,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, Batch batch, float delta){
+    public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
         updateAnimations(delta);
 
         //Player has moved

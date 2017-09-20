@@ -37,7 +37,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, float delta) {
+    public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         updateBoundingBoxPosition(_nextEntityPosition);
 
         if( isEntityFarFromPlayer(mapMgr) ){
@@ -56,7 +56,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
         calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
-    private boolean isEntityFarFromPlayer(MapManager mapMgr){
+    private boolean isEntityFarFromPlayer(com.smoftware.elmour.maps.MapManager mapMgr){
         //Check distance
         _selectionRay.set(mapMgr.getPlayer().getCurrentBoundingBox().x, mapMgr.getPlayer().getCurrentBoundingBox().y, 0.0f, _boundingBox.x, _boundingBox.y, 0.0f);
         float distance =  _selectionRay.origin.dst(_selectionRay.direction);
@@ -69,7 +69,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
+    protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         //Test against player
         if( isCollision(entity, mapMgr.getPlayer()) ) {
             return true;

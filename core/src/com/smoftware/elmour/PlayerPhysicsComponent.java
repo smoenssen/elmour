@@ -8,6 +8,8 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.smoftware.elmour.maps.MapFactory;
+import com.smoftware.elmour.maps.MapManager;
 
 public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
@@ -68,6 +70,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                     // the POPUP_INTERACT notification should only be sent once
                     if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
+                        interactionMsgReceived = true;
                         a_BtnState = Entity.ButtonState.IS_DOWN;
                         notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                     }
@@ -139,7 +142,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     }
 
     @Override
-    public void update(Entity entity, MapManager mapMgr, float delta) {
+    public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         updateBoundingBoxPosition(_nextEntityPosition);
         updatePortalLayerActivation(mapMgr);
         updateDiscoverLayerActivation(mapMgr);
@@ -152,7 +155,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         if (interactionMsgReceived) {
             interactionMsgReceived = false;
-            Gdx.app.debug(TAG, "interactionMsgReceived");
+            Gdx.app.log(TAG, "interactionMsgReceived");
             MapObject object = checkCollisionWithInteractionLayer(mapMgr);
             if (object != null) {
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
@@ -180,15 +183,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
-    private void selectMapEntityCandidate(MapManager mapMgr){
+    private void selectMapEntityCandidate(com.smoftware.elmour.maps.MapManager mapMgr){
         _tempEntities.clear();
         _tempEntities.addAll(mapMgr.getCurrentMapEntities());
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
 
         //Convert screen coordinates to world coordinates, then to unit scale coordinates
         mapMgr.getCamera().unproject(_mouseSelectCoordinates);
-        _mouseSelectCoordinates.x /= Map.UNIT_SCALE;
-        _mouseSelectCoordinates.y /= Map.UNIT_SCALE;
+        _mouseSelectCoordinates.x /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
+        _mouseSelectCoordinates.y /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
 
         //Gdx.app.debug(TAG, "Mouse Coordinates " + "(" + _mouseSelectCoordinates.x + "," + _mouseSelectCoordinates.y + ")");
 
@@ -214,7 +217,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         _tempEntities.clear();
     }
 
-    private boolean updateDiscoverLayerActivation(MapManager mapMgr){
+    private boolean updateDiscoverLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapDiscoverLayer =  mapMgr.getQuestDiscoverLayer();
 
         if( mapDiscoverLayer == null ){
@@ -251,7 +254,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return false;
     }
 
-    private boolean updateEnemySpawnLayerActivation(MapManager mapMgr){
+    private boolean updateEnemySpawnLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapEnemySpawnLayer =  mapMgr.getEnemySpawnLayer();
 
         if( mapEnemySpawnLayer == null ){
