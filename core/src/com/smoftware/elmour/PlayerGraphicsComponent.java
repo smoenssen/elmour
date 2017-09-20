@@ -17,10 +17,9 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
     private static final String TAG = PlayerGraphicsComponent.class.getSimpleName();
 
     protected Vector2 previousPosition;
-    protected boolean showPopup = false;
-    protected boolean sentShowPopupMessage = false;
+    protected boolean receivedInteractionCollision = false;
+    protected boolean sentPopupInitializeMessage = false;
     protected boolean sentHidePopupMessage = false;
-    protected boolean sentUpdatePopupMessage = false;
 
     public PlayerGraphicsComponent(){
         previousPosition = new Vector2(0,0);
@@ -37,15 +36,19 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         if( string.length == 2 ) {
             if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 _currentPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 _currentPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
                 if (currentState != Entity.State.IDLE)
-                    showPopup = false;
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+                    notify("", ComponentObserver.ComponentEvent.POPUP_HIDE);
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 _currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -64,9 +67,13 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
                     animations.put(animationType, animation);
                 }
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
+            }
+
+            if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
                 currentInteraction = json.fromJson(Entity.Interaction.class, string[1]);
-                showPopup = true;
+
+                if (currentInteraction != Entity.Interaction.NONE)
+                    receivedInteractionCollision = true;
             }
         }
     }
@@ -82,24 +89,19 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             previousPosition = _currentPosition.cpy();
         }
 
-        if (showPopup) {
-            if (sentShowPopupMessage == false) {
-                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
-                sentShowPopupMessage = true;
+        // make sure these notifications are only sent once
+        if (receivedInteractionCollision) {
+            if (sentPopupInitializeMessage == false) {
+                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.POPUP_INITITIALIZE);
+                sentPopupInitializeMessage = true;
                 sentHidePopupMessage = false;
-            }
-            else {
-                if (sentUpdatePopupMessage == false) {
-                    notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.UPDATE_POPUP);
-                    sentUpdatePopupMessage = true;
-                }
             }
         }
         else {
             if (sentHidePopupMessage == false ){
                 notify("", ComponentObserver.ComponentEvent.POPUP_HIDE);
                 sentHidePopupMessage = true;
-                sentShowPopupMessage = false;
+                sentPopupInitializeMessage = false;
             }
         }
 

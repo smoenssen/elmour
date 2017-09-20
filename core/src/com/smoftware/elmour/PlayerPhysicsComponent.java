@@ -66,12 +66,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
-                    // the following message should only be sent once
+                    // the POPUP_INTERACT notification should only be sent once
                     if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
                         a_BtnState = Entity.ButtonState.IS_DOWN;
+                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
                         a_BtnState = Entity.ButtonState.IS_UP;
+                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
@@ -110,6 +112,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
+
+                    // the POPUP_INTERACT notification should only be sent once
+                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
+                        interactionMsgReceived = true;
+                        a_BtnState = Entity.ButtonState.IS_DOWN;
+                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
+                    }
+                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
+                        a_BtnState = Entity.ButtonState.IS_UP;
+                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
+                    }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
                     b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
@@ -139,11 +152,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         if (interactionMsgReceived) {
             interactionMsgReceived = false;
+            Gdx.app.debug(TAG, "interactionMsgReceived");
             MapObject object = checkCollisionWithInteractionLayer(mapMgr);
-            if (object != null)
+            if (object != null) {
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
-            else
+            }
+            else {
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
+            }
         }
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&

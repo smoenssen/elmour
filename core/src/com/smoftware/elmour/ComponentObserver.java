@@ -5,9 +5,9 @@ public interface ComponentObserver {
         LOAD_CONVERSATION,
         SHOW_CONVERSATION,
         HIDE_CONVERSATION,
+        POPUP_INITITIALIZE,
         POPUP_INTERACT,
         POPUP_HIDE,
-        UPDATE_POPUP,
         QUEST_LOCATION_DISCOVERED,
         ENEMY_SPAWN_LOCATION_CHANGED,
         PLAYER_HAS_MOVED

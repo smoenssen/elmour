@@ -1,6 +1,5 @@
 package com.smoftware.elmour.UI;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -399,15 +398,16 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _conversationUI.setVisible(false);
                 }
                 break;
-            case POPUP_INTERACT:
+            case POPUP_INITITIALIZE:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
-                popUp.interact(interaction);
+                popUp.loadTextForInteraction(interaction);
+                break;
+            case POPUP_INTERACT:
+                //Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
+                popUp.interact();
                 break;
             case POPUP_HIDE:
                 popUp.hide();
-                break;
-            case UPDATE_POPUP:
-                //popUp.update();
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);

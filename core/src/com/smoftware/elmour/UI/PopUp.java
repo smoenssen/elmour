@@ -34,26 +34,33 @@ public class PopUp extends Window {
         this.add(textArea);
     }
 
-    public void interact (Entity.Interaction interaction){
+    public void interact (){
+
+        Gdx.app.debug(TAG, "popup interact cur state = " + state.toString());
+
         switch (state) {
             case HIDDEN:
-                loadTextForInteraction(interaction);
                 this.setVisible(true);
                 state = State.SHOWING;
                 break;
             case SHOWING:
+                state = State.LISTENING;
                 break;
             case LISTENING:
                 break;
         }
+
+        Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
     public void hide() {
         this.setVisible(false);
         state = State.HIDDEN;
+
+        //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
-    private void loadTextForInteraction(Entity.Interaction interaction) {
+    public void loadTextForInteraction(Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         text = file.readString();
         Gdx.app.debug(TAG, "file text = " + text);
