@@ -17,10 +17,14 @@ public class PopUp extends Window {
 
     private enum State {HIDDEN, SHOWING, LISTENING}
 
-    String text;
-    MyTextArea textArea;
-    IntArray lineBreaks;
-    State state = State.HIDDEN;
+
+    private String fullText;
+    private boolean displayText = true;
+    private String currentText;
+    private MyTextArea textArea;
+    private IntArray lineBreaks;
+    private State state = State.HIDDEN;
+    private boolean interactReceived = false;
 
     public PopUp() {
         //Notes:
@@ -49,6 +53,7 @@ public class PopUp extends Window {
                 state = State.LISTENING;
                 break;
             case LISTENING:
+                interactReceived = true;
                 break;
         }
 
@@ -62,59 +67,31 @@ public class PopUp extends Window {
         //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
-    /**
-     * SRM - returns an array of strings
-     **/
-    public Array<String> getLineStrings() {
-        Array<String> strings = new Array<String>();
-        String currString = new String();
+    private void setTextForUIThread(String text, boolean displayText) {
+        currentText = text;
+        this.displayText = displayText;
+    }
 
-        lineBreaks = new IntArray(textArea.getLines());
-
-        int currLineBreak = 1;
-        for (int i = 0; i < text.length(); i++) {
-            if (currLineBreak < lineBreaks.size) {
-                if (i > 0 && i == lineBreaks.get(currLineBreak)) {
-                    // new line
-                    strings.add(currString);
-                    Gdx.app.log("tag", String.format("adding currString = %s", currString));
-                    currString = "";
-                    currLineBreak += 2;
-                }
-            }
-
-            currString += text.charAt(i);
-        }
-
-        if (currString.length() > 0)
-            strings.add(currString);
-
-        return strings;
+    public void update() {
+        // called from UI thread
+        textArea.setText(currentText, displayText);
     }
 
     public void loadTextForInteraction(Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
-        text = file.readString();
-        Gdx.app.log(TAG, "file text = " + text);
-
-        String pendingText = "";
-        boolean isEndOfLine = false;
-        boolean addSpaceToPendingText = false;
-        //int numLines = 0;
-
-        //textArea.setText("", true);
+        fullText = file.readString();
+        Gdx.app.log(TAG, "file text = " + fullText);
 
         Runnable r = new Runnable() {
             public void run() {
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
-                textArea.setText(text, false);
+                setTextForUIThread(fullText, false);
 
                 // wait up to 5 sec to make sure lines are populated
-                
                 int numLines = textArea.getLines();
-                for (int q = 0; q < 100 && numLines == 0;q++) {
+                for (int q = 0; q < 100 && numLines == 0; q++) {
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
                     try {
                         Thread.sleep(50);
@@ -128,147 +105,70 @@ public class PopUp extends Window {
 
 
                 final Array<String> lines = textArea.getLineStrings();
+                boolean delay = true;
 
+                // loop through lines
                 for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
                     String line = lines.get(lineIdx);
-
                     int len = line.length();
                     Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
 
+                    // display line char by char for next two lines
+                    String currentTextBeforeNextLine = currentVisibleText;
                     for (int i = 0; i < line.length(); i++) {
 
-                        currentChar = line.charAt(i);
-                        Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
+                        if (interactReceived || delay == false) {
+                            interactReceived = false;
+                            delay = false;
+                            currentVisibleText = currentTextBeforeNextLine + line;
+                            setTextForUIThread(currentVisibleText, true);
+                            break;
+                        } else {
+                            currentChar = line.charAt(i);
+                            //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
 
-                        if (currentChar != '\n') {
+                            //if (currentChar != '\n') {
                             currentVisibleText += currentChar;
-                            textArea.setText(currentVisibleText, true);
-                        }
+                            setTextForUIThread(currentVisibleText, true);
+                            //}
 
-                        if ((lineIdx != 0 && lineIdx % 2 == 0) || currentChar == '\n') {
-                            // done populating current box
-                            // wrapped to third line so need to pause for next request
+                            // add EOL char to text so that pending text isn't displayed as chars are added
+                            if (i == line.length() - 1) {
+                                currentVisibleText += '\n';
+                                setTextForUIThread(currentVisibleText, true);
+                            }
+
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-
-                            currentVisibleText = "";
-                            //textArea.setText(currentVisibleText, true);
-                        }
-
-                        if (i == line.length() - 1) {
-                            currentVisibleText += '\n';
-                            textArea.setText(currentVisibleText, true);
-                        }
-
-                        try {
-                            Thread.sleep(50);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
                         }
                     }
-                }
 
-/*
-                for (int i = 0; i < text.length(); i++) {
+                    if (state == State.HIDDEN)
+                        break;
 
-                    if (addSpaceToPendingText) {
-                        pendingText += ' ';
-                        addSpaceToPendingText = false;
-                    }
-
-                    if (!isEndOfLine) {textArea.getLines()
-                        currentChar = text.charAt(i);
-                        pendingText += currentChar;
-                        textArea.setText(pendingText);
-                        numLines = textArea.getLines();
-                    }
-                    else {
-                        // back up to previous character
-                        isEndOfLine = false;
-                        i--;
-                    }
-
-                    if (numLines > 2 || currentChar == '\n') {
-                        // done populating current box
-                        // wrapped to third line so need to pause for next request
-                        textArea.setText(currentVisibleText);
-
-                        //Gdx.app.log(TAG, "pending text = " + pendingText);
-                        //Gdx.app.log(TAG, String.format("numLines = %d, currentaChar = %c ", numLines, currentChar));
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        // reset pending text pointer
-                        if (currentChar != '\n') {
-                            int k = pendingText.lastIndexOf(' ');
-                            if (k == pendingText.length() - 1) {
-                                // NOTE: Special case where the pending text has a space
-                                // right where the length of the text pushes it into the next line
-                                String temp = pendingText.substring(0, k);
-                                k = temp.lastIndexOf(' ');
-                                if (k > 0) {
-                                    pendingText = temp.substring(k);
-                                    //Gdx.app.log(TAG, "0.5. set pending text = " + pendingText);
-                                }
-                                addSpaceToPendingText = true;
-                            }
-                            else if (k >= 0) {
-                                pendingText = pendingText.substring(k);
-                                //Gdx.app.log(TAG, "1. set pending text = " + pendingText);
+                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || /*currentChar == '\n' ||*/ lineIdx == lines.size) {
+                        // done populating current box so need to pause for next interaction
+                        while (!interactReceived && state == State.LISTENING) {
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
-                        else if (currentChar == '\n' && numLines > 2) {
-                            // this is the end of what we need to display for this box
-                            // so set current text minus the EOL character
-                            if (numLines > 3) {
-                                // special case. set EOL to true so next iteration this gets flagged correctly
-                                int k = pendingText.lastIndexOf(' ');
-                                if (k >= 0) {
-                                    pendingText = pendingText.substring(k);
-                                    isEndOfLine = true;
-                                    numLines = 3;
-                                    //Gdx.app.log(TAG, "2. set pending text = " + pendingText);
-                                    continue;
-                                }
-                            }
-                            else
-                            {
-                                int k = pendingText.lastIndexOf('\n');
-                                if (k >= 0) {
-                                    currentVisibleText = pendingText.substring(0, pendingText.lastIndexOf('\n'));
-                                    textArea.setText(currentVisibleText);
-                                    //Gdx.app.log(TAG, "3. set currentVisibleText = " + currentVisibleText);
-                                }
-                                pendingText = "";
-                                //Gdx.app.log(TAG, "3. set pending text = " + pendingText);
-                                continue;
-                            }
-                        }
-                        else {
-                            pendingText = "";
-                            //Gdx.app.log(TAG, "4. set pending text = " + pendingText);
-                        }
+
+                        interactReceived = false;
+                        delay = true;
+
+                        if (state == State.HIDDEN)
+                            break;
 
                         currentVisibleText = "";
-                        textArea.setText(currentVisibleText);
-                    }
-                    else {
-                        currentVisibleText = pendingText;
-                    }
-
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        setTextForUIThread(currentVisibleText, true);
                     }
                 }
-                */
             }
         };
 

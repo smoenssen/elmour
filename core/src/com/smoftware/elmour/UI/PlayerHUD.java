@@ -595,6 +595,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.position.x = shakeCoords.x + _stage.getWidth()/2;
             _camera.position.y = shakeCoords.y + _stage.getHeight()/2;
         }
+        popUp.update();
         _stage.act(delta);
         _stage.draw();
     }
