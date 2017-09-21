@@ -2,7 +2,6 @@ package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
@@ -16,7 +15,7 @@ import com.smoftware.elmour.Utility;
 public class PopUp extends Window {
     private static final String TAG = PopUp.class.getSimpleName();
 
-    private enum State { HIDDEN, SHOWING, LISTENING }
+    private enum State {HIDDEN, SHOWING, LISTENING}
 
     String text;
     MyTextArea textArea;
@@ -37,7 +36,7 @@ public class PopUp extends Window {
         this.add(textArea);
     }
 
-    public void interact (){
+    public void interact() {
 
         Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
 
@@ -63,7 +62,9 @@ public class PopUp extends Window {
         //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
-    /** SRM - returns an array of strings **/
+    /**
+     * SRM - returns an array of strings
+     **/
     public Array<String> getLineStrings() {
         Array<String> strings = new Array<String>();
         String currString = new String();
@@ -101,14 +102,32 @@ public class PopUp extends Window {
         boolean addSpaceToPendingText = false;
         //int numLines = 0;
 
-        textArea.setText(text, true);
-        final Array<String> lines = textArea.getLineStrings();
-        textArea.setText("", true);
+        //textArea.setText("", true);
 
         Runnable r = new Runnable() {
             public void run() {
                 char currentChar = ' ';
                 String currentVisibleText = "";
+
+                textArea.setText(text, false);
+
+                // wait up to 5 sec to make sure lines are populated
+                
+                int numLines = textArea.getLines();
+                for (int q = 0; q < 100 && numLines == 0;q++) {
+                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    numLines = textArea.getLines();
+                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                }
+
+
+                final Array<String> lines = textArea.getLineStrings();
 
                 for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
                     String line = lines.get(lineIdx);
@@ -136,6 +155,7 @@ public class PopUp extends Window {
                             }
 
                             currentVisibleText = "";
+                            //textArea.setText(currentVisibleText, true);
                         }
 
                         if (i == line.length() - 1) {
@@ -150,6 +170,7 @@ public class PopUp extends Window {
                         }
                     }
                 }
+
 /*
                 for (int i = 0; i < text.length(); i++) {
 
@@ -158,7 +179,7 @@ public class PopUp extends Window {
                         addSpaceToPendingText = false;
                     }
 
-                    if (!isEndOfLine) {
+                    if (!isEndOfLine) {textArea.getLines()
                         currentChar = text.charAt(i);
                         pendingText += currentChar;
                         textArea.setText(pendingText);
