@@ -1,5 +1,6 @@
 package com.smoftware.elmour.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -403,6 +404,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 popUp.loadTextForInteraction(interaction);
                 break;
             case POPUP_INTERACT:
+                Gdx.app.log("tag", "POPUP_INTERACT");
                 //Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
                 popUp.interact();
                 break;

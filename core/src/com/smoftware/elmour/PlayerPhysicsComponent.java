@@ -30,6 +30,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
         //initBoundingBox(0.3f, 0f);
 
+        a_BtnStatus = Entity.A_ButtonAction.RELEASED;
+        b_BtnStatus = Entity.B_ButtonAction.RELEASED;
+
         //reduce width and height of bounding box for better feel of collisions
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
         initBoundingBox(0.4f, 0.4f);
@@ -68,15 +71,20 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
-                    // the POPUP_INTERACT notification should only be sent once
+                    // the POPUP_INTERACT notification should only be sent once per pressed/released cycle
+                    Gdx.app.log("tag", String.format("%s %s", a_BtnStatus.toString(), a_BtnState.toString()));
                     if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
                         interactionMsgReceived = true;
                         a_BtnState = Entity.ButtonState.IS_DOWN;
                         notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
+                        interactionMsgReceived = false;
                         a_BtnState = Entity.ButtonState.IS_UP;
                         notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
+                    }
+                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        a_BtnStatus = Entity.A_ButtonAction.RELEASED;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {

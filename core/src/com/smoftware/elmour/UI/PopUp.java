@@ -77,7 +77,7 @@ public class PopUp extends Window {
         textArea.setText(currentText, displayText);
     }
 
-    public void loadTextForInteraction(Entity.Interaction interaction) {
+    public void loadTextForInteraction(final Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         fullText = file.readString();
         Gdx.app.log(TAG, "file text = " + fullText);
@@ -87,6 +87,7 @@ public class PopUp extends Window {
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
+                // set full text so that the total number of lines can be figured out
                 setTextForUIThread(fullText, false);
 
                 // wait up to 5 sec to make sure lines are populated
@@ -106,6 +107,7 @@ public class PopUp extends Window {
 
                 final Array<String> lines = textArea.getLineStrings();
                 boolean delay = true;
+                boolean endedLineEarly = false;
 
                 // loop through lines
                 for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
@@ -118,8 +120,10 @@ public class PopUp extends Window {
                     for (int i = 0; i < line.length(); i++) {
 
                         if (interactReceived || delay == false) {
+                            Gdx.app.log("tag", "interactReceived");
                             interactReceived = false;
                             delay = false;
+                            endedLineEarly = true;
                             currentVisibleText = currentTextBeforeNextLine + line;
                             setTextForUIThread(currentVisibleText, true);
                             break;
@@ -138,6 +142,7 @@ public class PopUp extends Window {
                                 setTextForUIThread(currentVisibleText, true);
                             }
 
+                            // delay for each character
                             try {
                                 Thread.sleep(50);
                             } catch (InterruptedException e) {
@@ -156,6 +161,23 @@ public class PopUp extends Window {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
+                            }
+                        }
+
+                        if (currentVisibleText == "") {
+                            hide();
+                            break;
+                        }
+
+                        interactReceived = false;
+                        if (endedLineEarly) {
+                            endedLineEarly = false;
+                            while (!interactReceived && state == State.LISTENING) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
