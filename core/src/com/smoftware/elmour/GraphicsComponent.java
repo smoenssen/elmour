@@ -22,12 +22,14 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations;
     protected ShapeRenderer _shapeRenderer;
     protected Entity.Interaction currentInteraction;
+    protected Entity.Interaction previousInteraction;
 
     protected GraphicsComponent(){
         _currentPosition = new Vector2(0,0);
         currentState = Entity.State.WALKING;
         _currentDirection = Entity.Direction.DOWN;
         currentInteraction = Entity.Interaction.NONE;
+        previousInteraction = Entity.Interaction.NONE;
         json = new Json();
         animations = new Hashtable<>();
         _shapeRenderer = new ShapeRenderer();

@@ -19,6 +19,7 @@ public class PopUp extends Window {
 
 
     private String fullText;
+    private Array<String> lineStrings = null;
     private boolean displayText = true;
     private String currentText;
     private MyTextArea textArea;
@@ -70,7 +71,7 @@ public class PopUp extends Window {
         this.setVisible(false);
         state = State.HIDDEN;
 
-        //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
+        Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
     private void setTextForUIThread(String text, boolean displayText) {
@@ -87,6 +88,9 @@ public class PopUp extends Window {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         fullText = file.readString();
         Gdx.app.log(TAG, "file text = " + fullText);
+
+        if (lineStrings != null)
+            lineStrings.clear();
     }
 
     private void startInteractionThread() {
@@ -96,29 +100,35 @@ public class PopUp extends Window {
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
-                // set full text so that the total number of lines can be figured out
-                setTextForUIThread(fullText, false);
+                if (lineStrings == null) {
+                    // set full text so that the total number of lines can be figured out
+                    setTextForUIThread(fullText, false);
 
-                // wait up to 5 sec to make sure lines are populated
-                int numLines = textArea.getLines();
-                for (int q = 0; q < 100 && numLines == 0; q++) {
-                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    // wait up to 5 sec to make sure lines are populated
+                    int numLines = textArea.getLines();
+                    for (int q = 0; q < 100 && numLines == 0; q++) {
+                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        numLines = textArea.getLines();
+                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
                     }
 
-                    numLines = textArea.getLines();
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+
+                    lineStrings = textArea.getLineStrings();
+                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
                 }
 
-                final Array<String> lines = textArea.getLineStrings();
                 boolean delay = true;
 
                 // loop through lines
-                for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
-                    String line = lines.get(lineIdx);
+                for (int lineIdx = 0; lineIdx < lineStrings.size; lineIdx++) {
+                    String line = lineStrings.get(lineIdx);
                     int len = line.length();
                     Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
 
@@ -157,12 +167,13 @@ public class PopUp extends Window {
                     }
 
                     if (state == State.HIDDEN)
+                        // break out of loop and exit thread if we were hidden
                         break;
                     else
                         // go into listening mode
                         state = State.LISTENING;
 
-                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == lines.size - 1) {
+                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == lineStrings.size - 1) {
                         // done populating current box so need to pause for next interaction
                         while (!interactReceived && state == State.LISTENING) {
                             try {
@@ -172,7 +183,7 @@ public class PopUp extends Window {
                             }
                         }
 
-                        if (lineIdx == lines.size - 1) {
+                        if (lineIdx == lineStrings.size - 1) {
                             hide();
                             state = State.HIDDEN;
                             break;

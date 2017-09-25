@@ -43,8 +43,13 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             }
             else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
-                if (currentState != Entity.State.IDLE)
+                if (currentState != Entity.State.IDLE) {
                     notify("", ComponentObserver.ComponentEvent.POPUP_HIDE);
+
+                    //srm multiple signs todo
+                    receivedInteractionCollision = false;
+                    sentPopupInitializeMessage = false;
+                }
             }
             else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 _currentDirection = json.fromJson(Entity.Direction.class, string[1]);
@@ -74,6 +79,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                 currentInteraction = json.fromJson(Entity.Interaction.class, string[1]);
                 Gdx.app.log(TAG, "received INTERACTION_COLLISION");
                 if (currentInteraction != Entity.Interaction.NONE)
+                    //srm multiple signs todo check previous interaction
                     receivedInteractionCollision = true;
             }
         }
@@ -91,12 +97,18 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         }
 
         // make sure these notifications are only sent once
+        //srm multiple signs todo
         if (receivedInteractionCollision) {
+            Gdx.app.log(TAG, "received interactive collision");
+
             if (sentPopupInitializeMessage == false) {
+                Gdx.app.log(TAG, "sending POPUP_INITIALIZE");
                 notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.POPUP_INITITIALIZE);
                 sentPopupInitializeMessage = true;
                 sentHidePopupMessage = false;
             }
+
+            previousInteraction = currentInteraction;
         }
         else {
             if (sentHidePopupMessage == false ){
