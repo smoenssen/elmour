@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class NPCPhysicsComponent extends PhysicsComponent {

@@ -122,6 +122,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         batch.begin();
         if (_currentFrame != null && _currentPosition != null)
             batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
+        //Gdx.app.log(TAG, String.format("_currentPosition.x = %3.2f, _currentPosition.y = %3.2f", _currentPosition.x, _currentPosition.y));
         batch.end();
 
         //Used to graphically debug boundingboxes

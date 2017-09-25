@@ -24,7 +24,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean _isMouseSelectEnabled = false;
     private String _previousDiscovery;
     private String _previousEnemySpawn;
-    private boolean interactionMsgReceived = false;
+   // private boolean interactionMsgReceived = false;
+    private boolean isInteractButtonPressed = false;
+    private boolean isInteractionCollisionMsgSent = false;
+    private boolean isPopupInteractMsgSent = false;
+    private boolean isColliding = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -71,26 +75,31 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
-                    // the POPUP_INTERACT notification should only be sent once per pressed/released cycle
-                    Gdx.app.log("tag", String.format("%s %s", a_BtnStatus.toString(), a_BtnState.toString()));
-                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
-                        interactionMsgReceived = true;
-                        a_BtnState = Entity.ButtonState.IS_DOWN;
-                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
+                    // only send message once per button press
+                    if (!isPopupInteractMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        isInteractButtonPressed = true;
+
+                        // check for collision
+                        if (isColliding) {
+                            isPopupInteractMsgSent = true;
+                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
+                            //Gdx.app.log(TAG, "-------------------SENDING POPUP_INTERACT");
+                        }
+                        // collision detection is handled in update()
+                        // and this is where isInteractionCollisionMsgSent is set
                     }
-                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
-                        interactionMsgReceived = false;
-                        a_BtnState = Entity.ButtonState.IS_UP;
-                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
-                    }
-                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
-                        a_BtnStatus = Entity.A_ButtonAction.RELEASED;
+                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
+                       // Gdx.app.log(TAG, "-------------------BUTTON RELEASE FOR POPUP_INTERACT");
+                        // button released so reset variables
+                        isInteractButtonPressed = false;
+                        isPopupInteractMsgSent = false;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
                     b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
                 }
-                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
+
+                if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
 
                     // need to figure out direction based on joystick coordinates for purposes of image to display
@@ -103,10 +112,12 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     else if (_velocity.x != 0 && (currentJoystickPosition.angle() > 324 || currentJoystickPosition.angle() <= 36))
                         _currentDirection = Entity.Direction.RIGHT;
                     else {
+                        //todo: idle frame direction should be last direction of movement
                         _currentDirection = Entity.Direction.DOWN;
                         _state = Entity.State.IDLE;
                     }
 
+                    //Gdx.app.log(TAG, String.format(currentJoystickPosition.toString()));
                     //Gdx.app.log("tag", String.format(" Physics: State = %s, Direction = %s", _state.toString(), _currentDirection.toString()));
                 }
             }
@@ -126,7 +137,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                     // the POPUP_INTERACT notification should only be sent once
                     if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
-                        interactionMsgReceived = true;
+                        //interactionMsgReceived = true;
                         a_BtnState = Entity.ButtonState.IS_DOWN;
                         notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.POPUP_INTERACT);
                     }
@@ -161,15 +172,20 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             _isMouseSelectEnabled = false;
         }
 
-        if (interactionMsgReceived) {
-            interactionMsgReceived = false;
-            Gdx.app.log(TAG, "interactionMsgReceived");
+        if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
+            // send message only once per button press
             MapObject object = checkCollisionWithInteractionLayer(mapMgr);
             if (object != null) {
+                Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+                isInteractionCollisionMsgSent = true;
+                isColliding = true;
             }
             else {
-                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
+                isColliding = false;
+                Gdx.app.log(TAG, "update");
+                //Gdx.app.log(TAG, "sending INTERACTION_COLLISION NONE");
+                //entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
             }
         }
 

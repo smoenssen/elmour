@@ -54,11 +54,9 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			//}
 			//else {
 				if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
-					Gdx.app.log(TAG, "A_BUTTON_PRESSED");
 					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
 				}
 				else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {
-					Gdx.app.log(TAG, "A_BUTTON_RELEASED");
 					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
 				}
 				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
@@ -67,7 +65,8 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
 					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
 				}
-				else if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
+
+				if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
 					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
 				}
 				else {
@@ -343,6 +342,7 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 
 	@Override
 	public void onMobileControlsNotify(Object data, MobileControlEvent event) {
+		//Gdx.app.log(TAG, "onMobileControlsNotify " + event.toString());
 		if (event == MobileControlEvent.A_BUTTON_PRESSED) {
 			Gdx.app.log("tag", "A pressed");
 			this.a_Pressed();

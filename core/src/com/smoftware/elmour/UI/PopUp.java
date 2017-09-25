@@ -22,7 +22,6 @@ public class PopUp extends Window {
     private boolean displayText = true;
     private String currentText;
     private MyTextArea textArea;
-    private IntArray lineBreaks;
     private State state = State.HIDDEN;
     private boolean interactReceived = false;
 
@@ -46,11 +45,18 @@ public class PopUp extends Window {
 
         switch (state) {
             case HIDDEN:
-                this.setVisible(true);
-                state = State.SHOWING;
+                if (fullText != "") {
+                    this.setVisible(true);
+                    state = State.SHOWING;
+                    startInteractionThread();
+                }
+                else {
+                    Gdx.app.log(TAG, "ERROR: popup text not initialized!");
+                }
                 break;
             case SHOWING:
                 state = State.LISTENING;
+                interactReceived = true;
                 break;
             case LISTENING:
                 interactReceived = true;
@@ -77,13 +83,16 @@ public class PopUp extends Window {
         textArea.setText(currentText, displayText);
     }
 
-    public void loadTextForInteraction(final Entity.Interaction interaction) {
+    public void setTextForInteraction(final Entity.Interaction interaction) {
         FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
         fullText = file.readString();
         Gdx.app.log(TAG, "file text = " + fullText);
+    }
 
+    private void startInteractionThread() {
         Runnable r = new Runnable() {
             public void run() {
+                Gdx.app.log(TAG, "Starting InteractionThread...");
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
@@ -104,10 +113,8 @@ public class PopUp extends Window {
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
                 }
 
-
                 final Array<String> lines = textArea.getLineStrings();
                 boolean delay = true;
-                boolean endedLineEarly = false;
 
                 // loop through lines
                 for (int lineIdx = 0; lineIdx < lines.size; lineIdx++) {
@@ -120,21 +127,19 @@ public class PopUp extends Window {
                     for (int i = 0; i < line.length(); i++) {
 
                         if (interactReceived || delay == false) {
-                            Gdx.app.log("tag", "interactReceived");
+                            Gdx.app.log(TAG, "interactReceived || delay == false");
                             interactReceived = false;
                             delay = false;
-                            endedLineEarly = true;
                             currentVisibleText = currentTextBeforeNextLine + line;
                             setTextForUIThread(currentVisibleText, true);
                             break;
-                        } else {
+                        }
+                        else {
                             currentChar = line.charAt(i);
                             //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
 
-                            //if (currentChar != '\n') {
                             currentVisibleText += currentChar;
                             setTextForUIThread(currentVisibleText, true);
-                            //}
 
                             // add EOL char to text so that pending text isn't displayed as chars are added
                             if (i == line.length() - 1) {
@@ -153,8 +158,11 @@ public class PopUp extends Window {
 
                     if (state == State.HIDDEN)
                         break;
+                    else
+                        // go into listening mode
+                        state = State.LISTENING;
 
-                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || /*currentChar == '\n' ||*/ lineIdx == lines.size) {
+                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == lines.size - 1) {
                         // done populating current box so need to pause for next interaction
                         while (!interactReceived && state == State.LISTENING) {
                             try {
@@ -164,23 +172,13 @@ public class PopUp extends Window {
                             }
                         }
 
-                        if (currentVisibleText == "") {
+                        if (lineIdx == lines.size - 1) {
                             hide();
+                            state = State.HIDDEN;
                             break;
                         }
 
-                        interactReceived = false;
-                        if (endedLineEarly) {
-                            endedLineEarly = false;
-                            while (!interactReceived && state == State.LISTENING) {
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
+                        // reset for next iteration
                         interactReceived = false;
                         delay = true;
 
@@ -191,6 +189,12 @@ public class PopUp extends Window {
                         setTextForUIThread(currentVisibleText, true);
                     }
                 }
+
+                // total reset
+                currentText = "";
+                displayText = false;
+                interactReceived = false;
+                Gdx.app.log(TAG, "Exiting InteractionThread");
             }
         };
 

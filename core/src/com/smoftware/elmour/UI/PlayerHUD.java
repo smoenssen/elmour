@@ -401,11 +401,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 break;
             case POPUP_INITITIALIZE:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
-                popUp.loadTextForInteraction(interaction);
+                popUp.setTextForInteraction(interaction);
                 break;
             case POPUP_INTERACT:
-                Gdx.app.log("tag", "POPUP_INTERACT");
-                //Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
                 popUp.interact();
                 break;
             case POPUP_HIDE:
