@@ -1,6 +1,5 @@
 package com.smoftware.elmour.UI;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
@@ -53,7 +52,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     private BattleUI _battleUI;
-    private PopUp popUp;
+    private SignPopUp popUp;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -142,7 +141,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _battleUI.clearListeners();
         _battleUI.setVisible(false);
 
-        popUp = new PopUp();
+        popUp = new SignPopUp();
         if (ElmourGame.isAndroid()) {
             popUp.setWidth(_stage.getWidth() / 1.1f);
             popUp.setHeight(_stage.getHeight() / 3.1f);
@@ -399,14 +398,14 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _conversationUI.setVisible(false);
                 }
                 break;
-            case POPUP_INITITIALIZE:
+            case SIGN_POPUP_INITITIALIZE:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
                 popUp.setTextForInteraction(interaction);
                 break;
-            case POPUP_INTERACT:
+            case SIGN_POPUP_INTERACT:
                 popUp.interact();
                 break;
-            case POPUP_HIDE:
+            case SIGN_POPUP_HIDE:
                 popUp.hide();
                 break;
             case QUEST_LOCATION_DISCOVERED:
@@ -595,7 +594,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.position.x = shakeCoords.x + _stage.getWidth()/2;
             _camera.position.y = shakeCoords.y + _stage.getHeight()/2;
         }
-        popUp.update();
+
+        //if (popUp.isReady())
+            popUp.update();
+
         _stage.act(delta);
         _stage.draw();
     }
