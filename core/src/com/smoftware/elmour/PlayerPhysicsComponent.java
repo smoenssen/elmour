@@ -27,8 +27,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
    // private boolean interactionMsgReceived = false;
     private boolean isInteractButtonPressed = false;
     private boolean isInteractionCollisionMsgSent = false;
-    private boolean isPopupInteractMsgSent = false;
-    private boolean isSignColliding = false;
+    private boolean isDidInteractiontMsgSent = false;
+    private boolean isInteractionColliding = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -76,23 +76,23 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
                     // only send message once per button press
-                    if (!isPopupInteractMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                    if (!isDidInteractiontMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
                         isInteractButtonPressed = true;
 
                         // check for collision
-                        if (isSignColliding) {
-                            isPopupInteractMsgSent = true;
-                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SIGN_POPUP_INTERACT);
-                            Gdx.app.log(TAG, "-------------------SENDING SIGN_POPUP_INTERACT");
+                        if (isInteractionColliding) {
+                            isDidInteractiontMsgSent = true;
+                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.DID_INTERACTION);
+                            Gdx.app.log(TAG, "sending DID_INTERACTION");
                         }
                         // collision detection is handled in update()
                         // and this is where isInteractionCollisionMsgSent is set
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
-                       // Gdx.app.log(TAG, "-------------------BUTTON RELEASE FOR SIGN_POPUP_INTERACT");
+                       // Gdx.app.log(TAG, "BUTTON RELEASE FOR DID_INTERACTION");
                         // button released so reset variables
                         isInteractButtonPressed = false;
-                        isPopupInteractMsgSent = false;
+                        isDidInteractiontMsgSent = false;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
@@ -135,15 +135,24 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
-                    // the SIGN_POPUP_INTERACT notification should only be sent once
-                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED && a_BtnState == Entity.ButtonState.IS_UP) {
-                        //interactionMsgReceived = true;
-                        a_BtnState = Entity.ButtonState.IS_DOWN;
-                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SIGN_POPUP_INTERACT);
+                    // only send message once per button press
+                    if (!isDidInteractiontMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        isInteractButtonPressed = true;
+
+                        // check for collision
+                        if (isInteractionColliding) {
+                            isDidInteractiontMsgSent = true;
+                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.DID_INTERACTION);
+                            Gdx.app.log(TAG, "sending DID_INTERACTION");
+                        }
+                        // collision detection is handled in update()
+                        // and this is where isInteractionCollisionMsgSent is set
                     }
-                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED && a_BtnState == Entity.ButtonState.IS_DOWN) {
-                        a_BtnState = Entity.ButtonState.IS_UP;
-                        notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SIGN_POPUP_INTERACT);
+                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
+                        // Gdx.app.log(TAG, "BUTTON RELEASE FOR DID_INTERACTION");
+                        // button released so reset variables
+                        isInteractButtonPressed = false;
+                        isDidInteractiontMsgSent = false;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
@@ -179,20 +188,19 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
                 isInteractionCollisionMsgSent = true;
-                isSignColliding = true;
-                Gdx.app.log(TAG, "-------------------SETTING TRUE");
+                isInteractionColliding = true;
             }
             else {
-                isSignColliding = false;
+                isInteractionColliding = false;
                 Gdx.app.log(TAG, "update");
                 //Gdx.app.log(TAG, "sending INTERACTION_COLLISION NONE");
                 //entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
             }
         }
-        else if (isSignColliding) {
+        else if (isInteractionColliding) {
             // send message once no longer colliding
             if (checkCollisionWithInteractionLayer(mapMgr) == null) {
-                isSignColliding = false;
+                isInteractionColliding = false;
                 isInteractionCollisionMsgSent = false;
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
             }

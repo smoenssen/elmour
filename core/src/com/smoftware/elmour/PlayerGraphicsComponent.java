@@ -71,9 +71,9 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
             if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
                 currentInteraction = json.fromJson(Entity.Interaction.class, string[1]);
-                Gdx.app.log(TAG, "received INTERACTION_COLLISION");
+                Gdx.app.log(TAG, "received INTERACTION_COLLISION " + currentInteraction.toString());
                 if (currentInteraction != Entity.Interaction.NONE) {
-                    //srm multiple signs todo check previous interaction
+                    //srm multiple signs todo check previous interaction?
                     receivedInteractionCollision = true;
                 }
                 else {
@@ -97,13 +97,16 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         }
 
         // make sure these notifications are only sent once
-        //srm multiple signs todo
+        //srm multiple interactions todo
         if (receivedInteractionCollision) {
             //Gdx.app.log(TAG, "received interactive collision");
 
             if (sentPopupInitializeMessage == false) {
-                Gdx.app.log(TAG, "sending POPUP_INITIALIZE");
-                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.SIGN_POPUP_INITITIALIZE);
+                //this message is only sent the first time the interaction button is pressed.
+                //subsequent button presses (and actually including the first press) will send DID_INTERACTION.
+                //this is used in case any initialization has to be done just the first time.
+                Gdx.app.log(TAG, "sending DID_INITIAL_INTERACTION");
+                notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.DID_INITIAL_INTERACTION);
                 sentPopupInitializeMessage = true;
                 sentHidePopupMessage = false;
             }
@@ -112,7 +115,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         }
         else {
             if (sentHidePopupMessage == false ){
-                notify("", ComponentObserver.ComponentEvent.SIGN_POPUP_HIDE);
+                notify("", ComponentObserver.ComponentEvent.FINISHED_INTERACTION);
                 sentHidePopupMessage = true;
                 sentPopupInitializeMessage = false;
             }

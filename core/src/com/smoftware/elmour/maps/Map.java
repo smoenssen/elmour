@@ -36,6 +36,7 @@ public abstract class Map implements AudioSubject{
     protected final static String ENEMY_SPAWN_LAYER = "MAP_ENEMY_SPAWN_LAYER";
     protected final static String PARTICLE_EFFECT_SPAWN_LAYER = "PARTICLE_EFFECT_SPAWN_LAYER";
     protected final static String INTERACTION_LAYER = "INTERACTION";
+    protected final static String ZERO_OPACITY_LAYER = "0_OPACITY";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -68,6 +69,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer _enemySpawnLayer = null;
     protected MapLayer _particleEffectSpawnLayer = null;
     protected MapLayer interactionLayer = null;
+    protected MapLayer zeroOpacityLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -165,6 +167,11 @@ public abstract class Map implements AudioSubject{
         interactionLayer = _currentMap.getLayers().get(INTERACTION_LAYER);
         if( interactionLayer == null ){
             Gdx.app.debug(TAG, "No interaction layer!");
+        }
+
+        zeroOpacityLayer = _currentMap.getLayers().get(ZERO_OPACITY_LAYER);
+        if( zeroOpacityLayer == null ){
+            Gdx.app.debug(TAG, "No 0 opacity layer!");
         }
 
         _npcStartPositions = getNPCStartPositions();

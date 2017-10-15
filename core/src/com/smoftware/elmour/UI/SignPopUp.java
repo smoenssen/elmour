@@ -36,15 +36,8 @@ public class SignPopUp extends Window {
         //Notes:
         //font is set in the Utility class
         //popup is created in PlayerHUD class
+        //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "default");
-        /*textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
-        textArea.layout();
-
-        //layout
-        this.add();
-        this.defaults().expand().fill();
-        this.add(textArea);
-        */
 
         signPostArray = new Array<>();
         currentSignPost = new SignPost();
@@ -56,7 +49,7 @@ public class SignPopUp extends Window {
 
     public void interact() {
 
-        Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
+        //Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
 
         switch (state) {
             case HIDDEN:
@@ -66,22 +59,23 @@ public class SignPopUp extends Window {
                     state = State.LISTENING;
                     startInteractionThread();
                 }
-                else {
-                    Gdx.app.log(TAG, "ERROR: popup text not initialized!");
-                }
                 break;
             case LISTENING:
                 interactReceived = true;
                 break;
         }
 
-        Gdx.app.log(TAG, "popup interact new state = " + state.toString());
+        //Gdx.app.log(TAG, "popup interact new state = " + state.toString());
     }
 
     public void hide() {
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
         textArea.layout();
+        fullText = "";
+
+        // set isReady to false so that full text doesn't flash on popup at first
+        isReady = false;
 
         //layout
         this.add();
@@ -90,7 +84,7 @@ public class SignPopUp extends Window {
         this.setVisible(false);
         state = State.HIDDEN;
 
-        Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
+        //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
     }
 
     private void setTextForUIThread(String text, boolean displayText) {

@@ -263,6 +263,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
     }
 
+    private boolean isSignPostInteraction(Entity.Interaction interaction) {
+        return (interaction == Entity.Interaction.M1SIGN1 || interaction == Entity.Interaction.M1SIGN2);
+    }
+
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         switch(event){
@@ -398,14 +402,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _conversationUI.setVisible(false);
                 }
                 break;
-            case SIGN_POPUP_INITITIALIZE:
+            case DID_INITIAL_INTERACTION:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
-                popUp.setTextForInteraction(interaction);
+                if (isSignPostInteraction(interaction))
+                    popUp.setTextForInteraction(interaction);
                 break;
-            case SIGN_POPUP_INTERACT:
+            case DID_INTERACTION:
                 popUp.interact();
                 break;
-            case SIGN_POPUP_HIDE:
+            case FINISHED_INTERACTION:
                 popUp.hide();
                 break;
             case QUEST_LOCATION_DISCOVERED:
@@ -595,7 +600,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.position.y = shakeCoords.y + _stage.getHeight()/2;
         }
 
-        //if (popUp.isReady())
+        if (popUp.isReady())
             popUp.update();
 
         _stage.act(delta);

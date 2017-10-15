@@ -82,6 +82,10 @@ public class Entity {
 			@Override
 			public String toString() { return "M1SIGN2"; }
 		},
+		M2SWITCH {
+			@Override
+			public String toString() { return "M2SWITCH"; }
+		},
 		NONE {
 			@Override
 			public String toString() { return "NONE"; }
