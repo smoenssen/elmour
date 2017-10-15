@@ -1,11 +1,11 @@
 package com.smoftware.elmour.maps;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.PlayerPhysicsComponent;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -15,16 +15,18 @@ import com.smoftware.elmour.profile.ProfileManager;
 
 public class Map2 extends Map {
 
-    private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
+    private static final String TAG = Map2.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Map_2.tmx";
     private Json json;
+    private Entity.Interaction interaction;
+    private boolean switchEnabled;
 
     Map2(){
         super(MapFactory.MapType.MAP2, mapPath);
-
         json = new Json();
-
+        interaction = Entity.Interaction.NONE;
+        switchEnabled = false; //todo: get this from profile
     }
 
     @Override
@@ -36,6 +38,23 @@ public class Map2 extends Map {
     public void loadMusic() {
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
+    }
+
+    @Override
+    public void handleInteractionInit(Entity.Interaction interaction) {
+        this.interaction = interaction;
+    }
+
+    @Override
+    public void handleInteraction() {
+        if (interaction == Entity.Interaction.M2SWITCH) {
+            toggleSwitch();
+        }
+    }
+
+    @Override
+    public void handleInteractionFinished() {
+        interaction = Entity.Interaction.NONE;
     }
 
     private void initSpecialEntityPosition(Entity entity){
@@ -50,6 +69,24 @@ public class Map2 extends Map {
         EntityConfig entityConfig = ProfileManager.getInstance().getProperty(entity.getEntityConfig().getEntityID(), EntityConfig.class);
         if( entityConfig != null ){
             entity.setEntityConfig(entityConfig);
+        }
+    }
+
+    public MapLayer getZeroOpacityLayer() {
+        if (switchEnabled)
+            return null;
+        else
+            return zeroOpacityLayer;
+    }
+
+    private void toggleSwitch() {
+        if (switchEnabled) {
+            switchEnabled = false;
+            _currentMap.getLayers().get("Switch Press").setVisible((true));
+        }
+        else {
+            switchEnabled = true;
+            _currentMap.getLayers().get("Switch Press").setVisible((false));
         }
     }
 }

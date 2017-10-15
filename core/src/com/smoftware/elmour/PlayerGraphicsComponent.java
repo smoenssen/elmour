@@ -104,7 +104,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             if (sentPopupInitializeMessage == false) {
                 //this message is only sent the first time the interaction button is pressed.
                 //subsequent button presses (and actually including the first press) will send DID_INTERACTION.
-                //this is used in case any initialization has to be done just the first time.
+                //this is used for any initialization that has to be done just the first time, like setting the interaction type.
                 Gdx.app.log(TAG, "sending DID_INITIAL_INTERACTION");
                 notify(json.toJson(currentInteraction.toString()), ComponentObserver.ComponentEvent.DID_INITIAL_INTERACTION);
                 sentPopupInitializeMessage = true;

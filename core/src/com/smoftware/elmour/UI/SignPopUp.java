@@ -118,7 +118,7 @@ public class SignPopUp extends Window {
 
         if (!loaded) {
             currentSignPost.name = interaction.toString();
-            FileHandle file = Gdx.files.internal("RPGGame/text/" + interaction.toString() + ".txt");
+            FileHandle file = Gdx.files.internal("RPGGame/maps/Game/Text/Signs/" + interaction.toString() + ".txt");
             fullText = file.readString();
             Gdx.app.log(TAG, "file text = " + fullText);
         }

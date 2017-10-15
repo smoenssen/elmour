@@ -379,7 +379,7 @@
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
   <object id="124" name="PLAYER_START" x="6" y="560" width="16" height="16"/>
-  <object id="128" name="PLAYER_START" x="542" y="146" width="16" height="16"/>
+  <object id="128" name="PLAYER_START" x="618" y="128" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="97" name="MAP3" x="639" y="87" width="1" height="91"/>

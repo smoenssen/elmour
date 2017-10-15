@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.Entity;
@@ -15,7 +16,7 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.sfx.ClockActor;
 
-public class MapManager implements ProfileObserver {
+public class MapManager implements ProfileObserver, ComponentObserver {
     private static final String TAG = MapManager.class.getSimpleName();
 
     private Camera _camera;
@@ -29,8 +30,10 @@ public class MapManager implements ProfileObserver {
     private float _currentLightMapOpacity = 0;
     private float _previousLightMapOpacity = 1;
     private boolean _timeOfDayChanged = false;
+    private Json json;
 
     public MapManager(){
+        json = new Json();
     }
 
     @Override
@@ -141,6 +144,8 @@ public class MapManager implements ProfileObserver {
                 questEntity.registerObserver(observer);
             }
         }
+
+        _player.registerObserver(this);
     }
 
 
@@ -158,6 +163,10 @@ public class MapManager implements ProfileObserver {
 
     public MapLayer getCollisionLayer(){
         return _currentMap.getCollisionLayer();
+    }
+
+    public MapLayer getZeroOpacityLayer(){
+        return _currentMap.getZeroOpacityLayer();
     }
 
     public MapLayer getInteractionLayer(){
@@ -328,5 +337,20 @@ public class MapManager implements ProfileObserver {
 
     public void setMapChanged(boolean hasMapChanged){
         this._mapChanged = hasMapChanged;
+    }
+
+    @Override
+    public void onNotify(String value, ComponentEvent event) {
+        switch(event) {
+            case DID_INITIAL_INTERACTION:
+                _currentMap.handleInteractionInit(json.fromJson(Entity.Interaction.class, value));
+                break;
+            case DID_INTERACTION:
+                _currentMap.handleInteraction();
+                break;
+            case FINISHED_INTERACTION:
+                _currentMap.handleInteractionFinished();
+                break;
+        }
     }
 }

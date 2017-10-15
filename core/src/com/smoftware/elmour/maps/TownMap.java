@@ -124,6 +124,21 @@ public class TownMap extends Map{
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
     }
 
+    @Override
+    public void handleInteractionInit(Entity.Interaction interaction) {
+
+    }
+
+    @Override
+    public void handleInteraction() {
+
+    }
+
+    @Override
+    public void handleInteractionFinished() {
+
+    }
+
     private void initSpecialEntityPosition(Entity entity){
         Vector2 position = new Vector2(0,0);
 

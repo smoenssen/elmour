@@ -74,6 +74,18 @@ public class Entity {
 	}
 
 	public static enum Interaction {
+		ARMORY {
+			@Override
+			public String toString() { return "ARMORY"; }
+		},
+		GTDOOR {
+			@Override
+			public String toString() { return "GTDOOR"; }
+		},
+		INN {
+			@Override
+			public String toString() { return "INN"; }
+		},
 		M1SIGN1 {
 			@Override
 			public String toString() { return "M1SIGN1"; }
@@ -81,6 +93,42 @@ public class Entity {
 		M1SIGN2 {
 			@Override
 			public String toString() { return "M1SIGN2"; }
+		},
+		M3SIGN1 {
+			@Override
+			public String toString() { return "M3SIGN1"; }
+		},
+		M3DOOR1 {
+			@Override
+			public String toString() { return "M3DOOR1"; }
+		},
+		M4DOOR1 {
+			@Override
+			public String toString() { return "M4DOOR1"; }
+		},
+		M4SIGN1 {
+			@Override
+			public String toString() { return "M4SIGN1"; }
+		},
+		M5SIGN1 {
+			@Override
+			public String toString() { return "M5SIGN1"; }
+		},
+		T2DOOR1 {
+			@Override
+			public String toString() { return "T2DOOR1"; }
+		},
+		T2DOOR2 {
+			@Override
+			public String toString() { return "T2DOOR2"; }
+		},
+		T2DOOR3 {
+			@Override
+			public String toString() { return "T2DOOR3"; }
+		},
+		T2SIGN1 {
+			@Override
+			public String toString() { return "T2SIGN1"; }
 		},
 		M2SWITCH {
 			@Override

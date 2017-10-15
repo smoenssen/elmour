@@ -1,11 +1,11 @@
-1. Obstacle
-2. To next map
-3. To previous map
-4. Interaction
-5. Water
-6. Bridge
-7. Underbridge
-8. Waterfall
-9. 0 Opacity
+1. COLLISION_LAYER
+2. SPAWNS_LAYER
+3. PORTAL_LAYER
+4. INTERACTION
+5. WATER_OBSTACLE
+6. BRIDGE_OBSTACLE
+7. UNDERBRIDGE_OBSTACLE
+8. WATERFALL_OBSTACLE
+9. 0_OPACITY
 10. Player
 11. Nothing

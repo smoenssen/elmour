@@ -2,6 +2,7 @@ package com.smoftware.elmour.maps;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
@@ -30,5 +31,20 @@ public class TopWorldMap extends Map{
     public void loadMusic() {
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TOPWORLD);
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOPWORLD);
+    }
+
+    @Override
+    public void handleInteractionInit(Entity.Interaction interaction) {
+
+    }
+
+    @Override
+    public void handleInteraction() {
+
+    }
+
+    @Override
+    public void handleInteractionFinished() {
+
     }
 }

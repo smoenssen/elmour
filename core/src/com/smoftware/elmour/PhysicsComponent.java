@@ -114,6 +114,24 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             }
         }
 
+        // need to also check 0_OPACITY_LAYER if it is present or active
+        MapLayer mapZeroOpacityLayer = mapMgr.getZeroOpacityLayer();
+
+        if( mapZeroOpacityLayer == null ){
+            return false;
+        }
+
+        for( MapObject object: mapZeroOpacityLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( _boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 

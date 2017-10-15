@@ -264,7 +264,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     private boolean isSignPostInteraction(Entity.Interaction interaction) {
-        return (interaction == Entity.Interaction.M1SIGN1 || interaction == Entity.Interaction.M1SIGN2);
+        String signName = interaction.toString();
+        return (signName.contains("SIGN"));
     }
 
     @Override

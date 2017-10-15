@@ -315,6 +315,8 @@ public abstract class Map implements AudioSubject{
         return interactionLayer;
     }
 
+    public MapLayer getZeroOpacityLayer() { return zeroOpacityLayer; }
+
     public MapLayer getPortalLayer(){
         return _portalLayer;
     }
@@ -437,6 +439,10 @@ public abstract class Map implements AudioSubject{
 
     abstract public void unloadMusic();
     abstract public void loadMusic();
+
+    abstract public void handleInteractionInit(Entity.Interaction interaction);
+    abstract public void handleInteraction();
+    abstract public void handleInteractionFinished();
 
     @Override
     public void addObserver(AudioObserver audioObserver) {

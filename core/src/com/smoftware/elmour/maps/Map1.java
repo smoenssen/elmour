@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.PlayerPhysicsComponent;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -14,7 +13,7 @@ import com.smoftware.elmour.profile.ProfileManager;
  */
 
 public class Map1 extends Map {
-    private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
+    private static final String TAG = Map1.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Map_1.tmx";
     private Json json;
@@ -35,6 +34,21 @@ public class Map1 extends Map {
     public void loadMusic() {
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
+    }
+
+    @Override
+    public void handleInteractionInit(Entity.Interaction interaction) {
+
+    }
+
+    @Override
+    public void handleInteraction() {
+
+    }
+
+    @Override
+    public void handleInteractionFinished() {
+
     }
 
     private void initSpecialEntityPosition(Entity entity){
