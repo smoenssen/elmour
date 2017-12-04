@@ -31,33 +31,34 @@ public class ConversationUI extends Window {
     private Json _json;
 
     public ConversationUI() {
-        super("dialog", Utility.STATUSUI_SKIN, "solidbackground");
+        //super("dialog", Utility.STATUSUI_SKIN, "solidbackground");
+        super("", Utility.ELMOUR_UI_SKIN, "default");
 
         _json = new Json();
         _graph = new ConversationGraph();
 
         //create
-        _dialogText = new Label("No Conversation", Utility.STATUSUI_SKIN);
+        _dialogText = new Label("No Conversation", Utility.ELMOUR_UI_SKIN);
         _dialogText.setWrap(true);
         _dialogText.setAlignment(Align.center);
-        _listItems = new List<ConversationChoice>(Utility.STATUSUI_SKIN);
+        _listItems = new List<ConversationChoice>(Utility.ELMOUR_UI_SKIN);
 
-        _closeButton = new TextButton("X", Utility.STATUSUI_SKIN);
+        _closeButton = new TextButton("X", Utility.ELMOUR_UI_SKIN);
 
-        ScrollPane scrollPane = new ScrollPane(_listItems, Utility.STATUSUI_SKIN, "inventoryPane");
+        ScrollPane scrollPane = new ScrollPane(_listItems, Utility.ELMOUR_UI_SKIN, "inventoryPane");
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setForceScroll(true, false);
-        scrollPane.setScrollBarPositions(false, true);
+        scrollPane.setForceScroll(false, false);
+        scrollPane.setScrollBarPositions(true, true);
 
         //layout
-        this.add();
-        this.add(_closeButton);
+        //this.add();
+        //this.add(_closeButton);
         this.row();
 
         this.defaults().expand().fill();
-        this.add(_dialogText).pad(10, 10, 10, 10);
+        this.add(_dialogText);//.pad(5, 5, 5, 5);
         this.row();
         this.add(scrollPane).pad(10,10,10,10);
 
@@ -97,7 +98,7 @@ public class ConversationUI extends Window {
         }
 
         _currentEntityID = entityConfig.getEntityID();
-        this.getTitleLabel().setText(entityConfig.getEntityID());
+        //this.getTitleLabel().setText(entityConfig.getEntityID());
 
         ConversationGraph graph = _json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
         setConversationGraph(graph);

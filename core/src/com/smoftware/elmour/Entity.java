@@ -48,6 +48,7 @@ public class Entity {
 		IDLE,
 		WALKING,
 		RUNNING,
+		IN_WATER,
 		IMMOBILE;//This should always be last
 
 		static public State getRandomNext() {

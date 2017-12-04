@@ -9,6 +9,7 @@ import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,6 +18,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.XmlReader;
+
+import java.io.IOException;
+import java.util.Iterator;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -40,11 +45,13 @@ public final class Utility {
 	public static void initializeElmourUISkin() {
 		//NOTE!!! if elmour_ui.json is generated again, then need to replace instances of default-font with myFont:
 		//	font: myFont
-		//Need to initialize skin before using it because of customized TT nyFont that is used in .json
+		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+		// LARGE TEXT
 		if (Gdx.app.getType() == Application.ApplicationType.Android)
 			parameter.size = 18;
 		else
@@ -55,9 +62,23 @@ public final class Utility {
 		parameter.shadowOffsetX = 2;
 		parameter.shadowOffsetY = 2;
 		BitmapFont fontSign = generator.generateFont(parameter);
+
+		// SMALL TEXT
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 13;
+		}
+		else
+			parameter.size = 18;
+
+		BitmapFont fontSmall = generator.generateFont(parameter);
+
+
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontSmall", fontSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
 	}
@@ -231,5 +252,121 @@ public final class Utility {
 		return texture;
 	}
 
+	public static void parseConversationXMLFiles() {
+		FileHandle outFile = Gdx.files.local("conversations/testing.json");
 
+		String fullFilenamePath = "conversations/testing.graphml";
+
+		XmlReader xml = new XmlReader();
+		XmlReader.Element xml_element = null;
+		try {
+			xml_element = xml.parse(Gdx.files.internal(fullFilenamePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		XmlReader.Element graph = xml_element.getChildByName("graph");
+
+		outFile.writeString("{", true);
+
+		// process nodes (conversations)
+		outFile.writeString("conversations: {\n", true);
+
+		// id
+		String id;
+		String dialog = "";
+
+		Iterator iterator_node = graph.getChildrenByName("node").iterator();
+		while(iterator_node.hasNext()){
+			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
+			id = node_element.getAttribute("id");
+			Gdx.app.log("tag", "node = " + id);
+
+			// data
+			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
+			while(iterator_data.hasNext()) {
+				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
+				String key = data_element.getAttribute("key");
+
+				if (key.equals("d6")) {
+					// dialog
+					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
+					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
+					dialog = label.getText();
+					Gdx.app.log("tag", "text = " + dialog);
+					break;
+				}
+			}
+
+			/*
+			1: {
+				id: 1
+				dialog: I'm pretty famous around here. Name's Madam Miranda. Let's just say I have a gift.
+			}
+			*/
+
+
+			outFile.writeString(String.format("	%s: {\n", id), true);
+			outFile.writeString(String.format("		id: %s\n", id), true);
+			outFile.writeString(String.format("		dialog: %s\n", dialog), true);
+			outFile.writeString("	}\n", true);
+		}
+
+		outFile.writeString("}\n", true);
+
+		// process edges (associatedChoices)
+		outFile.writeString("associatedChoices: {\n", true);
+
+		String source;
+		String target;
+		String choicePhrase = "";
+		Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+		while(iterator_edge.hasNext()){
+			XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+			id = edge_element.getAttribute("id");
+			source = edge_element.getAttribute("source");
+			target = edge_element.getAttribute("target");
+
+			// data
+			Iterator iterator_data = edge_element.getChildrenByName("data").iterator();
+			while(iterator_data.hasNext()) {
+				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
+				String key = data_element.getAttribute("key");
+
+				if (key.equals("d10")) {
+					// choicePhrase
+					XmlReader.Element polyLineEdge = data_element.getChildByName("y:PolyLineEdge");
+					XmlReader.Element label = polyLineEdge.getChildByName("y:EdgeLabel");
+					choicePhrase = label.getText();
+					break;
+				}
+			}
+
+			/*
+			1: [
+                {
+                        class: com.smoftware.elmour.dialog.ConversationChoice
+                        sourceId: 1
+                        destinationId: 2
+                        choicePhrase: Next
+						conversationCommandEvent: NONE
+                }
+        	]
+			*/
+
+			outFile.writeString(String.format("	%d: [\n", id), true);
+			outFile.writeString("	{\n", true);
+			outFile.writeString("		class: com.smoftware.elmour.dialog.ConversationChoice\n", true);
+			outFile.writeString(String.format("		sourceId: %s\n", source), true);
+			outFile.writeString(String.format("		destinationId: %s\n", target), true);
+			outFile.writeString(String.format("		choicePhrase: %s\n", choicePhrase), true);
+			outFile.writeString(String.format("		conversationCommandEvent: %s\n", "NONE"), true);
+			outFile.writeString("	}\n", true);
+			outFile.writeString("	]\n", true);
+		}
+
+		outFile.writeString("}\n", true);
+		outFile.writeString("currentConversationID: n0\n", true);
+		outFile.writeString("}\n", true);
+	}
 }

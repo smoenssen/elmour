@@ -1,0 +1,59 @@
+{
+	conversations: {
+	n0: {
+		id: n0
+		dialog: Welcome. how can I help you?
+	}
+	n1: {
+		id: n1
+		dialog: Go North
+	}
+	n2: {
+		id: n2
+		dialog: OK
+	}
+	n3: {
+		id: n3
+		dialog: I'm sorry. I have none
+	}
+}
+associatedChoices: {
+	n0: [
+	{
+		class: com.smoftware.elmour.dialog.ConversationChoice
+		sourceId: n0
+		destinationId: n1
+		choicePhrase: I need directions
+		conversationCommandEvent: NONE
+	}
+	]
+	n1: [
+	{
+		class: com.smoftware.elmour.dialog.ConversationChoice
+		sourceId: n0
+		destinationId: n3
+		choicePhrase: Give me money
+		conversationCommandEvent: NONE
+	}
+	]
+	n2: [
+	{
+		class: com.smoftware.elmour.dialog.ConversationChoice
+		sourceId: n1
+		destinationId: n2
+		choicePhrase: OK
+		conversationCommandEvent: NONE
+	}
+	]
+	n3: [
+	{
+		class: com.smoftware.elmour.dialog.ConversationChoice
+		sourceId: n3
+		destinationId: n2
+		choicePhrase: OK
+		conversationCommandEvent: NONE
+	}
+	]
+}
+currentConversationID: n0
+}

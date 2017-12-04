@@ -74,6 +74,13 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				}
 
 				entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
+
+				//Touch input
+				if (mouseButtons.get(Mouse.SELECT)) {
+					//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );
+					entity.sendMessage(MESSAGE.INIT_SELECT_ENTITY, _json.toJson(_lastMouseCoordinates));
+					mouseButtons.put(Mouse.SELECT, false);
+				}
 			//}
 		}
 		else {

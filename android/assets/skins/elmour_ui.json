@@ -62,14 +62,13 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: default-font
-		fontColor: black
+		font: myFontSmall
 		background: test2
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: default-font
+		font: myFontSmall
 		fontColorSelected: white
 		fontColorUnselected: white
 		selection: selection
@@ -92,11 +91,17 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 		hScrollKnob: default-round-large
 		vScroll: default-scroll
 		vScrollKnob: default-round-large
+	},
+	inventoryPane: {
+		hScroll: default-scroll
+		hScrollKnob: default-round-large
+		vScroll: default-scroll
+		vScrollKnob: default-round-large
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
-		font: default-font
+		font: myFontSmall
 		fontColor: white
 		background: default-select
 		scrollStyle: default

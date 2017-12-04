@@ -29,7 +29,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     public Rectangle _boundingBox;
     protected BoundingBoxLocation _boundingBoxLocation;
     protected Ray _selectionRay;
-    protected final float _selectRayMaximumDistance = 32.0f;
+    protected final float _selectRayMaximumDistance = 16.0f;
 
     public static enum BoundingBoxLocation{
         BOTTOM_LEFT,
@@ -145,6 +145,29 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         Rectangle rectangle = null;
 
         for( MapObject object: mapInteractionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( _boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
+                    return object;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    protected MapObject checkCollisionWithWaterObstacleLayer(MapManager mapMgr){
+        MapLayer waterObstacleLayer =  mapMgr.getWaterObstacleLayer();
+
+        if( waterObstacleLayer == null ){
+            return null;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: waterObstacleLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
                 if( _boundingBox.overlaps(rectangle) ){

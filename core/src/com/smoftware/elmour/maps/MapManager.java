@@ -169,9 +169,13 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         return _currentMap.getZeroOpacityLayer();
     }
 
-    public MapLayer getInteractionLayer(){
-        return _currentMap.getInteractionLayer();
-    }
+    public MapLayer getInteractionLayer(){ return _currentMap.getInteractionLayer(); }
+
+    public MapLayer getWaterObstacleLayer() { return _currentMap.getWaterObstacleLayer(); }
+
+    public MapLayer getWaterfallObstacleLayer() { return _currentMap.getWaterfallObstacleLayer(); }
+
+    public MapLayer getUnderBridgeObstacleLayer() { return _currentMap.getUnderBridgeObstacleLayer(); }
 
     public MapLayer getPortalLayer(){
         return _currentMap.getPortalLayer();

@@ -10,10 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ElmourGame.ScreenType;
 import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.ElmourGame.ScreenType;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioObserver;
 
@@ -40,6 +39,7 @@ public class MainMenuScreen extends GameScreen {
 		TextButton watchIntroButton = new TextButton("Watch Intro", Utility.STATUSUI_SKIN);
 		TextButton creditsButton = new TextButton("Credits", Utility.STATUSUI_SKIN);
 		TextButton exitButton = new TextButton("Exit",Utility.STATUSUI_SKIN);
+		TextButton parseXMLButton = new TextButton("Parse XML", Utility.STATUSUI_SKIN);
 
 
 		//Layout
@@ -49,6 +49,7 @@ public class MainMenuScreen extends GameScreen {
 		table.add(watchIntroButton).spaceBottom(10).row();
 		table.add(creditsButton).spaceBottom(10).row();
 		table.add(exitButton).spaceBottom(10).row();
+		table.add(parseXMLButton).spaceBottom(10).row();
 
 		_stage.addActor(table);
 
@@ -122,6 +123,20 @@ public class MainMenuScreen extends GameScreen {
 											 _game.setScreen(_game.getScreenType(ScreenType.Credits));
 										 }
 									 }
+		);
+
+		parseXMLButton.addListener(new ClickListener() {
+
+									  @Override
+									  public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+										  return true;
+									  }
+
+									  @Override
+									  public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+										  Utility.parseConversationXMLFiles();
+									  }
+								  }
 		);
 
 		notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TITLE);

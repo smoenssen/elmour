@@ -20,6 +20,12 @@ public class ConversationGraph extends ConversationGraphSubject {
         setCurrentConversation(rootID);
     }
 
+    public ConversationGraph(Hashtable<String, Conversation> conversations, Hashtable<String, ArrayList<ConversationChoice>> associatedChoices, String rootID){
+        setConversations(conversations);
+        setAssociatedChoices(associatedChoices);
+        setCurrentConversation(rootID);
+    }
+
     public void setConversations(Hashtable<String, Conversation> conversations) {
         if( conversations.size() < 0 ){
             throw new IllegalArgumentException("Can't have a negative amount of conversations");
@@ -31,6 +37,14 @@ public class ConversationGraph extends ConversationGraphSubject {
         for( Conversation conversation: conversations.values() ){
             associatedChoices.put(conversation.getId(), new ArrayList<ConversationChoice>());
         }
+    }
+
+    public void setAssociatedChoices(Hashtable<String, ArrayList<ConversationChoice>> associatedChoices) {
+        if( associatedChoices.size() < 0 ){
+            throw new IllegalArgumentException("Can't have a negative amount of associated choices");
+        }
+
+        this.associatedChoices = associatedChoices;
     }
 
     public ArrayList<ConversationChoice> getCurrentChoices(){

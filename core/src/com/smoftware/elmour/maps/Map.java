@@ -37,6 +37,9 @@ public abstract class Map implements AudioSubject{
     protected final static String PARTICLE_EFFECT_SPAWN_LAYER = "PARTICLE_EFFECT_SPAWN_LAYER";
     protected final static String INTERACTION_LAYER = "INTERACTION";
     protected final static String ZERO_OPACITY_LAYER = "0_OPACITY";
+    protected final static String WATER_OBSTACLE_LAYER = "WATER_OBSTACLE";
+    protected final static String WATERFALL_OBSTACLE_LAYER = "WATERFALL_OBSTACLE";
+    protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -70,6 +73,9 @@ public abstract class Map implements AudioSubject{
     protected MapLayer _particleEffectSpawnLayer = null;
     protected MapLayer interactionLayer = null;
     protected MapLayer zeroOpacityLayer = null;
+    protected MapLayer waterObstacleLayer = null;
+    protected MapLayer waterfallObstacleLayer = null;
+    protected MapLayer underBridgeObstacleLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -162,6 +168,21 @@ public abstract class Map implements AudioSubject{
         _particleEffectSpawnLayer = _currentMap.getLayers().get(PARTICLE_EFFECT_SPAWN_LAYER);
         if( _particleEffectSpawnLayer == null ){
             Gdx.app.debug(TAG, "No particle effect spawn layer!");
+        }
+
+        waterObstacleLayer = _currentMap.getLayers().get(WATER_OBSTACLE_LAYER);
+        if( waterObstacleLayer == null ){
+            Gdx.app.debug(TAG, "No water obstacle layer!");
+        }
+
+        waterfallObstacleLayer = _currentMap.getLayers().get(WATERFALL_OBSTACLE_LAYER);
+        if( waterfallObstacleLayer == null ){
+            Gdx.app.debug(TAG, "No waterfall obstacle layer!");
+        }
+
+        underBridgeObstacleLayer = _currentMap.getLayers().get(UNDERBRIDGE_OBSTACLE_LAYER);
+        if( underBridgeObstacleLayer == null ){
+            Gdx.app.debug(TAG, "No underbridge obstacle layer!");
         }
 
         interactionLayer = _currentMap.getLayers().get(INTERACTION_LAYER);
@@ -311,9 +332,13 @@ public abstract class Map implements AudioSubject{
         return _collisionLayer;
     }
 
-    public MapLayer getInteractionLayer(){
-        return interactionLayer;
-    }
+    public MapLayer getInteractionLayer(){ return interactionLayer; }
+
+    public MapLayer getWaterObstacleLayer() { return waterObstacleLayer; }
+
+    public MapLayer getWaterfallObstacleLayer() { return waterfallObstacleLayer; }
+
+    public MapLayer getUnderBridgeObstacleLayer() { return underBridgeObstacleLayer; }
 
     public MapLayer getZeroOpacityLayer() { return zeroOpacityLayer; }
 

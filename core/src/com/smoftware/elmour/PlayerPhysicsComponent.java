@@ -183,18 +183,23 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
             // send message only once per button press
-            MapObject object = checkCollisionWithInteractionLayer(mapMgr);
-            if (object != null) {
-                Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
-                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+            // first check for Map Entity collision - message is sent in selectMapEntityCandidate
+            // if colliding then selectMapEntityCandidate returns true
+            if (selectMapEntityCandidate(mapMgr)) {
                 isInteractionCollisionMsgSent = true;
-                isInteractionColliding = true;
             }
             else {
-                isInteractionColliding = false;
-                Gdx.app.log(TAG, "update");
-                //Gdx.app.log(TAG, "sending INTERACTION_COLLISION NONE");
-                //entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
+                // check for interaction layer collision
+                MapObject object = checkCollisionWithInteractionLayer(mapMgr);
+                if (object != null) {
+                    Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
+                    entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+                    isInteractionCollisionMsgSent = true;
+                    isInteractionColliding = true;
+                } else {
+                    isInteractionColliding = false;
+                    Gdx.app.log(TAG, "update");
+                }
             }
         }
         else if (isInteractionColliding) {
@@ -204,6 +209,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 isInteractionCollisionMsgSent = false;
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
             }
+        }
+
+        if (!isInteractButtonPressed) {
+            isInteractionCollisionMsgSent = false;
         }
 
         if (    !isCollisionWithMapLayer(entity, mapMgr) &&
@@ -224,7 +233,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
-    private void selectMapEntityCandidate(com.smoftware.elmour.maps.MapManager mapMgr){
+    private boolean selectMapEntityCandidate(com.smoftware.elmour.maps.MapManager mapMgr){
+        boolean messageSent = false;
+
         _tempEntities.clear();
         _tempEntities.addAll(mapMgr.getCurrentMapEntities());
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
@@ -241,7 +252,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             mapEntity.sendMessage(MESSAGE.ENTITY_DESELECTED);
             Rectangle mapEntityBoundingBox = mapEntity.getCurrentBoundingBox();
             //Gdx.app.debug(TAG, "Entity Candidate Location " + "(" + mapEntityBoundingBox.x + "," + mapEntityBoundingBox.y + ")");
-            if (mapEntity.getCurrentBoundingBox().contains(_mouseSelectCoordinates.x, _mouseSelectCoordinates.y)) {
+            //if (mapEntity.getCurrentBoundingBox().contains(_mouseSelectCoordinates.x, _mouseSelectCoordinates.y)) {
                 //Check distance
                 _selectionRay.set(_boundingBox.x, _boundingBox.y, 0.0f, mapEntityBoundingBox.x, mapEntityBoundingBox.y, 0.0f);
                 float distance =  _selectionRay.origin.dst(_selectionRay.direction);
@@ -251,11 +262,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     //Picked/Selected
                     Gdx.app.debug(TAG, "Selected Entity! " + mapEntity.getEntityConfig().getEntityID());
                     mapEntity.sendMessage(MESSAGE.ENTITY_SELECTED);
+                    messageSent = true;
                     notify(_json.toJson(mapEntity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
                 }
-            }
+            //}
         }
         _tempEntities.clear();
+
+        return messageSent;
     }
 
     private boolean updateDiscoverLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -22,6 +23,10 @@ public class Map1 extends Map {
         super(MapFactory.MapType.MAP1, mapPath);
 
         json = new Json();
+
+        Entity blackSmith = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_BLACKSMITH);
+        initSpecialEntityPosition(blackSmith);
+        mapEntities.add(blackSmith);
 
     }
 

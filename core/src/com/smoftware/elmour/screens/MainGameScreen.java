@@ -191,7 +191,8 @@ public class MainGameScreen extends GameScreen {
 				_mapRenderer.renderTileLayer(groundMapLayer);
 			}
 
-			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get(Map.DECORATION_LAYER);
+			//TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get(Map.DECORATION_LAYER);
+			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Tree");
 			if( decorationMapLayer != null ){
 				_mapRenderer.renderTileLayer(decorationMapLayer);
 			}
@@ -222,6 +223,15 @@ public class MainGameScreen extends GameScreen {
 			if (_player != null)
 				_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
+
+			/////////////////
+			_mapRenderer.getBatch().begin();
+			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Highest");
+			if( decorationMapLayer != null ){
+				_mapRenderer.renderTileLayer(decorationMapLayer);
+			}
+			_mapRenderer.getBatch().end();
+			//////////////////////////////
 		}
 
 		if (_playerHUD != null)
