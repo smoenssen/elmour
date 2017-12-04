@@ -19,9 +19,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.XmlReader;
+import com.smoftware.elmour.dialog.Conversation;
+import com.smoftware.elmour.dialog.ConversationChoice;
+import com.smoftware.elmour.dialog.ConversationGraph;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Set;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -254,8 +260,11 @@ public final class Utility {
 
 	public static void parseConversationXMLFiles() {
 		FileHandle outFile = Gdx.files.local("conversations/testing.json");
-
 		String fullFilenamePath = "conversations/testing.graphml";
+
+		Hashtable<String, Conversation> conversations = new Hashtable<String, Conversation>();
+		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<String, ArrayList<ConversationChoice>>();
+		String rootId = "n4"; //todo
 
 		XmlReader xml = new XmlReader();
 		XmlReader.Element xml_element = null;
@@ -267,20 +276,13 @@ public final class Utility {
 
 		XmlReader.Element graph = xml_element.getChildByName("graph");
 
-		outFile.writeString("{", true);
-
-		// process nodes (conversations)
-		outFile.writeString("conversations: {\n", true);
-
+		// process nodes
 		// id
-		String id;
-		String dialog = "";
-
 		Iterator iterator_node = graph.getChildrenByName("node").iterator();
 		while(iterator_node.hasNext()){
+			Conversation conversation = new Conversation();
 			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
-			id = node_element.getAttribute("id");
-			Gdx.app.log("tag", "node = " + id);
+			conversation.setId(node_element.getAttribute("id"));
 
 			// data
 			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
@@ -292,81 +294,62 @@ public final class Utility {
 					// dialog
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
-					dialog = label.getText();
-					Gdx.app.log("tag", "text = " + dialog);
+					conversation.setDialog(label.getText());;
+
+					// type
+					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
+					String color = fill.getAttribute("color");
+					if (color.equals("#FF99CC"))
+						conversation.setType("NPC");
+					else if (color.equals("#999999"))
+						conversation.setType("CMD");
+					else if (color.equals("#FFFF00"))
+						conversation.setType("CHOICE");
 					break;
 				}
 			}
 
-			/*
-			1: {
-				id: 1
-				dialog: I'm pretty famous around here. Name's Madam Miranda. Let's just say I have a gift.
-			}
-			*/
-
-
-			outFile.writeString(String.format("	%s: {\n", id), true);
-			outFile.writeString(String.format("		id: %s\n", id), true);
-			outFile.writeString(String.format("		dialog: %s\n", dialog), true);
-			outFile.writeString("	}\n", true);
+			conversations.put(conversation.getId(), conversation);
 		}
 
-		outFile.writeString("}\n", true);
 
 		// process edges (associatedChoices)
 		outFile.writeString("associatedChoices: {\n", true);
 
-		String source;
-		String target;
-		String choicePhrase = "";
 		Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
 		while(iterator_edge.hasNext()){
 			XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
-			id = edge_element.getAttribute("id");
-			source = edge_element.getAttribute("source");
-			target = edge_element.getAttribute("target");
+			String source = edge_element.getAttribute("source");
+			String target = edge_element.getAttribute("target");
 
-			// data
-			Iterator iterator_data = edge_element.getChildrenByName("data").iterator();
-			while(iterator_data.hasNext()) {
-				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
-				String key = data_element.getAttribute("key");
+			// see if target node is CHOICE
+			Conversation tmp = conversations.get(target);
+			if (tmp != null) {
+				if (tmp.getType().equals("CHOICE")) {
+					ConversationChoice choice = new ConversationChoice();
+					choice.setSourceId(source);
+					choice.setDestinationId(target);
+					choice.setChoicePhrase(tmp.getDialog());
 
-				if (key.equals("d10")) {
-					// choicePhrase
-					XmlReader.Element polyLineEdge = data_element.getChildByName("y:PolyLineEdge");
-					XmlReader.Element label = polyLineEdge.getChildByName("y:EdgeLabel");
-					choicePhrase = label.getText();
-					break;
+					ArrayList<ConversationChoice> choices = associatedChoices.get(source);
+					if (choices == null)
+						choices = new ArrayList<>();
+
+					choices.add(choice);
+					associatedChoices.put(source, choices);
 				}
 			}
-
-			/*
-			1: [
-                {
-                        class: com.smoftware.elmour.dialog.ConversationChoice
-                        sourceId: 1
-                        destinationId: 2
-                        choicePhrase: Next
-						conversationCommandEvent: NONE
-                }
-        	]
-			*/
-
-			outFile.writeString(String.format("	%d: [\n", id), true);
-			outFile.writeString("	{\n", true);
-			outFile.writeString("		class: com.smoftware.elmour.dialog.ConversationChoice\n", true);
-			outFile.writeString(String.format("		sourceId: %s\n", source), true);
-			outFile.writeString(String.format("		destinationId: %s\n", target), true);
-			outFile.writeString(String.format("		choicePhrase: %s\n", choicePhrase), true);
-			outFile.writeString(String.format("		conversationCommandEvent: %s\n", "NONE"), true);
-			outFile.writeString("	}\n", true);
-			outFile.writeString("	]\n", true);
 		}
 
-		outFile.writeString("}\n", true);
-		outFile.writeString("currentConversationID: n0\n", true);
-		outFile.writeString("}\n", true);
+		// remove conversations from hash table that aren't NPC
+		Set<String> keys = conversations.keySet();
+		for(String key: keys){
+			Conversation conv = conversations.get(key);
+			if (!conv.getType().equals("NPC"))
+				conversations.remove(key);
+		}
+
+		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
+		outFile.writeString(convGraph.toJson(), false);
 	}
 }
