@@ -1,41 +1,96 @@
 {
 conversations: {
-	n5: {
-		id: n5
-		dialog: "{NO_CHOICE}"
-	}
 	n4: {
 		id: n4
 		dialog: Q1
+		type: NPC
 	}
 	n3: {
 		id: n3
 		dialog: Q3
+		type: NPC
 	}
 	n2: {
 		id: n2
 		dialog: Q2
-	}
-	n1: {
-		id: n1
-		dialog: C2
-	}
-	n0: {
-		id: n0
-		dialog: C1
+		type: NPC
 	}
 }
 associatedChoices: {
-	n5: []
-	n4: []
-	n3: []
-	n2: []
-	n1: []
-	n0: []
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n2
+			choicePhrase: C2
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n0
+			conversationCommandEvent: SET_CH1_C1
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			conversationCommandEvent: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n2
+			choicePhrase: C2
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n0
+			conversationCommandEvent: SET_CH1_C1
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			conversationCommandEvent: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n2
+			choicePhrase: C2
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n0
+			conversationCommandEvent: SET_CH1_C1
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n3
+			choicePhrase: C1
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			conversationCommandEvent: NO_CHOICE
+		}
+	]
 }
-currentConversationID: n0
-}associatedChoices: {
-associatedChoices: {
-associatedChoices: {
-associatedChoices: {
-associatedChoices: {
+currentConversationID: n4
+}

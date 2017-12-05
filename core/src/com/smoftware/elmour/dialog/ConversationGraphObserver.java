@@ -7,6 +7,8 @@ public interface ConversationGraphObserver {
         ACCEPT_QUEST,
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
+        NO_CHOICE,
+        SET_CH1_C1,
         NONE
     }
 
