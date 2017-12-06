@@ -8,7 +8,7 @@ public class ConversationChoice {
     private String choicePhrase;
     private ConversationCommandEvent conversationCommandEvent;
 
-    public ConversationChoice(){}
+    public ConversationChoice(){ conversationCommandEvent = ConversationCommandEvent.NONE; }
 
     public String getSourceId() {
         return sourceId;

@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Set;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -281,8 +283,10 @@ public final class Utility {
 		// process edges
 		processEdges(conversations, associatedChoices, graph);
 
-		// loop through edges again and update the targets to be correct
-		// the previous iteration set all of the targets to the node's id
+		// Loop through edges again and update the targets to be correct.
+		// The previous iteration set all of the targets to the node's id.
+		// The function will also update the source and/or target if
+		// necessary due to either node being a command.
 		Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
 		while(iterator_edge.hasNext()){
 			XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
@@ -294,7 +298,7 @@ public final class Utility {
 			if (sourceType != null) {
 				// see if source node is CHOICE or CMD
 				if (sourceType.getType().equals("CHOICE") || sourceType.getType().equals("CMD")) {
-					ArrayList<ConversationChoice> choices = getConversationChoicesWithUpdatedTarget(graph, associatedChoices, source, target);
+					ArrayList<ConversationChoice> choices = getConversationChoicesWithUpdatedIds(graph, associatedChoices, source, target);
 					associatedChoices.put(source, choices);
 				}
 			}
@@ -311,11 +315,22 @@ public final class Utility {
 		}
 
 		// remove choices that aren't associated with a conversation
-		iterate = associatedChoices.keySet().iterator();
-		while (iterate.hasNext()) {
-			String id = iterate.next();
-			if (id.equals("n6"))
-				iterate.remove();
+		Iterator<String> choiceIterate = associatedChoices.keySet().iterator();
+		while (choiceIterate.hasNext()) {
+			boolean isAssociated = false;
+			String id = choiceIterate.next();
+
+			Iterator<String> convListIterate = conversations.keySet().iterator();
+			while (convListIterate.hasNext()) {
+				String convId = convListIterate.next();
+				if (id.equals(convId)) {
+					isAssociated = true;
+					break;
+				}
+			}
+
+			if (!isAssociated)
+				choiceIterate.remove();
 		}
 
 		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
@@ -374,6 +389,10 @@ public final class Utility {
 			String source = edge_element.getAttribute("source");
 			String target = edge_element.getAttribute("target");
 
+			// ignore if source id equals target id
+			if (source.equals(target))
+				continue;
+
 			Conversation sourceType = conversations.get(source);
 			Conversation targetType = conversations.get(target);
 			if (targetType != null) {
@@ -392,7 +411,7 @@ public final class Utility {
 			}
 		}
 	}
-	
+
 	private static ArrayList<ConversationChoice> getConversationChoicesFromCommand(Hashtable<String, ArrayList<ConversationChoice>> associatedChoices, String source, String target, String command) {
 		ConversationChoice choice = new ConversationChoice();
 		choice.setSourceId(source);
@@ -451,7 +470,7 @@ public final class Utility {
 		return choices;
 	}
 
-	private static ArrayList<ConversationChoice> getConversationChoicesWithUpdatedTarget(XmlReader.Element graph, Hashtable<String, ArrayList<ConversationChoice>> associatedChoices, String source, String target) {
+	private static ArrayList<ConversationChoice> getConversationChoicesWithUpdatedIds(XmlReader.Element graph, Hashtable<String, ArrayList<ConversationChoice>> associatedChoices, String source, String target) {
 		// need to get original source first to see where this choice came from
 		// so get original source where target equals the passed in source
 		String originalSource = "";
@@ -469,13 +488,82 @@ public final class Utility {
 			for (int i = 0; i < choices.size(); i++) {
 				ConversationChoice ch = choices.get(i);
 				if (ch.getDestinationId().equals(source)) {
-					// update choice's target
-					ch.setDestinationId(target);
+					// if source or target is a command node, then
+					// update choice's source and target
+					String newSource = getCorrectSource(graph, originalSource);
+					String newTarget = getCorrectTarget(graph, target);
+					ch.setSourceId(newSource);
+					ch.setDestinationId(newTarget);
 					choices.set(i, ch);
 					break;
 				}
 			}
 		}
 		return choices;
+	}
+
+	private static String getCorrectSource(XmlReader.Element graph, String source) {
+		String newSource = source;
+
+		if (isCommandNode(graph, source)) {
+			Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+			while(iterator_edge.hasNext()){
+				XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+				if (source.equals(edge_element.getAttribute("target"))) {
+					newSource = edge_element.getAttribute("source");
+					break;
+				}
+			}
+		}
+
+		return newSource;
+	}
+
+	private static String getCorrectTarget(XmlReader.Element graph, String target) {
+		String newTarget = target;
+
+		if (isCommandNode(graph, target)) {
+			Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+			while(iterator_edge.hasNext()){
+				XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+				if (target.equals(edge_element.getAttribute("target"))) {
+					newTarget = edge_element.getAttribute("source");
+					break;
+				}
+			}
+		}
+
+		return newTarget;
+	}
+
+	private static boolean isCommandNode(XmlReader.Element graph, String id) {
+		boolean retVal = false;
+
+		Iterator iterator_node = graph.getChildrenByName("node").iterator();
+		while(iterator_node.hasNext()) {
+			XmlReader.Element node_element = (XmlReader.Element) iterator_node.next();
+			String id2 = node_element.getAttribute("id");
+
+			if (id2.equals(id)) {
+				// data
+				Iterator iterator_data = node_element.getChildrenByName("data").iterator();
+				while (iterator_data.hasNext()) {
+					XmlReader.Element data_element = (XmlReader.Element) iterator_data.next();
+					String key = data_element.getAttribute("key");
+
+					if (key.equals("d6")) {
+						// type
+						XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
+						XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
+						String color = fill.getAttribute("color");
+						if (color.equals("#999999")) {
+							// this is a command node
+							retVal = true;
+						}
+					}
+				}
+			}
+		}
+		return retVal;
 	}
 }
