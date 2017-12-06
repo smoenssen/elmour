@@ -24,6 +24,7 @@ import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.ConversationNode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -264,8 +265,8 @@ public final class Utility {
 		FileHandle outFile = Gdx.files.local("conversations/testing.json");
 		String fullFilenamePath = "conversations/testing.graphml";
 
-		Hashtable<String, Conversation> conversations = new Hashtable<String, Conversation>();
-		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<String, ArrayList<ConversationChoice>>();
+		Hashtable<String, Conversation> conversations = new Hashtable<>();
+		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<>();
 
 		XmlReader xml = new XmlReader();
 		XmlReader.Element xml_element = null;
@@ -277,11 +278,12 @@ public final class Utility {
 
 		XmlReader.Element graph = xml_element.getChildByName("graph");
 
-		// process nodes
-		String rootId = processNodes(conversations, graph);
+		// build node graph
+		Hashtable<String, ConversationNode> nodes = new Hashtable<>();
+		String rootId = buildNodeGraph(nodes, graph);
 
-		// process edges
-		processEdges(conversations, associatedChoices, graph);
+		// using node graph, build the conversations and associated choices
+		buildConversations(graph, nodes, rootId, conversations, associatedChoices);
 
 		// Loop through edges again and update the targets to be correct.
 		// The previous iteration set all of the targets to the node's id.
@@ -337,16 +339,15 @@ public final class Utility {
 		outFile.writeString(convGraph.toJson(), false);
 	}
 
-	private static String processNodes(Hashtable<String, Conversation> conversations, XmlReader.Element graph) {
+	private static String buildNodeGraph(Hashtable<String, ConversationNode> nodes, XmlReader.Element graph) {
 		String rootId = "";
 
 		// id
 		Iterator iterator_node = graph.getChildrenByName("node").iterator();
 		while(iterator_node.hasNext()){
-			Conversation conversation = new Conversation();
+			ConversationNode node = new ConversationNode();
 			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
-			String id = node_element.getAttribute("id");
-			conversation.setId(id);
+			node.id = node_element.getAttribute("id");
 
 			// data
 			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
@@ -355,31 +356,64 @@ public final class Utility {
 				String key = data_element.getAttribute("key");
 
 				if (key.equals("d6")) {
-					// dialog
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
-					conversation.setDialog(label.getText());;
+					node.data = label.getText();
 
 					// type
 					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
 					String color = fill.getAttribute("color");
 					if (color.equals("#999999"))
-						conversation.setType("CMD");
+						node.type = ConversationNode.NodeType.CMD;
 					else if (color.equals("#FFFF00"))
-						conversation.setType("CHOICE");
+						node.type = ConversationNode.NodeType.CHOICE;
 					else {
 						// all other nodes are NPC
-						conversation.setType("NPC");
+						node.type = ConversationNode.NodeType.NPC;
 						if (color.equals("#00FFFF"))
-							rootId = id;
+							rootId = node.id;
 					}
 					break;
 				}
 			}
 
-			conversations.put(conversation.getId(), conversation);
+			nodes.put(node.id, node);
 		}
+
+		// now add edge information to nodes
+		Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+		while(iterator_edge.hasNext()){
+			ConversationNode node;
+
+			XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+			String source = edge_element.getAttribute("source");
+			String target = edge_element.getAttribute("target");
+
+			node = nodes.get(target);
+			node.previous.add(source);
+
+			node = nodes.get(source);
+			node.next.add(target);
+		}
+
 		return rootId;
+	}
+
+	private static void buildConversations(XmlReader.Element graph,
+										   Hashtable<String, ConversationNode> nodes,
+										   String rootId,
+										   Hashtable<String, Conversation> conversations,
+										   Hashtable<String, ArrayList<ConversationChoice>> associatedChoices) {
+
+		// starting with root node, walk through node graph
+		ConversationNode rootNode = nodes.get(rootId);
+		Conversation conversation = new Conversation();
+		conversation.setId(rootId);
+		conversation.setDialog(rootNode.data);
+
+		for (String nextId : rootNode.next) {
+
+		}
 	}
 
 	private static void processEdges(Hashtable<String, Conversation> conversations, Hashtable<String, ArrayList<ConversationChoice>> associatedChoices, XmlReader.Element graph) {
