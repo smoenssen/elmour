@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -29,7 +28,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Set;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -309,6 +307,14 @@ public final class Utility {
 			Conversation conv = conversations.get(iterate.next());
 
 			if (!conv.getType().equals("NPC"))
+				iterate.remove();
+		}
+
+		// remove choices that aren't associated with a conversation
+		iterate = associatedChoices.keySet().iterator();
+		while (iterate.hasNext()) {
+			String id = iterate.next();
+			if (id.equals("n6"))
 				iterate.remove();
 		}
 
