@@ -18,7 +18,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Set;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -282,6 +281,10 @@ public final class Utility {
 		Hashtable<String, ConversationNode> nodes = new Hashtable<>();
 		String rootId = buildNodeGraph(nodes, graph);
 
+		Json json = new Json();
+		String output = json.prettyPrint(nodes);
+		outFile.writeString(output, false);
+
 		// using node graph, build the conversations and associated choices
 		buildConversations(graph, nodes, rootId, conversations, associatedChoices);
 
@@ -336,7 +339,7 @@ public final class Utility {
 		}
 
 		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
-		outFile.writeString(convGraph.toJson(), false);
+		//outFile.writeString(convGraph.toJson(), false);
 	}
 
 	private static String buildNodeGraph(Hashtable<String, ConversationNode> nodes, XmlReader.Element graph) {
@@ -410,9 +413,30 @@ public final class Utility {
 		Conversation conversation = new Conversation();
 		conversation.setId(rootId);
 		conversation.setDialog(rootNode.data);
+		conversations.put(rootId, conversation);
 
 		for (String nextId : rootNode.next) {
+			String command = "";
 
+			// go to next choice node
+			ConversationNode node = nodes.get(nextId);
+			if (node.type == ConversationNode.NodeType.CMD) {
+				command = node.data;
+				nextId = node.next.get(0);
+				node = nodes.get(nextId);
+			}
+
+			if (node.type == ConversationNode.NodeType.CHOICE) {
+				ConversationChoice choice = new ConversationChoice();
+				choice.setChoicePhrase(node.data);
+				if (command.isEmpty())
+					choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.NONE);
+				else
+					choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.valueOf(command));
+			}
+			else {
+				try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
+			}
 		}
 	}
 
