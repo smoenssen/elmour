@@ -1,98 +1,26 @@
 {
-n6: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n6
-	type: CMD
-	data: SET_C1_CH1
-	previous: [
-		n4
-	]
-	next: [
-		n0
+conversations: {
+	n4: {
+		id: n4
+		dialog: Q1 (n4)
+	}
+}
+associatedChoices: {
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n2
+			choicePhrase: C2 (n1)
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n3
+			choicePhrase: C1 (n0)
+			conversationCommandEvent: SET_C1_CH1_N5
+		}
 	]
 }
-n5: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n5
-	type: CMD
-	data: NO_CHOICE
-	previous: [
-		n2
-	]
-	next: [
-		n7
-	]
-}
-n4: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n4
-	type: NPC
-	data: Q1 (n4)
-	next: [
-		n1
-		n6
-	]
-}
-n3: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n3
-	type: NPC
-	data: Q3 (n3)
-	previous: [
-		n0
-		n7
-	]
-}
-n2: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n2
-	type: NPC
-	data: Q2 (n2)
-	previous: [
-		n1
-	]
-	next: [
-		n5
-	]
-}
-n1: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n1
-	type: CHOICE
-	data: C2 (n1)
-	previous: [
-		n4
-		n1
-		n1
-	]
-	next: [
-		n2
-		n1
-		n1
-	]
-}
-n0: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n0
-	type: CHOICE
-	data: C1 (n0)
-	previous: [
-		n6
-	]
-	next: [
-		n3
-	]
-}
-n7: {
-	class: com.smoftware.elmour.dialog.ConversationNode
-	id: n7
-	type: CHOICE
-	data: C1B (n7)
-	previous: [
-		n5
-	]
-	next: [
-		n3
-	]
-}
+currentConversationID: n4
 }

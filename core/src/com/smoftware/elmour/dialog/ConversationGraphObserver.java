@@ -8,7 +8,7 @@ public interface ConversationGraphObserver {
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
         NO_CHOICE,
-        SET_C1_CH1,
+        SET_C1_CH1_N5,
         NONE
     }
 

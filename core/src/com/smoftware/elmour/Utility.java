@@ -281,13 +281,17 @@ public final class Utility {
 		Hashtable<String, ConversationNode> nodes = new Hashtable<>();
 		String rootId = buildNodeGraph(nodes, graph);
 
-		Json json = new Json();
-		String output = json.prettyPrint(nodes);
-		outFile.writeString(output, false);
+		//FOR CHECKING STRUCTURE
+		//Json json = new Json();
+		//String output = json.prettyPrint(nodes);
+		//outFile.writeString(output, false);
 
 		// using node graph, build the conversations and associated choices
 		buildConversations(graph, nodes, rootId, conversations, associatedChoices);
 
+		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
+		outFile.writeString(convGraph.toJson(), false);
+/*
 		// Loop through edges again and update the targets to be correct.
 		// The previous iteration set all of the targets to the node's id.
 		// The function will also update the source and/or target if
@@ -340,6 +344,7 @@ public final class Utility {
 
 		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
 		//outFile.writeString(convGraph.toJson(), false);
+		*/
 	}
 
 	private static String buildNodeGraph(Hashtable<String, ConversationNode> nodes, XmlReader.Element graph) {
@@ -392,11 +397,14 @@ public final class Utility {
 			String source = edge_element.getAttribute("source");
 			String target = edge_element.getAttribute("target");
 
+			// don't add duplicates and don't allow node pointing to itself
 			node = nodes.get(target);
-			node.previous.add(source);
+			if (!node.previous.contains(source, false) && !node.id.equals(source))
+				node.previous.add(source);
 
 			node = nodes.get(source);
-			node.next.add(target);
+			if (!node.next.contains(target, false) && !node.id.equals(target))
+				node.next.add(target);
 		}
 
 		return rootId;
@@ -418,7 +426,7 @@ public final class Utility {
 		for (String nextId : rootNode.next) {
 			String command = "";
 
-			// go to next choice node
+			// go to next Choice or NPC node, saving any commands we pass
 			ConversationNode node = nodes.get(nextId);
 			if (node.type == ConversationNode.NodeType.CMD) {
 				command = node.data;
@@ -426,17 +434,42 @@ public final class Utility {
 				node = nodes.get(nextId);
 			}
 
+			ConversationChoice choice = new ConversationChoice();
+			choice.setSourceId(rootNode.id);
+			choice.setDestinationId(node.id);
+
+			if (command.isEmpty())
+				choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.NONE);
+			else
+				choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.valueOf(command));
+
 			if (node.type == ConversationNode.NodeType.CHOICE) {
-				ConversationChoice choice = new ConversationChoice();
+				// set choice phrase for this node
 				choice.setChoicePhrase(node.data);
-				if (command.isEmpty())
-					choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.NONE);
-				else
-					choice.setConversationCommandEvent(ConversationGraphObserver.ConversationCommandEvent.valueOf(command));
+
+				// next node must be an NPC so get its id, otherwise throw exception
+				nextId = node.next.get(0);
+				ConversationNode nextNode = nodes.get(nextId);
+				if (nextNode.type == ConversationNode.NodeType.NPC) {
+					choice.setDestinationId(nextNode.id);
+				}
+				else {
+					try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
+				}
+			}
+			else if (node.type == ConversationNode.NodeType.NPC) {
+				choice.setChoicePhrase(ConversationGraphObserver.ConversationCommandEvent.NO_CHOICE.toString());
 			}
 			else {
 				try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
 			}
+
+			ArrayList<ConversationChoice> choices = associatedChoices.get(rootNode.id);
+			if (choices == null)
+				choices = new ArrayList<>();
+
+			choices.add(choice);
+			associatedChoices.put(rootNode.id, choices);
 		}
 	}
 
