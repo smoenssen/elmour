@@ -16,6 +16,7 @@ public class ConversationNode {
     public String id;
     public NodeType type;
     public String data;
+    public String character;
     public Array<String> previous;
     public Array<String> next;
 

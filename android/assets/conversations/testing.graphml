@@ -50,6 +50,7 @@
       </data>
     </node>
     <node id="n2">
+      <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="64.81599999999997" width="74.56448" x="1201.3119999999967" y="442.5453333333333"/>
@@ -67,6 +68,7 @@
       </data>
     </node>
     <node id="n3">
+      <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="56.00959999999998" width="65.71712000000002" x="1096.4908799999976" y="230.58373333333338"/>
@@ -119,6 +121,7 @@
       </data>
     </node>
     <node id="n6">
+      <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="46.384000000000015" width="89.96543999999972" x="1201.3119999999967" y="235.39653333333337"/>
@@ -230,7 +233,6 @@
       </data>
     </edge>
     <edge id="e9" source="n5" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">

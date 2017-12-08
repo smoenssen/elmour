@@ -3,6 +3,7 @@ package com.smoftware.elmour.dialog;
 public class Conversation {
     private String id;
     private String dialog = "";
+    private String character = "";
     private String type = "";
 
     public Conversation(){
@@ -20,6 +21,13 @@ public class Conversation {
     }
     public void setDialog(String dialog){
         this.dialog = dialog;
+    }
+
+    public String getCharacter(){
+        return character;
+    }
+    public void setCharacter(String character){
+        this.character = character;
     }
 
     public String getType() {

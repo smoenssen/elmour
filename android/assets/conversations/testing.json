@@ -1,11 +1,39 @@
 {
 conversations: {
+	n6: {
+		id: n6
+		dialog: Dialog (n6)
+		character: Me
+		type: NPC
+	}
 	n4: {
 		id: n4
 		dialog: Q1 (n4)
+		character: Girl
+		type: NPC
+	}
+	n3: {
+		id: n3
+		dialog: Dialog (n3)
+		character: Girl
+		type: NPC
+	}
+	n2: {
+		id: n2
+		dialog: Dialog (n2)
+		character: Girl
+		type: NPC
 	}
 }
 associatedChoices: {
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n4: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -19,6 +47,30 @@ associatedChoices: {
 			destinationId: n3
 			choicePhrase: C1 (n0)
 			conversationCommandEvent: SET_C1_CH1_N5
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n3
+			choicePhrase: NO_CHOICE
 		}
 	]
 }
