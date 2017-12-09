@@ -1,28 +1,35 @@
 package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Entity;
+import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.dialog.Conversation;
+import com.smoftware.elmour.dialog.ConversationChoice;
+import com.smoftware.elmour.dialog.ConversationGraph;
+
+import java.util.ArrayList;
 
 /**
- * Created by steve on 9/16/17.
+ * Created by steve on 12/8/17.
  */
 
-public class SignPopUp extends Window {
-    private static final String TAG = SignPopUp.class.getSimpleName();
+public class ConversationPopUp extends Window {
+    private static final String TAG = ConversationPopUp.class.getSimpleName();
 
     private enum State {HIDDEN, LISTENING}
 
-    class SignPost {
+    class Dialog {
         public String name;
         public Array<String> lineStrings;
     }
 
-    private Array<SignPost> signPostArray;
-    private SignPost currentSignPost;
+    private ConversationGraph graph;
+    private String currentEntityID;
+    private Json json;
+    private Dialog dialog;
     private String fullText;
     private boolean displayText = true;
     private String currentText;
@@ -31,15 +38,18 @@ public class SignPopUp extends Window {
     private boolean interactReceived = false;
     private boolean isReady = false;
 
-    public SignPopUp() {
+    public ConversationPopUp() {
         //Notes:
         //font is set in the Utility class
         //popup is created in PlayerHUD class
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "default");
 
-        signPostArray = new Array<>();
-        currentSignPost = new SignPost();
+        dialog = new Dialog();
+
+        json = new Json();
+        graph = new ConversationGraph();
+        hide();
     }
 
     public boolean isVisible() { return state != State.HIDDEN; }
@@ -97,30 +107,40 @@ public class SignPopUp extends Window {
         //Gdx.app.log(TAG, "currentText = " + currentText);
     }
 
-    public void setTextForInteraction(final Entity.Interaction interaction) {
-        currentSignPost.name = "";
+    public String getCurrentEntityID() {
+        return currentEntityID;
+    }
 
-        if (currentSignPost.lineStrings != null)
-            currentSignPost.lineStrings.clear();
+    public void loadConversation(EntityConfig entityConfig){
+        String fullFilenamePath = entityConfig.getConversationConfigPath();
+        this.getTitleLabel().setText("");
 
-        // see if this sign has been loaded yet
-        boolean loaded = false;
-        for (SignPost sign : signPostArray) {
-            Gdx.app.log(TAG, "name = " + sign.name + ", interaction = " + interaction.toString());
-            if (sign.name.equals(interaction.toString())) {
-                currentSignPost.name = sign.name;
-                currentSignPost.lineStrings = new Array<>(sign.lineStrings);
-                loaded = true;
-                break;
-            }
+        if( fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists() ){
+            Gdx.app.debug(TAG, "Conversation file does not exist!");
+            return;
         }
 
-        if (!loaded) {
-            currentSignPost.name = interaction.toString();
-            FileHandle file = Gdx.files.internal("RPGGame/maps/Game/Text/Signs/" + interaction.toString() + ".txt");
-            fullText = file.readString();
-            Gdx.app.log(TAG, "file text = " + fullText);
-        }
+        currentEntityID = entityConfig.getEntityID();
+
+        ConversationGraph graph = json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
+        setConversationGraph(graph);
+    }
+
+    public void setConversationGraph(ConversationGraph graph){
+        if( graph != null ) graph.removeAllObservers();
+        this.graph = graph;
+        populateConversationDialog(graph.getCurrentConversationID());
+    }
+
+    public ConversationGraph getCurrentConversationGraph(){
+        return this.graph;
+    }
+
+    public void populateConversationDialog(String conversationID){
+        Conversation conversation = graph.getConversationByID(conversationID);
+        if( conversation == null ) return;
+        graph.setCurrentConversation(conversationID);
+        fullText = conversation.getDialog();
     }
 
     private void startInteractionThread() {
@@ -130,7 +150,7 @@ public class SignPopUp extends Window {
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
-                if (currentSignPost.lineStrings == null || currentSignPost.lineStrings.size == 0) {
+                if (dialog.lineStrings == null || dialog.lineStrings.size == 0) {
                     // set full text so that the total number of lines can be figured out
                     setTextForUIThread(fullText, false);
                     isReady = true;
@@ -151,18 +171,15 @@ public class SignPopUp extends Window {
 
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
-                    currentSignPost.lineStrings = textArea.getLineStrings();
-                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", currentSignPost.lineStrings.size));
-
-                    // add this sign post to the ones we've seen
-                    signPostArray.add(currentSignPost);
+                    dialog.lineStrings = textArea.getLineStrings();
+                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
                 }
 
                 boolean delay = true;
 
                 // loop through lines
-                for (int lineIdx = 0; lineIdx < currentSignPost.lineStrings.size; lineIdx++) {
-                    String line = currentSignPost.lineStrings.get(lineIdx);
+                for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
+                    String line = dialog.lineStrings.get(lineIdx);
                     int len = line.length();
                     Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
 
@@ -200,6 +217,10 @@ public class SignPopUp extends Window {
                         }
                     }
 
+                    ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
+                    if( choices != null )
+                        graph.notify(graph, choices);
+
                     if (state == State.HIDDEN)
                         // break out of loop and exit thread if we were hidden
                         break;
@@ -207,7 +228,7 @@ public class SignPopUp extends Window {
                         // go into listening mode
                         state = State.LISTENING;
 
-                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == currentSignPost.lineStrings.size - 1) {
+                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
                         // done populating current box so need to pause for next interaction
                         while (!interactReceived && state == State.LISTENING) {
                             try {
@@ -217,7 +238,7 @@ public class SignPopUp extends Window {
                             }
                         }
 
-                        if (lineIdx == currentSignPost.lineStrings.size - 1) {
+                        if (lineIdx == dialog.lineStrings.size - 1) {
                             hide();
                             state = State.HIDDEN;
                             break;

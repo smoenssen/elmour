@@ -21,14 +21,15 @@ import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryItem;
 import com.smoftware.elmour.InventoryItem.ItemTypeID;
-import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.battle.BattleObserver;
+import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
@@ -37,6 +38,8 @@ import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+
+import java.util.ArrayList;
 
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
@@ -52,7 +55,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     private BattleUI _battleUI;
-    private SignPopUp popUp;
+    private SignPopUp signPopUp;
+    private ConversationPopUp conversationPopUp;
+    private ChoicePopUp choicePopUp1;
+    private ChoicePopUp choicePopUp2;
+    private ChoicePopUp choicePopUp3;
+    private ChoicePopUp choicePopUp4;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -141,18 +149,41 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _battleUI.clearListeners();
         _battleUI.setVisible(false);
 
-        popUp = new SignPopUp();
+        signPopUp = new SignPopUp();
         if (ElmourGame.isAndroid()) {
-            popUp.setWidth(_stage.getWidth() / 1.1f);
-            popUp.setHeight(_stage.getHeight() / 3.1f);
+            signPopUp.setWidth(_stage.getWidth() / 1.1f);
+            signPopUp.setHeight(_stage.getHeight() / 3.1f);
         }
         else {
-            popUp.setWidth(_stage.getWidth() / 1.1f);
-            popUp.setHeight(_stage.getHeight() / 4f);
+            signPopUp.setWidth(_stage.getWidth() / 1.1f);
+            signPopUp.setHeight(_stage.getHeight() / 4f);
         }
-        popUp.setPosition(_stage.getWidth() / 2 - popUp.getWidth() / 2, 25);
+        signPopUp.setPosition(_stage.getWidth() / 2 - signPopUp.getWidth() / 2, 25);
 
-        popUp.setVisible(false);
+        signPopUp.setVisible(false);
+
+        conversationPopUp = new ConversationPopUp();
+        if (ElmourGame.isAndroid()) {
+            conversationPopUp.setWidth(_stage.getWidth() / 1.1f);
+            conversationPopUp.setHeight(_stage.getHeight() / 3.1f);
+        }
+        else {
+            conversationPopUp.setWidth(_stage.getWidth() / 1.1f);
+            conversationPopUp.setHeight(_stage.getHeight() / 4f);
+        }
+        conversationPopUp.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, 25);
+
+        conversationPopUp.setVisible(false);
+
+        choicePopUp1 = new ChoicePopUp();
+        choicePopUp2 = new ChoicePopUp();
+        choicePopUp3 = new ChoicePopUp();
+        choicePopUp4 = new ChoicePopUp();
+
+        choicePopUp1.setVisible(false);
+        choicePopUp2.setVisible(false);
+        choicePopUp3.setVisible(false);
+        choicePopUp4.setVisible(false);
 
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
@@ -162,7 +193,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(_statusUI);
         _stage.addActor(_inventoryUI);
         _stage.addActor(_clock);
-        _stage.addActor(popUp);
+        _stage.addActor(signPopUp);
+        _stage.addActor(conversationPopUp);
+        _stage.addActor(choicePopUp1);
+        _stage.addActor(choicePopUp2);
+        _stage.addActor(choicePopUp3);
+        _stage.addActor(choicePopUp4);
 
         _battleUI.validate();
         _questUI.validate();
@@ -387,32 +423,37 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     }
                 }
 
-                _conversationUI.loadConversation(config);
-                _conversationUI.getCurrentConversationGraph().addObserver(this);
+                conversationPopUp.loadConversation(config);
+                conversationPopUp.getCurrentConversationGraph().addObserver(this);
+
+                //_conversationUI.loadConversation(config);
+                //_conversationUI.getCurrentConversationGraph().addObserver(this);
                 break;
             case SHOW_CONVERSATION:
                 EntityConfig configShow = _json.fromJson(EntityConfig.class, value);
 
-                if( configShow.getEntityID().equalsIgnoreCase(_conversationUI.getCurrentEntityID())) {
-                    _conversationUI.setVisible(true);
+                if( configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
+                    //_conversationUI.setVisible(true);
+                    conversationPopUp.interact();
                 }
                 break;
             case HIDE_CONVERSATION:
                 EntityConfig configHide = _json.fromJson(EntityConfig.class, value);
                 if( configHide.getEntityID().equalsIgnoreCase(_conversationUI.getCurrentEntityID())) {
-                    _conversationUI.setVisible(false);
+                    //_conversationUI.setVisible(false);
+                    conversationPopUp.hide();
                 }
                 break;
             case DID_INITIAL_INTERACTION:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
                 if (isSignPostInteraction(interaction))
-                    popUp.setTextForInteraction(interaction);
+                    signPopUp.setTextForInteraction(interaction);
                 break;
             case DID_INTERACTION:
-                popUp.interact();
+                signPopUp.interact();
                 break;
             case FINISHED_INTERACTION:
-                popUp.hide();
+                signPopUp.hide();
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);
@@ -545,6 +586,66 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     @Override
+    public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
+        int choiceNum = 0;
+        for (ConversationChoice choice : choices) {
+            switch(choiceNum++) {
+                case 0:
+                    choicePopUp1.setChoice(choice);
+                    choicePopUp1.setConversationGraph(graph);
+                    break;
+                case 1:
+                    choicePopUp2.setChoice(choice);
+                    choicePopUp2.setConversationGraph(graph);
+                    break;
+                case 2:
+                    choicePopUp3.setChoice(choice);
+                    choicePopUp3.setConversationGraph(graph);
+                    break;
+                case 3:
+                    choicePopUp4.setChoice(choice);
+                    choicePopUp4.setConversationGraph(graph);
+                    break;
+            }
+        }
+
+        switch (choices.size()) {
+            case 1:
+                break;
+            case 2:
+                if (ElmourGame.isAndroid()) {
+                    choicePopUp1.setWidth(_stage.getWidth() / 1.1f);
+                    choicePopUp1.setHeight(_stage.getHeight() / 3.1f);
+                }
+                else {
+                    choicePopUp1.setWidth(_stage.getWidth() / 1.1f / 2f);
+                    choicePopUp1.setHeight(_stage.getHeight() / 4f);
+                    choicePopUp2.setWidth(_stage.getWidth() / 1.1f / 2f);
+                    choicePopUp2.setHeight(_stage.getHeight() / 4f);
+                }
+                choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight());
+                choicePopUp2.setPosition(_stage.getWidth() / 2, _stage.getHeight());
+                choicePopUp1.setVisible(true);
+                choicePopUp2.setVisible(true);
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(String conversationId) {
+        conversationPopUp.populateConversationDialog(conversationId);
+        choicePopUp1.setVisible(false);
+        choicePopUp2.setVisible(false);
+        choicePopUp3.setVisible(false);
+        choicePopUp4.setVisible(false);
+        conversationPopUp.interact();
+    }
+
+    @Override
     public void onNotify(String value, StoreInventoryEvent event) {
         switch (event) {
             case PLAYER_GP_TOTAL_UPDATED:
@@ -601,8 +702,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.position.y = shakeCoords.y + _stage.getHeight()/2;
         }
 
-        if (popUp.isReady())
-            popUp.update();
+        if (signPopUp.isReady())
+            signPopUp.update();
+
+        if (conversationPopUp.isReady())
+            conversationPopUp.update();
 
         _stage.act(delta);
         _stage.draw();

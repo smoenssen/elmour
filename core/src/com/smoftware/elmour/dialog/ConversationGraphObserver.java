@@ -1,5 +1,7 @@
 package com.smoftware.elmour.dialog;
 
+import java.util.ArrayList;
+
 public interface ConversationGraphObserver {
     public static enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
@@ -13,4 +15,6 @@ public interface ConversationGraphObserver {
     }
 
     void onNotify(final ConversationGraph graph, ConversationCommandEvent event);
+    void onNotify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices);
+    void onNotify(final String conversationId);
 }

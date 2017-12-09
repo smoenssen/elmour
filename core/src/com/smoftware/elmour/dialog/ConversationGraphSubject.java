@@ -2,6 +2,8 @@ package com.smoftware.elmour.dialog;
 
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 public class ConversationGraphSubject {
     private Array<ConversationGraphObserver> _observers;
 
@@ -27,4 +29,17 @@ public class ConversationGraphSubject {
         for(ConversationGraphObserver observer: _observers){
             observer.onNotify(graph, event);
         }
-    }}
+    }
+
+    public void notify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices) {
+        for(ConversationGraphObserver observer: _observers){
+            observer.onNotify(graph, choices);
+        }
+    }
+
+    public void notify(final String destinationId) {
+        for(ConversationGraphObserver observer: _observers){
+            observer.onNotify(destinationId);
+        }
+    }
+}

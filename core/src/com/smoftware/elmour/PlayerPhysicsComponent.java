@@ -389,6 +389,4 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
         return false;
     }
-
-
 }
