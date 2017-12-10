@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
+import com.smoftware.elmour.dialog.ConversationGraphObserver;
 
 /**
  * Created by steve on 12/8/17.
@@ -37,7 +38,7 @@ public class ChoicePopUp extends Window {
               @Override
               public void clicked (InputEvent event, float x, float y) {
                   graph.notify(graph, choice.getConversationCommandEvent());
-                  graph.notify(choice.getDestinationId());
+                  graph.notify(choice.getDestinationId(), ConversationGraphObserver.ConversationCommandEvent.SET_NEXT_CONVERSATION_ID);
               }
           }
         );

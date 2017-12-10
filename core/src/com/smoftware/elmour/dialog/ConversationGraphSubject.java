@@ -37,9 +37,9 @@ public class ConversationGraphSubject {
         }
     }
 
-    public void notify(final String destinationId) {
+    public void notify(final String value, ConversationGraphObserver.ConversationCommandEvent event) {
         for(ConversationGraphObserver observer: _observers){
-            observer.onNotify(destinationId);
+            observer.onNotify(value, event);
         }
     }
 }

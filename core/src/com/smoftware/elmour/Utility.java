@@ -18,7 +18,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -56,14 +55,14 @@ public final class Utility {
 		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
 
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/bm-px.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		// LARGE TEXT
 		if (Gdx.app.getType() == Application.ApplicationType.Android)
 			parameter.size = 18;
 		else
-			parameter.size = 24;
+			parameter.size = 20;
 
 		parameter.color = Color.DARK_GRAY;
 		parameter.shadowColor = Color.LIGHT_GRAY;

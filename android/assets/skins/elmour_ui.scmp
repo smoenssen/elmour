@@ -333,7 +333,7 @@ atlasData: {
 			name: dialogDim
 		}
 		{
-			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/default/raw/test2.9.png"
+			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/default/raw/label.9.png"
 			bgColor: {
 				r: 1
 				g: 1
@@ -343,7 +343,20 @@ atlasData: {
 			visible: true
 			tint: null
 			tintName: null
-			name: test2
+			name: label
+		}
+		{
+			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/default/raw/textfield.9.png"
+			bgColor: {
+				r: 1
+				g: 1
+				b: 1
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: textfield
 		}
 	]
 }
@@ -1108,7 +1121,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: test2
+						value: label
 					}
 				}
 				deletable: false
@@ -1927,7 +1940,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: test2
+						value: textfield
 					}
 					focusedBackground: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -2086,7 +2099,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: background
 						optional: true
-						value: test2
+						value: null
 					}
 					titleFont: {
 						class: com.ray3k.skincomposer.data.StyleProperty

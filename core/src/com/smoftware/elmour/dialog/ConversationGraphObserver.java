@@ -6,6 +6,8 @@ public interface ConversationGraphObserver {
     public static enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
         EXIT_CONVERSATION,
+        SET_NEXT_CONVERSATION_ID,
+        SET_CHARACTER,
         ACCEPT_QUEST,
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
@@ -16,5 +18,5 @@ public interface ConversationGraphObserver {
 
     void onNotify(final ConversationGraph graph, ConversationCommandEvent event);
     void onNotify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices);
-    void onNotify(final String conversationId);
+    void onNotify(final String value, ConversationCommandEvent event);
 }

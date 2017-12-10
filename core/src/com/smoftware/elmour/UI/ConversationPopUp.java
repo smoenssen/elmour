@@ -9,6 +9,7 @@ import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
+import com.smoftware.elmour.dialog.ConversationGraphObserver;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class ConversationPopUp extends Window {
     private boolean displayText = true;
     private String currentText;
     private MyTextArea textArea;
+    private String currentCharacter;
     private State state = State.HIDDEN;
     private boolean interactReceived = false;
     private boolean isReady = false;
@@ -141,6 +143,7 @@ public class ConversationPopUp extends Window {
         if( conversation == null ) return;
         graph.setCurrentConversation(conversationID);
         fullText = conversation.getDialog();
+        currentCharacter = conversation.getCharacter();
     }
 
     private void startInteractionThread() {
@@ -176,6 +179,8 @@ public class ConversationPopUp extends Window {
                 }
 
                 boolean delay = true;
+
+                graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.SET_CHARACTER);
 
                 // loop through lines
                 for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
@@ -217,16 +222,19 @@ public class ConversationPopUp extends Window {
                         }
                     }
 
-                    ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
-                    if( choices != null )
-                        graph.notify(graph, choices);
-
                     if (state == State.HIDDEN)
                         // break out of loop and exit thread if we were hidden
                         break;
                     else
                         // go into listening mode
                         state = State.LISTENING;
+
+                    // show choices now if this is the last line of the dialog
+                    if (lineIdx == dialog.lineStrings.size - 1) {
+                        ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
+                        if (choices != null)
+                            graph.notify(graph, choices);
+                    }
 
                     if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
                         // done populating current box so need to pause for next interaction
