@@ -1,12 +1,17 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class NPCPhysicsComponent extends PhysicsComponent {
     private static final String TAG = NPCPhysicsComponent.class.getSimpleName();
 
     private Entity.State _state;
+    private Entity.A_ButtonAction a_BtnStatus;
+    private Entity.B_ButtonAction b_BtnStatus;
+    private Entity.ButtonState a_BtnState = Entity.ButtonState.IS_UP;
+    private Entity.ButtonState b_BtnState = Entity.ButtonState.IS_UP;
+
+    //private boolean is
 
     public NPCPhysicsComponent(){
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -26,13 +31,26 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
-            if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
-                _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
-                _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
-                _state = _json.fromJson(Entity.State.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
-                _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
+            if (ElmourGame.isAndroid()) {
+                //todo
+            }
+            else {
+                if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+                    _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
+                    _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+                    _state = _json.fromJson(Entity.State.class, string[1]);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+                    _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
+                }
+                else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
+                    a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
+
+                    // only send message once per button press
+
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ public interface Component {
         COLLISION_WITH_MAP,
         COLLISION_WITH_ENTITY,
         INTERACTION_COLLISION,
+        NPC_COLLISION,
         LOAD_ANIMATIONS,
         INIT_DIRECTION,
         INIT_STATE,

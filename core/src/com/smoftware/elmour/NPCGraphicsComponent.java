@@ -22,6 +22,11 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     private boolean _sentShowConversationMessage = false;
     private boolean _sentHideCoversationMessage = false;
 
+    private Entity.A_ButtonAction a_BtnStatus;
+    private Entity.B_ButtonAction b_BtnStatus;
+    private Entity.ButtonState a_BtnState = Entity.ButtonState.IS_UP;
+    private Entity.ButtonState b_BtnState = Entity.ButtonState.IS_UP;
+
     public NPCGraphicsComponent(){
     }
 
@@ -80,7 +85,7 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     @Override
     public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
         updateAnimations(delta);
-
+/*
         if( _isSelected ){
             drawSelected(entity, mapMgr);
             mapMgr.setCurrentSelectedMapEntity(entity);
@@ -96,7 +101,7 @@ public class NPCGraphicsComponent extends GraphicsComponent {
                 _sentShowConversationMessage = false;
             }
         }
-
+*/
         batch.begin();
         batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);
         batch.end();

@@ -97,7 +97,6 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         }
 
         // make sure these notifications are only sent once
-        //srm multiple interactions todo
         if (receivedInteractionCollision) {
             //Gdx.app.log(TAG, "received interactive collision");
 

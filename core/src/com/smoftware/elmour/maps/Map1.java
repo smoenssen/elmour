@@ -42,7 +42,8 @@ public class Map1 extends Map {
     }
 
     @Override
-    public void handleInteractionInit(Entity.Interaction interaction) {
+    public void
+    handleInteractionInit(Entity.Interaction interaction) {
 
     }
 

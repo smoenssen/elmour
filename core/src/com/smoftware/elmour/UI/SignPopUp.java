@@ -70,6 +70,7 @@ public class SignPopUp extends Window {
     public void hide() {
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
+        textArea.disabled = true;
         textArea.layout();
         fullText = "";
 

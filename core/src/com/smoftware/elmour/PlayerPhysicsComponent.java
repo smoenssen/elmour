@@ -24,11 +24,16 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean _isMouseSelectEnabled = false;
     private String _previousDiscovery;
     private String _previousEnemySpawn;
-   // private boolean interactionMsgReceived = false;
+
     private boolean isInteractButtonPressed = false;
     private boolean isInteractionCollisionMsgSent = false;
     private boolean isDidInteractiontMsgSent = false;
     private boolean isInteractionColliding = false;
+
+    private boolean isConversationButtonPressed = false;
+    private boolean isLoadConversationMsgSent = false;
+    private boolean isShowConversationMsgSent = false;
+    private boolean isNPCColliding = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -135,24 +140,41 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
+                    // check for collisions
+
+                    // collision detection is handled in update()
                     // only send message once per button press
                     if (!isDidInteractiontMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
                         isInteractButtonPressed = true;
 
-                        // check for collision
                         if (isInteractionColliding) {
                             isDidInteractiontMsgSent = true;
                             notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.DID_INTERACTION);
                             Gdx.app.log(TAG, "sending DID_INTERACTION");
                         }
-                        // collision detection is handled in update()
-                        // and this is where isInteractionCollisionMsgSent is set
                     }
-                    else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
-                        // Gdx.app.log(TAG, "BUTTON RELEASE FOR DID_INTERACTION");
+
+                    if (!isShowConversationMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        isConversationButtonPressed = true;
+
+                        if (isNPCColliding) {
+                            isShowConversationMsgSent = true;
+                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
+                            Gdx.app.log(TAG, "sending SHOW_CONVERSATION");
+                        }
+                        else {
+                            //isShowConversationMsgSent = false;
+                            //notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
+                            //Gdx.app.log(TAG, "sending HIDE_CONVERSATION");
+                        }
+                    }
+
+                    if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
                         // button released so reset variables
                         isInteractButtonPressed = false;
                         isDidInteractiontMsgSent = false;
+                        isConversationButtonPressed = false;
+                        isShowConversationMsgSent = false;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
@@ -176,30 +198,40 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         updateDiscoverLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
 
-        if( _isMouseSelectEnabled ){
-            selectMapEntityCandidate(mapMgr);
-            _isMouseSelectEnabled = false;
+        if (isConversationButtonPressed && !isLoadConversationMsgSent) {
+            // send message only once per button press
+            Entity npc = checkCollisionWithNPC(mapMgr);
+            if (npc != null) {
+                npc.sendMessage(MESSAGE.ENTITY_SELECTED);
+                mapMgr.setCurrentSelectedMapEntity(npc);
+                Gdx.app.log(TAG, "sending LOAD_CONVERSATION");
+                notify(_json.toJson(npc.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+                isLoadConversationMsgSent = true;
+                isNPCColliding = true;
+            }
+            else {
+                isNPCColliding = false;
+            }
+        }
+        else if (isNPCColliding) {
+            // send message once no longer colliding //todo?
+            if (checkCollisionWithNPC(mapMgr) == null) {
+                isNPCColliding = false;
+                isLoadConversationMsgSent = false;
+            }
         }
 
         if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
             // send message only once per button press
-            // first check for Map Entity collision - message is sent in selectMapEntityCandidate
-            // if colliding then selectMapEntityCandidate returns true
-            if (selectMapEntityCandidate(mapMgr)) {
+            // check for interaction layer collision
+            MapObject object = checkCollisionWithInteractionLayer(mapMgr);
+            if (object != null) {
+                Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
+                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
                 isInteractionCollisionMsgSent = true;
-            }
-            else {
-                // check for interaction layer collision
-                MapObject object = checkCollisionWithInteractionLayer(mapMgr);
-                if (object != null) {
-                    Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
-                    entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
-                    isInteractionCollisionMsgSent = true;
-                    isInteractionColliding = true;
-                } else {
-                    isInteractionColliding = false;
-                    Gdx.app.log(TAG, "update");
-                }
+                isInteractionColliding = true;
+            } else {
+                isInteractionColliding = false;
             }
         }
         else if (isInteractionColliding) {
@@ -209,6 +241,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 isInteractionCollisionMsgSent = false;
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
             }
+        }
+
+        if (!isConversationButtonPressed) {
+            isLoadConversationMsgSent = false;
         }
 
         if (!isInteractButtonPressed) {
@@ -233,6 +269,31 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         calculateNextPosition(delta, _state == Entity.State.RUNNING);
     }
 
+    private Entity checkCollisionWithNPC(com.smoftware.elmour.maps.MapManager mapMgr) {
+        Entity npc = null;
+
+        _tempEntities.clear();
+        _tempEntities.addAll(mapMgr.getCurrentMapEntities());
+        _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
+
+        for( Entity mapEntity : _tempEntities ) {
+            Rectangle mapEntityBoundingBox = mapEntity.getCurrentBoundingBox();
+
+            //Check distance
+            _selectionRay.set(_boundingBox.x, _boundingBox.y, 0.0f, mapEntityBoundingBox.x, mapEntityBoundingBox.y, 0.0f);
+            float distance =  _selectionRay.origin.dst(_selectionRay.direction);
+
+            if( distance <= _selectRayMaximumDistance ){
+                //We have a valid entity selection
+                npc = mapEntity;
+                break;
+            }
+        }
+
+        _tempEntities.clear();
+        return npc;
+    }
+
     private boolean selectMapEntityCandidate(com.smoftware.elmour.maps.MapManager mapMgr){
         boolean messageSent = false;
 
@@ -241,9 +302,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
 
         //Convert screen coordinates to world coordinates, then to unit scale coordinates
-        mapMgr.getCamera().unproject(_mouseSelectCoordinates);
-        _mouseSelectCoordinates.x /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
-        _mouseSelectCoordinates.y /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
+        //mapMgr.getCamera().unproject(_mouseSelectCoordinates);
+        //_mouseSelectCoordinates.x /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
+        //_mouseSelectCoordinates.y /= com.smoftware.elmour.maps.Map.UNIT_SCALE;
 
         //Gdx.app.debug(TAG, "Mouse Coordinates " + "(" + _mouseSelectCoordinates.x + "," + _mouseSelectCoordinates.y + ")");
 

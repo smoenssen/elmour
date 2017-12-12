@@ -42,6 +42,8 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
+import static com.smoftware.elmour.dialog.ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID;
+
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
@@ -166,8 +168,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         conversationPopUp = new ConversationPopUp();
         if (ElmourGame.isAndroid()) {
-            conversationPopUp.setWidth(_stage.getWidth() / 1.1f);
-            conversationPopUp.setHeight(_stage.getHeight() / 3.1f);
+            conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
+            conversationPopUp.setHeight(80);
         }
         else {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
@@ -429,7 +431,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     public void onNotify(String value, ComponentEvent event) {
         switch(event) {
             case LOAD_CONVERSATION:
-                EntityConfig config = _json.fromJson(EntityConfig.class, value);
+                 Entity npc = _mapMgr.getCurrentSelectedMapEntity();
+                EntityConfig config = npc.getEntityConfig();
 
                 //Check to see if there is a version loading into properties
                 if( config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString()) ) {
@@ -441,24 +444,20 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                 conversationPopUp.loadConversation(config);
                 conversationPopUp.getCurrentConversationGraph().addObserver(this);
-
-                //_conversationUI.loadConversation(config);
-                //_conversationUI.getCurrentConversationGraph().addObserver(this);
                 break;
             case SHOW_CONVERSATION:
-                EntityConfig configShow = _json.fromJson(EntityConfig.class, value);
+                Entity npcShow = _mapMgr.getCurrentSelectedMapEntity();
+                EntityConfig configShow = npcShow.getEntityConfig();
 
+                Gdx.app.log(TAG, "SHOW_CONVERSATION");
                 if( configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
-                    //_conversationUI.setVisible(true);
                     conversationLabel.setVisible(true);
                     conversationPopUp.interact();
-                    Gdx.app.log(TAG, "INTERACT");
                 }
                 break;
             case HIDE_CONVERSATION:
                 EntityConfig configHide = _json.fromJson(EntityConfig.class, value);
-                if( configHide.getEntityID().equalsIgnoreCase(_conversationUI.getCurrentEntityID())) {
-                    //_conversationUI.setVisible(false);
+                if( configHide.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                     conversationLabel.setVisible(false);
                     conversationPopUp.hide();
                 }
@@ -630,11 +629,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         switch (choices.size()) {
             case 1:
+                choicePopUp1.setWidth(_stage.getWidth() / 1.04f);
+                choicePopUp1.setHeight(80);
+                choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp1.getHeight() - 12);
+                choicePopUp1.setVisible(true);
                 break;
             case 2:
                 if (ElmourGame.isAndroid()) {
-                    choicePopUp1.setWidth(_stage.getWidth() / 1.1f);
-                    choicePopUp1.setHeight(_stage.getHeight() / 3.1f);
+                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 2f);
+                    choicePopUp1.setHeight(80);
+                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 2f);
+                    choicePopUp2.setHeight(80);
                 }
                 else {
                     choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 2f);
@@ -656,16 +661,31 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void onNotify(String value, ConversationCommandEvent event) {
+        Gdx.app.log(TAG, "onNotify: ConversationCommandEvent = " + event.toString() + ", value = " + value);
+
         switch (event) {
-            case SET_NEXT_CONVERSATION_ID:
-                conversationPopUp.populateConversationDialog(value);
+            case NEXT_CONVERSATION_ID:
+            case PLAYER_RESPONSE:
+                // interact first so previous popup is cleared
+                conversationPopUp.interact();
+
+                // need a slight delay here, otherwise new popup isn't populated
+                try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
+
+                if (event == NEXT_CONVERSATION_ID)
+                    conversationPopUp.populateConversationDialogById(value);
+                else
+                    conversationPopUp.populateConversationDialogByText(value, "Me"); //todo: get player name
+
                 choicePopUp1.setVisible(false);
                 choicePopUp2.setVisible(false);
                 choicePopUp3.setVisible(false);
                 choicePopUp4.setVisible(false);
+
+                // now interact again to show new popup
                 conversationPopUp.interact();
                 break;
-            case SET_CHARACTER:
+            case CHARACTER_NAME:
                 conversationLabel.setText(value);
                 break;
         }
@@ -733,6 +753,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         if (conversationPopUp.isReady())
             conversationPopUp.update();
+
+        choicePopUp1.update();
+        choicePopUp2.update();
+        choicePopUp3.update();
+        choicePopUp4.update();
 
         _stage.act(delta);
         _stage.draw();

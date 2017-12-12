@@ -10,6 +10,7 @@ import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
 
@@ -82,6 +83,7 @@ public class ConversationPopUp extends Window {
     public void hide() {
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
+        textArea.disabled = true;
         textArea.layout();
         fullText = "";
 
@@ -131,19 +133,24 @@ public class ConversationPopUp extends Window {
     public void setConversationGraph(ConversationGraph graph){
         if( graph != null ) graph.removeAllObservers();
         this.graph = graph;
-        populateConversationDialog(graph.getCurrentConversationID());
+        populateConversationDialogById(graph.getCurrentConversationID());
     }
 
     public ConversationGraph getCurrentConversationGraph(){
         return this.graph;
     }
 
-    public void populateConversationDialog(String conversationID){
+    public void populateConversationDialogById(String conversationID){
         Conversation conversation = graph.getConversationByID(conversationID);
         if( conversation == null ) return;
         graph.setCurrentConversation(conversationID);
         fullText = conversation.getDialog();
         currentCharacter = conversation.getCharacter();
+    }
+
+    public void populateConversationDialogByText(String text, String character){
+        fullText = text;
+        currentCharacter = character;
     }
 
     private void startInteractionThread() {
@@ -180,7 +187,7 @@ public class ConversationPopUp extends Window {
 
                 boolean delay = true;
 
-                graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.SET_CHARACTER);
+                graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
 
                 // loop through lines
                 for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
@@ -232,8 +239,18 @@ public class ConversationPopUp extends Window {
                     // show choices now if this is the last line of the dialog
                     if (lineIdx == dialog.lineStrings.size - 1) {
                         ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
-                        if (choices != null)
+                        if (choices != null) {
+                            // remove any choices that are no longer available based on profile settings
+                            for (int i = choices.size() - 1; i >= 0; i--) {
+                                ConversationChoice choice = choices.get(i);
+                                String commandEvent = choice.getConversationCommandEvent().toString();
+                                String profileSetting = ProfileManager.getInstance().getProperty(commandEvent, String.class);
+                                if (profileSetting != null) {
+                                    choices.remove(i);
+                                }
+                            }
                             graph.notify(graph, choices);
+                        }
                     }
 
                     if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
@@ -268,6 +285,8 @@ public class ConversationPopUp extends Window {
                 currentText = "";
                 displayText = false;
                 interactReceived = false;
+                state = State.HIDDEN;
+                dialog.lineStrings.clear();
                 Gdx.app.log(TAG, "Exiting InteractionThread");
             }
         };

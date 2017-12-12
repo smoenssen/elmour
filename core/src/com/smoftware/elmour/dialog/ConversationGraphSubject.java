@@ -38,7 +38,9 @@ public class ConversationGraphSubject {
     }
 
     public void notify(final String value, ConversationGraphObserver.ConversationCommandEvent event) {
-        for(ConversationGraphObserver observer: _observers){
+        // can't use an iterator here because it can be nested
+        for (int i = 0; i < _observers.size; i++) {
+            ConversationGraphObserver observer = _observers.get(i);
             observer.onNotify(value, event);
         }
     }

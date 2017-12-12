@@ -4,8 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
-import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
 import com.smoftware.elmour.screens.GameOverScreen;
@@ -92,7 +90,7 @@ public class ElmourGame extends Game {
 
 		setScreen(_mainMenuScreen);
 
-		///////////////////////////////////////
+		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm
 		FileHandle file = ProfileManager.getInstance().getProfileFile("steve");
 		if (file != null) {
@@ -100,7 +98,7 @@ public class ElmourGame extends Game {
 			//LoadGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
 			setScreen(getScreenType(ElmourGame.ScreenType.MainGame));
 		}
-		/////////////////
+		////////////////*/
 	}
 
 	@Override

@@ -47,6 +47,25 @@ public class NPCInputComponent extends InputComponent {
 
     @Override
     public void update(Entity entity, float delta){
+
+        if (ElmourGame.isAndroid()) {
+            if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
+                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
+            }
+            else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {
+                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
+            }
+        }
+        else {
+            if (keys.get(Keys.SPACE)) {
+                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
+            }
+
+            if (!keys.get(Keys.SPACE)) {
+                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
+            }
+        }
+
         if(keys.get(Keys.QUIT)) {
             Gdx.app.exit();
         }
@@ -67,8 +86,11 @@ public class NPCInputComponent extends InputComponent {
         }
 
         if( _currentState == Entity.State.IDLE ){
-            entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
-            return;
+            if (keys.get(Keys.SPACE)) {
+                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+                return;
+            }
         }
 
         switch( _currentDirection ) {

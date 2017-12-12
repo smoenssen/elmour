@@ -75,6 +75,7 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 
 				entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
 
+			//todo
 				//Touch input
 				if (mouseButtons.get(Mouse.SELECT)) {
 					//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );

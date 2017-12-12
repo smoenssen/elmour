@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
@@ -55,7 +57,7 @@ public final class Utility {
 		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
 
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/bm-px.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		// LARGE TEXT
@@ -434,5 +436,20 @@ public final class Utility {
 			// recursive call for the current node
 			buildConversations(graph, nodes, node.id, conversations, associatedChoices);
 		}
+	}
+
+	public static boolean overlapRectangles(Rectangle r1, Rectangle r2) {
+		if (r1.x < r2.x + r2.width && r1.x + r1.width > r2.x && r1.y < r2.y + r2.height && r1.y + r1.height > r2.y)
+			return true;
+		else
+			return false;
+	}
+
+	public static boolean pointInRectangle(Rectangle r, Vector2 p) {
+		return r.x <= p.x && r.x + r.width >= p.x && r.y <= p.y && r.y + r.height >= p.y;
+	}
+
+	public static boolean pointInRectangle(Rectangle r, float x, float y) {
+		return r.x <= x && r.x + r.width >= x && r.y <= y && r.y + r.height >= y;
 	}
 }

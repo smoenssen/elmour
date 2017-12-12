@@ -6,12 +6,15 @@ public interface ConversationGraphObserver {
     public static enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
         EXIT_CONVERSATION,
-        SET_NEXT_CONVERSATION_ID,
-        SET_CHARACTER,
+        NEXT_CONVERSATION_ID,
+        CHARACTER_NAME,
+        PLAYER_RESPONSE,
         ACCEPT_QUEST,
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
         NO_CHOICE,
+
+        // NOTE: The SET_ commands are for saving profile information
         SET_C1_CH1_N5,
         NONE
     }
