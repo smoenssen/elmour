@@ -3,6 +3,7 @@ package com.smoftware.elmour.dialog;
 import com.smoftware.elmour.dialog.ConversationGraphObserver.ConversationCommandEvent;
 
 public class ConversationChoice {
+    final public static String NO_CHOICE = "NO_CHOICE";
     private String sourceId;
     private String destinationId;
     private String choicePhrase;

@@ -65,6 +65,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private ChoicePopUp choicePopUp2;
     private ChoicePopUp choicePopUp3;
     private ChoicePopUp choicePopUp4;
+    private int numVisibleChoices;
+    private boolean isNoChoiceActive;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -202,6 +204,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp3.setVisible(false);
         choicePopUp4.setVisible(false);
 
+        numVisibleChoices = 0;
+        isNoChoiceActive = false;
+
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
@@ -335,7 +340,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     _questUI.setQuests(new Array<QuestGraph>());
 
-                    //add default items if first time
+                    //add default items if first timenumVisibleChoices
                     Array<ItemTypeID> items = _player.getEntityConfig().getInventory();
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
                     for( int i = 0; i < items.size; i++){
@@ -452,7 +457,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 Gdx.app.log(TAG, "SHOW_CONVERSATION");
                 if( configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                     conversationLabel.setVisible(true);
-                    conversationPopUp.interact();
+
+                    // don't interact here if there are choices visible
+                    conversationPopUp.interact(numVisibleChoices == 0);
                 }
                 break;
             case HIDE_CONVERSATION:
@@ -606,23 +613,32 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     @Override
     public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
         int choiceNum = 0;
+        String choice1Phrase = "";
+        String choice2Phrase = "";
+        String choice3Phrase = "";
+        String choice4Phrase = "";
+
         for (ConversationChoice choice : choices) {
             switch(choiceNum++) {
                 case 0:
                     choicePopUp1.setChoice(choice);
                     choicePopUp1.setConversationGraph(graph);
+                    choice1Phrase = choice.getChoicePhrase();
                     break;
                 case 1:
                     choicePopUp2.setChoice(choice);
                     choicePopUp2.setConversationGraph(graph);
+                    choice2Phrase = choice.getChoicePhrase();
                     break;
                 case 2:
                     choicePopUp3.setChoice(choice);
                     choicePopUp3.setConversationGraph(graph);
+                    choice3Phrase = choice.getChoicePhrase();
                     break;
                 case 3:
                     choicePopUp4.setChoice(choice);
                     choicePopUp4.setConversationGraph(graph);
+                    choice4Phrase = choice.getChoicePhrase();
                     break;
             }
         }
@@ -630,9 +646,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         switch (choices.size()) {
             case 1:
                 choicePopUp1.setWidth(_stage.getWidth() / 1.04f);
-                choicePopUp1.setHeight(80);
+                  choicePopUp1.setHeight(80);
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp1.getHeight() - 12);
-                choicePopUp1.setVisible(true);
+
+                if (!choice1Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp1.setVisible(true);
+                    numVisibleChoices++;
+                }
+                else {
+                    isNoChoiceActive = true;
+                }
+
                 break;
             case 2:
                 if (ElmourGame.isAndroid()) {
@@ -649,8 +673,22 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 }
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp2.setPosition(_stage.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
-                choicePopUp1.setVisible(true);
-                choicePopUp2.setVisible(true);
+                if (!choice1Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp1.setVisible(true);
+                    numVisibleChoices++;
+                }
+                else {
+                    isNoChoiceActive = true;
+                }
+
+                if (!choice2Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp2.setVisible(true);
+                    numVisibleChoices++;
+                }
+                else {
+                    isNoChoiceActive = true;
+                }
+
                 break;
             case 3:
                 break;
@@ -666,8 +704,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         switch (event) {
             case NEXT_CONVERSATION_ID:
             case PLAYER_RESPONSE:
-                // interact first so previous popup is cleared
-                conversationPopUp.interact();
+                //if (numVisibleChoices > 0) {
+                    // interact first so previous popup is cleared
+                    conversationPopUp.interact(numVisibleChoices == 0);
+                //}
 
                 // need a slight delay here, otherwise new popup isn't populated
                 try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
@@ -681,9 +721,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 choicePopUp2.setVisible(false);
                 choicePopUp3.setVisible(false);
                 choicePopUp4.setVisible(false);
+                numVisibleChoices = 0;
+                isNoChoiceActive = false;
 
-                // now interact again to show new popup
-                conversationPopUp.interact();
+                // //now interact again to show new popup
+                conversationPopUp.interact(numVisibleChoices == 0);
                 break;
             case CHARACTER_NAME:
                 conversationLabel.setText(value);

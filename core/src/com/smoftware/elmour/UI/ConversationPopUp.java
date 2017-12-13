@@ -40,6 +40,7 @@ public class ConversationPopUp extends Window {
     private State state = State.HIDDEN;
     private boolean interactReceived = false;
     private boolean isReady = false;
+    private boolean okToHide = true;
 
     public ConversationPopUp() {
         //Notes:
@@ -59,7 +60,9 @@ public class ConversationPopUp extends Window {
 
     public boolean isReady() { return isReady; }
 
-    public void interact() {
+    public void interact(boolean okToHide) {
+
+        this.okToHide = okToHide;
 
         //Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
 
@@ -264,8 +267,10 @@ public class ConversationPopUp extends Window {
                         }
 
                         if (lineIdx == dialog.lineStrings.size - 1) {
-                            hide();
-                            state = State.HIDDEN;
+                            if (okToHide) {
+                                hide();
+                                state = State.HIDDEN;
+                            }
                             break;
                         }
 
@@ -281,12 +286,14 @@ public class ConversationPopUp extends Window {
                     }
                 }
 
-                // total reset
-                currentText = "";
-                displayText = false;
-                interactReceived = false;
-                state = State.HIDDEN;
-                dialog.lineStrings.clear();
+                if (okToHide) {
+                    // total reset
+                    currentText = "";
+                    displayText = false;
+                    interactReceived = false;
+                    state = State.HIDDEN;
+                    dialog.lineStrings.clear();
+                }
                 Gdx.app.log(TAG, "Exiting InteractionThread");
             }
         };
