@@ -294,6 +294,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return npc;
     }
 
+    /*
     private boolean selectMapEntityCandidate(com.smoftware.elmour.maps.MapManager mapMgr){
         boolean messageSent = false;
 
@@ -332,7 +333,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         return messageSent;
     }
-
+*/
     private boolean updateDiscoverLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapDiscoverLayer =  mapMgr.getQuestDiscoverLayer();
 
