@@ -42,8 +42,6 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-import static com.smoftware.elmour.dialog.ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID;
-
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
@@ -66,7 +64,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private ChoicePopUp choicePopUp3;
     private ChoicePopUp choicePopUp4;
     private int numVisibleChoices;
-    private boolean isNoChoiceActive;
+    private boolean isThereAnActiveHiddenChoice;
+    private String nextConversationId;
+    private boolean isCurrentConversationDone;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -205,7 +205,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp4.setVisible(false);
 
         numVisibleChoices = 0;
-        isNoChoiceActive = false;
+        isThereAnActiveHiddenChoice = false;
+        isCurrentConversationDone = true;
 
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
@@ -436,21 +437,26 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     public void onNotify(String value, ComponentEvent event) {
         switch(event) {
             case LOAD_CONVERSATION:
-                 Entity npc = _mapMgr.getCurrentSelectedMapEntity();
-                EntityConfig config = npc.getEntityConfig();
+                // this is only done at the beginning of a conversation graph
+                if (isCurrentConversationDone) {
+                    Entity npc = _mapMgr.getCurrentSelectedMapEntity();
+                    EntityConfig config = npc.getEntityConfig();
 
-                //Check to see if there is a version loading into properties
-                if( config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString()) ) {
-                    EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
-                    if( configReturnProperty != null ){
-                        config = configReturnProperty;
+                    //Check to see if there is a version loading into properties
+                    if( config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString()) ) {
+                        EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
+                        if( configReturnProperty != null ){
+                            config = configReturnProperty;
+                        }
                     }
-                }
 
-                conversationPopUp.loadConversation(config);
-                conversationPopUp.getCurrentConversationGraph().addObserver(this);
+                    isCurrentConversationDone = false;
+                    conversationPopUp.loadConversation(config);
+                    conversationPopUp.getCurrentConversationGraph().addObserver(this);
+                }
                 break;
             case SHOW_CONVERSATION:
+                // show or continue current conversation
                 Entity npcShow = _mapMgr.getCurrentSelectedMapEntity();
                 EntityConfig configShow = npcShow.getEntityConfig();
 
@@ -458,8 +464,29 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 if( configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                     conversationLabel.setVisible(true);
 
+                    // this is where all the magic happens
+                    if (nextConversationId != null) {
+                        conversationPopUp.populateConversationDialogById(nextConversationId);
+                        conversationPopUp.interact(false);
+                    }
+
                     // don't interact here if there are choices visible
-                    conversationPopUp.interact(numVisibleChoices == 0);
+                    if (numVisibleChoices == 0)
+                        conversationPopUp.interact(false);
+
+                    // this sets the popup up for the next destination id if NO_CHOICE is active
+                    if (isThereAnActiveHiddenChoice) {
+                        nextConversationId = choicePopUp1.getChoice().getDestinationId();
+                        conversationPopUp.populateConversationDialogById(nextConversationId);
+                    }
+
+                    if (choicePopUp1.getChoice() != null) {
+                        if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
+                            if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
+                                conversationPopUp.hide();
+                            }
+                        }
+                    }
                 }
                 break;
             case HIDE_CONVERSATION:
@@ -613,48 +640,41 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     @Override
     public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
         int choiceNum = 0;
-        String choice1Phrase = "";
-        String choice2Phrase = "";
-        String choice3Phrase = "";
-        String choice4Phrase = "";
+        isThereAnActiveHiddenChoice = false;
 
         for (ConversationChoice choice : choices) {
             switch(choiceNum++) {
                 case 0:
                     choicePopUp1.setChoice(choice);
                     choicePopUp1.setConversationGraph(graph);
-                    choice1Phrase = choice.getChoicePhrase();
                     break;
                 case 1:
                     choicePopUp2.setChoice(choice);
                     choicePopUp2.setConversationGraph(graph);
-                    choice2Phrase = choice.getChoicePhrase();
                     break;
                 case 2:
                     choicePopUp3.setChoice(choice);
                     choicePopUp3.setConversationGraph(graph);
-                    choice3Phrase = choice.getChoicePhrase();
                     break;
                 case 3:
                     choicePopUp4.setChoice(choice);
                     choicePopUp4.setConversationGraph(graph);
-                    choice4Phrase = choice.getChoicePhrase();
                     break;
             }
         }
 
         switch (choices.size()) {
             case 1:
-                choicePopUp1.setWidth(_stage.getWidth() / 1.04f);
+                choicePopUp1.setWidth(_stage.getWidth() / 2f);
                   choicePopUp1.setHeight(80);
-                choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp1.getHeight() - 12);
+                choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 4, _stage.getHeight() - choicePopUp1.getHeight() - 12);
 
-                if (!choice1Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
                     choicePopUp1.setVisible(true);
                     numVisibleChoices++;
                 }
                 else {
-                    isNoChoiceActive = true;
+                    isThereAnActiveHiddenChoice = true;
                 }
 
                 break;
@@ -673,20 +693,14 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 }
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp2.setPosition(_stage.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
-                if (!choice1Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
                     choicePopUp1.setVisible(true);
                     numVisibleChoices++;
                 }
-                else {
-                    isNoChoiceActive = true;
-                }
 
-                if (!choice2Phrase.equals(ConversationChoice.NO_CHOICE)) {
+                if (!choicePopUp2.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
                     choicePopUp2.setVisible(true);
                     numVisibleChoices++;
-                }
-                else {
-                    isNoChoiceActive = true;
                 }
 
                 break;
@@ -703,29 +717,29 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         switch (event) {
             case NEXT_CONVERSATION_ID:
+                nextConversationId = value;
+                break;
             case PLAYER_RESPONSE:
                 //if (numVisibleChoices > 0) {
                     // interact first so previous popup is cleared
-                    conversationPopUp.interact(numVisibleChoices == 0);
+                    conversationPopUp.interact(false);
                 //}
 
                 // need a slight delay here, otherwise new popup isn't populated
                 try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
 
-                if (event == NEXT_CONVERSATION_ID)
-                    conversationPopUp.populateConversationDialogById(value);
-                else
-                    conversationPopUp.populateConversationDialogByText(value, "Me"); //todo: get player name
+                conversationPopUp.populateConversationDialogByText(value, "Me"); //todo: get player name
 
                 choicePopUp1.setVisible(false);
                 choicePopUp2.setVisible(false);
                 choicePopUp3.setVisible(false);
                 choicePopUp4.setVisible(false);
                 numVisibleChoices = 0;
-                isNoChoiceActive = false;
+                isThereAnActiveHiddenChoice = false;
 
                 // //now interact again to show new popup
-                conversationPopUp.interact(numVisibleChoices == 0);
+                conversationPopUp.interact(true);
+
                 break;
             case CHARACTER_NAME:
                 conversationLabel.setText(value);

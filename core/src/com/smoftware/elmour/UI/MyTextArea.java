@@ -119,7 +119,7 @@ public class MyTextArea extends MyTextField {
                 if (i > 0 && i == linesBreak.get(currLineBreak)) {
                     // new line
                     strings.add(currString);
-                    Gdx.app.log("tag", String.format("adding currString = %s", currString));
+                    Gdx.app.log("MyTextArea", String.format("adding currString = %s", currString));
                     currString = "";
                     currLineBreak += 2;
                 }

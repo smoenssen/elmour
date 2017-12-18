@@ -66,10 +66,11 @@ public class ChoicePopUp extends Window {
 
             Rectangle textAreaRect = new Rectangle(this.getX(), this.getY(), textArea.getWidth(), textArea.getHeight());
 
+            // See if this window was touched
             if (Utility.pointInRectangle(textAreaRect, localPos.x, localPos.y)) {
-                graph.notify(graph, choice.getConversationCommandEvent());
-                graph.notify(choice.getDestinationId(), ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID);
+                interact();
 
+                // save any SET_ commands as profile properties for persistence
                 if (choice.getConversationCommandEvent().toString().startsWith("SET_")) {
                     ProfileManager.getInstance().setProperty(choice.getConversationCommandEvent().toString(), "true");
                 }
@@ -77,10 +78,18 @@ public class ChoicePopUp extends Window {
         }
     }
 
+    public void interact() {
+        graph.notify(graph, choice.getConversationCommandEvent());
+        graph.notify(choice.getDestinationId(), ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID);
+        graph.notify(choice.getChoicePhrase(), ConversationGraphObserver.ConversationCommandEvent.PLAYER_RESPONSE);
+    }
+
     public void setChoice(ConversationChoice choice) {
         this.choice = choice;
         textArea.setText(choice.getChoicePhrase(), true);
     }
+
+    public ConversationChoice getChoice() { return this.choice; }
 
     public void setConversationGraph(ConversationGraph graph){
         //if( graph != null ) graph.removeAllObservers();

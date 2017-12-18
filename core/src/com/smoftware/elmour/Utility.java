@@ -430,7 +430,17 @@ public final class Utility {
 			if (choices == null)
 				choices = new ArrayList<>();
 
-			choices.add(choice);
+			// don't add duplicates
+			boolean inList = false;
+			for (ConversationChoice ch : choices) {
+				if (ch.getSourceId().equals(choice.getSourceId()) && ch.getDestinationId().equals(choice.getDestinationId())) {
+					inList = true;
+					break;
+				}
+			}
+			if (!inList)
+				choices.add(choice);
+
 			associatedChoices.put(rootNode.id, choices);
 
 			// recursive call for the current node

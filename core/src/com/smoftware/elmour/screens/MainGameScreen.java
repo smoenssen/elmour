@@ -224,7 +224,7 @@ public class MainGameScreen extends GameScreen {
 				_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
 
-			/////////////////
+			/////////////////srm - todo - testing character behind objects
 			_mapRenderer.getBatch().begin();
 			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Highest");
 			if( decorationMapLayer != null ){
