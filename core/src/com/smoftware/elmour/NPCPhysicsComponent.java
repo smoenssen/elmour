@@ -31,10 +31,10 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
-            if (ElmourGame.isAndroid()) {
+           // if (ElmourGame.isAndroid()) {
                 //todo
-            }
-            else {
+           // }
+           // else {
                 if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                     _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
                     _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
@@ -51,7 +51,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
                     // only send message once per button press
 
                 }
-            }
+           // }
         }
     }
 

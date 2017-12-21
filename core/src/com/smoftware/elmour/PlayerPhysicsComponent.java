@@ -80,18 +80,33 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
                     a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
 
-                    // only send message once per button press
-                    if (!isDidInteractiontMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
-                        isInteractButtonPressed = true;
-
-                        // check for collision
-                        if (isInteractionColliding) {
-                            isDidInteractiontMsgSent = true;
-                            notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.DID_INTERACTION);
-                            Gdx.app.log(TAG, "sending DID_INTERACTION");
+                    if (a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        // only send message once per button press
+                        if (!isDidInteractiontMsgSent) {
+                            isInteractButtonPressed = true;
+                            // check for collision
+                            if (isInteractionColliding) {
+                                isDidInteractiontMsgSent = true;
+                                notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.DID_INTERACTION);
+                                Gdx.app.log(TAG, "sending DID_INTERACTION");
+                            }
+                            // collision detection is handled in update()
+                            // and this is where isInteractionCollisionMsgSent is set
                         }
-                        // collision detection is handled in update()
-                        // and this is where isInteractionCollisionMsgSent is set
+
+                        if (!isShowConversationMsgSent) {
+                            isConversationButtonPressed = true;
+                            // check for collision
+                            if (isNPCColliding) {
+                                isShowConversationMsgSent = true;
+                                notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
+                                Gdx.app.log(TAG, "sending SHOW_CONVERSATION");
+                            } else {
+                                //isShowConversationMsgSent = false;
+                                //notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
+                                //Gdx.app.log(TAG, "sending HIDE_CONVERSATION");
+                            }
+                        }
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
                        // Gdx.app.log(TAG, "BUTTON RELEASE FOR DID_INTERACTION");
@@ -197,7 +212,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         updatePortalLayerActivation(mapMgr);
         updateDiscoverLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
-
         if (isConversationButtonPressed && !isLoadConversationMsgSent) {
             // send message only once per button press
             Entity npc = checkCollisionWithNPC(mapMgr);
