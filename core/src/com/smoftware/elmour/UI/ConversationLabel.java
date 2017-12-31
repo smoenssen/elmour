@@ -21,7 +21,7 @@ public class ConversationLabel extends Window {
         label.layout();
 
         //layout
-        this.add();
+        ///this.add(label);
         this.defaults().expand().fill();
         this.add(label);
     }

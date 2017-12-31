@@ -20,9 +20,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Vector2 _nextEntityPosition;
     protected Vector2 _currentEntityPosition;
     protected Entity.Direction _currentDirection;
+    protected Entity.Direction _lasttDirection;
     protected Vector2 currentJoystickPosition;
     protected Json _json;
     protected Vector2 _velocity;
+    protected boolean isRunning;
 
     protected Array<Entity> _tempEntities;
 
@@ -46,6 +48,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             this._velocity = new Vector2(0,0);
         else
             this._velocity = new Vector2(2f,2f);
+
+        isRunning = false;
 
         this._boundingBox = new Rectangle();
         this._json = new Json();
@@ -189,7 +193,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         entity.sendMessage(MESSAGE.CURRENT_POSITION, _json.toJson(_currentEntityPosition));
     }
 
-    protected void calculateNextPosition(float deltaTime, boolean isRunning){
+    protected void calculateNextPosition(float deltaTime){
         if( _currentDirection == null ) return;
 
         if( deltaTime > .7) return;
@@ -198,14 +202,16 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float testY = _currentEntityPosition.y;
 
         if (ElmourGame.isAndroid()) {
-            float velocityFactor = 0.1f;
+            float velocityFactor = 0.075f;
             if (isRunning)
-                velocityFactor = 0.2f;
+                velocityFactor = 0.125f;
 
             // velocity is directly proportional to joystick position
             _velocity = currentJoystickPosition;
             testX += _velocity.x * velocityFactor;
             testY += _velocity.y * velocityFactor;
+
+            //Gdx.app.log(TAG, String.format("velocity factor = %3.2f", velocityFactor));
         }
         else {
             float velocityFactor = 2.0f;

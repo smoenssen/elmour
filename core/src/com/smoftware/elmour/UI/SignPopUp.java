@@ -141,7 +141,7 @@ public class SignPopUp extends Window {
                     for (int q = 0; q < 100 && numLines == 0; q++) {
                         Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
                         try {
-                            Thread.sleep(50);
+                            Thread.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -194,7 +194,7 @@ public class SignPopUp extends Window {
 
                             // delay for each character
                             try {
-                                Thread.sleep(50);
+                                Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

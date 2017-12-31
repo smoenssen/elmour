@@ -38,6 +38,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
         //initBoundingBox(0.3f, 0f);
+        _currentDirection = _lasttDirection = Entity.Direction.DOWN;
 
         a_BtnStatus = Entity.A_ButtonAction.RELEASED;
         b_BtnStatus = Entity.B_ButtonAction.RELEASED;
@@ -102,43 +103,67 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                                 notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
                                 Gdx.app.log(TAG, "sending SHOW_CONVERSATION");
                             } else {
-                                //isShowConversationMsgSent = false;
+                                isShowConversationMsgSent = false;
                                 //notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
                                 //Gdx.app.log(TAG, "sending HIDE_CONVERSATION");
                             }
                         }
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
-                       // Gdx.app.log(TAG, "BUTTON RELEASE FOR DID_INTERACTION");
                         // button released so reset variables
                         isInteractButtonPressed = false;
                         isDidInteractiontMsgSent = false;
+                        isConversationButtonPressed = false;
+                        isShowConversationMsgSent = false;
                     }
                 }
-                else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
+
+                if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
                     b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
+
+                    if (b_BtnStatus == Entity.B_ButtonAction.PRESSED) {
+                        isRunning = true;
+                    }
+                    else if (b_BtnStatus == Entity.B_ButtonAction.RELEASED){
+                        isRunning = false;
+                    }
                 }
 
                 if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_JOYSTICK_POSITION.toString())) {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
 
                     // need to figure out direction based on joystick coordinates for purposes of image to display
-                    if (_velocity.y != 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
+                    if (_velocity.y > 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
                         _currentDirection = Entity.Direction.UP;
-                    else if (_velocity.x != 0 && currentJoystickPosition.angle() > 144 && currentJoystickPosition.angle() <= 216)
+                    else if (_velocity.x < 0 && currentJoystickPosition.angle() > 144 && currentJoystickPosition.angle() <= 216)
                         _currentDirection = Entity.Direction.LEFT;
-                    else if (_velocity.y != 0 && currentJoystickPosition.angle() > 216 && currentJoystickPosition.angle() <= 324)
+                    else if (_velocity.y < 0 && currentJoystickPosition.angle() > 216 && currentJoystickPosition.angle() <= 324)
                         _currentDirection = Entity.Direction.DOWN;
-                    else if (_velocity.x != 0 && (currentJoystickPosition.angle() > 324 || currentJoystickPosition.angle() <= 36))
+                    else if (_velocity.x > 0 && (currentJoystickPosition.angle() > 324 || currentJoystickPosition.angle() <= 36) && currentJoystickPosition.angle() != 0)
                         _currentDirection = Entity.Direction.RIGHT;
                     else {
-                        //todo: idle frame direction should be last direction of movement
-                        _currentDirection = Entity.Direction.DOWN;
-                        _state = Entity.State.IDLE;
+                        // idle frame direction should be last direction of movement
+                        _currentDirection = _lasttDirection;
                     }
 
+                    _lasttDirection = _currentDirection;
+
+                    Gdx.app.log(TAG, "_currentDirection set to " + _currentDirection.toString());
+                    Gdx.app.log(TAG, String.format("_velocity.x = %3.2f, _velocity.y = %3.2f, angle = %3.2f", _velocity.x, _velocity.x, currentJoystickPosition.angle()));
+
+                    // figure out state based on velocity
+                    if (_velocity.x != 0 || _velocity.y != 0) {
+
+                        if (isRunning)
+                            _state = Entity.State.RUNNING;
+                        else
+                            _state = Entity.State.WALKING;
+                    }
+                    else {
+                        _state = Entity.State.IDLE;
+                    }
                     //Gdx.app.log(TAG, String.format(currentJoystickPosition.toString()));
-                    //Gdx.app.log("tag", String.format(" Physics: State = %s, Direction = %s", _state.toString(), _currentDirection.toString()));
+                    //Gdx.app.log(TAG, String.format(" Physics: State = %s, Direction = %s", _state.toString(), _currentDirection.toString()));
                 }
             }
             else {
@@ -212,6 +237,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         updatePortalLayerActivation(mapMgr);
         updateDiscoverLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
+
+        // pass current state to graphics entity
+        entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_state));
+
         if (isConversationButtonPressed && !isLoadConversationMsgSent) {
             // send message only once per button press
             Entity npc = checkCollisionWithNPC(mapMgr);
@@ -225,6 +254,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
             else {
                 isNPCColliding = false;
+                isLoadConversationMsgSent = false;
             }
         }
         else if (isNPCColliding) {
@@ -233,6 +263,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 isNPCColliding = false;
                 isLoadConversationMsgSent = false;
             }
+        }
+        else {
+            isLoadConversationMsgSent = false;
         }
 
         if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
@@ -274,13 +307,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             camera.position.set(_currentEntityPosition.x, _currentEntityPosition.y, 0f);
             camera.update();
 
-            if (_currentDirection != null)
+            if (_currentDirection != null) {
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
+                Gdx.app.log(TAG, "sending _currentDirection = " + _currentDirection.toString());
+            }
         }else{
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
-        calculateNextPosition(delta, _state == Entity.State.RUNNING);
+        calculateNextPosition(delta);
     }
 
     private Entity checkCollisionWithNPC(com.smoftware.elmour.maps.MapManager mapMgr) {
@@ -465,4 +500,5 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
         return false;
     }
+
 }

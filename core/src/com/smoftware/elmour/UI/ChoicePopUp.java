@@ -57,31 +57,35 @@ public class ChoicePopUp extends Window {
 
     public void update() {
         if(Gdx.input.justTouched()) {
-            // Get the touch point in screen coordinates.
-            screenPos.set(Gdx.input.getX(), Gdx.input.getY());
+            if (choice != null) {
+                // Get the touch point in screen coordinates.
+                screenPos.set(Gdx.input.getX(), Gdx.input.getY());
 
-            // Convert the touch point into local coordinates
-            localPos.set(screenPos);
-            localPos = getParent().screenToLocalCoordinates(localPos);
+                // Convert the touch point into local coordinates
+                localPos.set(screenPos);
+                localPos = getParent().screenToLocalCoordinates(localPos);
 
-            Rectangle textAreaRect = new Rectangle(this.getX(), this.getY(), textArea.getWidth(), textArea.getHeight());
+                Rectangle textAreaRect = new Rectangle(this.getX(), this.getY(), textArea.getWidth(), textArea.getHeight());
 
-            // See if this window was touched
-            if (Utility.pointInRectangle(textAreaRect, localPos.x, localPos.y)) {
-                interact();
+                // See if this window was touched
+                if (Utility.pointInRectangle(textAreaRect, localPos.x, localPos.y)) {
+                    interact();
 
-                // save any SET_ commands as profile properties for persistence
-                if (choice.getConversationCommandEvent().toString().startsWith("SET_")) {
-                    ProfileManager.getInstance().setProperty(choice.getConversationCommandEvent().toString(), "true");
+                    // save any SET_ commands as profile properties for persistence
+                    if (choice.getConversationCommandEvent().toString().startsWith("SET_")) {
+                        ProfileManager.getInstance().setProperty(choice.getConversationCommandEvent().toString(), "true");
+                    }
                 }
             }
         }
     }
 
     public void interact() {
-        graph.notify(graph, choice.getConversationCommandEvent());
-        graph.notify(choice.getDestinationId(), ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID);
-        graph.notify(choice.getChoicePhrase(), ConversationGraphObserver.ConversationCommandEvent.PLAYER_RESPONSE);
+        if (choice != null) {
+            graph.notify(graph, choice.getConversationCommandEvent());
+            graph.notify(choice.getDestinationId(), ConversationGraphObserver.ConversationCommandEvent.NEXT_CONVERSATION_ID);
+            graph.notify(choice.getChoicePhrase(), ConversationGraphObserver.ConversationCommandEvent.PLAYER_RESPONSE);
+        }
     }
 
     public void setChoice(ConversationChoice choice) {
@@ -95,4 +99,9 @@ public class ChoicePopUp extends Window {
         //if( graph != null ) graph.removeAllObservers();
         this.graph = graph;
     }
+
+    public void clear() {
+        choice = null;
+    }
+
 }

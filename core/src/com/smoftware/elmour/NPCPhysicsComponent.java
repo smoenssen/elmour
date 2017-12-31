@@ -72,7 +72,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
         } else {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
-        calculateNextPosition(delta, _state == Entity.State.RUNNING);
+        calculateNextPosition(delta);
     }
 
     private boolean isEntityFarFromPlayer(com.smoftware.elmour.maps.MapManager mapMgr){

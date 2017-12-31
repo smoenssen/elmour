@@ -77,6 +77,7 @@ public class ConversationPopUp extends Window {
                     this.setVisible(true);
                     conversationIsActive = true;
                     state = State.LISTENING;
+                    conversationIsActive = true;
                     startInteractionThread();
                 }
                 break;
@@ -168,6 +169,10 @@ public class ConversationPopUp extends Window {
         fullText = conversation.getDialog();
         currentCharacter = conversation.getCharacter();
         Gdx.app.log(TAG, "populating fullText = " + fullText);
+
+        if (fullText.equals("EXIT_CONVERSATION")) {
+            graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
+        }
     }
 
     public void populateConversationDialogByText(String text, String character){
@@ -201,14 +206,14 @@ public class ConversationPopUp extends Window {
                         // wait up to 5 sec to make sure lines are populatedisEcho
                         int numLines = textArea.getLines();
                         for (int q = 0; q < 100 && numLines == 0; q++) {
-                            Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
                             pause(50);
 
                             numLines = textArea.getLines();
-                            Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
                         }
 
-                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
                         dialog.lineStrings = textArea.getLineStrings();
                         Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));

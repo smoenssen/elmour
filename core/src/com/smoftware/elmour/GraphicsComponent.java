@@ -39,6 +39,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
     protected void updateAnimations(float delta){
 
+        //Gdx.app.log("TAG", String.format("delta = %3.2f", delta));
         _frameTime = (_frameTime + delta)%5;
 
         if (_currentDirection == null)

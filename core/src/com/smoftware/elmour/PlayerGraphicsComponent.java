@@ -44,6 +44,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
             }
             else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
+                //Gdx.app.log(TAG, "currentState = " + currentState);
             }
             else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 _currentDirection = json.fromJson(Entity.Direction.class, string[1]);

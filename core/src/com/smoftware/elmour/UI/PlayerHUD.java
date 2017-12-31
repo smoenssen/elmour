@@ -67,6 +67,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private boolean isThereAnActiveHiddenChoice;
     private String nextConversationId;
     private boolean isCurrentConversationDone;
+    private boolean isExitingConversation;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -183,12 +184,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         conversationLabel = new ConversationLabel();
         if (ElmourGame.isAndroid()) {
-            conversationLabel.setWidth(100);
-            conversationLabel.setHeight(40);
+            conversationLabel.setWidth(80);
+            conversationLabel.setHeight(30);
         }
         else {
             conversationLabel.setWidth(100);
-            conversationLabel.setHeight(30);
+            conversationLabel.setHeight(40);
         }
         conversationLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
 
@@ -207,6 +208,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         numVisibleChoices = 0;
         isThereAnActiveHiddenChoice = false;
         isCurrentConversationDone = true;
+        isExitingConversation = false;
 
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
@@ -330,6 +332,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+        //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event){
             case PROFILE_LOADED:
                 boolean firstTime = profileManager.getIsNewProfile();
@@ -435,55 +438,66 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void onNotify(String value, ComponentEvent event) {
+        //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
             case LOAD_CONVERSATION:
                 // this is only done at the beginning of a conversation graph
                 if (isCurrentConversationDone) {
-                    Entity npc = _mapMgr.getCurrentSelectedMapEntity();
-                    EntityConfig config = npc.getEntityConfig();
-
-                    //Check to see if there is a version loading into properties
-                    if( config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString()) ) {
-                        EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
-                        if( configReturnProperty != null ){
-                            config = configReturnProperty;
-                        }
+                    if (isExitingConversation) {
+                        Gdx.app.log(TAG, "Exiting conversation");
+                        isExitingConversation = false;
                     }
+                    else {
+                        Gdx.app.log(TAG, "Loading conversation");
+                        Entity npc = _mapMgr.getCurrentSelectedMapEntity();
+                        EntityConfig config = npc.getEntityConfig();
 
-                    isCurrentConversationDone = false;
-                    conversationPopUp.loadConversation(config);
-                    conversationPopUp.getCurrentConversationGraph().addObserver(this);
+                        //Check to see if there is a version loading into properties
+                        if (config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString())) {
+                            EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
+                            if (configReturnProperty != null) {
+                                config = configReturnProperty;
+                            }
+                        }
+
+                        isCurrentConversationDone = false;
+                        conversationPopUp.loadConversation(config);
+                        conversationPopUp.getCurrentConversationGraph().addObserver(this);
+                    }
                 }
                 break;
             case SHOW_CONVERSATION:
                 // show or continue current conversation
                 Entity npcShow = _mapMgr.getCurrentSelectedMapEntity();
-                EntityConfig configShow = npcShow.getEntityConfig();
 
-                Gdx.app.log(TAG, "SHOW_CONVERSATION");
-                if( configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
-                    conversationLabel.setVisible(true);
+                if (npcShow != null) {
+                    EntityConfig configShow = npcShow.getEntityConfig();
 
-                    // this is where all the magic happens
-                    if (nextConversationId != null) {
-                        conversationPopUp.populateConversationDialogById(nextConversationId);
-                        conversationPopUp.interact(false);
-                    }
+                    Gdx.app.log(TAG, "SHOW_CONVERSATION");
+                    if (configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
+                        conversationLabel.setVisible(true);
 
-                    // don't interact here if there are choices visible
-                    if (numVisibleChoices == 0)
-                        conversationPopUp.interact(false);
+                        // this is where all the magic happens
+                        if (nextConversationId != null) {
+                            conversationPopUp.populateConversationDialogById(nextConversationId);
+                            conversationPopUp.interact(false);
+                        }
 
-                    // this sets the popup up for the next destination id if NO_CHOICE is active
-                    if (isThereAnActiveHiddenChoice) {
-                        nextConversationId = choicePopUp1.getChoice().getDestinationId();
-                        conversationPopUp.populateConversationDialogById(nextConversationId);
-                    }
+                        // don't interact here if there are choices visible
+                        if (numVisibleChoices == 0)
+                            conversationPopUp.interact(false);
 
-                    if (choicePopUp1.getChoice() != null) {
-                        if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
-                            if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
-                                conversationPopUp.hide();
+                        // this sets the popup up for the next destination id if NO_CHOICE is active
+                        // in this case, choicePopUp1 always holds the next destination id
+                        if (isThereAnActiveHiddenChoice) {
+                            nextConversationId = choicePopUp1.getChoice().getDestinationId();
+                            conversationPopUp.populateConversationDialogById(nextConversationId);
+                        }
+                        else if (choicePopUp1.getChoice() != null) {
+                            if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
+                                if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
+                                    conversationPopUp.hide();
+                                }
                             }
                         }
                     }
@@ -494,6 +508,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 if( configHide.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                     conversationLabel.setVisible(false);
                     conversationPopUp.hide();
+                    conversationPopUp.getCurrentConversationGraph().removeObserver(this);
                 }
                 break;
             case DID_INITIAL_INTERACTION:
@@ -537,6 +552,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
+        //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
             case LOAD_STORE_INVENTORY:
                 Entity selectedEntity = _mapMgr.getCurrentSelectedMapEntity();
@@ -560,7 +576,18 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 _storeInventoryUI.setVisible(true);
                 break;
             case EXIT_CONVERSATION:
-                _conversationUI.setVisible(false);
+                //_conversationUI.setVisible(false);
+                nextConversationId = null;
+                isCurrentConversationDone = true;
+                conversationPopUp.endConversation();
+                conversationLabel.setVisible(false);
+                conversationPopUp.hide();
+                isThereAnActiveHiddenChoice = false;
+                choicePopUp1.clear();
+                choicePopUp2.clear();
+                choicePopUp3.clear();
+                choicePopUp4.clear();
+                isExitingConversation = true;
                 _mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case ACCEPT_QUEST:

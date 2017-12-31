@@ -62,27 +62,11 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
 					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.PRESSED));
 				}
-				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
+				else if (actionButtons.get(ActionButtons.B_BUTTON_RELEASED)) {
 					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
 				}
 
-				if (joystickPosition.x != 0 && joystickPosition.y != 0 && actionButtons.get(ActionButtons.B_BUTTON_PRESSED) == false) {
-					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
-				}
-				else {
-					entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
-				}
-
 				entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
-
-			//todo
-				//Touch input
-				if (mouseButtons.get(Mouse.SELECT)) {
-					//Gdx.app.debug(TAG, "Mouse LEFT click at : (" + _lastMouseCoordinates.x + "," + _lastMouseCoordinates.y + ")" );
-					entity.sendMessage(MESSAGE.INIT_SELECT_ENTITY, _json.toJson(_lastMouseCoordinates));
-					mouseButtons.put(Mouse.SELECT, false);
-				}
-			//}
 		}
 		else {
 			//Keyboard input
