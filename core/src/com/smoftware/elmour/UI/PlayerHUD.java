@@ -3,13 +3,19 @@ package com.smoftware.elmour.UI;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -57,6 +63,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private QuestUI _questUI;
     private BattleUI _battleUI;
     private SignPopUp signPopUp;
+
     private ConversationPopUp conversationPopUp;
     private ConversationLabel conversationLabel;
     private ChoicePopUp choicePopUp1;
@@ -68,6 +75,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private String nextConversationId;
     private boolean isCurrentConversationDone;
     private boolean isExitingConversation;
+
+    private Image menuButton;
+    private Image menuButtonDown;
+    private boolean menuIsVisible;
+    private int numberOfMenuItems;
+    private TextButton partyButton;
+    private TextButton inventoryButton;
+    private TextButton optionsButton;
+    private TextButton saveButton;
 
     private Dialog _messageBoxUI;
     private Json _json;
@@ -185,11 +201,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         conversationLabel = new ConversationLabel();
         if (ElmourGame.isAndroid()) {
             conversationLabel.setWidth(80);
-            conversationLabel.setHeight(30);
+            conversationLabel.setHeight(20);
         }
         else {
-            conversationLabel.setWidth(100);
-            conversationLabel.setHeight(40);
+            conversationLabel.setWidth(80);
+            conversationLabel.setHeight(24);
         }
         conversationLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
 
@@ -210,6 +226,54 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         isCurrentConversationDone = true;
         isExitingConversation = false;
 
+        menuIsVisible = false;
+
+        numberOfMenuItems = 4; // update this if number of menu items changes
+        float menuBtnWidth = 50;
+        float menuBtnHeight = 20;
+        menuButton = new Image(new Texture("controllers/menuButton.png"));
+        menuButton.setSize(menuBtnWidth, menuBtnHeight);
+        menuButton.setPosition((_stage.getWidth() - menuBtnWidth) / 2, menuBtnHeight);
+
+        menuButtonDown = new Image(new Texture("controllers/menuButton_down.png"));
+        menuButtonDown.setSize(menuBtnWidth, menuBtnHeight);
+        menuButtonDown.setPosition((_stage.getWidth() - menuBtnWidth) / 2, menuBtnHeight);
+        menuButtonDown.setVisible(false);
+
+        partyButton = new TextButton("Party", Utility.ELMOUR_UI_SKIN);
+        inventoryButton = new TextButton("Inventory", Utility.ELMOUR_UI_SKIN);
+        optionsButton = new TextButton("Options", Utility.ELMOUR_UI_SKIN);
+        saveButton = new TextButton("Save", Utility.ELMOUR_UI_SKIN);
+
+        float menuPadding = 12;
+        float menuItemWidth = _stage.getWidth() / 3f;
+        float menuItemHeight = 45;
+        float menuItemX = _stage.getWidth() - menuItemWidth - menuPadding;
+        float menuItemY = _stage.getHeight() - menuItemHeight - menuPadding;
+
+        partyButton.setWidth(menuItemWidth);
+        partyButton.setHeight(menuItemHeight);
+        partyButton.setPosition(menuItemX, menuItemY);
+        partyButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        inventoryButton.setWidth(menuItemWidth);
+        inventoryButton.setHeight(menuItemHeight);
+        inventoryButton.setPosition(menuItemX, menuItemY);
+        inventoryButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        optionsButton.setWidth(menuItemWidth);
+        optionsButton.setHeight(menuItemHeight);
+        optionsButton.setPosition(menuItemX, menuItemY);
+        optionsButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        saveButton.setWidth(menuItemWidth);
+        saveButton.setHeight(menuItemHeight);
+        saveButton.setPosition(menuItemX, menuItemY);
+        saveButton.setVisible(false);
+
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
@@ -225,6 +289,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(choicePopUp2);
         _stage.addActor(choicePopUp3);
         _stage.addActor(choicePopUp4);
+        _stage.addActor(menuButtonDown);
+        _stage.addActor(menuButton);
+        _stage.addActor(partyButton);
+        _stage.addActor(inventoryButton);
+        _stage.addActor(optionsButton);
+        _stage.addActor(saveButton);
 
         _battleUI.validate();
         _questUI.validate();
@@ -259,6 +329,93 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
+        menuButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                menuButtonDown.setVisible(true);
+                menuButton.setVisible(false);
+
+                if (!menuIsVisible)
+                    showMenu();
+                else
+                    hideMenu(false);
+
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                menuButtonDown.setVisible(false);
+                menuButton.setVisible(true);
+                menuIsVisible = !menuIsVisible;
+            }
+        });
+
+        partyButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log(TAG, "party button up");
+                    if (touchPointIsInButton(partyButton)) {
+                        hideMenu(true);
+                    }
+                }
+            }
+        );
+
+        inventoryButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log(TAG, "inventory button up");
+                    if (touchPointIsInButton(inventoryButton)) {
+                        hideMenu(true);
+                    }
+                }
+            }
+        );
+
+        optionsButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    Gdx.app.log(TAG, "options button up");
+                    if (touchPointIsInButton(optionsButton)) {
+                        hideMenu(true);
+                    }
+                }
+            }
+        );
+
+        saveButton.addListener(new ClickListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                    // make sure touch point is still on this button
+                    if (touchPointIsInButton(saveButton)) {
+                        hideMenu(true);
+                        confirmOverwrite();
+                    }
+                }
+            }
+        );
+        /*
         ImageButton inventoryButton = _statusUI.getInventoryButton();
         inventoryButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -272,6 +429,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 _questUI.setVisible(_questUI.isVisible() ? false : true);
             }
         });
+        */
 
         _conversationUI.getCloseButton().addListener(new ClickListener() {
                                                          @Override
@@ -302,6 +460,109 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_EATING);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
+    }
+
+    private void hideMenu(boolean setVisibleFlag) {
+        partyButton.setVisible(false);
+        inventoryButton.setVisible(false);
+        optionsButton.setVisible(false);
+        saveButton.setVisible(false);
+
+        if (setVisibleFlag)
+            menuIsVisible = false;
+    }
+
+    private void showMenu() {
+        partyButton.setVisible(true);
+        inventoryButton.setVisible(true);
+        optionsButton.setVisible(true);
+        saveButton.setVisible(true);
+
+        // don't set visible flag to true here, it's done in the touchUp handler of the menu button
+    }
+
+    private boolean touchPointIsInButton(TextButton button) {
+        // Get touch point
+        Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+
+        // Convert the touch point into local coordinates
+        Vector2 localPos = new Vector2(screenPos);
+        localPos = _stage.screenToStageCoordinates(localPos);
+
+        Rectangle buttonRect = new Rectangle(button.getX(), button.getY(), button.getWidth(), button.getHeight());
+
+        return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
+    }
+
+    public void confirmOverwrite() {
+        TextButton btnYes = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnNo = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
+
+        final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
+            @Override
+            public float getPrefWidth() {
+                // force dialog width
+                return _stage.getWidth() / 1.1f;
+            }
+
+            @Override
+            public float getPrefHeight() {
+                // force dialog height
+                return 125f;
+            }
+        };
+        dialog.setModal(true);
+        dialog.setMovable(false);
+        dialog.setResizable(false);
+
+        btnYes.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                // save profile
+                ProfileManager.getInstance().saveProfile();
+                dialog.cancel();
+                dialog.hide();
+                //todo: is this necessary?
+                //dialog.remove();
+                return true;
+            }
+        });
+
+        btnNo.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                dialog.cancel();
+                dialog.hide();
+                return true;
+            }
+        });
+/*
+        TextureRegion myTex = new TextureRegion(_dialogBackgroundTextureRegion);
+        myTex.flip(false, true);
+        myTex.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        Drawable drawable = new TextureRegionDrawable(myTex);
+        dialog.setBackground(drawable);
+*/
+        float btnHeight = 30f;
+        float btnWidth = 100f;
+        Table t = new Table();
+        t.row().pad(5, 5, 0, 5);
+        // t.debug();
+
+        Label label1 = new Label("Overwrite existing profile?", Utility.ELMOUR_UI_SKIN, "message_box");
+        dialog.getContentTable().add(label1).padTop(5f);
+
+        t.add(btnYes).width(btnWidth).height(btnHeight);
+        t.add(btnNo).width(btnWidth).height(btnHeight);
+
+        dialog.getButtonTable().add(t).center().padBottom(10f);
+        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - signPopUp.getWidth() / 2, 25);
+
+        dialog.setName("confirmDialog");
+        _stage.addActor(dialog);
+
     }
 
     public Stage getStage() {
@@ -841,6 +1102,29 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp2.update();
         choicePopUp3.update();
         choicePopUp4.update();
+
+        // hide menu if screen is touched anywhere but the menu area or menu button
+        if(Gdx.input.justTouched() && menuIsVisible) {
+            // Get the touch point in screen coordinates.
+            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+
+            // Convert the touch point into local coordinates
+            Vector2 localPos = new Vector2(screenPos);
+            localPos = _stage.screenToStageCoordinates(localPos);
+
+            Rectangle menuButtonRect = new Rectangle(menuButton.getX(), menuButton.getY(), menuButton.getWidth(), menuButton.getHeight());
+
+            // make sure the menu button wasn't touched
+            if (!Utility.pointInRectangle(menuButtonRect, localPos.x, localPos.y)) {
+                Rectangle menuAreaRect = new Rectangle(saveButton.getX(), saveButton.getY(), saveButton.getWidth(), saveButton.getHeight() * numberOfMenuItems);
+
+                // Make sure the menu area wasn't touched
+                if (!Utility.pointInRectangle(menuAreaRect, localPos.x, localPos.y)) {
+                    hideMenu(true);
+                    Gdx.app.log(TAG, "render set menuIsVisible = false");
+                }
+            }
+        }
 
         _stage.act(delta);
         _stage.draw();

@@ -12,12 +12,12 @@ import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.maps.Map;
-import com.smoftware.elmour.maps.MapFactory;
-import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.maps.Map;
+import com.smoftware.elmour.maps.MapFactory;
+import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 
 public class MainGameScreen extends GameScreen {
@@ -75,6 +75,9 @@ public class MainGameScreen extends GameScreen {
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
 		if (ElmourGame.isAndroid()) {
+			// capture Android back key so it is not passed on to the OS
+			Gdx.input.setCatchBackKey(true);
+
             //NOTE!!! Need to create mobileControls before player because player
             //is an observer of mobileControls
 			controllersCam = new OrthographicCamera();
@@ -89,6 +92,7 @@ public class MainGameScreen extends GameScreen {
 
 			_multiplexer = new InputMultiplexer();
 			_multiplexer.addProcessor(mobileControls.getStage());
+			_multiplexer.addProcessor(_playerHUD.getStage());
 			Gdx.input.setInputProcessor(_multiplexer);
 		}
 		else {
@@ -119,7 +123,8 @@ public class MainGameScreen extends GameScreen {
 		setGameState(GameState.LOADING);
 
 		if (ElmourGame.isAndroid()) {
-			Gdx.input.setInputProcessor(mobileControls.getStage());
+			//Gdx.input.setInputProcessor(mobileControls.getStage());
+			Gdx.input.setInputProcessor(_multiplexer);
 		}
 		else
 			Gdx.input.setInputProcessor(_multiplexer);
@@ -224,14 +229,14 @@ public class MainGameScreen extends GameScreen {
 				_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
 
-			/////////////////srm - todo - testing character behind objects
+			/*////////////////srm - todo - testing character behind objects
 			_mapRenderer.getBatch().begin();
 			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Highest");
 			if( decorationMapLayer != null ){
 				_mapRenderer.renderTileLayer(decorationMapLayer);
 			}
 			_mapRenderer.getBatch().end();
-			//////////////////////////////
+			*//////////////////////////////
 		}
 
 		if (_playerHUD != null)
@@ -259,7 +264,7 @@ public class MainGameScreen extends GameScreen {
 
 	@Override
 	public void resume() {
-		setGameState(GameState.LOADING);
+		setGameState(GameState.RUNNING);
 		if (_playerHUD != null)
 			_playerHUD.resume();
 	}
@@ -306,7 +311,6 @@ public class MainGameScreen extends GameScreen {
 				_gameState = GameState.RUNNING;
 				break;
 		}
-
 	}
 
 	private void setupViewport(float width, float height){

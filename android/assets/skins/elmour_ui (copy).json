@@ -65,6 +65,16 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		font: myFontSmall
 		background: label
 	}
+	message_box: {
+		font: myFont
+		fontColor: white
+		background: transparent
+	}
+	label_tab: {
+		font: myFontSmall
+		fontColor: white
+		background: label_tab
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
@@ -128,10 +138,10 @@ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: default-font
+		font: myFont
 		fontColor: white
-		up: default-round
-		down: default-round-down
+		up: textbutton
+		down: textbutton_down
 	}
 	toggle: {
 		font: default-font
@@ -140,6 +150,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: default-round
 		down: default-round-down
 		checked: default-round-down
+	}
+	message_box: {
+		font: myFontSmall
+		fontColor: white
+		up: textbutton
+		down: textbutton_down
 	}
 }
 com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
@@ -180,6 +196,12 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		background: default-window
 		titleFont: default-font
 		titleFontColor: white
+		stageBackground: dialogDim
+	}
+	message_box: {
+		titleFont: myFontSmall
+		titleFontColor: white
+		background: textfield
 		stageBackground: dialogDim
 	}
 }

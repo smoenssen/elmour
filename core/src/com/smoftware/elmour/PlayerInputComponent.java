@@ -53,20 +53,25 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 			//
 			//}
 			//else {
-				if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
-					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
-				}
-				else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {
-					entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
-				}
-				else if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
-					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.PRESSED));
-				}
-				else if (actionButtons.get(ActionButtons.B_BUTTON_RELEASED)) {
-					entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
-				}
 
-				entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
+			// A button
+			if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
+				entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
+			}
+			else if (actionButtons.get(ActionButtons.A_BUTTON_RELEASED)) {
+				entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
+			}
+
+			//B button
+			if (actionButtons.get(ActionButtons.B_BUTTON_PRESSED)) {
+				entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.PRESSED));
+			}
+			else if (actionButtons.get(ActionButtons.B_BUTTON_RELEASED)) {
+				entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
+			}
+
+			// Joystick
+			entity.sendMessage(MESSAGE.CURRENT_JOYSTICK_POSITION, _json.toJson(joystickPosition));
 		}
 		else {
 			//Keyboard input

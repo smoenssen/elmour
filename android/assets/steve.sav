@@ -38,7 +38,7 @@ currentPlayerMPMax: {
 }
 currentTime: {
 	class: java.lang.Float
-	value: 107524.94
+	value: 337254.12
 }
 currentPlayerLevel: {
 	class: java.lang.Integer

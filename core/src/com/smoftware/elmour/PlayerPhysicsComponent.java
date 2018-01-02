@@ -148,8 +148,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                     _lasttDirection = _currentDirection;
 
-                    Gdx.app.log(TAG, "_currentDirection set to " + _currentDirection.toString());
-                    Gdx.app.log(TAG, String.format("_velocity.x = %3.2f, _velocity.y = %3.2f, angle = %3.2f", _velocity.x, _velocity.x, currentJoystickPosition.angle()));
+                    //Gdx.app.log(TAG, "_currentDirection set to " + _currentDirection.toString());
+                    //Gdx.app.log(TAG, String.format("_velocity.x = %3.2f, _velocity.y = %3.2f, angle = %3.2f", _velocity.x, _velocity.x, currentJoystickPosition.angle()));
 
                     // figure out state based on velocity
                     if (_velocity.x != 0 || _velocity.y != 0) {
@@ -309,7 +309,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
             if (_currentDirection != null) {
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
-                Gdx.app.log(TAG, "sending _currentDirection = " + _currentDirection.toString());
+                //Gdx.app.log(TAG, "sending _currentDirection = " + _currentDirection.toString());
             }
         }else{
             updateBoundingBoxPosition(_currentEntityPosition);
