@@ -1086,10 +1086,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void render(float delta) {
-        if( _shakeCam.isCameraShaking() ){
+        if (_shakeCam.isCameraShaking()) {
             Vector2 shakeCoords = _shakeCam.getNewShakePosition();
-            _camera.position.x = shakeCoords.x + _stage.getWidth()/2;
-            _camera.position.y = shakeCoords.y + _stage.getHeight()/2;
+            _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
+            _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
 
         if (signPopUp.isReady())
@@ -1102,6 +1102,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp2.update();
         choicePopUp3.update();
         choicePopUp4.update();
+
+        Entity entity = _mapMgr.getCurrentSelectedMapEntity();
+        if (entity != null) {
+            //Gdx.app.log(TAG, "Sending CONVERSATION_STATUS message");
+            if (!isCurrentConversationDone)
+                entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.IN_CONVERSATION));
+            else
+                entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.NOT_IN_CONVERSATION));
+        }
 
         // hide menu if screen is touched anywhere but the menu area or menu button
         if(Gdx.input.justTouched() && menuIsVisible) {

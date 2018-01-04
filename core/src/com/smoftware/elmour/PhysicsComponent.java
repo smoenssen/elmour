@@ -245,6 +245,48 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         _nextEntityPosition.y = testY;
     }
 
+    protected void calculateNextVerticalPosition(float deltaTime){
+        if( deltaTime > .7) return;
+
+        float testX = _currentEntityPosition.x;
+        float testY = _currentEntityPosition.y;
+
+        // NOTE: this function is currently for Android only
+        float velocityFactor = 0.075f;
+        if (isRunning)
+            velocityFactor = 0.125f;
+
+        // velocity is directly proportional to joystick position
+        _velocity = currentJoystickPosition;
+
+       // move vertically
+        testY += _velocity.y * velocityFactor;
+
+        _nextEntityPosition.x = testX;
+        _nextEntityPosition.y = testY;
+    }
+
+    protected void calculateNextHorizontalPosition(float deltaTime){
+        if( deltaTime > .7) return;
+
+        float testX = _currentEntityPosition.x;
+        float testY = _currentEntityPosition.y;
+
+        // NOTE: this function is currently for Android only
+        float velocityFactor = 0.075f;
+        if (isRunning)
+            velocityFactor = 0.125f;
+
+        // velocity is directly proportional to joystick position
+        _velocity = currentJoystickPosition;
+
+        // move horizontally
+        testX += _velocity.x * velocityFactor;
+
+        _nextEntityPosition.x = testX;
+        _nextEntityPosition.y = testY;
+    }
+
     protected void initBoundingBox(float percentageWidthReduced, float percentageHeightReduced){
         //Update the current bounding box
         float width;

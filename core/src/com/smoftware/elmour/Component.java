@@ -22,7 +22,8 @@ public interface Component {
         ENTITY_SELECTED,
         ENTITY_DESELECTED,
         A_BUTTON_STATUS,
-        B_BUTTON_STATUS
+        B_BUTTON_STATUS,
+        CONVERSATION_STATUS
     }
 
     void dispose();

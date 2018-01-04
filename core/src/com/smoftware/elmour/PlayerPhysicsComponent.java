@@ -34,6 +34,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean isLoadConversationMsgSent = false;
     private boolean isShowConversationMsgSent = false;
     private boolean isNPCColliding = false;
+    private boolean isConversationInProgress = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -59,7 +60,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
     @Override
     public void receiveMessage(String message) {
-        //Gdx.app.debug(TAG, "Got message " + message);
+        Gdx.app.debug(TAG, "Got message " + message);
         String[] string = message.split(Component.MESSAGE_TOKEN);
 
         if( string.length == 0 ) return;
@@ -67,6 +68,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
             if (ElmourGame.isAndroid()) {
+                // check for conversation in progress
+                if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_STATUS.toString())) {
+                    isConversationInProgress = _json.fromJson(Entity.ConversationStatus.class, string[1]) == Entity.ConversationStatus.IN_CONVERSATION;
+                }
+
                 // mobile controls
                 if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                     _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
@@ -241,6 +247,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         // pass current state to graphics entity
         entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_state));
 
+        /////////////////////////////////////////
+        //
+        // CONVERSATION HANDLING
+        //
         if (isConversationButtonPressed && !isLoadConversationMsgSent) {
             // send message only once per button press
             Entity npc = checkCollisionWithNPC(mapMgr);
@@ -268,6 +278,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             isLoadConversationMsgSent = false;
         }
 
+        /////////////////////////////////////////
+        //
+        // INTERACTION HANDLING
+        //
         if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
             // send message only once per button press
             // check for interaction layer collision
@@ -298,9 +312,43 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             isInteractionCollisionMsgSent = false;
         }
 
-        if (    !isCollisionWithMapLayer(entity, mapMgr) &&
-                !isCollisionWithMapEntities(entity, mapMgr) &&
-                (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)){
+        ///////////////////////////////////////////////////
+        //
+        // OBSTACLE COLLISION HANDLING AND SETTING POSITION
+        //
+        if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr) &&
+            (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
+            updatePosition(entity, mapMgr);
+        }
+        else if (ElmourGame.isAndroid() && (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
+            // check if okay to move next vertical or horizontal position based on joystick position
+            // (prevents "sticking" to obstacle)
+            calculateNextVerticalPosition(delta);
+            updateBoundingBoxPosition(_nextEntityPosition);
+            if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
+                updatePosition(entity, mapMgr);
+            }
+            else {
+                calculateNextHorizontalPosition(delta);
+                updateBoundingBoxPosition(_nextEntityPosition);
+                if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
+                    updatePosition(entity, mapMgr);
+                }
+                else {
+                    updateBoundingBoxPosition(_currentEntityPosition);
+                }
+            }
+        }
+        else {
+            updateBoundingBoxPosition(_currentEntityPosition);
+        }
+
+        calculateNextPosition(delta);
+    }
+
+    private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr) {
+        // don't allow movement if conversation is in progress
+        if (!isConversationInProgress) {
             setNextPositionToCurrent(entity);
 
             Camera camera = mapMgr.getCamera();
@@ -311,11 +359,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
                 //Gdx.app.log(TAG, "sending _currentDirection = " + _currentDirection.toString());
             }
-        }else{
-            updateBoundingBoxPosition(_currentEntityPosition);
         }
-
-        calculateNextPosition(delta);
     }
 
     private Entity checkCollisionWithNPC(com.smoftware.elmour.maps.MapManager mapMgr) {

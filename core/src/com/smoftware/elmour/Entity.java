@@ -21,6 +21,11 @@ import java.util.Hashtable;
 public class Entity {
 	private static final String TAG = Entity.class.getSimpleName();
 
+	public static enum ConversationStatus {
+		IN_CONVERSATION,
+		NOT_IN_CONVERSATION;
+	}
+
 	public static enum Direction {
 		UP,
 		RIGHT,
