@@ -39,10 +39,9 @@ public class SplashScreen extends GameScreen {
         viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         stage = new Stage(viewport);
 
-        //creation
-        Table table = new Table();
-        table.setFillParent(true);
+        //creation and layout
 
+        /* srm - trying to get a progress bar working
         Skin skin = new Skin();
         Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
@@ -56,13 +55,16 @@ public class SplashScreen extends GameScreen {
         bar.setPosition(10, 10);
         bar.setSize(290, bar.getPrefHeight());
         bar.setAnimateDuration(2);
+        */
 
-        Image title = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("ElmourGame_title"));
+        Image title = new Image(new Texture("graphics/Elmour.png"));
+        title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
-        //Layout
-        table.add(title).spaceBottom(50).row();
-        table.add(bar);
-        stage.addActor(table);
+        Image smoftware = new Image(new Texture("graphics/smoftware.png"));
+        smoftware.setPosition((stage.getWidth() - smoftware.getWidth()) / 2, 50);
+
+        stage.addActor(title);
+        stage.addActor(smoftware);
     }
 
     @Override
@@ -74,20 +76,16 @@ public class SplashScreen extends GameScreen {
         // delay used for amount of time to show splash screen
         delayTime += delta;
 
-        //bar.setValue(100);
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.draw();
         stage.act(delta);
-        //stage.act();
+        stage.draw();
 
-        if (delayTime > 3.5f && splashShowing) {
-            game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainMenu));
+        if (splashShowing && (Gdx.input.justTouched() || delayTime > 4f)) {
+            game.setScreen(game.getScreenType(ElmourGame.ScreenType.StartScreen));
             splashShowing = false;
         }
-        Gdx.app.log("tag", String.format("delta = %3.2f", delta));
     }
 
     @Override

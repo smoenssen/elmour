@@ -101,6 +101,7 @@ public final class Utility {
 		}
 	}
 
+	// srm: see https://github.com/libgdx/libgdx/wiki/Managing-your-assets
 	public static float loadCompleted(){
 		return _assetManager.getProgress();
 	}

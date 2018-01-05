@@ -494,7 +494,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
     }
 
-    public void confirmOverwrite() {
+    private void confirmOverwrite() {
         TextButton btnYes = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
         TextButton btnNo = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
 
@@ -558,7 +558,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         t.add(btnNo).width(btnWidth).height(btnHeight);
 
         dialog.getButtonTable().add(t).center().padBottom(10f);
-        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - signPopUp.getWidth() / 2, 25);
+        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - dialog.getWidth() / 2, 25);
 
         dialog.setName("confirmDialog");
         _stage.addActor(dialog);

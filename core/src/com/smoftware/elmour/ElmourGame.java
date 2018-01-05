@@ -12,6 +12,7 @@ import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.MainMenuScreen;
 import com.smoftware.elmour.screens.NewGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
+import com.smoftware.elmour.screens.StartScreen;
 
 
 public class ElmourGame extends Game {
@@ -23,6 +24,7 @@ public class ElmourGame extends Game {
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
 
 	private static SplashScreen splashScreen;
+	private static StartScreen startScreen;
 	private static MainGameScreen _mainGameScreen;
 	private static MainMenuScreen _mainMenuScreen;
 	private static LoadGameScreen _loadGameScreen;
@@ -33,6 +35,7 @@ public class ElmourGame extends Game {
 
 	public static enum ScreenType{
 		SplashScreen,
+		StartScreen,
 		MainMenu,
 		MainGame,
 		LoadGame,
@@ -46,6 +49,8 @@ public class ElmourGame extends Game {
 		switch(screenType){
 			case SplashScreen:
 				return splashScreen;
+			case StartScreen:
+				return startScreen;
 			case MainMenu:
 				return _mainMenuScreen;
 			case MainGame:
@@ -86,6 +91,7 @@ public class ElmourGame extends Game {
 		Gdx.app.log("tag", String.format("screen width = %d, height = %d", V_WIDTH, V_HEIGHT));
 
 		splashScreen = new SplashScreen(this);
+		startScreen = new StartScreen(this);
 		_mainGameScreen = new MainGameScreen(this);
 		_mainMenuScreen = new MainMenuScreen(this);
 		_loadGameScreen = new LoadGameScreen(this);
@@ -111,6 +117,7 @@ public class ElmourGame extends Game {
 	@Override
 	public void dispose(){
 		splashScreen.dispose();;
+		startScreen.dispose();
 		_mainGameScreen.dispose();
 		_mainMenuScreen.dispose();
 		_loadGameScreen.dispose();
