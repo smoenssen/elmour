@@ -31,7 +31,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     public Rectangle _boundingBox;
     protected BoundingBoxLocation _boundingBoxLocation;
     protected Ray _selectionRay;
-    protected final float _selectRayMaximumDistance = 16.0f;
+    protected final float _selectRayMaximumDistance = 20.0f;
 
     public static enum BoundingBoxLocation{
         BOTTOM_LEFT,

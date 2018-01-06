@@ -60,7 +60,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
     @Override
     public void receiveMessage(String message) {
-        Gdx.app.debug(TAG, "Got message " + message);
+        //Gdx.app.debug(TAG, "Got message " + message);
         String[] string = message.split(Component.MESSAGE_TOKEN);
 
         if( string.length == 0 ) return;
@@ -372,9 +372,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         for( Entity mapEntity : _tempEntities ) {
             Rectangle mapEntityBoundingBox = mapEntity.getCurrentBoundingBox();
 
-            //Check distance
-            _selectionRay.set(_boundingBox.x, _boundingBox.y, 0.0f, mapEntityBoundingBox.x, mapEntityBoundingBox.y, 0.0f);
+            //Check distance from center points of entities
+            float npcCenterX = mapEntityBoundingBox.x + (mapEntityBoundingBox.getWidth() / 2);
+            float npcCenterY = mapEntityBoundingBox.y + (mapEntityBoundingBox.getHeight() / 2);
+            float playerCenterX = _boundingBox.x + (_boundingBox.getWidth() / 2);
+            float playerCenterY = _boundingBox.y + (_boundingBox.getHeight() / 2);
+            _selectionRay.set(playerCenterX, playerCenterY, 0.0f, npcCenterX, npcCenterY, 0.0f);
             float distance =  _selectionRay.origin.dst(_selectionRay.direction);
+
+            //Gdx.app.log(TAG, String.format("Distance = %3.2f", distance));
 
             if( distance <= _selectRayMaximumDistance ){
                 //We have a valid entity selection

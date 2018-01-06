@@ -60,7 +60,8 @@ public class StartScreen  extends GameScreen {
         if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.DEFAULT_PROFILE))
             continueButton.setVisible(false);
 
-        menuItemY -= menuItemHeight - 2;
+        //menuItemY -= menuItemHeight - 2;
+        menuItemY -= menuItemHeight + 10;
         newGameButton.setWidth(menuItemWidth);
         newGameButton.setHeight(menuItemHeight);
         newGameButton.setPosition(menuItemX, menuItemY);
