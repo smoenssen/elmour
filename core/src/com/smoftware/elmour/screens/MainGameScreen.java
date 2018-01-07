@@ -257,7 +257,7 @@ public class MainGameScreen extends GameScreen {
 
 	@Override
 	public void pause() {
-		setGameState(GameState.SAVING);
+		//setGameState(GameState.SAVING);
 		if (_playerHUD != null)
 			_playerHUD.pause();
 	}

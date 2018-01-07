@@ -1,0 +1,60 @@
+{
+currentPlayerHP: {
+	class: java.lang.Integer
+	value: -1
+}
+castleOfDoomMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 248
+	y: 24
+}
+topWorldMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 256
+	y: 336
+}
+playerEquipInventory: []
+playerQuests: []
+currentPlayerHPMax: {
+	class: java.lang.Integer
+	value: -1
+}
+currentPlayerMP: {
+	class: java.lang.Integer
+	value: -1
+}
+townMapStartPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 208
+	y: 32
+}
+currentPlayerGP: {
+	class: java.lang.Integer
+	value: -1
+}
+currentPlayerMPMax: {
+	class: java.lang.Integer
+	value: -1
+}
+currentTime: {
+	class: java.lang.Float
+	value: 0
+}
+currentPlayerLevel: {
+	class: java.lang.Integer
+	value: -1
+}
+currentPlayerXP: {
+	class: java.lang.Integer
+	value: 0
+}
+currentPlayerXPMax: {
+	class: java.lang.Integer
+	value: -1
+}
+playerInventory: []
+currentMapType: {
+	class: java.lang.String
+	value: MAP1
+}
+}

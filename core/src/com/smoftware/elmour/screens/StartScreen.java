@@ -57,7 +57,7 @@ public class StartScreen  extends GameScreen {
         continueButton.setHeight(menuItemHeight);
         continueButton.setPosition(menuItemX, menuItemY);
 
-        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.DEFAULT_PROFILE))
+        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE))
             continueButton.setVisible(false);
 
         //menuItemY -= menuItemHeight - 2;
@@ -82,7 +82,7 @@ public class StartScreen  extends GameScreen {
                       // use for debugging if I want to use a different profile
                       //game.setScreen(game.getScreenType(ElmourGame.ScreenType.LoadGame));
 
-                      ProfileManager.getInstance().setCurrentProfile(ProfileManager.DEFAULT_PROFILE);
+                      ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
                       game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
                   }
               }
@@ -96,7 +96,7 @@ public class StartScreen  extends GameScreen {
 
                    @Override
                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                       if (ProfileManager.getInstance().doesProfileExist(ProfileManager.DEFAULT_PROFILE)) {
+                       if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
                            confirmOverwrite();
                        }
                        else {
@@ -108,8 +108,8 @@ public class StartScreen  extends GameScreen {
     }
 
     private void startNewGame() {
-        ProfileManager.getInstance().writeProfileToStorage(ProfileManager.DEFAULT_PROFILE, "", false);
-        ProfileManager.getInstance().setCurrentProfile(ProfileManager.DEFAULT_PROFILE);
+        ProfileManager.getInstance().writeProfileToStorage(ProfileManager.NEW_GAME_PROFILE, "", false);
+        ProfileManager.getInstance().setCurrentProfile(ProfileManager.NEW_GAME_PROFILE);
         ProfileManager.getInstance().setIsNewProfile(true);
 
         // To invoke libGDX routines like setScreen or others that need to be executed on the
@@ -125,8 +125,8 @@ public class StartScreen  extends GameScreen {
 
     private void confirmOverwrite() {
         Gdx.app.log("tag", "confirmOverwrite");
-        TextButton btnYes = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnNo = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnYes = new TextButton("Yes", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnNo = new TextButton("No", Utility.ELMOUR_UI_SKIN, "message_box");
 
         final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
             @Override
@@ -173,7 +173,7 @@ public class StartScreen  extends GameScreen {
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label("All progress will be deleted!\nWould you like to continue?", Utility.ELMOUR_UI_SKIN, "message_box");
+        Label label1 = new Label("Start a new game?", Utility.ELMOUR_UI_SKIN, "message_box");
         dialog.getContentTable().add(label1).padTop(5f);
 
         t.add(btnYes).width(btnWidth).height(btnHeight);

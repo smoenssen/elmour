@@ -36,6 +36,11 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
+            // check for conversation in progress
+            if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_STATUS.toString())) {
+                isConversationInProgress = json.fromJson(Entity.ConversationStatus.class, string[1]) == Entity.ConversationStatus.IN_CONVERSATION;
+            }
+
             if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 _currentPosition = json.fromJson(Vector2.class, string[1]);
             }

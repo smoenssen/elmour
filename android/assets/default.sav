@@ -38,15 +38,11 @@ currentPlayerMPMax: {
 }
 currentTime: {
 	class: java.lang.Float
-	value: 83794.23
+	value: 43416.63
 }
 currentPlayerLevel: {
 	class: java.lang.Integer
 	value: 1
-}
-SET_C1_CH1_N5: {
-	class: java.lang.String
-	value: "true"
 }
 currentPlayerXP: {
 	class: java.lang.Integer

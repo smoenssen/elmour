@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -281,7 +282,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(_messageBoxUI);
         _stage.addActor(_statusUI);
         _stage.addActor(_inventoryUI);
-        _stage.addActor(_clock);
+        //_stage.addActor(_clock);
         _stage.addActor(signPopUp);
         _stage.addActor(conversationPopUp);
         _stage.addActor(conversationLabel);
@@ -410,7 +411,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     // make sure touch point is still on this button
                     if (touchPointIsInButton(saveButton)) {
                         hideMenu(true);
-                        confirmOverwrite();
+                        if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
+                            confirmOverwrite();
+                        }
+                        else {
+                            ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
+                            ProfileManager.getInstance().saveProfile();
+                        }
                     }
                 }
             }
@@ -495,8 +502,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     private void confirmOverwrite() {
-        TextButton btnYes = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnNo = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnYes = new TextButton("Yes", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnNo = new TextButton("No", Utility.ELMOUR_UI_SKIN, "message_box");
 
         final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
             @Override
@@ -520,6 +527,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
                 // save profile
+                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
                 ProfileManager.getInstance().saveProfile();
                 dialog.cancel();
                 dialog.hide();
@@ -551,7 +559,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label("Overwrite existing profile?", Utility.ELMOUR_UI_SKIN, "message_box");
+        Label label1 = new Label("Existing saved data will be overwritten!\nIs that okay?", Utility.ELMOUR_UI_SKIN, "message_box");
+        label1.setAlignment(Align.center);
         dialog.getContentTable().add(label1).padTop(5f);
 
         t.add(btnYes).width(btnWidth).height(btnHeight);
@@ -1103,13 +1112,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp3.update();
         choicePopUp4.update();
 
-        Entity entity = _mapMgr.getCurrentSelectedMapEntity();
-        if (entity != null) {
+        if (_player != null) {
             //Gdx.app.log(TAG, "Sending CONVERSATION_STATUS message");
             if (!isCurrentConversationDone)
-                entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.IN_CONVERSATION));
+                _player.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.IN_CONVERSATION));
             else
-                entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.NOT_IN_CONVERSATION));
+                _player.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.NOT_IN_CONVERSATION));
         }
 
         // hide menu if screen is touched anywhere but the menu area or menu button

@@ -3,7 +3,6 @@ package com.smoftware.elmour.profile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -21,14 +20,15 @@ public class ProfileManager extends ProfileSubject {
     private boolean _isNewProfile = false;
 
     private static final String SAVEGAME_SUFFIX = ".sav";
-    public static final String DEFAULT_PROFILE = "default";
+    public static final String SAVED_GAME_PROFILE = "saved_game";
+    public static final String NEW_GAME_PROFILE = "new_game";
 
 
     private ProfileManager(){
         _json = new Json();
         _profiles = new Hashtable<String,FileHandle>();
         _profiles.clear();
-        _profileName = DEFAULT_PROFILE;
+        _profileName = NEW_GAME_PROFILE;
         storeAllProfiles();
     }
 
@@ -147,11 +147,14 @@ public class ProfileManager extends ProfileSubject {
     }
 
     public void setCurrentProfile(String profileName){
+        /*
         if( doesProfileExist(profileName) ){
             _profileName = profileName;
         }else{
-            _profileName = DEFAULT_PROFILE;
+            _profileName = NEW_GAME_PROFILE;
         }
+        */
+        _profileName = profileName;
     }
 
 }

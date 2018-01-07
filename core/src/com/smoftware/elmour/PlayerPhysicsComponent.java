@@ -67,11 +67,14 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
+            // put common stuff here...
+
+            // check for conversation in progress
+            if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_STATUS.toString())) {
+                isConversationInProgress = _json.fromJson(Entity.ConversationStatus.class, string[1]) == Entity.ConversationStatus.IN_CONVERSATION;
+            }
+
             if (ElmourGame.isAndroid()) {
-                // check for conversation in progress
-                if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_STATUS.toString())) {
-                    isConversationInProgress = _json.fromJson(Entity.ConversationStatus.class, string[1]) == Entity.ConversationStatus.IN_CONVERSATION;
-                }
 
                 // mobile controls
                 if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
