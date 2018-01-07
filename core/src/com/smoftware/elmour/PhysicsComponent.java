@@ -25,12 +25,15 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Json _json;
     protected Vector2 _velocity;
     protected boolean isRunning;
+    protected boolean isNPC;
+    protected boolean isConversationInProgress;
 
     protected Array<Entity> _tempEntities;
 
     public Rectangle _boundingBox;
     protected BoundingBoxLocation _boundingBoxLocation;
     protected Ray _selectionRay;
+    protected float selectionAngle;
     protected final float _selectRayMaximumDistance = 20.0f;
 
     public static enum BoundingBoxLocation{
@@ -50,13 +53,18 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             this._velocity = new Vector2(2f,2f);
 
         isRunning = false;
+        isNPC = false;
+        isConversationInProgress = false;
 
         this._boundingBox = new Rectangle();
         this._json = new Json();
         this._tempEntities = new Array<Entity>();
         _boundingBoxLocation = BoundingBoxLocation.BOTTOM_LEFT;
         _selectionRay = new Ray(new Vector3(), new Vector3());
+        selectionAngle = 0;
     }
+
+    public float getSelectionAngle() { return selectionAngle; }
 
     protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         _tempEntities.clear();
@@ -196,6 +204,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected void calculateNextPosition(float deltaTime){
         if( _currentDirection == null ) return;
 
+        //Gdx.app.log(TAG, String.format("deltaTime = %3.2f", deltaTime));
+
         if( deltaTime > .7) return;
 
         float testX = _currentEntityPosition.x;
@@ -206,17 +216,43 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             if (isRunning)
                 velocityFactor = 0.125f;
 
-            // velocity is directly proportional to joystick position
-            _velocity = currentJoystickPosition;
-            testX += _velocity.x * velocityFactor;
-            testY += _velocity.y * velocityFactor;
+            if (!isNPC) {
+                // velocity is directly proportional to joystick position
+                _velocity = currentJoystickPosition;
+                testX += _velocity.x * velocityFactor;
+                testY += _velocity.y * velocityFactor;
+            }
+            else {
+                Vector2 npcVelocity = new Vector2(1.5f, 1.5f);
+
+                npcVelocity.scl(deltaTime);
+
+                switch (_currentDirection) {
+                    case LEFT:
+                        testX -= npcVelocity.x;
+                        break;
+                    case RIGHT:
+                        testX += npcVelocity.x;
+                        break;
+                    case UP:
+                        testY += npcVelocity.y;
+                        break;
+                    case DOWN:
+                        testY -= npcVelocity.y;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             //Gdx.app.log(TAG, String.format("velocity factor = %3.2f", velocityFactor));
         }
         else {
             float velocityFactor = 2.0f;
             if (isRunning)
-                velocityFactor = 4.0f;
+                velocityFactor = 8.0f; // super fast for desktop!
+            else if (isNPC)
+                velocityFactor = 1.0f;
 
             _velocity.scl(deltaTime);
 

@@ -247,6 +247,8 @@ public class Entity {
 		return _graphicsComponent._currentPosition;
 	}
 
+	public float getSelectionAngle() { return _physicsComponent.getSelectionAngle(); }
+
 	public InputProcessor getInputProcessor(){
 		return _inputComponent;
 	}

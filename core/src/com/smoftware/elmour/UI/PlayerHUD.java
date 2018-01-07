@@ -76,6 +76,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private String nextConversationId;
     private boolean isCurrentConversationDone;
     private boolean isExitingConversation;
+    private boolean didSendConversationBeginMsg;
+    private boolean didSendConversationDoneMsg;
 
     private Image menuButton;
     private Image menuButtonDown;
@@ -226,6 +228,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         isThereAnActiveHiddenChoice = false;
         isCurrentConversationDone = true;
         isExitingConversation = false;
+        didSendConversationBeginMsg = false;
+        didSendConversationDoneMsg = false;
 
         menuIsVisible = false;
 
@@ -559,7 +563,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label("Existing saved data will be overwritten!\nIs that okay?", Utility.ELMOUR_UI_SKIN, "message_box");
+        Label label1 = new Label("Existing saved data will be\noverwritten! Is that okay?", Utility.ELMOUR_UI_SKIN, "message_box");
         label1.setAlignment(Align.center);
         dialog.getContentTable().add(label1).padTop(5f);
 
@@ -1113,11 +1117,26 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp4.update();
 
         if (_player != null) {
-            //Gdx.app.log(TAG, "Sending CONVERSATION_STATUS message");
-            if (!isCurrentConversationDone)
+            // send conversation status message if necessary
+            if (!isCurrentConversationDone && !didSendConversationBeginMsg) {
+                didSendConversationBeginMsg = true;
+                didSendConversationDoneMsg = false;
                 _player.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.IN_CONVERSATION));
-            else
+                Entity entity = _mapMgr.getCurrentSelectedMapEntity();
+                if (entity != null) {
+                    Float angle = _player.getSelectionAngle();
+                    entity.sendMessage(Component.MESSAGE.CONVERSATION_ANGLE, _json.toJson(angle));
+                    entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.IN_CONVERSATION));
+                }
+            }
+            else if (isCurrentConversationDone && !didSendConversationDoneMsg) {
+                didSendConversationDoneMsg = true;
+                didSendConversationBeginMsg = false;
                 _player.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.NOT_IN_CONVERSATION));
+                Entity entity = _mapMgr.getCurrentSelectedMapEntity();
+                if (entity != null)
+                    entity.sendMessage(Component.MESSAGE.CONVERSATION_STATUS, _json.toJson(Entity.ConversationStatus.NOT_IN_CONVERSATION));
+            }
         }
 
         // hide menu if screen is touched anywhere but the menu area or menu button

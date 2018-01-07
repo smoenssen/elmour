@@ -49,88 +49,91 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
         //Gdx.app.log("tag", String.format("Graphics: State = %s, Direction = %s", currentState.toString(), _currentDirection.toString()));
 
-        if (!isConversationInProgress) {
-            //Look into the appropriate variable when changing position
-            switch (_currentDirection) {
-                case DOWN:
-                    if (currentState == Entity.State.WALKING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_DOWN);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.RUNNING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_DOWN);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.IDLE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_DOWN);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrames()[0];
-                    } else if (currentState == Entity.State.IMMOBILE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    }
-                    break;
-                case LEFT:
-                    if (currentState == Entity.State.WALKING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_LEFT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.RUNNING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_LEFT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.IDLE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_LEFT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrames()[0];
-                    } else if (currentState == Entity.State.IMMOBILE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    }
-                    break;
-                case UP:
-                    if (currentState == Entity.State.WALKING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_UP);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.RUNNING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_UP);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.IDLE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_UP);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrames()[0];
-                    } else if (currentState == Entity.State.IMMOBILE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    }
-                    break;
-                case RIGHT:
-                    if (currentState == Entity.State.WALKING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_RIGHT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.RUNNING) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_RIGHT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    } else if (currentState == Entity.State.IDLE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_RIGHT);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrames()[0];
-                    } else if (currentState == Entity.State.IMMOBILE) {
-                        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
-                        if (animation == null) return;
-                        _currentFrame = animation.getKeyFrame(_frameTime);
-                    }
-                    break;
-                default:
-                    break;
-            }
+        if (isConversationInProgress) {
+            // force idle state
+            currentState = Entity.State.IDLE;
+        }
+
+        //Look into the appropriate variable when changing position
+        switch (_currentDirection) {
+            case DOWN:
+                if (currentState == Entity.State.WALKING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_DOWN);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.RUNNING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_DOWN);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.IDLE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_DOWN);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrames()[0];
+                } else if (currentState == Entity.State.IMMOBILE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                }
+                break;
+            case LEFT:
+                if (currentState == Entity.State.WALKING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_LEFT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.RUNNING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_LEFT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.IDLE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_LEFT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrames()[0];
+                } else if (currentState == Entity.State.IMMOBILE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                }
+                break;
+            case UP:
+                if (currentState == Entity.State.WALKING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_UP);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.RUNNING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_UP);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.IDLE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_UP);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrames()[0];
+                } else if (currentState == Entity.State.IMMOBILE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                }
+                break;
+            case RIGHT:
+                if (currentState == Entity.State.WALKING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_RIGHT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.RUNNING) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.RUN_RIGHT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                } else if (currentState == Entity.State.IDLE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.WALK_RIGHT);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrames()[0];
+                } else if (currentState == Entity.State.IMMOBILE) {
+                    Animation<TextureRegion> animation = animations.get(Entity.AnimationType.IMMOBILE);
+                    if (animation == null) return;
+                    _currentFrame = animation.getKeyFrame(_frameTime);
+                }
+                break;
+            default:
+                break;
         }
     }
 

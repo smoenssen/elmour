@@ -16,6 +16,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
     public NPCPhysicsComponent(){
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
         initBoundingBox(0.4f, 0.15f);
+        isNPC = true;
     }
 
     @Override
@@ -31,6 +32,15 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
         //Specifically for messages with 1 object payload
         if( string.length == 2 ) {
+
+            // check for conversation in progress
+            if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_STATUS.toString())) {
+                isConversationInProgress = _json.fromJson(Entity.ConversationStatus.class, string[1]) == Entity.ConversationStatus.IN_CONVERSATION;
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.CONVERSATION_ANGLE.toString())) {
+                selectionAngle = _json.fromJson(Float.class, string[1]);
+            }
+
            // if (ElmourGame.isAndroid()) {
                 //todo
            // }
@@ -42,7 +52,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
                 else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                     _state = _json.fromJson(Entity.State.class, string[1]);
                 }
-                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString()) && !isConversationInProgress) {
                     _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
@@ -65,14 +75,33 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
         if( _state == Entity.State.IMMOBILE ) return;
 
-        if (    !isCollisionWithMapLayer(entity, mapMgr) &&
-                !isCollisionWithMapEntities(entity, mapMgr) &&
-                (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)){
-            setNextPositionToCurrent(entity);
-        } else {
-            updateBoundingBoxPosition(_currentEntityPosition);
+        if (isConversationInProgress) {
+            // face the player based on selection angle between player and NPC
+            if (selectionAngle> 36 && selectionAngle <= 144)
+                _currentDirection = Entity.Direction.DOWN;
+            else if (selectionAngle > 144 && selectionAngle <= 216)
+                _currentDirection = Entity.Direction.RIGHT;
+            else if (selectionAngle > 216 && selectionAngle <= 324)
+                _currentDirection = Entity.Direction.UP;
+            else
+                // selectionAngle > 324 || selectionAngle <= 36
+                _currentDirection = Entity.Direction.LEFT;
+
+            entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+            entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
+            //Gdx.app.log(TAG, "current direction = " + _currentDirection.toString());
         }
-        calculateNextPosition(delta);
+        else {
+            if (!isCollisionWithMapLayer(entity, mapMgr) &&
+                    !isCollisionWithMapEntities(entity, mapMgr) &&
+                    (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
+                setNextPositionToCurrent(entity);
+            } else {
+                updateBoundingBoxPosition(_currentEntityPosition);
+            }
+
+            calculateNextPosition(delta);
+        }
     }
 
     private boolean isEntityFarFromPlayer(com.smoftware.elmour.maps.MapManager mapMgr){

@@ -34,7 +34,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean isLoadConversationMsgSent = false;
     private boolean isShowConversationMsgSent = false;
     private boolean isNPCColliding = false;
-    private boolean isConversationInProgress = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -236,6 +235,19 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     _mouseSelectCoordinates = _json.fromJson(Vector3.class, string[1]);
                     _isMouseSelectEnabled = true;
                 }
+
+                if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
+                    b_BtnStatus = _json.fromJson(Entity.B_ButtonAction.class, string[1]);
+
+                    if (b_BtnStatus == Entity.B_ButtonAction.PRESSED) {
+                        isRunning = true;
+                        _state = Entity.State.RUNNING;
+                        Gdx.app.log(TAG, "B button pressed");
+                    }
+                    else if (b_BtnStatus == Entity.B_ButtonAction.RELEASED){
+                        isRunning = false;
+                    }
+                }
             }
         }
     }
@@ -343,6 +355,23 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
         else {
+
+            if (isConversationInProgress) {
+                // face the NPC based on selection angle between player and NPC
+                if (selectionAngle > 36 && selectionAngle <= 144)
+                    _currentDirection = Entity.Direction.UP;
+                else if (selectionAngle > 144 && selectionAngle <= 216)
+                    _currentDirection = Entity.Direction.LEFT;
+                else if (selectionAngle > 216 && selectionAngle <= 324)
+                    _currentDirection = Entity.Direction.DOWN;
+                else
+                    // selectionAngle > 324 || selectionAngle <= 36
+                    _currentDirection = Entity.Direction.RIGHT;
+
+                // NOTE: state is forced to IDLE in graphics component
+                entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
+            }
+
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
@@ -350,7 +379,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     }
 
     private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr) {
-        // don't allow movement if conversation is in progress
+        // Don't allow movement if conversation is in progress
+        // NOTE: this is just a fail safe: this function should never get called during a conversation
         if (!isConversationInProgress) {
             setNextPositionToCurrent(entity);
 
@@ -381,6 +411,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             float playerCenterX = _boundingBox.x + (_boundingBox.getWidth() / 2);
             float playerCenterY = _boundingBox.y + (_boundingBox.getHeight() / 2);
             _selectionRay.set(playerCenterX, playerCenterY, 0.0f, npcCenterX, npcCenterY, 0.0f);
+            selectionAngle = (new Vector2(npcCenterX, npcCenterY)).sub(new Vector2(playerCenterX, playerCenterY)).angle();
             float distance =  _selectionRay.origin.dst(_selectionRay.direction);
 
             //Gdx.app.log(TAG, String.format("Distance = %3.2f", distance));

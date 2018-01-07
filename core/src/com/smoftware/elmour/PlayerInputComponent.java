@@ -102,6 +102,13 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 				}
 			}
 
+			if (keys.get(Keys.ESCAPE)) {
+				entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.PRESSED));
+			}
+			else {
+				entity.sendMessage(MESSAGE.B_BUTTON_STATUS, _json.toJson(Entity.B_ButtonAction.RELEASED));
+			}
+
 			if (!keys.get(Keys.SPACE)) {
 				entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.RELEASED));
 			}
@@ -147,6 +154,9 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 		if (keycode == Input.Keys.SPACE) {
 			this.spacePressed();
 		}
+		if (keycode == Input.Keys.ESCAPE) {
+			this.escapePressed();
+		}
 
 		return true;
 	}
@@ -173,6 +183,9 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 		}
 		if (keycode == Input.Keys.SPACE) {
 			this.spaceReleased();
+		}
+		if (keycode == Input.Keys.ESCAPE) {
+			this.escapeReleased();
 		}
 		return true;
 	}
@@ -253,6 +266,10 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 	public void spacePressed() {
 		keys.put(Keys.SPACE, true);
 	}
+
+	public void escapePressed() {
+		keys.put(Keys.ESCAPE, true);
+	}
 	
 	public void setClickedMouseCoordinates(int x,int y){
 		_lastMouseCoordinates.set(x, y, 0);
@@ -300,6 +317,8 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 	public void pauseReleased() { keys.put(Keys.PAUSE, false); }
 
 	public void spaceReleased() { keys.put(Keys.SPACE, false); }
+
+	public void escapeReleased() { keys.put(Keys.ESCAPE, false); }
 	
 	public void selectMouseButtonReleased(int x, int y){
 		mouseButtons.put(Mouse.SELECT, false);
