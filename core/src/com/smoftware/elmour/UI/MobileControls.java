@@ -9,10 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.*;
+import com.smoftware.elmour.ElmourGame;
 
 public class MobileControls extends MobileControlsSubject implements Screen {
     private static final String TAG = MobileControls.class.getSimpleName();
@@ -68,16 +67,12 @@ public class MobileControls extends MobileControlsSubject implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_PRESSED);
-                //leftPressed = true;
-                //BensRPG.player.handleBButtonPressed();
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_RELEASED);
-                //leftPressed = false;
-               //BensRPG.player.handleBButtonReleased();
             }
         });
 

@@ -242,7 +242,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     if (b_BtnStatus == Entity.B_ButtonAction.PRESSED) {
                         isRunning = true;
                         _state = Entity.State.RUNNING;
-                        Gdx.app.log(TAG, "B button pressed");
                     }
                     else if (b_BtnStatus == Entity.B_ButtonAction.RELEASED){
                         isRunning = false;
