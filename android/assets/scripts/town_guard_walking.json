@@ -6,6 +6,7 @@ conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+entityBoundsName : "NPC1_BOUNDS"
 animationConfig: [
 	{
 	    frameDuration: 0.25

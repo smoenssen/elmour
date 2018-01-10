@@ -90,6 +90,16 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return isCollisionWithMapEntities;
     }
 
+    protected boolean isCollision(Entity entity, MapObject object) {
+        if (object != null) {
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            return entity.getCurrentBoundingBox().overlaps(rectangle);
+        }
+        else {
+            return false;
+        }
+    }
+
     protected boolean isCollision(Entity entitySource, Entity entityTarget){
         boolean isCollisionWithMapEntities = false;
 
@@ -186,6 +196,31 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                     //Collision
                     //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
                     return object;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    protected MapObject checkCollisionWithNpcBoundsLayer(Entity entity, MapManager mapMgr){
+        MapLayer npcBoundsLayer =  mapMgr.getNpcBoundsLayer();
+
+        if( npcBoundsLayer == null ){
+            return null;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: npcBoundsLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                if (object.getName() == entity.getEntityConfig().getEntityID() + "_BOUNDS") {
+                    rectangle = ((RectangleMapObject) object).getRectangle();
+                    if (_boundingBox.overlaps(rectangle)) {
+                        //Collision
+                        //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
+                        return object;
+                    }
                 }
             }
         }

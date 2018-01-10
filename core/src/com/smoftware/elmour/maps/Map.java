@@ -40,6 +40,7 @@ public abstract class Map implements AudioSubject{
     protected final static String WATER_OBSTACLE_LAYER = "WATER_OBSTACLE";
     protected final static String WATERFALL_OBSTACLE_LAYER = "WATERFALL_OBSTACLE";
     protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
+    protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -53,6 +54,7 @@ public abstract class Map implements AudioSubject{
     //Starting locations
     protected final static String PLAYER_START = "PLAYER_START";
     protected final static String NPC_START = "NPC_START";
+    protected final static String NPC1 = "NPC1";
 
     protected Json _json;
 
@@ -76,6 +78,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer waterObstacleLayer = null;
     protected MapLayer waterfallObstacleLayer = null;
     protected MapLayer underBridgeObstacleLayer = null;
+    protected MapLayer npcBoundsLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -195,6 +198,11 @@ public abstract class Map implements AudioSubject{
             Gdx.app.debug(TAG, "No 0 opacity layer!");
         }
 
+        npcBoundsLayer = _currentMap.getLayers().get(NPC_BOUNDS_LAYER);
+        if( npcBoundsLayer == null ){
+            Gdx.app.debug(TAG, "No NPC bounds layerr!");
+        }
+
         _npcStartPositions = getNPCStartPositions();
         _specialNPCStartPositions = getSpecialNPCStartPositions();
 
@@ -299,6 +307,21 @@ public abstract class Map implements AudioSubject{
         this._playerStart = playerStart;
     }
 
+    public MapObject getNpcBoundsObject(Entity entity){
+        if (npcBoundsLayer != null) {
+            for (MapObject object : npcBoundsLayer.getObjects()) {
+                if (object instanceof RectangleMapObject) {
+                    String oname = object.getName();
+                    String boundsName = entity.getEntityConfig().getEntityBoundsName();
+                    if (object.getName().equals(entity.getEntityConfig().getEntityBoundsName()))
+                        return object;
+                }
+            }
+        }
+
+        return null;
+    }
+
     protected void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
         for(int i = 0; i < mapEntities.size; i++){
             mapEntities.get(i).update(mapMgr, batch, delta);
@@ -346,6 +369,8 @@ public abstract class Map implements AudioSubject{
         return _portalLayer;
     }
 
+    public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
+
     public MapLayer getQuestItemSpawnLayer(){
         return _questItemSpawnLayer;
     }
@@ -378,7 +403,7 @@ public abstract class Map implements AudioSubject{
                 continue;
             }
 
-            if( objectName.equalsIgnoreCase(NPC_START) ){
+            if( objectName.equalsIgnoreCase(NPC1) ){
                 //Get center of rectangle
                 float x = ((RectangleMapObject)object).getRectangle().getX();
                 float y = ((RectangleMapObject)object).getRectangle().getY();

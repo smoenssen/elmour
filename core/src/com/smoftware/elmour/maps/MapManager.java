@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -181,6 +182,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         return _currentMap.getPortalLayer();
     }
 
+    public MapLayer getNpcBoundsLayer(){
+        return _currentMap.getNpcBoundsLayer();
+    }
+
     public Array<Vector2> getQuestItemSpawnPositions(String objectName, String objectTaskID) {
         return _currentMap.getQuestItemSpawnPositions(objectName, objectTaskID);
     }
@@ -278,6 +283,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public final Array<Entity> getCurrentMapQuestEntities(){
         return _currentMap.getMapQuestEntities();
+    }
+
+    public final MapObject getCurrentMapNpcBounds(Entity entity) {
+        return  _currentMap.getNpcBoundsObject(entity);
     }
 
     public void addMapQuestEntities(Array<Entity> entities){

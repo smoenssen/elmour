@@ -8,6 +8,8 @@ public class NPCInputComponent extends InputComponent {
     private static final String TAG = NPCInputComponent.class.getSimpleName();
 
     private float _frameTime = 0.0f;
+    private float idleTime = 0.0f;
+    private boolean inIdleState = false;
 
     NPCInputComponent(){
         _currentDirection = Entity.Direction.getRandomNext();
@@ -79,12 +81,12 @@ public class NPCInputComponent extends InputComponent {
         _frameTime += delta;
 
         //Change direction after so many seconds
-        if( _frameTime > MathUtils.random(1,5) ){
-            _currentState = Entity.State.getRandomNext();
+        if( _frameTime > MathUtils.random(1f,5f) && !inIdleState ){
             _currentDirection = Entity.Direction.getRandomNext();
             _frameTime = 0.0f;
         }
 
+        /*
         if( _currentState == Entity.State.IDLE ){
             if (keys.get(Keys.SPACE)) {
                 entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
@@ -92,22 +94,38 @@ public class NPCInputComponent extends InputComponent {
                 return;
             }
         }
+        */
+        _currentState = Entity.State.WALKING;
+/*
+        if (_frameTime > 1 && _frameTime < 3) {
+            inIdleState = true;
+            _currentState = Entity.State.IDLE;
+            idleTime += delta;
 
+            if (idleTime > MathUtils.random(1,5)) {
+                inIdleState = false;
+                idleTime = 0;
+            }
+        }
+        else {
+            _currentState = Entity.State.WALKING;
+        }
+*/
         switch( _currentDirection ) {
             case LEFT:
-                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_currentState));
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.LEFT));
                 break;
             case RIGHT:
-                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_currentState));
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.RIGHT));
                 break;
             case UP:
-                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_currentState));
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.UP));
                 break;
             case DOWN:
-                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.WALKING));
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_currentState));
                 entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(Entity.Direction.DOWN));
                 break;
         }

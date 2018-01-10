@@ -41,27 +41,19 @@ public class NPCPhysicsComponent extends PhysicsComponent {
                 selectionAngle = _json.fromJson(Float.class, string[1]);
             }
 
-           // if (ElmourGame.isAndroid()) {
-                //todo
-           // }
-           // else {
-                if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
-                    _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
-                    _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
-                }
-                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
-                    _state = _json.fromJson(Entity.State.class, string[1]);
-                }
-                else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString()) && !isConversationInProgress) {
-                    _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
-                }
-                else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
-                    a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
-
-                    // only send message once per button press
-
-                }
-           // }
+            if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+                _currentEntityPosition = _json.fromJson(Vector2.class, string[1]);
+                _nextEntityPosition.set(_currentEntityPosition.x, _currentEntityPosition.y);
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+                _state = _json.fromJson(Entity.State.class, string[1]);
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString()) && !isConversationInProgress) {
+                _currentDirection = _json.fromJson(Entity.Direction.class, string[1]);
+            }
+            else if (string[0].equalsIgnoreCase(MESSAGE.A_BUTTON_STATUS.toString())) {
+                a_BtnStatus = _json.fromJson(Entity.A_ButtonAction.class, string[1]);
+            }
         }
     }
 
@@ -124,6 +116,11 @@ public class NPCPhysicsComponent extends PhysicsComponent {
         }
 
         if( super.isCollisionWithMapEntities(entity, mapMgr) ){
+            return true;
+        }
+
+        // concerned with going out of the bounds box here, so check if collision is false
+        if (!isCollision(entity, mapMgr.getCurrentMapNpcBounds(entity))) {
             return true;
         }
 
