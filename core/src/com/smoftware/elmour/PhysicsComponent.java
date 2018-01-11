@@ -258,7 +258,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 testY += _velocity.y * velocityFactor;
             }
             else {
-                Vector2 npcVelocity = new Vector2(1.5f, 1.5f);
+                Vector2 npcVelocity = new Vector2(0.75f, 0.75f);
 
                 npcVelocity.scl(deltaTime);
 

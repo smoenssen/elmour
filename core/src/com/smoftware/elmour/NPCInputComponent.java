@@ -1,8 +1,11 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+
+import sun.rmi.runtime.Log;
 
 public class NPCInputComponent extends InputComponent {
     private static final String TAG = NPCInputComponent.class.getSimpleName();
@@ -11,9 +14,13 @@ public class NPCInputComponent extends InputComponent {
     private float idleTime = 0.0f;
     private boolean inIdleState = false;
 
+    long lastTickCount;
+
     NPCInputComponent(){
         _currentDirection = Entity.Direction.getRandomNext();
         _currentState = Entity.State.WALKING;
+
+        lastTickCount = System.currentTimeMillis();
     }
 
     @Override
@@ -50,6 +57,14 @@ public class NPCInputComponent extends InputComponent {
     @Override
     public void update(Entity entity, float delta){
 
+        // NOTE: delta time is 0.020, but actual elapsed time ranges from 10 - 20 ms
+        /*
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
+        long elapsedTime = System.currentTimeMillis() - lastTickCount;
+        lastTickCount = System.currentTimeMillis();
+        Gdx.app.debug(TAG, String.format("elapsedTime = %d", elapsedTime));
+        */
+
         if (ElmourGame.isAndroid()) {
             if (actionButtons.get(ActionButtons.A_BUTTON_PRESSED)) {
                 entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
@@ -80,37 +95,41 @@ public class NPCInputComponent extends InputComponent {
 
         _frameTime += delta;
 
-        //Change direction after so many seconds
-        if( _frameTime > MathUtils.random(1f,5f) && !inIdleState ){
-            _currentDirection = Entity.Direction.getRandomNext();
-            _frameTime = 0.0f;
-        }
-
-        /*
-        if( _currentState == Entity.State.IDLE ){
-            if (keys.get(Keys.SPACE)) {
-                entity.sendMessage(MESSAGE.A_BUTTON_STATUS, _json.toJson(Entity.A_ButtonAction.PRESSED));
-                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
-                return;
+        // Change direction after so many seconds if not currently idle.
+        // NOTE: This function is called  at least 50 times per second, so this increases
+        // the likelihood that a number will be hit. For example, the chance for
+        // a number to be hit between 1 - 1000 that is under 20 is 100% for the period of a second.
+        // The outer random check is used so the inner check of the frame time being
+        // between 1 - 5 seconds is more accurately random. Otherwise, the inner random
+        // check would always pass shortly after frame time is just over 1 second.
+        if (MathUtils.random(1, 1000) < 20) {
+            if (_frameTime > MathUtils.random(1.0f, 5.0f) && !inIdleState) {
+                _currentDirection = Entity.Direction.getRandomNext();
+                _frameTime = 0.0f;
             }
         }
-        */
-        _currentState = Entity.State.WALKING;
-/*
-        if (_frameTime > 1 && _frameTime < 3) {
+
+        // randomly set to IDLE
+        if (MathUtils.random(1, 1000) < 5 && !inIdleState) {
+            // start being idle
             inIdleState = true;
             _currentState = Entity.State.IDLE;
+
+        }
+        else if (inIdleState) {
+            // stay in idle state for at least 1.5 seconds
             idleTime += delta;
 
-            if (idleTime > MathUtils.random(1,5)) {
+            if (idleTime > MathUtils.random(1.5f, 5.0f)) {
                 inIdleState = false;
                 idleTime = 0;
             }
         }
         else {
+            // start walking
             _currentState = Entity.State.WALKING;
         }
-*/
+
         switch( _currentDirection ) {
             case LEFT:
                 entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_currentState));

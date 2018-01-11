@@ -89,6 +89,10 @@ public class NPCPhysicsComponent extends PhysicsComponent {
                     (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
                 setNextPositionToCurrent(entity);
             } else {
+                // when hitting obstacle, make NPC idle, otherwise it sometimes looks like it's walking in place
+                _state = Entity.State.IDLE;
+                entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_state));
+
                 updateBoundingBoxPosition(_currentEntityPosition);
             }
 
