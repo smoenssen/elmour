@@ -15,6 +15,18 @@ import com.smoftware.elmour.screens.SplashScreen;
 import com.smoftware.elmour.screens.StartScreen;
 
 
+/* NOTES
+	Add LEVEL_GATES object layer. On this layer put objects to be used as gates
+	that the player will pass through to determine which layer to render the
+	player immediately after. The objects need to be named the same name as the tile layer
+	they represent. The new rendering order will take effect as soon as the player collides
+	with the gate.
+
+	Add NPC_BOUNDS layer. On this layer put an object around the NPC to limit
+	where the NPC can walk. The object needs to be named the same name as the
+	NPC start point in the SPAWN_LAYER with "_BOUNDS" appended to it.
+*/
+
 public class ElmourGame extends Game {
 
 	public static int V_WIDTH;
@@ -97,11 +109,11 @@ public class ElmourGame extends Game {
 		_loadGameScreen = new LoadGameScreen(this);
 		_newGameScreen = new NewGameScreen(this);
 		_gameOverScreen = new GameOverScreen(this);
-		//_cutSceneScreen = new CutSceneScreen(this);
+		_cutSceneScreen = new CutSceneScreen(this);
 		_creditScreen = new CreditScreen(this);
 
+		//setScreen(splashScreen);
 		setScreen(splashScreen);
-		//setScreen(_mainMenuScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

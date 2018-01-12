@@ -180,7 +180,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
-    protected MapObject checkCollisionWithWaterObstacleLayer(MapManager mapMgr){
+    protected MapObject isCollisionWithWaterObstacleLayer(MapManager mapMgr){
         MapLayer waterObstacleLayer =  mapMgr.getWaterObstacleLayer();
 
         if( waterObstacleLayer == null ){
@@ -203,24 +203,20 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
-    protected MapObject checkCollisionWithNpcBoundsLayer(Entity entity, MapManager mapMgr){
-        MapLayer npcBoundsLayer =  mapMgr.getNpcBoundsLayer();
+    protected MapObject checkCollisionWithLevelGatesLayer(MapManager mapMgr){
+        MapLayer levelGatesLayer =  mapMgr.getLevelGatesLayer();
 
-        if( npcBoundsLayer == null ){
+        if( levelGatesLayer == null ){
             return null;
         }
 
         Rectangle rectangle = null;
 
-        for( MapObject object: npcBoundsLayer.getObjects()){
+        for (MapObject object: levelGatesLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                if (object.getName() == entity.getEntityConfig().getEntityID() + "_BOUNDS") {
-                    rectangle = ((RectangleMapObject) object).getRectangle();
-                    if (_boundingBox.overlaps(rectangle)) {
-                        //Collision
-                        //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
-                        return object;
-                    }
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( _boundingBox.overlaps(rectangle) ){
+                    return object;
                 }
             }
         }

@@ -6,6 +6,7 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+mapLevel : "LEVEL1"
 inventory : [
 	{
 		value: ARMOR04

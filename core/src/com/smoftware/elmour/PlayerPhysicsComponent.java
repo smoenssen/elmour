@@ -253,6 +253,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
     @Override
     public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
+        MapObject object = null;
         updateBoundingBoxPosition(_nextEntityPosition);
         updatePortalLayerActivation(mapMgr);
         updateDiscoverLayerActivation(mapMgr);
@@ -260,6 +261,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         // pass current state to graphics entity
         entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_state));
+
+        ///////////////////////////////////////////////////
+        //
+        // CHECK IF PASSING THROUGH A LEVEL GATE
+        //
+        object = checkCollisionWithLevelGatesLayer(mapMgr);
+        if (object != null) {
+            entity.getEntityConfig().setMapLevel(object.getName());
+        }
 
         /////////////////////////////////////////
         //
@@ -299,7 +309,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         if (isInteractButtonPressed && !isInteractionCollisionMsgSent) {
             // send message only once per button press
             // check for interaction layer collision
-            MapObject object = checkCollisionWithInteractionLayer(mapMgr);
+            object = checkCollisionWithInteractionLayer(mapMgr);
             if (object != null) {
                 Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));

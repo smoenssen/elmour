@@ -41,6 +41,7 @@ public abstract class Map implements AudioSubject{
     protected final static String WATERFALL_OBSTACLE_LAYER = "WATERFALL_OBSTACLE";
     protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
     protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
+    protected final static String LEVEL_GATES_LAYER = "LEVEL_GATES";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -79,6 +80,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer waterfallObstacleLayer = null;
     protected MapLayer underBridgeObstacleLayer = null;
     protected MapLayer npcBoundsLayer = null;
+    protected MapLayer levelGatesLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -203,6 +205,11 @@ public abstract class Map implements AudioSubject{
             Gdx.app.debug(TAG, "No NPC bounds layerr!");
         }
 
+        levelGatesLayer = _currentMap.getLayers().get(LEVEL_GATES_LAYER);
+        if( levelGatesLayer == null ){
+            Gdx.app.debug(TAG, "No level gates layerr!");
+        }
+
         _npcStartPositions = getNPCStartPositions();
         _specialNPCStartPositions = getSpecialNPCStartPositions();
 
@@ -311,8 +318,6 @@ public abstract class Map implements AudioSubject{
         if (npcBoundsLayer != null) {
             for (MapObject object : npcBoundsLayer.getObjects()) {
                 if (object instanceof RectangleMapObject) {
-                    String oname = object.getName();
-                    String boundsName = entity.getEntityConfig().getEntityBoundsName();
                     if (object.getName().equals(entity.getEntityConfig().getEntityBoundsName()))
                         return object;
                 }
@@ -370,6 +375,8 @@ public abstract class Map implements AudioSubject{
     }
 
     public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
+
+    public MapLayer getLevelGatesLayer() { return levelGatesLayer; }
 
     public MapLayer getQuestItemSpawnLayer(){
         return _questItemSpawnLayer;

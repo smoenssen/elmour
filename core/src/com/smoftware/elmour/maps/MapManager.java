@@ -182,9 +182,9 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         return _currentMap.getPortalLayer();
     }
 
-    public MapLayer getNpcBoundsLayer(){
-        return _currentMap.getNpcBoundsLayer();
-    }
+    public MapLayer getNpcBoundsLayer(){ return _currentMap.getNpcBoundsLayer(); }
+
+    public MapLayer getLevelGatesLayer(){ return _currentMap.getLevelGatesLayer(); }
 
     public Array<Vector2> getQuestItemSpawnPositions(String objectName, String objectTaskID) {
         return _currentMap.getQuestItemSpawnPositions(objectName, objectTaskID);

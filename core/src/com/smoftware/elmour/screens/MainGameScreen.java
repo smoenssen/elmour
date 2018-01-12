@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -224,19 +225,33 @@ public class MainGameScreen extends GameScreen {
 			}
 		}else{
 			_mapRenderer.render();
-			_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
-			if (_player != null)
-				_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
-			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
-
-			/*////////////////srm - todo - testing character behind objects
 			_mapRenderer.getBatch().begin();
-			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Highest");
-			if( decorationMapLayer != null ){
-				_mapRenderer.renderTileLayer(decorationMapLayer);
+
+			for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
+
+				MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);
+
+				if (mapLayer != null && mapLayer instanceof TiledMapTileLayer) {
+					TiledMapTileLayer layer = (TiledMapTileLayer)mapLayer;
+
+					_mapRenderer.renderTileLayer(layer);
+
+					// render the player right after the tile layer that matches the players current map level
+					if (_player != null) {
+						String l = layer.getName();
+						String p = _player.getEntityConfig().getMapLevel();
+						if (layer.getName().equals(_player.getEntityConfig().getMapLevel())) {
+							_mapRenderer.getBatch().end();
+							_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+							_mapRenderer.getBatch().begin();
+						}
+					}
+				}
 			}
+
 			_mapRenderer.getBatch().end();
-			*//////////////////////////////
+			_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
+			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
 		}
 
 		if (_playerHUD != null)
