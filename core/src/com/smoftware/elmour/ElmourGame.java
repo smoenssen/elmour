@@ -16,11 +16,8 @@ import com.smoftware.elmour.screens.StartScreen;
 
 
 /* NOTES
-	Add LEVEL_GATES object layer. On this layer put objects to be used as gates
-	that the player will pass through to determine which layer to render the
-	player immediately after. The objects need to be named the same name as the tile layer
-	they represent. The new rendering order will take effect as soon as the player collides
-	with the gate.
+	srm - issue with Desktop project not running with Android Studio 3.0 using Gradle-4.1 and android-gradle-plugin:3.0.1
+	https://stackoverflow.com/questions/46975883/error2-0-plugin-with-id-jetty-not-found
 
 	Add NPC_BOUNDS layer. On this layer put an object around the NPC to limit
 	where the NPC can walk. The object needs to be named the same name as the

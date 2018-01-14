@@ -264,11 +264,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         ///////////////////////////////////////////////////
         //
-        // CHECK IF PASSING THROUGH A LEVEL GATE
+        // CHECK IF PASSING THROUGH A Z_GATE
         //
-        object = checkCollisionWithLevelGatesLayer(mapMgr);
+        object = checkCollisionWithZGatesLayer(mapMgr);
         if (object != null) {
-            entity.getEntityConfig().setMapLevel(object.getName());
+            entity.setZLayer(object.getName());
         }
 
         /////////////////////////////////////////
@@ -578,8 +578,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     }
 
                     Gdx.app.debug(TAG, "loading map " + mapName);
-                    mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
+                    //mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
                     mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
+                    mapMgr.setStartPositionFromPreviousMap();
 
                     _currentEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
                     _currentEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;

@@ -23,6 +23,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     private Camera _camera;
     private boolean _mapChanged = false;
     private Map _currentMap;
+    private MapFactory.MapType previousMapType = null;
     private Entity _player;
     private Entity _currentSelectedEntity = null;
     private MapLayer _currentLightMap = null;
@@ -91,27 +92,34 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         }
     }
 
-    public void loadMap(MapFactory.MapType mapType){
+    public void loadMap(MapFactory.MapType mapType) {
         Map map = MapFactory.getMap(mapType);
 
-        if( map == null ){
+        if (map == null) {
             Gdx.app.debug(TAG, "Map does not exist!  ");
             return;
         }
 
-        if( _currentMap != null ){
+        if (_currentMap != null) {
             _currentMap.unloadMusic();
-            if( _previousLightMap != null ){
+            if (_previousLightMap != null) {
                 _previousLightMap.setOpacity(0);
                 _previousLightMap = null;
             }
-            if( _currentLightMap != null ){
+            if (_currentLightMap != null) {
                 _currentLightMap.setOpacity(1);
                 _currentLightMap = null;
             }
         }
 
         map.loadMusic();
+
+        if (_currentMap != null) {
+            previousMapType = _currentMap.getCurrentMapType();
+        }
+        else {
+            previousMapType = mapType;
+        }
 
         _currentMap = map;
         _mapChanged = true;
@@ -162,6 +170,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         _currentMap.setClosestStartPositionFromScaledUnits(position);
     }
 
+    public void setStartPositionFromPreviousMap() {
+        _currentMap.setStartPositionFromPreviousMap(previousMapType);
+    }
+
     public MapLayer getCollisionLayer(){
         return _currentMap.getCollisionLayer();
     }
@@ -184,7 +196,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public MapLayer getNpcBoundsLayer(){ return _currentMap.getNpcBoundsLayer(); }
 
-    public MapLayer getLevelGatesLayer(){ return _currentMap.getLevelGatesLayer(); }
+    public MapLayer getZGatesLayer(){ return _currentMap.getZGatesLayer(); }
 
     public Array<Vector2> getQuestItemSpawnPositions(String objectName, String objectTaskID) {
         return _currentMap.getQuestItemSpawnPositions(objectName, objectTaskID);

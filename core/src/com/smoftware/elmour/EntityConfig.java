@@ -19,7 +19,6 @@ public class EntityConfig {
     private String itemTypeID;
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
-    private String mapLevel;
 
     public static enum EntityProperties{
         ENTITY_HEALTH_POINTS,
@@ -42,7 +41,6 @@ public class EntityConfig {
         direction = config.getDirection();
         entityID = config.getEntityID();
         entityBoundsName = config.getEntityBoundsName();
-        mapLevel = config.getMapLevel();
         conversationConfigPath = config.getConversationConfigPath();
         questConfigPath = config.getQuestConfigPath();
         currentQuestID = config.getCurrentQuestID();
@@ -118,11 +116,7 @@ public class EntityConfig {
 
     public String getEntityBoundsName() { return entityBoundsName; }
 
-    public void setSntityBoundsName(String entityBoundsName) { this.entityBoundsName = entityBoundsName; }
-
-    public String getMapLevel() { return mapLevel; }
-
-    public void setMapLevel(String mapLevel) { this.mapLevel = mapLevel; }
+    public void setEntityBoundsName(String entityBoundsName) { this.entityBoundsName = entityBoundsName; }
 
     public Entity.Direction getDirection() {
         return direction;

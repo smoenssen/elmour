@@ -41,7 +41,7 @@ public abstract class Map implements AudioSubject{
     protected final static String WATERFALL_OBSTACLE_LAYER = "WATERFALL_OBSTACLE";
     protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
     protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
-    protected final static String LEVEL_GATES_LAYER = "LEVEL_GATES";
+    protected final static String Z_GATES_LAYER = "Z_GATES";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -80,7 +80,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer waterfallObstacleLayer = null;
     protected MapLayer underBridgeObstacleLayer = null;
     protected MapLayer npcBoundsLayer = null;
-    protected MapLayer levelGatesLayer = null;
+    protected MapLayer zGatesLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -205,8 +205,8 @@ public abstract class Map implements AudioSubject{
             Gdx.app.debug(TAG, "No NPC bounds layerr!");
         }
 
-        levelGatesLayer = _currentMap.getLayers().get(LEVEL_GATES_LAYER);
-        if( levelGatesLayer == null ){
+        zGatesLayer = _currentMap.getLayers().get(Z_GATES_LAYER);
+        if( zGatesLayer == null ){
             Gdx.app.debug(TAG, "No level gates layerr!");
         }
 
@@ -376,7 +376,7 @@ public abstract class Map implements AudioSubject{
 
     public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
 
-    public MapLayer getLevelGatesLayer() { return levelGatesLayer; }
+    public MapLayer getZGatesLayer() { return zGatesLayer; }
 
     public MapLayer getQuestItemSpawnLayer(){
         return _questItemSpawnLayer;
@@ -492,6 +492,50 @@ public abstract class Map implements AudioSubject{
 
         _convertedUnits.set(position.x/UNIT_SCALE, position.y/UNIT_SCALE);
         setClosestStartPosition(_convertedUnits);
+    }
+
+    public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
+        float shortestDistance = 0f;
+        Vector2 portalObjectPos = new Vector2(0f, 0f);
+
+        // Find location of portal for the previous map
+        for (MapObject object : _portalLayer.getObjects()){
+            String objectName = object.getName();
+
+            if( objectName == null || objectName.isEmpty() ){
+                continue;
+            }
+
+            if( objectName.equalsIgnoreCase(previousMap.toString())) {
+                // found portal object
+                Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
+                portalObjectPos.set(rectangle.x, rectangle.y);
+                break;
+            }
+        }
+
+        // Go through all player start positions and choose closest to map portal position
+        for( MapObject object: _spawnsLayer.getObjects()){
+            String objectName = object.getName();
+
+            if( objectName == null || objectName.isEmpty() ){
+                continue;
+            }
+
+            if( objectName.equalsIgnoreCase(PLAYER_START) ){
+                ((RectangleMapObject)object).getRectangle().getPosition(_playerStartPositionRect);
+                float distance = portalObjectPos.dst2(_playerStartPositionRect);
+
+                Gdx.app.debug(TAG, "DISTANCE: " + distance + " for " + _currentMapType.toString());
+
+                if( distance < shortestDistance || shortestDistance == 0 ){
+                    _closestPlayerStartPosition.set(_playerStartPositionRect);
+                    shortestDistance = distance;
+                    Gdx.app.debug(TAG, "closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
+                }
+            }
+        }
+        _playerStart =  _closestPlayerStartPosition.cpy();
     }
 
     abstract public void unloadMusic();

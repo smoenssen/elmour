@@ -223,7 +223,8 @@ public class MainGameScreen extends GameScreen {
 				_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 				_mapRenderer.getBatch().end();
 			}
-		}else{
+		}
+		else {
 			_mapRenderer.render();
 			_mapRenderer.getBatch().begin();
 
@@ -236,11 +237,11 @@ public class MainGameScreen extends GameScreen {
 
 					_mapRenderer.renderTileLayer(layer);
 
-					// render the player right after the tile layer that matches the players current map level
+					// render the player on the Z tile layer that matches the player's current Z layer
 					if (_player != null) {
 						String l = layer.getName();
-						String p = _player.getEntityConfig().getMapLevel();
-						if (layer.getName().equals(_player.getEntityConfig().getMapLevel())) {
+						String z = _player.getZLayer();
+						if (layer.getName().equals(_player.getZLayer())) {
 							_mapRenderer.getBatch().end();
 							_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 							_mapRenderer.getBatch().begin();

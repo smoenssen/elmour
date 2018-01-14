@@ -7,7 +7,6 @@ questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
 entityBoundsName : "NPC1_BOUNDS"
-mapLevel : "LEVEL1"
 animationConfig: [
 	{
 	    frameDuration: 0.25

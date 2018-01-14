@@ -203,16 +203,16 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
-    protected MapObject checkCollisionWithLevelGatesLayer(MapManager mapMgr){
-        MapLayer levelGatesLayer =  mapMgr.getLevelGatesLayer();
+    protected MapObject checkCollisionWithZGatesLayer(MapManager mapMgr){
+        MapLayer zGatesLayer =  mapMgr.getZGatesLayer();
 
-        if( levelGatesLayer == null ){
+        if( zGatesLayer == null ){
             return null;
         }
 
         Rectangle rectangle = null;
 
-        for (MapObject object: levelGatesLayer.getObjects()){
+        for (MapObject object: zGatesLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
                 if( _boundingBox.overlaps(rectangle) ){
