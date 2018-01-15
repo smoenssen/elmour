@@ -1,4 +1,8 @@
 {
+currentPlayerGP: {
+	class: java.lang.Integer
+	value: 20
+}
 currentPlayerHP: {
 	class: java.lang.Integer
 	value: 50
@@ -15,10 +19,6 @@ topWorldMapStartPosition: {
 }
 playerEquipInventory: []
 playerQuests: []
-currentPlayerHPMax: {
-	class: java.lang.Integer
-	value: 50
-}
 currentPlayerMP: {
 	class: java.lang.Integer
 	value: 50
@@ -28,9 +28,9 @@ townMapStartPosition: {
 	x: 208
 	y: 32
 }
-currentPlayerGP: {
+currentPlayerHPMax: {
 	class: java.lang.Integer
-	value: 20
+	value: 50
 }
 currentPlayerMPMax: {
 	class: java.lang.Integer
@@ -38,11 +38,16 @@ currentPlayerMPMax: {
 }
 currentTime: {
 	class: java.lang.Float
-	value: 47001.156
+	value: 43200
 }
 currentPlayerLevel: {
 	class: java.lang.Integer
 	value: 1
+}
+playerCurrentPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 9.9375
+	y: 0.375
 }
 currentPlayerXP: {
 	class: java.lang.Integer
@@ -51,6 +56,10 @@ currentPlayerXP: {
 currentPlayerXPMax: {
 	class: java.lang.Integer
 	value: 200
+}
+playerZLayer: {
+	class: java.lang.String
+	value: ZDOWN
 }
 playerInventory: [
 	{

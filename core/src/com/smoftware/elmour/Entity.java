@@ -156,7 +156,6 @@ public class Entity {
 	private InputComponent _inputComponent;
 	private GraphicsComponent _graphicsComponent;
 	private PhysicsComponent _physicsComponent;
-	private String zLayer = "Z1";
 
 	public Entity(Entity entity){
 		set(entity);
@@ -239,10 +238,6 @@ public class Entity {
 			component.dispose();
 		}
 	}
-
-	public String getZLayer() { return zLayer; }
-
-	public void setZLayer(String zLayer) { this.zLayer = zLayer; }
 
 	public Rectangle getCurrentBoundingBox(){
 		return _physicsComponent._boundingBox;

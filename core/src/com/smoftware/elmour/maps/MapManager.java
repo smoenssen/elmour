@@ -50,7 +50,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                     mapType = MapFactory.MapType.valueOf(currentMap);
                 }
                 loadMap(mapType);
-
+/*
                 Vector2 topWorldMapStartPosition = profileManager.getProperty("topWorldMapStartPosition", Vector2.class);
                 if( topWorldMapStartPosition != null ){
                     MapFactory.getMap(MapFactory.MapType.TOP_WORLD).setPlayerStart(topWorldMapStartPosition);
@@ -65,11 +65,24 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 if( townMapStartPosition != null ){
                     MapFactory.getMap(MapFactory.MapType.TOWN).setPlayerStart(townMapStartPosition);
                 }
+*/
+                Vector2 lastSavedPlayerPosition = profileManager.getProperty("playerCurrentPosition", Vector2.class);
+                if( lastSavedPlayerPosition != null && _currentMap != null){
+                    lastSavedPlayerPosition.x /= Map.UNIT_SCALE;
+                    lastSavedPlayerPosition.y /= Map.UNIT_SCALE;
+                    MapFactory.getMap(_currentMap.getCurrentMapType()).setPlayerStart(lastSavedPlayerPosition);
+                }
 
+                String lastSavedPlayerZLayer = profileManager.getProperty("playerZLayer", String.class);
+                if (lastSavedPlayerZLayer != null) {
+                    MapFactory.getMap(_currentMap.getCurrentMapType()).setPlayerZLayer(lastSavedPlayerZLayer);
+                }
                 break;
             case SAVING_PROFILE:
                 if( _currentMap != null ){
                     profileManager.setProperty("currentMapType", _currentMap._currentMapType.toString());
+                    profileManager.setProperty("playerCurrentPosition", _player.getCurrentPosition());
+                    profileManager.setProperty("playerZLayer", MapFactory.getMap(_currentMap.getCurrentMapType()).getPlayerZLayer());
                 }
 
                 profileManager.setProperty("topWorldMapStartPosition", MapFactory.getMap(MapFactory.MapType.TOP_WORLD).getPlayerStart() );

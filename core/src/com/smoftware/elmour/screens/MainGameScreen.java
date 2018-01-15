@@ -156,6 +156,7 @@ public class MainGameScreen extends GameScreen {
 			_playerHUD.render(delta);
 			return;
 		}
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -229,6 +230,12 @@ public class MainGameScreen extends GameScreen {
 			_mapRenderer.getBatch().begin();
 
 			for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
+				// Break out if map has changed in the middle of this loop so layer
+				// isn't rendered at incorrect camera position. This fixed issue with
+				// a quick flash at map position of previous map being shown.
+				if( _mapMgr.hasMapChanged() ){
+					break;
+				}
 
 				MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);
 
@@ -239,9 +246,7 @@ public class MainGameScreen extends GameScreen {
 
 					// render the player on the Z tile layer that matches the player's current Z layer
 					if (_player != null) {
-						String l = layer.getName();
-						String z = _player.getZLayer();
-						if (layer.getName().equals(_player.getZLayer())) {
+						if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {
 							_mapRenderer.getBatch().end();
 							_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
 							_mapRenderer.getBatch().begin();

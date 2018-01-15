@@ -64,6 +64,7 @@ public abstract class Map implements AudioSubject{
     protected Vector2 _convertedUnits;
     protected TiledMap _currentMap = null;
     protected Vector2 _playerStart;
+    protected String   playerZLayer = "ZDOWN";
     protected Array<Vector2> _npcStartPositions;
     protected Hashtable<String, Vector2> _specialNPCStartPositions;
 
@@ -216,6 +217,10 @@ public abstract class Map implements AudioSubject{
         //Observers
         this.addObserver(AudioManager.getInstance());
     }
+
+    public String getPlayerZLayer() { return playerZLayer; }
+
+    public void setPlayerZLayer(String playerZLayer) { this.playerZLayer = playerZLayer; }
 
     public MapLayer getLightMapDawnLayer(){
         return _lightMapDawnLayer;
@@ -479,7 +484,7 @@ public abstract class Map implements AudioSubject{
                 if( distance < shortestDistance || shortestDistance == 0 ){
                     _closestPlayerStartPosition.set(_playerStartPositionRect);
                     shortestDistance = distance;
-                    Gdx.app.debug(TAG, "closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
+                    Gdx.app.debug(TAG, "setClosestStartPosition: closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
                 }
             }
         }
@@ -531,7 +536,7 @@ public abstract class Map implements AudioSubject{
                 if( distance < shortestDistance || shortestDistance == 0 ){
                     _closestPlayerStartPosition.set(_playerStartPositionRect);
                     shortestDistance = distance;
-                    Gdx.app.debug(TAG, "closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
+                    Gdx.app.debug(TAG, "setStartPositionFromPreviousMap: closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
                 }
             }
         }

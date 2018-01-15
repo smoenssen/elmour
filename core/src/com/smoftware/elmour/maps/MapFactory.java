@@ -10,11 +10,13 @@ public class MapFactory {
 
     public static enum MapType{
         Grass_Temple,
+        Jerbadia,
         MAP1,
         MAP2,
         MAP3,
         MAP4,
         MAP5,
+        MAP6,
         Shnarfulapogus,
         TOP_WORLD,
         TOWN,
@@ -31,6 +33,13 @@ public class MapFactory {
                 if( map == null ){
                     map = new GrassTemple();
                     _mapTable.put(MapType.Grass_Temple, map);
+                }
+                break;
+            case Jerbadia:
+                map = _mapTable.get(MapType.Jerbadia);
+                if( map == null ){
+                    map = new Jerbadia();
+                    _mapTable.put(MapType.Jerbadia, map);
                 }
                 break;
             case MAP1:
@@ -59,6 +68,20 @@ public class MapFactory {
                 if( map == null ){
                     map = new Map4();
                     _mapTable.put(MapType.MAP4, map);
+                }
+                break;
+            case MAP5:
+                map = _mapTable.get(MapType.MAP5);
+                if( map == null ){
+                    map = new Map5();
+                    _mapTable.put(MapType.MAP5, map);
+                }
+                break;
+            case MAP6:
+                map = _mapTable.get(MapType.MAP6);
+                if( map == null ){
+                    map = new Map6();
+                    _mapTable.put(MapType.MAP6, map);
                 }
                 break;
             case Shnarfulapogus:

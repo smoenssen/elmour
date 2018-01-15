@@ -268,8 +268,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //
         object = checkCollisionWithZGatesLayer(mapMgr);
         if (object != null) {
-            entity.setZLayer(object.getName());
-        }
+            MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(object.getName());
+            //mapMgr.getCurrentTiledMap().(object.getName());
+        }//
 
         /////////////////////////////////////////
         //
