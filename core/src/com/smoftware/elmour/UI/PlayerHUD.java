@@ -78,6 +78,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private boolean isExitingConversation;
     private boolean didSendConversationBeginMsg;
     private boolean didSendConversationDoneMsg;
+    private boolean isCutScene;
 
     private Image menuButton;
     private Image menuButtonDown;
@@ -89,6 +90,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private TextButton saveButton;
 
     private Dialog _messageBoxUI;
+    private Label _label;
     private Json _json;
     private MapManager _mapMgr;
 
@@ -109,12 +111,23 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
 
+        isCutScene = false;
+
         _observers = new Array<AudioObserver>();
         _transitionActor = new ScreenTransitionActor();
 
         _shakeCam = new ShakeCamera(0,0, 30.0f);
 
         _json = new Json();
+
+        _label = new Label("Test", Utility.STATUSUI_SKIN);
+        _label.setWrap(true);
+        _messageBoxUI = new Dialog("", Utility.STATUSUI_SKIN, "solidbackground");
+        _messageBoxUI.setVisible(false);
+        _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth()/2).pad(10, 10, 10, 0);
+        _messageBoxUI.pack();
+        _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
+        /*
         _messageBoxUI = new Dialog("Message", Utility.STATUSUI_SKIN, "solidbackground"){
             {
                 button("OK");
@@ -127,6 +140,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
 
         };
+        */
         _clock = new ClockActor("0", Utility.STATUSUI_SKIN);
         _clock.setPosition(_stage.getWidth()-_clock.getWidth(),0);
         _clock.setRateOfTime(60);
@@ -473,6 +487,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
+    public void showMessage(String message){
+        _label.setText(message);
+        Gdx.app.debug(TAG, message);
+        _messageBoxUI.pack();
+        _messageBoxUI.setVisible(true);
+    }
+
+    public void hideMessage() {
+        _messageBoxUI.setVisible(false);
+    }
+
     private void hideMenu(boolean setVisibleFlag) {
         partyButton.setVisible(false);
         inventoryButton.setVisible(false);
@@ -734,9 +759,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                             }
                         }
 
-                        isCurrentConversationDone = false;
-                        conversationPopUp.loadConversation(config);
-                        conversationPopUp.getCurrentConversationGraph().addObserver(this);
+                        loadConversationFromConfig(config);
                     }
                 }
                 break;
@@ -749,31 +772,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     Gdx.app.log(TAG, "SHOW_CONVERSATION");
                     if (configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
-                        conversationLabel.setVisible(true);
-
-                        // this is where all the magic happens
-                        if (nextConversationId != null) {
-                            conversationPopUp.populateConversationDialogById(nextConversationId);
-                            conversationPopUp.interact(false);
-                        }
-
-                        // don't interact here if there are choices visible
-                        if (numVisibleChoices == 0)
-                            conversationPopUp.interact(false);
-
-                        // this sets the popup up for the next destination id if NO_CHOICE is active
-                        // in this case, choicePopUp1 always holds the next destination id
-                        if (isThereAnActiveHiddenChoice) {
-                            nextConversationId = choicePopUp1.getChoice().getDestinationId();
-                            conversationPopUp.populateConversationDialogById(nextConversationId);
-                        }
-                        else if (choicePopUp1.getChoice() != null) {
-                            if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
-                                if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
-                                    conversationPopUp.hide();
-                                }
-                            }
-                        }
+                        doConversation();
                     }
                 }
                 break;
@@ -822,6 +821,46 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             default:
                 break;
         }
+    }
+
+    public void doConversation() {
+        conversationLabel.setVisible(true);
+
+        // this is where all the magic happens
+        if (nextConversationId != null) {
+            conversationPopUp.populateConversationDialogById(nextConversationId);
+            conversationPopUp.interact(false);
+        }
+
+        // don't interact here if there are choices visible
+        if (numVisibleChoices == 0)
+            conversationPopUp.interact(false);
+
+        // this sets the popup up for the next destination id if NO_CHOICE is active
+        // in this case, choicePopUp1 always holds the next destination id
+        if (isThereAnActiveHiddenChoice) {
+            nextConversationId = choicePopUp1.getChoice().getDestinationId();
+            conversationPopUp.populateConversationDialogById(nextConversationId);
+        }
+        else if (choicePopUp1.getChoice() != null) {
+            if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
+                if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
+                    conversationPopUp.hide();
+                }
+            }
+        }
+    }
+
+    public void loadConversationFromConfig(EntityConfig config) {
+        isCurrentConversationDone = false;
+        conversationPopUp.loadConversationFromConfig(config);
+        conversationPopUp.getCurrentConversationGraph().addObserver(this);
+    }
+
+    public void loadConversationFromJson(String jsonFilePath) {
+        isCurrentConversationDone = false;
+        conversationPopUp.loadConversationFromJson(jsonFilePath);
+        conversationPopUp.getCurrentConversationGraph().addObserver(this);
     }
 
     @Override
@@ -1161,6 +1200,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 }
             }
         }
+        else if (Gdx.input.justTouched() && isCutScene) {
+            loadConversationFromJson("conversations/testing.json");
+            doConversation();
+            conversationPopUp.interact(false);
+        }
 
         _stage.act(delta);
         _stage.draw();
@@ -1284,7 +1328,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         }
     }
 
+    public boolean isCutScene() {
+        return isCutScene;
+    }
 
+    public void setCutScene(boolean cutScene) {
+        isCutScene = cutScene;
+    }
 
 
 }

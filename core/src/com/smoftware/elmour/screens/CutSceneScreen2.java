@@ -8,11 +8,19 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
@@ -20,9 +28,11 @@ import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.sfx.ScreenTransitionAction;
+import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
-public class MainGameScreen extends GameScreen {
-	private static final String TAG = MainGameScreen.class.getSimpleName();
+public class CutSceneScreen2 extends GameScreen {
+	private static final String TAG = CutSceneScreen2.class.getSimpleName();
 
 	private final float V_WIDTH = 12;//2.4f;//srm
 	private final float V_HEIGHT = 8;//1.6f;
@@ -50,7 +60,7 @@ public class MainGameScreen extends GameScreen {
 	protected MapManager _mapMgr;
 	protected OrthographicCamera _camera = null;
 	protected OrthographicCamera _hudCamera = null;
-	protected OrthographicCamera controllersCam = null;
+	//protected OrthographicCamera controllersCam = null;
 
 	private Json _json;
 	private ElmourGame _game;
@@ -58,9 +68,20 @@ public class MainGameScreen extends GameScreen {
 
 	private Entity _player;
 	private PlayerHUD _playerHUD;
-	private MobileControls mobileControls;
+	//private MobileControls mobileControls;
 
-	public MainGameScreen(ElmourGame game){
+	private Viewport _viewport;
+	private Stage _stage;
+	private boolean _isCameraFixed = true;
+	private ScreenTransitionActor _transitionActor;
+	private Action _introCutSceneAction;
+	private Action _switchScreenAction;
+	private Action _setupScene01;
+	private Action _setupScene02;
+
+	private AnimatedImage _animBlackSmith;
+
+	public CutSceneScreen2(ElmourGame game){
 		_game = game;
 		_mapMgr = new MapManager();
 		_json = new Json();
@@ -75,15 +96,18 @@ public class MainGameScreen extends GameScreen {
 		_camera = new OrthographicCamera();
 		_camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
+		_viewport = new ScreenViewport(_camera);
+		_stage = new Stage(_viewport);
+
 		if (ElmourGame.isAndroid()) {
 			// capture Android back key so it is not passed on to the OS
 			Gdx.input.setCatchBackKey(true);
 
             //NOTE!!! Need to create mobileControls before player because player
             //is an observer of mobileControls
-			controllersCam = new OrthographicCamera();
-			controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-			mobileControls = new MobileControls(controllersCam);
+			//controllersCam = new OrthographicCamera();
+			//controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+			//mobileControls = new MobileControls(controllersCam);
 
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
 			_hudCamera = new OrthographicCamera();
@@ -91,10 +115,11 @@ public class MainGameScreen extends GameScreen {
 
 			_playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
 
-			_multiplexer = new InputMultiplexer();
-			_multiplexer.addProcessor(mobileControls.getStage());
-			_multiplexer.addProcessor(_playerHUD.getStage());
-			Gdx.input.setInputProcessor(_multiplexer);
+			//_multiplexer = new InputMultiplexer();
+			//_multiplexer.addProcessor(mobileControls.getStage());
+			//_multiplexer.addProcessor(_playerHUD.getStage());
+			//Gdx.input.setInputProcessor(_multiplexer);
+			Gdx.input.setInputProcessor(_playerHUD.getStage());
 		}
 		else {
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
@@ -109,14 +134,169 @@ public class MainGameScreen extends GameScreen {
 			Gdx.input.setInputProcessor(_multiplexer);
 		}
 
+		_playerHUD.setCutScene(true);
+
 		_mapMgr.setPlayer(_player);
 		_mapMgr.setCamera(_camera);
 
-		//Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
+		_animBlackSmith = getAnimatedImage(EntityFactory.EntityName.TOWN_BLACKSMITH);
+
+		_transitionActor = new ScreenTransitionActor();
+
+		_stage.addActor(_animBlackSmith);
+		_stage.addActor(_transitionActor);
+
+		//Actions
+		_switchScreenAction = new RunnableAction(){
+			@Override
+			public void run() {
+				_game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
+			}
+		};
+
+		_setupScene01 = new RunnableAction() {
+			@Override
+			public void run() {
+				_playerHUD.hideMessage();
+				_mapMgr.loadMap(MapFactory.MapType.TOWN);
+				_mapMgr.disableCurrentmapMusic();
+				setCameraPosition(10, 16);
+
+				_animBlackSmith.setVisible(true);
+				_animBlackSmith.setPosition(10, 16);
+			}
+		};
+
+		_setupScene02 = new RunnableAction() {
+			@Override
+			public void run() {
+				_playerHUD.hideMessage();
+				_mapMgr.loadMap(MapFactory.MapType.TOP_WORLD);
+				_mapMgr.disableCurrentmapMusic();
+				setCameraPosition(50, 30);
+				_animBlackSmith.setPosition(50, 30);
+			}
+		};
+	}
+
+	private Action getCutsceneAction(){
+		_setupScene01.reset();
+		_setupScene02.reset();
+		_switchScreenAction.reset();
+
+		return Actions.sequence(
+				Actions.addAction(_setupScene01),
+				Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
+								try {
+									Thread.sleep(10);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+							}
+						}),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("MAGE: This is dark magic you fool. We must proceed with caution, or this could end badly for all of us");
+							}
+						}),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("INNKEEPER: Both of you need to keep it down. If we get caught using black magic, we will all be hanged!");
+							}
+						}),
+				Actions.delay(5),
+				Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor),
+				Actions.delay(3),
+				Actions.addAction(_setupScene02),
+				Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("BLACKSMITH: Now, let's get on with this. I don't like the cemeteries very much...");
+							}
+						}
+				),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("MAGE: I told you, we can't rush the spell. Bringing someone back to life isn't simple!");
+							}
+						}
+				),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("INNKEEPER: I know you loved your daughter, but this just isn't right...");
+							}
+						}
+				),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("BLACKSMITH: You have never had a child of your own. You just don't understand!");
+							}
+						}
+				),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								_playerHUD.showMessage("MAGE: You both need to concentrate, wait...Oh no, something is wrong!!");
+							}
+						}
+				),
+
+				Actions.delay(2),
+				Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor),
+				Actions.delay(2),
+				Actions.after(_switchScreenAction)
+		);
+
+	}
+
+	private AnimatedImage setEntityAnimation(Entity entity){
+		final AnimatedImage animEntity = new AnimatedImage();
+		animEntity.setEntity(entity);
+		animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
+		return animEntity;
+	}
+
+	private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
+		Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+		return setEntityAnimation(entity);
+	}
+
+	public void setCameraPosition(float x, float y){
+		_camera.position.set(x, y, 0f);
+		_isCameraFixed = true;
 	}
 
 	@Override
 	public void show() {
+		_introCutSceneAction = getCutsceneAction();
+		_stage.addAction(_introCutSceneAction);
+
 		ProfileManager.getInstance().addObserver(_mapMgr);
 		if (_playerHUD != null)
 			ProfileManager.getInstance().addObserver(_playerHUD);
@@ -124,6 +304,7 @@ public class MainGameScreen extends GameScreen {
 		setGameState(GameState.LOADING);
 
 		Gdx.input.setInputProcessor(_multiplexer);
+
 
 		if( _mapRenderer == null ){
 			_mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
@@ -141,6 +322,31 @@ public class MainGameScreen extends GameScreen {
 
 	@Override
 	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		_mapRenderer.setView(_camera);
+
+		_mapRenderer.getBatch().enableBlending();
+		_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+		if( _mapMgr.hasMapChanged() ){
+			_mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
+			_mapMgr.setMapChanged(false);
+		}
+
+		_mapRenderer.render();
+
+		//if( !_isCameraFixed ){
+		//	_camera.position.set(_followingActor.getX(), _followingActor.getY(), 0f);
+		//}
+		_camera.update();
+
+		_playerHUD.render(delta);
+
+		_stage.act(delta);
+		_stage.draw();
+		/*
 		if( _gameState == GameState.GAME_OVER ){
 			_game.setScreen(_game.getScreenType(ElmourGame.ScreenType.GameOver));
 		}
@@ -257,8 +463,12 @@ public class MainGameScreen extends GameScreen {
 		if (_playerHUD != null)
 			_playerHUD.render(delta);
 
+		_stage.act(delta);
+		_stage.draw();
+
 		if (ElmourGame.isAndroid())
 			mobileControls.render(delta);
+			*/
 	}
 
 	@Override
@@ -347,12 +557,12 @@ public class MainGameScreen extends GameScreen {
 		//update viewport if there could be skewing
 		if( VIEWPORT.physicalWidth / VIEWPORT.physicalHeight >= VIEWPORT.aspectRatio){
 			//Letterbox left and right
-			VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/VIEWPORT.physicalHeight);
+			VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/ VIEWPORT.physicalHeight);
 			VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
 		}else{
 			//letterbox above and below
 			VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
-			VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/VIEWPORT.physicalWidth);
+			VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/ VIEWPORT.physicalWidth);
 		}
 
 		Gdx.app.debug(TAG, "WorldRenderer: virtual: (" + VIEWPORT.virtualWidth + "," + VIEWPORT.virtualHeight + ")" );

@@ -2,6 +2,7 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.UI.ConversationPopUp;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
@@ -31,9 +34,13 @@ public class CutSceneScreen extends MainGameScreen {
     private Stage _stage;
     private Viewport _viewport;
     private Stage _UIStage;
+    private Entity _player;
+    private PlayerHUD _playerHUD;
+    protected OrthographicCamera _hudCamera = null;
     private Viewport _UIViewport;
     private Actor _followingActor;
     private Dialog _messageBoxUI;
+    private ConversationPopUp conversationPopUp;
     private Label _label;
     private boolean _isCameraFixed = true;
     private ScreenTransitionActor _transitionActor;
@@ -59,6 +66,9 @@ public class CutSceneScreen extends MainGameScreen {
         _viewport = new ScreenViewport(_camera);
         _stage = new Stage(_viewport);
 
+        _hudCamera = new OrthographicCamera();
+        _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
         _UIViewport = new ScreenViewport(_hudCamera);
         _UIStage = new Stage(_UIViewport);
 
@@ -70,6 +80,21 @@ public class CutSceneScreen extends MainGameScreen {
         _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth()/2).pad(10, 10, 10, 0);
         _messageBoxUI.pack();
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
+
+        _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+        _playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
+
+        conversationPopUp = new ConversationPopUp();
+        if (ElmourGame.isAndroid()) {
+            conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
+            conversationPopUp.setHeight(80);
+        }
+        else {
+            conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
+            conversationPopUp.setHeight(80);
+        }
+        conversationPopUp.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, 12);
+        conversationPopUp.setVisible(true);
 
         _followingActor = new Actor();
         _followingActor.setPosition(0, 0);
@@ -93,7 +118,7 @@ public class CutSceneScreen extends MainGameScreen {
         _setupScene01 = new RunnableAction() {
             @Override
             public void run() {
-                hideMessage();
+                _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.TOWN);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(10, 16);
@@ -114,7 +139,7 @@ public class CutSceneScreen extends MainGameScreen {
         _setupScene02 = new RunnableAction() {
             @Override
             public void run() {
-                hideMessage();
+                _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.TOP_WORLD);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(50, 30);
@@ -133,14 +158,14 @@ public class CutSceneScreen extends MainGameScreen {
             public void run() {
                 _animDemon.setPosition(52, 28);
                 _animDemon.setVisible(true);
-                hideMessage();
+                _playerHUD.hideMessage();
             }
         };
 
         _setupScene04 = new RunnableAction() {
             @Override
             public void run() {
-                hideMessage();
+                _playerHUD.hideMessage();
                 _animBlackSmith.setVisible(false);
                 _animInnKeeper.setVisible(false);
                 _animMage.setVisible(false);
@@ -161,7 +186,7 @@ public class CutSceneScreen extends MainGameScreen {
         _setupScene05 = new RunnableAction() {
             @Override
             public void run() {
-                hideMessage();
+                _playerHUD.hideMessage();
                 _animBlackSmith.setVisible(false);
                 _animInnKeeper.setVisible(false);
                 _animMage.setVisible(false);
@@ -186,7 +211,7 @@ public class CutSceneScreen extends MainGameScreen {
         _stage.addActor(_animDemon);
         _stage.addActor(_transitionActor);
 
-        _UIStage.addActor(_messageBoxUI);
+        _UIStage.addActor(conversationPopUp);
     }
 
     private Action getCutsceneAction(){
@@ -205,7 +230,12 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
+                                _playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
+                                try {
+                                    Thread.sleep(10);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }),
                 Actions.delay(7),
@@ -213,7 +243,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("MAGE: This is dark magic you fool. We must proceed with caution, or this could end badly for all of us");
+                                _playerHUD.showMessage("MAGE: This is dark magic you fool. We must proceed with caution, or this could end badly for all of us");
                             }
                         }),
                 Actions.delay(7),
@@ -221,7 +251,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("INNKEEPER: Both of you need to keep it down. If we get caught using black magic, we will all be hanged!");
+                                _playerHUD.showMessage("INNKEEPER: Both of you need to keep it down. If we get caught using black magic, we will all be hanged!");
                             }
                         }),
                 Actions.delay(5),
@@ -234,7 +264,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("BLACKSMITH: Now, let's get on with this. I don't like the cemeteries very much...");
+                                _playerHUD.showMessage("BLACKSMITH: Now, let's get on with this. I don't like the cemeteries very much...");
                             }
                         }
                 ),
@@ -243,7 +273,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("MAGE: I told you, we can't rush the spell. Bringing someone back to life isn't simple!");
+                                _playerHUD.showMessage("MAGE: I told you, we can't rush the spell. Bringing someone back to life isn't simple!");
                             }
                         }
                 ),
@@ -252,7 +282,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("INNKEEPER: I know you loved your daughter, but this just isn't right...");
+                                _playerHUD.showMessage("INNKEEPER: I know you loved your daughter, but this just isn't right...");
                             }
                         }
                 ),
@@ -261,7 +291,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("BLACKSMITH: You have never had a child of your own. You just don't understand!");
+                                _playerHUD.showMessage("BLACKSMITH: You have never had a child of your own. You just don't understand!");
                             }
                         }
                 ),
@@ -270,7 +300,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("MAGE: You both need to concentrate, wait...Oh no, something is wrong!!");
+                                _playerHUD.showMessage("MAGE: You both need to concentrate, wait...Oh no, something is wrong!!");
                             }
                         }
                 ),
@@ -296,7 +326,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("BLACKSMITH: What...What have we done...");
+                                _playerHUD.showMessage("BLACKSMITH: What...What have we done...");
                             }
                         }
                 ),
@@ -317,7 +347,7 @@ public class CutSceneScreen extends MainGameScreen {
                         new Runnable() {
                             @Override
                             public void run() {
-                                showMessage("DEMON: I will now send my legions of demons to destroy these sacks of meat!");
+                                _playerHUD.showMessage("DEMON: I will now send my legions of demons to destroy these sacks of meat!");
                             }
                         }
                 ),
@@ -355,7 +385,7 @@ public class CutSceneScreen extends MainGameScreen {
         _camera.position.set(x, y, 0f);
         _isCameraFixed = true;
     }
-
+/*
     public void showMessage(String message){
         _label.setText(message);
         _messageBoxUI.pack();
@@ -365,7 +395,7 @@ public class CutSceneScreen extends MainGameScreen {
     public void hideMessage(){
         _messageBoxUI.setVisible(false);
     }
-
+*/
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -388,6 +418,9 @@ public class CutSceneScreen extends MainGameScreen {
         }
         _camera.update();
 
+        if (_playerHUD != null)
+            _playerHUD.render(delta);
+
         _UIStage.act(delta);
         _UIStage.draw();
 
@@ -405,6 +438,9 @@ public class CutSceneScreen extends MainGameScreen {
         if( _mapRenderer == null ){
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
+
+        if (_playerHUD != null)
+            ProfileManager.getInstance().addObserver(_playerHUD);
     }
 
     @Override

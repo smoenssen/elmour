@@ -137,18 +137,21 @@ public class ConversationPopUp extends Window {
         return currentEntityID;
     }
 
-    public void loadConversation(EntityConfig entityConfig){
+    public void loadConversationFromConfig(EntityConfig entityConfig){
         String fullFilenamePath = entityConfig.getConversationConfigPath();
+        currentEntityID = entityConfig.getEntityID();
+        loadConversationFromJson(fullFilenamePath);
+    }
+
+    public void loadConversationFromJson(String jsonFilePath) {
         this.getTitleLabel().setText("");
 
-        if( fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists() ){
+        if( jsonFilePath.isEmpty() || !Gdx.files.internal(jsonFilePath).exists() ){
             Gdx.app.debug(TAG, "Conversation file does nstate = State.SHOWING_ECHOot exist!");
             return;
         }
 
-        currentEntityID = entityConfig.getEntityID();
-
-        ConversationGraph graph = json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
+        ConversationGraph graph = json.fromJson(ConversationGraph.class, Gdx.files.internal(jsonFilePath));
         setConversationGraph(graph);
     }
 
