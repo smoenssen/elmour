@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -16,14 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
-import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.dialog.ConversationChoice;
+import com.smoftware.elmour.dialog.ConversationGraph;
+import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -31,7 +29,9 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
-public class CutSceneScreen2 extends GameScreen {
+import java.util.ArrayList;
+
+public class CutSceneScreen2 extends GameScreen implements ConversationGraphObserver {
 	private static final String TAG = CutSceneScreen2.class.getSimpleName();
 
 	private final float V_WIDTH = 12;//2.4f;//srm
@@ -56,6 +56,7 @@ public class CutSceneScreen2 extends GameScreen {
 	}
 	private static GameState _gameState;
 
+	CutSceneScreen2 thisScreen;
 	protected OrthogonalTiledMapRenderer _mapRenderer = null;
 	protected MapManager _mapMgr;
 	protected OrthographicCamera _camera = null;
@@ -70,6 +71,8 @@ public class CutSceneScreen2 extends GameScreen {
 	private PlayerHUD _playerHUD;
 	//private MobileControls mobileControls;
 
+	private boolean isInConversation = false;
+
 	private Viewport _viewport;
 	private Stage _stage;
 	private boolean _isCameraFixed = true;
@@ -78,10 +81,13 @@ public class CutSceneScreen2 extends GameScreen {
 	private Action _switchScreenAction;
 	private Action _setupScene01;
 	private Action _setupScene02;
+	private Action waitForConversationExit;
 
 	private AnimatedImage _animBlackSmith;
+	private AnimatedImage animPlayer;
 
 	public CutSceneScreen2(ElmourGame game){
+		thisScreen = this;
 		_game = game;
 		_mapMgr = new MapManager();
 		_json = new Json();
@@ -140,9 +146,11 @@ public class CutSceneScreen2 extends GameScreen {
 		_mapMgr.setCamera(_camera);
 
 		_animBlackSmith = getAnimatedImage(EntityFactory.EntityName.TOWN_BLACKSMITH);
+		animPlayer = getAnimatedImage(EntityFactory.EntityName.TOWN_GUARD_WALKING);
 
 		_transitionActor = new ScreenTransitionActor();
 
+		_stage.addActor(animPlayer);
 		_stage.addActor(_animBlackSmith);
 		_stage.addActor(_transitionActor);
 
@@ -158,9 +166,12 @@ public class CutSceneScreen2 extends GameScreen {
 			@Override
 			public void run() {
 				_playerHUD.hideMessage();
-				_mapMgr.loadMap(MapFactory.MapType.TOWN);
+				_mapMgr.loadMap(MapFactory.MapType.MAP1);
 				_mapMgr.disableCurrentmapMusic();
 				setCameraPosition(10, 16);
+
+				animPlayer.setVisible(true);
+				animPlayer.setPosition(9, 16);
 
 				_animBlackSmith.setVisible(true);
 				_animBlackSmith.setPosition(10, 16);
@@ -179,6 +190,25 @@ public class CutSceneScreen2 extends GameScreen {
 		};
 	}
 
+	private Action getConversationCutscreenAction() {
+		_setupScene01.reset();
+		return Actions.sequence(
+				Actions.addAction(_setupScene01),
+				Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
+				Actions.delay(3),
+				Actions.run(
+						new Runnable() {
+							@Override
+							public void run() {
+								isInConversation = true;
+								_playerHUD.loadConversationForCutScene("conversations/testing2.json", thisScreen);
+								_playerHUD.doConversation();
+								//_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
+							}
+						}),
+				Actions.delay(3)
+		);
+	}
 	private Action getCutsceneAction(){
 		_setupScene01.reset();
 		_setupScene02.reset();
@@ -192,12 +222,10 @@ public class CutSceneScreen2 extends GameScreen {
 						new Runnable() {
 							@Override
 							public void run() {
-								_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
-								try {
-									Thread.sleep(10);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
+								isInConversation = true;
+								_playerHUD.loadConversationForCutScene("conversations/testing.json", thisScreen);
+								_playerHUD.doConversation();
+								//_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
 							}
 						}),
 				Actions.delay(3),
@@ -293,8 +321,28 @@ public class CutSceneScreen2 extends GameScreen {
 	}
 
 	@Override
+	public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
+		switch  (event) {
+			case EXIT_CONVERSATION:
+				_stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), _animBlackSmith));
+				_stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
+		}
+
+	}
+
+	@Override
+	public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
+		Gdx.app.log(TAG, "onNotify 2");
+	}
+
+	@Override
+	public void onNotify(String value, ConversationCommandEvent event) {
+		Gdx.app.log(TAG, "onNotify 3");
+	}
+
+	@Override
 	public void show() {
-		_introCutSceneAction = getCutsceneAction();
+		_introCutSceneAction = getConversationCutscreenAction();
 		_stage.addAction(_introCutSceneAction);
 
 		ProfileManager.getInstance().addObserver(_mapMgr);

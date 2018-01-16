@@ -263,8 +263,8 @@ public final class Utility {
 	}
 
 	public static void parseConversationXMLFiles() {
-		FileHandle outFile = Gdx.files.local("conversations/testing.json");
-		String fullFilenamePath = "conversations/testing.graphml";
+		FileHandle outFile = Gdx.files.local("conversations/testing2.json");
+		String fullFilenamePath = "conversations/testing2.graphml";
 
 		Hashtable<String, Conversation> conversations = new Hashtable<>();
 		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<>();

@@ -112,6 +112,7 @@ public class ElmourGame extends Game {
 		_creditScreen = new CreditScreen(this);
 		cutSceneScreen2 = new CutSceneScreen2(this);
 
+		//setScreen(_mainMenuScreen);
 		//setScreen(splashScreen);
 		setScreen(cutSceneScreen2);
 

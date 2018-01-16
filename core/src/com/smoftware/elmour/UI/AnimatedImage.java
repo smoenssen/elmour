@@ -40,6 +40,16 @@ public class AnimatedImage extends Image {
         this.setSize(this.getPrefWidth(), this.getPrefHeight());
     }
 
+    public void setCurrentAnimationType(Entity.AnimationType animationType){
+        Animation<TextureRegion> animation = _entity.getAnimation(animationType);
+        if( animation == null ){
+            Gdx.app.debug(TAG, "Animation type " + animationType.toString() + " does not exist!");
+            return;
+        }
+
+        this._currentAnimationType = animationType;
+    }
+
     @Override
     public void act(float delta){
         Drawable drawable = this.getDrawable();
@@ -48,9 +58,12 @@ public class AnimatedImage extends Image {
             return;
         }
         _frameTime = (_frameTime + delta)%5;
-        TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
-        //Gdx.app.debug(TAG, "Keyframe number is " + _animation.getKeyFrameIndex(_frameTime));
-        ((TextureRegionDrawable) drawable).setRegion(region);
+
+        if (_currentAnimationType != Entity.AnimationType.IDLE) {
+            TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
+            //Gdx.app.debug(TAG, "Keyframe number is " + _animation.getKeyFrameIndex(_frameTime));
+            ((TextureRegionDrawable) drawable).setRegion(region);
+        }
         super.act(delta);
     }
 

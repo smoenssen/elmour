@@ -851,16 +851,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         }
     }
 
-    public void loadConversationFromConfig(EntityConfig config) {
+    private void loadConversationFromConfig(EntityConfig config) {
         isCurrentConversationDone = false;
         conversationPopUp.loadConversationFromConfig(config);
         conversationPopUp.getCurrentConversationGraph().addObserver(this);
     }
 
-    public void loadConversationFromJson(String jsonFilePath) {
+    public void loadConversationForCutScene(String jsonFilePath, ConversationGraphObserver graphObserver) {
         isCurrentConversationDone = false;
         conversationPopUp.loadConversationFromJson(jsonFilePath);
         conversationPopUp.getCurrentConversationGraph().addObserver(this);
+        conversationPopUp.getCurrentConversationGraph().addObserver(graphObserver);
     }
 
     @Override
@@ -1201,9 +1202,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
         }
         else if (Gdx.input.justTouched() && isCutScene) {
-            loadConversationFromJson("conversations/testing.json");
-            doConversation();
             conversationPopUp.interact(false);
+            doConversation();
         }
 
         _stage.act(delta);
