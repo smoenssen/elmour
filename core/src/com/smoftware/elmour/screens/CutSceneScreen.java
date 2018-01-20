@@ -203,7 +203,7 @@ public class CutSceneScreen extends MainGameScreen {
 
         _transitionActor = new ScreenTransitionActor();
 
-         //layout
+        //layout
         _stage.addActor(_animMage);
         _stage.addActor(_animBlackSmith);
         _stage.addActor(_animInnKeeper);
@@ -385,17 +385,17 @@ public class CutSceneScreen extends MainGameScreen {
         _camera.position.set(x, y, 0f);
         _isCameraFixed = true;
     }
-/*
-    public void showMessage(String message){
-        _label.setText(message);
-        _messageBoxUI.pack();
-        _messageBoxUI.setVisible(true);
-    }
+    /*
+        public void showMessage(String message){
+            _label.setText(message);
+            _messageBoxUI.pack();
+            _messageBoxUI.setVisible(true);
+        }
 
-    public void hideMessage(){
-        _messageBoxUI.setVisible(false);
-    }
-*/
+        public void hideMessage(){
+            _messageBoxUI.setVisible(false);
+        }
+    */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
