@@ -113,8 +113,8 @@ public class ElmourGame extends Game {
 		cutSceneScreen2 = new CutSceneScreen2(this);
 
 		//setScreen(_mainMenuScreen);
-		//setScreen(splashScreen);
-		setScreen(cutSceneScreen2);
+		setScreen(splashScreen);
+		//setScreen(cutSceneScreen2);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

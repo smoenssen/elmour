@@ -80,6 +80,14 @@ public class Entity {
 	}
 
 	public static enum Interaction {
+		COMPASSSIGN1 {
+			@Override
+			public String toString() { return "COMPASSSIGN1"; }
+		},
+		COMPASSSIGN2 {
+			@Override
+			public String toString() { return "COMPASSSIGN2"; }
+		},
 		ARMORY {
 			@Override
 			public String toString() { return "ARMORY"; }
