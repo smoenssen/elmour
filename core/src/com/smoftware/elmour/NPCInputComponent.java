@@ -1,11 +1,8 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
-
-import sun.rmi.runtime.Log;
 
 public class NPCInputComponent extends InputComponent {
     private static final String TAG = NPCInputComponent.class.getSimpleName();
