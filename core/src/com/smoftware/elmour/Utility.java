@@ -64,7 +64,7 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android)
 			parameter.size = 18;
 		else
-			parameter.size = 20;
+			parameter.size = 18;
 
 		parameter.color = Color.DARK_GRAY;
 		parameter.shadowColor = Color.LIGHT_GRAY;
@@ -78,8 +78,11 @@ public final class Utility {
 			parameter.shadowOffsetY = 1;
 			parameter.size = 16;
 		}
-		else
-			parameter.size = 18;
+		else{
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 16;
+		}
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
 
@@ -263,8 +266,8 @@ public final class Utility {
 	}
 
 	public static void parseConversationXMLFiles() {
-		FileHandle outFile = Gdx.files.local("conversations/testing2.json");
-		String fullFilenamePath = "conversations/testing2.graphml";
+		FileHandle outFile = Gdx.files.local("conversations/Chapter_2.json");
+		String fullFilenamePath = "conversations/Chapter_2.graphml";
 
 		Hashtable<String, Conversation> conversations = new Hashtable<>();
 		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<>();
@@ -327,7 +330,7 @@ public final class Utility {
 				else if (key.equals("d6")) {
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
-					node.data = label.getText();
+					node.data = label.getText().replace('\n', ' ').replace("  ", " ");
 
 					// type
 					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");

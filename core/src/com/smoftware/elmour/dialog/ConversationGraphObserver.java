@@ -14,8 +14,27 @@ public interface ConversationGraphObserver {
         RETURN_QUEST,
         NO_CHOICE,
 
+        WAIT_15000,
+        WAIT_10000,
+        WAIT_5000,
+        WAIT_2000,
+        WAIT_1000,
+
+        ALT_TEXT_1,
+        ALT_TEXT_2,
+
+        INTERRUPT,
+        SET_THROWBOOK,
+
         // NOTE: The SET_ commands are for saving profile information
         SET_C1_CH1_N5,
+        SET_C2_CH1,
+        SET_C2_CH2,
+        SET_C2_CH3,
+        SET_CH2PATH_PLUS_1,
+        SET_WEAPON_EQUALS_1,
+        SET_WEAPON_EQUALS_2,
+        SET_WEAPON_EQUALS_3,
         NONE
     }
 

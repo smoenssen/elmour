@@ -171,6 +171,13 @@ public class ConversationPopUp extends Window {
 		graph.setCurrentConversation(conversationID);
 		fullText = conversation.getDialog();
 		currentCharacter = conversation.getCharacter();
+
+		if (currentCharacter.startsWith("{")) {
+			// get character name placeholder
+			String placeholder = currentCharacter.substring(1, currentCharacter.length() - 1);
+			currentCharacter = ProfileManager.getInstance().getProperty(placeholder, String .class);
+		}
+
 		Gdx.app.log(TAG, "populating fullText = " + fullText);
 
 		if (fullText.equals("EXIT_CONVERSATION")) {

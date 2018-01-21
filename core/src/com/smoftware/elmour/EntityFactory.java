@@ -19,6 +19,8 @@ public class EntityFactory {
     }
 
     public static enum EntityName{
+        CHARACTER_1,
+        CHARACTER_2,
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -30,6 +32,8 @@ public class EntityFactory {
         FIRE
     }
 
+    public static String CHARACTER_1_CONFIG = "scripts/character_1.json";
+    public static String CHARACTER_2_CONFIG = "scripts/character_2.json";
     public static String PLAYER_CONFIG = "scripts/player.json";
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
     public static String TOWN_BLACKSMITH_CONFIG = "scripts/town_blacksmith.json";
@@ -51,6 +55,8 @@ public class EntityFactory {
             entities.put(config.getEntityID(), config);
         }
 
+        entities.put(EntityName.CHARACTER_1.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_CONFIG));
+        entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
         entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
         entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));

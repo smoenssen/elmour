@@ -53,6 +53,10 @@ currentPlayerXPMax: {
 	value: -1
 }
 playerInventory: []
+CHARACTER_2: {
+	class: java.lang.String
+	value: Bernadette
+}
 currentMapType: {
 	class: java.lang.String
 	value: MAP1

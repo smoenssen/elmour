@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
 import com.smoftware.elmour.screens.CutSceneScreen2;
+import com.smoftware.elmour.screens.CutSceneScreenChapter2;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.LoadGameScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
@@ -43,6 +44,8 @@ public class ElmourGame extends Game {
 	private static CutSceneScreen _cutSceneScreen;
 	private static CreditScreen _creditScreen;
 	private static CutSceneScreen2 cutSceneScreen2;
+
+	private static CutSceneScreenChapter2 cutSceneScreenChapter2;
 
 	public static enum ScreenType{
 		SplashScreen,
@@ -111,10 +114,11 @@ public class ElmourGame extends Game {
 		_cutSceneScreen = new CutSceneScreen(this);
 		_creditScreen = new CreditScreen(this);
 		cutSceneScreen2 = new CutSceneScreen2(this);
+		cutSceneScreenChapter2 = new CutSceneScreenChapter2(this);
 
 		//setScreen(_mainMenuScreen);
-		setScreen(splashScreen);
-		//setScreen(cutSceneScreen2);
+		//setScreen(splashScreen);
+		setScreen(cutSceneScreenChapter2);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

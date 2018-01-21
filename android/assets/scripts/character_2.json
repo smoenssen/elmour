@@ -1,12 +1,11 @@
 {
-entityID : TOWN_GUARD
+entityID : CHARACTER_2
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
-entityBoundsName : "NPC1_BOUNDS"
 animationConfig: [
 	{
 	    frameDuration: 0.25

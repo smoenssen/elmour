@@ -201,7 +201,7 @@ public class CutSceneScreen2 extends GameScreen implements ConversationGraphObse
                    @Override
                    public void run() {
                     isInConversation = true;
-                    _playerHUD.loadConversationForCutScene("conversations/testing2.json", thisScreen);
+                    _playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
                     _playerHUD.doConversation();
                     //_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
                    }

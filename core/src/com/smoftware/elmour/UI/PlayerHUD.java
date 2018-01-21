@@ -88,6 +88,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private TextButton inventoryButton;
     private TextButton optionsButton;
     private TextButton saveButton;
+    private TextButton parseXMLButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -99,6 +100,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private ShakeCamera _shakeCam;
     private ClockActor _clock;
+
+    private boolean DEVELOPMENT = true;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -217,11 +220,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         conversationLabel = new ConversationLabel();
         if (ElmourGame.isAndroid()) {
-            conversationLabel.setWidth(80);
+            conversationLabel.setWidth(125);
             conversationLabel.setHeight(20);
         }
         else {
-            conversationLabel.setWidth(80);
+            conversationLabel.setWidth(140);
             conversationLabel.setHeight(24);
         }
         conversationLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
@@ -263,6 +266,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         inventoryButton = new TextButton("Inventory", Utility.ELMOUR_UI_SKIN);
         optionsButton = new TextButton("Options", Utility.ELMOUR_UI_SKIN);
         saveButton = new TextButton("Save", Utility.ELMOUR_UI_SKIN);
+        parseXMLButton = new TextButton("Parse XML", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -293,6 +297,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         saveButton.setPosition(menuItemX, menuItemY);
         saveButton.setVisible(false);
 
+        menuItemY -= menuItemHeight - 2;
+        parseXMLButton.setWidth(menuItemWidth);
+        parseXMLButton.setHeight(menuItemHeight);
+        parseXMLButton.setPosition(menuItemX, menuItemY);
+        parseXMLButton.setVisible(false);
+
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
@@ -314,6 +324,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(inventoryButton);
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
+
+        if (DEVELOPMENT)
+            _stage.addActor(parseXMLButton);
 
         _battleUI.validate();
         _questUI.validate();
@@ -440,6 +453,24 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                    }
                                }
         );
+
+        parseXMLButton.addListener(new ClickListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       return true;
+                                   }
+
+                                   @Override
+                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                       // make sure touch point is still on this button
+                                       if (touchPointIsInButton(parseXMLButton)) {
+                                           hideMenu(true);
+                                           Utility.parseConversationXMLFiles();
+                                       }
+                                   }
+                               }
+        );
+
         /*
         ImageButton inventoryButton = _statusUI.getInventoryButton();
         inventoryButton.addListener(new ClickListener() {
@@ -503,6 +534,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         inventoryButton.setVisible(false);
         optionsButton.setVisible(false);
         saveButton.setVisible(false);
+        parseXMLButton.setVisible(false);
 
         if (setVisibleFlag)
             menuIsVisible = false;
@@ -513,6 +545,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         inventoryButton.setVisible(true);
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
+        parseXMLButton.setVisible(true);
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
     }
@@ -717,6 +750,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 profileManager.setProperty("currentTime", _clock.getTotalTime());
                 break;
             case CLEAR_CURRENT_PROFILE:
+                // set default profile
                 profileManager.setProperty("playerQuests", new Array<QuestGraph>());
                 profileManager.setProperty("playerInventory", new Array<InventoryItemLocation>());
                 profileManager.setProperty("playerEquipInventory", new Array<InventoryItemLocation>());
@@ -729,6 +763,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 profileManager.setProperty("currentPlayerMP", 0 );
                 profileManager.setProperty("currentPlayerMPMax", 0 );
                 profileManager.setProperty("currentTime", 0);
+                profileManager.setProperty("CHARACTER_2", "Bernadette");
                 break;
             default:
                 break;
@@ -1046,6 +1081,40 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                 break;
             case 3:
+                if (ElmourGame.isAndroid()) {
+                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp1.setHeight(90);
+                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp2.setHeight(90);
+                    choicePopUp3.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp3.setHeight(90);
+                }
+                else {
+                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp1.setHeight(100);
+                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp2.setHeight(100);
+                    choicePopUp3.setWidth(_stage.getWidth() / 1.04f / 3f);
+                    choicePopUp3.setHeight(100);
+                }
+                choicePopUp1.setPosition(_stage.getWidth() /  -  (1.5f * choicePopUp1.getWidth()) + 13, _stage.getHeight() - choicePopUp1.getHeight() - 12);
+                choicePopUp2.setPosition(_stage.getWidth() / 2 - choicePopUp2.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
+                choicePopUp3.setPosition(_stage.getWidth() / 2 + choicePopUp3.getWidth() / 2, _stage.getHeight() - choicePopUp3.getHeight() - 12);
+                if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp1.setVisible(true);
+                    numVisibleChoices++;
+                }
+
+                if (!choicePopUp2.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp2.setVisible(true);
+                    numVisibleChoices++;
+                }
+
+                if (!choicePopUp3.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
+                    choicePopUp3.setVisible(true);
+                    numVisibleChoices++;
+                }
+
                 break;
             case 4:
                 break;
@@ -1191,8 +1260,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             Rectangle menuButtonRect = new Rectangle(menuButton.getX(), menuButton.getY(), menuButton.getWidth(), menuButton.getHeight());
 
             // make sure the menu button wasn't touched
+            // NOTE: if buttons are added, need to change first rectangle to bottom button
             if (!Utility.pointInRectangle(menuButtonRect, localPos.x, localPos.y)) {
-                Rectangle menuAreaRect = new Rectangle(saveButton.getX(), saveButton.getY(), saveButton.getWidth(), saveButton.getHeight() * numberOfMenuItems);
+                Vector2 bottomLeftHandCorner;
+                if (DEVELOPMENT)
+                    bottomLeftHandCorner = new Vector2(parseXMLButton.getX(), parseXMLButton.getY());
+                else
+                    bottomLeftHandCorner = new Vector2(saveButton.getX(), saveButton.getY());
+
+                Rectangle menuAreaRect = new Rectangle(bottomLeftHandCorner.x, bottomLeftHandCorner.y, saveButton.getWidth(), saveButton.getHeight() * numberOfMenuItems);
 
                 // Make sure the menu area wasn't touched
                 if (!Utility.pointInRectangle(menuAreaRect, localPos.x, localPos.y)) {
