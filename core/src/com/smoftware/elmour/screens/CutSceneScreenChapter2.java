@@ -4,9 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
@@ -69,7 +74,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
     private Entity _player;
     private PlayerHUD _playerHUD;
-    //private MobileControls mobileControls;
+
+    private Actor _followingActor;
 
     private boolean isInConversation = false;
 
@@ -79,8 +85,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     private ScreenTransitionActor _transitionActor;
     private Action _introCutSceneAction;
     private Action _switchScreenAction;
-    private Action _setupScene01;
-    private Action _setupScene02;
+    private Action setupScene01;
+    private Action setupSceneArmory;
     private Action waitForConversationExit;
 
     private AnimatedImage character1;
@@ -150,6 +156,11 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         _transitionActor = new ScreenTransitionActor();
 
+        _followingActor = new Actor();
+        _followingActor.setPosition(0, 0);
+
+        followActor(character2);
+
         _stage.addActor(character1);
         _stage.addActor(character2);
         _stage.addActor(_transitionActor);
@@ -162,40 +173,57 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
             }
         };
 
-        _setupScene01 = new RunnableAction() {
+        setupScene01 = new RunnableAction() {
             @Override
             public void run() {
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.Elmour);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(7, 20);
+                setCameraPosition(36, 20);
 
                 character1.setVisible(true);
-                character1.setPosition(7, 20);
+                character1.setPosition(36, 20);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
 
                 character2.setVisible(true);
-                character2.setPosition(8, 20);
+                character2.setPosition(37, 20);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
+
+                followActor(character2);
             }
         };
 
-        _setupScene02 = new RunnableAction() {
+        setupSceneArmory = new RunnableAction() {
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.TOP_WORLD);
+                _mapMgr.loadMap(MapFactory.MapType.Armory);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(50, 30);
-                character2.setPosition(50, 30);
+                setCameraPosition(0, 0);
+
+                character1.setVisible(true);
+                character1.setPosition(0, 0);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                character2.setVisible(true);
+                character2.setPosition(1, 1);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
+
+                followActor(character2);
             }
         };
     }
 
     private Action getConversationCutscreenAction() {
-        _setupScene01.reset();
+        setupScene01.reset();
         return Actions.sequence(
-                Actions.addAction(_setupScene01),
+                Actions.addAction(setupScene01),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
-                Actions.delay(3),
+                Actions.delay(2),
                 Actions.run(
                         new Runnable() {
                             @Override
@@ -203,19 +231,19 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                                 isInConversation = true;
                                 _playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
                                 _playerHUD.doConversation();
-                                //_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
+                                // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
                             }
                         }),
                 Actions.delay(3)
         );
     }
     private Action getCutsceneAction(){
-        _setupScene01.reset();
-        _setupScene02.reset();
+        setupScene01.reset();
+        setupSceneArmory.reset();
         _switchScreenAction.reset();
 
         return Actions.sequence(
-                Actions.addAction(_setupScene01),
+                Actions.addAction(setupScene01),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
                 Actions.delay(3),
                 Actions.run(
@@ -247,7 +275,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 Actions.delay(5),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor),
                 Actions.delay(3),
-                Actions.addAction(_setupScene02),
+                Actions.addAction(setupSceneArmory),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
                 Actions.delay(3),
                 Actions.run(
@@ -315,14 +343,83 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         return setEntityAnimation(entity);
     }
 
+    public void followActor(Actor actor){
+        _followingActor = actor;
+        _isCameraFixed = false;
+    }
+
     public void setCameraPosition(float x, float y){
         _camera.position.set(x, y, 0f);
         _isCameraFixed = true;
     }
 
+    private Rectangle getObjectRectangle(MapLayer layer, String objectName) {
+        if (layer == null) {
+            return null;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: layer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                if (object.getName().equals(objectName)) {
+                    rectangle = ((RectangleMapObject)object).getRectangle();
+                }
+            }
+        }
+
+        return rectangle;
+    }
+
+    public class setWalkDirection extends Action {
+        AnimatedImage character = null;
+        Entity.AnimationType direction = Entity.AnimationType.IDLE;
+
+        public setWalkDirection(AnimatedImage character, Entity.AnimationType direction) {
+            this.character = character;
+            this.direction = direction;
+        }
+        public boolean act (float delta) {
+            character.setCurrentAnimationType(direction);
+            return true; // An action returns true when it's completed
+        }
+
+    }
+
     @Override
-    public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
-        switch  (event) {
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent action) {
+        Gdx.app.log(TAG, "Got notification " + action.toString());
+
+        switch (action) {
+            case WALK_TO_ARMORY:
+                Rectangle rect = getObjectRectangle(_mapMgr.getInteractionLayer(), "ARMORY");
+
+                character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
+
+                Gdx.app.log(TAG, String.format("character1 y = %3.2f", character1.getY()));
+
+                _stage.addAction(Actions.sequence(
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, 0.5f, Interpolation.linear), character2),
+                        Actions.delay(0.5f),
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character2.getY() + 1, 3, Interpolation.linear), character2),
+                        Actions.delay(0.25f),
+                        new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY(), 2.75f, Interpolation.linear), character1),
+                        Actions.delay(2.75f),
+                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE - 1, 2, Interpolation.linear), character1),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE, 2, Interpolation.linear), character2),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor),
+
+                        Actions.delay(2),
+                        Actions.addAction(setupSceneArmory),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor))
+                );
+
+                break;
             case EXIT_CONVERSATION:
                 _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
                 _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
@@ -385,138 +482,15 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         _mapRenderer.render();
 
-        //if( !_isCameraFixed ){
-        //	_camera.position.set(_followingActor.getX(), _followingActor.getY(), 0f);
-        //}
+        if( !_isCameraFixed ){
+        	_camera.position.set(_followingActor.getX(), _followingActor.getY(), 0f);
+        }
         _camera.update();
 
         _playerHUD.render(delta);
 
         _stage.act(delta);
         _stage.draw();
-		/*
-		if( _gameState == GameState.GAME_OVER ){
-			_game.setScreen(_game.getScreenType(ElmourGame.ScreenType.GameOver));
-		}
-
-		if( _gameState == GameState.PAUSED ){
-			_player.updateInput(delta);
-			_playerHUD.render(delta);
-			return;
-		}
-
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		_mapRenderer.setView(_camera);
-
-		_mapRenderer.getBatch().enableBlending();
-		_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-		if( _mapMgr.hasMapChanged() ){
-			_mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
-			_player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
-
-			_camera.position.set(_mapMgr.getPlayerStartUnitScaled().x, _mapMgr.getPlayerStartUnitScaled().y, 0f);
-			_camera.update();
-
-			if (_playerHUD != null)
-				_playerHUD.updateEntityObservers();
-
-			_mapMgr.setMapChanged(false);
-
-			if (_playerHUD != null)
-				_playerHUD.addTransitionToScreen();
-		}
-
-		if (_playerHUD != null)
-			_mapMgr.updateLightMaps(_playerHUD.getCurrentTimeOfDay());
-		TiledMapImageLayer lightMap = (TiledMapImageLayer)_mapMgr.getCurrentLightMapLayer();
-		TiledMapImageLayer previousLightMap = (TiledMapImageLayer)_mapMgr.getPreviousLightMapLayer();
-
-		if( lightMap != null) {
-			_mapRenderer.getBatch().begin();
-			TiledMapTileLayer backgroundMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get(Map.BACKGROUND_LAYER);
-			if( backgroundMapLayer != null ){
-				_mapRenderer.renderTileLayer(backgroundMapLayer);
-			}
-
-			TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get(Map.GROUND_LAYER);
-			if( groundMapLayer != null ){
-				_mapRenderer.renderTileLayer(groundMapLayer);
-			}
-
-			//TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get(Map.DECORATION_LAYER);
-			TiledMapTileLayer decorationMapLayer = (TiledMapTileLayer)_mapMgr.getCurrentTiledMap().getLayers().get("Tree");
-			if( decorationMapLayer != null ){
-				_mapRenderer.renderTileLayer(decorationMapLayer);
-			}
-
-			_mapRenderer.getBatch().end();
-
-			_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
-			_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
-			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
-
-			_mapRenderer.getBatch().begin();
-			_mapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-			_mapRenderer.renderImageLayer(lightMap);
-			_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			_mapRenderer.getBatch().end();
-
-			if( previousLightMap != null ){
-				_mapRenderer.getBatch().begin();
-				_mapRenderer.getBatch().setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ONE_MINUS_SRC_COLOR);
-				_mapRenderer.renderImageLayer(previousLightMap);
-				_mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-				_mapRenderer.getBatch().end();
-			}
-		}
-		else {
-			_mapRenderer.render();
-			_mapRenderer.getBatch().begin();
-
-			for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
-				// Break out if map has changed in the middle of this loop so layer
-				// isn't rendered at incorrect camera position. This fixed issue with
-				// a quick flash at map position of previous map being shown.
-				if( _mapMgr.hasMapChanged() ){
-					break;
-				}
-
-				MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);
-
-				if (mapLayer != null && mapLayer instanceof TiledMapTileLayer) {
-					TiledMapTileLayer layer = (TiledMapTileLayer)mapLayer;
-
-					_mapRenderer.renderTileLayer(layer);
-
-					// render the player on the Z tile layer that matches the player's current Z layer
-					if (_player != null) {
-						if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {
-							_mapRenderer.getBatch().end();
-							_player.update(_mapMgr, _mapRenderer.getBatch(), delta);
-							_mapRenderer.getBatch().begin();
-						}
-					}
-				}
-			}
-
-			_mapRenderer.getBatch().end();
-			_mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
-			_mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
-		}
-
-		if (_playerHUD != null)
-			_playerHUD.render(delta);
-
-		_stage.act(delta);
-		_stage.draw();
-
-		if (ElmourGame.isAndroid())
-			mobileControls.render(delta);
-			*/
     }
 
     @Override

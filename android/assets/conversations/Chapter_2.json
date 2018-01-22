@@ -38,7 +38,7 @@ conversations: {
 	}
 	n93: {
 		id: n93
-		dialog: I assume that you'll need water aswell?
+		dialog: I assume that you'll need water as well?
 		character: Lady
 		type: NPC
 	}
@@ -282,6 +282,12 @@ conversations: {
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
+	n11: {
+		id: n11
+		dialog: WALK_TO_ARMORY
+		character: null
+		type: ACTION
+	}
 	n76: {
 		id: n76
 		dialog: Yeah.
@@ -434,7 +440,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: We need to stock up on supplies.
+		dialog: We should head out to town to stock up on anything that we may need.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -917,6 +923,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n76: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -930,9 +944,8 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n10
-			destinationId: n12
+			destinationId: n11
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n75: [

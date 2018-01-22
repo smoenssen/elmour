@@ -10,7 +10,8 @@ public class ConversationNode {
     public enum NodeType {
         NPC,
         CMD,
-        CHOICE
+        CHOICE,
+        ACTION
     }
 
     public String id;

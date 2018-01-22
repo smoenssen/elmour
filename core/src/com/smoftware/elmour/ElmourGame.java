@@ -33,6 +33,7 @@ public class ElmourGame extends Game {
 	public static float ASPECT_RATIO;
 
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
+	public static boolean DEV_MODE = true;
 
 	private static SplashScreen splashScreen;
 	private static StartScreen startScreen;

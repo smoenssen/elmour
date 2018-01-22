@@ -9,6 +9,7 @@ public class MapFactory {
     private static Hashtable<MapType,Map> _mapTable = new Hashtable<MapType, Map>();
 
     public static enum MapType{
+        Armory,
         Compass,
         Elmour,
         Grass_Temple,
@@ -30,6 +31,13 @@ public class MapFactory {
     static public Map getMap(MapType mapType){
         Map map = null;
         switch(mapType){
+            case Armory:
+                map = _mapTable.get(MapType.Armory);
+                if( map == null ){
+                    map = new Armory();
+                    _mapTable.put(MapType.Armory, map);
+                }
+                break;
             case Compass:
                 map = _mapTable.get(MapType.Compass);
                 if( map == null ){

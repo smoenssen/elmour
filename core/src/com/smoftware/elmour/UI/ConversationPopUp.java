@@ -10,6 +10,7 @@ import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.ConversationNode;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
@@ -172,6 +173,9 @@ public class ConversationPopUp extends Window {
 		fullText = conversation.getDialog();
 		currentCharacter = conversation.getCharacter();
 
+		if (currentCharacter == null)
+			currentCharacter = new String("");
+
 		if (currentCharacter.startsWith("{")) {
 			// get character name placeholder
 			String placeholder = currentCharacter.substring(1, currentCharacter.length() - 1);
@@ -180,7 +184,13 @@ public class ConversationPopUp extends Window {
 
 		Gdx.app.log(TAG, "populating fullText = " + fullText);
 
-		if (fullText.equals("EXIT_CONVERSATION")) {
+		String type = conversation.getType();
+
+		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
+		}
+		// todo
+		else if (fullText.equals("EXIT_CONVERSATION")) {
 			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
 		}
 	}

@@ -1561,8 +1561,8 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
               <y:Geometry height="30.0" width="265.1957504000011" x="486.5160627461469" y="584.7665048559122"/>
               <y:Fill color="#00FFFF" transparent="false"/>
               <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="234.14453125" x="15.525609575000544" y="-1.701171875">We should head out to town to stock up on 
-anything that we may need.<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="235.46875" x="14.863500200000544" y="-1.701171875">We should stock up on supplies or anything
+that we may need.<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -2223,7 +2223,7 @@ spellbook, so I took it.<y:LabelModel>
               <y:Geometry height="30.000000000000114" width="256.75777114717675" x="6970.830600435829" y="584.7665048559127"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="246.109375" x="5.324198073588377" y="-1.7011718749998863">It looks like everything in this book is writen in
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="246.109375" x="5.324198073588377" y="-1.701171875">It looks like everything in this book is writen in
 Chinese.<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
@@ -3325,7 +3325,7 @@ I'll discuss that when it's necessary<y:LabelModel>
               <y:Geometry height="30.0" width="227.43862836066683" x="1976.3625201526622" y="824.7665048559122"/>
               <y:Fill color="#FF6600" transparent="false"/>
               <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="212.400390625" x="7.519118867833413" y="5.6494140625">I assume that you'll need water aswell?<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="215.734375" x="5.852126680333413" y="5.6494140625">I assume that you'll need water as well?<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -6197,7 +6197,6 @@ didn't have, I have packed.<y:LabelModel>
       </data>
     </edge>
     <edge id="n1::e139" source="n1::n34" target="n1::n35">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-14.999999999999773" tx="0.0" ty="0.0"/>
@@ -6208,7 +6207,6 @@ didn't have, I have packed.<y:LabelModel>
       </data>
     </edge>
     <edge id="n1::e140" source="n1::n35" target="n1::n36">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

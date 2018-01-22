@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -54,6 +55,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
             currentState = Entity.State.IDLE;
         }
 
+        Gdx.app.log("TAG", "current direction = " + _currentDirection.toString());
         //Look into the appropriate variable when changing position
         switch (_currentDirection) {
             case DOWN:

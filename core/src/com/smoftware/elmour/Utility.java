@@ -294,13 +294,13 @@ public final class Utility {
 		// using node graph, build the conversations and associated choices
 		buildConversations(graph, nodes, rootId, conversations, associatedChoices);
 
-		// remove conversations from hash table that aren't NPC
+		// remove conversations from hash table that aren't NPC or ACTION
 		// need to use iterator to avoid ConcurrentModification exception
 		Iterator<String> iterate = conversations.keySet().iterator();
 		while (iterate.hasNext()) {
 			Conversation conv = conversations.get(iterate.next());
 
-			if (!conv.getType().equals("NPC"))
+			if (!conv.getType().equals("NPC") && !conv.getType().equals("ACTION"))
 				iterate.remove();
 		}
 
@@ -337,12 +337,15 @@ public final class Utility {
 					String color = fill.getAttribute("color");
 					if (color.equals("#999999"))
 						node.type = ConversationNode.NodeType.CMD;
-					else if (color.equals("#FFFF00"))
+					else if (color.equalsIgnoreCase("#FFFF00"))
 						node.type = ConversationNode.NodeType.CHOICE;
+					else if (color.equalsIgnoreCase("#99CCFF")) {
+						node.type = ConversationNode.NodeType.ACTION;
+					}
 					else {
 						// all other nodes are NPC
 						node.type = ConversationNode.NodeType.NPC;
-						if (color.equals("#00FFFF"))
+						if (color.equalsIgnoreCase("#00FFFF"))
 							rootId = node.id;
 					}
 					break;
@@ -392,7 +395,7 @@ public final class Utility {
 		for (String nextId : rootNode.next) {
 			String command = "";
 
-			// go to next Choice or NPC node, saving any commands we pass
+			// go to next Choice or NPC or Action node, saving any commands we pass
 			ConversationNode node = nodes.get(nextId);
 			if (node.type == ConversationNode.NodeType.CMD) {
 				command = node.data;
@@ -423,7 +426,7 @@ public final class Utility {
 					try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
 				}
 			}
-			else if (node.type == ConversationNode.NodeType.NPC) {
+			else if (node.type == ConversationNode.NodeType.NPC || node.type == ConversationNode.NodeType.ACTION) {
 				choice.setChoicePhrase(ConversationGraphObserver.ConversationCommandEvent.NO_CHOICE.toString());
 			}
 			else {

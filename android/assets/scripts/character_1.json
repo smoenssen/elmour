@@ -37,7 +37,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			sprites/characters/Paladin.png
+			sprites/characters/Character_1.png
 		]
 		gridPoints: [
 			{
@@ -63,7 +63,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			sprites/characters/Paladin.png
+			sprites/characters/Character_1.png
 		]
 		gridPoints: [
 			{
@@ -89,7 +89,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			sprites/characters/Paladin.png
+			sprites/characters/Character_1.png
 		]
 		gridPoints: [
 			{
@@ -115,7 +115,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			sprites/characters/Paladin.png
+			sprites/characters/Character_1.png
 		]
 		gridPoints: [
 			{

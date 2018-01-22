@@ -14,6 +14,8 @@ public interface ConversationGraphObserver {
         RETURN_QUEST,
         NO_CHOICE,
 
+        WALK_TO_ARMORY,
+
         WAIT_15000,
         WAIT_10000,
         WAIT_5000,

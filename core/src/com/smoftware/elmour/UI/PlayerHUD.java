@@ -101,8 +101,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private ShakeCamera _shakeCam;
     private ClockActor _clock;
 
-    private boolean DEVELOPMENT = true;
-
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
     public PlayerHUD(Camera camera, Entity player, MapManager mapMgr) {
@@ -325,7 +323,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
 
-        if (DEVELOPMENT)
+        if (ElmourGame.DEV_MODE)
             _stage.addActor(parseXMLButton);
 
         _battleUI.validate();
@@ -1263,7 +1261,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             // NOTE: if buttons are added, need to change first rectangle to bottom button
             if (!Utility.pointInRectangle(menuButtonRect, localPos.x, localPos.y)) {
                 Vector2 bottomLeftHandCorner;
-                if (DEVELOPMENT)
+                if (ElmourGame.DEV_MODE)
                     bottomLeftHandCorner = new Vector2(parseXMLButton.getX(), parseXMLButton.getY());
                 else
                     bottomLeftHandCorner = new Vector2(saveButton.getX(), saveButton.getY());

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="Wood_Floor" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Tiles/Inside/Wood_Floor/Wood_Floor.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="2" name="Wood_Wall" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Wood_Wall/Wood_Wall.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="6" name="Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="Game/Tiles/Inside/Border.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="8" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="9" name="Counter_Inn" tilewidth="16" tileheight="16" tilecount="5" columns="5">
+  <image source="Game/Tiles/Inside/Counter/Inn/Counter_Inn.png" width="80" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="9" height="10">
+  <data encoding="csv">
+6,2,3,2,3,2,3,2,2147483654,
+6,4,5,4,5,4,5,4,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+6,1,1,1,1,1,1,1,2147483654,
+1610612743,1610612742,1610612742,1610612742,1610612742,1610612742,1610612742,1610612742,3221225479
+</data>
+ </layer>
+ <layer name="Higher" width="9" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,9,10,11,12,13,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,8,0,0,0,0,
+0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
