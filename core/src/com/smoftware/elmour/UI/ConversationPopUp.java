@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ConversationPopUp extends Window {
 	private static final String TAG = ConversationPopUp.class.getSimpleName();
 
-	private enum State {HIDDEN, LISTENING, SHOWING_ECHO}
+	private enum State {HIDDEN, LISTENING}
 
 	class Dialog {
 		public String name;
@@ -74,6 +74,7 @@ public class ConversationPopUp extends Window {
 		switch (state) {
 			case HIDDEN:
 				if (fullText != "") {
+					Gdx.app.log(TAG, "setting isReady to false in interact");
 					isReady = false;
 					this.setVisible(true);
 					conversationIsActive = true;
@@ -85,14 +86,6 @@ public class ConversationPopUp extends Window {
 			case LISTENING:
 				interactReceived = true;
 				break;
-           /* case SHOWING_ECHO:
-                state = State.LISTENING;
-                dialog.lineStrings.clear();
-                textArea.clear();
-                setTextForUIThread(fullText, false);
-                startInteractionThread();
-                interactReceived = true;
-                break;*/
 		}
 
 		Gdx.app.log(TAG, "popup interact new state = " + state.toString());
@@ -106,6 +99,7 @@ public class ConversationPopUp extends Window {
 		//fullText = "";
 
 		// set isReady to false so that full text doesn't flash on popup at first
+		Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
 		isReady = false;
 
 		//layout
@@ -119,7 +113,20 @@ public class ConversationPopUp extends Window {
 		this.setVisible(false);
 		state = State.HIDDEN;
 
+		conversationIsActive = false;
+
 		//Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
+	}
+
+	public boolean isListening() {
+		if (state == State.LISTENING) {
+			Gdx.app.log(TAG, "IS LISTENING");
+			return true;
+		}
+		else {
+			Gdx.app.log(TAG, "IS NOT LISTENING");
+			return false;
+		}
 	}
 
 	private void setTextForUIThread(String text, boolean displayText) {
@@ -129,7 +136,8 @@ public class ConversationPopUp extends Window {
 
 	public void update() {
 		// called from UI thread
-		//Gdx.app.log(TAG, currentText);
+		// make sure there are no embedded line returns (borderline bug in MyTextArea)
+		currentText = currentText.replace("\n", "");
 		textArea.setText(currentText, displayText);
 		//Gdx.app.log(TAG, "currentText = " + currentText);
 	}
@@ -148,7 +156,7 @@ public class ConversationPopUp extends Window {
 		this.getTitleLabel().setText("");
 
 		if( jsonFilePath.isEmpty() || !Gdx.files.internal(jsonFilePath).exists() ){
-			Gdx.app.debug(TAG, "Conversation file does nstate = State.SHOWING_ECHOot exist!");
+			Gdx.app.debug(TAG, "Conversation file does not exist!");
 			return;
 		}
 
@@ -166,9 +174,9 @@ public class ConversationPopUp extends Window {
 		return this.graph;
 	}
 
-	public void populateConversationDialogById(String conversationID){
+	public boolean populateConversationDialogById(String conversationID){
 		Conversation conversation = graph.getConversationByID(conversationID);
-		if( conversation == null ) return;
+		if( conversation == null ) return false;
 		graph.setCurrentConversation(conversationID);
 		fullText = conversation.getDialog();
 		currentCharacter = conversation.getCharacter();
@@ -176,23 +184,40 @@ public class ConversationPopUp extends Window {
 		if (currentCharacter == null)
 			currentCharacter = new String("");
 
+		// set character name in placeholder for label
 		if (currentCharacter.startsWith("{")) {
 			// get character name placeholder
 			String placeholder = currentCharacter.substring(1, currentCharacter.length() - 1);
 			currentCharacter = ProfileManager.getInstance().getProperty(placeholder, String .class);
 		}
 
+		// set character name(s) if placeholders are in dialog text
+		String tmp = fullText;
+		int leftBracketIndex = tmp.indexOf('{', 0);
+		while (leftBracketIndex >= 0) {
+			int rightBracketIndex = tmp.indexOf('}', leftBracketIndex + 1);
+			String placeholder = tmp.substring(leftBracketIndex + 1, rightBracketIndex);
+			String characterName = ProfileManager.getInstance().getProperty(placeholder, String .class);
+			fullText = fullText.replace("{" + placeholder + "}", characterName);
+			leftBracketIndex = tmp.indexOf('{', rightBracketIndex + 1);
+		}
 		Gdx.app.log(TAG, "populating fullText = " + fullText);
 
 		String type = conversation.getType();
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
+			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
+			// return false to indicate not to interact with this node
+			return false;
 		}
 		// todo
 		else if (fullText.equals("EXIT_CONVERSATION")) {
 			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION, conversationID);
 		}
+
+		return true;
 	}
 
 	public void populateConversationDialogByText(String text, String character){
@@ -216,14 +241,18 @@ public class ConversationPopUp extends Window {
 					// need slight delay here so previous dialog can cleanup
 					pause(100);
 
+					if (dialog.lineStrings != null)
+						Gdx.app.log(TAG, String.format("lineString = %d strings", dialog.lineStrings.size));
+
 					if (dialog.lineStrings == null || dialog.lineStrings.size == 0) {
 						// set full text so that the total number of lines can be figured out
 						// send false so that text isn't displayed
 						Gdx.app.log(TAG, "setting text for UI thread = " + fullText);
 						setTextForUIThread(fullText, false);
+						Gdx.app.log(TAG, "setting isReady to true");
 						isReady = true;
 
-						// wait up to 5 sec to make sure lines are populatedisEcho
+						// wait up to 5 sec to make sure lines are populated
 						int numLines = textArea.getLines();
 						for (int q = 0; q < 100 && numLines == 0; q++) {
 							//Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
@@ -235,8 +264,11 @@ public class ConversationPopUp extends Window {
 
 						//Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
+						pause(100);
 						dialog.lineStrings = textArea.getLineStrings();
-						Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
+						Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
+						Gdx.app.log(TAG, "setting isReady to true");
+						isReady = true;
 					}
 
 					boolean delay = true;
@@ -256,7 +288,6 @@ public class ConversationPopUp extends Window {
 							if (!isEcho && (interactReceived || delay == false)) {
 								Gdx.app.log(TAG, "interactReceived || delay == false");
 								if (interactReceived) {
-									//isReady = true;
 									Gdx.app.log(TAG, "interactReceived");
 								}
 								if (!delay)
@@ -298,6 +329,7 @@ public class ConversationPopUp extends Window {
 						// show choices now if this is the last line of the dialog
 						//todo: get character name
 						if (currentCharacter != "Me" && lineIdx == dialog.lineStrings.size - 1) {
+							Gdx.app.log(TAG, "SHOWING CHOICES:");
 							ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
 							if (choices != null) {
 								// remove any choices that are no longer available based on profile settings
@@ -308,6 +340,8 @@ public class ConversationPopUp extends Window {
 									if (profileSetting != null) {
 										choices.remove(i);
 									}
+
+									Gdx.app.log(TAG, "choice = " + choice.getChoicePhrase() + ", next id = " + choice.getDestinationId());
 								}
 								graph.notify(graph, choices);
 							}
@@ -361,7 +395,7 @@ public class ConversationPopUp extends Window {
 		new Thread(r).start();
 	}
 
-	void pause(int ms) {
+	private void pause(int ms) {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {

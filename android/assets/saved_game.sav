@@ -49,18 +49,6 @@ playerCurrentPosition: {
 	x: 9.9375
 	y: 0.375
 }
-currentPlayerXP: {
-	class: java.lang.Integer
-	value: 0
-}
-currentPlayerXPMax: {
-	class: java.lang.Integer
-	value: 200
-}
-playerZLayer: {
-	class: java.lang.String
-	value: ZDOWN
-}
 playerInventory: [
 	{
 		class: com.smoftware.elmour.UI.InventoryItemLocation
@@ -153,9 +141,25 @@ playerInventory: [
 		itemNameProperty: Player_Inventory
 	}
 ]
+currentPlayerXP: {
+	class: java.lang.Integer
+	value: 0
+}
+currentPlayerXPMax: {
+	class: java.lang.Integer
+	value: 200
+}
+playerZLayer: {
+	class: java.lang.String
+	value: ZDOWN
+}
+CHARACTER_1: {
+	class: java.lang.String
+	value: Purple Boy
+}
 CHARACTER_2: {
 	class: java.lang.String
-	value: Bernadette
+	value: Girl
 }
 currentMapType: {
 	class: java.lang.String

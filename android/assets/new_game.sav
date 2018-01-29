@@ -3,6 +3,10 @@ currentPlayerHP: {
 	class: java.lang.Integer
 	value: -1
 }
+CHARACTER_1: {
+	class: java.lang.String
+	value: Purple Boy
+}
 castleOfDoomMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
 	x: 248
@@ -55,7 +59,7 @@ currentPlayerXPMax: {
 playerInventory: []
 CHARACTER_2: {
 	class: java.lang.String
-	value: Bernadette
+	value: Girl
 }
 currentMapType: {
 	class: java.lang.String

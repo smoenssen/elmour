@@ -331,6 +331,11 @@ public class CutSceneScreen2 extends GameScreen implements ConversationGraphObse
  }
 
  @Override
+ public void onNotify(ConversationGraph graph, ConversationCommandEvent event, String conversationId) {
+
+ }
+
+ @Override
  public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
   Gdx.app.log(TAG, "onNotify 2");
  }

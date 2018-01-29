@@ -100,6 +100,17 @@ public class ConversationGraph extends ConversationGraphSubject {
         return conversations.get(id);
     }
 
+    public String getNextConversationIDFromChoice(String id, int choiceIndex) {
+        ArrayList<ConversationChoice> choices = associatedChoices.get(id);
+        if (choices == null)
+            return null;
+
+        if (choices.size() < choiceIndex - 1)
+            return null;
+
+        return choices.get(choiceIndex).getDestinationId();
+    }
+
     public String displayCurrentConversation(){
         return conversations.get(currentConversationID).getDialog();
     }

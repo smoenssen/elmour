@@ -41,6 +41,7 @@ public interface ConversationGraphObserver {
     }
 
     void onNotify(final ConversationGraph graph, ConversationCommandEvent event);
+    void onNotify(final ConversationGraph graph, ConversationCommandEvent event, String conversationId);
     void onNotify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices);
     void onNotify(final String value, ConversationCommandEvent event);
 }

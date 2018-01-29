@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -218,8 +219,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         conversationLabel = new ConversationLabel();
         if (ElmourGame.isAndroid()) {
-            conversationLabel.setWidth(125);
-            conversationLabel.setHeight(20);
+            conversationLabel.setWidth(140);
+            conversationLabel.setHeight(24);
         }
         else {
             conversationLabel.setWidth(140);
@@ -761,7 +762,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 profileManager.setProperty("currentPlayerMP", 0 );
                 profileManager.setProperty("currentPlayerMPMax", 0 );
                 profileManager.setProperty("currentTime", 0);
-                profileManager.setProperty("CHARACTER_2", "Bernadette");
+                profileManager.setProperty("CHARACTER_1", "Purple Boy");
+                profileManager.setProperty("CHARACTER_2", "Girl");
                 break;
             default:
                 break;
@@ -856,13 +858,25 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         }
     }
 
+    public void doConversation(String nextConversationId) {
+        this.nextConversationId = nextConversationId;
+        doConversation();
+    }
+
     public void doConversation() {
         conversationLabel.setVisible(true);
 
         // this is where all the magic happens
         if (nextConversationId != null) {
-            conversationPopUp.populateConversationDialogById(nextConversationId);
-            conversationPopUp.interact(false);
+            if (conversationPopUp.populateConversationDialogById(nextConversationId) == true) {
+                // todo: is this still necessary if not a cut scene
+                if (!isCutScene)
+                    conversationPopUp.interact(false);
+            }
+            else {
+                conversationPopUp.hide();
+                conversationLabel.setVisible(false);
+            }
         }
 
         // don't interact here if there are choices visible
@@ -873,12 +887,21 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         // in this case, choicePopUp1 always holds the next destination id
         if (isThereAnActiveHiddenChoice) {
             nextConversationId = choicePopUp1.getChoice().getDestinationId();
-            conversationPopUp.populateConversationDialogById(nextConversationId);
+            Gdx.app.log(TAG, String.format("1-------next conversation id = %s", nextConversationId));
+            if (conversationPopUp.populateConversationDialogById(nextConversationId) == false) {
+                // the current conversation Id is non-interactive, so hide popup and move on to next Id that is in choicePopup1
+                nextConversationId = conversationPopUp.getCurrentConversationGraph().getNextConversationIDFromChoice(nextConversationId, 0);
+                Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
+                conversationPopUp.hide();
+                conversationLabel.setVisible(false);
+                isThereAnActiveHiddenChoice = false;
+            }
         }
         else if (choicePopUp1.getChoice() != null) {
             if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
                 if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
                     conversationPopUp.hide();
+                    conversationLabel.setVisible(false);
                 }
             }
         }
@@ -1012,6 +1035,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     @Override
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent event, String conversationId) {
+
+    }
+
+    @Override
     public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
         int choiceNum = 0;
         isThereAnActiveHiddenChoice = false;
@@ -1126,6 +1154,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         switch (event) {
             case NEXT_CONVERSATION_ID:
                 nextConversationId = value;
+                Gdx.app.log(TAG, String.format("-------nNEXT_CONVERSATION_ID = %s", nextConversationId));
                 break;
             case PLAYER_RESPONSE:
                 //if (numVisibleChoices > 0) {
@@ -1276,8 +1305,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
         }
         else if (Gdx.input.justTouched() && isCutScene) {
-            conversationPopUp.interact(false);
-            doConversation();
+            Vector3 touchPoint = new Vector3();
+
+            _camera.unproject(touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0));
+            Rectangle popupRect = new Rectangle(conversationPopUp.getX(), conversationPopUp.getY(), conversationPopUp.getWidth(), conversationPopUp.getHeight());
+
+            // don't interact if popup is hidden (i.e., not listening)
+            if (conversationPopUp.isListening() && Utility.pointInRectangle(popupRect, touchPoint.x, touchPoint.y))
+            {
+                conversationPopUp.interact(false);
+                doConversation();
+            }
         }
 
         _stage.act(delta);

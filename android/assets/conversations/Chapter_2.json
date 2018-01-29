@@ -2,236 +2,260 @@
 conversations: {
 	n32: {
 		id: n32
-		dialog: I guess I handled that situation pretty well.
-		character: Jaxon
+		dialog: "Hey, {CHARACTER_2}, what does this say?"
+		character: Me
 		type: NPC
 	}
 	n97: {
 		id: n97
-		dialog: The Royal Guard is paying for this?
-		character: Me
+		dialog: I'll pretend I didn't hear that.
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n96: {
-		id: n96
-		dialog: Thank you!
-		character: "{CHARACTER_2}"
+	n31: {
+		id: n31
+		dialog: It looks like everything in this book is writen in Chinese.
+		character: My Thoughts
 		type: NPC
 	}
 	n30: {
 		id: n30
-		dialog: "Fair enough, Jaxon! Open the door!"
+		dialog: "I found that on the ground during one of my rai - ahem, scoutings. Had a bunch of elements in it. Looked like a spellbook, so I took it."
 		character: Justin
-		type: NPC
-	}
-	n95: {
-		id: n95
-		dialog: "There you go, honey. I'll charge it to the Royal Guard like usual."
-		character: Lady
 		type: NPC
 	}
 	n94: {
 		id: n94
-		dialog: Indeed.
+		dialog: Do you think I'm abusing my power?
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n93: {
 		id: n93
-		dialog: I assume that you'll need water as well?
-		character: Lady
+		dialog: The Royal Guard is paying for this?
+		character: Me
 		type: NPC
 	}
 	n92: {
 		id: n92
-		dialog: "We need some food, and lots of it."
+		dialog: Thank you!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n91: {
 		id: n91
-		dialog: How may I help you?
+		dialog: "There you go, honey. I'll charge it to the Royal Guard like usual."
 		character: Lady
+		type: NPC
+	}
+	n90: {
+		id: n90
+		dialog: Indeed.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n119: {
+		id: n119
+		dialog: Yes!
+		character: Me
 		type: NPC
 	}
 	n118: {
 		id: n118
-		dialog: Why do I feel like there is something familiar about this book?
-		character: My Thoughts
+		dialog: Shall we go?
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n117: {
 		id: n117
-		dialog: I guess I should study the book.
-		character: My Thoughts
-		type: NPC
-	}
-	n115: {
-		id: n115
-		dialog: Wait right here.
+		dialog: "I believe we are all ready. Everything that we didn't have, I have packed."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n114: {
 		id: n114
-		dialog: "Well, I guess we aren’t on a time limit."
-		character: Me
+		dialog: Why do I feel like there is something familiar about this book?
+		character: My Thoughts
 		type: NPC
 	}
 	n113: {
 		id: n113
-		dialog: "Yeah, it’s very important."
-		character: "{CHARACTER_2}"
+		dialog: I guess I should study the book.
+		character: My Thoughts
 		type: NPC
 	}
-	n112: {
-		id: n112
-		dialog: A hair clip.
+	n29: {
+		id: n29
+		dialog: "Wow. Look at all of these weapons. There are katanas, swords, maces, nunchakus, daggers, shields, and… a book?"
 		character: Me
 		type: NPC
 	}
 	n111: {
 		id: n111
-		dialog: What’s a ponytail?
+		dialog: Wait right here.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n29: {
-		id: n29
-		dialog: Just in case.
+	n28: {
+		id: n28
+		dialog: I guess I handled that situation pretty well.
+		character: Jaxon
+		type: NPC
+	}
+	n110: {
+		id: n110
+		dialog: "Well, I guess we aren’t on a time limit."
 		character: Me
 		type: NPC
 	}
 	n27: {
 		id: n27
-		dialog: That’s what I -
-		character: "{CHARACTER_2}"
-		type: NPC
+		dialog: WAIT_10000
+		character: null
+		type: ACTION
 	}
 	n26: {
 		id: n26
-		dialog: Aren’t the lands pretty safe though?
+		dialog: "Fair enough, Jaxon! Open the door!"
 		character: Justin
 		type: NPC
 	}
 	n25: {
 		id: n25
-		dialog: We need to get The Gems to send this guy to the non-chibi world.
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n24: {
-		id: n24
-		dialog: What do you need weapons for?
-		character: Justin
+		dialog: Just in case.
+		character: Me
 		type: NPC
 	}
 	n89: {
 		id: n89
-		dialog: Food is always important. It's usefull in more ways than one. I'll discuss that when it's necessary
+		dialog: I assume that you'll need water as well?
+		character: Lady
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: That’s what I -
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n88: {
 		id: n88
-		dialog: Obtained Katana.
-		character: Console
-		type: NPC
-	}
-	n87: {
-		id: n87
-		dialog: Obtained Nunchuks.
-		character: Console
+		dialog: "We need some food, and lots of it."
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n22: {
 		id: n22
-		dialog: "So, how about those weapons?"
-		character: "{CHARACTER_2}"
+		dialog: Aren’t the lands pretty safe though?
+		character: Justin
 		type: NPC
 	}
-	n86: {
-		id: n86
-		dialog: Obtained Dagger.
-		character: Console
+	n87: {
+		id: n87
+		dialog: How may I help you?
+		character: Lady
 		type: NPC
 	}
 	n21: {
 		id: n21
-		dialog: "Some people call me that, but I’m mostly known as {CHARACTER_2}."
+		dialog: We need to get The Gems to send this guy to the non-chibi world.
 		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n20: {
+		id: n20
+		dialog: What do you need weapons for?
+		character: Justin
 		type: NPC
 	}
 	n85: {
 		id: n85
-		dialog: If I were to point it out it would certainly make a crisis. That’s the last thing I need to deal with.
+		dialog: Food is always important. It's usefull in more ways than one. I'll discuss that when it's necessary
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n84: {
 		id: n84
-		dialog: "So you noticed too, I just assumed that you didn’t. You just walked to the counter and ignored it."
-		character: Me
+		dialog: Obtained Katana.
+		character: Console
 		type: NPC
 	}
 	n83: {
 		id: n83
-		dialog: That man creeps me out. Nobody knows his name either… and the smell of the shop should not smell like gunpowder!
-		character: "{CHARACTER_2}"
+		dialog: Obtained Nunchuks.
+		character: Console
+		type: NPC
+	}
+	n82: {
+		id: n82
+		dialog: Obtained Dagger.
+		character: Console
 		type: NPC
 	}
 	n81: {
 		id: n81
-		dialog: We also need some firewood.
+		dialog: If I were to point it out it would certainly make a crisis. That’s the last thing I need to deal with.
 		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n80: {
+		id: n80
+		dialog: "So you noticed too, I just assumed that you didn’t. You just walked to the counter and ignored it."
+		character: Me
 		type: NPC
 	}
 	n109: {
 		id: n109
-		dialog: A ponytail?
-		character: Me
+		dialog: "Yeah, it’s very important."
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n108: {
 		id: n108
-		dialog: I forgot something.
-		character: "{CHARACTER_2}"
+		dialog: A hair clip.
+		character: Me
 		type: NPC
 	}
 	n107: {
 		id: n107
-		dialog: Why are we walking back to the castle?
+		dialog: What’s a ponytail?
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n105: {
+		id: n105
+		dialog: A ponytail?
 		character: Me
 		type: NPC
 	}
 	n104: {
 		id: n104
-		dialog: If_CH2PATH=2
-		character: null
+		dialog: I forgot something.
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n103: {
 		id: n103
-		dialog: If_CH2PATH=1
+		dialog: Why are we walking back to the castle?
+		character: Me
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: WAIT_1000
 		character: null
-		type: NPC
-	}
-	n102: {
-		id: n102
-		dialog: I know you're lying
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n101: {
-		id: n101
-		dialog: I'll pretend I didn't hear that.
-		character: "{CHARACTER_2}"
-		type: NPC
+		type: ACTION
 	}
 	n18: {
 		id: n18
-		dialog: "And Jaxon, this is {CHARACTER_1}. {CHARACTER_1}, this is Jaxon"
+		dialog: "So, how about those weapons?"
 		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n100: {
+		id: n100
+		dialog: If_CH2PATH=2
+		character: null
 		type: NPC
 	}
 	n17: {
@@ -260,7 +284,7 @@ conversations: {
 	}
 	n79: {
 		id: n79
-		dialog: Nothing important.
+		dialog: That man creeps me out. Nobody knows his name either… and the smell of the shop should not smell like gunpowder!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -270,15 +294,15 @@ conversations: {
 		character: Justin
 		type: NPC
 	}
-	n78: {
-		id: n78
-		dialog: What do you need them for?
-		character: ???
-		type: NPC
-	}
 	n12: {
 		id: n12
 		dialog: Justin! Jaxon! We need weapons!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n77: {
+		id: n77
+		dialog: We also need some firewood.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -288,12 +312,6 @@ conversations: {
 		character: null
 		type: ACTION
 	}
-	n76: {
-		id: n76
-		dialog: Yeah.
-		character: ???
-		type: NPC
-	}
 	n10: {
 		id: n10
 		dialog: "Yeah, OK. the Armory is this way."
@@ -302,115 +320,109 @@ conversations: {
 	}
 	n75: {
 		id: n75
-		dialog: "How odd… last time I checked, a woodshop shouldn't smell like a bomb…"
-		character: My Thoughts
+		dialog: Nothing important.
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n74: {
 		id: n74
-		dialog: "Hey, do you have any backpacks?"
-		character: "{CHARACTER_2}"
+		dialog: What do you need them for?
+		character: ???
 		type: NPC
 	}
 	n72: {
 		id: n72
-		dialog: "There should be backpacks there. I'll cover any costs this time, but after that, you'll need to buy it on your own."
-		character: null
+		dialog: Yeah.
+		character: ???
 		type: NPC
 	}
 	n71: {
 		id: n71
-		dialog: How will we carry it all?
-		character: Me
+		dialog: "How odd… last time I checked, a woodshop shouldn't smell like a bomb…"
+		character: My Thoughts
 		type: NPC
 	}
 	n70: {
 		id: n70
-		dialog: "We'll need a lot, enough for a couple nights."
+		dialog: "Hey, do you have any backpacks?"
 		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n69: {
-		id: n69
-		dialog: How far do we have to go?
-		character: Me
 		type: NPC
 	}
 	n68: {
 		id: n68
-		dialog: "Our first trip will be… about a hundred miles. It goes by a lot faster than it sounds, though."
-		character: "{CHARACTER_2}"
+		dialog: "There should be backpacks there. I'll cover any costs this time, but after that, you'll need to buy it on your own."
+		character: null
 		type: NPC
 	}
 	n67: {
 		id: n67
-		dialog: How much do we need?
+		dialog: How will we carry it all?
 		character: Me
+		type: NPC
+	}
+	n66: {
+		id: n66
+		dialog: "We'll need a lot, enough for a couple nights."
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n65: {
 		id: n65
-		dialog: That sounds like a good idea: we'll need firewood for our travels.
+		dialog: How far do we have to go?
+		character: Me
+		type: NPC
+	}
+	n64: {
+		id: n64
+		dialog: "Our first trip will be… about a hundred miles. It goes by a lot faster than it sounds, though."
 		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n63: {
+		id: n63
+		dialog: How much do we need?
+		character: Me
 		type: NPC
 	}
 	n61: {
 		id: n61
+		dialog: That sounds like a good idea: we'll need firewood for our travels.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n57: {
+		id: n57
 		dialog: A weapon with range? How does a katana sound?
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n60: {
-		id: n60
+	n56: {
+		id: n56
 		dialog: A blunt weapon? How do nunchuks sound?
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n54: {
-		id: n54
-		dialog: A quick weapon? How does a dagger sound?
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n51: {
-		id: n51
-		dialog: Which one would you prefer?
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n50: {
 		id: n50
-		dialog: "Anyways, you should take the book: you never know when it may come in handy. I'd pick another weapon to go along with the book. Every mage needs a backup weapon after all! If I were you, I'd pick a one handed weapon, that way you don't have to take time swaping out weapons."
+		dialog: A quick weapon? How does a dagger sound?
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n47: {
 		id: n47
-		dialog: EMPTY
-		character: Me
+		dialog: Which one would you prefer?
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n44: {
-		id: n44
-		dialog: Then throw the book at them!
+	n46: {
+		id: n46
+		dialog: "Anyways, you should take the book: you never know when it may come in handy. I'd pick another weapon to go along with the book. Every mage needs a backup weapon after all! If I were you, I'd pick a one handed weapon, that way you don't have to take time swaping out weapons."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n43: {
 		id: n43
-		dialog: And if it still doesn’t work?
-		character: Me
-		type: NPC
-	}
-	n42: {
-		id: n42
-		dialog: Try it somewhere else.
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
-	n41: {
-		id: n41
-		dialog: But how will I know if it works?
+		dialog: EMPTY
 		character: Me
 		type: NPC
 	}
@@ -422,7 +434,7 @@ conversations: {
 	}
 	n40: {
 		id: n40
-		dialog: Don’t do it in here!
+		dialog: Then throw the book at them!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -444,63 +456,69 @@ conversations: {
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n123: {
-		id: n123
-		dialog: Yes!
-		character: Me
-		type: NPC
-	}
-	n122: {
-		id: n122
-		dialog: Shall we go?
+	n124: {
+		id: n124
+		dialog: "Some people call me that, but I'm mostly known as {CHARACTER_2}."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n121: {
-		id: n121
-		dialog: "I believe we are all ready. Everything that we didn't have, I have packed."
+	n123: {
+		id: n123
+		dialog: "And Jaxon, this is {CHARACTER_1}. {CHARACTER_1}, this is Jaxon"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n39: {
+		id: n39
+		dialog: And if it still doesn’t work?
+		character: Me
+		type: NPC
+	}
+	n120: {
+		id: n120
+		dialog: "Some people call me that, but I’m mostly known as {CHARACTER_2}."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n38: {
 		id: n38
-		dialog: Shu-
-		character: Me
+		dialog: Try it somewhere else.
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n37: {
 		id: n37
-		dialog: That’s water. It is pronounced ‘shuǐ.’
-		character: "{CHARACTER_2}"
+		dialog: But how will I know if it works?
+		character: Me
 		type: NPC
 	}
 	n36: {
 		id: n36
-		dialog: "Hey, {CHARACTER_2}, what does this say?"
-		character: Me
-		type: NPC
-	}
-	n35: {
-		id: n35
-		dialog: It looks like everything in this book is writen in Chinese.
-		character: My Thoughts
+		dialog: Don’t do it in here!
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n34: {
 		id: n34
-		dialog: "I found that on the ground during one of my rai - ahem, scoutings. Had a bunch of elements in it. Looked like a spellbook, so I took it."
-		character: Justin
+		dialog: Shu-
+		character: Me
+		type: NPC
+	}
+	n99: {
+		id: n99
+		dialog: If_CH2PATH=1
+		character: null
 		type: NPC
 	}
 	n33: {
 		id: n33
-		dialog: "Wow. Look at all of these weapons. There are katanas, swords, maces, nunchakus, daggers, shields, and… a book?"
-		character: Me
+		dialog: That’s water. It is pronounced ‘shuǐ.’
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n98: {
 		id: n98
-		dialog: Do you think I'm abusing my power?
+		dialog: I know you're lying
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -518,7 +536,16 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n97
-			destinationId: n98
+			destinationId: n99
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
+		}
+	]
+	n31: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n31
+			destinationId: n32
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -534,16 +561,15 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n30
-			destinationId: n32
+			destinationId: n31
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_10000
 		}
 	]
 	n95: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n95
-			destinationId: n96
+			destinationId: n98
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -551,8 +577,14 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n94
-			destinationId: n95
-			choicePhrase: NO_CHOICE
+			destinationId: n98
+			choicePhrase: Not at all!
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n94
+			destinationId: n97
+			choicePhrase: Maybe a little…
 		}
 	]
 	n93: [
@@ -579,13 +611,20 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n90: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n90
+			destinationId: n91
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n118: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n118
-			destinationId: n121
+			destinationId: n119
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n117: [
@@ -594,24 +633,15 @@ associatedChoices: {
 			sourceId: n117
 			destinationId: n118
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_2000
-		}
-	]
-	n115: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n115
-			destinationId: n117
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n114: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n114
-			destinationId: n115
+			destinationId: n117
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n113: [
@@ -620,23 +650,7 @@ associatedChoices: {
 			sourceId: n113
 			destinationId: n114
 			choicePhrase: NO_CHOICE
-		}
-	]
-	n112: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n112
-			destinationId: n113
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n111: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n111
-			destinationId: n112
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_1000
+			conversationCommandEvent: WAIT_2000
 		}
 	]
 	n29: [
@@ -647,13 +661,37 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n111: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n111
+			destinationId: n113
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_5000
+		}
+	]
+	n110: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n110
+			destinationId: n111
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n27: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n27
-			destinationId: n29
+			destinationId: n28
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: INTERRUPT
 		}
 	]
 	n26: [
@@ -672,56 +710,45 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n24: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n24
-			destinationId: n25
-			choicePhrase: NO_CHOICE
-		}
-	]
 	n89: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n89
-			destinationId: n91
+			destinationId: n90
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: INTERRUPT
 		}
 	]
 	n88: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n88
-			destinationId: n103
+			destinationId: n89
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
-		}
-	]
-	n87: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n87
-			destinationId: n103
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 	n22: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n22
-			destinationId: n24
+			destinationId: n23
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n86: [
+	n87: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n86
-			destinationId: n103
+			sourceId: n87
+			destinationId: n88
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 	n21: [
@@ -730,7 +757,6 @@ associatedChoices: {
 			sourceId: n21
 			destinationId: n22
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_1000
 		}
 	]
 	n20: [
@@ -745,41 +771,60 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n85
-			destinationId: n103
+			destinationId: n87
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
+			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n84: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n84
-			destinationId: n85
+			destinationId: n99
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 	n83: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n83
-			destinationId: n84
+			destinationId: n99
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
+		}
+	]
+	n82: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n82
+			destinationId: n99
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 	n81: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n81
-			destinationId: n83
+			destinationId: n99
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_15000
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
+		}
+	]
+	n80: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n80
+			destinationId: n81
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n109: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n109
-			destinationId: n111
+			destinationId: n110
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -797,15 +842,23 @@ associatedChoices: {
 			sourceId: n107
 			destinationId: n108
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_1000
+		}
+	]
+	n105: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n105
+			destinationId: n107
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n104: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n104
-			destinationId: n107
+			destinationId: n105
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n103: [
@@ -816,53 +869,36 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n102: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n102
-			destinationId: n103
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
-		}
-	]
 	n19: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n19
-			destinationId: n21
+			destinationId: n18
 			choicePhrase: NO_CHOICE
-		}
-	]
-	n101: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n101
-			destinationId: n103
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 	n18: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n18
-			destinationId: n21
-			choicePhrase: "Um, who’s Ying?"
+			destinationId: n20
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n100: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n100
-			destinationId: n101
+			destinationId: n103
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n17: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n17
-			destinationId: n18
+			destinationId: n123
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -894,9 +930,8 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n79
-			destinationId: n81
+			destinationId: n80
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_10000
 		}
 	]
 	n13: [
@@ -904,14 +939,6 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n13
 			destinationId: n14
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n78: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n78
-			destinationId: n79
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -923,21 +950,21 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n77: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n77
+			destinationId: n79
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_15000
+		}
+	]
 	n11: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n11
 			destinationId: n12
 			choicePhrase: NO_CHOICE
-		}
-	]
-	n76: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n76
-			destinationId: n78
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_2000
 		}
 	]
 	n10: [
@@ -952,15 +979,16 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n75
-			destinationId: n74
+			destinationId: n77
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_10000
 		}
 	]
 	n74: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n74
-			destinationId: n76
+			destinationId: n75
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -968,16 +996,16 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
-			destinationId: n75
+			destinationId: n74
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_5000
+			conversationCommandEvent: WAIT_2000
 		}
 	]
 	n71: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n71
-			destinationId: n72
+			destinationId: n70
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -985,15 +1013,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n70
-			destinationId: n71
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n69: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n69
-			destinationId: n68
+			destinationId: n72
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1003,13 +1023,22 @@ associatedChoices: {
 			sourceId: n68
 			destinationId: n71
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_5000
 		}
 	]
 	n67: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n67
-			destinationId: n70
+			destinationId: n68
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n66: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n66
+			destinationId: n67
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1017,13 +1046,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n65
-			destinationId: n69
-			choicePhrase: NO_CHOICE
-		}
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n65
-			destinationId: n67
+			destinationId: n64
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1031,7 +1054,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n64
-			destinationId: n88
+			destinationId: n67
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1039,15 +1062,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n63
-			destinationId: n87
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n62: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n62
-			destinationId: n86
+			destinationId: n66
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1055,15 +1070,45 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n61
-			destinationId: n88
-			choicePhrase: Yes.
+			destinationId: n65
+			choicePhrase: NO_CHOICE
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n61
+			destinationId: n63
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n60: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n60
-			destinationId: n87
+			destinationId: n84
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n59: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n59
+			destinationId: n83
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n58: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n58
+			destinationId: n82
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n57: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n57
+			destinationId: n84
 			choicePhrase: Yes.
 		}
 	]
@@ -1071,31 +1116,15 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n56
-			destinationId: n61
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n55: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n55
-			destinationId: n60
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n54: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n54
-			destinationId: n86
+			destinationId: n83
 			choicePhrase: Yes.
 		}
 	]
-	n53: [
+	n52: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n53
-			destinationId: n54
+			sourceId: n52
+			destinationId: n57
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1103,30 +1132,23 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n51
-			destinationId: n61
-			choicePhrase: Something with range.
-			conversationCommandEvent: SET_WEAPON_EQUALS_3
-		}
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n51
-			destinationId: n60
-			choicePhrase: Something blunt.
-			conversationCommandEvent: SET_WEAPON_EQUALS_2
-		}
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n51
-			destinationId: n54
-			choicePhrase: Something quick.
-			conversationCommandEvent: SET_WEAPON_EQUALS_1
+			destinationId: n56
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n50: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n50
-			destinationId: n51
+			destinationId: n82
+			choicePhrase: Yes.
+		}
+	]
+	n49: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n49
+			destinationId: n50
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1134,43 +1156,40 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n47
-			destinationId: n50
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_1000
+			destinationId: n57
+			choicePhrase: Something with range.
+			conversationCommandEvent: SET_WEAPON_EQUALS_3
 		}
-	]
-	n44: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n44
+			sourceId: n47
+			destinationId: n56
+			choicePhrase: Something blunt.
+			conversationCommandEvent: SET_WEAPON_EQUALS_2
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n47
 			destinationId: n50
+			choicePhrase: Something quick.
+			conversationCommandEvent: SET_WEAPON_EQUALS_1
+		}
+	]
+	n46: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n46
+			destinationId: n47
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: WAIT_1000
 		}
 	]
 	n43: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n43
-			destinationId: n44
+			destinationId: n46
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: SET_THROWBOOK
-		}
-	]
-	n42: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n42
-			destinationId: n43
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n41: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n41
-			destinationId: n42
-			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_1000
 		}
 	]
 	n9: [
@@ -1185,8 +1204,9 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n40
-			destinationId: n41
+			destinationId: n46
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: WAIT_1000
 		}
 	]
 	n8: [
@@ -1201,7 +1221,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n7
-			destinationId: n89
+			destinationId: n85
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1209,7 +1229,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n6
-			destinationId: n65
+			destinationId: n61
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1225,14 +1245,14 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
-			destinationId: n89
+			destinationId: n85
 			choicePhrase: Let's go to the Food Court.
 			conversationCommandEvent: SET_C2_CH3
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
-			destinationId: n65
+			destinationId: n61
 			choicePhrase: Let's go to the Woodshop.
 			conversationCommandEvent: SET_C2_CH2
 		}
@@ -1252,11 +1272,33 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n124: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n124
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n123: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n123
+			destinationId: n124
+			choicePhrase: "Um, who’s Ying?"
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n123
+			destinationId: n120
+			choicePhrase: What did Justin just call you?
+		}
+	]
 	n122: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n122
-			destinationId: n123
+			destinationId: n124
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1264,7 +1306,24 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n121
-			destinationId: n122
+			destinationId: n120
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n39: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n39
+			destinationId: n40
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_THROWBOOK
+		}
+	]
+	n120: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n120
+			destinationId: n19
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1272,9 +1331,8 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n38
-			destinationId: n40
+			destinationId: n39
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: INTERRUPT
 		}
 	]
 	n37: [
@@ -1283,14 +1341,6 @@ associatedChoices: {
 			sourceId: n37
 			destinationId: n38
 			choicePhrase: NO_CHOICE
-			conversationCommandEvent: ALT_TEXT_2
-		}
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n37
-			destinationId: n47
-			choicePhrase: NO_CHOICE
-			conversationCommandEvent: ALT_TEXT_1
 		}
 	]
 	n36: [
@@ -1301,27 +1351,20 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n35: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n35
-			destinationId: n36
-			choicePhrase: NO_CHOICE
-		}
-	]
 	n34: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n34
-			destinationId: n35
+			destinationId: n36
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: INTERRUPT
 		}
 	]
 	n99: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n99
-			destinationId: n102
+			destinationId: n100
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1331,20 +1374,23 @@ associatedChoices: {
 			sourceId: n33
 			destinationId: n34
 			choicePhrase: NO_CHOICE
+			conversationCommandEvent: ALT_TEXT_2
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n33
+			destinationId: n43
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: ALT_TEXT_1
 		}
 	]
 	n98: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n98
-			destinationId: n102
-			choicePhrase: Not at all!
-		}
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n98
-			destinationId: n101
-			choicePhrase: Maybe a little…
+			destinationId: n99
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_CH2PATH_PLUS_1
 		}
 	]
 }

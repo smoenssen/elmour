@@ -392,6 +392,10 @@ public final class Utility {
 		conversation.setCharacter(rootNode.character);
 		conversations.put(rootId, conversation);
 
+		if (rootId.equals("n18")) {
+			int x;
+			x=0;
+		}
 		for (String nextId : rootNode.next) {
 			String command = "";
 

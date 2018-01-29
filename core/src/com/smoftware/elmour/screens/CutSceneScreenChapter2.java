@@ -83,14 +83,17 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     private Stage _stage;
     private boolean _isCameraFixed = true;
     private ScreenTransitionActor _transitionActor;
-    private Action _introCutSceneAction;
+    private Action openingCutScene;
     private Action _switchScreenAction;
+    private Action armoryCutSceneAction;
     private Action setupScene01;
     private Action setupSceneArmory;
     private Action waitForConversationExit;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
+    private AnimatedImage justin;
+    private AnimatedImage jaxon;
 
     public CutSceneScreenChapter2(ElmourGame game){
         thisScreen = this;
@@ -153,6 +156,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
+        justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
+        jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON);
 
         _transitionActor = new ScreenTransitionActor();
 
@@ -163,6 +168,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         _stage.addActor(character1);
         _stage.addActor(character2);
+        _stage.addActor(justin);
+        _stage.addActor(jaxon);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -201,24 +208,109 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.Armory);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(0, 0);
 
-                character1.setVisible(true);
-                character1.setPosition(0, 0);
+                float f = _stage.getWidth();
+                float centerX = (4.5f);
+                //setCameraPosition(centerX, 3f);
+
+                character1.setVisible(false);
+                character1.setPosition(centerX - character1.getWidth()/2, 0);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character1.setCurrentDirection(Entity.Direction.RIGHT);
+                character1.setCurrentDirection(Entity.Direction.UP);
 
                 character2.setVisible(true);
-                character2.setPosition(1, 1);
+                character2.setPosition(centerX - character2.getWidth()/2, 1);
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character2.setCurrentDirection(Entity.Direction.LEFT);
+                character2.setCurrentDirection(Entity.Direction.UP);
+
+                justin.setVisible(true);
+                justin.setPosition(centerX - 1f, 7);
+                justin.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                justin.setCurrentDirection(Entity.Direction.DOWN);
+
+                jaxon.setVisible(true);
+                jaxon.setPosition(centerX, 7);
+                jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                jaxon.setCurrentDirection(Entity.Direction.DOWN);
 
                 followActor(character2);
             }
         };
     }
 
-    private Action getConversationCutscreenAction() {
+    @Override
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent action, String conversationId) {
+        Gdx.app.log(TAG, "Got notification " + action.toString());
+
+        switch (action) {
+            case WAIT_1000:
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                String nextConversationId = graph.getNextConversationIDFromChoice(conversationId, 0);
+                _playerHUD.doConversation(nextConversationId);
+                break;
+            case WALK_TO_ARMORY:
+                Rectangle rect = getObjectRectangle(_mapMgr.getInteractionLayer(), "ARMORY");
+
+                character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
+
+                Gdx.app.log(TAG, String.format("character1 y = %3.2f", character1.getY()));
+
+                _stage.addAction(Actions.sequence(
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, 0.5f, Interpolation.linear), character2),
+                        Actions.delay(0.5f),
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE + 1.5f, character2.getY() + 1, 2.75f, Interpolation.linear), character2),
+
+
+                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        //Actions.delay(0.25f),
+                        Actions.addAction(Actions.moveTo(character1.getX(), character1.getY() + 1, 2f, Interpolation.linear), character1),
+                        Actions.delay(1f),
+
+                        new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY() + 1, 3f, Interpolation.linear), character1),
+                        Actions.delay(2.25f),
+                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE, 2, Interpolation.linear), character2),
+                        Actions.delay(0.25f),
+                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE - 1, 2.25f, Interpolation.linear), character1),
+
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor),
+                        Actions.delay(2.5f),
+                        Actions.addAction(armoryCutSceneAction))
+                );
+
+                break;
+            case EXIT_CONVERSATION:
+                _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
+                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
+        }
+
+    }
+
+    @Override
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent action) {
+        Gdx.app.log(TAG, "onNotify 1");
+    }
+
+    @Override
+    public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
+        Gdx.app.log(TAG, "onNotify 2");
+    }
+
+    @Override
+    public void onNotify(String value, ConversationCommandEvent event) {
+        Gdx.app.log(TAG, "onNotify 3");
+    }
+
+    private Action getOpeningCutSceneAction() {
         setupScene01.reset();
         return Actions.sequence(
                 Actions.addAction(setupScene01),
@@ -237,6 +329,37 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 Actions.delay(3)
         );
     }
+
+    private Action getArmoryCutScreenAction() {
+        setupSceneArmory.reset();
+        return Actions.sequence(
+                Actions.addAction(setupSceneArmory),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
+                new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                Actions.addAction(Actions.moveTo(3.5f, 5.5f, 2.5f, Interpolation.linear), character2),
+                Actions.delay(1.0f),
+                new setCharacterVisible(character1, true),
+                Actions.addAction(Actions.moveTo(4.5f, 5.5f, 2.0f, Interpolation.linear), character1),
+                Actions.delay(1.0f),
+                Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                //_playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
+                                _playerHUD.doConversation();
+                                // NOTE: This resumes conversation
+                            }
+                        }),
+                Actions.delay(1.0f),
+                new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                new setWalkDirection(character1, Entity.AnimationType.IDLE)
+                //Actions.delay(3f),
+                //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor)
+
+                );
+    }
+
     private Action getCutsceneAction(){
         setupScene01.reset();
         setupSceneArmory.reset();
@@ -371,6 +494,22 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         return rectangle;
     }
 
+    public class setCharacterVisible extends Action {
+        AnimatedImage character = null;
+        boolean visible = true;
+
+        public setCharacterVisible(AnimatedImage character, boolean visible) {
+            this.character = character;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.character.setVisible(visible);
+            return true;
+        }
+    }
+
     public class setWalkDirection extends Action {
         AnimatedImage character = null;
         Entity.AnimationType direction = Entity.AnimationType.IDLE;
@@ -379,68 +518,19 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
             this.character = character;
             this.direction = direction;
         }
+
+        @Override
         public boolean act (float delta) {
             character.setCurrentAnimationType(direction);
             return true; // An action returns true when it's completed
         }
-
-    }
-
-    @Override
-    public void onNotify(ConversationGraph graph, ConversationCommandEvent action) {
-        Gdx.app.log(TAG, "Got notification " + action.toString());
-
-        switch (action) {
-            case WALK_TO_ARMORY:
-                Rectangle rect = getObjectRectangle(_mapMgr.getInteractionLayer(), "ARMORY");
-
-                character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
-
-                Gdx.app.log(TAG, String.format("character1 y = %3.2f", character1.getY()));
-
-                _stage.addAction(Actions.sequence(
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, 0.5f, Interpolation.linear), character2),
-                        Actions.delay(0.5f),
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character2.getY() + 1, 3, Interpolation.linear), character2),
-                        Actions.delay(0.25f),
-                        new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY(), 2.75f, Interpolation.linear), character1),
-                        Actions.delay(2.75f),
-                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE - 1, 2, Interpolation.linear), character1),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE, 2, Interpolation.linear), character2),
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor),
-
-                        Actions.delay(2),
-                        Actions.addAction(setupSceneArmory),
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor))
-                );
-
-                break;
-            case EXIT_CONVERSATION:
-                _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
-                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
-        }
-
-    }
-
-    @Override
-    public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
-        Gdx.app.log(TAG, "onNotify 2");
-    }
-
-    @Override
-    public void onNotify(String value, ConversationCommandEvent event) {
-        Gdx.app.log(TAG, "onNotify 3");
     }
 
     @Override
     public void show() {
-        _introCutSceneAction = getConversationCutscreenAction();
-        _stage.addAction(_introCutSceneAction);
+        openingCutScene = getOpeningCutSceneAction();
+        armoryCutSceneAction = getArmoryCutScreenAction();
+        _stage.addAction(openingCutScene);
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)
@@ -449,7 +539,6 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         setGameState(GameState.LOADING);
 
         Gdx.input.setInputProcessor(_multiplexer);
-
 
         if( _mapRenderer == null ){
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
@@ -483,7 +572,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         _mapRenderer.render();
 
         if( !_isCameraFixed ){
-        	_camera.position.set(_followingActor.getX(), _followingActor.getY(), 0f);
+        	_camera.position.set(_followingActor.getX() + _followingActor.getWidth()/2, _followingActor.getY(), 0f);
         }
         _camera.update();
 

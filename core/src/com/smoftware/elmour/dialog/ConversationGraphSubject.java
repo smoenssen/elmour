@@ -31,6 +31,12 @@ public class ConversationGraphSubject {
         }
     }
 
+    public void notify(final ConversationGraph graph, ConversationGraphObserver.ConversationCommandEvent event, String conversationId) {
+        for(ConversationGraphObserver observer: _observers){
+            observer.onNotify(graph, event, conversationId);
+        }
+    }
+
     public void notify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices) {
         for(ConversationGraphObserver observer: _observers){
             observer.onNotify(graph, choices);
