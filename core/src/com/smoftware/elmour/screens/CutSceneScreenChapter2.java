@@ -244,45 +244,43 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         switch (action) {
             case WAIT_1000:
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 String nextConversationId = graph.getNextConversationIDFromChoice(conversationId, 0);
-                _playerHUD.doConversation(nextConversationId);
+                _playerHUD.doConversation(nextConversationId, 1000 * 1.25f);
                 break;
             case WALK_TO_ARMORY:
+                float oneBlockTime = 0.4f;
                 Rectangle rect = getObjectRectangle(_mapMgr.getInteractionLayer(), "ARMORY");
+                float char2BlocksToArmoryX = character2.getX() - (rect.getX() * Map.UNIT_SCALE);
+                float char1BlocksToArmoryX = character1.getX() - (rect.getX() * Map.UNIT_SCALE);
+                float char2BlocksToArmoryY = (rect.getY() * Map.UNIT_SCALE) - character2.getY();
+                float char1BlocksToArmoryY = (rect.getY() * Map.UNIT_SCALE) - character1.getY();
 
                 character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
 
-                Gdx.app.log(TAG, String.format("character1 y = %3.2f", character1.getY()));
-
                 _stage.addAction(Actions.sequence(
                         new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, 0.5f, Interpolation.linear), character2),
-                        Actions.delay(0.5f),
+                        Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, oneBlockTime, Interpolation.linear), character2),
+                        Actions.delay(oneBlockTime),
                         new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE + 1.5f, character2.getY() + 1, 2.75f, Interpolation.linear), character2),
-
+                        Actions.addAction(Actions.moveTo(character2.getX() - char2BlocksToArmoryX, character2.getY() + 1, oneBlockTime * char2BlocksToArmoryX, Interpolation.linear), character2),
+                        Actions.delay(oneBlockTime * 2f),
 
                         new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
-                        //Actions.delay(0.25f),
-                        Actions.addAction(Actions.moveTo(character1.getX(), character1.getY() + 1, 2f, Interpolation.linear), character1),
-                        Actions.delay(1f),
-
+                        Actions.addAction(Actions.moveTo(character1.getX(), character1.getY() + 1, oneBlockTime, Interpolation.linear), character1),
+                        Actions.delay(oneBlockTime),
                         new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY() + 1, 3f, Interpolation.linear), character1),
-                        Actions.delay(2.25f),
+                        Actions.addAction(Actions.moveTo(character1.getX() - char1BlocksToArmoryX, character1.getY() + 1, oneBlockTime * char1BlocksToArmoryX, Interpolation.linear), character1),
+                        Actions.delay(oneBlockTime * 7.25f),
+
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2f), _transitionActor),
+
                         new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE, 2, Interpolation.linear), character2),
-                        Actions.delay(0.25f),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character2.getY() + char2BlocksToArmoryY, oneBlockTime * char2BlocksToArmoryY, Interpolation.linear), character2),
+                        Actions.delay(oneBlockTime * 2.25f),
+
                         new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY() + char1BlocksToArmoryY, oneBlockTime * char1BlocksToArmoryY, Interpolation.linear), character1),
 
-                        Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, rect.getY() * Map.UNIT_SCALE - 1, 2.25f, Interpolation.linear), character1),
-
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor),
                         Actions.delay(2.5f),
                         Actions.addAction(armoryCutSceneAction))
                 );
@@ -337,16 +335,18 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
                 new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
                 new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
-                Actions.addAction(Actions.moveTo(3.5f, 5.5f, 2.5f, Interpolation.linear), character2),
+                Actions.addAction(Actions.moveTo(3.5f, 5.5f, 2.25f, Interpolation.linear), character2),
                 Actions.delay(1.0f),
                 new setCharacterVisible(character1, true),
-                Actions.addAction(Actions.moveTo(4.5f, 5.5f, 2.0f, Interpolation.linear), character1),
+                Actions.addAction(Actions.moveTo(4.5f, 5.5f, 1.75f, Interpolation.linear), character1),
                 Actions.delay(1.0f),
                 Actions.run(
                         new Runnable() {
                             @Override
                             public void run() {
-                                //_playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
+                                // uncomment to start right from armory screen
+                                // also need to change current conversation in the json file to n12
+                                _playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This resumes conversation
                             }
@@ -530,7 +530,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     public void show() {
         openingCutScene = getOpeningCutSceneAction();
         armoryCutSceneAction = getArmoryCutScreenAction();
-        _stage.addAction(openingCutScene);
+        _stage.addAction(armoryCutSceneAction);
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

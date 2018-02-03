@@ -383,8 +383,17 @@ public class ConversationPopUp extends Window {
 					currentText = "";
 					displayText = false;
 					interactReceived = false;
-					dialog.lineStrings.clear();
-					cleanupTextArea();
+
+
+					// post a Runnable to the rendering thread
+					Gdx.app.postRunnable(new Runnable() {
+						@Override
+						public void run() {
+							dialog.lineStrings.clear();
+							cleanupTextArea();
+						}
+					});
+
 				}
 
 				Gdx.app.log(TAG, "Exiting InteractionThread");

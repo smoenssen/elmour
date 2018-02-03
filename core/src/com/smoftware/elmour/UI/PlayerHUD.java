@@ -76,6 +76,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private boolean isThereAnActiveHiddenChoice;
     private String nextConversationId;
     private boolean isCurrentConversationDone;
+    private boolean isDelayedPopUp;
+    private float conversationPopUpDelay;
     private boolean isExitingConversation;
     private boolean didSendConversationBeginMsg;
     private boolean didSendConversationDoneMsg;
@@ -240,6 +242,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp3.setVisible(false);
         choicePopUp4.setVisible(false);
 
+        isDelayedPopUp = false;
+        conversationPopUpDelay = 0;
         numVisibleChoices = 0;
         isThereAnActiveHiddenChoice = false;
         isCurrentConversationDone = true;
@@ -858,9 +862,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         }
     }
 
-    public void doConversation(String nextConversationId) {
+    public void doConversation(String nextConversationId, float delay) {
+        isDelayedPopUp = true;
+        conversationPopUpDelay = delay / 1000;
         this.nextConversationId = nextConversationId;
-        doConversation();
     }
 
     public void doConversation() {
@@ -889,9 +894,12 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             nextConversationId = choicePopUp1.getChoice().getDestinationId();
             Gdx.app.log(TAG, String.format("1-------next conversation id = %s", nextConversationId));
             if (conversationPopUp.populateConversationDialogById(nextConversationId) == false) {
-                // the current conversation Id is non-interactive, so hide popup and move on to next Id that is in choicePopup1
-                nextConversationId = conversationPopUp.getCurrentConversationGraph().getNextConversationIDFromChoice(nextConversationId, 0);
-                Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
+                // if this is a delayed popup, the nextConversationId was already set
+                if (!isDelayedPopUp) {
+                    // the current conversation Id is non-interactive, so hide popup and move on to next Id that is in choicePopup1
+                    nextConversationId = conversationPopUp.getCurrentConversationGraph().getNextConversationIDFromChoice(nextConversationId, 0);
+                    Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
+                }
                 conversationPopUp.hide();
                 conversationLabel.setVisible(false);
                 isThereAnActiveHiddenChoice = false;
@@ -1304,7 +1312,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 }
             }
         }
-        else if (Gdx.input.justTouched() && isCutScene) {
+        else if (Gdx.input.justTouched() && isCutScene && !isDelayedPopUp) {
             Vector3 touchPoint = new Vector3();
 
             _camera.unproject(touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0));
@@ -1314,6 +1322,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             if (conversationPopUp.isListening() && Utility.pointInRectangle(popupRect, touchPoint.x, touchPoint.y))
             {
                 conversationPopUp.interact(false);
+                doConversation();
+            }
+        }
+        else if (isDelayedPopUp) {
+            conversationPopUpDelay -= delta;
+            if (conversationPopUpDelay <= 0) {
+                isDelayedPopUp = false;
                 doConversation();
             }
         }

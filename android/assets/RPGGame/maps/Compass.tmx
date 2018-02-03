@@ -285,8 +285,8 @@
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="56" name="Elmour" x="495" y="172" width="1" height="136"/>
-  <object id="57" name="Map1" x="192" y="0" width="112" height="1"/>
-  <object id="58" name="Map4" x="0" y="172" width="1" height="136"/>
+  <object id="57" name="MAP1" x="192" y="0" width="112" height="1"/>
+  <object id="58" name="MAP4" x="0" y="172" width="1" height="136"/>
   <object id="59" name="Map7" x="192" y="495" width="112" height="1"/>
  </objectgroup>
  <objectgroup name="Z_GATES">
