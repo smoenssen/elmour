@@ -237,10 +237,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         choicePopUp3 = new ChoicePopUp();
         choicePopUp4 = new ChoicePopUp();
 
-        choicePopUp1.setVisible(false);
-        choicePopUp2.setVisible(false);
-        choicePopUp3.setVisible(false);
-        choicePopUp4.setVisible(false);
+        choicePopUp1.hide();
+        choicePopUp2.hide();
+        choicePopUp3.hide();
+        choicePopUp4.hide();
 
         isDelayedPopUp = false;
         conversationPopUpDelay = 0;
@@ -1080,7 +1080,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 4, _stage.getHeight() - choicePopUp1.getHeight() - 12);
 
                 if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp1.setVisible(true);
+                    choicePopUp1.show();
                     numVisibleChoices++;
                 }
                 else {
@@ -1104,12 +1104,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp2.setPosition(_stage.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp1.setVisible(true);
+                    //choicePopUp1.setVisible(true);
+                    choicePopUp1.show();
                     numVisibleChoices++;
                 }
 
                 if (!choicePopUp2.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp2.setVisible(true);
+                    choicePopUp2.show();
                     numVisibleChoices++;
                 }
 
@@ -1135,17 +1136,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 choicePopUp2.setPosition(_stage.getWidth() / 2 - choicePopUp2.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp3.setPosition(_stage.getWidth() / 2 + choicePopUp3.getWidth() / 2, _stage.getHeight() - choicePopUp3.getHeight() - 12);
                 if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp1.setVisible(true);
+                    choicePopUp1.show();
                     numVisibleChoices++;
                 }
 
                 if (!choicePopUp2.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp2.setVisible(true);
+                    choicePopUp2.show();
                     numVisibleChoices++;
                 }
 
                 if (!choicePopUp3.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
-                    choicePopUp3.setVisible(true);
+                    choicePopUp3.show();
                     numVisibleChoices++;
                 }
 
@@ -1175,10 +1176,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                 conversationPopUp.populateConversationDialogByText(value, "Me"); //todo: get player name
 
-                choicePopUp1.setVisible(false);
-                choicePopUp2.setVisible(false);
-                choicePopUp3.setVisible(false);
-                choicePopUp4.setVisible(false);
+                choicePopUp1.hide();
+                choicePopUp2.hide();
+                choicePopUp3.hide();
+                choicePopUp4.hide();
                 numVisibleChoices = 0;
                 isThereAnActiveHiddenChoice = false;
 
@@ -1318,8 +1319,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.unproject(touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0));
             Rectangle popupRect = new Rectangle(conversationPopUp.getX(), conversationPopUp.getY(), conversationPopUp.getWidth(), conversationPopUp.getHeight());
 
-            // don't interact if popup is hidden (i.e., not listening)
-            if (conversationPopUp.isListening() && Utility.pointInRectangle(popupRect, touchPoint.x, touchPoint.y))
+            // don't interact if popup is hidden (i.e., not listening) or choice(s) are visible
+            if (numVisibleChoices == 0 && conversationPopUp.isListening() && Utility.pointInRectangle(popupRect, touchPoint.x, touchPoint.y))
             {
                 conversationPopUp.interact(false);
                 doConversation();

@@ -20,7 +20,7 @@ public class Elmour extends Map {
     private Json json;
 
     Elmour(){
-        super(MapFactory.MapType.Elmour, mapPath);
+        super(MapFactory.MapType.ELMOUR, mapPath);
 
         json = new Json();
 

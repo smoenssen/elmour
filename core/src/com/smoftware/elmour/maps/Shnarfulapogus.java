@@ -19,7 +19,7 @@ public class Shnarfulapogus extends Map {
     private Json json;
 
     Shnarfulapogus(){
-        super(MapFactory.MapType.Shnarfulapogus, mapPath);
+        super(MapFactory.MapType.SHNARFULAPOGUS, mapPath);
 
         json = new Json();
 

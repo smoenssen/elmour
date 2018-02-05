@@ -77,12 +77,18 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 if (lastSavedPlayerZLayer != null) {
                     MapFactory.getMap(_currentMap.getCurrentMapType()).setPlayerZLayer(lastSavedPlayerZLayer);
                 }
+
+                String lastSavedShadowZLayer = profileManager.getProperty("shadowZLayer", String.class);
+                if (lastSavedShadowZLayer != null) {
+                    MapFactory.getMap(_currentMap.getCurrentMapType()).setShadowZLayer(lastSavedShadowZLayer);
+                }
                 break;
             case SAVING_PROFILE:
                 if( _currentMap != null ){
                     profileManager.setProperty("currentMapType", _currentMap._currentMapType.toString());
                     profileManager.setProperty("playerCurrentPosition", _player.getCurrentPosition());
                     profileManager.setProperty("playerZLayer", MapFactory.getMap(_currentMap.getCurrentMapType()).getPlayerZLayer());
+                    profileManager.setProperty("shadowZLayer", MapFactory.getMap(_currentMap.getCurrentMapType()).getShadowZLayer());
                 }
 
                 profileManager.setProperty("topWorldMapStartPosition", MapFactory.getMap(MapFactory.MapType.TOP_WORLD).getPlayerStart() );

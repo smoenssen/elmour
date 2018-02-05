@@ -384,7 +384,6 @@ public class ConversationPopUp extends Window {
 					displayText = false;
 					interactReceived = false;
 
-
 					// post a Runnable to the rendering thread
 					Gdx.app.postRunnable(new Runnable() {
 						@Override

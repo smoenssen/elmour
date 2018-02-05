@@ -20,7 +20,7 @@ public class Armory extends Map {
     private Json json;
 
     Armory(){
-        super(MapFactory.MapType.Armory, mapPath);
+        super(MapFactory.MapType.ARMORY, mapPath);
 
         json = new Json();
 

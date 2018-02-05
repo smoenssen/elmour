@@ -1,6 +1,5 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,12 +14,14 @@ import java.util.Hashtable;
 
 public abstract class GraphicsComponent extends ComponentSubject implements Component {
     protected TextureRegion _currentFrame = null;
+    protected TextureRegion currentShadowFrame = null;
     protected float _frameTime = 0f;
     protected Entity.State currentState;
     protected Entity.Direction _currentDirection;
     protected Json json;
     protected Vector2 _currentPosition;
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations;
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> shadowAnimations;
     protected ShapeRenderer _shapeRenderer;
     protected Entity.Interaction currentInteraction;
     protected Entity.Interaction previousInteraction;
@@ -34,11 +35,14 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         previousInteraction = Entity.Interaction.NONE;
         json = new Json();
         animations = new Hashtable<>();
+        shadowAnimations = new Hashtable<>();
         _shapeRenderer = new ShapeRenderer();
         isConversationInProgress = false;
     }
 
     public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);
+
+    public abstract void updateShadow(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);
 
     protected void updateAnimations(float delta){
 
@@ -55,7 +59,9 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
             currentState = Entity.State.IDLE;
         }
 
-        Gdx.app.log("TAG", "current direction = " + _currentDirection.toString());
+        Animation<TextureRegion> shadowAnimation = null;
+
+        //Gdx.app.log("TAG", "current direction = " + _currentDirection.toString());
         //Look into the appropriate variable when changing position
         switch (_currentDirection) {
             case DOWN:
@@ -76,6 +82,11 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
                     if (animation == null) return;
                     _currentFrame = animation.getKeyFrame(_frameTime);
                 }
+
+                if (shadowAnimations == null) return;
+                shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_DOWN);
+                if (shadowAnimation == null) return;
+                currentShadowFrame = shadowAnimation.getKeyFrame(0);
                 break;
             case LEFT:
                 if (currentState == Entity.State.WALKING) {
@@ -95,6 +106,10 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
                     if (animation == null) return;
                     _currentFrame = animation.getKeyFrame(_frameTime);
                 }
+
+                if (shadowAnimations == null) return;
+                shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_LEFT);
+                currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             case UP:
                 if (currentState == Entity.State.WALKING) {
@@ -114,6 +129,10 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
                     if (animation == null) return;
                     _currentFrame = animation.getKeyFrame(_frameTime);
                 }
+
+                if (shadowAnimations == null) return;
+                shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_UP);
+                currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             case RIGHT:
                 if (currentState == Entity.State.WALKING) {
@@ -133,6 +152,10 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
                     if (animation == null) return;
                     _currentFrame = animation.getKeyFrame(_frameTime);
                 }
+
+                if (shadowAnimations == null) return;
+                shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_RIGHT);
+                currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             default:
                 break;
@@ -178,5 +201,9 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
     public Animation<TextureRegion> getAnimation(Entity.AnimationType type){
         return animations.get(type);
+    }
+
+    public Animation<TextureRegion> getShadowAnimation(Entity.AnimationType type){
+        return shadowAnimations.get(type);
     }
 }

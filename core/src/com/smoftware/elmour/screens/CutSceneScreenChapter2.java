@@ -184,7 +184,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.Elmour);
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(36, 20);
 
@@ -206,7 +206,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.Armory);
+                _mapMgr.loadMap(MapFactory.MapType.ARMORY);
                 _mapMgr.disableCurrentmapMusic();
 
                 float f = _stage.getWidth();
@@ -224,12 +224,12 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 character2.setCurrentDirection(Entity.Direction.UP);
 
                 justin.setVisible(true);
-                justin.setPosition(centerX - 1f, 7);
+                justin.setPosition(centerX - 1f, 7.1f);
                 justin.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 justin.setCurrentDirection(Entity.Direction.DOWN);
 
                 jaxon.setVisible(true);
-                jaxon.setPosition(centerX, 7);
+                jaxon.setPosition(centerX, 7.1f);
                 jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 jaxon.setCurrentDirection(Entity.Direction.DOWN);
 
@@ -244,8 +244,10 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
         switch (action) {
             case WAIT_1000:
-                String nextConversationId = graph.getNextConversationIDFromChoice(conversationId, 0);
-                _playerHUD.doConversation(nextConversationId, 1000 * 1.25f);
+                _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 1000 * 1.25f);
+                break;
+            case WAIT_10000:
+                _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 10000);
                 break;
             case WALK_TO_ARMORY:
                 float oneBlockTime = 0.4f;
@@ -338,7 +340,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 Actions.addAction(Actions.moveTo(3.5f, 5.5f, 2.25f, Interpolation.linear), character2),
                 Actions.delay(1.0f),
                 new setCharacterVisible(character1, true),
-                Actions.addAction(Actions.moveTo(4.5f, 5.5f, 1.75f, Interpolation.linear), character1),
+                Actions.addAction(Actions.moveTo(4.5f, 5.5f, 2f, Interpolation.linear), character1),
                 Actions.delay(1.0f),
                 Actions.run(
                         new Runnable() {
@@ -346,7 +348,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                             public void run() {
                                 // uncomment to start right from armory screen
                                 // also need to change current conversation in the json file to n12
-                                _playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
+                                //_playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This resumes conversation
                             }
@@ -530,7 +532,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     public void show() {
         openingCutScene = getOpeningCutSceneAction();
         armoryCutSceneAction = getArmoryCutScreenAction();
-        _stage.addAction(armoryCutSceneAction);
+        _stage.addAction(openingCutScene);
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)
@@ -576,10 +578,10 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         }
         _camera.update();
 
-        _playerHUD.render(delta);
-
         _stage.act(delta);
         _stage.draw();
+
+        _playerHUD.render(delta);
     }
 
     @Override

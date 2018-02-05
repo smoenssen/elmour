@@ -64,7 +64,8 @@ public abstract class Map implements AudioSubject{
     protected Vector2 _convertedUnits;
     protected TiledMap _currentMap = null;
     protected Vector2 _playerStart;
-    protected String   playerZLayer = "ZDOWN";
+    protected String  playerZLayer = "ZDOWN";
+    protected String  shadowZLayer = "ZSHADOWDOWN";
     protected Array<Vector2> _npcStartPositions;
     protected Hashtable<String, Vector2> _specialNPCStartPositions;
 
@@ -221,6 +222,10 @@ public abstract class Map implements AudioSubject{
     public String getPlayerZLayer() { return playerZLayer; }
 
     public void setPlayerZLayer(String playerZLayer) { this.playerZLayer = playerZLayer; }
+
+    public String getShadowZLayer() { return shadowZLayer; }
+
+    public void setShadowZLayer(String shadowZLayer) { this.shadowZLayer = shadowZLayer; }
 
     public MapLayer getLightMapDawnLayer(){
         return _lightMapDawnLayer;

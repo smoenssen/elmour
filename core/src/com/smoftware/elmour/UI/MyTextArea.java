@@ -65,6 +65,8 @@ public class MyTextArea extends MyTextField {
     }
 
     protected int letterUnderCursor (float x) {
+        // srm commented out because was crashing when clicking fast on textarea
+        /*
         if (linesBreak.size > 0) {
             if (cursorLine * 2 >= linesBreak.size) {
                 return text.length();
@@ -82,6 +84,8 @@ public class MyTextArea extends MyTextField {
         } else {
             return 0;
         }
+        */
+        return 0;
     }
 
     /** Sets the preferred number of rows (lines) for this text area. Used to calculate preferred height */

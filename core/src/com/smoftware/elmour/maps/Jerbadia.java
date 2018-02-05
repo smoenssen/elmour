@@ -20,7 +20,7 @@ public class Jerbadia extends Map {
     private Json json;
 
     Jerbadia(){
-        super(MapFactory.MapType.Jerbadia, mapPath);
+        super(MapFactory.MapType.JERBADIA, mapPath);
 
         json = new Json();
 

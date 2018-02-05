@@ -31,7 +31,7 @@ public class EntityFactory {
         TOWN_FOLK1, TOWN_FOLK2, TOWN_FOLK3, TOWN_FOLK4, TOWN_FOLK5,
         TOWN_FOLK6, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10,
         TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
-        FIRE
+        FIRE,
     }
 
     public static String CHARACTER_1_CONFIG = "scripts/character_1.json";
@@ -45,6 +45,7 @@ public class EntityFactory {
     public static String TOWN_INNKEEPER_CONFIG = "scripts/town_innkeeper.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
+
 
     private EntityFactory(){
         entities = new Hashtable<String, EntityConfig>();

@@ -9,18 +9,18 @@ public class MapFactory {
     private static Hashtable<MapType,Map> _mapTable = new Hashtable<MapType, Map>();
 
     public static enum MapType{
-        Armory,
-        Compass,
-        Elmour,
-        Grass_Temple,
-        Jerbadia,
+        ARMORY,
+        COMPASS,
+        ELMOUR,
+        GRASS_TEMPLE,
+        JERBADIA,
         MAP1,
         MAP2,
         MAP3,
         MAP4,
         MAP5,
         MAP6,
-        Shnarfulapogus,
+        SHNARFULAPOGUS,
         TOP_WORLD,
         TOWN,
         TOWN1,
@@ -31,39 +31,39 @@ public class MapFactory {
     static public Map getMap(MapType mapType){
         Map map = null;
         switch(mapType){
-            case Armory:
-                map = _mapTable.get(MapType.Armory);
+            case ARMORY:
+                map = _mapTable.get(MapType.ARMORY);
                 if( map == null ){
                     map = new Armory();
-                    _mapTable.put(MapType.Armory, map);
+                    _mapTable.put(MapType.ARMORY, map);
                 }
                 break;
-            case Compass:
-                map = _mapTable.get(MapType.Compass);
+            case COMPASS:
+                map = _mapTable.get(MapType.COMPASS);
                 if( map == null ){
                     map = new Compass();
-                    _mapTable.put(MapType.Compass, map);
+                    _mapTable.put(MapType.COMPASS, map);
                 }
                 break;
-            case Elmour:
-                map = _mapTable.get(MapType.Elmour);
+            case ELMOUR:
+                map = _mapTable.get(MapType.ELMOUR);
                 if( map == null ){
                     map = new Elmour();
-                    _mapTable.put(MapType.Elmour, map);
+                    _mapTable.put(MapType.ELMOUR, map);
                 }
                 break;
-            case Grass_Temple:
-                map = _mapTable.get(MapType.Grass_Temple);
+            case GRASS_TEMPLE:
+                map = _mapTable.get(MapType.GRASS_TEMPLE);
                 if( map == null ){
                     map = new GrassTemple();
-                    _mapTable.put(MapType.Grass_Temple, map);
+                    _mapTable.put(MapType.GRASS_TEMPLE, map);
                 }
                 break;
-            case Jerbadia:
-                map = _mapTable.get(MapType.Jerbadia);
+            case JERBADIA:
+                map = _mapTable.get(MapType.JERBADIA);
                 if( map == null ){
                     map = new Jerbadia();
-                    _mapTable.put(MapType.Jerbadia, map);
+                    _mapTable.put(MapType.JERBADIA, map);
                 }
                 break;
             case MAP1:
@@ -108,11 +108,11 @@ public class MapFactory {
                     _mapTable.put(MapType.MAP6, map);
                 }
                 break;
-            case Shnarfulapogus:
-                map = _mapTable.get(MapType.Shnarfulapogus);
+            case SHNARFULAPOGUS:
+                map = _mapTable.get(MapType.SHNARFULAPOGUS);
                 if( map == null ){
                     map = new Shnarfulapogus();
-                    _mapTable.put(MapType.Shnarfulapogus, map);
+                    _mapTable.put(MapType.SHNARFULAPOGUS, map);
                 }
                 break;
             case TOP_WORLD:

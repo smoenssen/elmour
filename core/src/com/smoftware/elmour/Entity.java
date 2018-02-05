@@ -237,6 +237,10 @@ public class Entity {
 		_graphicsComponent.update(this, mapMgr, batch, delta);
 	}
 
+	public void updateShadow(com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
+		_graphicsComponent.updateShadow(this, mapMgr, batch, delta);
+	}
+
 	public void updateInput(float delta){
 		_inputComponent.update(this, delta);
 	}

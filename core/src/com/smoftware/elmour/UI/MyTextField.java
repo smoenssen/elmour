@@ -579,7 +579,8 @@ public class MyTextField extends Widget implements Disableable {
     /** @param str If null, "" is used. */
     public void setText (String str, boolean updateDisplay) {
         if (str == null) str = "";
-        if (str.equals(text)) return;
+        // srm commented out because textarea wasn't updating all of the time
+        // if (str.equals(text)) return;
 
         clearSelection();
         String oldText = text;

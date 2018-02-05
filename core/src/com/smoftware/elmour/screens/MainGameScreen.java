@@ -238,6 +238,15 @@ public class MainGameScreen extends GameScreen {
 
                     _mapRenderer.renderTileLayer(layer);
 
+                    // render the character's shadow on the Z tile layer that matches the shadow's current Z layer
+                    if (_player != null) {
+                        if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getShadowZLayer())) {
+                            _mapRenderer.getBatch().end();
+                            _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta);
+                            _mapRenderer.getBatch().begin();
+                        }
+                    }
+
                     // render the player on the Z tile layer that matches the player's current Z layer
                     if (_player != null) {
                         if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {

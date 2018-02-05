@@ -20,7 +20,7 @@ public class Compass extends Map {
     private Json json;
 
     Compass(){
-        super(MapFactory.MapType.Compass, mapPath);
+        super(MapFactory.MapType.COMPASS, mapPath);
 
         json = new Json();
 

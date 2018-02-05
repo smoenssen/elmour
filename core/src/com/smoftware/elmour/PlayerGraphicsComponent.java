@@ -73,6 +73,31 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
                     animations.put(animationType, animation);
                 }
+
+                // shadow
+                String textureName = "sprites/characters/Shadow.png";
+                Animation<TextureRegion> shadowAnimation= null;
+                Array<GridPoint2> gridPoints = new Array<GridPoint2>();
+
+                gridPoints.add(new GridPoint2(0, 0));
+                shadowAnimation = loadAnimation(textureName, gridPoints, 1.0f);
+                gridPoints.clear();
+                shadowAnimations.put(Entity.AnimationType.WALK_DOWN, shadowAnimation);
+
+                gridPoints.add(new GridPoint2(1, 0));
+                shadowAnimation = loadAnimation(textureName, gridPoints, 1.0f);
+                gridPoints.clear();
+                shadowAnimations.put(Entity.AnimationType.WALK_LEFT, shadowAnimation);
+
+                gridPoints.add(new GridPoint2(2, 0));
+                shadowAnimation = loadAnimation(textureName, gridPoints, 1.0f);
+                gridPoints.clear();
+                shadowAnimations.put(Entity.AnimationType.WALK_RIGHT, shadowAnimation);
+
+                gridPoints.add(new GridPoint2(3, 0));
+                shadowAnimation = loadAnimation(textureName, gridPoints, 1.0f);
+                gridPoints.clear();
+                shadowAnimations.put(Entity.AnimationType.WALK_UP, shadowAnimation);
             }
 
             if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_COLLISION.toString())) {
@@ -140,8 +165,9 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         camera.update();
 
         batch.begin();
-        if (_currentFrame != null && _currentPosition != null)
+        if (_currentFrame != null && _currentPosition != null) {
             batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
+        }
         //Gdx.app.log(TAG, String.format("_currentPosition.x = %3.2f, _currentPosition.y = %3.2f", _currentPosition.x, _currentPosition.y));
         batch.end();
 
@@ -154,6 +180,16 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight()*Map.UNIT_SCALE);
         _shapeRenderer.end();
 */
+    }
+
+    @Override
+    public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        batch.begin();
+        if (currentShadowFrame != null && _currentPosition != null) {
+            batch.draw(currentShadowFrame, _currentPosition.x, _currentPosition.y - 0.15f, 1, 1);//srm
+        }
+        //Gdx.app.log(TAG, String.format("_currentPosition.x = %3.2f, _currentPosition.y = %3.2f", _currentPosition.x, _currentPosition.y));
+        batch.end();
     }
 
     @Override

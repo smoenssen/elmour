@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="42" height="40" tilewidth="16" tileheight="16" nextobjectid="74">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="42" height="40" tilewidth="16" tileheight="16" nextobjectid="76">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -31,6 +31,9 @@
  </tileset>
  <tileset firstgid="299" name="NPC_House_2" tilewidth="16" tileheight="16" tilecount="20" columns="5">
   <image source="Game/Buildings/NPC_Houses/House_2/NPC_House_2.png" width="80" height="64"/>
+ </tileset>
+ <tileset firstgid="319" name="Sign_1" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Pop_Ups/Sign/Sign_1.png" width="16" height="16"/>
  </tileset>
  <layer name="Tile Layer 1" width="42" height="40">
   <data encoding="csv">
@@ -241,7 +244,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,319,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,252,252,252,252,252,252,252,252,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,254,254,254,254,254,254,254,254,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -598,6 +601,7 @@
   <object id="56" x="288" y="183" width="64" height="1"/>
   <object id="57" x="288" y="71" width="64" height="1"/>
   <object id="58" x="288" y="110" width="64" height="1"/>
+  <object id="74" x="225" y="496" width="14" height="7"/>
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
   <object id="45" name="PLAYER_START" x="528" y="618" width="32" height="16"/>
@@ -631,5 +635,6 @@
   <object id="42" name="T3DOOR2" x="65" y="295" width="14" height="9"/>
   <object id="43" name="T3DOOR1" x="193" y="423" width="14" height="9"/>
   <object id="44" name="ARMORY" x="193" y="151" width="14" height="9"/>
+  <object id="75" name="T3SIGN1" x="223" y="507" width="18" height="8"/>
  </objectgroup>
 </map>

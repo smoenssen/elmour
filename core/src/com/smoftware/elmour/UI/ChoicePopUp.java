@@ -24,13 +24,15 @@ public class ChoicePopUp extends Window {
     ConversationChoice choice;
     private Vector2 screenPos;
     private Vector2 localPos;
+    private boolean isVisible;
 
     public ChoicePopUp() {
         //Notes:
         //font is set in the Utility class
         //popup is created in PlayerHUD class
-        //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "default");
+
+        isVisible = false;
 
         screenPos = new Vector2();
         localPos = new Vector2();
@@ -57,7 +59,7 @@ public class ChoicePopUp extends Window {
 
     public void update() {
         if(Gdx.input.justTouched()) {
-            if (choice != null) {
+            if (choice != null && isVisible) {
                 // Get the touch point in screen coordinates.
                 screenPos.set(Gdx.input.getX(), Gdx.input.getY());
 
@@ -78,6 +80,16 @@ public class ChoicePopUp extends Window {
                 }
             }
         }
+    }
+
+    public void show() {
+        this.setVisible(true);
+        isVisible = true;
+    }
+
+    public void hide() {
+        this.setVisible(false);
+        isVisible = false;
     }
 
     public void interact() {

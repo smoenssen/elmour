@@ -45,7 +45,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         //reduce width and height of bounding box for better feel of collisions
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
-        initBoundingBox(0.4f, 0.4f);
+        initBoundingBox(0.4f, 0.05f);
 
         _previousDiscovery = "";
         _previousEnemySpawn = "0";
@@ -264,13 +264,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         ///////////////////////////////////////////////////
         //
-        // CHECK IF PASSING THROUGH A Z_GATE
+        // CHECK IF PASSING THROUGH A PLAYER Z_GATE OR SHADOW Z_GATE
         //
         object = checkCollisionWithZGatesLayer(mapMgr);
         if (object != null) {
-            MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(object.getName());
-            //mapMgr.getCurrentTiledMap().(object.getName());
-        }//
+            if (object.getName().contains("SHADOW"))
+                MapFactory.getMap(mapMgr.getCurrentMapType()).setShadowZLayer(object.getName());
+            else
+                MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(object.getName());
+        }
 
         /////////////////////////////////////////
         //
@@ -574,6 +576,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                 if (_boundingBox.overlaps(rectangle) ){
                     String mapName = object.getName();
+                    mapName = mapName.toUpperCase();
                     if( mapName == null ) {
                         return false;
                     }

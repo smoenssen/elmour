@@ -19,7 +19,7 @@ public class GrassTemple extends Map {
     private Json json;
 
     GrassTemple(){
-        super(MapFactory.MapType.Grass_Temple, mapPath);
+        super(MapFactory.MapType.GRASS_TEMPLE, mapPath);
 
         json = new Json();
 
