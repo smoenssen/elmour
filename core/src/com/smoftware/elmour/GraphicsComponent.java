@@ -16,7 +16,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     protected TextureRegion _currentFrame = null;
     protected TextureRegion currentShadowFrame = null;
     protected float _frameTime = 0f;
-    protected Entity.State currentState;
+    public Entity.State currentState;
     protected Entity.Direction _currentDirection;
     protected Json json;
     protected Vector2 _currentPosition;
@@ -42,7 +42,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
     public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);
 
-    public abstract void updateShadow(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);
+    public abstract void updateShadow(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta, Vector2 entityPosition);
 
     protected void updateAnimations(float delta){
 

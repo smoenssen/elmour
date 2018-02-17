@@ -8,5 +8,6 @@
 8. WATERFALL_OBSTACLE
 9. 0_OPACITY
 10. Z_GATES
-11. Player
-12. Nothing
+11. LEDGES
+12. Player
+13. Nothing

@@ -29,11 +29,6 @@ public class Map6 extends Map {
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
             mapEntities.add(entity);
         }
-
-        Entity blackSmith = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_BLACKSMITH);
-        initSpecialEntityPosition(blackSmith);
-        mapEntities.add(blackSmith);
-
     }
 
     @Override

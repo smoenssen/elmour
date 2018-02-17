@@ -10,9 +10,13 @@ public class MapFactory {
 
     public static enum MapType{
         ARMORY,
+        BARREN_ROOM,
+        CASTLE,
         COMPASS,
+        COURTYARD,
         ELMOUR,
         GRASS_TEMPLE,
+        INN,
         JERBADIA,
         MAP1,
         MAP2,
@@ -20,6 +24,11 @@ public class MapFactory {
         MAP4,
         MAP5,
         MAP6,
+        MAP7,
+        M6_CAVE,
+        M6_CAVE_A,
+        M6_CAVE_B,
+        PORTAL_ROOM,
         SHNARFULAPOGUS,
         TOP_WORLD,
         TOWN,
@@ -38,11 +47,32 @@ public class MapFactory {
                     _mapTable.put(MapType.ARMORY, map);
                 }
                 break;
+            case BARREN_ROOM:
+                map = _mapTable.get(MapType.BARREN_ROOM);
+                if( map == null ){
+                    map = new Barren_Room();
+                    _mapTable.put(MapType.BARREN_ROOM, map);
+                }
+                break;
+            case CASTLE:
+                map = _mapTable.get(MapType.CASTLE);
+                if( map == null ){
+                    map = new Castle();
+                    _mapTable.put(MapType.CASTLE, map);
+                }
+                break;
             case COMPASS:
                 map = _mapTable.get(MapType.COMPASS);
                 if( map == null ){
                     map = new Compass();
                     _mapTable.put(MapType.COMPASS, map);
+                }
+                break;
+            case COURTYARD:
+                map = _mapTable.get(MapType.COURTYARD);
+                if( map == null ){
+                    map = new Courtyard();
+                    _mapTable.put(MapType.COURTYARD, map);
                 }
                 break;
             case ELMOUR:
@@ -57,6 +87,13 @@ public class MapFactory {
                 if( map == null ){
                     map = new GrassTemple();
                     _mapTable.put(MapType.GRASS_TEMPLE, map);
+                }
+                break;
+            case INN:
+                map = _mapTable.get(MapType.INN);
+                if( map == null ){
+                    map = new Inn();
+                    _mapTable.put(MapType.INN, map);
                 }
                 break;
             case JERBADIA:
@@ -106,6 +143,41 @@ public class MapFactory {
                 if( map == null ){
                     map = new Map6();
                     _mapTable.put(MapType.MAP6, map);
+                }
+                break;
+            case MAP7:
+                map = _mapTable.get(MapType.MAP7);
+                if( map == null ){
+                    map = new Map7();
+                    _mapTable.put(MapType.MAP7, map);
+                }
+                break;
+            case M6_CAVE:
+                map = _mapTable.get(MapType.M6_CAVE);
+                if( map == null ){
+                    map = new M6_Cave();
+                    _mapTable.put(MapType.M6_CAVE, map);
+                }
+                break;
+            case M6_CAVE_A:
+                map = _mapTable.get(MapType.M6_CAVE_A);
+                if( map == null ){
+                    map = new M6_Cave_A();
+                    _mapTable.put(MapType.M6_CAVE_A, map);
+                }
+                break;
+            case M6_CAVE_B:
+                map = _mapTable.get(MapType.M6_CAVE_B);
+                if( map == null ){
+                    map = new M6_Cave_B();
+                    _mapTable.put(MapType.M6_CAVE_B, map);
+                }
+                break;
+            case PORTAL_ROOM:
+                map = _mapTable.get(MapType.PORTAL_ROOM);
+                if( map == null ){
+                    map = new Portal_Room();
+                    _mapTable.put(MapType.PORTAL_ROOM, map);
                 }
                 break;
             case SHNARFULAPOGUS:

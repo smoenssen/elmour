@@ -119,7 +119,7 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     }
 
     @Override
-    public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta) {
+    public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta, Vector2 entityPosition) {
 
     }
 

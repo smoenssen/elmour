@@ -1,0 +1,52 @@
+Main Maps:
+
+Grass Temple
+Desert Temple
+Map_8
+Tarping Town
+Map_9
+Snow Temple
+Map_10
+Map_11
+Diblethia
+Map_12
+Map_13
+Water Temple
+Map_14
+Christo
+Map_15
+Fire Temple
+Map_16
+TBD Town 1
+Map_17
+TBD Town 2
+Map_18
+Docks
+Map_19
+Castle (Dungeon)
+Final Boss Room
+Final Room
+
+
+Less Important Maps:
+
+Treasury
+Bedroom
+Throne Room
+M6_CAVE_C
+M6_HIDDEN
+T1DOOR1
+T1DOOR2
+T1DOOR3
+T1DOOR4
+T1DOOR5
+T1DOOR6
+T2DOOR1
+T2DOOR2
+T2DOOR3
+M3DOOR1
+M4DOOR1
+T3DOOR1
+T3DOOR2
+M7DOOR1
+M7DOOR2

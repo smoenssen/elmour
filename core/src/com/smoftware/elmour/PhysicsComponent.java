@@ -17,7 +17,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
     public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta);
 
-    protected Vector2 _nextEntityPosition;
+    public Vector2 _nextEntityPosition;
     protected Vector2 _currentEntityPosition;
     protected Entity.Direction _currentDirection;
     protected Entity.Direction _lasttDirection;

@@ -164,36 +164,36 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
         camera.update();
 
-        batch.begin();
+        //batch.begin();
         if (_currentFrame != null && _currentPosition != null) {
             batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);//srm
         }
         //Gdx.app.log(TAG, String.format("_currentPosition.x = %3.2f, _currentPosition.y = %3.2f", _currentPosition.x, _currentPosition.y));
-        batch.end();
+        //batch.end();
 
         //Used to graphically debug boundingboxes
 /*
-        Rectangle rect = entity.getCurrentBoundingBox();
+    Rectangle rect = entity.getCurrentBoundingBox();
         _shapeRenderer.setProjectionMatrix(camera.combined);
-        _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        _shapeRenderer.setColor(Color.RED);
-        _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight()*Map.UNIT_SCALE);
-        _shapeRenderer.end();
-*/
-    }
+                _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                _shapeRenderer.setColor(Color.RED);
+                _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight()*Map.UNIT_SCALE);
+                _shapeRenderer.end();
+                */
+                }
 
-    @Override
-    public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta) {
-        batch.begin();
-        if (currentShadowFrame != null && _currentPosition != null) {
-            batch.draw(currentShadowFrame, _currentPosition.x, _currentPosition.y - 0.15f, 1, 1);//srm
+@Override
+public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta, Vector2 entityPosition) {
+        //batch.begin();
+        if (currentShadowFrame != null) {
+            batch.draw(currentShadowFrame, entityPosition.x, entityPosition.y - 0.15f, 1, 1);//srm
         }
         //Gdx.app.log(TAG, String.format("_currentPosition.x = %3.2f, _currentPosition.y = %3.2f", _currentPosition.x, _currentPosition.y));
-        batch.end();
-    }
+        //batch.end();
+        }
 
-    @Override
-    public void dispose(){
-    }
+@Override
+public void dispose(){
+        }
 
-}
+        }

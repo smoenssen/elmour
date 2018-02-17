@@ -128,6 +128,26 @@ public class Entity {
 			@Override
 			public String toString() { return "M5SIGN1"; }
 		},
+		M6SIGN1 {
+			@Override
+			public String toString() { return "M6SIGN1"; }
+		},
+		M7SIGN1 {
+			@Override
+			public String toString() { return "M7SIGN1"; }
+		},
+		M7SIGN2 {
+			@Override
+			public String toString() { return "M7SIGN2"; }
+		},
+		M7SIGN3 {
+			@Override
+			public String toString() { return "M7SIGN3"; }
+		},
+		M7SIGN4 {
+			@Override
+			public String toString() { return "M7SIGN4"; }
+		},
 		T2DOOR1 {
 			@Override
 			public String toString() { return "T2DOOR1"; }
@@ -237,8 +257,8 @@ public class Entity {
 		_graphicsComponent.update(this, mapMgr, batch, delta);
 	}
 
-	public void updateShadow(com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
-		_graphicsComponent.updateShadow(this, mapMgr, batch, delta);
+	public void updateShadow(com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta, Vector2 enitityPosition){
+		_graphicsComponent.updateShadow(this, mapMgr, batch, delta, enitityPosition);
 	}
 
 	public void updateInput(float delta){
@@ -257,6 +277,14 @@ public class Entity {
 
 	public Vector2 getCurrentPosition(){
 		return _graphicsComponent._currentPosition;
+	}
+
+	public Vector2 getNextPosition(){
+		return _physicsComponent._nextEntityPosition;
+	}
+
+	public Entity.State getCurrentState() {
+		return _graphicsComponent.currentState;
 	}
 
 	public float getSelectionAngle() { return _physicsComponent.getSelectionAngle(); }
