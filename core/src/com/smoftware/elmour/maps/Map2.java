@@ -1,5 +1,6 @@
 package com.smoftware.elmour.maps;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
@@ -82,11 +83,11 @@ public class Map2 extends Map {
     private void toggleSwitch() {
         if (switchEnabled) {
             switchEnabled = false;
-            _currentMap.getLayers().get("Switch Press").setVisible((true));
+            _currentMap.getLayers().get("Switch Press").setVisible(true);
         }
         else {
             switchEnabled = true;
-            _currentMap.getLayers().get("Switch Press").setVisible((false));
+            _currentMap.getLayers().get("Switch Press").setVisible(false);
         }
     }
 }

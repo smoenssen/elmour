@@ -360,19 +360,19 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 	public void onMobileControlsNotify(Object data, MobileControlEvent event) {
 		//Gdx.app.log(TAG, "onMobileControlsNotify " + event.toString());
 		if (event == MobileControlEvent.A_BUTTON_PRESSED) {
-			Gdx.app.log("tag", "A pressed");
+			Gdx.app.log(TAG, "A pressed");
 			this.a_Pressed();
 		}
 		else if (event == MobileControlEvent.A_BUTTON_RELEASED) {
-			Gdx.app.log("tag", "A released");
+			Gdx.app.log(TAG, "A released");
 			this.a_Released();
 		}
 		else if (event == MobileControlEvent.B_BUTTON_PRESSED) {
-			Gdx.app.log("tag", "B pressed");
+			Gdx.app.log(TAG, "B pressed");
 			this.b_Pressed();
 		}
 		else if (event == MobileControlEvent.B_BUTTON_RELEASED) {
-			Gdx.app.log("tag", "B released");
+			Gdx.app.log(TAG, "B released");
 			this.b_Released();
 		}
 		else if (event == MobileControlEvent.JOYSTICK_POSITION) {

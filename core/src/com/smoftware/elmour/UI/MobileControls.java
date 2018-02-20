@@ -34,8 +34,8 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
         buttonTable = new Table();
 
-        // todo: FloatingThumbpadController has an issue with being reset to 0 position if the A or B button are pressed
-        touchpad = new FixedThumbpadController();//FloatingThumbpadController();
+        // todo: FloatingThumbpadController has an issue with being reset to 0 position if the A or B buttons are pressed
+        touchpad = new FloatingThumbpadController();//FixedThumbpadController();//FloatingThumbpadController();
         _stage.addActor(touchpad.getTouchpad());
 
         Image rightImg = new Image(new Texture("controllers/touchpadKnob.png"));
@@ -46,16 +46,12 @@ public class MobileControls extends MobileControlsSubject implements Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_PRESSED);
-                //rightPressed = true;
-                //BensRPG.player.handleAButtonPressed();
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_RELEASED);
-                //rightPressed = false;
-                //BensRPG.player.handleAButtonReleased();
             }
         });
 
