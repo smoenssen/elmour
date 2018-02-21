@@ -223,6 +223,9 @@ public class MainGameScreen extends GameScreen {
             _mapRenderer.render();
             _mapRenderer.getBatch().begin();
 
+            boolean shadowUpdated = false;
+            boolean playerUpdated = false;
+
             for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
                 // Break out if map has changed in the middle of this loop so layer
                 // isn't rendered at incorrect camera position. This fixed issue with
@@ -240,20 +243,28 @@ public class MainGameScreen extends GameScreen {
                     if (layer.isVisible())
                         _mapRenderer.renderTileLayer(layer);
 
-                    // render the character's shadow on the Z tile layer that matches the shadow's current Z layer
-                    if (_player != null) {
+                    // render the character's shadow on the Z tile layer that matches the shadow's current Z layer.
+                    // need to make sure the next player position is not colliding since the shadow is rendered before the player.
+                    if (_player != null && !shadowUpdated) {
                         if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getShadowZLayer())) {
-                           if (_player.getCurrentState() == Entity.State.IDLE || _player.getCurrentState() == Entity.State.IMMOBILE )
+                           if ((_player.getCurrentState() == Entity.State.IDLE) || (_player.getCurrentState() == Entity.State.IMMOBILE) || _player.isNextPositionCollision(_mapMgr))
                                _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta, _player.getCurrentPosition());
                            else
                                _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta, _player.getNextPosition());
+
+                            shadowUpdated = true;
                         }
                     }
 
-                    // render the player on the Z tile layer that matches the player's current Z layer
-                    if (_player != null) {
-                        if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {
-                            _player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+                    // make sure player is only updated once during this game loop to avoid multiple renders
+                    // in the event that the player's Z layer changed in the middle of this for loop
+                    if (!playerUpdated) {
+                        // render the player on the Z tile layer that matches the player's current Z layer
+                        if (_player != null) {
+                            if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {
+                                _player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+                                playerUpdated = true;
+                            }
                         }
                     }
                 }

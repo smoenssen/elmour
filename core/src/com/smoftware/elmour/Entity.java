@@ -261,6 +261,10 @@ public class Entity {
 		_graphicsComponent.updateShadow(this, mapMgr, batch, delta, enitityPosition);
 	}
 
+	public boolean	isNextPositionCollision(com.smoftware.elmour.maps.MapManager mapMgr) {
+		return _physicsComponent.isNextPositionCollision(mapMgr);
+	}
+
 	public void updateInput(float delta){
 		_inputComponent.update(this, delta);
 	}
@@ -275,17 +279,11 @@ public class Entity {
 		return _physicsComponent._boundingBox;
 	}
 
-	public Vector2 getCurrentPosition(){
-		return _graphicsComponent._currentPosition;
-	}
+	public Vector2 getCurrentPosition(){ return _graphicsComponent._currentPosition; }
 
-	public Vector2 getNextPosition(){
-		return _physicsComponent._nextEntityPosition;
-	}
+	public Vector2 getNextPosition(){ return _physicsComponent._nextEntityPosition; }
 
-	public Entity.State getCurrentState() {
-		return _graphicsComponent.currentState;
-	}
+	public Entity.State getCurrentState() { return _graphicsComponent.currentState; }
 
 	public float getSelectionAngle() { return _physicsComponent.getSelectionAngle(); }
 

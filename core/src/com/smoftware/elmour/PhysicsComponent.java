@@ -157,6 +157,52 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
+    // NOTE: This public function is primarily to decide if the entity's shadow should be placed at the next position or not.
+    //       No member variables are modified in this function.
+    public boolean isNextPositionCollision(com.smoftware.elmour.maps.MapManager mapMgr) {
+        MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
+
+        if( mapCollisionLayer == null ){
+            return false;
+        }
+
+        Rectangle boundingBox = new Rectangle();
+        boundingBox.set(_nextEntityPosition.x / com.smoftware.elmour.maps.Map.UNIT_SCALE,
+                        _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE,
+                        _boundingBox.getWidth(), _boundingBox.getHeight());
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapCollisionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    return true;
+                }
+            }
+        }
+
+        // need to also check 0_OPACITY_LAYER if it is present or active
+        MapLayer mapZeroOpacityLayer = mapMgr.getZeroOpacityLayer();
+
+        if( mapZeroOpacityLayer == null ){
+            return false;
+        }
+
+        for( MapObject object: mapZeroOpacityLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     protected MapObject checkCollisionWithInteractionLayer(MapManager mapMgr){
         MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
 
