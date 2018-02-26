@@ -171,13 +171,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                         _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE,
                         _boundingBox.getWidth(), _boundingBox.getHeight());
 
-        Rectangle rectangle = null;
-
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if( boundingBox.overlaps(rectangle) ){
-                    //Collision
+                if( boundingBox.overlaps(((RectangleMapObject)object).getRectangle()) ){
                     return true;
                 }
             }
@@ -192,9 +188,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         for( MapObject object: mapZeroOpacityLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if( boundingBox.overlaps(rectangle) ){
-                    //Collision
+                if( boundingBox.overlaps(((RectangleMapObject)object).getRectangle()) ){
                     return true;
                 }
             }

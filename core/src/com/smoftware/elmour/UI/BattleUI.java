@@ -34,6 +34,9 @@ public class BattleUI extends Window implements BattleObserver {
     private TextButton _runButton = null;
     private Label _damageValLabel = null;
 
+    private Label enemyHP = null;
+
+
     private float _battleTimer = 0;
     private final float _checkTimer = 1;
 
@@ -54,7 +57,7 @@ public class BattleUI extends Window implements BattleObserver {
         _currentImagePosition = new Vector2(0,0);
 
         _damageValLabel = new Label("0", Utility.STATUSUI_SKIN);
-        _damageValLabel.setVisible(false);
+        _damageValLabel.setVisible(true);
 
         _image = new AnimatedImage();
         _image.setTouchable(Touchable.disabled);

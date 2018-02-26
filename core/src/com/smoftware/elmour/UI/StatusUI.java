@@ -44,7 +44,7 @@ public class StatusUI extends Window implements StatusSubject {
     private float _barHeight = 0;
 
     public StatusUI(){
-        super("stats", Utility.STATUSUI_SKIN);
+        super("", Utility.STATUSUI_SKIN);
 
         _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
@@ -103,12 +103,12 @@ public class StatusUI extends Window implements StatusSubject {
         defaults().expand().fill();
 
         //account for the title padding
-        this.pad(this.getPadTop() + 10, 10, 10, 10);
+        //this.pad(this.getPadTop() + 10, 10, 10, 10);
 
-        this.add();
-        this.add(_questButton).align(Align.center);
-        this.add(_inventoryButton).align(Align.right);
-        this.row();
+        //this.add();
+        //this.add(_questButton).align(Align.center);
+        //this.add(_inventoryButton).align(Align.right);
+        //this.row();
 
         this.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10);
         this.add(hpLabel);
