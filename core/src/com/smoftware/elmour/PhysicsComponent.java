@@ -167,9 +167,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         }
 
         Rectangle boundingBox = new Rectangle();
-        boundingBox.set(_nextEntityPosition.x / com.smoftware.elmour.maps.Map.UNIT_SCALE,
-                        _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE,
-                        _boundingBox.getWidth(), _boundingBox.getHeight());
+        boundingBox.set(_nextEntityPosition.x, _nextEntityPosition.y, _boundingBox.getWidth(), _boundingBox.getHeight());
 
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
