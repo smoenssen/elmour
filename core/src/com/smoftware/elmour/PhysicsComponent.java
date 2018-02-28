@@ -1,6 +1,8 @@
 package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapManager;
 
 public abstract class PhysicsComponent extends ComponentSubject implements Component{
@@ -31,6 +34,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Array<Entity> _tempEntities;
 
     public Rectangle _boundingBox;
+    public Rectangle boundingBoxNextPosition;
     protected BoundingBoxLocation _boundingBoxLocation;
     protected Ray _selectionRay;
     protected float selectionAngle;
@@ -57,6 +61,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         isConversationInProgress = false;
 
         this._boundingBox = new Rectangle();
+        this.boundingBoxNextPosition = new Rectangle();
         this._json = new Json();
         this._tempEntities = new Array<Entity>();
         _boundingBoxLocation = BoundingBoxLocation.BOTTOM_LEFT;
@@ -166,12 +171,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             return false;
         }
 
-        Rectangle boundingBox = new Rectangle();
-        boundingBox.set(_nextEntityPosition.x, _nextEntityPosition.y, _boundingBox.getWidth(), _boundingBox.getHeight());
+        updateBoundingBoxNextPosition();
 
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                if( boundingBox.overlaps(((RectangleMapObject)object).getRectangle()) ){
+                if( boundingBoxNextPosition.overlaps(((RectangleMapObject)object).getRectangle()) ){
                     return true;
                 }
             }
@@ -186,7 +190,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         for( MapObject object: mapZeroOpacityLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                if( boundingBox.overlaps(((RectangleMapObject)object).getRectangle()) ){
+                if( boundingBoxNextPosition.overlaps(((RectangleMapObject)object).getRectangle()) ){
                     return true;
                 }
             }
@@ -392,7 +396,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         _nextEntityPosition.y = testY;
     }
 
-    protected void initBoundingBox(float percentageWidthReduced, float percentageHeightReduced){
+    protected void initBoundingBoxes(float percentageWidthReduced, float percentageHeightReduced){
         //Update the current bounding box
         float width;
         float height;
@@ -433,16 +437,22 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         _boundingBox.setWidth(width);
         _boundingBox.setHeight(height);
+        boundingBoxNextPosition.setWidth(width);
+        boundingBoxNextPosition.setHeight(height);
+
 
         switch(_boundingBoxLocation){
             case BOTTOM_LEFT:
                 _boundingBox.set(minX, minY, width, height);
+                boundingBoxNextPosition.set(minX, minY, width, height);
                 break;
             case BOTTOM_CENTER:
                 _boundingBox.setCenter(minX + origWidth/2, minY + origHeight/4);
+                boundingBoxNextPosition.setCenter(minX + origWidth/2, minY + origHeight/4);
                 break;
             case CENTER:
                 _boundingBox.setCenter(minX + origWidth/2, minY + origHeight/2);
+                boundingBoxNextPosition.setCenter(minX + origWidth/2, minY + origHeight/2);
                 break;
         }
 
@@ -471,6 +481,34 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 break;
             case CENTER:
                 _boundingBox.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/2);
+                break;
+        }
+
+        //Gdx.app.debug(TAG, "SETTING Bounding Box for " + entity.getEntityConfig().getEntityID() + ": (" + minX + "," + minY + ")  width: " + width + " height: " + height);
+    }
+
+    protected void updateBoundingBoxNextPosition(){
+        //Need to account for the unitscale, since the map coordinates will be in pixels
+        float minX;
+        float minY;
+
+        if( com.smoftware.elmour.maps.Map.UNIT_SCALE > 0 ) {
+            minX = _nextEntityPosition.x / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+            minY = _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+        }else{
+            minX = _nextEntityPosition.x;
+            minY = _nextEntityPosition.y;
+        }
+
+        switch(_boundingBoxLocation){
+            case BOTTOM_LEFT:
+                boundingBoxNextPosition.set(minX, minY, _boundingBox.getWidth(), _boundingBox.getHeight());
+                break;
+            case BOTTOM_CENTER:
+                boundingBoxNextPosition.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/4);
+                break;
+            case CENTER:
+                boundingBoxNextPosition.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/2);
                 break;
         }
 
