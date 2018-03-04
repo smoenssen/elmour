@@ -56,6 +56,16 @@ public abstract class Map implements AudioSubject{
     protected final static String PLAYER_START = "PLAYER_START";
     protected final static String NPC_START = "NPC_START";
     protected final static String NPC1 = "NPC1";
+    protected final static String P1 = "P1";
+    protected final static String P2 = "P2";
+    protected final static String P3 = "P3";
+    protected final static String P4 = "P4";
+    protected final static String P5 = "P5";
+    protected final static String E1 = "E1";
+    protected final static String E2 = "E2";
+    protected final static String E3 = "E3";
+    protected final static String E4 = "E4";
+    protected final static String E5 = "E5";
 
     protected Json _json;
 
@@ -380,9 +390,9 @@ public abstract class Map implements AudioSubject{
 
     public MapLayer getZeroOpacityLayer() { return zeroOpacityLayer; }
 
-    public MapLayer getPortalLayer(){
-        return _portalLayer;
-    }
+    public MapLayer getPortalLayer(){ return _portalLayer; }
+
+    public MapLayer getSpawnsLayer() { return _spawnsLayer; }
 
     public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
 

@@ -104,7 +104,6 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         setGameState(GameState.RUNNING);
 
         //_camera setup
-        //setupViewport(V_WIDTH, V_HEIGHT);//srm
         setupViewport(V_WIDTH, V_HEIGHT);
 
         //get the current size

@@ -76,7 +76,7 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 16;
+			parameter.size = 15;
 		}
 		else{
 			parameter.shadowOffsetX = 1;
@@ -86,11 +86,25 @@ public final class Utility {
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
 
+		// VERY SMALL TEXT
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 11;
+		}
+		else{
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 11;
+		}
+
+		BitmapFont fontVerySmall = generator.generateFont(parameter);
 
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSmall", fontSmall, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontVerySmall", fontVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
 	}

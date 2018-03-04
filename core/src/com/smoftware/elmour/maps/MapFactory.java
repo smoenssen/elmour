@@ -15,6 +15,7 @@ public class MapFactory {
         COMPASS,
         COURTYARD,
         ELMOUR,
+        GRASS_BATTLE,
         GRASS_TEMPLE,
         INN,
         JERBADIA,
@@ -80,6 +81,13 @@ public class MapFactory {
                 if( map == null ){
                     map = new Elmour();
                     _mapTable.put(MapType.ELMOUR, map);
+                }
+                break;
+            case GRASS_BATTLE:
+                map = _mapTable.get(MapType.GRASS_BATTLE);
+                if( map == null ){
+                    map = new GrassBattle();
+                    _mapTable.put(MapType.GRASS_BATTLE, map);
                 }
                 break;
             case GRASS_TEMPLE:

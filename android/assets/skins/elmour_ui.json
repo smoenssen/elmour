@@ -75,6 +75,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: label_tab
 	}
+	battle: {
+		font: myFontVerySmall
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
@@ -157,6 +162,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: textbutton
 		down: textbutton_down
 	}
+	battle: {
+		font: myFontSmall
+		fontColor: white
+		up: textbutton
+		down: textbutton_down
+	}
 }
 com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 	default: {
@@ -165,6 +176,11 @@ com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 		background: textfield
 		cursor: cursor
 		selection: selection
+	}
+	battle: {
+		font: myFontSmall
+		fontColor: white
+		background: textbutton
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {

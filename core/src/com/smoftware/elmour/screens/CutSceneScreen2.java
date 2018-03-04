@@ -95,7 +95,6 @@ public class CutSceneScreen2 extends GameScreen implements ConversationGraphObse
   setGameState(GameState.RUNNING);
 
   //_camera setup
-  //setupViewport(V_WIDTH, V_HEIGHT);//srm
   setupViewport(V_WIDTH, V_HEIGHT);
 
   //get the current size
