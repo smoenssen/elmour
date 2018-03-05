@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -105,6 +106,31 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private Label party3Name;
     private Label party4Name;
     private Label party5Name;
+
+    private Image hpBar1;
+    private Image mpBar1;
+    private Image hpBar2;
+    private Image mpBar2;
+    private Image hpBar3;
+    private Image mpBar3;
+    private Image hpBar4;
+    private Image mpBar4;
+    private Image hpBar5;
+    private Image mpBar5;
+
+    private Label hp1Stats;
+    private Label mp1Stats;
+    private Label hp2Stats;
+    private Label mp2Stats;
+    private Label hp3Stats;
+    private Label mp3Stats;
+    private Label hp4Stats;
+    private Label mp4Stats;
+    private Label hp5Stats;
+    private Label mp5Stats;
+
+    private float barWidth = 0;
+    private float barHeight = 0;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -264,14 +290,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         runButton = new TextButton("Run", Utility.ELMOUR_UI_SKIN, "battle");
         statusButton = new TextButton("Status", Utility.ELMOUR_UI_SKIN, "battle");
 
+        // Desktop
         float menuItemWidth = 125;
-        float menuItemHeight = 60;
-        float menuItemX = _stage.getWidth()/4;
+        float menuItemHeight = 75;
+        float menuItemX = _stage.getWidth()/5;
         float menuItemY = menuItemHeight;
 
+        // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
             menuItemWidth = 100;
-            menuItemHeight = 45;
+            menuItemHeight = 57;
             menuItemX = _stage.getWidth()/5;
             menuItemY = menuItemHeight;
         }
@@ -321,6 +349,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         leftTable = new Table();
 
+        // Desktop
         float nameWidth = 100;
         float nameHeight = 15;
         float topMargin = 0;
@@ -328,11 +357,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         float leftMargin = 8;
         float rightMargin = 0;
 
+        // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
             nameWidth = 75;
             nameHeight = 12;
             topMargin = 0;
-            bottomMargin = 3.5f;
+            bottomMargin = 4.5f;
             leftMargin = 8;
             rightMargin = 0;
         }
@@ -362,37 +392,227 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         rightTextArea.setVisible(true);
 
         party1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party1Name.setText("Royal Guard");
+        party1Name.setText("Carmen");
 
         party2Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party2Name.setText("Royal Guard");
+        party2Name.setText("Character One");
 
         party3Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party3Name.setText("Royal Guard");
+        party3Name.setText("Character Two");
 
         party4Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party4Name.setText("Royal Guard");
+        party4Name.setText("Justin");
 
         party5Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party5Name.setText("Royal Guard");
+        party5Name.setText("Jaxon");
 
+        // stats
+        hp1Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        mp1Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        hp2Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        mp2Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        hp3Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        mp3Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        hp4Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        mp4Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        hp5Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        mp5Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+
+        // status bar groups
+        WidgetGroup groupHp1 = new WidgetGroup();
+        WidgetGroup groupMp1 = new WidgetGroup();
+        WidgetGroup groupHp2 = new WidgetGroup();
+        WidgetGroup groupMp2 = new WidgetGroup();
+        WidgetGroup groupHp3 = new WidgetGroup();
+        WidgetGroup groupMp3 = new WidgetGroup();
+        WidgetGroup groupHp4 = new WidgetGroup();
+        WidgetGroup groupMp4 = new WidgetGroup();
+        WidgetGroup groupHp5 = new WidgetGroup();
+        WidgetGroup groupMp5 = new WidgetGroup();
+
+        Image blackbar1hp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar1hp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar1mp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar1mp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar2hp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar2hp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar2mp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar2mp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar3hp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar3hp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar3mp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar3mp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar4hp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar4hp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar4mp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar4mp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar5hp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar5hp = new Image(new Texture("graphics/white_bar.png"));
+        Image blackbar5mp = new Image(new Texture("graphics/black_bar.png"));
+        Image whitebar5mp = new Image(new Texture("graphics/white_bar.png"));
+
+        hpBar1 = new Image(new Texture("graphics/hp_bar.png"));
+        mpBar1 = new Image(new Texture("graphics/mp_bar.png"));
+        hpBar2 = new Image(new Texture("graphics/hp_bar.png"));
+        mpBar2 = new Image(new Texture("graphics/mp_bar.png"));
+        hpBar3 = new Image(new Texture("graphics/hp_bar.png"));
+        mpBar3 = new Image(new Texture("graphics/mp_bar.png"));
+        hpBar4 = new Image(new Texture("graphics/hp_bar.png"));
+        mpBar4 = new Image(new Texture("graphics/mp_bar.png"));
+        hpBar5 = new Image(new Texture("graphics/hp_bar.png"));
+        mpBar5 = new Image(new Texture("graphics/mp_bar.png"));
+
+        barWidth = 45;
+        barHeight = 6;
+
+        //Align images
+        initStatusBars(blackbar1hp, whitebar1hp, hpBar1, hp1Stats);
+        initStatusBars(blackbar1mp, whitebar1mp, mpBar1, mp1Stats);
+        initStatusBars(blackbar2hp, whitebar2hp, hpBar2, hp2Stats);
+        initStatusBars(blackbar2mp, whitebar2mp, mpBar2, mp2Stats);
+        initStatusBars(blackbar3hp, whitebar3hp, hpBar3, hp3Stats);
+        initStatusBars(blackbar3mp, whitebar3mp, mpBar3, mp3Stats);
+        initStatusBars(blackbar4hp, whitebar4hp, hpBar4, hp4Stats);
+        initStatusBars(blackbar4mp, whitebar4mp, mpBar4, mp4Stats);
+        initStatusBars(blackbar5hp, whitebar5hp, hpBar5, hp5Stats);
+        initStatusBars(blackbar5mp, whitebar5mp, mpBar5, mp5Stats);
+
+        hp1Stats.setText("15/30");
+        mp1Stats.setText("25/35");
+        hp2Stats.setText("35/900");
+        mp2Stats.setText("1500/3000");
+        hp3Stats.setText("15/30");
+        mp3Stats.setText("25/35");
+        hp4Stats.setText("15/30");
+        mp4Stats.setText("25/35");
+        hp5Stats.setText("15/30");
+        mp5Stats.setText("25/35");
+
+        //add to widget groups
+        groupHp1.addActor(blackbar1hp);
+        groupHp1.addActor(whitebar1hp);
+        groupHp1.addActor(hpBar1);
+        groupHp1.addActor(hp1Stats);
+        groupMp1.addActor(blackbar1mp);
+        groupMp1.addActor(whitebar1mp);
+        groupMp1.addActor(mpBar1);
+        groupMp1.addActor(mp1Stats);
+
+        groupHp2.addActor(blackbar2hp);
+        groupHp2.addActor(whitebar2hp);
+        groupHp2.addActor(hpBar2);
+        groupHp2.addActor(hp2Stats);
+        groupMp2.addActor(blackbar2mp);
+        groupMp2.addActor(whitebar2mp);
+        groupMp2.addActor(mpBar2);
+        groupMp2.addActor(mp2Stats);
+
+        groupHp3.addActor(blackbar3hp);
+        groupHp3.addActor(whitebar3hp);
+        groupHp3.addActor(hpBar3);
+        groupHp3.addActor(hp3Stats);
+        groupMp3.addActor(blackbar3mp);
+        groupMp3.addActor(whitebar3mp);
+        groupMp3.addActor(mpBar3);
+        groupMp3.addActor(mp3Stats);
+
+        groupHp4.addActor(blackbar4hp);
+        groupHp4.addActor(whitebar4hp);
+        groupHp4.addActor(hpBar4);
+        groupHp4.addActor(hp4Stats);
+        groupMp4.addActor(blackbar4mp);
+        groupMp4.addActor(whitebar4mp);
+        groupMp4.addActor(mpBar4);
+        groupMp4.addActor(mp4Stats);
+
+        groupHp5.addActor(blackbar5hp);
+        groupHp5.addActor(whitebar5hp);
+        groupHp5.addActor(hpBar5);
+        groupHp5.addActor(hp5Stats);
+        groupMp5.addActor(blackbar5mp);
+        groupMp5.addActor(whitebar5mp);
+        groupMp5.addActor(mpBar5);
+        groupMp5.addActor(mp5Stats);
+
+        // Desktop
+        nameWidth = 100;
+        nameHeight = 15;
+        topMargin = 2;
+        bottomMargin = 6.5f;
+        leftMargin = 8;
+        rightMargin = 0;
+
+        // Android
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            nameWidth = 75;
+            nameHeight = 12;
+            topMargin = 2;
+            bottomMargin = 4.5f;
+            leftMargin = 8;
+            rightMargin = 0;
+        }
+
+        float spaceBetweenBars = 20;
+
+        // layout table
         rightTable = new Table();
+
+        Label dummy = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        Label HP = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        HP.setText("HP");
+        Label MP = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
+        MP.setText("MP");
+
+        HP.setWidth(barWidth);
+        HP.setHeight(barHeight);
+        HP.setPosition(2, -5f);
+        HP.setAlignment(Align.center);
+
+        MP.setWidth(barWidth);
+        MP.setHeight(barHeight);
+        MP.setPosition(barWidth/2 + 7, -5f);
+        MP.setAlignment(Align.center);
+
+        WidgetGroup groupHP = new WidgetGroup();
+        groupHP.addActor(HP);
+        WidgetGroup groupMP = new WidgetGroup();
+        groupMP.addActor(MP);
+
+        //rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
+        rightTable.add(dummy).size(nameWidth, nameHeight);
+        rightTable.add(groupHP);//.align(Align.center);//.size(barWidth, barHeight);
+        rightTable.add(groupMP);//.align(Align.center);//.size(nameWidth, nameHeight);
 
         rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
         rightTable.add(party1Name).size(nameWidth, nameHeight);
+        rightTable.add(groupHp1);
+        rightTable.add(groupMp1).padLeft(barWidth + spaceBetweenBars);
+
         rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
         rightTable.add(party2Name).size(nameWidth, nameHeight);
+        rightTable.add(groupHp2);
+        rightTable.add(groupMp2).padLeft(barWidth + spaceBetweenBars);
+
         rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
         rightTable.add(party3Name).size(nameWidth, nameHeight);
+        rightTable.add(groupHp3);
+        rightTable.add(groupMp3).padLeft(barWidth + spaceBetweenBars);
+
         rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
         rightTable.add(party4Name).size(nameWidth, nameHeight);
-        rightTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
+        rightTable.add(groupHp4);
+        rightTable.add(groupMp4).padLeft(barWidth + spaceBetweenBars);
+
+        rightTable.row().pad(topMargin, leftMargin, bottomMargin + 3, rightMargin);
         rightTable.add(party5Name).size(nameWidth, nameHeight);
+        rightTable.add(groupHp5);
+        rightTable.add(groupMp5).padLeft(barWidth + spaceBetweenBars);
 
         rightTable.pack();
 
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4);
+
 
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
@@ -569,6 +789,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
+    private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
+        blackbar.setWidth(barWidth);
+        blackbar.setHeight(barHeight);
+        blackbar.setPosition(0, 0);
+
+        whitebar.setWidth(barWidth - 2);
+        whitebar.setHeight(barHeight - 2);
+        whitebar.setPosition(1, 1);
+
+        statusBar.setWidth(barWidth - 16);
+        statusBar.setHeight(barHeight - 2);
+        statusBar.setPosition(1, 1);
+
+        stats.setAlignment(Align.center);
+        stats.setWidth(barWidth - 2);
+        stats.setPosition(1, -6);
+    }
     public void showMessage(String message){
         _label.setText(message);
         Gdx.app.debug(TAG, message);

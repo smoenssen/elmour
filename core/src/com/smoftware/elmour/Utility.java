@@ -11,6 +11,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -57,20 +58,29 @@ public final class Utility {
 		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
 
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
+		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/18-px.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		// LARGE TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android)
-			parameter.size = 18;
-		else
-			parameter.size = 18;
-
+		parameter.size = 18;
 		parameter.color = Color.DARK_GRAY;
 		parameter.shadowColor = Color.LIGHT_GRAY;
-		parameter.shadowOffsetX = 2;
-		parameter.shadowOffsetY = 2;
+		//parameter.gamma = 200f;
+		//parameter.shadowOffsetX = 2;
+		//parameter.shadowOffsetY = 2;
 		BitmapFont fontSign = generator.generateFont(parameter);
+
+		//BitmapFont fontSign = new BitmapFont(Gdx.files.internal("fonts/Test18px.fnt"),
+		//		Gdx.files.internal("fonts/Test18px.png"), false);
+
+		//Gdx.gl.glEnable(GL20.GL_BLEND);
+		//Color color = new Color(0,0,0,0);
+		//fontSign.setColor(color);
+
+
+		//NOTE: apply the filter if softer font is desired
+		//fontSign.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// SMALL TEXT
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
@@ -81,10 +91,11 @@ public final class Utility {
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 16;
+			parameter.size = 15;
 		}
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
+		//fontSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// VERY SMALL TEXT
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
@@ -99,12 +110,29 @@ public final class Utility {
 		}
 
 		BitmapFont fontVerySmall = generator.generateFont(parameter);
+		//fontVerySmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+		// SUPER SMALL TEXT
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 7;
+		}
+		else{
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			parameter.size = 7;
+		}
+
+		BitmapFont fontSuperSmall = generator.generateFont(parameter);
+		//fontSuperSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSmall", fontSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontVerySmall", fontVerySmall, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontSuperSmall", fontSuperSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
 	}
