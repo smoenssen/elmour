@@ -1,5 +1,6 @@
 package com.smoftware.elmour.screens;
 
+<<<<<<< Updated upstream
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,10 +33,17 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 /**
  * Created by steve on 3/2/18.
+=======
+import com.smoftware.elmour.ElmourGame;
+
+/**
+ * Created by moenssr on 3/1/2018.
+>>>>>>> Stashed changes
  */
 
 public class BattleScreen extends MainGameScreen {
 
+<<<<<<< Updated upstream
     private static final String TAG = BattleScreen.class.getSimpleName();
 
     private final float V_WIDTH = 12;
@@ -361,5 +369,9 @@ public class BattleScreen extends MainGameScreen {
             }
         }
         return position;
+=======
+    public BattleScreen(ElmourGame game) {
+        super(game);
+>>>>>>> Stashed changes
     }
 }
