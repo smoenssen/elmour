@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
 import com.smoftware.elmour.screens.CutSceneScreen2;
@@ -45,6 +46,7 @@ public class ElmourGame extends Game {
 	private static CutSceneScreen _cutSceneScreen;
 	private static CreditScreen _creditScreen;
 	private static CutSceneScreen2 cutSceneScreen2;
+	private static BattleScreen battleScreen;
 
 	private static CutSceneScreenChapter2 cutSceneScreenChapter2;
 
@@ -114,12 +116,15 @@ public class ElmourGame extends Game {
 		_gameOverScreen = new GameOverScreen(this);
 		_cutSceneScreen = new CutSceneScreen(this);
 		_creditScreen = new CreditScreen(this);
+		battleScreen = new BattleScreen(this);
 		cutSceneScreen2 = new CutSceneScreen2(this);
 		cutSceneScreenChapter2 = new CutSceneScreenChapter2(this);
 
 		//setScreen(_mainMenuScreen);
 		setScreen(splashScreen);
 		//setScreen(cutSceneScreenChapter2);
+
+		//setScreen(battleScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm
@@ -143,6 +148,10 @@ public class ElmourGame extends Game {
 		_gameOverScreen.dispose();
 		_creditScreen.dispose();
 		cutSceneScreen2.dispose();
+		battleScreen.dispose();
+
+		_cutSceneScreen.dispose();
+		cutSceneScreenChapter2.dispose();
 	}
 
 }

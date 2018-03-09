@@ -213,6 +213,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         return _currentMap.getPortalLayer();
     }
 
+    public MapLayer getSpawnsLayer() { return _currentMap.getSpawnsLayer(); }
+
     public MapLayer getNpcBoundsLayer(){ return _currentMap.getNpcBoundsLayer(); }
 
     public MapLayer getZGatesLayer(){ return _currentMap.getZGatesLayer(); }

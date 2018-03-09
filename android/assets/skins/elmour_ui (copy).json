@@ -166,6 +166,11 @@ com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 		cursor: cursor
 		selection: selection
 	}
+	battle: {
+		font: myFontSmall
+		fontColor: white
+		background: textbutton
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 	default: {
