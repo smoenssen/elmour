@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" nextobjectid="8">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" nextobjectid="1">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="../Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -9,8 +9,8 @@
  <tileset firstgid="47" name="Fence" tilewidth="16" tileheight="16" tilecount="24" columns="4">
   <image source="../Game/Pop_Ups/Fence/Fence.png" width="64" height="96"/>
  </tileset>
- <tileset firstgid="71" name="Empty" tilewidth="16" tileheight="16" tilecount="1" columns="1">
-  <image source="../Game/Tiles/Inside/Empty.png" width="16" height="16"/>
+ <tileset firstgid="71" name="Empty" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="../Game/Tiles/Inside/Empty.png" width="32" height="32"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="csv">
@@ -60,7 +60,7 @@
 68,47,47,48,68,47,47,48,68,47,47,48,68,47,47,48,68,47,47,48
 </data>
  </layer>
- <layer name="Low Opacity" width="20" height="12" visible="0" opacity="0.4">
+ <layer name="Low Opacity" width="20" height="12" opacity="0.4">
   <data encoding="csv">
 71,71,71,71,71,71,73,71,71,71,71,71,71,71,71,71,71,71,71,72,
 73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,74,
@@ -76,11 +76,4 @@
 73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,73,74
 </data>
  </layer>
- <objectgroup name="SPAWNS_LAYER">
-  <object id="1" name="P1" x="223.333" y="54.3333" width="16.3333" height="16"/>
-  <object id="4" name="P2" x="193.333" y="70" width="15.6667" height="15.6667"/>
-  <object id="5" name="P3" x="222.833" y="89.6667" width="16.3333" height="16"/>
-  <object id="6" name="P4" x="192.167" y="109.333" width="16.3333" height="16"/>
-  <object id="7" name="P5" x="223.167" y="128.333" width="16.3333" height="16"/>
- </objectgroup>
 </map>
