@@ -25,11 +25,14 @@ public class MapFactory {
         MAP5,
         MAP6,
         MAP7,
+        MAP8,
+        MAP9,
         M6_CAVE,
         M6_CAVE_A,
         M6_CAVE_B,
         PORTAL_ROOM,
         SHNARFULAPOGUS,
+        TARPING_TOWN,
         TOP_WORLD,
         TOWN,
         TOWN1,
@@ -152,6 +155,20 @@ public class MapFactory {
                     _mapTable.put(MapType.MAP7, map);
                 }
                 break;
+            case MAP8:
+                map = _mapTable.get(MapType.MAP8);
+                if( map == null ){
+                    map = new Map8();
+                    _mapTable.put(MapType.MAP8, map);
+                }
+                break;
+            case MAP9:
+                map = _mapTable.get(MapType.MAP9);
+                if( map == null ){
+                    map = new Map9();
+                    _mapTable.put(MapType.MAP9, map);
+                }
+                break;
             case M6_CAVE:
                 map = _mapTable.get(MapType.M6_CAVE);
                 if( map == null ){
@@ -187,7 +204,14 @@ public class MapFactory {
                     _mapTable.put(MapType.SHNARFULAPOGUS, map);
                 }
                 break;
-            case TOP_WORLD:
+            case TARPING_TOWN:
+                map = _mapTable.get(MapType.TARPING_TOWN);
+                if( map == null ){
+                    map = new TarpingTown();
+                    _mapTable.put(MapType.TARPING_TOWN, map);
+                }
+                break;
+           case TOP_WORLD:
                 map = _mapTable.get(TOP_WORLD);
                 if( map == null ){
                     map = new TopWorldMap();
