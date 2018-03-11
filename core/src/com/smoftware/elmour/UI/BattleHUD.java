@@ -16,9 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -56,10 +58,14 @@ import java.util.ArrayList;
 public class BattleHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, BattleControlsObserver, InventoryObserver, StatusObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
 
+    private enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, SPELLS_POWER, STATS }
+
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
     private Entity _player;
+
+    private ScreenState currentScreenState = ScreenState.MAIN;
 
     private StatusUI _statusUI;
     private InventoryUI _inventoryUI;
@@ -100,6 +106,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private Label monster5Name;
 
     private MyTextArea middleTextArea;
+
+    private Tree middleTree;
 
     private Table rightTable;
     private MyTextArea rightTextArea;
@@ -173,20 +181,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth()/2).pad(10, 10, 10, 0);
         _messageBoxUI.pack();
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
-        /*
-        _messageBoxUI = new Dialog("Message", Utility.STATUSUI_SKIN, "solidbackground"){
-            {
-                button("OK");
-                text(INVENTORY_FULL);
-            }
-            @Override
-            protected void result(final Object object){
-                cancel();
-                setVisible(false);
-            }
-
-        };
-        */
 
         _messageBoxUI.setVisible(false);
         _messageBoxUI.pack();
@@ -393,6 +387,36 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTextArea.setHeight(menuItemHeight * 2 - 2);
         middleTextArea.setPosition(_stage.getWidth()/5, 2);
         middleTextArea.setVisible(false);
+
+        middleTree = new Tree(Utility.ELMOUR_UI_SKIN);
+
+        final Tree.Node Potions = new Tree.Node(new MyTextField("Potions", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node Food = new Tree.Node(new MyTextField("Food", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node Other = new Tree.Node(new MyTextField("Other", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node stun = new Tree.Node(new MyTextField("stun", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node boom = new Tree.Node(new MyTextField("boom", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node veggies = new Tree.Node(new MyTextField("veggies", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node meat = new Tree.Node(new MyTextField("meat", Utility.ELMOUR_UI_SKIN, "battle"));
+        final Tree.Node whatever = new Tree.Node(new MyTextField("whatever", Utility.ELMOUR_UI_SKIN, "battle"));
+        middleTree.add(Potions);
+        middleTree.add(Food);
+        middleTree.add(Other);
+        Potions.add(stun);
+        Potions.add(boom);
+        Food.add(veggies);
+        Food.add(meat);
+        Other.add(whatever);
+
+        //middleTree.setFillParent(true);
+        ScrollPane scrollPane = new ScrollPane(middleTree);
+        scrollPane.setWidth(menuItemWidth * 2);
+        scrollPane.setHeight(menuItemHeight * 2 - 2);
+        scrollPane.setPosition(_stage.getWidth()/5, menuItemHeight * 2);
+        //scrollPane.setFillParent(true);
+
+        //final Table table = new Table();
+        //table.setFillParent(true);
+        //table.add(scroller).fill().expand();
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
@@ -645,6 +669,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(leftTextArea);
         _stage.addActor(leftTable);
         _stage.addActor(middleTextArea);
+        _stage.addActor(scrollPane);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
@@ -683,9 +708,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
-
-        final float fadeTime = 0.5f;
-
         inventoryButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -696,20 +718,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                             // make sure touch point is still on this button
                                             if (touchPointIsInButton(inventoryButton)) {
-                                                inventoryButton.addAction(Actions.fadeOut(fadeTime));
-                                                fightButton.addAction(Actions.fadeOut(fadeTime));
-                                                runButton.addAction(Actions.fadeOut(fadeTime));
-                                                statusButton.addAction(Actions.fadeOut(fadeTime));
-
-                                                monster1Name.addAction(Actions.fadeOut(fadeTime));
-                                                monster2Name.addAction(Actions.fadeOut(fadeTime));
-                                                monster3Name.addAction(Actions.fadeOut(fadeTime));
-                                                monster4Name.addAction(Actions.fadeOut(fadeTime));
-                                                monster5Name.addAction(Actions.fadeOut(fadeTime));
-
-                                                middleTextArea.setVisible(true);
-
-
+                                                setHUD(ScreenState.INVENTORY);
                                             }
                                         }
                                     }
@@ -848,6 +857,57 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         statusButton.setVisible(false);
     }
 
+    private void setHUD(ScreenState newState) {
+        final float fadeTime = 0.35f;
+
+        switch(newState) {
+            case FIGHT:
+                currentScreenState = ScreenState.FIGHT;
+                break;
+            case FINAL:
+                currentScreenState = ScreenState.FIGHT;
+                break;
+            case INVENTORY:
+                if (currentScreenState == ScreenState.MAIN) {
+                    inventoryButton.addAction(Actions.fadeOut(0));
+                    fightButton.addAction(Actions.fadeOut(0));
+                    runButton.addAction(Actions.fadeOut(0));
+                    statusButton.addAction(Actions.fadeOut(0));
+
+                    monster1Name.addAction(Actions.fadeOut(fadeTime));
+                    monster2Name.addAction(Actions.fadeOut(fadeTime));
+                    monster3Name.addAction(Actions.fadeOut(fadeTime));
+                    monster4Name.addAction(Actions.fadeOut(fadeTime));
+                    monster5Name.addAction(Actions.fadeOut(fadeTime));
+
+                    float widthMove = (_stage.getWidth() - rightTextArea.getWidth()) / 2 - leftTextArea.getWidth();
+
+                    middleTextArea.setVisible(true);
+                    middleTextArea.addAction(Actions.sizeBy(-widthMove,0, fadeTime));
+                    middleTextArea.addAction(Actions.moveBy(widthMove,0, fadeTime));
+
+                    leftTextArea.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
+                }
+                currentScreenState = ScreenState.INVENTORY;
+                break;
+            case MAIN:
+                currentScreenState = ScreenState.MAIN;
+                break;
+            case MAGIC:
+                currentScreenState = ScreenState.MAGIC;
+                break;
+            case MENU:
+                currentScreenState = ScreenState.MENU;
+                break;
+            case SPELLS_POWER:
+                currentScreenState = ScreenState.SPELLS_POWER;
+                break;
+            case STATS:
+                currentScreenState = ScreenState.STATS;
+                break;
+        }
+    }
+
     private void showMainMenu() {
         inventoryButton.setVisible(true);
         fightButton.setVisible(true);
@@ -868,79 +928,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         Rectangle buttonRect = new Rectangle(button.getX(), button.getY(), button.getWidth(), button.getHeight());
 
         return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
-    }
-
-    private void confirmOverwrite() {
-        TextButton btnYes = new TextButton("Yes", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnNo = new TextButton("No", Utility.ELMOUR_UI_SKIN, "message_box");
-
-        final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
-            @Override
-            public float getPrefWidth() {
-                // force dialog width
-                return _stage.getWidth() / 1.1f;
-            }
-
-            @Override
-            public float getPrefHeight() {
-                // force dialog height
-                return 125f;
-            }
-        };
-        dialog.setModal(true);
-        dialog.setMovable(false);
-        dialog.setResizable(false);
-
-        btnYes.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                                     int pointer, int button) {
-                // save profile
-                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-                ProfileManager.getInstance().saveProfile();
-                dialog.cancel();
-                dialog.hide();
-                //todo: is this necessary?
-                //dialog.remove();
-                return true;
-            }
-        });
-
-        btnNo.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                                     int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
-                return true;
-            }
-        });
-/*
-        TextureRegion myTex = new TextureRegion(_dialogBackgroundTextureRegion);
-        myTex.flip(false, true);
-        myTex.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        Drawable drawable = new TextureRegionDrawable(myTex);
-        dialog.setBackground(drawable);
-*/
-        float btnHeight = 30f;
-        float btnWidth = 100f;
-        Table t = new Table();
-        t.row().pad(5, 5, 0, 5);
-        // t.debug();
-
-        Label label1 = new Label("Existing saved data will be\noverwritten! Is that okay?", Utility.ELMOUR_UI_SKIN, "message_box");
-        label1.setAlignment(Align.center);
-        dialog.getContentTable().add(label1).padTop(5f);
-
-        t.add(btnYes).width(btnWidth).height(btnHeight);
-        t.add(btnNo).width(btnWidth).height(btnHeight);
-
-        dialog.getButtonTable().add(t).center().padBottom(10f);
-        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - dialog.getWidth() / 2, 25);
-
-        dialog.setName("confirmDialog");
-        _stage.addActor(dialog);
-
     }
 
     public Stage getStage() {
@@ -1710,7 +1697,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
     }
-
 
     @Override
     public void onBattleControlsNotify(Object data, BattleControlEvent event) {

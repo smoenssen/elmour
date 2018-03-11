@@ -44,15 +44,15 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         a_b_buttonTable = new Table();
         dPad_buttonTable = new Table();
 
-        aBtnImageDown = new Image(new Texture("controllers/touchpadKnob_down.png"));
+        aBtnImageDown = new Image(new Texture("controllers/A_Button_Down.png"));
         aBtnImageDown.setSize(50, 50);
         aBtnImageDown.setVisible(false);
 
-        bBtnImageDown = new Image(new Texture("controllers/touchpadKnob_down.png"));
+        bBtnImageDown = new Image(new Texture("controllers/B_Button_Down.png"));
         bBtnImageDown.setSize(50, 50);
         bBtnImageDown.setVisible(false);
 
-        aBtnImage = new Image(new Texture("controllers/touchpadKnob.png"));
+        aBtnImage = new Image(new Texture("controllers/A_Button.png"));
         aBtnImage.setSize(50, 50);
         aBtnImage.addListener(new InputListener() {
 
@@ -90,7 +90,7 @@ public class BattleControls extends BattleControlsSubject implements Screen {
             }
         });
 
-        bBtnImage = new Image(new Texture("controllers/touchpadKnob.png"));
+        bBtnImage = new Image(new Texture("controllers/B_Button.png"));
         bBtnImage.setSize(50, 50);
         bBtnImage.addListener(new InputListener() {
 
