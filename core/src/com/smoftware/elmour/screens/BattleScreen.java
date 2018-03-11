@@ -20,7 +20,9 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
+import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
+import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
@@ -53,7 +55,7 @@ public class BattleScreen extends MainGameScreen {
 
     private Entity _player;
     private BattleHUD battleHUD;
-    //private MobileControls mobileControls;
+    private BattleControls battleControls;
 
     private boolean isInConversation = false;
 
@@ -103,25 +105,12 @@ public class BattleScreen extends MainGameScreen {
             // capture Android back key so it is not passed on to the OS
             Gdx.input.setCatchBackKey(true);
 
-            //NOTE!!! Need to create mobileControls before player because player
-            //is an observer of mobileControls
-            //controllersCam = new OrthographicCamera();
-            //controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-            //mobileControls = new MobileControls(controllersCam);
+            //NOTE!!! Need to create battleControls before player because player
+            //is an observer of battleControls
+            controllersCam = new OrthographicCamera();
+            controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+            battleControls = new BattleControls(controllersCam);
 
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
-
-            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr);
-
-            //_multiplexer = new InputMultiplexer();
-            //_multiplexer.addProcessor(mobileControls.getStage());
-            //_multiplexer.addProcessor(_playerHUD.getStage());
-            //Gdx.input.setInputProcessor(_multiplexer);
-            Gdx.input.setInputProcessor(battleHUD.getStage());
-        }
-        else {
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
@@ -129,8 +118,26 @@ public class BattleScreen extends MainGameScreen {
             battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr);
 
             _multiplexer = new InputMultiplexer();
+            _multiplexer.addProcessor(battleControls.getStage());
             _multiplexer.addProcessor(battleHUD.getStage());
-            _multiplexer.addProcessor(_player.getInputProcessor());
+            Gdx.input.setInputProcessor(_multiplexer);
+            //Gdx.input.setInputProcessor(battleHUD.getStage());
+        }
+        else {
+            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+            _hudCamera = new OrthographicCamera();
+            _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
+
+            controllersCam = new OrthographicCamera();
+            controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+            battleControls = new BattleControls(controllersCam);
+
+            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr);
+
+            _multiplexer = new InputMultiplexer();
+            _multiplexer.addProcessor(battleControls.getStage());
+            _multiplexer.addProcessor(battleHUD.getStage());
+            //_multiplexer.addProcessor(_player.getInputProcessor());
             Gdx.input.setInputProcessor(_multiplexer);
         }
 
@@ -246,6 +253,8 @@ public class BattleScreen extends MainGameScreen {
         _stage.draw();
 
         battleHUD.render(delta);
+
+        battleControls.render(delta);
     }
 
     @Override

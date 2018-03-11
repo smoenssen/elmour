@@ -10,36 +10,39 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 
-public class MobileControls extends MobileControlsSubject implements Screen {
-    private static final String TAG = MobileControls.class.getSimpleName();
+/**
+ * Created by steve on 3/10/18.
+ */
+
+public class BattleControls extends BattleControlsSubject implements Screen {
+    private static final String TAG = BattleControls.class.getSimpleName();
 
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
 
-    public Table buttonTable;
-    private FixedThumbpadController touchpad;
+    public Table a_b_buttonTable;
+    public Table dPad_buttonTable;
 
     private Image aBtnImage;
     private Image bBtnImage;
     private Image aBtnImageDown;
     private Image bBtnImageDown;
 
-    public MobileControls(Camera camera) {
-        initMobileControlsSubject();
+    public BattleControls(Camera camera) {
+        initBattleControlsSubject();
         _camera = camera;
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
 
-        buttonTable = new Table();
-
-        touchpad = new FloatingThumbpadController();//FixedThumbpadController();//FloatingThumbpadController();
-        _stage.addActor(touchpad.getTouchpad());
+        a_b_buttonTable = new Table();
+        dPad_buttonTable = new Table();
 
         aBtnImageDown = new Image(new Texture("controllers/touchpadKnob_down.png"));
         aBtnImageDown.setSize(50, 50);
@@ -56,7 +59,7 @@ public class MobileControls extends MobileControlsSubject implements Screen {
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_PRESSED);
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_PRESSED);
                 aBtnImageDown.setVisible(true);
                 aBtnImage.setVisible(false);
                 return true;
@@ -64,7 +67,24 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_RELEASED);
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_RELEASED);
+                aBtnImageDown.setVisible(false);
+                aBtnImage.setVisible(true);
+            }
+        });
+
+        aBtnImage.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_PRESSED);
+                aBtnImageDown.setVisible(true);
+                aBtnImage.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_RELEASED);
                 aBtnImageDown.setVisible(false);
                 aBtnImage.setVisible(true);
             }
@@ -77,7 +97,7 @@ public class MobileControls extends MobileControlsSubject implements Screen {
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_PRESSED);
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_PRESSED);
                 bBtnImageDown.setVisible(true);
                 bBtnImage.setVisible(false);
                 return true;
@@ -85,7 +105,24 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_RELEASED);
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_RELEASED);
+                bBtnImageDown.setVisible(false);
+                bBtnImage.setVisible(true);
+            }
+        });
+
+        bBtnImage.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_PRESSED);
+                bBtnImageDown.setVisible(true);
+                bBtnImage.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_RELEASED);
                 bBtnImageDown.setVisible(false);
                 bBtnImage.setVisible(true);
             }
@@ -99,23 +136,33 @@ public class MobileControls extends MobileControlsSubject implements Screen {
         groupB.addActor(bBtnImage);
         groupB.addActor(bBtnImageDown);
 
-        // top, left, bottom, right
-        buttonTable.row().pad(0, 16, 16, 4);
-        buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
-        buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        if (ElmourGame.isAndroid()) {
+            // top, left, bottom, right
+            a_b_buttonTable.row().pad(0, 64, 0, 0);
+            a_b_buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
+            a_b_buttonTable.row().pad(0, 0, 120, 80);
+            a_b_buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        }
+        else {
+            // top, left, bottom, right
+            a_b_buttonTable.row().pad(0, 64, 0, 0);
+            a_b_buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
+            a_b_buttonTable.row().pad(0, 0, 160, 80);
+            a_b_buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        }
 
-        buttonTable.left().bottom();
+        a_b_buttonTable.left().bottom();
 
-        buttonTable.pack();
-        Gdx.app.log("tag", String.format("table width = %3.2f", buttonTable.getWidth()));
-        buttonTable.setX(ElmourGame.V_WIDTH - buttonTable.getWidth() - 10);
+        a_b_buttonTable.pack();
+        a_b_buttonTable.setX(ElmourGame.V_WIDTH - a_b_buttonTable.getWidth() - 10);
 
-        _stage.addActor(buttonTable);
+        _stage.addActor(a_b_buttonTable);
     }
 
     public Stage getStage() {
         return _stage;
     }
+
 
     @Override
     public void show() {
@@ -126,25 +173,26 @@ public class MobileControls extends MobileControlsSubject implements Screen {
     public void render(float delta) {
         _stage.act(delta);
         _stage.draw();
-        MobileControlsSubject.notify(touchpad.getDirection(), MobileControlsObserver.MobileControlEvent.JOYSTICK_POSITION);
     }
 
     @Override
     public void resize(int width, int height) {
         _stage.getViewport().update(width, height, true);
-
     }
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
     }
 
     @Override
     public void hide() {
+
     }
 
     @Override

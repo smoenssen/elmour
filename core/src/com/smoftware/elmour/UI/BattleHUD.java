@@ -53,8 +53,8 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-public class BattleHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
-    private static final String TAG = PlayerHUD.class.getSimpleName();
+public class BattleHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, BattleControlsObserver, InventoryObserver, StatusObserver {
+    private static final String TAG = BattleHUD.class.getSimpleName();
 
     private Stage _stage;
     private Viewport _viewport;
@@ -98,6 +98,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private Label monster3Name;
     private Label monster4Name;
     private Label monster5Name;
+
+    private MyTextArea middleTextArea;
 
     private Table rightTable;
     private MyTextArea rightTextArea;
@@ -157,6 +159,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         _observers = new Array<AudioObserver>();
         _transitionActor = new ScreenTransitionActor();
+
+        BattleControlsSubject.addObserver(this);
 
         _shakeCam = new ShakeCamera(0,0, 30.0f);
 
@@ -383,6 +387,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         leftTable.setX(3);
         leftTable.setY(4);
 
+        middleTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        middleTextArea.disabled = true;
+        middleTextArea.setWidth(menuItemWidth * 2);
+        middleTextArea.setHeight(menuItemHeight * 2 - 2);
+        middleTextArea.setPosition(_stage.getWidth()/5, 2);
+        middleTextArea.setVisible(false);
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
@@ -634,6 +644,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(statusButton);
         _stage.addActor(leftTextArea);
         _stage.addActor(leftTable);
+        _stage.addActor(middleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
@@ -673,6 +684,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         //Listeners
 
+        final float fadeTime = 0.5f;
 
         inventoryButton.addListener(new ClickListener() {
                                         @Override
@@ -684,8 +696,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                         public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                             // make sure touch point is still on this button
                                             if (touchPointIsInButton(inventoryButton)) {
-                                                //hideMenu(true);
-                                                Gdx.app.log(TAG, "inventory button up");
+                                                inventoryButton.addAction(Actions.fadeOut(fadeTime));
+                                                fightButton.addAction(Actions.fadeOut(fadeTime));
+                                                runButton.addAction(Actions.fadeOut(fadeTime));
+                                                statusButton.addAction(Actions.fadeOut(fadeTime));
+
+                                                monster1Name.addAction(Actions.fadeOut(fadeTime));
+                                                monster2Name.addAction(Actions.fadeOut(fadeTime));
+                                                monster3Name.addAction(Actions.fadeOut(fadeTime));
+                                                monster4Name.addAction(Actions.fadeOut(fadeTime));
+                                                monster5Name.addAction(Actions.fadeOut(fadeTime));
+
+                                                middleTextArea.setVisible(true);
+
+
                                             }
                                         }
                                     }
@@ -1688,4 +1712,27 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
 
+    @Override
+    public void onBattleControlsNotify(Object data, BattleControlEvent event) {
+        Gdx.app.log(TAG, event.toString());
+
+        switch (event) {
+            case A_BUTTON_PRESSED:
+                break;
+            case A_BUTTON_RELEASED:
+                break;
+            case B_BUTTON_PRESSED:
+                break;
+            case B_BUTTON_RELEASED:
+                break;
+            case D_PAD_UP_PRESSED:
+                break;
+            case D_PAD_UP_RELEASED:
+                break;
+            case D_PAD_DOWN_PRESSED:
+                break;
+            case D_PAD_DOWN_RELEASED:
+                break;
+        }
+    }
 }
