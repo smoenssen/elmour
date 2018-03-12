@@ -30,9 +30,14 @@ public class BattleControls extends BattleControlsSubject implements Screen {
     public Table dPad_buttonTable;
 
     private Image aBtnImage;
-    private Image bBtnImage;
     private Image aBtnImageDown;
+    private Image bBtnImage;
     private Image bBtnImageDown;
+
+    private Image dBtnImageUpArrow;
+    private Image dBtnImageUpArrow_Down;
+    private Image dBtnImageDownArrow;
+    private Image dBtnImageDownArrow_Down;
 
     public BattleControls(Camera camera) {
         initBattleControlsSubject();
@@ -44,16 +49,17 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         a_b_buttonTable = new Table();
         dPad_buttonTable = new Table();
 
+        //////////////////
+        //
+        // A BUTTON
+        //
+        aBtnImage = new Image(new Texture("controllers/A_Button.png"));
+        aBtnImage.setSize(50, 50);
+
         aBtnImageDown = new Image(new Texture("controllers/A_Button_Down.png"));
         aBtnImageDown.setSize(50, 50);
         aBtnImageDown.setVisible(false);
 
-        bBtnImageDown = new Image(new Texture("controllers/B_Button_Down.png"));
-        bBtnImageDown.setSize(50, 50);
-        bBtnImageDown.setVisible(false);
-
-        aBtnImage = new Image(new Texture("controllers/A_Button.png"));
-        aBtnImage.setSize(50, 50);
         aBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
@@ -90,8 +96,17 @@ public class BattleControls extends BattleControlsSubject implements Screen {
             }
         });
 
+        //////////////////
+        //
+        // B BUTTON
+        //
         bBtnImage = new Image(new Texture("controllers/B_Button.png"));
         bBtnImage.setSize(50, 50);
+
+        bBtnImageDown = new Image(new Texture("controllers/B_Button_Down.png"));
+        bBtnImageDown.setSize(50, 50);
+        bBtnImageDown.setVisible(false);
+
         bBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
@@ -128,6 +143,140 @@ public class BattleControls extends BattleControlsSubject implements Screen {
             }
         });
 
+        float arrowSize = 40;
+
+        /////////////////////
+        //
+        // D BUTTON UP ARROW
+        //
+        dBtnImageUpArrow = new Image(new Texture("controllers/Up_Button.png"));
+        dBtnImageUpArrow.setSize(arrowSize, arrowSize);
+
+        dBtnImageUpArrow_Down = new Image(new Texture("controllers/Up_Button_Down.png"));
+        dBtnImageUpArrow_Down.setSize(arrowSize, arrowSize);
+        dBtnImageUpArrow_Down.setVisible(false);
+
+        dBtnImageUpArrow.addListener(new InputListener() {
+
+            // Note: these functions are only called once
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_UP_PRESSED);
+                dBtnImageUpArrow_Down.setVisible(true);
+                dBtnImageUpArrow.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_UP_RELEASED);
+                dBtnImageUpArrow_Down.setVisible(false);
+                dBtnImageUpArrow.setVisible(true);
+            }
+        });
+
+        dBtnImageUpArrow.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_UP_PRESSED);
+                dBtnImageUpArrow_Down.setVisible(true);
+                dBtnImageUpArrow.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_UP_RELEASED);
+                dBtnImageUpArrow_Down.setVisible(false);
+                dBtnImageUpArrow.setVisible(true);
+            }
+        });
+
+        //////////////////////
+        //
+        // D BUTTON DOWN ARROW
+        //
+        dBtnImageDownArrow = new Image(new Texture("controllers/Down_Button.png"));
+        dBtnImageDownArrow.setSize(arrowSize, arrowSize);
+
+        dBtnImageDownArrow_Down = new Image(new Texture("controllers/Down_Button_Down.png"));
+        dBtnImageDownArrow_Down.setSize(arrowSize, arrowSize);
+        dBtnImageDownArrow_Down.setVisible(false);
+
+        dBtnImageDownArrow.addListener(new InputListener() {
+
+            // Note: these functions are only called once
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_DOWN_PRESSED);
+                dBtnImageDownArrow_Down.setVisible(true);
+                dBtnImageDownArrow.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_DOWN_RELEASED);
+                dBtnImageDownArrow_Down.setVisible(false);
+                dBtnImageDownArrow.setVisible(true);
+            }
+        });
+
+        dBtnImageDownArrow.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_DOWN_PRESSED);
+                dBtnImageDownArrow_Down.setVisible(true);
+                dBtnImageDownArrow.setVisible(false);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.D_PAD_DOWN_RELEASED);
+                dBtnImageDownArrow_Down.setVisible(false);
+                dBtnImageDownArrow.setVisible(true);
+            }
+        });
+
+        //////////////////
+        //
+        // D ARROW TABLE
+        //
+        WidgetGroup groupD_Up = new WidgetGroup();
+        groupD_Up.addActor(dBtnImageUpArrow);
+        groupD_Up.addActor(dBtnImageUpArrow_Down);
+
+        WidgetGroup groupD_Down = new WidgetGroup();
+        groupD_Down.addActor(dBtnImageDownArrow);
+        groupD_Down.addActor(dBtnImageDownArrow_Down);
+
+        if (ElmourGame.isAndroid()) {
+            // top, left, bottom, right
+            dPad_buttonTable.row().pad(0, 35, 25, 0);
+            dPad_buttonTable.add(groupD_Up).size(dBtnImageUpArrow.getWidth(), dBtnImageUpArrow.getHeight());
+            dPad_buttonTable.row().pad(0, 35, 165, 0);
+            dPad_buttonTable.add(groupD_Down).size(dBtnImageDownArrow_Down.getWidth(), dBtnImageDownArrow_Down.getHeight());
+        }
+        else {
+            // top, left, bottom, right
+            dPad_buttonTable.row().pad(0, 35, 25, 0);
+            dPad_buttonTable.add(groupD_Up).size(dBtnImageUpArrow.getWidth(), dBtnImageUpArrow.getHeight());
+            dPad_buttonTable.row().pad(0, 35, 165, 0);
+            dPad_buttonTable.add(groupD_Down).size(dBtnImageDownArrow_Down.getWidth(), dBtnImageDownArrow_Down.getHeight());
+        }
+
+        dPad_buttonTable.left().bottom();
+
+        dPad_buttonTable.pack();
+        dPad_buttonTable.setX(10);
+
+        _stage.addActor(dPad_buttonTable);
+
+        ///////////////////
+        //
+        // A/B BUTTON TABLE
+        //
         WidgetGroup groupA = new WidgetGroup();
         groupA.addActor(aBtnImage);
         groupA.addActor(aBtnImageDown);
