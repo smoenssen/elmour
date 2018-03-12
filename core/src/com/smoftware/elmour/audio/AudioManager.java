@@ -32,6 +32,7 @@ public class AudioManager implements AudioObserver {
 
     @Override
     public void onNotify(AudioCommand command, AudioTypeEvent event) {
+        /*
         switch(command){
             case MUSIC_LOAD:
                 Utility.loadMusicAsset(event.getValue());
@@ -71,6 +72,7 @@ public class AudioManager implements AudioObserver {
             default:
                 break;
         }
+        */
     }
 
     private Music playMusic(boolean isLooping, String fullFilePath){

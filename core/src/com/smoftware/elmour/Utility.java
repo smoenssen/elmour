@@ -91,7 +91,7 @@ public final class Utility {
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 15;
+			parameter.size = 18;
 		}
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
@@ -106,7 +106,7 @@ public final class Utility {
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 11;
+			parameter.size = 15;
 		}
 
 		BitmapFont fontVerySmall = generator.generateFont(parameter);
@@ -121,7 +121,7 @@ public final class Utility {
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 7;
+			parameter.size = 9;
 		}
 
 		BitmapFont fontSuperSmall = generator.generateFont(parameter);

@@ -1,27 +1,28 @@
 Main Maps:
 
-Grass Temple
+Grass Temple Interior
 Desert Temple
-Map_8
-Tarping Town
-Map_9
+Desert Temple Interior
 Snow Temple
+Snow Temple Interior
 Map_10
 Map_11
 Diblethia
 Map_12
 Map_13
 Water Temple
+Water Temple Interior
 Map_14
 Christo
 Map_15
 Fire Temple
+Fire Temple Interior
 Map_16
 TBD Town 1
+Docks
 Map_17
 TBD Town 2
 Map_18
-Docks
 Map_19
 Castle (Dungeon)
 Final Boss Room
@@ -35,6 +36,8 @@ Bedroom
 Throne Room
 M6_CAVE_C
 M6_HIDDEN
+M7_CAVE_A
+M9_HIDDEN
 T1DOOR1
 T1DOOR2
 T1DOOR3
@@ -43,10 +46,19 @@ T1DOOR5
 T1DOOR6
 T2DOOR1
 T2DOOR2
-T2DOOR3
+T2DOOR3
 M3DOOR1
 M4DOOR1
 T3DOOR1
 T3DOOR2
 M7DOOR1
 M7DOOR2
+M8DOOR1
+M8DOOR2
+T4DOOR1
+T4DOOR2
+T4DOOR3
+T4DOOR4
+T4DOOR5
+T4DOOR6
+T4DOOR7

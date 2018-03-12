@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
@@ -23,60 +24,85 @@ public class MobileControls extends MobileControlsSubject implements Screen {
     public Table buttonTable;
     private FixedThumbpadController touchpad;
 
+    private Image aBtnImage;
+    private Image bBtnImage;
+    private Image aBtnImageDown;
+    private Image bBtnImageDown;
 
     public MobileControls(Camera camera) {
         initMobileControlsSubject();
         _camera = camera;
 
-        //_viewport = new ScreenViewport(_camera);
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
 
         buttonTable = new Table();
 
-        // todo: FloatingThumbpadController has an issue with being reset to 0 position if the A or B buttons are pressed
         touchpad = new FloatingThumbpadController();//FixedThumbpadController();//FloatingThumbpadController();
         _stage.addActor(touchpad.getTouchpad());
 
-        Image rightImg = new Image(new Texture("controllers/touchpadKnob.png"));
-        rightImg.setSize(50, 50);
-        rightImg.addListener(new InputListener() {
+        aBtnImageDown = new Image(new Texture("controllers/A_Button_Down.png"));
+        aBtnImageDown.setSize(50, 50);
+        aBtnImageDown.setVisible(false);
+
+        bBtnImageDown = new Image(new Texture("controllers/B_Button_Down.png"));
+        bBtnImageDown.setSize(50, 50);
+        bBtnImageDown.setVisible(false);
+
+        aBtnImage = new Image(new Texture("controllers/A_Button.png"));
+        aBtnImage.setSize(50, 50);
+        aBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_PRESSED);
+                aBtnImageDown.setVisible(true);
+                aBtnImage.setVisible(false);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.A_BUTTON_RELEASED);
+                aBtnImageDown.setVisible(false);
+                aBtnImage.setVisible(true);
             }
         });
 
-        Image leftImg = new Image(new Texture("controllers/touchpadKnob.png"));
-        leftImg.setSize(50, 50);
-        leftImg.addListener(new InputListener() {
+        bBtnImage = new Image(new Texture("controllers/B_Button.png"));
+        bBtnImage.setSize(50, 50);
+        bBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_PRESSED);
+                bBtnImageDown.setVisible(true);
+                bBtnImage.setVisible(false);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 MobileControlsSubject.notify(null, MobileControlsObserver.MobileControlEvent.B_BUTTON_RELEASED);
+                bBtnImageDown.setVisible(false);
+                bBtnImage.setVisible(true);
             }
         });
 
-        //int xPad = 8;
+        WidgetGroup groupA = new WidgetGroup();
+        groupA.addActor(aBtnImage);
+        groupA.addActor(aBtnImageDown);
+
+        WidgetGroup groupB = new WidgetGroup();
+        groupB.addActor(bBtnImage);
+        groupB.addActor(bBtnImageDown);
+
         // top, left, bottom, right
         buttonTable.row().pad(0, 16, 16, 4);
-        buttonTable.add(leftImg).size(leftImg.getWidth(), leftImg.getHeight());
-        buttonTable.add(rightImg).size(rightImg.getWidth(), rightImg.getHeight());
+        buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
+        buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
 
         buttonTable.left().bottom();
 
