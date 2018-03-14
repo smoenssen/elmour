@@ -108,6 +108,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private MyTextArea middleScrollArea;
     private Tree middleTree;
+    private float scrollAreaHeight;
+    private ScrollPane scrollPane;
 
     private Table rightTable;
     private MyTextArea rightTextArea;
@@ -381,12 +383,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTextArea.setPosition(_stage.getWidth()/5, 2);
         middleTextArea.setVisible(false);
 
+        float rightTextAreaWidth = _stage.getWidth() - (statusButton.getWidth() * 2) - leftTextArea.getWidth() + 2;
+
+        scrollAreaHeight = menuItemHeight * 2;
+
         middleScrollArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         middleScrollArea.disabled = true;
-        middleScrollArea.setWidth(menuItemWidth * 2);
-        middleScrollArea.setHeight(menuItemHeight * 2 - 2);
-        middleScrollArea.setPosition(_stage.getWidth()/5 - 2, menuItemHeight * 2 - 2);
-        //middleScrollArea.setVisible(false);
+        middleScrollArea.setWidth((_stage.getWidth() - rightTextAreaWidth) / 2f);
+        middleScrollArea.setHeight(0);
+        middleScrollArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleScrollArea.getWidth(), menuItemHeight * 2 - 2);
+        middleScrollArea.setVisible(false);
 
         middleTree = new Tree(Utility.ELMOUR_UI_SKIN);
 
@@ -407,12 +413,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         Food.add(meat);
         Other.add(whatever);
 
-        //middleTree.setFillParent(true);
-        ScrollPane scrollPane = new ScrollPane(middleTree);
-        scrollPane.setWidth(menuItemWidth * 2);
-        scrollPane.setHeight(menuItemHeight * 2 - 2);
-        scrollPane.setPosition(_stage.getWidth()/5, menuItemHeight * 2);
-        //scrollPane.setFillParent(true);
+        scrollPane = new ScrollPane(middleTree);
+        scrollPane.setWidth(middleScrollArea.getWidth() - 4);
+        scrollPane.setHeight(0);
+        scrollPane.setPosition(middleScrollArea.getX() + 2, menuItemHeight * 2);
+        middleTree.setVisible(false);
 
         //final Table table = new Table();
         //table.setFillParent(true);
@@ -420,7 +425,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
-        rightTextArea.setWidth(_stage.getWidth() - (statusButton.getWidth() * 2) - leftTextArea.getWidth() + 2);
+        rightTextArea.setWidth(rightTextAreaWidth);
         rightTextArea.setHeight(menuItemHeight * 2 - 2);
         rightTextArea.setPosition(statusButton.getX() + statusButton.getWidth() - 2, 2);
         rightTextArea.setVisible(true);
@@ -877,6 +882,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     middleTextArea.addAction(Actions.moveBy(widthMove,0, fadeTime));
 
                     leftTextArea.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
+
+                    middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    middleScrollArea.addAction(Actions.sizeBy(0, scrollAreaHeight, fadeTime));
+                    middleScrollArea.setVisible(true);
+
+                    middleTree.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    middleTree.setVisible(true);
+
+                    scrollPane.addAction(Actions.sizeBy(0, scrollAreaHeight - 4, fadeTime));
                 }
                 currentScreenState = ScreenState.INVENTORY;
                 break;

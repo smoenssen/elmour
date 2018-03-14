@@ -151,6 +151,7 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         //
         dBtnImageUpArrow = new Image(new Texture("controllers/Up_Button.png"));
         dBtnImageUpArrow.setSize(arrowSize, arrowSize);
+        dBtnImageUpArrow.setVisible(false);
 
         dBtnImageUpArrow_Down = new Image(new Texture("controllers/Up_Button_Down.png"));
         dBtnImageUpArrow_Down.setSize(arrowSize, arrowSize);
@@ -198,6 +199,7 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         //
         dBtnImageDownArrow = new Image(new Texture("controllers/Down_Button.png"));
         dBtnImageDownArrow.setSize(arrowSize, arrowSize);
+        dBtnImageDownArrow.setVisible(false);
 
         dBtnImageDownArrow_Down = new Image(new Texture("controllers/Down_Button_Down.png"));
         dBtnImageDownArrow_Down.setSize(arrowSize, arrowSize);
@@ -312,6 +314,15 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         return _stage;
     }
 
+    public void showDButtons () {
+        dBtnImageUpArrow.setVisible(true);
+        dBtnImageDownArrow.setVisible(true);
+    }
+
+    public void hideDButtons () {
+        dBtnImageUpArrow.setVisible(false);
+        dBtnImageDownArrow.setVisible(false);
+    }
 
     @Override
     public void show() {
