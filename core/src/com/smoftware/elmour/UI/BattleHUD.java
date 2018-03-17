@@ -779,22 +779,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                    }
         );
 
-        /*
-        ImageButton inventoryButton = _statusUI.getInventoryButton();
-        inventoryButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                _inventoryUI.setVisible(_inventoryUI.isVisible() ? false : true);
-            }
-        });
-
-        ImageButton questButton = _statusUI.getQuestButton();
-        questButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                _questUI.setVisible(_questUI.isVisible() ? false : true);
-            }
-        });
-        */
-
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
                                                            public void clicked(InputEvent event, float x, float y) {
@@ -864,10 +848,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 break;
             case INVENTORY:
                 if (currentScreenState == ScreenState.MAIN) {
-                    inventoryButton.addAction(Actions.fadeOut(0));
-                    fightButton.addAction(Actions.fadeOut(0));
-                    runButton.addAction(Actions.fadeOut(0));
-                    statusButton.addAction(Actions.fadeOut(0));
 
                     monster1Name.addAction(Actions.fadeOut(fadeTime));
                     monster2Name.addAction(Actions.fadeOut(fadeTime));
@@ -877,17 +857,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     float widthMove = (_stage.getWidth() - rightTextArea.getWidth()) / 2 - leftTextArea.getWidth();
 
+                    inventoryButton.addAction(Actions.sizeBy(-widthMove, 0, fadeTime));
+                    inventoryButton.addAction(Actions.moveBy(widthMove, 0, fadeTime));
+                    inventoryButton.addAction(Actions.fadeOut(fadeTime/2));
+                    runButton.addAction(Actions.sizeBy(-widthMove, 0, fadeTime));
+                    runButton.addAction(Actions.moveBy(widthMove, 0, fadeTime));
+                    runButton.addAction(Actions.fadeOut(fadeTime/2));
+                    fightButton.addAction(Actions.fadeOut(fadeTime/2));
+                    statusButton.addAction(Actions.fadeOut(fadeTime/2));
+
+                    //middleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
                     middleTextArea.setVisible(true);
                     middleTextArea.addAction(Actions.sizeBy(-widthMove,0, fadeTime));
                     middleTextArea.addAction(Actions.moveBy(widthMove,0, fadeTime));
 
                     leftTextArea.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
 
-                    middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     middleScrollArea.addAction(Actions.sizeBy(0, scrollAreaHeight, fadeTime));
                     middleScrollArea.setVisible(true);
 
-                    middleTree.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
                     middleTree.setVisible(true);
 
                     scrollPane.addAction(Actions.sizeBy(0, scrollAreaHeight - 4, fadeTime));
@@ -908,6 +897,79 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 break;
             case STATS:
                 currentScreenState = ScreenState.STATS;
+                break;
+        }
+    }
+
+    @Override
+    public void onBattleControlsNotify(Object data, BattleControlEvent event) {
+        Gdx.app.log(TAG, event.toString());
+        final float fadeTime = 0.35f;
+
+        switch (event) {
+            case A_BUTTON_PRESSED:
+                break;
+            case A_BUTTON_RELEASED:
+                break;
+            case B_BUTTON_PRESSED:
+                break;
+            case B_BUTTON_RELEASED:
+                switch(currentScreenState) {
+                    case INVENTORY:
+                        float widthMove = (_stage.getWidth() - rightTextArea.getWidth()) / 2 - _stage.getWidth()/5;
+
+                        inventoryButton.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
+                        inventoryButton.addAction(Actions.moveBy(-widthMove, 0, fadeTime));
+                        runButton.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
+                        runButton.addAction(Actions.moveBy(-widthMove, 0, fadeTime));
+
+                        inventoryButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                        runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                        fightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+
+                        monster1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        monster2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        monster3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        monster4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        monster5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
+                        leftTextArea.addAction(Actions.sizeBy(-widthMove, 0, fadeTime));
+
+                        //middleTextArea.setVisible(true);
+                        middleTextArea.addAction(Actions.sizeBy(widthMove,0, fadeTime));
+                        middleTextArea.addAction(Actions.moveBy(-widthMove,0, fadeTime));
+                        //middleTextArea.addAction(Actions.fadeOut(0));
+                        //middleTextArea.setVisible(false);
+
+                        //middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        middleScrollArea.addAction(Actions.sizeBy(0, -scrollAreaHeight, fadeTime));
+                        middleScrollArea.addAction(Actions.fadeOut(fadeTime));
+                        //middleScrollArea.setVisible(false);
+
+                        //middleTree.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        middleTree.setVisible(true);
+
+                        scrollPane.addAction(Actions.sizeBy(0, (scrollAreaHeight - 4) * -1, fadeTime));
+
+                        middleTextArea.setVisible(false);
+                        currentScreenState = ScreenState.MAIN;
+                        break;
+                    case MAIN:
+                        currentScreenState = ScreenState.MAIN;
+                        break;
+                    case SPELLS_POWER:
+                        currentScreenState = ScreenState.SPELLS_POWER;
+                        break;
+                }
+                break;
+            case D_PAD_UP_PRESSED:
+                break;
+            case D_PAD_UP_RELEASED:
+                break;
+            case D_PAD_DOWN_PRESSED:
+                break;
+            case D_PAD_DOWN_RELEASED:
                 break;
         }
     }
@@ -1695,29 +1757,5 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
-    }
-
-    @Override
-    public void onBattleControlsNotify(Object data, BattleControlEvent event) {
-        Gdx.app.log(TAG, event.toString());
-
-        switch (event) {
-            case A_BUTTON_PRESSED:
-                break;
-            case A_BUTTON_RELEASED:
-                break;
-            case B_BUTTON_PRESSED:
-                break;
-            case B_BUTTON_RELEASED:
-                break;
-            case D_PAD_UP_PRESSED:
-                break;
-            case D_PAD_UP_RELEASED:
-                break;
-            case D_PAD_DOWN_PRESSED:
-                break;
-            case D_PAD_DOWN_RELEASED:
-                break;
-        }
     }
 }

@@ -41,7 +41,7 @@ public class BattleScreen extends MainGameScreen {
     private static final String TAG = BattleScreen.class.getSimpleName();
 
     private final float V_WIDTH = 12;
-    private final float V_HEIGHT = 8;
+    private final float V_HEIGHT = 12;
     
     protected OrthogonalTiledMapRenderer _mapRenderer = null;
     protected MapManager _mapMgr;
@@ -173,7 +173,7 @@ public class BattleScreen extends MainGameScreen {
                 battleHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.GRASS_BATTLE);
                 _mapMgr.disableCurrentmapMusic();
-                _camera.position.set(10, 5, 0f);
+                _camera.position.set(10, 4, 0f);
 
                 party1 = character1;
                 party2 = character2;
