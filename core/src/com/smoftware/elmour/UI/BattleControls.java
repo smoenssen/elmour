@@ -145,7 +145,7 @@ public class BattleControls extends BattleControlsSubject implements Screen {
 
         float arrowSize = 40;
 
-        /////////////////////
+       /* /////////////////////
         //
         // D BUTTON UP ARROW
         //
@@ -274,7 +274,7 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         dPad_buttonTable.setX(10);
 
         _stage.addActor(dPad_buttonTable);
-
+*/
         ///////////////////
         //
         // A/B BUTTON TABLE

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" nextobjectid="12">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" nextobjectid="10">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="../Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -61,15 +61,10 @@
 </data>
  </layer>
  <objectgroup name="SPAWNS_LAYER">
-  <object id="1" name="P1" x="229" y="59.6667" width="13.6667" height="14.6667"/>
-  <object id="3" name="P2" x="211" y="71.3333" width="13.6667" height="14.6667"/>
-  <object id="4" name="P3" x="229.333" y="89" width="13.6667" height="14.6667"/>
-  <object id="5" name="P4" x="211" y="103.333" width="13.6667" height="14.6667"/>
-  <object id="6" name="P5" x="230.333" y="120.333" width="13.6667" height="14.6667"/>
-  <object id="7" name="E1" x="81" y="61.3333" width="13.6667" height="14.6667"/>
-  <object id="8" name="E2" x="99" y="81" width="13.6667" height="14.6667"/>
-  <object id="9" name="E3" x="79.6667" y="98" width="13.6667" height="14.6667"/>
-  <object id="10" name="E4" x="99.6667" y="112" width="13.6667" height="14.6667"/>
-  <object id="11" name="E5" x="80" y="129.333" width="13.6667" height="14.6667"/>
+  <object id="1" name="P1" x="225" y="42" width="16" height="16"/>
+  <object id="3" name="P2" x="211" y="55" width="16" height="16"/>
+  <object id="4" name="P3" x="225" y="68" width="16" height="16"/>
+  <object id="5" name="P4" x="211" y="81" width="16" height="16"/>
+  <object id="7" name="P5" x="225" y="94" width="16" height="16"/>
  </objectgroup>
 </map>
