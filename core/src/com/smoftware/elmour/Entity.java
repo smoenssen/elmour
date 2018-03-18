@@ -310,7 +310,7 @@ public class Entity {
 
     	ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
 
-	for (JsonValue jsonVal : list) {
+		for (JsonValue jsonVal : list) {
 			configs.add(json.readValue(EntityConfig.class, jsonVal));
 		}
 

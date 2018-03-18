@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
@@ -398,22 +399,58 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         middleTree = new Tree(Utility.ELMOUR_UI_SKIN);
 
-        final Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node Other = new Tree.Node(new TextButton("Other", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node stun = new Tree.Node(new TextButton("stun", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node boom = new Tree.Node(new TextButton("boom", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node veggies = new Tree.Node(new TextButton("veggies", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node meat = new Tree.Node(new TextButton("meat", Utility.ELMOUR_UI_SKIN, "no_background"));
-        final Tree.Node whatever = new Tree.Node(new TextButton("whatever", Utility.ELMOUR_UI_SKIN, "no_background"));
+        // load tree from inventory.json, for battle only show Potion, Food, and Consumables
+        Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "no_background"));
+
+        Json json = new Json();
+        Array<InventoryElement> inventoryElements = new Array<>();
+
+        /*
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal("scripts/Inventory.json"));
+
+        for (JsonValue jsonVal : list) {
+            inventoryElements.add(json.readValue(InventoryElement.class, jsonVal));
+        }*/
+
         middleTree.add(Potions);
         middleTree.add(Food);
-        middleTree.add(Other);
+        middleTree.add(Consumables);
+
+        /////////
+        ArrayList<InventoryElement> inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("scripts/Inventory.json"));
+
+        for (InventoryElement element : inventoryList) {
+
+            Tree.Node node = new Tree.Node(new TextButton(element.name, Utility.ELMOUR_UI_SKIN, "no_background"));
+            node.setObject(element);
+            switch(element.category) {
+                case Potion:
+                    Potions.add(node);
+                    break;
+                case Food:
+                    Food.add(node);
+                    break;
+                case Consumables:
+                    Consumables.add(node);
+                    break;
+            }
+        }
+        //////////////////
+/*
+        Tree.Node stun = new Tree.Node(new TextButton("stun", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node boom = new Tree.Node(new TextButton("boom", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node veggies = new Tree.Node(new TextButton("veggies", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node meat = new Tree.Node(new TextButton("meat", Utility.ELMOUR_UI_SKIN, "no_background"));
+        Tree.Node whatever = new Tree.Node(new TextButton("whatever", Utility.ELMOUR_UI_SKIN, "no_background"));
+
         Potions.add(stun);
         Potions.add(boom);
         Food.add(veggies);
         Food.add(meat);
-        Other.add(whatever);
+        */
+       // Other.add(whatever);
 
         scrollPane = new ScrollPane(middleTree);
         scrollPane.setWidth(middleScrollArea.getWidth() - 4);
@@ -743,10 +780,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                               //hideMenu(true);
                                               Gdx.app.log(TAG, "fight button up");
 
+                                              ArrayList elements = new ArrayList<>();
+
                                               InventoryElement element = new InventoryElement();
-                                              element.category = InventoryElement.InventoryCategory.FOOD;
+                                              element.category = InventoryElement.InventoryCategory.Food;
                                               element.name = "Broccoli";
                                               element.summary = "Strengthens the person's bones.";
+                                              element.buy = 123;
+                                              element.sell = 75;
+                                              element.turns = 3;
                                               element.effectList = new Array<>();
                                               InventoryElement.EffectItem item = new InventoryElement.EffectItem();
                                               item.effect = InventoryElement.Effect.HEAL_HP;
@@ -757,11 +799,36 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                               element.effectList.add(item);
                                               element.effectList.add(item2);
 
-                                              Json json = new Json();
-                                              json.toJson(element);
+                                              elements.add(element);
 
-                                              FileHandle file = Gdx.files.local("myfile.json");
-                                              file.writeString(json.prettyPrint(element), false);
+                                              InventoryElement element2 = new InventoryElement();
+                                              element2.category = InventoryElement.InventoryCategory.Food;
+                                              element2.name = "Steak";
+                                              element2.summary = "Gives a large burst of energy to whoever consumes it.";
+                                              element2.buy = 100;
+                                              element2.sell = 50;
+                                              element2.turns = 3;
+                                              element2.effectList = new Array<>();
+                                              InventoryElement.EffectItem item3 = new InventoryElement.EffectItem();
+                                              item3.effect = InventoryElement.Effect.HEAL_HP;
+                                              item3.value = 30;
+                                              InventoryElement.EffectItem item4 = new InventoryElement.EffectItem();
+                                              item4.effect = InventoryElement.Effect.DEF_UP;
+                                              item4.value = 15;
+                                              element2.effectList.add(item3);
+                                              element2.effectList.add(item4);
+
+                                              elements.add(element2);
+
+                                              Json json = new Json();
+
+                                              ArrayList<InventoryElement> list = new ArrayList<>();
+                                              list.add(element);
+                                              list.add(element2);
+                                              json.toJson(list);
+
+                                              FileHandle file = Gdx.files.local("scripts/inventory.json");
+                                              file.writeString(json.prettyPrint(list), false);
                                           }
                                       }
                                   }
@@ -810,6 +877,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                                _mapMgr.clearCurrentSelectedMapEntity();
                                                            }
                                                        }
+        );
+
+        middleTree.addListener(new ClickListener() {
+                                   @Override
+                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       int xx;
+                                       xx = 0;
+                                       return true;
+                                   }
+
+                                   @Override
+                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                       int yy;
+                                       yy = 0;
+                                   }
+                               }
         );
 
         //Music/Sound loading

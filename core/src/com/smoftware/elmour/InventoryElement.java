@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.Array;
 public class InventoryElement {
 
     public enum InventoryCategory {
-        ARMOR,
-        WEAPON,
-        EQUIPMENT,
-        POTION,
-        FOOD,
-        OTHER
+        Armor,
+        Weapon,
+        Equipment,
+        Potion,
+        Food,
+        Consumables
     }
 
     public enum Effect {
@@ -36,12 +36,17 @@ public class InventoryElement {
         SPD_UP,
         SPD_DOWN,
         LCK_UP,
-        LCK_DOWN
+        LCK_DOWN,
+        DIBS_UP,
+        EXP_UP
     }
 
     public InventoryCategory category;
     public String name;
     public String summary;
+    public int buy;
+    public int sell;
+    public int turns;
 
     public static class EffectItem {
         public Effect effect;

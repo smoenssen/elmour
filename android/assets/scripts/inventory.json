@@ -1,0 +1,40 @@
+[
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Food
+	name: Broccoli
+	summary: Strengthens the person's bones.
+	buy: 123
+	sell: 75
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 10
+		}
+		{
+			effect: DEF_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Food
+	name: Steak
+	summary: Gives a large burst of energy to whoever consumes it.
+	buy: 100
+	sell: 50
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 30
+		}
+		{
+			effect: DEF_UP
+			value: 15
+		}
+	]
+}
+]
