@@ -101,8 +101,8 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
         // top, left, bottom, right
         buttonTable.row().pad(0, 16, 16, 4);
-        buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
         buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
 
         buttonTable.left().bottom();
 
