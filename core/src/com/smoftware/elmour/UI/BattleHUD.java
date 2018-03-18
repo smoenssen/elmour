@@ -3,6 +3,7 @@ package com.smoftware.elmour.UI;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,6 +34,7 @@ import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryItem;
 import com.smoftware.elmour.InventoryItem.ItemTypeID;
 import com.smoftware.elmour.Utility;
@@ -740,6 +742,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                           if (touchPointIsInButton(fightButton)) {
                                               //hideMenu(true);
                                               Gdx.app.log(TAG, "fight button up");
+
+                                              InventoryElement element = new InventoryElement();
+                                              element.category = InventoryElement.InventoryCategory.FOOD;
+                                              element.name = "Broccoli";
+                                              element.summary = "Strengthens the person's bones.";
+                                              element.effectList = new Array<>();
+                                              InventoryElement.EffectItem item = new InventoryElement.EffectItem();
+                                              item.effect = InventoryElement.Effect.HEAL_HP;
+                                              item.value = 10;
+                                              InventoryElement.EffectItem item2 = new InventoryElement.EffectItem();
+                                              item2.effect = InventoryElement.Effect.DEF_UP;
+                                              item2.value = 10;
+                                              element.effectList.add(item);
+                                              element.effectList.add(item2);
+
+                                              Json json = new Json();
+                                              json.toJson(element);
+
+                                              FileHandle file = Gdx.files.local("myfile.json");
+                                              file.writeString(json.prettyPrint(element), false);
                                           }
                                       }
                                   }

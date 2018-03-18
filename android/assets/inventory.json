@@ -1,0 +1,15 @@
+{
+category: FOOD
+name: Broccoli
+summary: Strengthens the person's bones.
+effectList: [
+	{
+		effect: HEAL_HP
+		value: 10
+	}
+	{
+		effect: DEF_UP
+		value: 10
+	}
+]
+}
