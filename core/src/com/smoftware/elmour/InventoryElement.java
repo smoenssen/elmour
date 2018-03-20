@@ -1,5 +1,7 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.utils.Array;
 
 
@@ -7,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
  * Created by steve on 3/17/18.
  */
 
-public class InventoryElement {
+public class InventoryElement{
 
     public enum InventoryCategory {
         Armor,
@@ -50,7 +52,8 @@ public class InventoryElement {
 
     public static class EffectItem {
         public Effect effect;
-        public int value;
+        public Integer value;
+        public int turns;
     }
 
     public Array<EffectItem> effectList;

@@ -638,7 +638,6 @@
 	summary: Supplies a lot of mana to whoever drinks it.
 	buy: 200
 	sell: 100
-	turns: 0
 	effectList: [
 		{
 			effect: HEAL_MP

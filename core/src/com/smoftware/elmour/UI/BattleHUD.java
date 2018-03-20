@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -113,6 +114,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private Tree middleTree;
     private float scrollAreaHeight;
     private ScrollPane scrollPane;
+    private ArrayList<InventoryElement> inventoryList;
 
     private Table rightTable;
     private MyTextArea rightTextArea;
@@ -400,6 +402,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTree = new Tree(Utility.ELMOUR_UI_SKIN);
 
         // load tree from inventory.json, for battle only show Potion, Food, and Consumables
+
         Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "no_background"));
         Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "no_background"));
         Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "no_background"));
@@ -407,19 +410,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         Json json = new Json();
         Array<InventoryElement> inventoryElements = new Array<>();
 
-        /*
-        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal("scripts/Inventory.json"));
-
-        for (JsonValue jsonVal : list) {
-            inventoryElements.add(json.readValue(InventoryElement.class, jsonVal));
-        }*/
-
         middleTree.add(Potions);
         middleTree.add(Food);
         middleTree.add(Consumables);
 
-        /////////
-        ArrayList<InventoryElement> inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("scripts/Inventory.json"));
+        // load inventory from json file
+        inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("scripts/Inventory.json"));
 
         for (InventoryElement element : inventoryList) {
 
@@ -437,30 +433,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     break;
             }
         }
-        //////////////////
-/*
-        Tree.Node stun = new Tree.Node(new TextButton("stun", Utility.ELMOUR_UI_SKIN, "no_background"));
-        Tree.Node boom = new Tree.Node(new TextButton("boom", Utility.ELMOUR_UI_SKIN, "no_background"));
-        Tree.Node veggies = new Tree.Node(new TextButton("veggies", Utility.ELMOUR_UI_SKIN, "no_background"));
-        Tree.Node meat = new Tree.Node(new TextButton("meat", Utility.ELMOUR_UI_SKIN, "no_background"));
-        Tree.Node whatever = new Tree.Node(new TextButton("whatever", Utility.ELMOUR_UI_SKIN, "no_background"));
-
-        Potions.add(stun);
-        Potions.add(boom);
-        Food.add(veggies);
-        Food.add(meat);
-        */
-       // Other.add(whatever);
 
         scrollPane = new ScrollPane(middleTree);
         scrollPane.setWidth(middleScrollArea.getWidth() - 4);
         scrollPane.setHeight(0);
         scrollPane.setPosition(middleScrollArea.getX() + 2, menuItemHeight * 2);
         middleTree.setVisible(false);
-
-        //final Table table = new Table();
-        //table.setFillParent(true);
-        //table.add(scroller).fill().expand();
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
@@ -779,7 +757,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                           if (touchPointIsInButton(fightButton)) {
                                               //hideMenu(true);
                                               Gdx.app.log(TAG, "fight button up");
-
+/* testing only
                                               ArrayList elements = new ArrayList<>();
 
                                               InventoryElement element = new InventoryElement();
@@ -827,8 +805,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                               list.add(element2);
                                               json.toJson(list);
 
-                                              FileHandle file = Gdx.files.local("scripts/inventory.json");
+                                              FileHandle file = Gdx.files.local("scripts/Inventory.json");
                                               file.writeString(json.prettyPrint(list), false);
+*/
                                           }
                                       }
                                   }
@@ -882,15 +861,35 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTree.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       int xx;
-                                       xx = 0;
                                        return true;
                                    }
 
                                    @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       int yy;
-                                       yy = 0;
+                                   public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                       Selection<Tree.Node> selection = middleTree.getSelection();
+                                       for (Tree.Node node : selection) {
+                                           // get selected tree item
+                                           InventoryElement element = (InventoryElement) node.getObject();
+                                           if (element != null) {
+                                               Gdx.app.log(TAG, element.name);
+                                               leftTextArea.setText(element.summary, true);
+
+                                               String effectList = "";
+                                               for (InventoryElement.EffectItem effect : element.effectList) {
+                                                   effectList += effect.effect.toString();
+                                                   effectList += " " + effect.value.toString();
+                                                   effectList += "\n";
+                                               }
+                                               middleTextArea.setText(effectList, true);
+                                           }
+                                           else {
+                                               leftTextArea.setText("", true);
+                                               middleTextArea.setText("", true);
+                                           }
+
+                                           // should only be one node selected
+                                           break;
+                                       }
                                    }
                                }
         );
