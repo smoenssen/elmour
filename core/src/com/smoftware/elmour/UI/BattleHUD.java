@@ -3,15 +3,12 @@ package com.smoftware.elmour.UI;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -20,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -28,7 +24,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
@@ -52,7 +47,6 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.screens.MainGameScreen;
-import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
@@ -108,13 +102,18 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private Label monster4Name;
     private Label monster5Name;
 
-    private MyTextArea middleTextArea;
-
-    private MyTextArea middleScrollArea;
+    // scrolling tree area
+    private MyTextArea middleTreeTextArea;
     private Tree middleTree;
-    private float scrollAreaHeight;
-    private ScrollPane scrollPane;
+    private float middleTreeHeight;
+    private ScrollPane middleScrollPaneTree;
     private ArrayList<InventoryElement> inventoryList;
+
+    // area under scrolling tree
+    private MyTextArea middleStatsTextArea;
+    private Table middleTextAreaTable;
+    private float middleStatsHeight;
+    private ScrollPane middleScrollPaneStats;
 
     private Table rightTable;
     private MyTextArea rightTextArea;
@@ -381,23 +380,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         leftTable.setX(3);
         leftTable.setY(4);
 
-        middleTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
-        middleTextArea.disabled = true;
-        middleTextArea.setWidth(menuItemWidth * 2);
-        middleTextArea.setHeight(menuItemHeight * 2 - 2);
-        middleTextArea.setPosition(_stage.getWidth()/5, 2);
-        middleTextArea.setVisible(false);
-
         float rightTextAreaWidth = _stage.getWidth() - (statusButton.getWidth() * 2) - leftTextArea.getWidth() + 2;
+        float middleAreaWidth = (_stage.getWidth() - rightTextAreaWidth) / 2f;
 
-        scrollAreaHeight = menuItemHeight * 2;
+        middleStatsTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        middleStatsTextArea.disabled = true;
+        middleStatsTextArea.setWidth(menuItemWidth * 2);
+        middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
+        middleStatsTextArea.setPosition(_stage.getWidth()/5, 2);
+        middleStatsTextArea.setVisible(false);
 
-        middleScrollArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
-        middleScrollArea.disabled = true;
-        middleScrollArea.setWidth((_stage.getWidth() - rightTextAreaWidth) / 2f);
-        middleScrollArea.setHeight(0);
-        middleScrollArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleScrollArea.getWidth(), menuItemHeight * 2 - 2);
-        middleScrollArea.setVisible(false);
+        middleTreeHeight = menuItemHeight * 2;
+
+        middleTreeTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        middleTreeTextArea.disabled = true;
+        middleTreeTextArea.setWidth(middleAreaWidth);
+        middleTreeTextArea.setHeight(0);
+        middleTreeTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, menuItemHeight * 2 - 2);
+        middleTreeTextArea.setVisible(false);
 
         middleTree = new Tree(Utility.ELMOUR_UI_SKIN);
 
@@ -434,11 +434,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
         }
 
-        scrollPane = new ScrollPane(middleTree);
-        scrollPane.setWidth(middleScrollArea.getWidth() - 4);
-        scrollPane.setHeight(0);
-        scrollPane.setPosition(middleScrollArea.getX() + 2, menuItemHeight * 2);
+        middleScrollPaneTree = new ScrollPane(middleTree);
+        middleScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
+        middleScrollPaneTree.setHeight(0);
+        middleScrollPaneTree.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
         middleTree.setVisible(false);
+
+        middleTextAreaTable = new Table();
+        /*middleScrollPaneStats = new ScrollPane(middleTextAreaTable);
+        middleScrollPaneStats.setWidth(middleAreaWidth - 4);
+        middleScrollPaneStats.setHeight(0);
+        middleScrollPaneStats.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);*/
+
+        // middleTextAreaTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
+        // middleTextAreaTable.add(monster1Name).size(nameWidth, nameHeight);
+        // middleTextAreaTable.pack();
+
+        middleTextAreaTable.setWidth(middleAreaWidth);
+        middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 100);
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
@@ -689,9 +702,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(statusButton);
         _stage.addActor(leftTextArea);
         _stage.addActor(leftTable);
-        _stage.addActor(middleScrollArea);
-        _stage.addActor(middleTextArea);
-        _stage.addActor(scrollPane);
+        _stage.addActor(middleStatsTextArea);
+        _stage.addActor(middleTextAreaTable);
+        //_stage.addActor(middleScrollPaneStats);
+        _stage.addActor(middleTreeTextArea);
+        _stage.addActor(middleScrollPaneTree);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
@@ -874,17 +889,32 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                Gdx.app.log(TAG, element.name);
                                                leftTextArea.setText(element.summary, true);
 
+                                               middleTextAreaTable.clear();
+
                                                String effectList = "";
                                                for (InventoryElement.EffectItem effect : element.effectList) {
-                                                   effectList += effect.effect.toString();
-                                                   effectList += " " + effect.value.toString();
-                                                   effectList += "\n";
+                                                   //effectList += effect.effect.toString();
+                                                   //effectList += " " + effect.value.toString();
+                                                   //effectList += "\n";
+
+                                                   middleTextAreaTable.setVisible(true);
+                                                   Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                   stat.setText(effect.effect.toString());
+                                                   Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                   value.setText(effect.value.toString());
+
+                                                   middleTextAreaTable.add(stat).align(Align.left);
+                                                   middleTextAreaTable.add(value).align(Align.right).padLeft(100);
+                                                   middleTextAreaTable.row();
                                                }
-                                               middleTextArea.setText(effectList, true);
+                                               //middleStatsTextArea.setText(effectList, true);
+
+                                               //middleTextAreaTable.setFillParent(true);
+                                               //middleTextAreaTable.add(middleScrollPaneStats).fill().expand();
                                            }
                                            else {
                                                leftTextArea.setText("", true);
-                                               middleTextArea.setText("", true);
+                                               middleStatsTextArea.setText("", true);
                                            }
 
                                            // should only be one node selected
@@ -970,20 +1000,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     fightButton.addAction(Actions.fadeOut(fadeTime/2));
                     statusButton.addAction(Actions.fadeOut(fadeTime/2));
 
-                    //middleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    middleTextArea.setVisible(true);
-                    middleTextArea.addAction(Actions.sizeBy(-widthMove,0, fadeTime));
-                    middleTextArea.addAction(Actions.moveBy(widthMove,0, fadeTime));
+                    middleStatsTextArea.setVisible(true);
+                    middleStatsTextArea.addAction(Actions.sizeBy(-widthMove,0, fadeTime));
+                    middleStatsTextArea.addAction(Actions.moveBy(widthMove,0, fadeTime));
 
                     leftTextArea.addAction(Actions.sizeBy(widthMove, 0, fadeTime));
 
-                    middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleScrollArea.addAction(Actions.sizeBy(0, scrollAreaHeight, fadeTime));
-                    middleScrollArea.setVisible(true);
+                    middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                    middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
+                    middleTreeTextArea.setVisible(true);
 
                     middleTree.setVisible(true);
 
-                    scrollPane.addAction(Actions.sizeBy(0, scrollAreaHeight - 4, fadeTime));
+                    middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
                 }
                 currentScreenState = ScreenState.INVENTORY;
                 break;
@@ -1040,23 +1069,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                         leftTextArea.addAction(Actions.sizeBy(-widthMove, 0, fadeTime));
 
-                        //middleTextArea.setVisible(true);
-                        middleTextArea.addAction(Actions.sizeBy(widthMove,0, fadeTime));
-                        middleTextArea.addAction(Actions.moveBy(-widthMove,0, fadeTime));
-                        //middleTextArea.addAction(Actions.fadeOut(0));
-                        //middleTextArea.setVisible(false);
+                        middleStatsTextArea.addAction(Actions.sizeBy(widthMove,0, fadeTime));
+                        middleStatsTextArea.addAction(Actions.moveBy(-widthMove,0, fadeTime));
+                        middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
+                        middleTreeTextArea.addAction(Actions.fadeOut(fadeTime));
 
-                        //middleScrollArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        middleScrollArea.addAction(Actions.sizeBy(0, -scrollAreaHeight, fadeTime));
-                        middleScrollArea.addAction(Actions.fadeOut(fadeTime));
-                        //middleScrollArea.setVisible(false);
-
-                        //middleTree.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
                         middleTree.setVisible(true);
 
-                        scrollPane.addAction(Actions.sizeBy(0, (scrollAreaHeight - 4) * -1, fadeTime));
+                        middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
-                        middleTextArea.setVisible(false);
+                        middleStatsTextArea.setVisible(false);
                         currentScreenState = ScreenState.MAIN;
                         break;
                     case MAIN:
