@@ -28,6 +28,7 @@ public class MapFactory {
         MAP7,
         MAP8,
         MAP9,
+        MAP11,
         M6_CAVE,
         M6_CAVE_A,
         M6_CAVE_B,
@@ -175,6 +176,13 @@ public class MapFactory {
                 if( map == null ){
                     map = new Map9();
                     _mapTable.put(MapType.MAP9, map);
+                }
+                break;
+            case MAP11:
+                map = _mapTable.get(MapType.MAP11);
+                if( map == null ){
+                    map = new Map11();
+                    _mapTable.put(MapType.MAP11, map);
                 }
                 break;
             case M6_CAVE:

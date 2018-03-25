@@ -148,6 +148,22 @@ public class Entity {
 			@Override
 			public String toString() { return "M7SIGN4"; }
 		},
+        M8SIGN1 {
+            @Override
+            public String toString() { return "M8SIGN1"; }
+        },
+        M8SIGN2 {
+            @Override
+            public String toString() { return "M8SIGN2"; }
+        },
+        M9SIGN1 {
+            @Override
+            public String toString() { return "M9SIGN1"; }
+        },
+        M11SIGN1 {
+            @Override
+            public String toString() { return "M11SIGN1"; }
+        },
 		T2DOOR1 {
 			@Override
 			public String toString() { return "T2DOOR1"; }

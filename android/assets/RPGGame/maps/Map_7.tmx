@@ -3316,7 +3316,7 @@
   <object id="426" name="MAP8" x="0" y="2432" width="1" height="111"/>
   <object id="427" name="M7_HIDDEN" x="404" y="2559" width="56" height="1"/>
   <object id="428" name="M7_CAVE_A" x="271" y="999" width="1" height="31"/>
-  <object id="429" name="MAP10" x="639" y="23" width="1" height="1093"/>
+  <object id="429" name="MAP11" x="639" y="23" width="1" height="1093"/>
  </objectgroup>
  <objectgroup name="BRIDGE_OBSTACLE">
   <object id="46" x="128" y="230" width="112" height="1"/>

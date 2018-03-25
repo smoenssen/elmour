@@ -189,8 +189,8 @@
 	category: Food
 	name: Carrots
 	summary: Not only does this vegetable increase defence* but it also improves the consumer's eyesight.
-	buy: 125
-	sell: 62
+	buy: 120
+	sell: 60
 	turns: 3
 	effectList: [
 		{
@@ -292,7 +292,7 @@
 	class: com.smoftware.elmour.InventoryElement
 	category: Food
 	name: Banana
-	summary: The wonderfull taste of a banana a peels to many.
+	summary: The wonderfull taste of a banana a peels many.
 	buy: 50
 	sell: 25
 	turns: 3
@@ -716,7 +716,7 @@
 	class: com.smoftware.elmour.InventoryElement
 	category: Potion
 	name: Reverse Potion of Strength
-	summary: For those who like the Potion of strength* but are Patient. Basically the reverse of a potion of strength; starts off with a little bit of extra strength* and ends with a lot.
+	summary: For those who like the Potion of strength* but are patient. Basically the reverse of a potion of strength: starts off with a little bit of extra strength* and ends with a lot.
 	buy: 75
 	sell: 36
 	turns: 5
