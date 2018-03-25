@@ -13,7 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.Entity;
 
 /**
  * Created by steve on 3/10/18.
@@ -33,6 +35,8 @@ public class BattleControls extends BattleControlsSubject implements Screen {
     private Image aBtnImageDown;
     private Image bBtnImage;
     private Image bBtnImageDown;
+
+    private boolean showABButtons = false;
 
     private Image dBtnImageUpArrow;
     private Image dBtnImageUpArrow_Down;
@@ -55,11 +59,13 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         //
         aBtnImage = new Image(new Texture("controllers/A_Button.png"));
         aBtnImage.setSize(50, 50);
+        aBtnImage.setVisible(false);
 
         aBtnImageDown = new Image(new Texture("controllers/A_Button_Down.png"));
         aBtnImageDown.setSize(50, 50);
         aBtnImageDown.setVisible(false);
 
+        /*
         aBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
@@ -78,12 +84,14 @@ public class BattleControls extends BattleControlsSubject implements Screen {
                 aBtnImage.setVisible(true);
             }
         });
-
+*/
         aBtnImage.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_PRESSED);
-                aBtnImageDown.setVisible(true);
+                if (showABButtons) {
+                    aBtnImageDown.setVisible(true);
+                }
                 aBtnImage.setVisible(false);
                 return true;
             }
@@ -92,7 +100,9 @@ public class BattleControls extends BattleControlsSubject implements Screen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.A_BUTTON_RELEASED);
                 aBtnImageDown.setVisible(false);
-                aBtnImage.setVisible(true);
+                if (showABButtons) {
+                    aBtnImage.setVisible(true);
+                }
             }
         });
 
@@ -102,11 +112,13 @@ public class BattleControls extends BattleControlsSubject implements Screen {
         //
         bBtnImage = new Image(new Texture("controllers/B_Button.png"));
         bBtnImage.setSize(50, 50);
+        bBtnImage.setVisible(false);
 
         bBtnImageDown = new Image(new Texture("controllers/B_Button_Down.png"));
         bBtnImageDown.setSize(50, 50);
         bBtnImageDown.setVisible(false);
 
+        /*
         bBtnImage.addListener(new InputListener() {
 
             // Note: these functions are only called once
@@ -125,12 +137,14 @@ public class BattleControls extends BattleControlsSubject implements Screen {
                 bBtnImage.setVisible(true);
             }
         });
-
+*/
         bBtnImage.addListener(new ClickListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_PRESSED);
-                bBtnImageDown.setVisible(true);
+                if (showABButtons) {
+                    bBtnImageDown.setVisible(true);
+                }
                 bBtnImage.setVisible(false);
                 return true;
             }
@@ -139,7 +153,9 @@ public class BattleControls extends BattleControlsSubject implements Screen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 BattleControlsSubject.notify(null, BattleControlsObserver.BattleControlEvent.B_BUTTON_RELEASED);
                 bBtnImageDown.setVisible(false);
-                bBtnImage.setVisible(true);
+                if (showABButtons) {
+                    bBtnImage.setVisible(true);
+                }
             }
         });
 
@@ -312,6 +328,20 @@ public class BattleControls extends BattleControlsSubject implements Screen {
 
     public Stage getStage() {
         return _stage;
+    }
+
+    public void showABButtons() {
+        showABButtons = true;
+        aBtnImage.setVisible(true);
+        bBtnImage.setVisible(true);
+    }
+
+    public void hideABButtons() {
+        showABButtons = false;
+        aBtnImage.setVisible(false);
+        aBtnImageDown.setVisible(false);
+        bBtnImage.setVisible(false);
+        bBtnImageDown.setVisible(false);
     }
 
     public void showDButtons () {

@@ -46,6 +46,7 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
@@ -56,7 +57,7 @@ import java.util.ArrayList;
 public class BattleHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, BattleControlsObserver, InventoryObserver, StatusObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
 
-    private enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, SPELLS_POWER, STATS }
+    public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, SPELLS_POWER, STATS }
 
     private Stage _stage;
     private Viewport _viewport;
@@ -112,6 +113,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     // area under scrolling tree
     private MyTextArea middleStatsTextArea;
     private Table middleTextAreaTable;
+    private TextButton backButton;
+    private float backButtonHeight;
     private float middleStatsHeight;
     private ScrollPane middleScrollPaneStats;
 
@@ -158,12 +161,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private ShakeCamera _shakeCam;
 
+    BattleScreen battleScreen;
+
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public BattleHUD(Camera camera, Entity player, MapManager mapMgr) {
+    public BattleHUD(Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
+        battleScreen = screen;
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
@@ -286,6 +292,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         fightButton = new TextButton("Fight", Utility.ELMOUR_UI_SKIN, "battle");
         runButton = new TextButton("Run", Utility.ELMOUR_UI_SKIN, "battle");
         statusButton = new TextButton("Status", Utility.ELMOUR_UI_SKIN, "battle");
+        backButton = new TextButton("Back", Utility.ELMOUR_UI_SKIN, "battle");
 
         // Desktop
         float menuItemWidth = 125;
@@ -385,7 +392,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
         middleStatsTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         middleStatsTextArea.disabled = true;
-        middleStatsTextArea.setWidth(menuItemWidth * 2);
+        middleStatsTextArea.setWidth(menuItemWidth * 2 - 2);
         middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setPosition(_stage.getWidth()/5, 2);
         middleStatsTextArea.setVisible(false);
@@ -451,7 +458,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         // middleTextAreaTable.pack();
 
         middleTextAreaTable.setWidth(middleAreaWidth);
-        middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 100);
+        middleTextAreaTable.setHeight(menuItemHeight * 2 - 2);
+        middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 0);
+        middleTextAreaTable.align(Align.top);
+
+        backButtonHeight = menuItemHeight / 2;
+        backButton.setWidth(middleAreaWidth);
+        backButton.setHeight(0);
+        backButton.setPosition(middleTreeTextArea.getX(), 2);
+        backButton.setVisible(false);
 
         rightTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         rightTextArea.disabled = true;
@@ -704,6 +719,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(leftTable);
         _stage.addActor(middleStatsTextArea);
         _stage.addActor(middleTextAreaTable);
+        _stage.addActor(backButton);
         //_stage.addActor(middleScrollPaneStats);
         _stage.addActor(middleTreeTextArea);
         _stage.addActor(middleScrollPaneTree);
@@ -862,6 +878,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                    }
         );
 
+        backButton.addListener(new ClickListener() {
+                                     @Override
+                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                         return true;
+                                     }
+
+                                     @Override
+                                     public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                         // make sure touch point is still on this button
+                                         if (touchPointIsInButton(backButton)) {
+                                             Gdx.app.log(TAG, "back button up");
+                                             //hideMenu(true);
+                                         }
+                                     }
+                                 }
+        );
+
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
                                                            public void clicked(InputEvent event, float x, float y) {
@@ -973,12 +1006,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private void setHUD(ScreenState newState) {
         final float fadeTime = 0.35f;
 
+        battleScreen.setBattleControls(newState);
+
         switch(newState) {
             case FIGHT:
                 currentScreenState = ScreenState.FIGHT;
                 break;
             case FINAL:
-                currentScreenState = ScreenState.FIGHT;
+                currentScreenState = ScreenState.FINAL;
                 break;
             case INVENTORY:
                 if (currentScreenState == ScreenState.MAIN) {
@@ -1043,6 +1078,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             case A_BUTTON_PRESSED:
                 break;
             case A_BUTTON_RELEASED:
+                switch(currentScreenState) {
+                    case INVENTORY:
+                        middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
+                        middleTreeTextArea.addAction(Actions.fadeOut(fadeTime));
+
+                        middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+
+                        backButton.setVisible(true);
+                        backButton.addAction(Actions.sizeBy(0, backButtonHeight + 3, fadeTime));
+
+                        middleStatsTextArea.setText("Choose a character", true);
+                        middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
+                        middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight, fadeTime));
+
+                        currentScreenState = ScreenState.FINAL;
+                        break;
+                }
                 break;
             case B_BUTTON_PRESSED:
                 break;
@@ -1079,6 +1131,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                         middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                         middleStatsTextArea.setVisible(false);
+                        middleTextAreaTable.setVisible(false);
+                        leftTextArea.setText("", true);
                         currentScreenState = ScreenState.MAIN;
                         break;
                     case MAIN:
@@ -1098,6 +1152,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             case D_PAD_DOWN_RELEASED:
                 break;
         }
+
+        battleScreen.setBattleControls(currentScreenState);
     }
 
     private void showMainMenu() {

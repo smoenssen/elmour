@@ -115,7 +115,7 @@ public class BattleScreen extends MainGameScreen {
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
-            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr);
+            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
@@ -132,7 +132,7 @@ public class BattleScreen extends MainGameScreen {
             controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
             battleControls = new BattleControls(controllersCam);
 
-            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr);
+            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
@@ -293,6 +293,35 @@ public class BattleScreen extends MainGameScreen {
 
         AudioManager.getInstance().dispose();
         MapFactory.clearCache();
+    }
+
+    public void setBattleControls(BattleHUD.ScreenState state) {
+        switch (state) {
+            case FIGHT:
+                battleControls.hideABButtons();
+                break;
+            case FINAL:
+                battleControls.hideABButtons();
+                break;
+            case INVENTORY:
+                battleControls.showABButtons();
+                break;
+            case MAGIC:
+                battleControls.hideABButtons();
+                break;
+            case MAIN:
+                battleControls.hideABButtons();
+                break;
+            case MENU:
+                battleControls.hideABButtons();
+                break;
+            case SPELLS_POWER:
+                battleControls.showABButtons();
+                break;
+            case STATS:
+                battleControls.hideABButtons();
+                break;
+        }
     }
 
     private Action getBattleSceneAction() {
