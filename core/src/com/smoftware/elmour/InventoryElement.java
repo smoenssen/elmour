@@ -49,6 +49,7 @@ public class InventoryElement{
     public int buy;
     public int sell;
     public int turns;
+    public boolean revive;
 
     public static class EffectItem {
         public Effect effect;
