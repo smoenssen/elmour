@@ -474,7 +474,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 0);
         middleTextAreaTable.align(Align.top);
 
-        backButtonHeight = menuItemHeight / 2;
+        backButtonHeight = menuItemHeight;
         backButton.setWidth(middleAreaWidth);
         backButton.setHeight(0);
         backButton.setPosition(middleTreeTextArea.getX(), 2);
@@ -1112,7 +1112,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     middleTextAreaTable.setVisible(false);
                     leftTextArea.setText("", true);
                 }
+                else if (currentScreenState == ScreenState.FIGHT) {
+                    inventoryButton.setText("Inventory");
+                    fightButton.setText("Fight");
+                    runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
+                    backButton.addAction(Actions.fadeOut(fadeTime));
+                    backButton.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
+                }
                 break;
             case MAGIC:
                 break;
@@ -1135,9 +1143,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         switch(newState) {
             case FIGHT:
                 if (currentScreenState == ScreenState.MAIN) {
+
+                    inventoryButton.setText("Spells");
+                    fightButton.setText("Attack");
+                    runButton.addAction(Actions.fadeOut(fadeTime));
+                    statusButton.addAction(Actions.fadeOut(fadeTime));
+
                     backButton.setVisible(true);
                     backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                    backButton.addAction(Actions.sizeBy(0, backButtonHeight + 3, fadeTime));
+                    backButton.addAction(Actions.sizeBy(0, backButtonHeight, fadeTime));
                 }
                 break;
             case FINAL:
