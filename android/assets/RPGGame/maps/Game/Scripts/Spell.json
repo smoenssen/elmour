@@ -1,0 +1,164 @@
+[
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Black
+	name: Fire
+	summary: Launches a stream of fire towards the enemy.
+	MP: 20
+	DMG: 40
+	ACC: 90
+	turns: 5
+	effectList: [
+		{
+			effect: Burn
+			value: 5
+		}
+		{
+			effect: Armor_Pierce
+			value: 20
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Black
+	name: Thunder
+	summary: Strikes the enemy with a massive bolt of energy.
+	MP: 25
+	DMG: 50
+	ACC: 70
+	turns: 1
+	effectList: [
+		{
+			effect: Stun
+      value: 5
+		}
+		{
+			effect: Armor_Pierce
+			value: 100
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Black
+	name: Earth
+	summary: Crushes the enemy with a pile of rocks.
+	MP: 50
+	DMG: 75
+	ACC: 70
+	turns: 5
+	effectList: [
+		{
+			effect: Stun
+      value: 25
+      turns: 1
+		}
+		{
+			effect: Crippled
+			value: 50
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Black
+	name: Water
+	summary: Casts a powerful stream of water at the enemy.
+	MP: 10
+	DMG: 25
+	ACC: 100
+	turns: 3
+	effectList: [
+		{
+			effect: Confused
+      value: 1
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Black
+	name: Power Word Kill
+	summary: Kills the enemy Instantaneously.
+	MP: 100
+	ACC: 10
+	Kill: true
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: White
+	name: Life
+	summary: Reanimates an ally with half their max HP.
+	MP: 200
+	ACC: 100
+	Revive: true
+	effectList: [
+		{
+			effect: Heal_Max_HP
+      value: 50
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: White
+	name: Heal
+	ACC: 100
+	summary: Heals an ally's wounds.
+	MP: 120
+	DMG: -50
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: White
+	name: Power Word Heal
+	summary: Reanimates an ally with all of their HP.
+	MP: 300
+	ACC: 100
+	Revive: true
+	effectList: [
+		{
+			effect: Heal_Max_HP
+      value: 100
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Power
+	name: Slash
+	summary: Cuts the enemy by swiping across their chest.
+	MP: 20
+	DMG: 40
+	ACC: 90
+	turns: 5
+	effectList: [
+		{
+			effect: Crippled
+			value: 10
+		}
+		{
+			effect: Armor_Pierce
+			value: 10
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.SpellsPowerElement
+	category: Power
+	name: Kick
+	summary: The user thrusts their feet against the enemy.
+	MP: 20
+	DMG: 60
+}
+]

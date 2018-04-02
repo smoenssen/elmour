@@ -60,7 +60,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private StatusUI _statusUI;
     private InventoryUI _inventoryUI;
-    private ConversationUI _conversationUI;
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     private BattleUI _battleUI;
@@ -166,13 +165,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _inventoryUI.setMovable(false);
         _inventoryUI.setVisible(false);
         _inventoryUI.setPosition(_statusUI.getWidth(), 0);
-
-        _conversationUI = new ConversationUI();
-        _conversationUI.setMovable(true);
-        _conversationUI.setVisible(false);
-        _conversationUI.setPosition(_stage.getWidth() / 2, 0);
-        _conversationUI.setWidth(_stage.getWidth() / 2);
-        _conversationUI.setHeight(_stage.getHeight() / 2);
 
         _storeInventoryUI = new StoreInventoryUI();
         _storeInventoryUI.setMovable(false);
@@ -309,7 +301,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
-        _stage.addActor(_conversationUI);
         _stage.addActor(_messageBoxUI);
         _stage.addActor(_statusUI);
         _stage.addActor(_inventoryUI);
@@ -334,7 +325,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _battleUI.validate();
         _questUI.validate();
         _storeInventoryUI.validate();
-        _conversationUI.validate();
         _messageBoxUI.validate();
         _statusUI.validate();
         _inventoryUI.validate();
@@ -489,15 +479,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
         });
         */
-
-        _conversationUI.getCloseButton().addListener(new ClickListener() {
-                                                         @Override
-                                                         public void clicked(InputEvent event, float x, float y) {
-                                                             _conversationUI.setVisible(false);
-                                                             _mapMgr.clearCurrentSelectedMapEntity();
-                                                         }
-                                                     }
-        );
 
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
@@ -949,7 +930,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                 _storeInventoryUI.loadStoreInventory(itemLocations);
 
-                _conversationUI.setVisible(false);
                 _storeInventoryUI.toFront();
                 _storeInventoryUI.setVisible(true);
                 break;
@@ -985,7 +965,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     updateEntityObservers();
                 }
 
-                _conversationUI.setVisible(false);
                 _mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case RETURN_QUEST:
@@ -1011,7 +990,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     ProfileManager.getInstance().setProperty(configReturnProperty.getEntityID(), configReturnProperty);
                 }
 
-                _conversationUI.setVisible(false);
                 _mapMgr.clearCurrentSelectedMapEntity();
 
                 break;
@@ -1024,13 +1002,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 if( _inventoryUI.doesInventoryHaveSpace() ){
                     _inventoryUI.addEntityToInventory(entity, entity.getEntityConfig().getCurrentQuestID());
                     _mapMgr.clearCurrentSelectedMapEntity();
-                    _conversationUI.setVisible(false);
                     entity.unregisterObservers();
                     _mapMgr.removeMapQuestEntity(entity);
                     _questUI.updateQuests(_mapMgr);
                 }else{
                     _mapMgr.clearCurrentSelectedMapEntity();
-                    _conversationUI.setVisible(false);
                     _messageBoxUI.setVisible(true);
                 }
 

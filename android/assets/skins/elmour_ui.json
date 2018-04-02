@@ -167,6 +167,11 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: textbutton
 		down: textbutton_down
 	}
+	no_background: {
+		font: myFontSmall
+		fontColor: white
+		up: transparent
+	}
 	battle: {
 		font: myFontSmall
 		fontColor: white
@@ -203,8 +208,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
 	default: {
-		plus: tree-plus
-		minus: tree-minus
+		plus: tree_plus_triangle
+		minus: tree_minus_triangle
 		selection: default-select-selection
 	}
 }
