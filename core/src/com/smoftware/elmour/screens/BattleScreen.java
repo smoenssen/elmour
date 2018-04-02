@@ -1,6 +1,5 @@
 package com.smoftware.elmour.screens;
 
-<<<<<<< Updated upstream
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -45,7 +44,6 @@ import com.smoftware.elmour.ElmourGame;
 
 public class BattleScreen extends MainGameScreen {
 
-<<<<<<< Updated upstream
     private static final String TAG = BattleScreen.class.getSimpleName();
 
     private final float V_WIDTH = 11;
@@ -323,7 +321,16 @@ public class BattleScreen extends MainGameScreen {
             case MENU:
                 battleControls.hideABButtons();
                 break;
-            case SPELLS_POWER:
+            case SPELL_TYPE:
+                battleControls.hideABButtons();
+                break;
+            case SPELLS_BLACK:
+                battleControls.showABButtons();
+                break;
+            case SPELLS_WHITE:
+                battleControls.showABButtons();
+                break;
+            case POWER:
                 battleControls.showABButtons();
                 break;
             case STATS:
@@ -407,9 +414,5 @@ public class BattleScreen extends MainGameScreen {
             }
         }
         return position;
-=======
-    public BattleScreen(ElmourGame game) {
-        super(game);
->>>>>>> Stashed changes
     }
 }
