@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -362,13 +363,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         statusButton.setVisible(true);
 
         dummyButtonLeft.setWidth(menuItemWidth);
-        dummyButtonLeft.setHeight(menuItemHeight);
-        dummyButtonLeft.setPosition(topLeftButton.getX(), 2);
+        dummyButtonLeft.setHeight(menuItemHeight + 2);
+        dummyButtonLeft.setPosition(topLeftButton.getX(), 0);
         dummyButtonLeft.setVisible(false);
 
         dummyButtonRight.setWidth(menuItemWidth);
-        dummyButtonRight.setHeight(menuItemHeight);
-        dummyButtonRight.setPosition(menuItemX, 2);
+        dummyButtonRight.setHeight(menuItemHeight + 2);
+        dummyButtonRight.setPosition(menuItemX, 0);
         dummyButtonRight.setVisible(false);
 
         leftTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
@@ -1032,6 +1033,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
+    public class setTextAreaText extends Action {
+        MyTextArea textArea = null;
+        String text = "";
+
+        public setTextAreaText(MyTextArea textArea, String text) {
+            this.textArea = textArea;
+            this.text = text;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            textArea.setText(text, true);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
         blackbar.setWidth(barWidth);
         blackbar.setHeight(barHeight);
@@ -1121,9 +1138,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     middleTextAreaTable.setVisible(false);
 
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.setText(CHOOSE_A_CHARACTER, true);
                     middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
                     middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight, fadeTime));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
                 }
 
                 break;
@@ -1164,7 +1181,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             case MAIN:
                 if (currentScreenState == ScreenState.INVENTORY) {
 
-                    topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime / 2)));
+                    topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
                     runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime / 2)));
                     topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime / 2)));
                     statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime / 2)));
@@ -1185,7 +1202,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     //middleStatsTextArea.setVisible(false);
                     //middleStatsTextArea.addAction(Actions.sequence());
                     middleStatsTextArea.setText("", true);
-                    middleStatsTextArea.addAction(Actions.fadeOut(fadeTime));
+                    middleStatsTextArea.addAction(Actions.fadeOut(fadeTime/2));
                     middleTextAreaTable.setVisible(false);
                     leftTextArea.setText("", true);
                 }
@@ -1316,8 +1333,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 else if (currentScreenState == ScreenState.FIGHT) {
                     topLeftButton.setText(BTN_NAME_INVENTORY);
                     topRightButton.setText(BTN_NAME_FIGHT);
-                    runButton.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.alpha(0), Actions.fadeIn(0)));
-                    statusButton.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.alpha(0), Actions.fadeIn(0)));
+                    runButton.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
+                    statusButton.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
 
                     backButton.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.fadeOut(0)));
                     backButton.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
@@ -1325,12 +1342,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     dummyButtonLeft.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     dummyButtonLeft.addAction(Actions.sizeBy(0, backButtonHeight, fadeTime));
                     dummyButtonLeft.addAction(Actions.moveBy(0, -backButtonHeight, fadeTime));
-                    dummyButtonLeft.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.fadeOut(0)));
+                    dummyButtonLeft.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.fadeOut(fadeTime/2), Actions.hide()));
 
                     dummyButtonRight.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     dummyButtonRight.addAction(Actions.sizeBy(0, backButtonHeight, fadeTime));
                     dummyButtonRight.addAction(Actions.moveBy(0, -backButtonHeight, fadeTime));
-                    dummyButtonRight.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.fadeOut(0)));
+                    dummyButtonRight.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.fadeOut(fadeTime/2), Actions.hide()));
                 }
                 break;
             case MAGIC:
