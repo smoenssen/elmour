@@ -515,4 +515,40 @@ public final class Utility {
 	public static boolean pointInRectangle(Rectangle r, float x, float y) {
 		return r.x <= x && r.x + r.width >= x && r.y <= y && r.y + r.height >= y;
 	}
+
+	public static int getPixelLengthOfString(String str) {
+		int len = 0;
+
+		// loop through string and add up pixel lengths
+		for (int i = 0; i < str.length(); i++){
+			char c = str.charAt(i);
+			switch(c) {
+				case ' ':
+				case 'i':
+					len += 1;
+					break;
+				case 'l':
+				case '1':
+					len += 2;
+					break;
+				case 'f':
+				case 'j':
+				case 'k':
+				case 'n':
+				case 'r':
+				case 's':
+				case 't':
+					len += 4;
+					break;
+				case 'Q':
+					len += 6;
+					break;
+				default:
+					// all other chars are 5 pixels
+					len += 5;
+			}
+		}
+
+		return len;
+	}
 }

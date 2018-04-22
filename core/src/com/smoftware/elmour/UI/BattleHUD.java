@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -63,6 +64,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, POWER, SPELL_TYPE, SPELLS_WHITE, SPELLS_BLACK, STATS, UNKNOWN }
     private Stack<ScreenState> screenStack;
+
+    // for keeping track of node's expanded state
+    Array<rootNode> rootNodes = new Array<>();
+    class rootNode {
+        String name = "";
+        boolean isExpanded = false;
+        rootNode(String name, boolean isExpanded) {
+            this.name = name;
+            this.isExpanded = isExpanded;
+        }
+    }
 
     private final String SELECT_AN_ITEM = "Select an item";
     private final String SELECT_A_SPELL = "Select a spell";
@@ -120,6 +132,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private TextButton dummyButtonLeft;
     private TextButton dummyButtonRight;
 
+    private MyTextField selectedItemBanner;
+    private float selectedItemBannerHeight;
+
     private Table leftTable;
     private MyTextArea leftTextArea;
     private Label monster1Name;
@@ -130,18 +145,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private float middleAreaWidth;
 
-    // scrolling tree area
+    // scrolling list
+    private List<String> spellsPowerListView;
+    private ScrollPane middleScrollPaneList;
+    private ArrayList<SpellsPowerElement> spellsPowerList;
+    private SpellsPowerElement selectedSpellsPowerElement;
+
+    // scrolling tree
     private MyTextArea middleTreeTextArea;
     private Tree middleTree;
     private float middleTreeHeight;
     private ScrollPane middleScrollPaneTree;
     private ArrayList<InventoryElement> inventoryList;
-    private ArrayList<SpellsPowerElement> spellsPowerList;
     private InventoryElement selectedInventoryElement;
-    private SpellsPowerElement selectedSpellsPowerElement;
 
     // area under scrolling tree
-    private MyTextArea middleStatsTextArea;
+    private MyTextField middleStatsTextArea;    // using TextField because alignment doesn't work for TextAreas
     private Table middleTextAreaTable;
     private float backButtonHeight;
     private TextButton backButton;
@@ -335,6 +354,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         float menuItemX = _stage.getWidth()/3.75f;
         float menuItemY = menuItemHeight;
         float leftTextAreaWidth = menuItemX;
+        float selectedItemBannerWidth = 300;
 
         // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
@@ -343,6 +363,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             menuItemX = _stage.getWidth()/3.75f;
             menuItemY = menuItemHeight;
         }
+
+        selectedItemBannerHeight = 40;
+        selectedItemBanner = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battle");
+        selectedItemBanner.disabled = true;
+        selectedItemBanner.setWidth(selectedItemBannerWidth);
+        selectedItemBanner.setHeight(0);
+        //selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 10);
+        selectedItemBanner.setAlignment(Align.center);
+        selectedItemBanner.setVisible(true);
 
         topLeftButton.setWidth(menuItemWidth);
         topLeftButton.setHeight(menuItemHeight);
@@ -436,8 +465,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         float rightTextAreaWidth = _stage.getWidth() - (statusButton.getWidth() * 2) - leftTextArea.getWidth() + 2;
         middleAreaWidth = menuItemWidth * 2 - 2;//(_stage.getWidth() - rightTextAreaWidth) / 2f;
 
-        middleStatsTextArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        middleStatsTextArea = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battle");
         middleStatsTextArea.disabled = true;
+        middleStatsTextArea.setAlignment(Align.center);
         middleStatsTextArea.setWidth(middleAreaWidth);
         middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setPosition(leftTextAreaWidth, 2);
@@ -459,6 +489,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "no_background"));
         Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "no_background"));
         Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "no_background"));
+        rootNodes.add(new rootNode("Potions", false));
+        rootNodes.add(new rootNode("Food", false));
+        rootNodes.add(new rootNode("Consumables", false));
 
         middleTree.add(Potions);
         middleTree.add(Food);
@@ -486,6 +519,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
             }
         }
 
+        spellsPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        middleScrollPaneList = new ScrollPane(spellsPowerListView);
+        middleScrollPaneList.setWidth(middleTreeTextArea.getWidth() - 4);
+        middleScrollPaneList.setHeight(0);
+        middleScrollPaneList.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
+        //middleScrollPaneList.setSmoothScrolling(false);//todo?
+        //middleTree.setVisible(false);
+
+        // set padding on left side of list elements
+        Utility.ELMOUR_UI_SKIN.get(List.ListStyle.class).selection.setLeftWidth(15);
+
+        String[] strings = new String[spellsPowerList.size()];
+
+        int index = 0;
+        for (SpellsPowerElement element : spellsPowerList) {
+            strings[index++] = element.name;
+        }
+
+        spellsPowerListView.setItems(strings);
+
         middleScrollPaneTree = new ScrollPane(middleTree);
         middleScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
         middleScrollPaneTree.setHeight(0);
@@ -506,6 +559,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         middleTextAreaTable.setHeight(menuItemHeight * 2 - 2);
         middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 0);
         middleTextAreaTable.align(Align.top);
+        //middleTextAreaTable.setTouchable(Touchable.enabled);
 
         backButtonHeight = menuItemHeight;
         backButton.setWidth(middleAreaWidth);
@@ -756,6 +810,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addActor(choicePopUp2);
         _stage.addActor(choicePopUp3);
         _stage.addActor(choicePopUp4);
+        _stage.addActor(selectedItemBanner);
         _stage.addActor(middleStatsTextArea);
         _stage.addActor(middleTextAreaTable);
         _stage.addActor(topLeftButton);
@@ -770,6 +825,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         //_stage.addActor(middleScrollPaneStats);
         _stage.addActor(middleTreeTextArea);
         _stage.addActor(middleScrollPaneTree);
+        _stage.addActor(middleScrollPaneList);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
@@ -983,6 +1039,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                  }
         );
 
+        /*
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
                                                            public void clicked(InputEvent event, float x, float y) {
@@ -992,6 +1049,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                                _mapMgr.clearCurrentSelectedMapEntity();
                                                            }
                                                        }
+        );
+        */
+
+        spellsPowerListView.addListener(new ClickListener() {
+                                    @Override
+                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                        Gdx.app.log(TAG, "list clicked " + spellsPowerListView.getSelected());
+                                    }
+                                }
         );
 
         middleTree.addListener(new ClickListener() {
@@ -1040,6 +1111,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                middleTextAreaTable.clear();
                                                middleStatsTextArea.setText(SELECT_AN_ITEM, true);
 
+                                               // expand or collapse if root node selected
+                                               TextButton btn = (TextButton)node.getActor();
+                                               if (btn != null) {
+                                                   for (rootNode r : rootNodes) {
+                                                       if (r.name.equals(btn.getLabel().getText().toString())) {
+                                                           if (r.isExpanded) {
+                                                               r.isExpanded = false;
+                                                               node.collapseAll();
+                                                           }
+                                                           else {
+                                                               r.isExpanded = true;
+                                                               node.expandAll();
+                                                           }
+                                                       }
+                                                   }
+                                               }
+
+                                               // clear selection so next root node selection is not unselected
+                                               middleTree.getSelection().clear();
+
                                                // DON"T DO THIS!! It actually clears out the element's info
                                                //selectedInventoryElement.summary = "";
                                                //selectedInventoryElement.effectList.clear();
@@ -1064,10 +1155,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     public class setTextAreaText extends Action {
-        MyTextArea textArea = null;
+        MyTextField textArea = null;
         String text = "";
 
-        public setTextAreaText(MyTextArea textArea, String text) {
+        public setTextAreaText(MyTextField textArea, String text) {
             this.textArea = textArea;
             this.text = text;
         }
@@ -1202,6 +1293,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
                     middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight, fadeTime));
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
+
+                    // calculate banner width
+                    int pixelLength = Utility.getPixelLengthOfString(selectedInventoryElement.name);
+                    float bannerWidth = pixelLength * 2.25f;
+                    float minWidth = 160;
+                    if (bannerWidth  < minWidth)
+                        bannerWidth = minWidth;
+
+                    selectedItemBanner.setWidth(bannerWidth);
+                    selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 8);
+                    selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime));
+                    selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime));
+                    selectedItemBanner.setText(selectedInventoryElement.name, true);
                 }
 
                 break;
@@ -1311,10 +1415,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
                 middleTreeTextArea.setVisible(true);
 
-                // reset selection
+                // reset selection todo
 
 
-                middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+                middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
                 break;
             case STATS:
                 break;
@@ -1405,6 +1509,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                         middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight, fadeTime));
 
                         backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight - 3, fadeTime), Actions.fadeOut(0)));
+
+                        selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime));
+                        selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime));
                     }
 
                     break;
@@ -1433,6 +1540,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
                         middleTextAreaTable.setVisible(false);
                         leftTextArea.setText("", true);
+
+                        // reset root node array
+                        for (rootNode r : rootNodes) {
+                            r.isExpanded = false;
+                        }
                     }
                     else if (currentScreenState == ScreenState.FIGHT) {
                         topLeftButton.setText(BTN_NAME_INVENTORY);
@@ -1486,6 +1598,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                         middleTree.setVisible(false);
 
                         middleScrollPaneTree.setHeight(0);
+                        middleScrollPaneList.setHeight(0);
 
                         middleStatsTextArea.setText("", true);
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
@@ -1518,7 +1631,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                     middleTreeTextArea.addAction(Actions.fadeOut(fadeTime));
 
-                    middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                    middleScrollPaneList.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                     middleStatsTextArea.setText("", true);
                     middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
