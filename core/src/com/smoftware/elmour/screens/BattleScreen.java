@@ -176,7 +176,7 @@ public class BattleScreen extends MainGameScreen {
         setupBattleScene = new RunnableAction() {
             @Override
             public void run() {
-                battleHUD.hideMessage();
+                //battleHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.GRASS_BATTLE);
                 _mapMgr.disableCurrentmapMusic();
                 _camera.position.set(10, 6, 0f);
