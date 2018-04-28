@@ -54,6 +54,7 @@ import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -160,6 +161,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private InventoryElement selectedInventoryElement;
 
     // area under scrolling tree
+    private float tablePadding = 15;
     private MyTextField middleStatsTextArea;    // using TextField because alignment doesn't work for TextAreas
     private Table middleTextAreaTable;
     private float backButtonHeight;
@@ -530,15 +532,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         // set padding on left side of list elements
         Utility.ELMOUR_UI_SKIN.get(List.ListStyle.class).selection.setLeftWidth(15);
 
-        String[] strings = new String[spellsPowerList.size()];
-
-        int index = 0;
-        for (SpellsPowerElement element : spellsPowerList) {
-            strings[index++] = element.name;
-        }
-
-        spellsPowerListView.setItems(strings);
-
         middleScrollPaneTree = new ScrollPane(middleTree);
         middleScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
         middleScrollPaneTree.setHeight(0);
@@ -555,10 +548,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
         // middleTextAreaTable.add(monster1Name).size(nameWidth, nameHeight);
         // middleTextAreaTable.pack();
 
-        middleTextAreaTable.setWidth(middleAreaWidth);
-        middleTextAreaTable.setHeight(menuItemHeight * 2 - 2);
-        middleTextAreaTable.setPosition(middleTreeTextArea.getX(), 0);
+        middleTextAreaTable.setWidth(middleAreaWidth - (2 * tablePadding));
+        middleTextAreaTable.setHeight(menuItemHeight * 2 - 5);
+        middleTextAreaTable.setPosition(middleTreeTextArea.getX() + tablePadding, 0);
         middleTextAreaTable.align(Align.top);
+        //middleTextAreaTable.debugAll();
         //middleTextAreaTable.setTouchable(Touchable.enabled);
 
         backButtonHeight = menuItemHeight;
@@ -883,12 +877,48 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                     setHUDNewState(ScreenState.INVENTORY);
                                                 }
                                                 else if (topLeftButton.getText().toString().equals(BTN_NAME_POWER) && currentScreenState == ScreenState.FIGHT) {
+                                                    // load powers
+                                                    int numElements = 0;
+                                                    for (SpellsPowerElement element : spellsPowerList) {
+                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.Power) {
+                                                            numElements++;
+                                                        }
+                                                    }
+
+                                                    String[] strings = new String[numElements];
+                                                    int index = 0;
+                                                    for (SpellsPowerElement element : spellsPowerList) {
+                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.Power) {
+                                                            strings[index++] = element.name;
+                                                        }
+                                                    }
+
+                                                    spellsPowerListView.setItems(strings);
+                                                    spellsPowerListView.setSelectedIndex(-1);
                                                     setHUDNewState(ScreenState.POWER);
                                                 }
                                                 else if (topLeftButton.getText().toString().equals(BTN_NAME_SPELLS) && currentScreenState == ScreenState.FIGHT) {
                                                     setHUDNewState(ScreenState.SPELL_TYPE);
                                                 }
                                                 else if (topLeftButton.getText().toString().equals(BTN_NAME_WHITE) && currentScreenState == ScreenState.SPELL_TYPE) {
+                                                    // load white spells
+                                                    int numElements = 0;
+                                                    for (SpellsPowerElement element : spellsPowerList) {
+                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.White) {
+                                                            numElements++;
+                                                        }
+                                                    }
+
+                                                    String[] strings = new String[numElements];
+                                                    int index = 0;
+                                                    for (SpellsPowerElement element : spellsPowerList) {
+                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.White) {
+                                                            strings[index++] = element.name;
+                                                        }
+                                                    }
+
+                                                    spellsPowerListView.setItems(strings);
+                                                    spellsPowerListView.setSelectedIndex(-1);
                                                     setHUDNewState(ScreenState.SPELLS_WHITE);
                                                 }
                                             }
@@ -916,6 +946,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                                   setHUDNewState(ScreenState.FIGHT);
                                               }
                                               else if (topRightButton.getText().toString().equals(BTN_NAME_BLACK) && currentScreenState == ScreenState.SPELL_TYPE) {
+                                                  // load black spells
+                                                  int numElements = 0;
+                                                  for (SpellsPowerElement element : spellsPowerList) {
+                                                      if (element.category == SpellsPowerElement.SpellPowerCategory.Black) {
+                                                          numElements++;
+                                                      }
+                                                  }
+
+                                                  String[] strings = new String[numElements];
+                                                  int index = 0;
+                                                  for (SpellsPowerElement element : spellsPowerList) {
+                                                      if (element.category == SpellsPowerElement.SpellPowerCategory.Black) {
+                                                          strings[index++] = element.name;
+                                                      }
+                                                  }
+
+                                                  spellsPowerListView.setItems(strings);
+                                                  spellsPowerListView.setSelectedIndex(-1);
                                                   setHUDNewState(ScreenState.SPELLS_BLACK);
                                               }
 /* testing only for writing to .json file
@@ -1061,6 +1109,80 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         Gdx.app.log(TAG, "list clicked " + spellsPowerListView.getSelected());
+
+                                        // get associated element from spells/power list based on name
+                                        SpellsPowerElement element = null;
+                                        for (SpellsPowerElement item : spellsPowerList) {
+                                            if (item.name.equals(spellsPowerListView.getSelected())) {
+                                                element = item;
+                                                break;
+                                            }
+                                        }
+
+                                        if (element != null) {
+                                            // replace asterisks in summary with a comma
+                                            String summary = element.summary.replace('*', ',');
+                                            leftTextArea.setText(summary, true);
+
+                                            middleTextAreaTable.clear();
+                                            middleStatsTextArea.setText("", true);
+                                            middleTextAreaTable.setVisible(true);
+
+                                            if (element.MP != 0) {
+                                                middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
+
+                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                stat.setText("MP");
+                                                stat.setAlignment(Align.left);
+                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                value.setText(String.format("%d", element.MP));
+                                                value.setAlignment(Align.right);
+
+                                                middleTextAreaTable.add(stat).align(Align.left);
+                                                middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                            }
+                                            if (element.DMG != 0) {
+                                                middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
+
+                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                stat.setText("DMG");
+                                                stat.setAlignment(Align.left);
+                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                value.setText(String.format("%d", element.DMG));
+                                                value.setAlignment(Align.right);
+
+                                                middleTextAreaTable.add(stat).align(Align.left);
+                                                middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                            }
+                                            if (element.ACC != 0) {
+                                                middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
+
+                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                stat.setText("ACC");
+                                                stat.setAlignment(Align.left);
+                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                value.setText(String.format("%d", element.ACC));
+                                                value.setAlignment(Align.right);
+
+                                                middleTextAreaTable.add(stat).align(Align.left);
+                                                middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                            }
+                                            if (element.effectList != null) {
+                                                for (SpellsPowerElement.EffectItem effect : element.effectList) {
+                                                    middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
+
+                                                    Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                    stat.setText(effect.effect.toString());
+                                                    stat.setAlignment(Align.left);
+                                                    Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                    value.setText(effect.value.toString());
+                                                    value.setAlignment(Align.right);
+
+                                                    middleTextAreaTable.add(stat).align(Align.left);
+                                                    middleTextAreaTable.add(value).align(Align.right);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
         );
@@ -1087,23 +1209,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                                                middleTextAreaTable.clear();
                                                middleStatsTextArea.setText("", true);
+                                               middleTextAreaTable.setVisible(true);
 
                                                String effectList = "";
                                                for (InventoryElement.EffectItem effect : selectedInventoryElement.effectList) {
-                                                   middleTextAreaTable.setVisible(true);
+                                                   middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
+
                                                    Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                    stat.setText(effect.effect.toString());
+                                                   stat.setAlignment(Align.left);
                                                    Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                    value.setText(effect.value.toString());
+                                                   value.setAlignment(Align.right);
 
                                                    middleTextAreaTable.add(stat).align(Align.left);
-                                                   middleTextAreaTable.add(value).align(Align.right).padLeft(100);
-                                                   middleTextAreaTable.row();
+                                                   middleTextAreaTable.add(value).align(Align.right);
                                                }
-                                               //middleStatsTextArea.setText(effectList, true);
-
-                                               //middleTextAreaTable.setFillParent(true);
-                                               //middleTextAreaTable.add(middleScrollPaneStats).fill().expand();
                                            }
                                            else {
                                                leftTextArea.setText("", true);

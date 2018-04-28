@@ -25,12 +25,12 @@ public class SpellsPowerElement {
     public SpellPowerCategory category;
     public String name;
     public String summary;
-    public int MP;
-    public int DMG;
-    public int ACC;
-    public int turns;
-    public boolean Revive;
-    public boolean Kill;
+    public int MP = 0;
+    public int DMG = 0;
+    public int ACC = 0;
+    public int turns = 0;
+    public boolean Revive = false;
+    public boolean Kill = false;
 
     public static class EffectItem {
         public Effect effect;
