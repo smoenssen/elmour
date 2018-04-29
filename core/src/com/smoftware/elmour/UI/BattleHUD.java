@@ -70,6 +70,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private final String SELECT_A_SPELL = "Select a spell";
     private final String SELECT_A_POWER = "Select a power";
     private final String CHOOSE_A_CHARACTER = "Choose a character";
+    private final String CHOOSE_AN_ENEMY = "Choose an enemy";
 
     private final String BTN_NAME_INVENTORY = "Inventory";
     private final String BTN_NAME_FIGHT = "Fight";
@@ -228,6 +229,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             menuItemHeight = 57;
             menuItemX = _stage.getWidth()/4.75f;
             menuItemY = menuItemHeight;
+
         }
 
         minBannerWidth = 100;
@@ -799,6 +801,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                               if (topRightButton.getText().toString().equals(BTN_NAME_FIGHT) && currentScreenState == ScreenState.MAIN) {
                                                   setHUDNewState(ScreenState.FIGHT);
                                               }
+                                              else if (topRightButton.getText().toString().equals(BTN_NAME_ATTACK) && currentScreenState == ScreenState.FIGHT) {
+                                                  setHUDNewState(ScreenState.FINAL);
+                                              }
                                               else if (topRightButton.getText().toString().equals(BTN_NAME_BLACK) && currentScreenState == ScreenState.SPELL_TYPE) {
                                                   // load black spells
                                                   int numElements = 0;
@@ -1203,6 +1208,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    public class setTextAreaVisible extends Action {
+        MyTextField textArea = null;
+        boolean visible = false;
+
+        public setTextAreaVisible(MyTextField textArea, boolean visible) {
+            this.textArea = textArea;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            textArea.setVisible(visible);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class setTableVisible extends Action {
         Table table = null;
         boolean visible = false;
@@ -1358,7 +1379,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     // calculate banner width
                     int pixelLength = Utility.getPixelLengthOfString(selectedInventoryElement.name);
-                    float bannerWidth = pixelLength * 2.25f;
+                    float factor;
+
+                    if (Gdx.app.getType() == Application.ApplicationType.Android)
+                        factor = 2.25f;
+                    else
+                        factor = 2.5f;
+
+                    float bannerWidth = pixelLength * factor;
                     if (bannerWidth  < minBannerWidth)
                         bannerWidth = minBannerWidth;
 
@@ -1367,6 +1395,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime));
                     selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime));
                     selectedItemBanner.setText(selectedInventoryElement.name, true);
+                }
+                else if (currentScreenState == ScreenState.FIGHT) {
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 3, 0));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 3, 0));
+                    middleStatsTextArea.setVisible(true);
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/4), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
+
+                    topLeftButton.addAction(Actions.fadeOut(0));
+                    topRightButton.addAction(Actions.fadeOut(0));
                 }
                 else if (currentScreenState == ScreenState.SPELLS_BLACK ||
                          currentScreenState == ScreenState.SPELLS_WHITE ||
@@ -1402,7 +1440,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     // calculate banner width
                     int pixelLength = Utility.getPixelLengthOfString(selectedSpellsPowerElement.name);
-                    float bannerWidth = pixelLength * 2.25f;
+                    float factor;
+
+                    if (Gdx.app.getType() == Application.ApplicationType.Android)
+                        factor = 2.25f;
+                    else
+                        factor = 2.5f;
+
+                    float bannerWidth = pixelLength * factor;
                     if (bannerWidth  < minBannerWidth)
                         bannerWidth = minBannerWidth;
 
@@ -1537,6 +1582,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         //todo spells or power
                         topLeftButton.setText(BTN_NAME_SPELLS);
                         topRightButton.setText(BTN_NAME_ATTACK);
+                    }
+                    else if (currentScreenState == ScreenState.FINAL) {
+                        topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
+                        topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
+
+                        middleStatsTextArea.setText("", true);
+                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 3, 0));
+                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 3, 0));
+                        middleStatsTextArea.addAction(Actions.fadeOut(fadeTime/2));
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setTextAreaVisible(middleStatsTextArea, false)));
                     }
                     break;
                 case FINAL:
