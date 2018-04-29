@@ -580,7 +580,7 @@
   <object id="133" name="PLAYER_START" x="432" y="374" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
-  <object id="3" name="MAP7" x="16" y="0" width="80" height="1"/>
+  <object id="3" name="MAP10" x="16" y="0" width="80" height="1"/>
   <object id="104" name="M11_CAVE_A" x="432" y="359" width="16" height="1"/>
   <object id="106" name="M11_HIDDEN" x="32" y="639" width="16" height="1"/>
   <object id="107" name="Diblethia" x="384" y="639" width="112" height="1"/>

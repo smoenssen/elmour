@@ -160,6 +160,10 @@ public class Entity {
             @Override
             public String toString() { return "M9SIGN1"; }
         },
+		M10SIGN1 {
+			@Override
+			public String toString() { return "M10SIGN1"; }
+		},
         M11SIGN1 {
             @Override
             public String toString() { return "M11SIGN1"; }
