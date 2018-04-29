@@ -101,7 +101,7 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 11;
+			parameter.size = 12;
 		}
 		else{
 			parameter.shadowOffsetX = 1;

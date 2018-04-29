@@ -85,10 +85,15 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	tree: {
+		font: myFontSuperSmall
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: myFontSmall
+		font: myFontVerySmall
 		fontColorSelected: white
 		fontColorUnselected: white
 		selection: selection
@@ -167,8 +172,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: textbutton
 		down: textbutton_down
 	}
-	no_background: {
-		font: myFontSmall
+	tree_node: {
+		font: myFontVerySmall
 		fontColor: white
 		up: transparent
 	}
