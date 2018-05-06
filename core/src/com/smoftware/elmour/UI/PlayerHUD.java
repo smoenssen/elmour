@@ -1347,9 +1347,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 break;
             case OPPONENT_DEFEATED:
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
-                int goldReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_GP_REWARD.toString()));
+                int goldReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString()));
                 _statusUI.addGoldValue(goldReward);
-                int xpReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_XP_REWARD.toString()));
+                int xpReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString()));
                 _statusUI.addXPValue(xpReward);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                 _mapMgr.enableCurrentmapMusic();

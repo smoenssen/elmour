@@ -2,6 +2,7 @@ package com.smoftware.elmour.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
@@ -12,6 +13,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private static final String TAG = BattleState.class.getSimpleName();
 
     private Entity _currentOpponent;
+    private Array<Entity> currentOpponentList;
     private int _currentZoneLevel = 0;
     private int _currentPlayerAP;
     private int _currentPlayerDP;
@@ -27,6 +29,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
+        currentOpponentList = new Array<>();
     }
 
     public void resetDefaults(){
@@ -52,22 +55,34 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         if( _currentZoneLevel == 0 ) return false;
         int randomVal = MathUtils.random(1,100);
 
-        Gdx.app.log(TAG, "CHANGE OF ATTACK: " + _chanceOfAttack + " randomval: " + randomVal);
+        Gdx.app.log(TAG, "CHANCE OF ATTACK: " + _chanceOfAttack + " randomval: " + randomVal);
 
         if( _chanceOfAttack > randomVal  ){
-            setCurrentOpponent();
+            setCurrentOpponentList();
             return true;
         }else{
             return false;
         }
     }
 
-    public void setCurrentOpponent(){
+    public void setCurrentOpponentList(){
         Gdx.app.log(TAG, "Entered BATTLE ZONE: " + _currentZoneLevel);
-        Entity entity = MonsterFactory.getInstance().getRandomMonster(_currentZoneLevel);
-        if( entity == null ) return;
-        this._currentOpponent = entity;
-        notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
+        currentOpponentList.clear();
+        MonsterGroup monsterGroup = MonsterFactory.getInstance().getRandomMonsterGroup(_currentZoneLevel);
+        Array<MonsterFactory.MonsterEntityType> monsterEntityTypes = monsterGroup.getMonsters();
+
+        for (MonsterFactory.MonsterEntityType entityType : monsterEntityTypes) {
+            Entity entity = MonsterFactory.getInstance().getMonster(entityType);
+            if (entity != null) {
+                currentOpponentList.add(entity);
+                notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
+            }
+        }
+    }
+
+    public void setCurrentOpponent(){
+        //todo
+        this._currentOpponent = currentOpponentList.get(0);
     }
 
     public void playerAttacks(){
@@ -120,19 +135,19 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                int currentOpponentHP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_HEALTH_POINTS.toString()));
-                int currentOpponentDP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_DEFENSE_POINTS.toString()));
+                int currentOpponentHP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
+                int currentOpponentDP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DEF.toString()));
 
                 int damage = MathUtils.clamp(_currentPlayerAP - currentOpponentDP, 0, _currentPlayerAP);
 
                 Gdx.app.log(TAG, "ENEMY HAS " + currentOpponentHP + " hit with damage: " + damage);
 
                 currentOpponentHP = MathUtils.clamp(currentOpponentHP - damage, 0, currentOpponentHP);
-                _currentOpponent.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ENTITY_HEALTH_POINTS.toString(), String.valueOf(currentOpponentHP));
+                _currentOpponent.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), String.valueOf(currentOpponentHP));
 
                 Gdx.app.log(TAG, "Player attacks " + _currentOpponent.getEntityConfig().getEntityID() + " leaving it with HP: " + currentOpponentHP);
 
-                _currentOpponent.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ENTITY_HIT_DAMAGE_TOTAL.toString(), String.valueOf(damage));
+                _currentOpponent.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString(), String.valueOf(damage));
                 if( damage > 0 ){
                     BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
                 }
@@ -150,14 +165,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                int currentOpponentHP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_HEALTH_POINTS.toString()));
+                int currentOpponentHP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
 
                 if (currentOpponentHP <= 0) {
                     BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.OPPONENT_TURN_DONE);
                     return;
                 }
 
-                int currentOpponentAP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ENTITY_ATTACK_POINTS.toString()));
+                int currentOpponentAP = Integer.parseInt(_currentOpponent.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ATK.toString()));
                 int damage = MathUtils.clamp(currentOpponentAP - _currentPlayerDP, 0, currentOpponentAP);
                 int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
                 hpVal = MathUtils.clamp( hpVal - damage, 0, hpVal);

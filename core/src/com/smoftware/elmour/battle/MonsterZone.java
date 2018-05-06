@@ -9,7 +9,7 @@ import java.util.Hashtable;
 
 public class MonsterZone {
     private String zoneID;
-    private Array<MonsterFactory.MonsterEntityType> monsters;
+    private Array<MonsterFactory.MonsterGroupType> groups;
 
     public String getZoneID() {
         return zoneID;
@@ -19,23 +19,23 @@ public class MonsterZone {
         this.zoneID = zoneID;
     }
 
-    public Array<MonsterFactory.MonsterEntityType> getMonsters() {
-        return monsters;
+    public Array<MonsterFactory.MonsterGroupType> getGroups() {
+        return groups;
     }
 
-    public void setMonsters(Array<MonsterFactory.MonsterEntityType> monsters) {
-        this.monsters = monsters;
+    public void setGroups(Array<MonsterFactory.MonsterGroupType> groups) {
+        this.groups = groups;
     }
 
-    static public Hashtable<String, Array<MonsterFactory.MonsterEntityType>> getMonsterZones(String configFilePath){
+    static public Hashtable<String, Array<MonsterFactory.MonsterGroupType>> getMonsterZones(String configFilePath){
         Json json = new Json();
-        Hashtable<String, Array<MonsterFactory.MonsterEntityType>> monsterZones = new Hashtable<String, Array<MonsterFactory.MonsterEntityType>>();
+        Hashtable<String, Array<MonsterFactory.MonsterGroupType>> monsterZones = new Hashtable<String, Array<MonsterFactory.MonsterGroupType>>();
 
         ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
 
         for (JsonValue jsonVal : list) {
             MonsterZone zone = json.readValue(MonsterZone.class, jsonVal);
-            monsterZones.put(zone.getZoneID(), zone.getMonsters());
+            monsterZones.put(zone.getZoneID(), zone.getGroups());
         }
 
         return monsterZones;

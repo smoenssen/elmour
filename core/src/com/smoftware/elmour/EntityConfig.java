@@ -9,6 +9,7 @@ import com.smoftware.elmour.InventoryItem.ItemTypeID;
 
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;
+    private Array<ItemReward> rewardItems;
     private Array<ItemTypeID> inventory;
     private Entity.State state = Entity.State.IDLE;
     private Entity.Direction direction = Entity.Direction.DOWN;
@@ -21,19 +22,32 @@ public class EntityConfig {
     private String entityBoundsName;
 
     public static enum EntityProperties{
-        ENTITY_HEALTH_POINTS,
-        ENTITY_ATTACK_POINTS,
-        ENTITY_DEFENSE_POINTS,
-        ENTITY_HIT_DAMAGE_TOTAL,
-        ENTITY_XP_REWARD,
-        ENTITY_GP_REWARD,
+        HIT_DAMAGE_TOTAL,
+        HP,
+        MP,
+        ATK,
+        MagicATK,
+        DEF,
+        MagicDEF,
+        SPD,
+        ACC,
+        LCK,
+        AVO,
+        XP_REWARD,
+        DIBS_REWARD,
         NONE
+    }
+
+    public static class ItemReward {
+        ItemTypeID item;
+        int probability;
     }
 
     EntityConfig(){
         animationConfig = new Array<AnimationConfig>();
         inventory = new Array<ItemTypeID>();
         entityProperties = new ObjectMap<String, String>();
+        rewardItems = new Array<ItemReward>();
     }
 
     EntityConfig(EntityConfig config){

@@ -214,7 +214,7 @@ public abstract class Map implements AudioSubject{
 
         npcBoundsLayer = _currentMap.getLayers().get(NPC_BOUNDS_LAYER);
         if( npcBoundsLayer == null ){
-            Gdx.app.debug(TAG, "No NPC bounds layerr!");
+            Gdx.app.debug(TAG, "No NPC bounds layer!");
         }
 
         zGatesLayer = _currentMap.getLayers().get(Z_GATES_LAYER);
