@@ -3,19 +3,7 @@
 groupID : GROUP001
 monsters: [
 	{
-		value: MONSTER001
-	}
-	{
-		value: MONSTER002
-	}
-	{
-		value: MONSTER003
-	}
-	{
-		value: MONSTER004
-	}
-	{
-		value: MONSTER005
+		value: Goblin
 	}
 	]
 },
@@ -23,19 +11,10 @@ monsters: [
 groupID : GROUP002
 monsters: [
 	{
-		value: MONSTER006
+		value: Goblin
 	}
 	{
-		value: MONSTER007
-	}
-	{
-		value: MONSTER008
-	}
-	{
-		value: MONSTER009
-	}
-	{
-		value: MONSTER010
+		value: Ogre
 	}
 ]
 },
@@ -43,39 +22,13 @@ monsters: [
 groupID : GROUP003
 monsters: [
 	{
-		value: MONSTER011
+		value: Goblin
 	}
 	{
-		value: MONSTER012
+		value: Octomaniac
 	}
 	{
-		value: MONSTER013
-	}
-	{
-		value: MONSTER014
-	}
-	{
-		value: MONSTER015
-	}
-]
-},
-{
-groupID : GROUP004
-monsters: [
-	{
-		value: MONSTER016
-	}
-	{
-		value: MONSTER017
-	}
-	{
-		value: MONSTER018
-	}
-	{
-		value: MONSTER019
-	}
-	{
-		value: MONSTER020
+		value: Ogre
 	}
 ]
 },

@@ -53,6 +53,7 @@ import java.util.ArrayList;
 public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
+    ElmourGame game;
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
@@ -62,7 +63,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private InventoryUI _inventoryUI;
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
-    private BattleUI _battleUI;
+    //private BattleUI _battleUI;
     private SignPopUp signPopUp;
 
     private ConversationPopUp conversationPopUp;
@@ -105,7 +106,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public PlayerHUD(Camera camera, Entity player, MapManager mapMgr) {
+    public PlayerHUD(ElmourGame game, Camera camera, Entity player, MapManager mapMgr) {
+        this.game = game;
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
@@ -179,11 +181,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _questUI.setWidth(_stage.getWidth());
         _questUI.setHeight(_stage.getHeight() / 2);
 
-        _battleUI = new BattleUI();
-        _battleUI.setMovable(false);
+        //_battleUI = new BattleUI();
+        //_battleUI.setMovable(false);
         //removes all listeners including ones that handle focus
-        _battleUI.clearListeners();
-        _battleUI.setVisible(false);
+        //_battleUI.clearListeners();
+        //_battleUI.setVisible(false);
 
         signPopUp = new SignPopUp();
         if (ElmourGame.isAndroid()) {
@@ -298,7 +300,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         parseXMLButton.setPosition(menuItemX, menuItemY);
         parseXMLButton.setVisible(false);
 
-        _stage.addActor(_battleUI);
+        //_stage.addActor(_battleUI);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
         _stage.addActor(_messageBoxUI);
@@ -322,7 +324,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         if (ElmourGame.DEV_MODE)
             _stage.addActor(parseXMLButton);
 
-        _battleUI.validate();
+        //_battleUI.validate();
         _questUI.validate();
         _storeInventoryUI.validate();
         _messageBoxUI.validate();
@@ -348,9 +350,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _player.registerObserver(this);
         _statusUI.addObserver(this);
         _storeInventoryUI.addObserver(this);
-        _inventoryUI.addObserver(_battleUI.getCurrentState());
+        //_inventoryUI.addObserver(_battleUI.getCurrentState());
         _inventoryUI.addObserver(this);
-        _battleUI.getCurrentState().addObserver(this);
+        //_battleUI.getCurrentState().addObserver(this);
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
@@ -820,22 +822,23 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 String questID = string[0];
                 String questTaskID = string[1];
 
-
                 _questUI.questTaskComplete(questID, questTaskID);
                 updateEntityObservers();
                 break;
             case ENEMY_SPAWN_LOCATION_CHANGED:
                 String enemyZoneID = value;
-                _battleUI.battleZoneTriggered(Integer.parseInt(enemyZoneID));
+                game.battleState.battleZoneTriggered(Integer.parseInt(enemyZoneID));
                 break;
             case PLAYER_HAS_MOVED:
-                if( _battleUI.isBattleReady() ){
+                if( game.battleState.isBattleReady() ){
                     addTransitionToScreen();
-                    MainGameScreen.setGameState(MainGameScreen.GameState.SAVING);
+                    //MainGameScreen.setGameState(MainGameScreen.GameState.SAVING);
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
-                    _battleUI.toBack();
-                    _battleUI.setVisible(true);
+
+                    game.setScreen(game.getScreenType(ElmourGame.ScreenType.BattleScreen));
+                    //_battleUI.toBack();
+                    //_battleUI.setVisible(true);
                 }
                 break;
             default:
@@ -1317,13 +1320,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     @Override
     public void resize(int width, int height) {
         _stage.getViewport().update(width, height, true);
-        _battleUI.validate();
-        _battleUI.resize();
+        //_battleUI.validate();
+       // _battleUI.resize();
     }
 
     @Override
     public void pause() {
-        _battleUI.resetDefaults();
+        /*_battleUI.resetDefaults();*/
     }
 
     @Override
@@ -1354,14 +1357,16 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                 _mapMgr.enableCurrentmapMusic();
                 addTransitionToScreen();
-                _battleUI.setVisible(false);
+                //todo
+                //_battleUI.setVisible(false);
                 break;
             case PLAYER_RUNNING:
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                 _mapMgr.enableCurrentmapMusic();
                 addTransitionToScreen();
-                _battleUI.setVisible(false);
+                //todo
+                //_battleUI.setVisible(false);
                 break;
             case PLAYER_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);
@@ -1373,7 +1378,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _shakeCam.reset();
                     notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                     addTransitionToScreen();
-                    _battleUI.setVisible(false);
+                    //todo
+                    //_battleUI.setVisible(false);
                     MainGameScreen.setGameState(MainGameScreen.GameState.GAME_OVER);
                 }
                 break;

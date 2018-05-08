@@ -82,7 +82,7 @@ public class CutSceneScreen extends MainGameScreen {
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
 
         _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-        _playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
+        _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
         conversationPopUp = new ConversationPopUp();
         if (ElmourGame.isAndroid()) {
@@ -105,7 +105,7 @@ public class CutSceneScreen extends MainGameScreen {
         _animInnKeeper = getAnimatedImage(EntityFactory.EntityName.TOWN_INNKEEPER);
         _animMage = getAnimatedImage(EntityFactory.EntityName.TOWN_MAGE);
         _animFire = getAnimatedImage(EntityFactory.EntityName.FIRE);
-        _animDemon = getAnimatedImage(MonsterFactory.MonsterEntityType.MONSTER042);
+        _animDemon = getAnimatedImage(MonsterFactory.MonsterEntityType.Goblin);
 
         //Actions
         _switchScreenAction = new RunnableAction(){

@@ -79,6 +79,7 @@ public class BattleScreen extends MainGameScreen {
     private AnimatedImage justin;
     private AnimatedImage jaxon;
     private AnimatedImage carmen;
+    //private AnimatedImage douglas;
 
     private AnimatedImage party1;
     private AnimatedImage party2;
@@ -96,6 +97,8 @@ public class BattleScreen extends MainGameScreen {
 
         _game = game;
         _mapMgr = new MapManager();
+        _mapMgr.loadMap(MapFactory.MapType.GRASS_BATTLE);
+
         _json = new Json();
 
         setupViewport(V_WIDTH, V_HEIGHT);
@@ -121,7 +124,7 @@ public class BattleScreen extends MainGameScreen {
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
-            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr, this);
+            battleHUD = new BattleHUD(game, _hudCamera, _player, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
@@ -138,7 +141,7 @@ public class BattleScreen extends MainGameScreen {
             controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
             battleControls = new BattleControls(controllersCam);
 
-            battleHUD = new BattleHUD(_hudCamera, _player, _mapMgr, this);
+            battleHUD = new BattleHUD(game, _hudCamera, _player, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
@@ -156,6 +159,12 @@ public class BattleScreen extends MainGameScreen {
         jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON);
         carmen = getAnimatedImage(EntityFactory.EntityName.CARMEN);
 
+        enemy1 = new AnimatedImage();
+        enemy2 = new AnimatedImage();
+        enemy3 = new AnimatedImage();
+        enemy4 = new AnimatedImage();
+        enemy5 = new AnimatedImage();
+
         _transitionActor = new ScreenTransitionActor();
 
         _stage.addActor(character1);
@@ -163,6 +172,11 @@ public class BattleScreen extends MainGameScreen {
         _stage.addActor(justin);
         _stage.addActor(jaxon);
         _stage.addActor(carmen);
+        _stage.addActor(enemy1);
+        _stage.addActor(enemy2);
+        _stage.addActor(enemy3);
+        _stage.addActor(enemy4);
+        _stage.addActor(enemy5);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -414,5 +428,13 @@ public class BattleScreen extends MainGameScreen {
             }
         }
         return position;
+    }
+
+    public void addOpponent(Entity enemyEntity) {
+        enemy1.setEntity(enemyEntity);
+        enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
+        enemy1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+        enemy1.setCurrentDirection(Entity.Direction.LEFT);
+        enemy1.setVisible(true);
     }
 }

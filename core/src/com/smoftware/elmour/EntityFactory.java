@@ -22,6 +22,7 @@ public class EntityFactory {
         CARMEN,
         CHARACTER_1,
         CHARACTER_2,
+        DOUGLAS,
         JUSTIN,
         JAXON,
         PLAYER_PUPPET,
@@ -38,6 +39,7 @@ public class EntityFactory {
     public static String CARMEN_CONFIG = "scripts/carmen.json";
     public static String CHARACTER_1_CONFIG = "scripts/character_1.json";
     public static String CHARACTER_2_CONFIG = "scripts/character_2.json";
+    public static String DOUGLAS_CONFIG = "scripts/douglas.json";
     public static String JUSTIN_CONFIG = "scripts/justin.json";
     public static String JAXON_CONFIG = "scripts/jaxon.json";
     public static String PLAYER_CONFIG = "scripts/player.json";
@@ -65,6 +67,7 @@ public class EntityFactory {
         entities.put(EntityName.CARMEN.toString(), Entity.loadEntityConfigByPath(CARMEN_CONFIG));
         entities.put(EntityName.CHARACTER_1.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_CONFIG));
         entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
+        entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.JUSTIN.toString(), Entity.loadEntityConfigByPath(JUSTIN_CONFIG));
         entities.put(EntityName.JAXON.toString(), Entity.loadEntityConfigByPath(JAXON_CONFIG));
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));

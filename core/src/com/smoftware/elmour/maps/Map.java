@@ -33,7 +33,7 @@ public abstract class Map implements AudioSubject{
     protected final static String PORTAL_LAYER = "PORTAL_LAYER";
     protected final static String QUEST_ITEM_SPAWN_LAYER = "MAP_QUEST_ITEM_SPAWN_LAYER";
     protected final static String QUEST_DISCOVER_LAYER = "MAP_QUEST_DISCOVER_LAYER";
-    protected final static String ENEMY_SPAWN_LAYER = "ENEMY_SPAWNS_LAYER";
+    protected final static String ENEMY_SPAWN_LAYER = "ENEMY_SPAWN_LAYER";
     protected final static String PARTICLE_EFFECT_SPAWN_LAYER = "PARTICLE_EFFECT_SPAWN_LAYER";
     protected final static String INTERACTION_LAYER = "INTERACTION";
     protected final static String ZERO_OPACITY_LAYER = "0_OPACITY";

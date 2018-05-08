@@ -18,7 +18,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private int _currentPlayerAP;
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
-    private final int _chanceOfAttack = 25;
+    private final int _chanceOfAttack = 100;
     private final int _chanceOfEscape = 40;
     private final int _criticalChance = 90;
     private Timer.Task _playerAttackCalculations;
@@ -63,6 +63,23 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }else{
             return false;
         }
+    }
+
+    public void battleZoneTriggered(int battleZoneValue){
+        setCurrentZoneLevel(battleZoneValue);
+    }
+
+    public boolean isBattleReady(){
+
+        return isOpponentReady();
+        /*
+        if( _battleTimer > _checkTimer ){
+            _battleTimer = 0;
+            return isOpponentReady();
+        }else{
+            return false;
+        }
+        */
     }
 
     public void setCurrentOpponentList(){

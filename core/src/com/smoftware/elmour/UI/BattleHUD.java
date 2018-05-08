@@ -35,6 +35,8 @@ import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
+import com.smoftware.elmour.battle.BattleObserver;
+import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
@@ -42,14 +44,13 @@ import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
-import com.sun.org.apache.xerces.internal.impl.dv.xs.YearDV;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
-public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver {
+public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
 
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, POWER, SPELL_TYPE, SPELLS_WHITE, SPELLS_BLACK, STATS, UNKNOWN }
@@ -82,7 +83,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private final String BTN_NAME_WHITE = "White";
     private final String BTN_NAME_BLACK = "Black";
     private final String BTN_NAME_BACK = "Back";
-;
+
+    private ElmourGame game;
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
@@ -185,11 +187,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public BattleHUD(final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
+    public BattleHUD(ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
         battleScreen = screen;
+        this.game = game;
+
+        game.battleState.addObserver(this);
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
@@ -2014,6 +2019,72 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
         for(AudioObserver observer: _observers){
             observer.onNotify(command, event);
+        }
+    }
+
+    @Override
+    public void onNotify(Entity enemyEntity, BattleEvent event) {
+        switch(event){
+            case PLAYER_TURN_START:
+                /*
+                runButton.setDisabled(true);
+                runButton.setTouchable(Touchable.disabled);
+                attackButton.setDisabled(true);
+                attackButton.setTouchable(Touchable.disabled);
+                */
+                break;
+            case OPPONENT_ADDED:
+                battleScreen.addOpponent(enemyEntity);
+                /*
+                _image.setEntity(enemyEntity);
+                _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);
+                _image.setSize(_enemyWidth, _enemyHeight);
+                _image.setPosition(this.getCell(_image).getActorX(), this.getCell(_image).getActorY());
+
+                _currentImagePosition.set(_image.getX(), _image.getY());
+                if( _battleShakeCam == null ){
+                    _battleShakeCam = new ShakeCamera(_currentImagePosition.x, _currentImagePosition.y, 30.0f);
+                }
+*/
+                //Gdx.app.debug(TAG, "Image position: " + _image.getX() + "," + _image.getY() );
+
+                //this.getTitleLabel().setText("Level " + _battleState.getCurrentZoneLevel() + " " + entity.getEntityConfig().getEntityID());
+                break;
+            case OPPONENT_HIT_DAMAGE:
+                /*
+                int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString()));
+                _damageValLabel.setText(String.valueOf(damage));
+                _damageValLabel.setY(_origDamageValLabelY);
+                _battleShakeCam.startShaking();
+                _damageValLabel.setVisible(true);
+                */
+                break;
+            case OPPONENT_DEFEATED:
+                /*
+                _damageValLabel.setVisible(false);
+                _damageValLabel.setY(_origDamageValLabelY);
+                */
+                break;
+            case OPPONENT_TURN_DONE:
+                attackButton.setDisabled(false);
+                attackButton.setTouchable(Touchable.enabled);
+                runButton.setDisabled(false);
+                runButton.setTouchable(Touchable.enabled);
+                break;
+            case PLAYER_TURN_DONE:
+                /*
+                _battleState.opponentAttacks();
+                */
+                break;
+            case PLAYER_USED_MAGIC:
+                /*
+                float x = _currentImagePosition.x + (_enemyWidth/2);
+                float y = _currentImagePosition.y + (_enemyHeight/2);
+                _effects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK, x,y));
+                */
+                break;
+            default:
+                break;
         }
     }
 }

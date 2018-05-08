@@ -118,7 +118,7 @@ public class CutSceneScreen2 extends GameScreen implements ConversationGraphObse
    _hudCamera = new OrthographicCamera();
    _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-   _playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
+   _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
    //_multiplexer = new InputMultiplexer();
    //_multiplexer.addProcessor(mobileControls.getStage());
@@ -131,7 +131,7 @@ public class CutSceneScreen2 extends GameScreen implements ConversationGraphObse
    _hudCamera = new OrthographicCamera();
    _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-   _playerHUD = new PlayerHUD(_hudCamera, _player, _mapMgr);
+   _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
    _multiplexer = new InputMultiplexer();
    _multiplexer.addProcessor(_playerHUD.getStage());

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
@@ -36,6 +37,8 @@ public class ElmourGame extends Game {
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
 	public static boolean DEV_MODE = true;
 
+	public BattleState battleState = null;
+
 	private static SplashScreen splashScreen;
 	private static StartScreen startScreen;
 	private static MainGameScreen _mainGameScreen;
@@ -51,6 +54,7 @@ public class ElmourGame extends Game {
 	private static CutSceneScreenChapter2 cutSceneScreenChapter2;
 
 	public static enum ScreenType{
+		BattleScreen,
 		SplashScreen,
 		StartScreen,
 		MainMenu,
@@ -64,6 +68,8 @@ public class ElmourGame extends Game {
 
 	public Screen getScreenType(ScreenType screenType){
 		switch(screenType){
+			case BattleScreen:
+				return battleScreen;
 			case SplashScreen:
 				return splashScreen;
 			case StartScreen:
@@ -106,6 +112,8 @@ public class ElmourGame extends Game {
 		V_HEIGHT = (int)((float)V_WIDTH / ASPECT_RATIO);
 
 		Gdx.app.log("tag", String.format("screen width = %d, height = %d", V_WIDTH, V_HEIGHT));
+
+		battleState = new BattleState();
 
 		splashScreen = new SplashScreen(this);
 		startScreen = new StartScreen(this);

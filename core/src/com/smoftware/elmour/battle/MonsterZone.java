@@ -9,6 +9,12 @@ import java.util.Hashtable;
 
 public class MonsterZone {
     private String zoneID;
+    private int minTime;
+    private int maxTime;
+    private int minLevel;
+    private int maxLevel;
+    private int deviance;
+
     private Array<MonsterFactory.MonsterGroupType> groups;
 
     public String getZoneID() {
