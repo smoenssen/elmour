@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" infinite="0" nextobjectid="15">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="20" height="12" tilewidth="16" tileheight="16" nextobjectid="15">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="../Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -61,15 +61,15 @@
 </data>
  </layer>
  <objectgroup name="SPAWNS_LAYER">
-  <object id="1" name="P1" x="225" y="42" width="16" height="16"/>
-  <object id="3" name="P2" x="211" y="55" width="16" height="16"/>
-  <object id="4" name="P3" x="225" y="68" width="16" height="16"/>
-  <object id="5" name="P4" x="211" y="81" width="16" height="16"/>
-  <object id="7" name="P5" x="225" y="94" width="16" height="16"/>
-  <object id="10" name="E1" x="82" y="43" width="16" height="16"/>
-  <object id="11" name="E2" x="96" y="55.375" width="16" height="16"/>
-  <object id="12" name="E3" x="82" y="69" width="16" height="16"/>
-  <object id="13" name="E4" x="96.125" y="82.375" width="16" height="16"/>
-  <object id="14" name="E5" x="82" y="95" width="16" height="16"/>
+  <object id="1" name="P1" x="225" y="47" width="16" height="16"/>
+  <object id="3" name="P2" x="211" y="60" width="16" height="16"/>
+  <object id="4" name="P3" x="225" y="73" width="16" height="16"/>
+  <object id="5" name="P4" x="211" y="86" width="16" height="16"/>
+  <object id="7" name="P5" x="225" y="99" width="16" height="16"/>
+  <object id="10" name="E1" x="82" y="47" width="16" height="16"/>
+  <object id="11" name="E2" x="96" y="60" width="16" height="16"/>
+  <object id="12" name="E3" x="82" y="73" width="16" height="16"/>
+  <object id="13" name="E4" x="96.125" y="86" width="16" height="16"/>
+  <object id="14" name="E5" x="82" y="99" width="16" height="16"/>
  </objectgroup>
 </map>

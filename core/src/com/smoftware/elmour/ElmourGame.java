@@ -145,6 +145,10 @@ public class ElmourGame extends Game {
 		////////////////*/
 	}
 
+	public void transitionToBattleScreen() {
+		_mainGameScreen.transitionToBattleScreen();
+	}
+
 	@Override
 	public void dispose(){
 		splashScreen.dispose();;

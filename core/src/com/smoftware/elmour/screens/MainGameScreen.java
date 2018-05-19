@@ -8,18 +8,26 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.sfx.ScreenTransitionAction;
+import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 public class MainGameScreen extends GameScreen {
     private static final String TAG = MainGameScreen.class.getSimpleName();
@@ -56,9 +64,13 @@ public class MainGameScreen extends GameScreen {
     private ElmourGame _game;
     private InputMultiplexer _multiplexer;
 
+    private Stage _stage;
+    private Viewport _viewport;
     private Entity _player;
     private PlayerHUD _playerHUD;
     private MobileControls mobileControls;
+
+    private TextButton topLeftButton;
 
     public MainGameScreen(ElmourGame game){
         _game = game;
@@ -68,12 +80,24 @@ public class MainGameScreen extends GameScreen {
         setGameState(GameState.RUNNING);
 
         //_camera setup
-        //setupViewport(V_WIDTH, V_HEIGHT);//srm
         setupViewport(V_WIDTH, V_HEIGHT);
 
         //get the current size
         _camera = new OrthographicCamera();
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+        ////////////////////todo remove
+        _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
+        _stage = new Stage(_viewport);
+
+        topLeftButton = new TextButton("test", Utility.ELMOUR_UI_SKIN, "battle");
+        topLeftButton.setWidth(1000);
+        topLeftButton.setHeight(1000);
+        topLeftButton.setPosition(125, 125);
+        topLeftButton.setVisible(true);
+
+        _stage.addActor(topLeftButton);
+        ///////////////////////
 
         if (ElmourGame.isAndroid()) {
             // capture Android back key so it is not passed on to the OS
@@ -115,6 +139,16 @@ public class MainGameScreen extends GameScreen {
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
     }
 
+    public void transitionToBattleScreen() {
+        Gdx.gl.glClearColor(255, 255, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void show() {
         ProfileManager.getInstance().addObserver(_mapMgr);
@@ -132,10 +166,6 @@ public class MainGameScreen extends GameScreen {
 
     @Override
     public void hide() {
-        if( _gameState != GameState.GAME_OVER ){
-            setGameState(GameState.SAVING);
-        }
-
         Gdx.input.setInputProcessor(null);
     }
 
@@ -280,12 +310,18 @@ public class MainGameScreen extends GameScreen {
 
         if (ElmourGame.isAndroid())
             mobileControls.render(delta);
+
+        _stage.act(delta);
+        _stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        setupViewport(V_WIDTH, V_HEIGHT);
+        //setupViewport(V_WIDTH, V_HEIGHT);
+
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+       //_stage.getViewport().update((int)(width*Map.UNIT_SCALE), (int)(height*Map.UNIT_SCALE), true);
 
         if (_playerHUD != null)
             _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
@@ -318,6 +354,8 @@ public class MainGameScreen extends GameScreen {
 
         AudioManager.getInstance().dispose();
         MapFactory.clearCache();
+
+        _stage.dispose();
     }
 
     public static void setGameState(GameState gameState){

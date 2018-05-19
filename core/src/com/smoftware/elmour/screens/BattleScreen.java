@@ -22,8 +22,6 @@ import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
-import com.smoftware.elmour.UI.MobileControls;
-import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -79,7 +77,7 @@ public class BattleScreen extends MainGameScreen {
     private AnimatedImage justin;
     private AnimatedImage jaxon;
     private AnimatedImage carmen;
-    //private AnimatedImage douglas;
+    private AnimatedImage douglas;
 
     private AnimatedImage party1;
     private AnimatedImage party2;
@@ -159,11 +157,13 @@ public class BattleScreen extends MainGameScreen {
         jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON);
         carmen = getAnimatedImage(EntityFactory.EntityName.CARMEN);
 
-        enemy1 = new AnimatedImage();
-        enemy2 = new AnimatedImage();
+        douglas = getAnimatedImage(EntityFactory.EntityName.DOUGLAS);
+
+        //enemy1 = new AnimatedImage();
+        //enemy2 = new AnimatedImage();
         enemy3 = new AnimatedImage();
-        enemy4 = new AnimatedImage();
-        enemy5 = new AnimatedImage();
+        //enemy4 = new AnimatedImage();
+        //enemy5 = new AnimatedImage();
 
         _transitionActor = new ScreenTransitionActor();
 
@@ -172,11 +172,11 @@ public class BattleScreen extends MainGameScreen {
         _stage.addActor(justin);
         _stage.addActor(jaxon);
         _stage.addActor(carmen);
-        _stage.addActor(enemy1);
-        _stage.addActor(enemy2);
-        _stage.addActor(enemy3);
-        _stage.addActor(enemy4);
-        _stage.addActor(enemy5);
+        //_stage.addActor(enemy1);
+        //_stage.addActor(enemy2);
+        _stage.addActor(douglas);
+        //_stage.addActor(enemy4);
+        //_stage.addActor(enemy5);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -225,6 +225,12 @@ public class BattleScreen extends MainGameScreen {
                 party5.setPosition(getStartPosition("P5").x, getStartPosition("P5").y);
                 party5.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party5.setCurrentDirection(Entity.Direction.LEFT);
+
+                enemy3 = douglas;
+                enemy3.setVisible(true);
+                enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
+                enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy3.setCurrentDirection(Entity.Direction.RIGHT);
             }
         };
     }
@@ -431,10 +437,15 @@ public class BattleScreen extends MainGameScreen {
     }
 
     public void addOpponent(Entity enemyEntity) {
-        enemy1.setEntity(enemyEntity);
-        enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
-        enemy1.setCurrentAnimationType(Entity.AnimationType.IDLE);
-        enemy1.setCurrentDirection(Entity.Direction.LEFT);
-        enemy1.setVisible(true);
+        //todo: add opponents into enemy slots
+        //note: adding here instead of setupBattleScene results in position and size issue
+        /*
+        enemy3 = douglas;
+        enemy3.setEntity(enemyEntity);
+        enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
+        enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
+        enemy3.setCurrentDirection(Entity.Direction.RIGHT);
+        enemy3.setVisible(true);
+*/
     }
 }

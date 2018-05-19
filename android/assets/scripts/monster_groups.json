@@ -3,7 +3,7 @@
 groupID : GROUP001
 monsters: [
 	{
-		value: Goblin
+		value: Douglas
 	}
 	]
 },

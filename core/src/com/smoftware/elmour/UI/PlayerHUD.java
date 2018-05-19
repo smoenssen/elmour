@@ -4,14 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -65,6 +68,19 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     private QuestUI _questUI;
     //private BattleUI _battleUI;
     private SignPopUp signPopUp;
+
+    boolean battleScreenTransitionTriggered = false;
+    float elapsedTransitionTime = 0;
+    Image screenSwipe1;
+    Image screenSwipe2;
+    Image screenSwipe3;
+    Image screenSwipe4;
+    Image screenSwipe5;
+    Image screenSwipe6;
+    Image screenSwipe7;
+    Image screenSwipe8;
+    Image screenSwipe9;
+    Image screenSwipe10;
 
     private ConversationPopUp conversationPopUp;
     private ConversationLabel conversationLabel;
@@ -300,7 +316,79 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         parseXMLButton.setPosition(menuItemX, menuItemY);
         parseXMLButton.setVisible(false);
 
+        float swipeBarHeight = _stage.getHeight() / 10;
+        float swipeBarWidth = 1000;
+        screenSwipe1 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe1.setWidth(swipeBarWidth);
+        screenSwipe1.setHeight(swipeBarHeight);
+        screenSwipe1.setPosition(_stage.getWidth(), _stage.getHeight() - swipeBarHeight);
+        screenSwipe1.setVisible(false);
+
+        screenSwipe2 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe2.setWidth(swipeBarWidth);
+        screenSwipe2.setHeight(swipeBarHeight);
+        screenSwipe2.setPosition(-screenSwipe2.getWidth(), _stage.getHeight() - swipeBarHeight * 2);
+        screenSwipe2.setVisible(false);
+
+        screenSwipe3 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe3.setWidth(swipeBarWidth);
+        screenSwipe3.setHeight(swipeBarHeight);
+        screenSwipe3.setPosition(_stage.getWidth(), _stage.getHeight() - swipeBarHeight * 3);
+        screenSwipe3.setVisible(false);
+
+        screenSwipe4 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe4.setWidth(swipeBarWidth);
+        screenSwipe4.setHeight(swipeBarHeight);
+        screenSwipe4.setPosition(-screenSwipe4.getWidth(), _stage.getHeight() - swipeBarHeight * 4);
+        screenSwipe4.setVisible(false);
+
+        screenSwipe5 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe5.setWidth(swipeBarWidth);
+        screenSwipe5.setHeight(swipeBarHeight);
+        screenSwipe5.setPosition(_stage.getWidth(), _stage.getHeight() - swipeBarHeight * 5);
+        screenSwipe5.setVisible(false);
+
+        screenSwipe6 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe6.setWidth(swipeBarWidth);
+        screenSwipe6.setHeight(swipeBarHeight);
+        screenSwipe6.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - swipeBarHeight * 6);
+        screenSwipe6.setVisible(false);
+
+        screenSwipe7 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe7.setWidth(swipeBarWidth);
+        screenSwipe7.setHeight(swipeBarHeight);
+        screenSwipe7.setPosition(_stage.getWidth(), _stage.getHeight() - swipeBarHeight * 7);
+        screenSwipe7.setVisible(false);
+
+        screenSwipe8 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe8.setWidth(swipeBarWidth);
+        screenSwipe8.setHeight(swipeBarHeight);
+        screenSwipe8.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - swipeBarHeight * 8);
+        screenSwipe8.setVisible(false);
+
+        screenSwipe9 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe9.setWidth(swipeBarWidth);
+        screenSwipe9.setHeight(swipeBarHeight);
+        screenSwipe9.setPosition(_stage.getWidth(), _stage.getHeight() - swipeBarHeight * 9);
+        screenSwipe9.setVisible(false);
+
+        screenSwipe10 = new Image(new Texture("graphics/screenSwipe.png"));
+        screenSwipe10.setWidth(swipeBarWidth);
+        screenSwipe10.setHeight(swipeBarHeight);
+        screenSwipe10.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - swipeBarHeight * 10);
+        screenSwipe10.setVisible(false);
+
         //_stage.addActor(_battleUI);
+        _stage.addActor(screenSwipe1);
+        _stage.addActor(screenSwipe2);
+        _stage.addActor(screenSwipe3);
+        _stage.addActor(screenSwipe4);
+        _stage.addActor(screenSwipe5);
+        _stage.addActor(screenSwipe6);
+        _stage.addActor(screenSwipe7);
+        _stage.addActor(screenSwipe8);
+        _stage.addActor(screenSwipe9);
+        _stage.addActor(screenSwipe10);
         _stage.addActor(_questUI);
         _stage.addActor(_storeInventoryUI);
         _stage.addActor(_messageBoxUI);
@@ -830,20 +918,61 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 game.battleState.battleZoneTriggered(Integer.parseInt(enemyZoneID));
                 break;
             case PLAYER_HAS_MOVED:
-                if( game.battleState.isBattleReady() ){
-                    addTransitionToScreen();
-                    //MainGameScreen.setGameState(MainGameScreen.GameState.SAVING);
+                if( game.battleState.isBattleReady() && !battleScreenTransitionTriggered){
+                    battleScreenTransitionTriggered = true;
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
 
-                    game.setScreen(game.getScreenType(ElmourGame.ScreenType.BattleScreen));
-                    //_battleUI.toBack();
-                    //_battleUI.setVisible(true);
+                    // transition animation - note: timing may need to be adjusted in render function
+                    float transitionTime = 1;
+                    screenSwipe1.setVisible(true);
+                    screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                    screenSwipe2.setVisible(true);
+                    screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                    screenSwipe3.setVisible(true);
+                    screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                    screenSwipe4.setVisible(true);
+                    screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                    screenSwipe5.setVisible(true);
+                    screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                    screenSwipe6.setVisible(true);
+                    screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                    screenSwipe7.setVisible(true);
+                    screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                    screenSwipe8.setVisible(true);
+                    screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                    screenSwipe9.setVisible(true);
+                    screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                    screenSwipe10.setVisible(true);
+                    screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    public void switchScreen(final Screen newScreen){
+        _stage.getRoot().getColor().a = 1;
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.fadeOut(3));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(newScreen);
+            }
+        }));
+        _stage.getRoot().addAction(sequenceAction);
     }
 
     public void doConversation(String nextConversationId, float delay) {
@@ -1229,6 +1358,20 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
 
+        if (battleScreenTransitionTriggered) {
+            // transition into battle screen after a certain amount of time
+            elapsedTransitionTime += delta;
+
+            // note: timing may need to be adjusted in PLAYER_HAS_MOVED notify
+            float transitionTime = 1;
+            if (elapsedTransitionTime > transitionTime) {
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.BattleScreen));
+            }
+        }
+        else {
+            elapsedTransitionTime = 0;
+        }
+
         if (signPopUp.isReady())
             signPopUp.update();
 
@@ -1335,6 +1478,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void hide() {
+        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor);
     }
 
     @Override

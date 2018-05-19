@@ -1,11 +1,11 @@
 {
+currentPlayerGP: {
+	class: java.lang.Integer
+	value: 20
+}
 currentPlayerHP: {
 	class: java.lang.Integer
 	value: 50
-}
-CHARACTER_1: {
-	class: java.lang.String
-	value: Purple Boy
 }
 castleOfDoomMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
@@ -19,10 +19,6 @@ topWorldMapStartPosition: {
 }
 playerEquipInventory: []
 playerQuests: []
-currentPlayerHPMax: {
-	class: java.lang.Integer
-	value: 50
-}
 currentPlayerMP: {
 	class: java.lang.Integer
 	value: 50
@@ -32,9 +28,9 @@ townMapStartPosition: {
 	x: 208
 	y: 32
 }
-currentPlayerGP: {
+currentPlayerHPMax: {
 	class: java.lang.Integer
-	value: 20
+	value: 50
 }
 currentPlayerMPMax: {
 	class: java.lang.Integer
@@ -50,24 +46,8 @@ currentPlayerLevel: {
 }
 playerCurrentPosition: {
 	class: com.badlogic.gdx.math.Vector2
-	x: 15.329833
-	y: 15.518706
-}
-currentPlayerXP: {
-	class: java.lang.Integer
-	value: 0
-}
-currentPlayerXPMax: {
-	class: java.lang.Integer
-	value: 200
-}
-shadowZLayer: {
-	class: java.lang.String
-	value: ZSHADOWDOWN
-}
-playerZLayer: {
-	class: java.lang.String
-	value: ZDOWN
+	x: 14.812385
+	y: 5.450099
 }
 playerInventory: [
 	{
@@ -161,12 +141,32 @@ playerInventory: [
 		itemNameProperty: Player_Inventory
 	}
 ]
+currentPlayerXP: {
+	class: java.lang.Integer
+	value: 0
+}
+currentPlayerXPMax: {
+	class: java.lang.Integer
+	value: 200
+}
+shadowZLayer: {
+	class: java.lang.String
+	value: ZSHADOWDOWN
+}
+playerZLayer: {
+	class: java.lang.String
+	value: ZDOWN
+}
+CHARACTER_1: {
+	class: java.lang.String
+	value: Purple Boy
+}
 CHARACTER_2: {
 	class: java.lang.String
 	value: Girl
 }
 currentMapType: {
 	class: java.lang.String
-	value: COMPASS
+	value: MAP1
 }
 }

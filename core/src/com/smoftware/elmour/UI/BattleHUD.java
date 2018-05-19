@@ -175,13 +175,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private float barWidth = 0;
     private float barHeight = 0;
 
+    float menuItemHeight = 0;
+
     private Json _json;
     private MapManager _mapMgr;
 
     private Array<AudioObserver> _observers;
     private ScreenTransitionActor _transitionActor;
 
-    private ShakeCamera _shakeCam;
+    private ShakeCamera _battleShakeCam = null;
+    private Vector2 _currentImagePosition;
 
     BattleScreen battleScreen;
 
@@ -208,7 +211,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         BattleControlsSubject.addObserver(this);
 
-        _shakeCam = new ShakeCamera(0,0, 30.0f);
+        _battleShakeCam = new ShakeCamera(0,0, 30.0f);
+        _currentImagePosition = new Vector2(0,0);
 
         _json = new Json();
 
@@ -222,7 +226,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         // Desktop
         float menuItemWidth = 115;
-        float menuItemHeight = 75;
+        menuItemHeight = 75;
         float menuItemX = _stage.getWidth()/4.75f;
         float menuItemY = menuItemHeight;
         float leftTextAreaWidth = menuItemX;
@@ -249,23 +253,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         topLeftButton.setWidth(menuItemWidth);
         topLeftButton.setHeight(menuItemHeight);
-        topLeftButton.setPosition(menuItemX, menuItemY);
+        topLeftButton.setPosition(menuItemX, menuItemY - menuItemHeight);
         topLeftButton.setVisible(true);
 
         menuItemX += menuItemWidth - 2;
         topRightButton.setWidth(menuItemWidth);
         topRightButton.setHeight(menuItemHeight);
-        topRightButton.setPosition(menuItemX, menuItemY);
+        topRightButton.setPosition(menuItemX, menuItemY - menuItemHeight);
         topRightButton.setVisible(true);
 
         runButton.setWidth(menuItemWidth);
         runButton.setHeight(menuItemHeight);
-        runButton.setPosition(topLeftButton.getX(), 2);
+        runButton.setPosition(topLeftButton.getX(), 2 - menuItemHeight);
         runButton.setVisible(true);
 
         statusButton.setWidth(menuItemWidth);
         statusButton.setHeight(menuItemHeight);
-        statusButton.setPosition(menuItemX, 2);
+        statusButton.setPosition(menuItemX, 2 - menuItemHeight);
         statusButton.setVisible(true);
 
         dummyButtonLeft.setWidth(menuItemWidth);
@@ -282,7 +286,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftTextArea.disabled = true;
         leftTextArea.setWidth(leftTextAreaWidth);
         leftTextArea.setHeight(menuItemHeight * 2 - 2);
-        leftTextArea.setPosition(2, 2);
+        leftTextArea.setPosition(2, 2 - menuItemHeight);
         leftTextArea.setVisible(true);
 
         monster1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
@@ -334,7 +338,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftNameTable.pack();
 
         leftNameTable.setX(3);
-        leftNameTable.setY(4);
+        leftNameTable.setY(4 - menuItemHeight);
 
 
         float leftSummaryAreaWidth = leftTextAreaWidth;
@@ -462,7 +466,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTextArea.disabled = true;
         rightTextArea.setWidth(rightTextAreaWidth);
         rightTextArea.setHeight(menuItemHeight * 2 - 2);
-        rightTextArea.setPosition(statusButton.getX() + statusButton.getWidth() - 2, 2);
+        rightTextArea.setPosition(statusButton.getX() + statusButton.getWidth() - 2, 2 - menuItemHeight);
         rightTextArea.setVisible(true);
 
         party1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
@@ -609,8 +613,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupMp5.addActor(mp5Stats);
 
         // Desktop
-        nameWidth = 115
-        ;
+        nameWidth = 115;
         nameHeight = 15;
         topMargin = 2;
         bottomMargin = 6.5f;
@@ -686,7 +689,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.pack();
 
         rightTable.setX(rightTextArea.getX());
-        rightTable.setY(4);
+        rightTable.setY(4 - menuItemHeight);
 
         _stage.addActor(selectedItemBanner);
         _stage.addActor(middleStatsTextArea);
@@ -1961,18 +1964,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void show() {
-        _shakeCam.reset();
+        _battleShakeCam.reset();
     }
 
     @Override
     public void render(float delta) {
-        if (_shakeCam.isCameraShaking()) {
-            Vector2 shakeCoords = _shakeCam.getNewShakePosition();
+        if (_battleShakeCam.isCameraShaking()) {
+            Vector2 shakeCoords = _battleShakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
-
-
 
         _stage.act(delta);
         _stage.draw();
@@ -1981,6 +1982,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     @Override
     public void resize(int width, int height) {
         _stage.getViewport().update(width, height, true);
+
+        // make controls rise from the bottom of the screen when it is first displayed
+        leftTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        leftNameTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        topLeftButton.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        topRightButton.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        runButton.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        statusButton.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        rightTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        rightTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
     }
 
     @Override
@@ -2040,12 +2051,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);
                 _image.setSize(_enemyWidth, _enemyHeight);
                 _image.setPosition(this.getCell(_image).getActorX(), this.getCell(_image).getActorY());
+*/
+                _currentImagePosition.set(15, 15);
 
-                _currentImagePosition.set(_image.getX(), _image.getY());
                 if( _battleShakeCam == null ){
                     _battleShakeCam = new ShakeCamera(_currentImagePosition.x, _currentImagePosition.y, 30.0f);
                 }
-*/
+
                 //Gdx.app.debug(TAG, "Image position: " + _image.getX() + "," + _image.getY() );
 
                 //this.getTitleLabel().setText("Level " + _battleState.getCurrentZoneLevel() + " " + entity.getEntityConfig().getEntityID());
@@ -2058,6 +2070,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 _battleShakeCam.startShaking();
                 _damageValLabel.setVisible(true);
                 */
+                _battleShakeCam.startShaking();
                 break;
             case OPPONENT_DEFEATED:
                 /*
