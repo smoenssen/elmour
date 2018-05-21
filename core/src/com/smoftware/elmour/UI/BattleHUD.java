@@ -908,6 +908,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (currentScreenState == ScreenState.MAIN) {
                                                Gdx.app.log(TAG, "run button up");
+                                               final ElmourGame game_ = game;
+                                               game_.setScreen(game_.getScreenType(ElmourGame.ScreenType.BattleScreen));
                                            }
                                        }
                                    }

@@ -311,6 +311,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         saveButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
+
         parseXMLButton.setWidth(menuItemWidth);
         parseXMLButton.setHeight(menuItemHeight);
         parseXMLButton.setPosition(menuItemX, menuItemY);
@@ -923,7 +924,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
 
-                    // transition animation - note: timing may need to be adjusted in render function
+                    // transition animation - note: screen transition occurs in render() function.
+                    // timing may need to be adjusted in render function
                     float transitionTime = 1;
                     screenSwipe1.setVisible(true);
                     screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
@@ -954,7 +956,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     screenSwipe10.setVisible(true);
                     screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                 }
                 break;
             default:
@@ -1363,7 +1364,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             elapsedTransitionTime += delta;
 
             // note: timing may need to be adjusted in PLAYER_HAS_MOVED notify
-            float transitionTime = 1;
+            float transitionTime = .75f;
             if (elapsedTransitionTime > transitionTime) {
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.BattleScreen));
             }
