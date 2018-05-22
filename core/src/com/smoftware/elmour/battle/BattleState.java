@@ -207,6 +207,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void playerRuns(){
+        // todo: randomize
+        notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
+        /*
         int randomVal = MathUtils.random(1,100);
         if( _chanceOfEscape > randomVal  ) {
             notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
@@ -215,6 +218,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }else{
             return;
         }
+        */
     }
 
     @Override

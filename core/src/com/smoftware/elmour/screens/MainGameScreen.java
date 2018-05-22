@@ -64,13 +64,9 @@ public class MainGameScreen extends GameScreen {
     private ElmourGame _game;
     private InputMultiplexer _multiplexer;
 
-    private Stage _stage;
-    private Viewport _viewport;
     private Entity _player;
     private PlayerHUD _playerHUD;
     private MobileControls mobileControls;
-
-    private TextButton topLeftButton;
 
     public MainGameScreen(ElmourGame game){
         _game = game;
@@ -85,19 +81,6 @@ public class MainGameScreen extends GameScreen {
         //get the current size
         _camera = new OrthographicCamera();
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-        ////////////////////todo remove
-        _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
-        _stage = new Stage(_viewport);
-
-        topLeftButton = new TextButton("test", Utility.ELMOUR_UI_SKIN, "battle");
-        topLeftButton.setWidth(1000);
-        topLeftButton.setHeight(1000);
-        topLeftButton.setPosition(125, 125);
-        topLeftButton.setVisible(true);
-
-        _stage.addActor(topLeftButton);
-        ///////////////////////
 
         if (ElmourGame.isAndroid()) {
             // capture Android back key so it is not passed on to the OS
@@ -137,16 +120,6 @@ public class MainGameScreen extends GameScreen {
         _mapMgr.setCamera(_camera);
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
-    }
-
-    public void transitionToBattleScreen() {
-        Gdx.gl.glClearColor(255, 255, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -310,9 +283,6 @@ public class MainGameScreen extends GameScreen {
 
         if (ElmourGame.isAndroid())
             mobileControls.render(delta);
-
-        _stage.act(delta);
-        _stage.draw();
     }
 
     @Override
@@ -320,8 +290,6 @@ public class MainGameScreen extends GameScreen {
         //setupViewport(V_WIDTH, V_HEIGHT);
 
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-       //_stage.getViewport().update((int)(width*Map.UNIT_SCALE), (int)(height*Map.UNIT_SCALE), true);
 
         if (_playerHUD != null)
             _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
@@ -354,8 +322,6 @@ public class MainGameScreen extends GameScreen {
 
         AudioManager.getInstance().dispose();
         MapFactory.clearCache();
-
-        _stage.dispose();
     }
 
     public static void setGameState(GameState gameState){

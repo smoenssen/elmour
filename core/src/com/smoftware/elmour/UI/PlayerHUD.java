@@ -41,6 +41,7 @@ import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
@@ -131,6 +132,8 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
+
+        game.battleState.addObserver(this);
 
         isCutScene = false;
 
@@ -926,6 +929,17 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     // transition animation - note: screen transition occurs in render() function.
                     // timing may need to be adjusted in render function
+                    screenSwipe1.setPosition(_stage.getWidth(), _stage.getHeight() - screenSwipe1.getHeight());
+                    screenSwipe2.setPosition(-screenSwipe2.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 2);
+                    screenSwipe3.setPosition(_stage.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 3);
+                    screenSwipe4.setPosition(-screenSwipe4.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 4);
+                    screenSwipe5.setPosition(_stage.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 5);
+                    screenSwipe6.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 6);
+                    screenSwipe7.setPosition(_stage.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 7);
+                    screenSwipe8.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 8);
+                    screenSwipe9.setPosition(_stage.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 9);
+                    screenSwipe10.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - screenSwipe1.getHeight() * 10);
+
                     float transitionTime = 1;
                     screenSwipe1.setVisible(true);
                     screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
@@ -1367,6 +1381,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             float transitionTime = .75f;
             if (elapsedTransitionTime > transitionTime) {
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.BattleScreen));
+                battleScreenTransitionTriggered = false;
             }
         }
         else {
@@ -1508,10 +1523,48 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             case PLAYER_RUNNING:
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
-                _mapMgr.enableCurrentmapMusic();
-                addTransitionToScreen();
+                //_mapMgr.enableCurrentmapMusic();
+                //addTransitionToScreen();
                 //todo
                 //_battleUI.setVisible(false);
+                // transition animation - note: screen transition occurs in render() function.
+                // timing may need to be adjusted in render function
+                float transitionTime = 1;
+                screenSwipe1.setVisible(true);
+                screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                screenSwipe2.setVisible(true);
+                screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                screenSwipe3.setVisible(true);
+                screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                screenSwipe4.setVisible(true);
+                screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                screenSwipe5.setVisible(true);
+                screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                screenSwipe6.setVisible(true);
+                screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                screenSwipe7.setVisible(true);
+                screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                screenSwipe8.setVisible(true);
+                screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                screenSwipe9.setVisible(true);
+                screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
+
+                screenSwipe10.setVisible(true);
+                screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                //addTransitionToScreen();
+
+                //_mapMgr.loadMap(MapFactory.MapType.MAP2);
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+
                 break;
             case PLAYER_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);

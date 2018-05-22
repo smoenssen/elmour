@@ -190,7 +190,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public BattleHUD(ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
+    public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
@@ -908,8 +908,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (currentScreenState == ScreenState.MAIN) {
                                                Gdx.app.log(TAG, "run button up");
-                                               final ElmourGame game_ = game;
-                                               game_.setScreen(game_.getScreenType(ElmourGame.ScreenType.BattleScreen));
+                                               //addTransitionToScreen();
+                                               game.battleState.playerRuns();
+                                               resetControls();
                                            }
                                        }
                                    }
@@ -1979,6 +1980,18 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         _stage.act(delta);
         _stage.draw();
+    }
+
+    public void resetControls() {
+        // reset controls so they rise from the correct location at bottom of the screen
+        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        runButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
     }
 
     @Override
