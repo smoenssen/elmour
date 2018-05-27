@@ -18,7 +18,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private int _currentPlayerAP;
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
-    private final int _chanceOfAttack = 100;
+    private final int _chanceOfAttack = 5;
     private final int _chanceOfEscape = 40;
     private final int _criticalChance = 90;
     private Timer.Task _playerAttackCalculations;

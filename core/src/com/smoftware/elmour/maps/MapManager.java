@@ -141,7 +141,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         }
 
         _currentMap = map;
-            _mapChanged = true;
+        _mapChanged = true;
         clearCurrentSelectedMapEntity();
         Gdx.app.debug(TAG, "Player Start: (" + _currentMap.getPlayerStart().x + "," + _currentMap.getPlayerStart().y + ")");
     }

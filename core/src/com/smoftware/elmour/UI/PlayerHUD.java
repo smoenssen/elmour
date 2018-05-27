@@ -70,8 +70,9 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     //private BattleUI _battleUI;
     private SignPopUp signPopUp;
 
-    boolean battleScreenTransitionTriggered = false;
-    float elapsedTransitionTime = 0;
+    private boolean battleScreenTransitionTriggered = false;
+    private boolean playerComingFromBattle = false;
+    private float elapsedTransitionTime = 0;
     Image screenSwipe1;
     Image screenSwipe2;
     Image screenSwipe3;
@@ -733,6 +734,14 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         _stage.addAction(
                 Actions.sequence(
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
+    }
+
+    public boolean isPlayerComingFromBattle() {
+        return playerComingFromBattle;
+    }
+
+    public void resetPlayerComingFromBattle() {
+        playerComingFromBattle = false;
     }
 
     private boolean isSignPostInteraction(Entity.Interaction interaction) {
@@ -1521,6 +1530,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 //_battleUI.setVisible(false);
                 break;
             case PLAYER_RUNNING:
+                playerComingFromBattle = true;
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                 //_mapMgr.enableCurrentmapMusic();
@@ -1560,9 +1570,6 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 screenSwipe10.setVisible(true);
                 screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
 
-                //addTransitionToScreen();
-
-                //_mapMgr.loadMap(MapFactory.MapType.MAP2);
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
 
                 break;

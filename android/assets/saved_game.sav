@@ -1,11 +1,11 @@
 {
-currentPlayerGP: {
-	class: java.lang.Integer
-	value: 20
-}
 currentPlayerHP: {
 	class: java.lang.Integer
-	value: 50
+	value: -1
+}
+CHARACTER_1: {
+	class: java.lang.String
+	value: Purple Boy
 }
 castleOfDoomMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
@@ -19,18 +19,22 @@ topWorldMapStartPosition: {
 }
 playerEquipInventory: []
 playerQuests: []
-currentPlayerMP: {
+currentPlayerHPMax: {
 	class: java.lang.Integer
 	value: 50
+}
+currentPlayerMP: {
+	class: java.lang.Integer
+	value: -1
 }
 townMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
 	x: 208
 	y: 32
 }
-currentPlayerHPMax: {
+currentPlayerGP: {
 	class: java.lang.Integer
-	value: 50
+	value: -1
 }
 currentPlayerMPMax: {
 	class: java.lang.Integer
@@ -38,109 +42,17 @@ currentPlayerMPMax: {
 }
 currentTime: {
 	class: java.lang.Float
-	value: 43200
+	value: 0
 }
 currentPlayerLevel: {
 	class: java.lang.Integer
-	value: 1
+	value: -1
 }
 playerCurrentPosition: {
 	class: com.badlogic.gdx.math.Vector2
-	x: 14.812385
-	y: 5.450099
+	x: 12.140669
+	y: 5.315994
 }
-playerInventory: [
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		itemTypeAtLocation: ARMOR04
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 1
-		itemTypeAtLocation: BOOTS03
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 2
-		itemTypeAtLocation: HELMET05
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 3
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 4
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 5
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 6
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 7
-		itemTypeAtLocation: SCROLL01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 8
-		itemTypeAtLocation: SCROLL01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 9
-		itemTypeAtLocation: SCROLL01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 10
-		itemTypeAtLocation: SHIELD02
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 11
-		itemTypeAtLocation: WANDS02
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		class: com.smoftware.elmour.UI.InventoryItemLocation
-		locationIndex: 12
-		itemTypeAtLocation: WEAPON01
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-]
 currentPlayerXP: {
 	class: java.lang.Integer
 	value: 0
@@ -157,10 +69,7 @@ playerZLayer: {
 	class: java.lang.String
 	value: ZDOWN
 }
-CHARACTER_1: {
-	class: java.lang.String
-	value: Purple Boy
-}
+playerInventory: []
 CHARACTER_2: {
 	class: java.lang.String
 	value: Girl

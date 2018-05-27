@@ -164,13 +164,20 @@ public class MainGameScreen extends GameScreen {
 
         if( _mapMgr.hasMapChanged() ){
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
-            _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
+
+            if (_playerHUD.isPlayerComingFromBattle()) {
+                // player is coming from battle screen so set back to current position in this screen
+                _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_player.getCurrentPosition()));
+                _playerHUD.resetPlayerComingFromBattle();
+            }
+            else {
+                _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
+            }
 
             _camera.position.set(_mapMgr.getPlayerStartUnitScaled().x, _mapMgr.getPlayerStartUnitScaled().y, 0f);
             _camera.update();
 
-            if (_playerHUD != null)
-                _playerHUD.updateEntityObservers();
+            _playerHUD.updateEntityObservers();
 
             _mapMgr.setMapChanged(false);
 

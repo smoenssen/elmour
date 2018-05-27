@@ -1984,14 +1984,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     public void resetControls() {
         // reset controls so they rise from the correct location at bottom of the screen
-        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        runButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        runButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, 0));
     }
 
     @Override
