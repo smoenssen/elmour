@@ -107,6 +107,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private Table leftNameTable;
     private MyTextArea leftTextArea;
+    private int numberOfOpponents = 0;
     private Label monster1Name;
     private Label monster2Name;
     private Label monster3Name;
@@ -290,19 +291,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftTextArea.setVisible(true);
 
         monster1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster1Name.setText("Royal Guard");
+        monster1Name.setText("");
 
         monster2Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster2Name.setText("Scooby Doo");
+        monster2Name.setText("");
 
         monster3Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster3Name.setText("Octomaniac");
+        monster3Name.setText("");
 
         monster4Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster4Name.setText("Burping Crow");
+        monster4Name.setText("");
 
         monster5Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster5Name.setText("Giant Blob");
+        monster5Name.setText("");
 
         leftNameTable = new Table();
 
@@ -1992,6 +1993,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
         rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, 0));
         rightTable.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+
+        // reset other variables
+        monster1Name.setText("");
+        monster2Name.setText("");
+        monster3Name.setText("");
+        monster4Name.setText("");
+        monster5Name.setText("");
+
+        for (int i = 1; i <= numberOfOpponents; i++) {
+            battleScreen.removeOpponent(i);
+        }
+
+        numberOfOpponents = 0;
     }
 
     @Override
@@ -2060,7 +2074,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             case OPPONENT_ADDED:
-                battleScreen.addOpponent(enemyEntity);
+                Gdx.app.log(TAG, "Opponent added: " + enemyEntity.getEntityConfig().getEntityID().toString());
+                numberOfOpponents++;
+                battleScreen.addOpponent(enemyEntity, numberOfOpponents);
+
+                if (numberOfOpponents == 1)
+                    monster1Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                else if (numberOfOpponents == 2)
+                    monster2Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                else if (numberOfOpponents == 3)
+                    monster3Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                else if (numberOfOpponents == 4)
+                    monster4Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                else if (numberOfOpponents == 5)
+                    monster5Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
                 /*
                 _image.setEntity(enemyEntity);
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);

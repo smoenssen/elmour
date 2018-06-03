@@ -21,13 +21,15 @@ public class MonsterFactory {
     private static MonsterFactory _instance = null;
     private Hashtable<String, Entity> _entities;
     private Hashtable<String, Array<MonsterEntityType>> monsterGroups;
-    private Hashtable<String, Array<MonsterGroupType>> _monsterZones;
+    private Hashtable<String, Array<MonsterGroupType>> _monsterZoneGroups;
+    private Hashtable<String, MonsterZone> monsterZones;
 
     private MonsterFactory(){
         Array<EntityConfig> configs = Entity.getEntityConfigs("scripts/monsters.json");
         _entities =  Entity.initEntities(configs);
         monsterGroups = MonsterGroup.getMonsterGroups("scripts/monster_groups.json");
-        _monsterZones = MonsterZone.getMonsterZones("scripts/monster_zones.json");
+        _monsterZoneGroups = MonsterZone.getMonsterZoneGroups("scripts/monster_zones.json");
+        monsterZones = MonsterZone.getMonsterZones("scripts/monster_zones.json");
     }
 
     public static MonsterFactory getInstance() {
@@ -46,12 +48,13 @@ public class MonsterFactory {
     public MonsterGroup getMonsterGroup(MonsterGroupType monsterGroupType){
         Array<MonsterEntityType> group = monsterGroups.get(monsterGroupType.toString());
         MonsterGroup monsters = new MonsterGroup();
+        monsters.setGroupID(monsterGroupType.toString());
         monsters.setMonsters(group);
         return monsters;
     }
 
     public MonsterGroup getRandomMonsterGroup(int monsterZoneID){
-        Array<MonsterGroupType> groups = _monsterZones.get(String.valueOf(monsterZoneID));
+        Array<MonsterGroupType> groups = _monsterZoneGroups.get(String.valueOf(monsterZoneID));
         int size = groups.size;
         if( size == 0 ){
             return null;
@@ -61,4 +64,7 @@ public class MonsterFactory {
         return getMonsterGroup(groups.get(randomIndex));
     }
 
+    public MonsterZone getMonsterZone(String zoneID) {
+        return monsterZones.get(zoneID);
+    }
 }

@@ -345,7 +345,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //
         if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr) &&
             (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
-            updatePosition(entity, mapMgr);
+            updatePosition(entity, mapMgr, delta);
         }
         else if (ElmourGame.isAndroid() && (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
             // check if okay to move next vertical or horizontal position based on joystick position
@@ -353,13 +353,13 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             calculateNextVerticalPosition(delta);
             updateBoundingBoxPosition(_nextEntityPosition);
             if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
-                updatePosition(entity, mapMgr);
+                updatePosition(entity, mapMgr, delta);
             }
             else {
                 calculateNextHorizontalPosition(delta);
                 updateBoundingBoxPosition(_nextEntityPosition);
                 if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
-                    updatePosition(entity, mapMgr);
+                    updatePosition(entity, mapMgr, delta);
                 }
                 else {
                     updateBoundingBoxPosition(_currentEntityPosition);
@@ -367,6 +367,10 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
         else {
+
+            if (_state != Entity.State.WALKING && _state != Entity.State.RUNNING) {
+                actualVelocityVector.scl(0);
+            }
 
             if (isConversationInProgress) {
                 // face the NPC based on selection angle between player and NPC
@@ -387,14 +391,19 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             updateBoundingBoxPosition(_currentEntityPosition);
         }
 
+        actualVelocity = (float)Math.sqrt((actualVelocityVector.x * actualVelocityVector.x) + (actualVelocityVector.y * actualVelocityVector.y));
+
+        //Gdx.app.log(TAG, String.format("velocity.x = %2.3f, velocity.y = %2.3f", actualVelocityVector.x, actualVelocityVector.y));
+        //Gdx.app.log(TAG, String.format("actual velocity = %2.3f", actualVelocity));
+
         calculateNextPosition(delta);
     }
 
-    private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr) {
+    private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         // Don't allow movement if conversation is in progress
         // NOTE: this is just a fail safe: this function should never get called during a conversation
         if (!isConversationInProgress) {
-            setNextPositionToCurrent(entity);
+            setNextPositionToCurrent(entity, delta);
 
             Camera camera = mapMgr.getCamera();
             camera.position.set(_currentEntityPosition.x, _currentEntityPosition.y, 0f);

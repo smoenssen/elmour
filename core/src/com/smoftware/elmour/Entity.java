@@ -295,6 +295,8 @@ public class Entity {
 		}
 	}
 
+	public float getActualVelocity() { return _physicsComponent.getActualVelocity(); }
+
 	public Rectangle getCurrentBoundingBox(){
 		return _physicsComponent._boundingBox;
 	}

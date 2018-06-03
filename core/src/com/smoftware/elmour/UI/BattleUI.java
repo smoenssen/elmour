@@ -98,9 +98,10 @@ public class BattleUI extends Window implements BattleObserver {
     }
 
     public void battleZoneTriggered(int battleZoneValue){
-        _battleState.setCurrentZoneLevel(battleZoneValue);
+        _battleState.setCurrentZone(battleZoneValue);
     }
 
+    /*
     public boolean isBattleReady(){
         if( _battleTimer > _checkTimer ){
             _battleTimer = 0;
@@ -109,7 +110,7 @@ public class BattleUI extends Window implements BattleObserver {
             return false;
         }
     }
-
+*/
     public BattleState getCurrentState(){
         return _battleState;
     }

@@ -15,11 +15,16 @@ public class MonsterZone {
     private int maxLevel;
     private int deviance;
 
-    private Array<MonsterFactory.MonsterGroupType> groups;
-
     public String getZoneID() {
         return zoneID;
     }
+    public int getMinTime() { return minTime; }
+    public int getMaxTime() { return maxTime; }
+    public int getminLevel() { return minLevel; }
+    public int getmaxLevel() { return maxLevel; }
+    public int getDeviance() { return deviance; }
+
+    private Array<MonsterFactory.MonsterGroupType> groups;
 
     public void setZoneID(String zoneID) {
         this.zoneID = zoneID;
@@ -33,15 +38,29 @@ public class MonsterZone {
         this.groups = groups;
     }
 
-    static public Hashtable<String, Array<MonsterFactory.MonsterGroupType>> getMonsterZones(String configFilePath){
+    static public Hashtable<String, Array<MonsterFactory.MonsterGroupType>> getMonsterZoneGroups(String configFilePath){
         Json json = new Json();
-        Hashtable<String, Array<MonsterFactory.MonsterGroupType>> monsterZones = new Hashtable<String, Array<MonsterFactory.MonsterGroupType>>();
+        Hashtable<String, Array<MonsterFactory.MonsterGroupType>> monsterZoneGroups = new Hashtable<String, Array<MonsterFactory.MonsterGroupType>>();
 
         ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
 
         for (JsonValue jsonVal : list) {
             MonsterZone zone = json.readValue(MonsterZone.class, jsonVal);
-            monsterZones.put(zone.getZoneID(), zone.getGroups());
+            monsterZoneGroups.put(zone.getZoneID(), zone.getGroups());
+        }
+
+        return monsterZoneGroups;
+    }
+
+    static public Hashtable<String, MonsterZone> getMonsterZones(String configFilePath){
+        Json json = new Json();
+        Hashtable<String, MonsterZone> monsterZones = new Hashtable<String, MonsterZone>();
+
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
+
+        for (JsonValue jsonVal : list) {
+            MonsterZone zone = json.readValue(MonsterZone.class, jsonVal);
+            monsterZones.put(zone.getZoneID(), zone);
         }
 
         return monsterZones;

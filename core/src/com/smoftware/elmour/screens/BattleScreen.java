@@ -23,6 +23,7 @@ import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -159,11 +160,11 @@ public class BattleScreen extends MainGameScreen {
 
         douglas = getAnimatedImage(EntityFactory.EntityName.DOUGLAS);
 
-        //enemy1 = new AnimatedImage();
-        //enemy2 = new AnimatedImage();
+        enemy1 = new AnimatedImage();
+        enemy2 = new AnimatedImage();
         enemy3 = new AnimatedImage();
-        //enemy4 = new AnimatedImage();
-        //enemy5 = new AnimatedImage();
+        enemy4 = new AnimatedImage();
+        enemy5 = new AnimatedImage();
 
         _transitionActor = new ScreenTransitionActor();
 
@@ -174,7 +175,7 @@ public class BattleScreen extends MainGameScreen {
         _stage.addActor(carmen);
         //_stage.addActor(enemy1);
         //_stage.addActor(enemy2);
-        _stage.addActor(douglas);
+        //_stage.addActor(enemy3);
         //_stage.addActor(enemy4);
         //_stage.addActor(enemy5);
         _stage.addActor(_transitionActor);
@@ -226,11 +227,25 @@ public class BattleScreen extends MainGameScreen {
                 party5.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party5.setCurrentDirection(Entity.Direction.LEFT);
 
-                enemy3 = douglas;
+                enemy1.setSize(1, 1);
+                enemy1.setVisible(true);
+                enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
+
+                enemy2.setSize(1, 1);
+                enemy2.setVisible(true);
+                enemy2.setPosition(getStartPosition("E2").x, getStartPosition("E2").y);
+
+                enemy3.setSize(1, 1);
                 enemy3.setVisible(true);
                 enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
-                enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                enemy3.setCurrentDirection(Entity.Direction.RIGHT);
+
+                enemy4.setSize(1, 1);
+                enemy4.setVisible(true);
+                enemy4.setPosition(getStartPosition("E4").x, getStartPosition("E4").y);
+
+                enemy5.setSize(1, 1);
+                enemy5.setVisible(true);
+                enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
             }
         };
     }
@@ -372,6 +387,11 @@ public class BattleScreen extends MainGameScreen {
         return setEntityAnimation(entity);
     }
 
+    private AnimatedImage getAnimatedImage(MonsterFactory.MonsterEntityType entityName){
+        Entity entity = MonsterFactory.getInstance().getMonster(entityName);
+        return setEntityAnimation(entity);
+    }
+
     private AnimatedImage setEntityAnimation(Entity entity){
         final AnimatedImage animEntity = new AnimatedImage();
         animEntity.setEntity(entity);
@@ -436,16 +456,61 @@ public class BattleScreen extends MainGameScreen {
         return position;
     }
 
-    public void addOpponent(Entity enemyEntity) {
-        //todo: add opponents into enemy slots
-        //note: adding here instead of setupBattleScene results in position and size issue
-        /*
-        enemy3 = douglas;
-        enemy3.setEntity(enemyEntity);
-        enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
-        enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
-        enemy3.setCurrentDirection(Entity.Direction.RIGHT);
-        enemy3.setVisible(true);
-*/
+    public void addOpponent(Entity enemyEntity, int index) {
+
+        switch (index) {
+            case 1:
+                enemy1.setEntity(enemyEntity);
+                enemy1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy1.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy1);
+                break;
+            case 2:
+                enemy2.setEntity(enemyEntity);
+                enemy2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy2.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy2);
+                break;
+            case 3:
+                enemy3.setEntity(enemyEntity);
+                enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy3.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy3);
+                break;
+            case 4:
+                enemy4.setEntity(enemyEntity);
+                enemy4.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy4.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy4);
+                break;
+            case 5:
+                enemy5.setEntity(enemyEntity);
+                enemy5.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                enemy5.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy5);
+                break;
+        }
+    }
+
+    public void removeOpponent(int index) {
+
+        // remove actor from the stage
+        switch (index) {
+            case 1:
+                enemy1.remove();
+                break;
+            case 2:
+                enemy2.remove();
+                break;
+            case 3:
+                enemy3.remove();
+                break;
+            case 4:
+                enemy4.remove();
+                break;
+            case 5:
+                enemy5.remove();
+                break;
+        }
     }
 }

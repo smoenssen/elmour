@@ -123,7 +123,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         //Player has moved
         if( previousPosition.x != _currentPosition.x ||
                 previousPosition.y != _currentPosition.y){
-            notify("", ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
+            notify(Float.toHexString(delta), ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
             previousPosition = _currentPosition.cpy();
         }
 

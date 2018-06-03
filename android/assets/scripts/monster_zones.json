@@ -1,7 +1,7 @@
 [
 {
 zoneID : 1
-minTime: 100
+minTime: 10
 maxTime: 1000
 minLevel: 1
 maxLevel: 5
@@ -9,6 +9,12 @@ deviance: 1
 groups: [
 	{
 		value: GROUP001
+	}
+	{
+		value: GROUP002
+	}
+	{
+		value: GROUP003
 	}
 ]
 },

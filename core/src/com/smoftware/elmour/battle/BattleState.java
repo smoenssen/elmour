@@ -18,12 +18,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private int _currentPlayerAP;
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
-    private final int _chanceOfAttack = 5;
-    private final int _chanceOfEscape = 40;
-    private final int _criticalChance = 90;
     private Timer.Task _playerAttackCalculations;
     private Timer.Task _opponentAttackCalculations;
     private Timer.Task _checkPlayerMagicUse;
+    private MonsterZone currentMonsterZone;
+    private boolean inBattle = false;
+
+    private float battleCountDown = 0;
 
     public BattleState(){
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
@@ -41,52 +42,67 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _playerAttackCalculations.cancel();
         _opponentAttackCalculations.cancel();
         _checkPlayerMagicUse.cancel();
+        inBattle = false;
     }
 
-    public void setCurrentZoneLevel(int zoneLevel){
+    public void setCurrentZone(int zoneLevel){
         _currentZoneLevel = zoneLevel;
+
+        if (zoneLevel > 0) {
+            currentMonsterZone = MonsterFactory.getInstance().getMonsterZone(Integer.toString(zoneLevel));
+        }
     }
 
     public int getCurrentZoneLevel(){
         return _currentZoneLevel;
     }
 
-    public boolean isOpponentReady(){
-        if( _currentZoneLevel == 0 ) return false;
-        int randomVal = MathUtils.random(1,100);
-
-        Gdx.app.log(TAG, "CHANCE OF ATTACK: " + _chanceOfAttack + " randomval: " + randomVal);
-
-        if( _chanceOfAttack > randomVal  ){
-            setCurrentOpponentList();
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     public void battleZoneTriggered(int battleZoneValue){
-        setCurrentZoneLevel(battleZoneValue);
+        Gdx.app.debug(TAG, String.format("battleZoneTriggered: zone = %d", battleZoneValue));
+        setCurrentZone(battleZoneValue);
+        inBattle = false;
     }
 
-    public boolean isBattleReady(){
+    public boolean isBattleReady(float playerVelocity, float delta){
 
-        return isOpponentReady();
-        /*
-        if( _battleTimer > _checkTimer ){
-            _battleTimer = 0;
-            return isOpponentReady();
-        }else{
+        if (currentMonsterZone == null || _currentZoneLevel == 0 || inBattle) { return false; }
+
+        if (battleCountDown <= 0) {
+            // start new countdown
+            battleCountDown = currentMonsterZone.getMaxTime();
+        }
+        else {
+            // generate random number between min and max zone times
+            int randomVal = MathUtils.random(currentMonsterZone.getMinTime(), currentMonsterZone.getMaxTime());
+
+            // if lower than number previously generated, then override that number
+            if (randomVal < battleCountDown) {
+                battleCountDown = randomVal;
+            }
+        }
+
+        // take generated value and subtract velocity/frame rate
+        float frameRate = 1/delta;
+        battleCountDown -= playerVelocity/frameRate;
+
+        Gdx.app.log(TAG, String.format("BATTLE COUNTDOWN: %3.2f", battleCountDown));
+
+        // when countdown is negative, then battle is ready
+        if (battleCountDown < 0) {
+            inBattle = true;
+            return true;
+        }
+        else {
             return false;
         }
-        */
     }
 
     public void setCurrentOpponentList(){
-        Gdx.app.log(TAG, "Entered BATTLE ZONE: " + _currentZoneLevel);
         currentOpponentList.clear();
         MonsterGroup monsterGroup = MonsterFactory.getInstance().getRandomMonsterGroup(_currentZoneLevel);
         Array<MonsterFactory.MonsterEntityType> monsterEntityTypes = monsterGroup.getMonsters();
+
+        Gdx.app.log(TAG, "Setting current opponent list to: " + monsterGroup.getGroupID().toString());
 
         for (MonsterFactory.MonsterEntityType entityType : monsterEntityTypes) {
             Entity entity = MonsterFactory.getInstance().getMonster(entityType);

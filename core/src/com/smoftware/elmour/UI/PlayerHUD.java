@@ -927,12 +927,14 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 updateEntityObservers();
                 break;
             case ENEMY_SPAWN_LOCATION_CHANGED:
+                Gdx.app.debug(TAG, "ENEMY_SPAWN_LOCATION_CHANGED");
                 String enemyZoneID = value;
                 game.battleState.battleZoneTriggered(Integer.parseInt(enemyZoneID));
                 break;
             case PLAYER_HAS_MOVED:
-                if( game.battleState.isBattleReady() && !battleScreenTransitionTriggered){
+                if( game.battleState.isBattleReady(_player.getActualVelocity(), Float.parseFloat(value)) && !battleScreenTransitionTriggered){
                     battleScreenTransitionTriggered = true;
+                    game.battleState.setCurrentOpponentList();
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
 

@@ -2,7 +2,8 @@
 
 once in zone, check velocity and do velocity/frame rate
 1/delta = frame rate
-generate a number between zone min and max and if lower than number previously generated, then override that number (default to max int value to start)
+generate a number between zone min and max and if lower than number previously generated, then override that number
+(default to max int value to start)
 every frame, take generated value and subtract velocity/frame rate
 when that number reaches less than zero then initiate battle sequence
 

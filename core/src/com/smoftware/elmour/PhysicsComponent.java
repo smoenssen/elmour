@@ -1,8 +1,6 @@
 package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapManager;
 
 public abstract class PhysicsComponent extends ComponentSubject implements Component{
@@ -27,6 +24,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Vector2 currentJoystickPosition;
     protected Json _json;
     protected Vector2 _velocity;
+    protected Vector2 actualVelocityVector;
+    protected float actualVelocity;
     protected boolean isRunning;
     protected boolean isNPC;
     protected boolean isConversationInProgress;
@@ -56,6 +55,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         else
             this._velocity = new Vector2(2f,2f);
 
+        actualVelocityVector = new Vector2(0, 0);
+        actualVelocity = 0;
+
         isRunning = false;
         isNPC = false;
         isConversationInProgress = false;
@@ -70,6 +72,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     }
 
     public float getSelectionAngle() { return selectionAngle; }
+
+    public float getActualVelocity() { return actualVelocity; }
 
     protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         _tempEntities.clear();
@@ -266,7 +270,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
-    protected void setNextPositionToCurrent(Entity entity){
+    protected void setNextPositionToCurrent(Entity entity, float delta){
+        // calculate actual velocity
+        actualVelocityVector.x = (_nextEntityPosition.x - _currentEntityPosition.x)/delta;
+        actualVelocityVector.y = (_nextEntityPosition.y - _currentEntityPosition.y)/delta;
+
         this._currentEntityPosition.x = _nextEntityPosition.x;
         this._currentEntityPosition.y = _nextEntityPosition.y;
 

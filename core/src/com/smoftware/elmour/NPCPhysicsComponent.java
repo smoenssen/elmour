@@ -87,7 +87,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
             if (!isCollisionWithMapLayer(entity, mapMgr) &&
                     !isCollisionWithMapEntities(entity, mapMgr) &&
                     (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
-                setNextPositionToCurrent(entity);
+                setNextPositionToCurrent(entity, delta);
             } else {
                 // when hitting obstacle, make NPC idle, otherwise it sometimes looks like it's walking in place
                 _state = Entity.State.IDLE;

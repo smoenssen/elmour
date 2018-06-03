@@ -195,6 +195,201 @@ animationConfig: [
 },
 
 {
+entityID : Octomaniac
+state : IMMOBILE
+direction : RIGHT
+itemTypeID: NONE
+entityProperties: {
+	HP: {
+		class: java.lang.String
+		value: 15
+	}
+	ATK: {
+		class: java.lang.String
+		value: 7
+	}
+	MagicATK: {
+		class: java.lang.String
+		value: 45
+	}
+	DEF: {
+		class: java.lang.String
+		value: 15
+	}
+	MagicDEF: {
+		class: java.lang.String
+		value: 35
+	}
+	SPD: {
+		class: java.lang.String
+		value: 38
+	}
+	ACC: {
+		class: java.lang.String
+		value: 10
+	}
+	LCK: {
+		class: java.lang.String
+		value: 75
+	}
+	AVO: {
+		class: java.lang.String
+		value: 5
+	}
+	XP_REWARD: {
+		class: java.lang.String
+		value: 15
+	}
+	DIBS_REWARD: {
+		class: java.lang.String
+		value: 15
+	}
+}
+rewardItems: [
+	{
+		item: ARMOR01
+		probability: 4
+	}
+	{
+		item: ARMOR02
+		probability: 3
+	}
+]
+animationConfig: [
+	{
+	    frameDuration: 0.25
+		animationType: IDLE
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+
+			{
+				x: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
+			}
+		]
+	}
+	{
+	    frameDuration: 0.25
+		animationType: WALK_DOWN
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+
+			{
+				x: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_LEFT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+
+			{
+				x: 1
+				y: 1
+			}
+			{
+			    x: 1
+				y: 2
+			}
+			{
+			    x: 1
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_RIGHT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+
+			{
+				x: 2
+				y: 1
+			}
+			{
+			    x: 2
+				y: 2
+			}
+			{
+			    x: 2
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_UP
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+
+			{
+				x: 3
+				y: 1
+			}
+			{
+			    x: 3
+				y: 2
+			}
+			{
+			    x: 3
+				y: 3
+			}
+		]
+	}
+]
+},
+
+{
 entityID : Goblin
 state : IMMOBILE
 direction : RIGHT
@@ -257,11 +452,10 @@ rewardItems: [
 ]
 animationConfig: [
 	{
-	    frameDuration: .5
+	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-				sprites/characters/Demon0.png
-				sprites/characters/Demon1.png
+			sprites/characters/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -271,16 +465,23 @@ animationConfig: [
 
 			{
 				x: 0
-				y: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
 			}
 		]
 	}
 	{
-	    frameDuration: .5
-		animationType: IMMOBILE
+	    frameDuration: 0.25
+		animationType: WALK_DOWN
 		texturePaths: [
-				sprites/characters/Demon0.png
-				sprites/characters/Demon1.png
+			sprites/characters/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -290,7 +491,93 @@ animationConfig: [
 
 			{
 				x: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_LEFT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 1
 				y: 0
+			}
+
+			{
+				x: 1
+				y: 1
+			}
+			{
+			    x: 1
+				y: 2
+			}
+			{
+			    x: 1
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_RIGHT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+
+			{
+				x: 2
+				y: 1
+			}
+			{
+			    x: 2
+				y: 2
+			}
+			{
+			    x: 2
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_UP
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+
+			{
+				x: 3
+				y: 1
+			}
+			{
+			    x: 3
+				y: 2
+			}
+			{
+			    x: 3
+				y: 3
 			}
 		]
 	}
@@ -359,11 +646,10 @@ animationConfig: [
 	]
 	animationConfig: [
 		{
-		    frameDuration: .5
+		    frameDuration: 0.25
 			animationType: IDLE
 			texturePaths: [
-					sprites/characters/Demon0.png
-					sprites/characters/Demon1.png
+				sprites/characters/Douglas.png
 			]
 			gridPoints: [
 				{
@@ -373,16 +659,23 @@ animationConfig: [
 
 				{
 					x: 0
-					y: 0
+					y: 1
+				}
+				{
+				    x: 0
+					y: 2
+				}
+				{
+				    x: 0
+					y: 3
 				}
 			]
 		}
 		{
-		    frameDuration: .5
-			animationType: IMMOBILE
+		    frameDuration: 0.25
+			animationType: WALK_DOWN
 			texturePaths: [
-					sprites/characters/Demon0.png
-					sprites/characters/Demon1.png
+				sprites/characters/Douglas.png
 			]
 			gridPoints: [
 				{
@@ -392,7 +685,93 @@ animationConfig: [
 
 				{
 					x: 0
+					y: 1
+				}
+				{
+				    x: 0
+					y: 2
+				}
+				{
+				    x: 0
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_LEFT
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 1
 					y: 0
+				}
+
+				{
+					x: 1
+					y: 1
+				}
+				{
+				    x: 1
+					y: 2
+				}
+				{
+				    x: 1
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_RIGHT
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 2
+					y: 0
+				}
+
+				{
+					x: 2
+					y: 1
+				}
+				{
+				    x: 2
+					y: 2
+				}
+				{
+				    x: 2
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_UP
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 3
+					y: 0
+				}
+
+				{
+					x: 3
+					y: 1
+				}
+				{
+				    x: 3
+					y: 2
+				}
+				{
+				    x: 3
+					y: 3
 				}
 			]
 		}
@@ -461,11 +840,10 @@ animationConfig: [
 	]
 	animationConfig: [
 		{
-		    frameDuration: .5
+		    frameDuration: 0.25
 			animationType: IDLE
 			texturePaths: [
-					sprites/characters/Demon0.png
-					sprites/characters/Demon1.png
+				sprites/characters/Douglas.png
 			]
 			gridPoints: [
 				{
@@ -475,16 +853,23 @@ animationConfig: [
 
 				{
 					x: 0
-					y: 0
+					y: 1
+				}
+				{
+				    x: 0
+					y: 2
+				}
+				{
+				    x: 0
+					y: 3
 				}
 			]
 		}
 		{
-		    frameDuration: .5
-			animationType: IMMOBILE
+		    frameDuration: 0.25
+			animationType: WALK_DOWN
 			texturePaths: [
-					sprites/characters/Demon0.png
-					sprites/characters/Demon1.png
+				sprites/characters/Douglas.png
 			]
 			gridPoints: [
 				{
@@ -494,7 +879,93 @@ animationConfig: [
 
 				{
 					x: 0
+					y: 1
+				}
+				{
+				    x: 0
+					y: 2
+				}
+				{
+				    x: 0
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_LEFT
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 1
 					y: 0
+				}
+
+				{
+					x: 1
+					y: 1
+				}
+				{
+				    x: 1
+					y: 2
+				}
+				{
+				    x: 1
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_RIGHT
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 2
+					y: 0
+				}
+
+				{
+					x: 2
+					y: 1
+				}
+				{
+				    x: 2
+					y: 2
+				}
+				{
+				    x: 2
+					y: 3
+				}
+			]
+		}
+		{
+			frameDuration: 0.25
+			animationType: WALK_UP
+			texturePaths: [
+				sprites/characters/Douglas.png
+			]
+			gridPoints: [
+				{
+					x: 3
+					y: 0
+				}
+
+				{
+					x: 3
+					y: 1
+				}
+				{
+				    x: 3
+					y: 2
+				}
+				{
+				    x: 3
+					y: 3
 				}
 			]
 		}

@@ -166,7 +166,7 @@ public class MainGameScreen extends GameScreen {
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
 
             if (_playerHUD.isPlayerComingFromBattle()) {
-                // player is coming from battle screen so set back to current position in this screen
+                // player is coming from battle screen so set him back to current position in this screen
                 _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_player.getCurrentPosition()));
                 _playerHUD.resetPlayerComingFromBattle();
             }
