@@ -63,6 +63,7 @@ public class BattleScreen extends MainGameScreen {
     private BattleControls battleControls;
 
     private boolean isInConversation = false;
+    private boolean isFirstTime = true;
 
     private Viewport _viewport;
     private Stage _stage;
@@ -71,14 +72,6 @@ public class BattleScreen extends MainGameScreen {
     private Action openBattleSceneAction;
     private Action _switchScreenAction;
     private Action setupBattleScene;
-
-
-    private AnimatedImage character1;
-    private AnimatedImage character2;
-    private AnimatedImage justin;
-    private AnimatedImage jaxon;
-    private AnimatedImage carmen;
-    private AnimatedImage douglas;
 
     private AnimatedImage party1;
     private AnimatedImage party2;
@@ -152,13 +145,11 @@ public class BattleScreen extends MainGameScreen {
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
 
-        character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
-        character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
-        justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
-        jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON);
-        carmen = getAnimatedImage(EntityFactory.EntityName.CARMEN);
-
-        douglas = getAnimatedImage(EntityFactory.EntityName.DOUGLAS);
+        party1 = new AnimatedImage();
+        party2 = new AnimatedImage();
+        party3 = new AnimatedImage();
+        party4 = new AnimatedImage();
+        party5 = new AnimatedImage();
 
         enemy1 = new AnimatedImage();
         enemy2 = new AnimatedImage();
@@ -168,16 +159,6 @@ public class BattleScreen extends MainGameScreen {
 
         _transitionActor = new ScreenTransitionActor();
 
-        _stage.addActor(character1);
-        _stage.addActor(character2);
-        _stage.addActor(justin);
-        _stage.addActor(jaxon);
-        _stage.addActor(carmen);
-        //_stage.addActor(enemy1);
-        //_stage.addActor(enemy2);
-        //_stage.addActor(enemy3);
-        //_stage.addActor(enemy4);
-        //_stage.addActor(enemy5);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -196,55 +177,57 @@ public class BattleScreen extends MainGameScreen {
                 _mapMgr.disableCurrentmapMusic();
                 _camera.position.set(10, 6, 0f);
 
-                party1 = character1;
-                party2 = character2;
-                party3 = justin;
-                party4 = jaxon;
-                party5 = carmen;
+                float characterWidth = 1.1f;
+                float characterHeight = 1.1f;
 
+                party1.setSize(characterWidth, characterHeight);
                 party1.setVisible(true);
+                party1.addAction(Actions.fadeOut(0));
                 party1.setPosition(getStartPosition("P1").x, getStartPosition("P1").y);
-                party1.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                party1.setCurrentDirection(Entity.Direction.LEFT);
 
+                party2.setSize(characterWidth, characterHeight);
                 party2.setVisible(true);
+                party2.addAction(Actions.fadeOut(0));
                 party2.setPosition(getStartPosition("P2").x, getStartPosition("P2").y);
-                party2.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                party2.setCurrentDirection(Entity.Direction.LEFT);
 
+                party3.setSize(characterWidth, characterHeight);
                 party3.setVisible(true);
+                party3.addAction(Actions.fadeOut(0));
                 party3.setPosition(getStartPosition("P3").x, getStartPosition("P3").y);
-                party3.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                party3.setCurrentDirection(Entity.Direction.LEFT);
 
+                party4.setSize(characterWidth, characterHeight);
                 party4.setVisible(true);
+                party4.addAction(Actions.fadeOut(0));
                 party4.setPosition(getStartPosition("P4").x, getStartPosition("P4").y);
-                party4.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                party4.setCurrentDirection(Entity.Direction.LEFT);
 
+                party5.setSize(characterWidth, characterHeight);
                 party5.setVisible(true);
+                party5.addAction(Actions.fadeOut(0));
                 party5.setPosition(getStartPosition("P5").x, getStartPosition("P5").y);
-                party5.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                party5.setCurrentDirection(Entity.Direction.LEFT);
 
-                enemy1.setSize(1, 1);
+                enemy1.setSize(characterWidth, characterHeight);
                 enemy1.setVisible(true);
+                enemy1.addAction(Actions.fadeOut(0));
                 enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
 
-                enemy2.setSize(1, 1);
+                enemy2.setSize(characterWidth, characterHeight);
                 enemy2.setVisible(true);
+                enemy2.addAction(Actions.fadeOut(0));
                 enemy2.setPosition(getStartPosition("E2").x, getStartPosition("E2").y);
 
-                enemy3.setSize(1, 1);
+                enemy3.setSize(characterWidth, characterHeight);
                 enemy3.setVisible(true);
+                enemy3.addAction(Actions.fadeOut(0));
                 enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
 
-                enemy4.setSize(1, 1);
+                enemy4.setSize(characterWidth, characterHeight);
                 enemy4.setVisible(true);
+                enemy4.addAction(Actions.fadeOut(0));
                 enemy4.setPosition(getStartPosition("E4").x, getStartPosition("E4").y);
 
-                enemy5.setSize(1, 1);
+                enemy5.setSize(characterWidth, characterHeight);
                 enemy5.setVisible(true);
+                enemy5.addAction(Actions.fadeOut(0));
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
             }
         };
@@ -264,11 +247,37 @@ public class BattleScreen extends MainGameScreen {
         if( _mapRenderer == null ){
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
+
+        float fadeTime = 0.5f;
+        party1.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        party2.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        party3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        party4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        party5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        enemy1.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        enemy2.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        enemy3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        enemy4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        enemy5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
     }
 
     @Override
     public void hide() {
+
         Gdx.input.setInputProcessor(null);
+
+        party1.addAction(Actions.fadeOut(0));
+        party2.addAction(Actions.fadeOut(0));
+        party3.addAction(Actions.fadeOut(0));
+        party4.addAction(Actions.fadeOut(0));
+        party5.addAction(Actions.fadeOut(0));
+        enemy1.addAction(Actions.fadeOut(0));
+        enemy2.addAction(Actions.fadeOut(0));
+        enemy3.addAction(Actions.fadeOut(0));
+        enemy4.addAction(Actions.fadeOut(0));
+        enemy5.addAction(Actions.fadeOut(0));
+
+        isFirstTime = true;
     }
 
     @Override
@@ -286,7 +295,13 @@ public class BattleScreen extends MainGameScreen {
             _mapMgr.setMapChanged(false);
         }
 
-        _mapRenderer.render();
+        // this is to fix an issue with the wrong map being flashed for the first frame
+        if (!isFirstTime) {
+            _mapRenderer.render();
+        }
+        else {
+            isFirstTime = false;
+        }
 
         _camera.update();
 
@@ -378,8 +393,12 @@ public class BattleScreen extends MainGameScreen {
         setupBattleScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupBattleScene),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor)
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor)
         );
+    }
+
+    public void fadeOut() {
+        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor);
     }
 
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
@@ -454,6 +473,63 @@ public class BattleScreen extends MainGameScreen {
             }
         }
         return position;
+    }
+
+    public void addPartyMember(Entity partyEntity, int index) {
+        switch (index) {
+            case 1:
+                party1.setEntity(partyEntity);
+                party1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                party1.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party1);
+                break;
+            case 2:
+                party2.setEntity(partyEntity);
+                party2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                party2.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party2);
+                break;
+            case 3:
+                party3.setEntity(partyEntity);
+                party3.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                party3.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party3);
+                break;
+            case 4:
+                party4.setEntity(partyEntity);
+                party4.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                party4.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party4);
+                break;
+            case 5:
+                party5.setEntity(partyEntity);
+                party5.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                party5.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party5);
+                break;
+        }
+    }
+
+    public void removePartyMember(int index) {
+
+        // remove actor from the stage
+        switch (index) {
+            case 1:
+                party1.remove();
+                break;
+            case 2:
+                party2.remove();
+                break;
+            case 3:
+                party3.remove();
+                break;
+            case 4:
+                party4.remove();
+                break;
+            case 5:
+                party5.remove();
+                break;
+        }
     }
 
     public void addOpponent(Entity enemyEntity, int index) {

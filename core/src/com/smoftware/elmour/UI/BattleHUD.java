@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -29,6 +30,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.Utility;
@@ -36,7 +38,6 @@ import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.battle.BattleObserver;
-import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
@@ -108,6 +109,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Table leftNameTable;
     private MyTextArea leftTextArea;
     private int numberOfOpponents = 0;
+    private int numberOfPartyMembers = 0;
     private Label monster1Name;
     private Label monster2Name;
     private Label monster3Name;
@@ -150,6 +152,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Label party3Name;
     private Label party4Name;
     private Label party5Name;
+
+    private WidgetGroup groupHp1;
+    private WidgetGroup groupMp1;
+    private WidgetGroup groupHp2;
+    private WidgetGroup groupMp2;
+    private WidgetGroup groupHp3;
+    private WidgetGroup groupMp3;
+    private WidgetGroup groupHp4;
+    private WidgetGroup groupMp4;
+    private WidgetGroup groupHp5;
+    private WidgetGroup groupMp5;
 
     private Image hpBar1;
     private Image mpBar1;
@@ -471,19 +484,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTextArea.setVisible(true);
 
         party1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party1Name.setText("Carmen");
+        party1Name.setText("");
 
         party2Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party2Name.setText("Character One");
+        party2Name.setText("");
 
         party3Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party3Name.setText("Character Two");
+        party3Name.setText("");
 
         party4Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party4Name.setText("Justin");
+        party4Name.setText("");
 
         party5Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        party5Name.setText("Jaxon");
+        party5Name.setText("");
 
         // stats
         hp1Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
@@ -498,16 +511,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         mp5Stats = new Label("", Utility.ELMOUR_UI_SKIN, "stats");
 
         // status bar groups
-        WidgetGroup groupHp1 = new WidgetGroup();
-        WidgetGroup groupMp1 = new WidgetGroup();
-        WidgetGroup groupHp2 = new WidgetGroup();
-        WidgetGroup groupMp2 = new WidgetGroup();
-        WidgetGroup groupHp3 = new WidgetGroup();
-        WidgetGroup groupMp3 = new WidgetGroup();
-        WidgetGroup groupHp4 = new WidgetGroup();
-        WidgetGroup groupMp4 = new WidgetGroup();
-        WidgetGroup groupHp5 = new WidgetGroup();
-        WidgetGroup groupMp5 = new WidgetGroup();
+        groupHp1 = new WidgetGroup();
+        groupMp1 = new WidgetGroup();
+        groupHp2 = new WidgetGroup();
+        groupMp2 = new WidgetGroup();
+        groupHp3 = new WidgetGroup();
+        groupMp3 = new WidgetGroup();
+        groupHp4 = new WidgetGroup();
+        groupMp4 = new WidgetGroup();
+        groupHp5 = new WidgetGroup();
+        groupMp5 = new WidgetGroup();
 
         Image blackbar1hp = new Image(new Texture("graphics/black_bar.png"));
         Image whitebar1hp = new Image(new Texture("graphics/white_bar.png"));
@@ -572,46 +585,56 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupHp1.addActor(whitebar1hp);
         groupHp1.addActor(hpBar1);
         groupHp1.addActor(hp1Stats);
+        groupHp1.setVisible(false);
         groupMp1.addActor(blackbar1mp);
         groupMp1.addActor(whitebar1mp);
         groupMp1.addActor(mpBar1);
         groupMp1.addActor(mp1Stats);
+        groupMp1.setVisible(false);
 
         groupHp2.addActor(blackbar2hp);
         groupHp2.addActor(whitebar2hp);
         groupHp2.addActor(hpBar2);
         groupHp2.addActor(hp2Stats);
+        groupHp2.setVisible(false);
         groupMp2.addActor(blackbar2mp);
         groupMp2.addActor(whitebar2mp);
         groupMp2.addActor(mpBar2);
         groupMp2.addActor(mp2Stats);
+        groupMp2.setVisible(false);
 
         groupHp3.addActor(blackbar3hp);
         groupHp3.addActor(whitebar3hp);
         groupHp3.addActor(hpBar3);
         groupHp3.addActor(hp3Stats);
+        groupHp3.setVisible(false);
         groupMp3.addActor(blackbar3mp);
         groupMp3.addActor(whitebar3mp);
         groupMp3.addActor(mpBar3);
         groupMp3.addActor(mp3Stats);
+        groupMp3.setVisible(false);
 
         groupHp4.addActor(blackbar4hp);
         groupHp4.addActor(whitebar4hp);
         groupHp4.addActor(hpBar4);
         groupHp4.addActor(hp4Stats);
+        groupHp4.setVisible(false);
         groupMp4.addActor(blackbar4mp);
         groupMp4.addActor(whitebar4mp);
         groupMp4.addActor(mpBar4);
         groupMp4.addActor(mp4Stats);
+        groupMp4.setVisible(false);
 
         groupHp5.addActor(blackbar5hp);
         groupHp5.addActor(whitebar5hp);
         groupHp5.addActor(hpBar5);
         groupHp5.addActor(hp5Stats);
+        groupHp5.setVisible(false);
         groupMp5.addActor(blackbar5mp);
         groupMp5.addActor(whitebar5mp);
         groupMp5.addActor(mpBar5);
         groupMp5.addActor(mp5Stats);
+        groupMp5.setVisible(false);
 
         // Desktop
         nameWidth = 115;
@@ -909,8 +932,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (currentScreenState == ScreenState.MAIN) {
                                                Gdx.app.log(TAG, "run button up");
-                                               //addTransitionToScreen();
+
                                                game.battleState.playerRuns();
+                                               // see note below why this isn't being used
+                                               //switchScreen(game, game.getScreenType(ElmourGame.ScreenType.MainGame));
                                                resetControls();
                                            }
                                        }
@@ -1973,39 +1998,79 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void render(float delta) {
+        /*
         if (_battleShakeCam.isCameraShaking()) {
             Vector2 shakeCoords = _battleShakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
+        */
 
         _stage.act(delta);
         _stage.draw();
     }
 
+    // NOTE: there is an issue using this to fade out. When coming back into this screen, the HUD is not displayed
+    public void switchScreen(final ElmourGame game, final Screen newScreen){
+        _stage.getRoot().getColor().a = 1;
+        SequenceAction sequenceAction = new SequenceAction();
+        sequenceAction.addAction(Actions.fadeOut(0.25f));
+        sequenceAction.addAction(Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(newScreen);
+            }
+        }));
+        _stage.getRoot().addAction(sequenceAction);
+    }
+
     public void resetControls() {
+
+        float fadeTime = 0f;
         // reset controls so they rise from the correct location at bottom of the screen
-        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        runButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, 0));
-        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, 0));
+        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        runButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
 
         // reset other variables
+        party1Name.setText("");
+        party2Name.setText("");
+        party3Name.setText("");
+        party4Name.setText("");
+        party5Name.setText("");
+
         monster1Name.setText("");
         monster2Name.setText("");
         monster3Name.setText("");
         monster4Name.setText("");
         monster5Name.setText("");
 
+        for (int i = 1; i <= numberOfPartyMembers; i++) {
+            battleScreen.removePartyMember(i);
+        }
+
         for (int i = 1; i <= numberOfOpponents; i++) {
             battleScreen.removeOpponent(i);
         }
 
+        numberOfPartyMembers = 0;
         numberOfOpponents = 0;
+
+        groupHp1.setVisible(false);
+        groupMp1.setVisible(false);
+        groupHp2.setVisible(false);
+        groupMp2.setVisible(false);
+        groupHp3.setVisible(false);
+        groupMp3.setVisible(false);
+        groupHp4.setVisible(false);
+        groupMp4.setVisible(false);
+        groupHp5.setVisible(false);
+        groupMp5.setVisible(false);
     }
 
     @Override
@@ -2063,7 +2128,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     @Override
-    public void onNotify(Entity enemyEntity, BattleEvent event) {
+    public void onNotify(Entity entity, BattleEvent event) {
         switch(event){
             case PLAYER_TURN_START:
                 /*
@@ -2073,21 +2138,56 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 attackButton.setTouchable(Touchable.disabled);
                 */
                 break;
+            case PARTY_MEMBBER_ADDED:
+                Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getEntityID().toString());
+                numberOfPartyMembers++;
+                battleScreen.addPartyMember(entity, numberOfPartyMembers);
+
+                switch (numberOfPartyMembers) {
+                    case 1:
+                        party1Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        int HP = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
+                        groupHp1.setVisible(true);
+                        groupMp1.setVisible(true);
+                        break;
+                    case 2:
+                        party2Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        groupHp2.setVisible(true);
+                        groupMp2.setVisible(true);
+                        break;
+                    case 3:
+                        party3Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        groupHp3.setVisible(true);
+                        groupMp3.setVisible(true);
+                        break;
+                    case 4:
+                        party4Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        groupHp4.setVisible(true);
+                        groupMp4.setVisible(true);
+                        break;
+                    case 5:
+                        party5Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        groupHp5.setVisible(true);
+                        groupMp5.setVisible(true);
+                        break;
+                }
+
+                break;
             case OPPONENT_ADDED:
-                Gdx.app.log(TAG, "Opponent added: " + enemyEntity.getEntityConfig().getEntityID().toString());
+                Gdx.app.log(TAG, "Opponent added: " + entity.getEntityConfig().getEntityID().toString());
                 numberOfOpponents++;
-                battleScreen.addOpponent(enemyEntity, numberOfOpponents);
+                battleScreen.addOpponent(entity, numberOfOpponents);
 
                 if (numberOfOpponents == 1)
-                    monster1Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                    monster1Name.setText(entity.getEntityConfig().getEntityID().toString());
                 else if (numberOfOpponents == 2)
-                    monster2Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                    monster2Name.setText(entity.getEntityConfig().getEntityID().toString());
                 else if (numberOfOpponents == 3)
-                    monster3Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                    monster3Name.setText(entity.getEntityConfig().getEntityID().toString());
                 else if (numberOfOpponents == 4)
-                    monster4Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                    monster4Name.setText(entity.getEntityConfig().getEntityID().toString());
                 else if (numberOfOpponents == 5)
-                    monster5Name.setText(enemyEntity.getEntityConfig().getEntityID().toString());
+                    monster5Name.setText(entity.getEntityConfig().getEntityID().toString());
                 /*
                 _image.setEntity(enemyEntity);
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);

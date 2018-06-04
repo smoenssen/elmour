@@ -24,7 +24,9 @@ public class EntityConfig {
     public static enum EntityProperties{
         HIT_DAMAGE_TOTAL,
         HP,
+        HP_MAX,
         MP,
+        MP_MAX,
         ATK,
         MagicATK,
         DEF,

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -124,7 +125,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public PlayerHUD(ElmourGame game, Camera camera, Entity player, MapManager mapMgr) {
+    public PlayerHUD(final ElmourGame game, Camera camera, Entity player, MapManager mapMgr) {
         this.game = game;
         _camera = camera;
         _player = player;
@@ -935,6 +936,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 if( game.battleState.isBattleReady(_player.getActualVelocity(), Float.parseFloat(value)) && !battleScreenTransitionTriggered){
                     battleScreenTransitionTriggered = true;
                     game.battleState.setCurrentOpponentList();
+                    game.battleState.setCurrentPartyList();
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
 
@@ -953,34 +955,27 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
                     float transitionTime = 1;
                     screenSwipe1.setVisible(true);
-                    screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                     screenSwipe2.setVisible(true);
-                    screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                     screenSwipe3.setVisible(true);
-                    screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                     screenSwipe4.setVisible(true);
-                    screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                     screenSwipe5.setVisible(true);
-                    screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                     screenSwipe6.setVisible(true);
-                    screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                     screenSwipe7.setVisible(true);
-                    screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                     screenSwipe8.setVisible(true);
-                    screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                     screenSwipe9.setVisible(true);
-                    screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                     screenSwipe10.setVisible(true);
+
+                    screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                    screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+                    screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                    screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+                    screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                    screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+                    screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                    screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+                    screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
                     screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+
                 }
                 break;
             default:
@@ -1378,11 +1373,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void render(float delta) {
+        /*
         if (_shakeCam.isCameraShaking()) {
             Vector2 shakeCoords = _shakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
+        */
 
         if (battleScreenTransitionTriggered) {
             // transition into battle screen after a certain amount of time
@@ -1535,41 +1532,30 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 playerComingFromBattle = true;
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
-                //_mapMgr.enableCurrentmapMusic();
-                //addTransitionToScreen();
-                //todo
-                //_battleUI.setVisible(false);
-                // transition animation - note: screen transition occurs in render() function.
-                // timing may need to be adjusted in render function
-                float transitionTime = 1;
+
+                // transition animation - note: screen transition to main screen cannot occur in render() because render is called from main screen
+                // battle screen is faded out from battle HUD
+                float transitionTime = 1f;
                 screenSwipe1.setVisible(true);
-                screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                 screenSwipe2.setVisible(true);
-                screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                 screenSwipe3.setVisible(true);
-                screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                 screenSwipe4.setVisible(true);
-                screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                 screenSwipe5.setVisible(true);
-                screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                 screenSwipe6.setVisible(true);
-                screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                 screenSwipe7.setVisible(true);
-                screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                 screenSwipe8.setVisible(true);
-                screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
-
                 screenSwipe9.setVisible(true);
-                screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
-
                 screenSwipe10.setVisible(true);
+
+                screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+                screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+                screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+                screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+                screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
                 screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
 
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));

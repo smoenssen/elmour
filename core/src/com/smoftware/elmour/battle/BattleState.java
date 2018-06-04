@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.InventoryObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -111,6 +112,24 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
             }
         }
+    }
+
+    public void setCurrentPartyList() {
+        //todo: figure out how/when characters need to be added
+        Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
+        notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+
+        Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
+        notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+
+        Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
+        notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+
+        Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
+        notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+
+        Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON);
+        notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
     }
 
     public void setCurrentOpponent(){
