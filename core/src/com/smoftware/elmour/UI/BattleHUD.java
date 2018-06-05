@@ -569,16 +569,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         initStatusBars(blackbar5hp, whitebar5hp, hpBar5, hp5Stats);
         initStatusBars(blackbar5mp, whitebar5mp, mpBar5, mp5Stats);
 
-        hp1Stats.setText("15/30");
-        mp1Stats.setText("25/35");
-        hp2Stats.setText("35/900");
-        mp2Stats.setText("1500/3000");
-        hp3Stats.setText("15/30");
-        mp3Stats.setText("25/35");
-        hp4Stats.setText("15/30");
-        mp4Stats.setText("25/35");
-        hp5Stats.setText("15/30");
-        mp5Stats.setText("25/35");
+        hp1Stats.setText("");
+        mp1Stats.setText("");
+        hp2Stats.setText("");
+        mp2Stats.setText("");
+        hp3Stats.setText("");
+        mp3Stats.setText("");
+        hp4Stats.setText("");
+        mp4Stats.setText("");
+        hp5Stats.setText("");
+        mp5Stats.setText("");
 
         //add to widget groups
         groupHp1.addActor(blackbar1hp);
@@ -1306,7 +1306,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         whitebar.setHeight(barHeight - 2);
         whitebar.setPosition(1, 1);
 
-        statusBar.setWidth(barWidth - 16);
+        statusBar.setWidth(0);
         statusBar.setHeight(barHeight - 2);
         statusBar.setPosition(1, 1);
 
@@ -2127,6 +2127,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    private void updateStatusBar(String power, String power_max, Image statusBar, Label stats) {
+        stats.setText(power + "/" + power_max);
+        statusBar.setWidth(Float.parseFloat(power)/Float.parseFloat(power_max) * barWidth);
+    }
+
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch(event){
@@ -2146,27 +2151,56 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 switch (numberOfPartyMembers) {
                     case 1:
                         party1Name.setText(entity.getEntityConfig().getEntityID().toString());
-                        int HP = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar1, hp1Stats);
+
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar1, mp1Stats);
+
                         groupHp1.setVisible(true);
                         groupMp1.setVisible(true);
                         break;
                     case 2:
                         party2Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar2, hp2Stats);
+
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar2, mp2Stats);
+
                         groupHp2.setVisible(true);
                         groupMp2.setVisible(true);
                         break;
                     case 3:
                         party3Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar3, hp3Stats);
+
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar3, mp3Stats);
+
                         groupHp3.setVisible(true);
                         groupMp3.setVisible(true);
                         break;
                     case 4:
                         party4Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar4, hp4Stats);
+
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar4, mp4Stats);
+
                         groupHp4.setVisible(true);
                         groupMp4.setVisible(true);
                         break;
                     case 5:
                         party5Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar5, hp5Stats);
+
+                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar5, mp5Stats);
+
                         groupHp5.setVisible(true);
                         groupMp5.setVisible(true);
                         break;

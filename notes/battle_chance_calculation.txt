@@ -1,6 +1,7 @@
 
 
 once in zone, check velocity and do velocity/frame rate
+ISSUE: velocity has x and y coordinates
 1/delta = frame rate
 generate a number between zone min and max and if lower than number previously generated, then override that number
 (default to max int value to start)
@@ -8,3 +9,8 @@ every frame, take generated value and subtract velocity/frame rate
 when that number reaches less than zero then initiate battle sequence
 
 keep track of last number. when reentering zone, then check min and max zone values. if different, then generate a new number
+
+When entering a new zone, check if the zone is different than the one that the player was last in.
+If the zone is different, then check if the minimum is different.
+If the minimum is different, then generate a new number.
+If the newly generated number is lower than the number currently in use, override it.
