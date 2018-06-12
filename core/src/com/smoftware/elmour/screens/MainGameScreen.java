@@ -272,8 +272,13 @@ public class MainGameScreen extends GameScreen {
                         // render the player on the Z tile layer that matches the player's current Z layer
                         if (_player != null) {
                             if (layer.getName().equals(MapFactory.getMap(_mapMgr.getCurrentMapType()).getPlayerZLayer())) {
-                                _player.update(_mapMgr, _mapRenderer.getBatch(), delta);
-                                playerUpdated = true;
+                                if (!_playerHUD.isPlayerIsInBattle()) {
+                                    _player.update(_mapMgr, _mapRenderer.getBatch(), delta);
+                                    playerUpdated = true;
+                                }
+                                else {
+                                    _player.sendMessage(Component.MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+                                }
                             }
                         }
                     }

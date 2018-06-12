@@ -392,12 +392,12 @@ public class BattleScreen extends MainGameScreen {
         setupBattleScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupBattleScene),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor)
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)
         );
     }
 
     public void fadeOut() {
-        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor);
+        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor);
     }
 
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){

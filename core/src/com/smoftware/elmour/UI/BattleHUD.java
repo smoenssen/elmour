@@ -2212,16 +2212,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 numberOfOpponents++;
                 battleScreen.addOpponent(entity, numberOfOpponents);
 
-                if (numberOfOpponents == 1)
-                    monster1Name.setText(entity.getEntityConfig().getEntityID().toString());
-                else if (numberOfOpponents == 2)
-                    monster2Name.setText(entity.getEntityConfig().getEntityID().toString());
-                else if (numberOfOpponents == 3)
-                    monster3Name.setText(entity.getEntityConfig().getEntityID().toString());
-                else if (numberOfOpponents == 4)
-                    monster4Name.setText(entity.getEntityConfig().getEntityID().toString());
-                else if (numberOfOpponents == 5)
-                    monster5Name.setText(entity.getEntityConfig().getEntityID().toString());
+                switch (numberOfOpponents) {
+                    case 1:
+                        monster1Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        break;
+                    case 2:
+                        monster2Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        break;
+                    case 3:
+                        monster3Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        break;
+                    case 4:
+                        monster4Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        break;
+                    case 5:
+                        monster5Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        break;
+                }
+
                 /*
                 _image.setEntity(enemyEntity);
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);
