@@ -577,7 +577,7 @@ public class BattleScreen extends MainGameScreen {
     }
 
     public void fadeOut() {
-        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor);
+        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor);
     }
 
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){

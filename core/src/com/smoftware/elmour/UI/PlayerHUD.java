@@ -73,6 +73,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     private boolean battleScreenTransitionTriggered = false;
     private boolean playerComingFromBattle = false;
+    private boolean playerIsInBattle = false;
     private float elapsedTransitionTime = 0;
     Image screenSwipe1;
     Image screenSwipe2;
@@ -598,6 +599,10 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
+    public boolean isPlayerIsInBattle() {
+        return playerIsInBattle;
+    }
+
     public void showMessage(String message){
         _label.setText(message);
         Gdx.app.debug(TAG, message);
@@ -743,6 +748,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     public void resetPlayerComingFromBattle() {
         playerComingFromBattle = false;
+        playerIsInBattle = false;
     }
 
     private boolean isSignPostInteraction(Entity.Interaction interaction) {
@@ -935,6 +941,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
             case PLAYER_HAS_MOVED:
                 if( game.battleState.isBattleReady(_player.getActualVelocity(), Float.parseFloat(value)) && !battleScreenTransitionTriggered){
                     battleScreenTransitionTriggered = true;
+                    playerIsInBattle = true;
                     game.battleState.setCurrentOpponentList();
                     game.battleState.setCurrentPartyList();
                     _mapMgr.disableCurrentmapMusic();
