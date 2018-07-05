@@ -7,21 +7,28 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
+import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
@@ -121,8 +128,8 @@ public class BattleScreen extends MainGameScreen {
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
             _multiplexer.addProcessor(battleHUD.getStage());
+            _multiplexer.addProcessor(_stage);
             Gdx.input.setInputProcessor(_multiplexer);
-            //Gdx.input.setInputProcessor(battleHUD.getStage());
         }
         else {
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
@@ -138,7 +145,7 @@ public class BattleScreen extends MainGameScreen {
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
             _multiplexer.addProcessor(battleHUD.getStage());
-            //_multiplexer.addProcessor(_player.getInputProcessor());
+            _multiplexer.addProcessor(_stage);
             Gdx.input.setInputProcessor(_multiplexer);
         }
 
@@ -230,6 +237,179 @@ public class BattleScreen extends MainGameScreen {
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
             }
         };
+
+        party1.addListener(new ClickListener() {
+                              @Override
+                              public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                  return true;
+                              }
+
+                              @Override
+                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                  // make sure touch point is still on this image
+                                  if (touchPointIsInImage(party1)) {
+                                     _game.battleState.setSelectedPartyMember(party1.getEntity());
+                                  }
+                              }
+                          }
+        );
+
+        party2.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(party2)) {
+                                       _game.battleState.setSelectedPartyMember(party2.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        party3.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(party3)) {
+                                       _game.battleState.setSelectedPartyMember(party3.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        party4.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(party4)) {
+                                       _game.battleState.setSelectedPartyMember(party4.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        party5.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(party5)) {
+                                       _game.battleState.setSelectedPartyMember(party5.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        enemy1.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(enemy1)) {
+                                       _game.battleState.setSelectedEnemy(enemy1.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        enemy2.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(enemy2)) {
+                                       _game.battleState.setSelectedEnemy(enemy2.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        enemy3.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(enemy3)) {
+                                       _game.battleState.setSelectedEnemy(enemy3.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        enemy4.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(enemy4)) {
+                                       _game.battleState.setSelectedEnemy(enemy4.getEntity());
+                                   }
+                               }
+                           }
+        );
+
+        enemy5.addListener(new ClickListener() {
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
+
+                               @Override
+                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(enemy5)) {
+                                       _game.battleState.setSelectedEnemy(enemy5.getEntity());
+                                   }
+                               }
+                           }
+        );
+    }
+
+    private boolean touchPointIsInImage(AnimatedImage image) {
+        // Get touch point
+        Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+
+        // Convert the touch point into local coordinates
+        Vector2 localPos = new Vector2(screenPos);
+        localPos = _stage.screenToStageCoordinates(localPos);
+
+        Rectangle buttonRect = new Rectangle(image.getX(), image.getY(), image.getWidth(), image.getHeight());
+
+        return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
     }
 
     @Override
@@ -392,7 +572,7 @@ public class BattleScreen extends MainGameScreen {
         setupBattleScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupBattleScene),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor)
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)
         );
     }
 

@@ -110,5 +110,10 @@ public class EntityFactory {
         return entity;
     }
 
+    public Entity getEntityByName(String entityName){
+        EntityConfig config = new EntityConfig(entities.get(entityName));
+        Entity entity = Entity.initEntity(config);
+        return entity;
+    }
 
 }

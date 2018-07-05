@@ -14,6 +14,8 @@ public interface BattleObserver {
         PLAYER_TURN_DONE,
         PLAYER_TURN_START,
         PLAYER_USED_MAGIC,
+        PARTY_MEMBER_SELECTED,
+        ENEMY_SELECTED,
         NONE
     }
 

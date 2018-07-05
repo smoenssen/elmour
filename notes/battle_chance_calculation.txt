@@ -1,7 +1,7 @@
 
 
 once in zone, check velocity and do velocity/frame rate
-ISSUE: velocity has x and y coordinates
+
 1/delta = frame rate
 generate a number between zone min and max and if lower than number previously generated, then override that number
 (default to max int value to start)

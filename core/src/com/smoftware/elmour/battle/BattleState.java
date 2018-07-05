@@ -132,9 +132,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
     }
 
-    public void setCurrentOpponent(){
-        //todo
-        this._currentOpponent = currentOpponentList.get(0);
+    public void setSelectedPartyMember(Entity entity) {
+        notify(entity, BattleObserver.BattleEvent.PARTY_MEMBER_SELECTED);
+    }
+
+    public void setSelectedEnemy(Entity entity) {
+        this._currentOpponent = entity;
+        notify(entity, BattleObserver.BattleEvent.ENEMY_SELECTED);
     }
 
     public void playerAttacks(){
@@ -150,10 +154,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             if( !_playerAttackCalculations.isScheduled() ){
                 Timer.schedule(_playerAttackCalculations, 1);
             }
-        }else if(_currentPlayerWandAPPoints > mpVal ){
+        }
+        else if(_currentPlayerWandAPPoints > mpVal ){
             BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
             return;
-        }else{
+        }
+        else {
             if( !_checkPlayerMagicUse.isScheduled() && !_playerAttackCalculations.isScheduled() ){
                 Timer.schedule(_checkPlayerMagicUse, .5f);
                 Timer.schedule(_playerAttackCalculations, 1);
