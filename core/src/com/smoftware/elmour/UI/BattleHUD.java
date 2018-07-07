@@ -1416,10 +1416,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 runButton.addAction(Actions.fadeOut(fadeTime * 0.25f));
                 statusButton.addAction(Actions.fadeOut(fadeTime * 0.25f));
 
+                backButton.setHeight(2);
                 backButton.setVisible(true);
                 backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
                 backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                backButton.addAction(Actions.sizeBy(0, backButtonHeight, fadeTime));
+                backButton.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
 
                 dummyButtonLeft.setVisible(true);
                 dummyButtonLeft.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
@@ -1473,8 +1474,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     selectedItemBanner.setText(selectedInventoryElement.name, true);
                 }
                 else if (currentScreenState == ScreenState.FIGHT) {
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 3, 0));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 3, 0));
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 2, 0));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, 0));
                     middleStatsTextArea.setVisible(true);
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/4), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
@@ -1505,13 +1506,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     backButton.setVisible(true);
                     backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
                     backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    backButton.addAction(Actions.sizeBy(0, backButtonHeight - 3, fadeTime));
+                    backButton.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
 
                     middleTextAreaTable.setVisible(false);
 
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 3, fadeTime));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 3, fadeTime));
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, fadeTime));
 
                     if (currentScreenState == ScreenState.SPELLS_WHITE) {
                         middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
@@ -1657,8 +1658,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
 
                         middleStatsTextArea.setText("", true);
-                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 3, 0));
-                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 3, 0));
+                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, 0));
+                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, 0));
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime/2));
                         middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setTextAreaVisible(middleStatsTextArea, false)));
                     }
@@ -2369,7 +2370,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     //backButton.setVisible(true);
                     backButton.addAction(Actions.fadeOut(fadeTime * crossFadeInFactor));
-                    backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, fadeTime));
+                    backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, fadeTime)); // need -3 or else back button height wrong on final screen
 
                     leftSummaryText.setText("");
                 }
