@@ -1297,6 +1297,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    public class setTextFieldWidthAndPosition extends Action {
+        MyTextField textField = null;
+        float width = 0;
+        float positionX = 0;
+        float positionY = 0;
+
+        public setTextFieldWidthAndPosition(MyTextField textField, float width, float positionX) {
+            this.textField = textField;
+            this.width = width;
+            this.positionX = positionX;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            textField.setWidth(width);
+            textField.setX(positionX);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
         blackbar.setWidth(barWidth);
         blackbar.setHeight(barHeight);
@@ -1313,6 +1333,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         stats.setAlignment(Align.center);
         stats.setWidth(barWidth - 2);
         stats.setPosition(1, -6);
+    }
+
+    private float calculateBannerWidth(String text) {
+        int pixelLength = Utility.getPixelLengthOfString(text);
+        float factor;
+
+        if (Gdx.app.getType() == Application.ApplicationType.Android)
+            factor = 2.25f;
+        else
+            factor = 2.5f;
+
+        float bannerWidth = pixelLength * factor;
+        if (bannerWidth  < minBannerWidth)
+            bannerWidth = minBannerWidth;
+
+        return bannerWidth;
     }
 
     private void completeAllActions() {
@@ -1338,6 +1374,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             middleScrollPaneTree.act(delta);
             middleScrollPaneList.act(delta);
         }
+    }
+
+    private void enableButtons() {
+        topLeftButton.setDisabled(true);
+        topRightButton.setDisabled(true);
+        runButton.setDisabled(true);
+        statusButton.setDisabled(true);
+        backButton.setDisabled(true);
+    }
+
+    private void disableButtons() {
+        topLeftButton.setDisabled(false);
+        topRightButton.setDisabled(false);
+        runButton.setDisabled(false);
+        statusButton.setDisabled(false);
+        backButton.setDisabled(false);
     }
 
     private void setHUDNewState(ScreenState newState) {
@@ -1410,24 +1462,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setTableVisible(middleTextAreaTable, false)));
 
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 3, fadeTime));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 3, fadeTime));
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, fadeTime));
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
 
-                    // calculate banner width
-                    int pixelLength = Utility.getPixelLengthOfString(selectedInventoryElement.name);
-                    float factor;
-
-                    if (Gdx.app.getType() == Application.ApplicationType.Android)
-                        factor = 2.25f;
-                    else
-                        factor = 2.5f;
-
-                    float bannerWidth = pixelLength * factor;
-                    if (bannerWidth  < minBannerWidth)
-                        bannerWidth = minBannerWidth;
-
-                    selectedItemBanner.setWidth(bannerWidth);
+                    selectedItemBanner.setWidth(calculateBannerWidth(selectedInventoryElement.name));
                     selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 8);
                     selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime));
                     selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime));
@@ -1481,20 +1520,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
                     }
 
-                    // calculate banner width
-                    int pixelLength = Utility.getPixelLengthOfString(selectedSpellsPowerElement.name);
-                    float factor;
-
-                    if (Gdx.app.getType() == Application.ApplicationType.Android)
-                        factor = 2.25f;
-                    else
-                        factor = 2.5f;
-
-                    float bannerWidth = pixelLength * factor;
-                    if (bannerWidth  < minBannerWidth)
-                        bannerWidth = minBannerWidth;
-
-                    selectedItemBanner.setWidth(bannerWidth);
+                    selectedItemBanner.setWidth(calculateBannerWidth(selectedSpellsPowerElement.name));
                     selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 8);
                     selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime));
                     selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime));
@@ -1686,8 +1712,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                         middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                         middleStatsTextArea.setText("", true);
-                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 3, fadeTime));
-                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 3, fadeTime));
+                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
+                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
 
                         backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
                         backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
@@ -1819,8 +1845,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     middleStatsTextArea.setText("", true);
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 3, fadeTime));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 3, fadeTime));
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
 
                     backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 3, fadeTime), Actions.fadeOut(0)));
                     backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
@@ -2218,18 +2244,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 numberOfOpponents++;
                 battleScreen.addOpponent(entity, numberOfOpponents);
 
-<<<<<<< HEAD
-                if (numberOfOpponents == 1)
-                    monster1Name.setText(entity.getEntityConfig().getEntityID());
-                else if (numberOfOpponents == 2)
-                    monster2Name.setText(entity.getEntityConfig().getEntityID());
-                else if (numberOfOpponents == 3)
-                    monster3Name.setText(entity.getEntityConfig().getEntityID());
-                else if (numberOfOpponents == 4)
-                    monster4Name.setText(entity.getEntityConfig().getEntityID());
-                else if (numberOfOpponents == 5)
-                    monster5Name.setText(entity.getEntityConfig().getEntityID());
-=======
                 switch (numberOfOpponents) {
                     case 1:
                         monster1Name.setText(entity.getEntityConfig().getEntityID().toString());
@@ -2248,7 +2262,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         break;
                 }
 
->>>>>>> master
                 /*
                 _image.setEntity(enemyEntity);
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);
@@ -2269,6 +2282,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 if (middleStatsTextArea.getText().equals(CHOOSE_A_CHARACTER)) {
                     Gdx.app.log(TAG, entity.getEntityConfig().getEntityID() + " selected");
 
+                    // disable buttons
+                    disableButtons();
+
                     // look at second item in stack
                     ScreenState currentScreenState = screenStack.pop();
                     ScreenState previousScreenState = screenStack.peek();
@@ -2276,7 +2292,25 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     switch (previousScreenState) {
                         case INVENTORY:
-                            middleStatsTextArea.setText(selectedItemBanner.getText() + " used on " + entity.getEntityConfig().getEntityID(), true);
+
+                            String text =  selectedInventoryElement.name + " used on " + entity.getEntityConfig().getEntityID();
+                            float bannerWidth = calculateBannerWidth(text);
+
+                            selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2));
+                            selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2));
+
+                            selectedItemBanner.addAction(Actions.sequence(Actions.delay(fadeTime/2),
+                                                        new setTextAreaText(selectedItemBanner, text),
+                                                        new setTextFieldWidthAndPosition(selectedItemBanner, bannerWidth, (_stage.getWidth() - bannerWidth)/2),
+                                                        Actions.sizeBy(0, selectedItemBannerHeight, fadeTime),
+                                                        Actions.moveBy(0, -selectedItemBannerHeight, fadeTime),
+                                                        Actions.delay(2),
+                                                        Actions.parallel(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2),
+                                                                Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
+
+                            // tell battle state what happened
+                            game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
+
                             break;
                     }
                 }
@@ -2312,6 +2346,33 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 /*
                 _battleState.opponentAttacks();
                 */
+
+                // go back to Main screen and enable buttons
+                // todo: don't enable buttons here, do it after opponent turn is done
+                enableButtons();
+
+                ScreenState currentScreenState = screenStack.peek();
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
+                if (currentScreenState == ScreenState.FINAL) {
+                    topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
+                    runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
+                    topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
+                    statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
+
+                    middleStatsTextArea.setText("", true);
+                    middleStatsTextArea.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
+                    middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
+                    middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
+                    middleTextAreaTable.setVisible(false);
+
+                    //backButton.setVisible(true);
+                    backButton.addAction(Actions.fadeOut(fadeTime * crossFadeInFactor));
+                    backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, fadeTime));
+
+                    leftSummaryText.setText("");
+                }
                 break;
             case PLAYER_USED_MAGIC:
                 /*
