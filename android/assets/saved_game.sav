@@ -1,11 +1,11 @@
 {
-currentPlayerHP: {
+currentPlayerGP: {
 	class: java.lang.Integer
 	value: -1
 }
-CHARACTER_1: {
-	class: java.lang.String
-	value: Purple Boy
+currentPlayerHP: {
+	class: java.lang.Integer
+	value: -1
 }
 castleOfDoomMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
@@ -19,10 +19,6 @@ topWorldMapStartPosition: {
 }
 playerEquipInventory: []
 playerQuests: []
-currentPlayerHPMax: {
-	class: java.lang.Integer
-	value: 50
-}
 currentPlayerMP: {
 	class: java.lang.Integer
 	value: -1
@@ -32,9 +28,9 @@ townMapStartPosition: {
 	x: 208
 	y: 32
 }
-currentPlayerGP: {
+currentPlayerHPMax: {
 	class: java.lang.Integer
-	value: -1
+	value: 50
 }
 currentPlayerMPMax: {
 	class: java.lang.Integer
@@ -50,9 +46,10 @@ currentPlayerLevel: {
 }
 playerCurrentPosition: {
 	class: com.badlogic.gdx.math.Vector2
-	x: 12.140669
-	y: 5.315994
+	x: 12.808767
+	y: 5.248761
 }
+playerInventory: []
 currentPlayerXP: {
 	class: java.lang.Integer
 	value: 0
@@ -69,7 +66,10 @@ playerZLayer: {
 	class: java.lang.String
 	value: ZDOWN
 }
-playerInventory: []
+CHARACTER_1: {
+	class: java.lang.String
+	value: Purple Boy
+}
 CHARACTER_2: {
 	class: java.lang.String
 	value: Girl

@@ -8,6 +8,7 @@ import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.InventoryObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -25,6 +26,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private Timer.Task _opponentAttackCalculations;
     private Timer.Task _checkPlayerMagicUse;
     private Timer.Task applyInventory;
+    private Timer.Task applySpellPower;
     private MonsterZone currentMonsterZone;
     private boolean inBattle = false;
 
@@ -35,6 +37,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
         applyInventory = getApplyInventoryTimer();
+        applySpellPower = getApplySpellPowerTimer();
         currentOpponentList = new Array<>();
     }
 
@@ -72,6 +75,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         if (currentMonsterZone == null || _currentZoneLevel == 0 || inBattle) { return false; }
 
+        // for debugging
+        return true;/*
         if (battleCountDown <= 0) {
             // start new countdown
             battleCountDown = currentMonsterZone.getMaxTime();
@@ -100,6 +105,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         else {
             return false;
         }
+        */
     }
 
     public void setCurrentOpponentList(){
@@ -146,12 +152,19 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         notify(entity, BattleObserver.BattleEvent.ENEMY_SELECTED);
     }
 
-    public void applyInventoryItemToCharacter(InventoryElement selectedInventoryElement) {
-        Gdx.app.log(TAG, "TODO: " + selectedInventoryElement.name + " used on " + currentPartyMember.getEntityConfig().getEntityID());
-
+    public void applyInventoryItemToCharacter(InventoryElement selectedElement) {
+        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentPartyMember.getEntityConfig().getEntityID());
 
         if (!applyInventory.isScheduled()) {
             Timer.schedule(applyInventory, 1);
+        }
+    }
+
+    public void applySpellPowerToCharacter(SpellsPowerElement selectedElement) {
+        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentPartyMember.getEntityConfig().getEntityID());
+
+        if (!applySpellPower.isScheduled()) {
+            Timer.schedule(applySpellPower, 1);
         }
     }
 
@@ -192,6 +205,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     private Timer.Task getApplyInventoryTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                BattleState.this.notify(currentPartyMember, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
+            }
+        };
+    }
+
+    private Timer.Task getApplySpellPowerTimer(){
         return new Timer.Task() {
             @Override
             public void run() {
