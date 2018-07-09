@@ -10,7 +10,7 @@ import com.smoftware.elmour.Utility;
  */
 
 public class BattleTextArea extends Window {
-    private static final String TAG = SignPopUp.class.getSimpleName();
+    private static final String TAG = BattleTextArea.class.getSimpleName();
 
     private enum State {HIDDEN, LISTENING}
 
@@ -19,19 +19,18 @@ public class BattleTextArea extends Window {
     private boolean displayText = true;
     private String currentText;
     private MyTextArea textArea;
-    private String currentCharacter;
     private State state = State.HIDDEN;
     private boolean interactReceived = false;
     private boolean isReady = false;
-    private boolean isEcho = false;
-    private boolean conversationIsActive = false;
+    private boolean waitingForFinalInteraction = false;
 
     public BattleTextArea() {
         //Notes:
         //font is set in the Utility class
         //popup is created in PlayerHUD class
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
-        super("", Utility.ELMOUR_UI_SKIN, "default");
+        super("", Utility.ELMOUR_UI_SKIN, "battle");
+
 
         lineStrings = new Array<>();
         hide();
@@ -45,14 +44,9 @@ public class BattleTextArea extends Window {
         fullText = text;
     }
 
-    public void interact(boolean isEcho) {
+    public boolean interact() {
 
-        this.isEcho = isEcho;
-
-        Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
-        Gdx.app.log(TAG, "interact   fullText = " + fullText);
-        if (isEcho)
-            Gdx.app .log(TAG, "isEcho");
+        Gdx.app.log(TAG, "battle text interact cur state = " + state.toString());
 
         switch (state) {
             case HIDDEN:
@@ -60,34 +54,34 @@ public class BattleTextArea extends Window {
                     Gdx.app.log(TAG, "setting isReady to false in interact");
                     isReady = false;
                     this.setVisible(true);
-                    conversationIsActive = true;
                     state = State.LISTENING;
-                    conversationIsActive = true;
                     startInteractionThread();
                 }
                 break;
             case LISTENING:
                 interactReceived = true;
-                break;
+                return waitingForFinalInteraction;
         }
 
-        Gdx.app.log(TAG, "popup interact new state = " + state.toString());
+        Gdx.app.log(TAG, "battle text interact new state = " + state.toString());
+        return false;
     }
 
     public void cleanupTextArea() {
+        lineStrings.clear();
         this.reset();
-        textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
+        textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battletext");
         textArea.disabled = true;
         textArea.layout();
         //fullText = "";
 
-        // set isReady to false so that full text doesn't flash on popup at first
+        // set isReady to false so that full text doesn't flash on battle text at first
         Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
         isReady = false;
 
         //layout
         this.add();
-        this.defaults().expand().fill();
+        this.defaults().expand().fill().pad(10, 10, 0, 10);
         this.add(textArea);
     }
 
@@ -95,10 +89,7 @@ public class BattleTextArea extends Window {
         cleanupTextArea();
         this.setVisible(false);
         state = State.HIDDEN;
-
-        conversationIsActive = false;
-
-        //Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
+        //Gdx.app.debug(TAG, "battle text interact new state = " + state.toString());
     }
 
     public boolean isListening() {
@@ -120,9 +111,11 @@ public class BattleTextArea extends Window {
     public void update() {
         // called from UI thread
         // make sure there are no embedded line returns (borderline bug in MyTextArea)
-        currentText = currentText.replace("\n", "");
-        textArea.setText(currentText, displayText);
-        //Gdx.app.log(TAG, "currentText = " + currentText);
+        if (textArea != null && currentText != null) {
+            currentText = currentText.replace("\n", "");
+            textArea.setText(currentText, displayText);
+            //Gdx.app.log(TAG, "currentText = " + currentText);
+        }
     }
 
     private void startInteractionThread() {
@@ -140,7 +133,7 @@ public class BattleTextArea extends Window {
                     // wait up to 5 sec to make sure lines are populated
                     int numLines = textArea.getLines();
                     for (int q = 0; q < 100 && numLines == 0; q++) {
-                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
@@ -148,7 +141,7 @@ public class BattleTextArea extends Window {
                         }
 
                         numLines = textArea.getLines();
-                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
                     }
 
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
@@ -192,7 +185,7 @@ public class BattleTextArea extends Window {
 
                             // delay for each character
                             try {
-                                Thread.sleep(100);
+                                Thread.sleep(50);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -206,9 +199,11 @@ public class BattleTextArea extends Window {
                         // go into listening mode
                         state = State.LISTENING;
 
-                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == lineStrings.size - 1) {
+                    if (lineIdx == lineStrings.size - 1) {
                         // done populating current box so need to pause for next interaction
                         while (!interactReceived && state == State.LISTENING) {
+                            waitingForFinalInteraction = true;
+
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
@@ -228,9 +223,6 @@ public class BattleTextArea extends Window {
 
                         if (state == State.HIDDEN)
                             break;
-
-                        currentVisibleText = "";
-                        setTextForUIThread(currentVisibleText, true);
                     }
                 }
 
@@ -239,6 +231,7 @@ public class BattleTextArea extends Window {
                 displayText = false;
                 interactReceived = false;
                 Gdx.app.log(TAG, "Exiting InteractionThread");
+                waitingForFinalInteraction = false;
             }
         };
 

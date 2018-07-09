@@ -197,6 +197,11 @@ com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 		fontColor: white
 		background: textbutton
 	}
+	battletext: {
+		font: myFontSmall
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 	default: {
@@ -234,6 +239,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		titleFontColor: white
 		background: textfield
 		stageBackground: dialogDim
+	}
+	battle: {
+		titleFont: myFontSmall
+		titleFontColor: white
+		background: textbutton
 	}
 }
 }

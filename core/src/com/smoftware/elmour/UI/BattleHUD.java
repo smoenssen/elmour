@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
@@ -92,7 +93,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Camera _camera;
     private Entity _player;
 
-    final private float fadeTime = 2;//0.35f;
+    final private float fadeTime = 0.35f;
     final private float crossFadeInFactor = 0.75f;
     final private float crossFadeOutFactor = 1.5f;
 
@@ -202,6 +203,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Vector2 _currentImagePosition;
 
     BattleScreen battleScreen;
+    BattleTextArea battleTextArea;
+    private Timer.Task transitionToMainScreen;
 
     String selectedCharacter = "";
 
@@ -230,6 +233,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         _battleShakeCam = new ShakeCamera(0,0, 30.0f);
         _currentImagePosition = new Vector2(0,0);
+
+        transitionToMainScreen = getTransitionToMainScreenTimer();
 
         _json = new Json();
 
@@ -385,6 +390,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setPosition(leftTextAreaWidth, 2);
         middleStatsTextArea.setVisible(false);
+
+        battleTextArea = new BattleTextArea();
+        battleTextArea.setWidth(middleAreaWidth);
+        battleTextArea.setHeight((menuItemHeight * 2) - 2);
+        battleTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, 2);
 
         middleTreeHeight = menuItemHeight * 2;
 
@@ -735,6 +745,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(middleTreeTextArea);
         _stage.addActor(middleScrollPaneTree);
         _stage.addActor(middleScrollPaneList);
+        _stage.addActor(battleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
@@ -964,45 +975,44 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                                if (currentScreenState == ScreenState.FINAL) {
                                                    if (statusButton.getText().toString().equals(BTN_NAME_OK)) {
-                                                       // disable buttons
                                                        disableButtons();
 
-                                                       ///////////////////
-                                                       middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                       middleStatsTextArea.addAction(Actions.fadeOut(0));
                                                        middleStatsTextArea.setText("", true);
-                                                       middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
-                                                       middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
-                                                       middleStatsTextArea.addAction((Actions.sequence(Actions.delay(fadeTime * 2),
-                                                                                    Actions.sizeBy(0, -backButtonHeight + 2),
-                                                                                    Actions.moveBy(0, backButtonHeight - 2))));
 
-                                                       backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
-                                                       backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
+                                                       backButton.addAction(Actions.fadeOut(0));
+                                                       backButton.setWidth(middleAreaWidth);
 
-                                                       statusButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
-                                                       statusButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f),
-                                                                                    new setButtonText(statusButton, ""),
-                                                                                    Actions.delay(fadeTime * 0.8f),
-                                                                                    new setButtonText(statusButton, BTN_NAME_STATUS),
-                                                                                    Actions.sizeBy(0, backButtonHeight + 2, 0),
-                                                                                    new setButtonWidth(backButton, middleAreaWidth)));
-
-                                                       ///////////////////////
+                                                       statusButton.addAction(Actions.fadeOut(0));
+                                                       statusButton.setText(BTN_NAME_STATUS);
 
                                                        // look at second item in stack
                                                        currentScreenState = screenStack.pop();
                                                        ScreenState previousScreenState = screenStack.peek();
                                                        screenStack.push(currentScreenState);
 
+                                                       selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2));
+                                                       selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2));
+
                                                        switch (previousScreenState) {
                                                            case INVENTORY:
-                                                               updateBanner(selectedInventoryElement.name + " used on " + selectedCharacter);
+                                                               //updateBanner(selectedInventoryElement.name + " used on " + selectedCharacter);
+                                                               battleTextArea.populateText(selectedInventoryElement.name + " used on " + selectedCharacter);
+                                                               battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                               if (battleTextArea.interact()) {
+                                                                   showMainScreen(true);
+                                                               }
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
                                                                break;
                                                            case SPELLS_BLACK:
                                                            case SPELLS_WHITE:
                                                            case POWER:
-                                                               updateBanner(selectedSpellsPowerElement.name + " used on "  + selectedCharacter);
+                                                               //updateBanner(selectedSpellsPowerElement.name + " used on "  + selectedCharacter);
+                                                               battleTextArea.populateText(selectedSpellsPowerElement.name + " used on "  + selectedCharacter);
+                                                               battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                               if (battleTextArea.interact()) {
+                                                                   showMainScreen(true);
+                                                               }
                                                                game.battleState.applySpellPowerToCharacter(selectedSpellsPowerElement);
                                                                break;
                                                        }
@@ -1231,6 +1241,21 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                }
         );
 
+        battleTextArea.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                           if (battleTextArea.interact()) {
+                                               showMainScreen(true);
+                                           }
+                                       }
+                                   }
+        );
+
         //Music/Sound loading
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -1371,6 +1396,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             else
                 pane.setTouchable(Touchable.disabled);
 
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class closeBattleTextAction extends Action {
+        BattleTextArea battleTextArea = null;
+
+        public closeBattleTextAction(BattleTextArea battleTextArea) {
+            this.battleTextArea = battleTextArea;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            battleTextArea.interact();
             return true; // An action returns true when it's completed
         }
     }
@@ -1652,6 +1691,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
+                leftSummaryText.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
                 break;
             case MAIN:
                 // the MAIN screen should not be set as a new state, only as a previous state
@@ -1707,6 +1748,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 middleTreeTextArea.setVisible(true);
 
                 middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+
+                leftSummaryText.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
                 break;
             case STATS:
                 break;
@@ -1776,53 +1820,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     break;
                 case INVENTORY:
                     if (currentScreenState == ScreenState.FINAL) {
-                        monster1Name.addAction(Actions.fadeOut(fadeTime/2));
-                        monster2Name.addAction(Actions.fadeOut(fadeTime/2));
-                        monster3Name.addAction(Actions.fadeOut(fadeTime/2));
-                        monster4Name.addAction(Actions.fadeOut(fadeTime/2));
-                        monster5Name.addAction(Actions.fadeOut(fadeTime/2));
-
                         middleTree.setTouchable(Touchable.enabled);
+                        middleTree.setVisible(true);
 
                         middleTextAreaTable.addAction(Actions.fadeOut(0));
                         middleTextAreaTable.setVisible(true);
                         middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
-                        middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                        middleStatsTextArea.setVisible(true);
-
-                        middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.2f)));
-                        middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
-                        middleTreeTextArea.setVisible(true);
-
-                        middleTree.setVisible(true);
-
-                        leftSummaryText.addAction(Actions.fadeOut(0));
-                        leftSummaryText.setText(selectedInventoryElement.summary);
-                        leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-
                         middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
-                        middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                        middleStatsTextArea.setText("", true);
-                        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
-                        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
-
-                        backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
-                        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
-
-                        selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime));
-                        selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime));
-
-                        if (statusButton.getText().toString().equals(BTN_NAME_OK)) {
-                            statusButton.addAction(Actions.sequence(Actions.sizeBy(0, -menuItemHeight, fadeTime), Actions.fadeOut(0)));
-                            statusButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f),
-                                                                new setButtonText(statusButton, ""),
-                                                                new setButtonText(statusButton, BTN_NAME_STATUS),
-                                                                Actions.delay(fadeTime * 0.8f),
-                                                                Actions.sizeBy(0, menuItemHeight, 0),
-                                                                new setButtonWidth(backButton, middleAreaWidth)));
-                        }
+                        setCommonTransitionBackFromFinal();
                     }
 
                     break;
@@ -1925,37 +1932,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 case POWER:
                 case SPELLS_BLACK:
                 case SPELLS_WHITE:
-                    monster1Name.addAction(Actions.fadeOut(fadeTime/2));
-                    monster2Name.addAction(Actions.fadeOut(fadeTime/2));
-                    monster3Name.addAction(Actions.fadeOut(fadeTime/2));
-                    monster4Name.addAction(Actions.fadeOut(fadeTime/2));
-                    monster5Name.addAction(Actions.fadeOut(fadeTime/2));
-
                     middleTextAreaTable.setVisible(true);
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.setVisible(true);
-
-                    middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.2f)));
-                    middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
-                    middleTreeTextArea.setVisible(true);
-
-                    leftSummaryText.addAction(Actions.fadeOut(0));
-                    leftSummaryText.setText(selectedSpellsPowerElement.summary);
-                    leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
                     middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), new enabledScrollPane(middleScrollPaneList, true)));
                     middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.setText("", true);
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
+                    setCommonTransitionBackFromFinal();
 
-                    backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 3, fadeTime), Actions.fadeOut(0)));
-                    backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
-
-                    selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime));
-                    selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime));
                     break;
                 case SPELL_TYPE:
                     backButton.setHeight(backButtonHeight);
@@ -1998,6 +1981,46 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
         finally {
             previousScreenStateMutex.release(1);
+        }
+    }
+
+    private void setCommonTransitionBackFromFinal() {
+        monster1Name.addAction(Actions.fadeOut(fadeTime/2));
+        monster2Name.addAction(Actions.fadeOut(fadeTime/2));
+        monster3Name.addAction(Actions.fadeOut(fadeTime/2));
+        monster4Name.addAction(Actions.fadeOut(fadeTime/2));
+        monster5Name.addAction(Actions.fadeOut(fadeTime/2));
+
+        middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        middleStatsTextArea.setText("", true);
+        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
+        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
+
+        middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.2f)));
+        middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
+        middleTreeTextArea.setVisible(true);
+
+        middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        middleStatsTextArea.setVisible(true);
+
+        leftSummaryText.addAction(Actions.fadeOut(0));
+        leftSummaryText.setText(selectedInventoryElement.summary);
+        leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+
+        backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
+        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
+
+        selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime));
+        selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime));
+
+        if (statusButton.getText().toString().equals(BTN_NAME_OK)) {
+            statusButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
+            statusButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f),
+                    new setButtonText(statusButton, ""),
+                    new setButtonText(statusButton, BTN_NAME_STATUS),
+                    Actions.delay(fadeTime * 0.8f),
+                    Actions.sizeBy(0, backButtonHeight - 2, 0),
+                    new setButtonWidth(backButton, middleAreaWidth)));
         }
     }
 
@@ -2141,6 +2164,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
         */
 
+        battleTextArea.update();
         _stage.act(delta);
         _stage.draw();
     }
@@ -2387,15 +2411,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     selectedCharacter = entity.getEntityConfig().getEntityID();
                     Gdx.app.log(TAG, selectedCharacter + " selected");
 
-                    backButton.addAction(Actions.sizeBy(-backButton.getWidth()/2 + 2, 0, fadeTime));
+                    float widthToMove = statusButton.getWidth();
 
-                    float width = statusButton.getWidth();
-                    statusButton.setPosition(statusButton.getX() + width, 2);
+                    backButton.addAction(Actions.sizeBy(-widthToMove, 0, fadeTime));
+                    backButton.setWidth(backButton.getWidth() + 2);
+
+                    statusButton.setPosition(rightTextArea.getX() + 2, 2);
                     statusButton.setWidth(0);
                     statusButton.setText(BTN_NAME_OK);
                     statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    statusButton.addAction(Actions.sizeBy(width, 0, fadeTime));
-                    statusButton.addAction(Actions.moveBy(-width, 0, fadeTime));
+                    statusButton.addAction(Actions.sizeBy(widthToMove, 0, fadeTime));
+                    statusButton.addAction(Actions.moveBy(-widthToMove, 0, fadeTime));
                 }
 
                 break;
@@ -2427,44 +2453,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
 
                 // go back to Main screen and enable buttons
-                // todo: don't enable buttons here, do it after opponent turn is done
-                enableButtons();
-
                 ScreenState currentScreenState = screenStack.peek();
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);
 
+                // todo: screen shouldn't necessarily be shown here. might have to do it after opponent turn is done
                 if (currentScreenState == ScreenState.FINAL) {
-                    //srm todo: move this to a common place so it's not racing against button handler
-                    topLeftButton.setText(BTN_NAME_INVENTORY);
-                    topRightButton.setText(BTN_NAME_FIGHT);
 
-                    topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
-                    runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
-                    topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
-                    statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
-
-                    //////////
-                    dummyButtonLeft.setVisible(false);
-                    dummyButtonLeft.addAction(Actions.sizeBy(0, backButtonHeight, 0));
-                    dummyButtonLeft.addAction(Actions.moveBy(0, -backButtonHeight, 0));
-                    dummyButtonLeft.addAction(Actions.sequence(Actions.fadeOut(0), Actions.hide()));
-
-                    dummyButtonRight.addAction(Actions.sizeBy(0, backButtonHeight, 0));
-                    dummyButtonRight.addAction(Actions.moveBy(0, -backButtonHeight, 0));
-                    dummyButtonRight.addAction(Actions.sequence(Actions.fadeOut(0), Actions.hide()));
-                    /////////////
-
-                    middleStatsTextArea.setText("", true);
-                    middleStatsTextArea.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
-                    middleTextAreaTable.setVisible(false);
-
-                    backButton.addAction(Actions.fadeOut(fadeTime * crossFadeInFactor));
-                    backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, fadeTime)); // need -3 or else back button height wrong on final screen
-
-                    leftSummaryText.setText("");
+                    if (!transitionToMainScreen.isScheduled()) {
+                        Timer.schedule(transitionToMainScreen, 3);
+                    }
                 }
                 break;
             case PLAYER_USED_MAGIC:
@@ -2479,7 +2477,63 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    private void showMainScreen(boolean immediate) {
+        // cancel any pending transitions
+        transitionToMainScreen.cancel();
+
+        float delay = fadeTime;
+
+        if (immediate) {
+            delay = 0;
+        }
+
+        enableButtons();
+
+        topLeftButton.setText(BTN_NAME_INVENTORY);
+        topRightButton.setText(BTN_NAME_FIGHT);
+
+        topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
+        runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
+        topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
+        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
+
+        battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
+        battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
+                new closeBattleTextAction(battleTextArea)));
+
+        dummyButtonLeft.setVisible(false);
+        dummyButtonLeft.setHeight(menuItemHeight + 2);
+        dummyButtonLeft.setPosition(topLeftButton.getX(), 0);
+
+        dummyButtonRight.setVisible(false);
+        dummyButtonRight.setHeight(menuItemHeight + 2);
+        dummyButtonRight.setPosition(dummyButtonLeft.getX() + dummyButtonLeft.getWidth() - 2, 0);
+
+        middleStatsTextArea.setText("", true);
+        middleStatsTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
+        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
+        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
+        middleTextAreaTable.setVisible(false);
+
+        backButton.addAction(Actions.fadeOut(delay * crossFadeInFactor));
+        backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, delay)); // need -3 or else back button height wrong on final screen
+
+        leftSummaryText.setText("");
+    }
+
+    private Timer.Task getTransitionToMainScreenTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                if (battleTextArea.isVisible()) {
+                    showMainScreen(false);
+                }
+            }
+        };
+    }
+
     private void updateBanner(String text) {
+        // this function raises current banner, changes text, and then lowers banner again
         float bannerWidth = calculateBannerWidth(text);
 
         selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2));
