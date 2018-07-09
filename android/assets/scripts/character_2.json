@@ -23,6 +23,38 @@ entityProperties: {
 		class: java.lang.String
 		value: 15
 	}
+	ATK: {
+		class: java.lang.String
+		value: 7
+	}
+	MagicATK: {
+		class: java.lang.String
+		value: 45
+	}
+	DEF: {
+		class: java.lang.String
+		value: 15
+	}
+	MagicDEF: {
+		class: java.lang.String
+		value: 35
+	}
+	SPD: {
+		class: java.lang.String
+		value: 10
+	}
+	ACC: {
+		class: java.lang.String
+		value: 10
+	}
+	LCK: {
+		class: java.lang.String
+		value: 75
+	}
+	AVO: {
+		class: java.lang.String
+		value: 5
+	}
 }
 animationConfig: [
 	{

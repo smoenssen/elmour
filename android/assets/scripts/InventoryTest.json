@@ -8,9 +8,7 @@
 	sell: 75
 	turns: 3
 	revive: true
-	effectList: [
-		{
-			effect: HEAL_HP
+	 HEAL_HP
 			value: 10
 		}
 		{

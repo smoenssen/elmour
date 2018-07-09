@@ -996,7 +996,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                                        battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                                                        battleTextArea.interact(); // first interact sets battleTextArea visible
-                                                       game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
 
                                                        switch (previousScreenState) {
                                                            case INVENTORY:
@@ -2456,6 +2455,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+        Gdx.app.log(TAG, event.toString() + " notification received");
+
         switch(event){
             case PLAYER_TURN_DONE:
                 /*
@@ -2476,7 +2477,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     }
                 }
 
-                String fullMsg = "";
+                String fullMsg;
 
                 switch (previousScreenState) {
                     case INVENTORY:
@@ -2489,7 +2490,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         if (battleTextArea.interact()) {
                             showMainScreen(true);
                         }
-                        game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
                         break;
                     case SPELLS_BLACK:
                     case SPELLS_WHITE:
@@ -2503,7 +2503,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         if (battleTextArea.interact()) {
                             showMainScreen(true);
                         }
-                        game.battleState.applySpellPowerToCharacter(selectedSpellsPowerElement);
                         break;
                 }
 

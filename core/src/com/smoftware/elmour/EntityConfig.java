@@ -22,11 +22,11 @@ public class EntityConfig {
     private String entityBoundsName;
 
     public static enum EntityProperties{
-        HIT_DAMAGE_TOTAL,
-        HP,
+        HIT_DAMAGE_TOTAL,//todo: remove
+        HP,         //characters only
         HP_MAX,
-        MP,
-        MP_MAX,
+        MP,         //characters only
+        MP_MAX,     //characters only
         ATK,
         MagicATK,
         DEF,
@@ -35,8 +35,8 @@ public class EntityConfig {
         ACC,
         LCK,
         AVO,
-        XP_REWARD,
-        DIBS_REWARD,
+        XP_REWARD,  //monsters only
+        DIBS_REWARD,//monsters only
         NONE
     }
 

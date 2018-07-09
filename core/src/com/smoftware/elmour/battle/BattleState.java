@@ -154,17 +154,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void applyInventoryItemToCharacter(InventoryElement selectedElement) {
-        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
-
         if (!applyInventory.isScheduled()) {
+            Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
             Timer.schedule(applyInventory, 1);
         }
     }
 
     public void applySpellPowerToCharacter(SpellsPowerElement selectedElement) {
-        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
-
         if (!applySpellPower.isScheduled()) {
+            Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
             Timer.schedule(applySpellPower, 1);
         }
     }
