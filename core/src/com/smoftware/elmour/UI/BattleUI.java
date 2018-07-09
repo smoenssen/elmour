@@ -169,6 +169,11 @@ public class BattleUI extends Window implements BattleObserver {
         }
     }
 
+    @Override
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+
+    }
+
     public void resize() {
         _image.setPosition(this.getCell(_image).getActorX(), this.getCell(_image).getActorY());
         _currentImagePosition.set(_image.getX(), _image.getY());

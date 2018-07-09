@@ -10,13 +10,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -24,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
@@ -235,6 +231,9 @@ public class BattleScreen extends MainGameScreen {
                 enemy5.setVisible(true);
                 enemy5.addAction(Actions.fadeOut(0));
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
+
+                //todo: this needs to move, maybe to a different class
+                _game.battleState.setCurrentTurnCharacter(party1.getEntity());
             }
         };
 
@@ -248,7 +247,7 @@ public class BattleScreen extends MainGameScreen {
                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                   // make sure touch point is still on this image
                                   if (touchPointIsInImage(party1)) {
-                                     _game.battleState.setSelectedPartyMember(party1.getEntity());
+                                     _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
                                   }
                               }
                           }
@@ -264,7 +263,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party2)) {
-                                       _game.battleState.setSelectedPartyMember(party2.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(party2.getEntity());
                                    }
                                }
                            }
@@ -280,7 +279,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party3)) {
-                                       _game.battleState.setSelectedPartyMember(party3.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(party3.getEntity());
                                    }
                                }
                            }
@@ -296,7 +295,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party4)) {
-                                       _game.battleState.setSelectedPartyMember(party4.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(party4.getEntity());
                                    }
                                }
                            }
@@ -312,7 +311,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party5)) {
-                                       _game.battleState.setSelectedPartyMember(party5.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
                                    }
                                }
                            }
@@ -328,7 +327,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy1)) {
-                                       _game.battleState.setSelectedEnemy(enemy1.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(enemy1.getEntity());
                                    }
                                }
                            }
@@ -344,7 +343,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy2)) {
-                                       _game.battleState.setSelectedEnemy(enemy2.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(enemy2.getEntity());
                                    }
                                }
                            }
@@ -360,7 +359,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy3)) {
-                                       _game.battleState.setSelectedEnemy(enemy3.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(enemy3.getEntity());
                                    }
                                }
                            }
@@ -376,7 +375,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy4)) {
-                                       _game.battleState.setSelectedEnemy(enemy4.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(enemy4.getEntity());
                                    }
                                }
                            }
@@ -392,7 +391,7 @@ public class BattleScreen extends MainGameScreen {
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy5)) {
-                                       _game.battleState.setSelectedEnemy(enemy5.getEntity());
+                                       _game.battleState.setCurrentSelectedCharacter(enemy5.getEntity());
                                    }
                                }
                            }

@@ -12,7 +12,7 @@ import com.smoftware.elmour.Utility;
 public class BattleTextArea extends Window {
     private static final String TAG = BattleTextArea.class.getSimpleName();
 
-    private enum State {HIDDEN, LISTENING}
+    private enum State {HIDDEN, VISIBLE, LISTENING}
 
     public Array<String> lineStrings;
     private String fullText;
@@ -50,9 +50,14 @@ public class BattleTextArea extends Window {
 
         switch (state) {
             case HIDDEN:
+                isReady = false;
+                this.setVisible(true);
+                state = State.VISIBLE;
+                break;
+            case VISIBLE:
                 if (fullText != "") {
                     Gdx.app.log(TAG, "setting isReady to false in interact");
-                    isReady = false;
+                    //isReady = false;
                     this.setVisible(true);
                     state = State.LISTENING;
                     startInteractionThread();
@@ -185,7 +190,7 @@ public class BattleTextArea extends Window {
 
                             // delay for each character
                             try {
-                                Thread.sleep(50);
+                                Thread.sleep(25);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }

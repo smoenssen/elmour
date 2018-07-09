@@ -206,7 +206,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     BattleTextArea battleTextArea;
     private Timer.Task transitionToMainScreen;
 
-    String selectedCharacter = "";
+    String selectedCharacter = null;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -994,25 +994,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                        selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2));
                                                        selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2));
 
+                                                       battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                       battleTextArea.interact(); // first interact sets battleTextArea visible
+                                                       game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
+
                                                        switch (previousScreenState) {
                                                            case INVENTORY:
-                                                               //updateBanner(selectedInventoryElement.name + " used on " + selectedCharacter);
-                                                               battleTextArea.populateText(selectedInventoryElement.name + " used on " + selectedCharacter);
-                                                               battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                                                               if (battleTextArea.interact()) {
-                                                                   showMainScreen(true);
-                                                               }
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
                                                                break;
                                                            case SPELLS_BLACK:
                                                            case SPELLS_WHITE:
                                                            case POWER:
-                                                               //updateBanner(selectedSpellsPowerElement.name + " used on "  + selectedCharacter);
-                                                               battleTextArea.populateText(selectedSpellsPowerElement.name + " used on "  + selectedCharacter);
-                                                               battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                                                               if (battleTextArea.interact()) {
-                                                                   showMainScreen(true);
-                                                               }
                                                                game.battleState.applySpellPowerToCharacter(selectedSpellsPowerElement);
                                                                break;
                                                        }
@@ -2405,23 +2397,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 //this.getTitleLabel().setText("Level " + _battleState.getCurrentZoneLevel() + " " + entity.getEntityConfig().getEntityID());
                 break;
-            case PARTY_MEMBER_SELECTED:
-            case ENEMY_SELECTED:
+            case CHARACTER_SELECTED:
                 if (middleStatsTextArea.getText().equals(CHOOSE_A_CHARACTER) || middleStatsTextArea.getText().equals(CHOOSE_AN_ENEMY)) {
+                    if (selectedCharacter == null) {
+                        float widthToMove = statusButton.getWidth();
+
+                        backButton.addAction(Actions.sizeBy(-widthToMove, 0, fadeTime));
+                        backButton.setWidth(backButton.getWidth() + 2);
+
+                        statusButton.setPosition(rightTextArea.getX() + 2, 2);
+                        statusButton.setWidth(0);
+                        statusButton.setText(BTN_NAME_OK);
+                        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                        statusButton.addAction(Actions.sizeBy(widthToMove, 0, fadeTime));
+                        statusButton.addAction(Actions.moveBy(-widthToMove, 0, fadeTime));
+                    }
+
                     selectedCharacter = entity.getEntityConfig().getEntityID();
                     Gdx.app.log(TAG, selectedCharacter + " selected");
-
-                    float widthToMove = statusButton.getWidth();
-
-                    backButton.addAction(Actions.sizeBy(-widthToMove, 0, fadeTime));
-                    backButton.setWidth(backButton.getWidth() + 2);
-
-                    statusButton.setPosition(rightTextArea.getX() + 2, 2);
-                    statusButton.setWidth(0);
-                    statusButton.setText(BTN_NAME_OK);
-                    statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    statusButton.addAction(Actions.sizeBy(widthToMove, 0, fadeTime));
-                    statusButton.addAction(Actions.moveBy(-widthToMove, 0, fadeTime));
                 }
 
                 break;
@@ -2442,28 +2435,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             case OPPONENT_TURN_DONE:
+                selectedCharacter = null;
+
                 attackButton.setDisabled(false);
                 attackButton.setTouchable(Touchable.enabled);
                 runButton.setDisabled(false);
                 runButton.setTouchable(Touchable.enabled);
-                break;
-            case PLAYER_TURN_DONE:
-                /*
-                _battleState.opponentAttacks();
-                */
-
-                // go back to Main screen and enable buttons
-                ScreenState currentScreenState = screenStack.peek();
-                screenStack.clear();
-                screenStack.push(ScreenState.MAIN);
-
-                // todo: screen shouldn't necessarily be shown here. might have to do it after opponent turn is done
-                if (currentScreenState == ScreenState.FINAL) {
-
-                    if (!transitionToMainScreen.isScheduled()) {
-                        Timer.schedule(transitionToMainScreen, 3);
-                    }
-                }
                 break;
             case PLAYER_USED_MAGIC:
                 /*
@@ -2473,6 +2450,64 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+        switch(event){
+            case PLAYER_TURN_DONE:
+                /*
+                _battleState.opponentAttacks();
+                */
+
+                // go back to Main screen and enable buttons
+                ScreenState currentScreenState = screenStack.pop();
+                ScreenState previousScreenState = screenStack.peek();
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
+                // todo: screen shouldn't necessarily be shown here. might have to do it after opponent turn is done
+                if (currentScreenState == ScreenState.FINAL) {
+
+                    if (!transitionToMainScreen.isScheduled()) {
+                        Timer.schedule(transitionToMainScreen, 4);
+                    }
+                }
+
+                String fullMsg = "";
+
+                switch (previousScreenState) {
+                    case INVENTORY:
+                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getEntityID().toString(),
+                                                                            selectedInventoryElement.name,
+                                                                            destinationEntity.getEntityConfig().getEntityID().toString(),
+                                                                            message);
+                        Gdx.app.log(TAG, fullMsg);
+                        battleTextArea.populateText(fullMsg);
+                        if (battleTextArea.interact()) {
+                            showMainScreen(true);
+                        }
+                        game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
+                        break;
+                    case SPELLS_BLACK:
+                    case SPELLS_WHITE:
+                    case POWER:
+                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getEntityID().toString(),
+                                                                            selectedSpellsPowerElement.name,
+                                                                            destinationEntity.getEntityConfig().getEntityID().toString(),
+                                                                            message);
+                        Gdx.app.log(TAG, fullMsg);
+                        battleTextArea.populateText(fullMsg);
+                        if (battleTextArea.interact()) {
+                            showMainScreen(true);
+                        }
+                        game.battleState.applySpellPowerToCharacter(selectedSpellsPowerElement);
+                        break;
+                }
+
+                selectedCharacter = null;
                 break;
         }
     }

@@ -14,10 +14,10 @@ public interface BattleObserver {
         PLAYER_TURN_DONE,
         PLAYER_TURN_START,
         PLAYER_USED_MAGIC,
-        PARTY_MEMBER_SELECTED,
-        ENEMY_SELECTED,
+        CHARACTER_SELECTED,
         NONE
     }
 
     void onNotify(final Entity enemyEntity, BattleEvent event);
+    void onNotify(final Entity sourceEntity, final Entity destinationEntity, BattleEvent event, String message);
 }

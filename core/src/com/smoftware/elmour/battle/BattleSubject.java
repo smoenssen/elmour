@@ -23,4 +23,10 @@ public class BattleSubject {
             observer.onNotify(entity, event);
         }
     }
+
+    protected void notify(final Entity sourceEntity, final Entity destinationEntity, BattleObserver.BattleEvent event, String message){
+        for(BattleObserver observer: _observers){
+            observer.onNotify(sourceEntity, destinationEntity, event, message);
+        }
+    }
 }

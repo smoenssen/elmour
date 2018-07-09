@@ -16,7 +16,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private static final String TAG = BattleState.class.getSimpleName();
 
     private Entity _currentOpponent = null;
-    private Entity currentPartyMember = null;
+    //private Entity currentPartyMember = null;
+    private Entity currentTurnCharacter = null;
+    private Entity currentSelectedCharacter = null;
     private Array<Entity> currentOpponentList;
     private int _currentZoneLevel = 0;
     private int _currentPlayerAP;
@@ -142,18 +144,17 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
     }
 
-    public void setSelectedPartyMember(Entity entity) {
-        this.currentPartyMember = entity;
-        notify(entity, BattleObserver.BattleEvent.PARTY_MEMBER_SELECTED);
+    public void setCurrentTurnCharacter(Entity entity) {
+        this.currentTurnCharacter = entity;
     }
 
-    public void setSelectedEnemy(Entity entity) {
-        this._currentOpponent = entity;
-        notify(entity, BattleObserver.BattleEvent.ENEMY_SELECTED);
+    public void setCurrentSelectedCharacter(Entity entity) {
+        this.currentSelectedCharacter = entity;
+        notify(entity, BattleObserver.BattleEvent.CHARACTER_SELECTED);
     }
 
     public void applyInventoryItemToCharacter(InventoryElement selectedElement) {
-        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentPartyMember.getEntityConfig().getEntityID());
+        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
 
         if (!applyInventory.isScheduled()) {
             Timer.schedule(applyInventory, 1);
@@ -161,7 +162,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void applySpellPowerToCharacter(SpellsPowerElement selectedElement) {
-        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentPartyMember.getEntityConfig().getEntityID());
+        Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
 
         if (!applySpellPower.isScheduled()) {
             Timer.schedule(applySpellPower, 1);
@@ -208,7 +209,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                BattleState.this.notify(currentPartyMember, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
+                String message = ", healing 15 HP.";
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
             }
         };
     }
@@ -217,7 +219,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                BattleState.this.notify(currentPartyMember, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, ".");
             }
         };
     }

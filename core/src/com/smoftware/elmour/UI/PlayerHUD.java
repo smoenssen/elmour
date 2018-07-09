@@ -1594,6 +1594,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     @Override
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+
+    }
+
+    @Override
     public void onNotify(String value, InventoryEvent event) {
         switch(event){
             case ITEM_CONSUMED:
