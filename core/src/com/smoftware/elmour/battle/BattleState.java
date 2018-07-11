@@ -208,6 +208,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             @Override
             public void run() {
                 String message = ", healing 15 HP.";
+                currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), "25");
+                currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP.toString(), "1");
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
             }
         };

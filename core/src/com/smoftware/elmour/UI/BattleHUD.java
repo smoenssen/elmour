@@ -2294,13 +2294,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             case PARTY_MEMBBER_ADDED:
-                Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getEntityID());
+                Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
                 numberOfPartyMembers++;
                 battleScreen.addPartyMember(entity, numberOfPartyMembers);
 
                 switch (numberOfPartyMembers) {
                     case 1:
-                        party1Name.setText(entity.getEntityConfig().getEntityID());
+                        String s = entity.getEntityConfig().getDisplayName();
+                        party1Name.setText(entity.getEntityConfig().getDisplayName());
                         updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
                                 entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar1, hp1Stats);
 
@@ -2311,7 +2312,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         groupMp1.setVisible(true);
                         break;
                     case 2:
-                        party2Name.setText(entity.getEntityConfig().getEntityID());
+                        party2Name.setText(entity.getEntityConfig().getDisplayName());
                         updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
                                 entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar2, hp2Stats);
 
@@ -2322,7 +2323,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         groupMp2.setVisible(true);
                         break;
                     case 3:
-                        party3Name.setText(entity.getEntityConfig().getEntityID());
+                        party3Name.setText(entity.getEntityConfig().getDisplayName());
                         updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
                                 entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar3, hp3Stats);
 
@@ -2333,7 +2334,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         groupMp3.setVisible(true);
                         break;
                     case 4:
-                        party4Name.setText(entity.getEntityConfig().getEntityID());
+                        party4Name.setText(entity.getEntityConfig().getDisplayName());
                         updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
                                 entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar4, hp4Stats);
 
@@ -2344,7 +2345,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         groupMp4.setVisible(true);
                         break;
                     case 5:
-                        party5Name.setText(entity.getEntityConfig().getEntityID());
+                        party5Name.setText(entity.getEntityConfig().getDisplayName());
                         updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
                                 entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar5, hp5Stats);
 
@@ -2358,25 +2359,25 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 break;
             case OPPONENT_ADDED:
-                Gdx.app.log(TAG, "Opponent added: " + entity.getEntityConfig().getEntityID());
+                Gdx.app.log(TAG, "Opponent added: " + entity.getEntityConfig().getDisplayName());
                 numberOfOpponents++;
                 battleScreen.addOpponent(entity, numberOfOpponents);
 
                 switch (numberOfOpponents) {
                     case 1:
-                        monster1Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        monster1Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 2:
-                        monster2Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        monster2Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 3:
-                        monster3Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        monster3Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 4:
-                        monster4Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        monster4Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 5:
-                        monster5Name.setText(entity.getEntityConfig().getEntityID().toString());
+                        monster5Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                 }
 
@@ -2394,7 +2395,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 //Gdx.app.debug(TAG, "Image position: " + _image.getX() + "," + _image.getY() );
 
-                //this.getTitleLabel().setText("Level " + _battleState.getCurrentZoneLevel() + " " + entity.getEntityConfig().getEntityID());
+                //this.getTitleLabel().setText("Level " + _battleState.getCurrentZoneLevel() + " " + entity.getEntityConfig().getDisplayName());
                 break;
             case CHARACTER_SELECTED:
                 if (middleStatsTextArea.getText().equals(CHOOSE_A_CHARACTER) || middleStatsTextArea.getText().equals(CHOOSE_AN_ENEMY)) {
@@ -2412,7 +2413,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         statusButton.addAction(Actions.moveBy(-widthToMove, 0, fadeTime));
                     }
 
-                    selectedCharacter = entity.getEntityConfig().getEntityID();
+                    selectedCharacter = entity.getEntityConfig().getDisplayName();
                     Gdx.app.log(TAG, selectedCharacter + " selected");
                 }
 
@@ -2479,11 +2480,60 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 String fullMsg;
 
+                // store any updated stats
+                ProfileManager.getInstance().setStatProperties(destinationEntity, true);
+
+                // update HUD graphic stats for destination entity
+                // todo: handle if destination entity is enemy
+                Image hpBar = null;
+                Label hpStats = null;
+                Image mpBar = null;
+                Label mpStats = null;
+
+                if (destinationEntity.getEntityConfig().getDisplayName().equals(party1Name.getText().toString())) {
+                    hpBar = hpBar1;
+                    hpStats = hp1Stats;
+                    mpBar = mpBar1;
+                    mpStats = mp1Stats;
+                }
+                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party2Name.getText().toString())) {
+                    hpBar = hpBar2;
+                    hpStats = hp2Stats;
+                    mpBar = mpBar2;
+                    mpStats = mp2Stats;
+                }
+                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party3Name.getText().toString())) {
+                    hpBar = hpBar3;
+                    hpStats = hp3Stats;
+                    mpBar = mpBar3;
+                    mpStats = mp3Stats;
+                }
+                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party4Name.getText().toString())) {
+                    hpBar = hpBar4;
+                    hpStats = hp4Stats;
+                    mpBar = mpBar4;
+                    mpStats = mp4Stats;
+                }
+                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party5Name.getText().toString())) {
+                    hpBar = hpBar5;
+                    hpStats = hp5Stats;
+                    mpBar = mpBar5;
+                    mpStats = mp5Stats;
+                }
+
+                if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
+                    updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                            destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar, hpStats);
+
+                    updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                            destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar, mpStats);
+                }
+
                 switch (previousScreenState) {
                     case INVENTORY:
-                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getEntityID().toString(),
+                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
                                                                             selectedInventoryElement.name,
-                                                                            destinationEntity.getEntityConfig().getEntityID().toString(),
+                                                                            destinationEntity.getEntityConfig().getDisplayName(),
                                                                             message);
                         Gdx.app.log(TAG, fullMsg);
                         battleTextArea.populateText(fullMsg);
@@ -2494,9 +2544,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case SPELLS_BLACK:
                     case SPELLS_WHITE:
                     case POWER:
-                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getEntityID().toString(),
+                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
                                                                             selectedSpellsPowerElement.name,
-                                                                            destinationEntity.getEntityConfig().getEntityID().toString(),
+                                                                            destinationEntity.getEntityConfig().getDisplayName(),
                                                                             message);
                         Gdx.app.log(TAG, fullMsg);
                         battleTextArea.populateText(fullMsg);

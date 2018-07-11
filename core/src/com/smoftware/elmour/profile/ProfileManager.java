@@ -5,6 +5,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityFactory;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -18,6 +21,7 @@ public class ProfileManager extends ProfileSubject {
     private ObjectMap<String, Object> _profileProperties = new ObjectMap<String, Object>();
     private String _profileName;
     private boolean _isNewProfile = false;
+    private boolean isLoaded = false;
 
     private static final String SAVEGAME_SUFFIX = ".sav";
     public static final String SAVED_GAME_PROFILE = "saved_game";
@@ -120,27 +124,155 @@ public class ProfileManager extends ProfileSubject {
     }
 
     public void loadProfile(){
-        if( _isNewProfile ){
-            notify(this, ProfileObserver.ProfileEvent.CLEAR_CURRENT_PROFILE);
-            saveProfile();
+        // only load profile once during the game. any changes are set in memory (_profileProperties)
+        // and saved if the user chooses to do so
+        if (!isLoaded) {
+            if (_isNewProfile) {
+                notify(this, ProfileObserver.ProfileEvent.CLEAR_CURRENT_PROFILE);
+                saveProfile();
+            }
+
+            String fullProfileFileName = _profileName + SAVEGAME_SUFFIX;
+            boolean doesProfileFileExist = Gdx.files.local(fullProfileFileName).exists();
+
+            if (!doesProfileFileExist) {
+                //System.out.println("File doesn't exist!");
+                return;
+            }
+
+            FileHandle encodedFile = _profiles.get(_profileName);
+            String s = encodedFile.readString();
+
+            String decodedFile = s;//Base64Coder.decodeString(s);
+
+            _profileProperties = _json.fromJson(ObjectMap.class, decodedFile);
+
+            // load default stats
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.DOUGLAS), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON), false);
+
+            notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
+            _isNewProfile = false;
+            isLoaded = true;
         }
+    }
 
-        String fullProfileFileName = _profileName+SAVEGAME_SUFFIX;
-        boolean doesProfileFileExist = Gdx.files.local(fullProfileFileName).exists();
+    public void setStatProperties(Entity entity, boolean update) {
+        String entityID = entity.getEntityConfig().getEntityID();
+        String key;
+        String property;
 
-        if( !doesProfileFileExist ){
-            //System.out.println("File doesn't exist!");
-            return;
+        // set stat properties only if they are not already set, or if an update is being made
+        key = entityID + EntityConfig.EntityProperties.HP.toString();
+        property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString().toString());
+        if (!_profileProperties.containsKey(key) || update) {
+            _profileProperties.put(key, property);
+
+            // we can assume all other status values need to be set since they are always done in a batch here
+            key = entityID + EntityConfig.EntityProperties.HP_MAX.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.MP.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.MP_MAX.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.ATK.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ATK.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.MagicATK.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MagicATK.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.DEF.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DEF.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.MagicDEF.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MagicDEF.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.SPD.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.SPD.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.ACC.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ACC.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.LCK.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.LCK.toString().toString());
+            _profileProperties.put(key, property);
+
+            key = entityID + EntityConfig.EntityProperties.AVO.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.AVO.toString().toString());
+            _profileProperties.put(key, property);
         }
+    }
 
-        FileHandle encodedFile = _profiles.get(_profileName);
-        String s = encodedFile.readString();
+    public void getStatProperties(Entity entity) {
+        String entityID = entity.getEntityConfig().getEntityID();
+        String key;
 
-        String decodedFile = s;//Base64Coder.decodeString(s);
+        key = entityID + EntityConfig.EntityProperties.HP.toString();
+        if (_profileProperties.containsKey(key)){
+            String property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), property);
 
-        _profileProperties = _json.fromJson(ObjectMap.class, decodedFile);
-        notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
-        _isNewProfile = false;
+            // we can assume all other status values exists since they are always set in a batch in setStatProperties
+            key = entityID + EntityConfig.EntityProperties.HP_MAX.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.MP.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.MP_MAX.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.ATK.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ATK.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.MagicATK.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MagicATK.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.DEF.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.DEF.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.MagicDEF.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MagicDEF.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.SPD.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.SPD.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.ACC.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ACC.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.LCK.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.LCK.toString(), property);
+
+            key = entityID + EntityConfig.EntityProperties.AVO.toString();
+            property = (String)_profileProperties.get(key);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.AVO.toString(), property);
+        }
     }
 
     public void setCurrentProfile(String profileName){

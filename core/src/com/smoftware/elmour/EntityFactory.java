@@ -2,6 +2,7 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.Hashtable;
 

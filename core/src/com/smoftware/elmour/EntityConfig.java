@@ -20,6 +20,7 @@ public class EntityConfig {
     private String itemTypeID;
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
+    private String displayName;
 
     public static enum EntityProperties{
         HIT_DAMAGE_TOTAL,//todo: remove
@@ -56,6 +57,7 @@ public class EntityConfig {
         state = config.getState();
         direction = config.getDirection();
         entityID = config.getEntityID();
+        displayName = config.getDisplayName();
         entityBoundsName = config.getEntityBoundsName();
         conversationConfigPath = config.getConversationConfigPath();
         questConfigPath = config.getQuestConfigPath();
@@ -110,17 +112,13 @@ public class EntityConfig {
         return questConfigPath;
     }
 
-    public void setQuestConfigPath(String questConfigPath) {
-        this.questConfigPath = questConfigPath;
-    }
+    public void setQuestConfigPath(String questConfigPath) { this.questConfigPath = questConfigPath; }
 
     public String getConversationConfigPath() {
         return conversationConfigPath;
     }
 
-    public void setConversationConfigPath(String conversationConfigPath) {
-        this.conversationConfigPath = conversationConfigPath;
-    }
+    public void setConversationConfigPath(String conversationConfigPath) { this.conversationConfigPath = conversationConfigPath; }
 
     public String getEntityID() {
         return entityID;
@@ -134,37 +132,25 @@ public class EntityConfig {
 
     public void setEntityBoundsName(String entityBoundsName) { this.entityBoundsName = entityBoundsName; }
 
-    public Entity.Direction getDirection() {
-        return direction;
-    }
+    public String getDisplayName() { return displayName; }
 
-    public void setDirection(Entity.Direction direction) {
-        this.direction = direction;
-    }
+    public void setDisplayName(String displayName) { this.displayName = displayName; }
 
-    public Entity.State getState() {
-        return state;
-    }
+    public Entity.Direction getDirection() { return direction; }
 
-    public void setState(Entity.State state) {
-        this.state = state;
-    }
+    public void setDirection(Entity.Direction direction) { this.direction = direction; }
 
-    public Array<AnimationConfig> getAnimationConfig() {
-        return animationConfig;
-    }
+    public Entity.State getState() { return state; }
 
-    public void addAnimationConfig(AnimationConfig animationConfig) {
-        this.animationConfig.add(animationConfig);
-    }
+    public void setState(Entity.State state) { this.state = state; }
 
-    public Array<ItemTypeID> getInventory() {
-        return inventory;
-    }
+    public Array<AnimationConfig> getAnimationConfig() { return animationConfig; }
 
-    public void setInventory(Array<ItemTypeID> inventory) {
-        this.inventory = inventory;
-    }
+    public void addAnimationConfig(AnimationConfig animationConfig) { this.animationConfig.add(animationConfig); }
+
+    public Array<ItemTypeID> getInventory() { return inventory; }
+
+    public void setInventory(Array<ItemTypeID> inventory) { this.inventory = inventory; }
 
     static public class AnimationConfig{
         private float frameDuration = 1.0f;

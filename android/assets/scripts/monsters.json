@@ -1,6 +1,7 @@
 [
 {
 entityID : Douglas
+displayName : Douglas
 state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
@@ -196,6 +197,7 @@ animationConfig: [
 
 {
 entityID : Octomaniac
+displayName : Octomaniac
 state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
@@ -391,6 +393,7 @@ animationConfig: [
 
 {
 entityID : Goblin
+displayName : Goblin
 state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
@@ -586,6 +589,7 @@ animationConfig: [
 
 {
 	entityID : Ogre
+	displayName : Ogre
 	state : IMMOBILE
 	direction : RIGHT
 	entityProperties: {
@@ -780,6 +784,7 @@ animationConfig: [
 
 {
 	entityID : Royal_Guard
+	displayName : Royal Guard
 	state : IMMOBILE
 	direction : RIGHT
 	entityProperties: {

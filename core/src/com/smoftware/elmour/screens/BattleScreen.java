@@ -654,6 +654,8 @@ public class BattleScreen extends MainGameScreen {
     }
 
     public void addPartyMember(Entity partyEntity, int index) {
+        ProfileManager.getInstance().getStatProperties(partyEntity);
+
         switch (index) {
             case 1:
                 party1.setEntity(partyEntity);
@@ -666,6 +668,7 @@ public class BattleScreen extends MainGameScreen {
                 party2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party2.setCurrentDirection(Entity.Direction.LEFT);
                 _stage.addActor(party2);
+                ProfileManager.getInstance().getStatProperties(party2.getEntity());
                 break;
             case 3:
                 party3.setEntity(partyEntity);

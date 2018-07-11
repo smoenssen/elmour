@@ -1,5 +1,6 @@
 {
 entityID : Carmen
+displayName : "Carmen"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
