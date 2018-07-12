@@ -168,6 +168,14 @@ public class Entity {
             @Override
             public String toString() { return "M11SIGN1"; }
         },
+		M14SIGN1 {
+			@Override
+			public String toString() { return "M14SIGN1"; }
+		},
+		M14SIGN2 {
+			@Override
+			public String toString() { return "M14SIGN2"; }
+		},
 		T2DOOR1 {
 			@Override
 			public String toString() { return "T2DOOR1"; }
