@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 
 public abstract class PhysicsComponent extends ComponentSubject implements Component{
@@ -145,23 +146,57 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             }
         }
 
-        // need to also check 0_OPACITY_LAYER if it is present or active
-        MapLayer mapZeroOpacityLayer = mapMgr.getZeroOpacityLayer();
+        // if player is on ZDOWN layer then apply under bridge obstacles, otherwise apply regular bridge obstacles
+        //Gdx.app.log(TAG, "Player Z layer = " + MapFactory.getMap(mapMgr.getCurrentMapType()).getPlayerZLayer());
+        if (MapFactory.getMap(mapMgr.getCurrentMapType()).getPlayerZLayer().equals("ZDOWN")) {
+            MapLayer underBridgeLayer = mapMgr.getUnderBridgeObstacleLayer();
 
-        if( mapZeroOpacityLayer == null ){
-            return false;
-        }
-
-        for( MapObject object: mapZeroOpacityLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if( _boundingBox.overlaps(rectangle) ){
-                    //Collision
-                    entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
-                    return true;
+            if( underBridgeLayer != null ) {
+                for (MapObject object : underBridgeLayer.getObjects()) {
+                    if (object instanceof RectangleMapObject) {
+                        rectangle = ((RectangleMapObject) object).getRectangle();
+                        if (_boundingBox.overlaps(rectangle)) {
+                            //Collision
+                            entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                            return true;
+                        }
+                    }
                 }
             }
         }
+        else {
+            MapLayer bridgeLayer = mapMgr.getBridgeObstacleLayer();
+
+            if( bridgeLayer != null ) {
+                for (MapObject object : bridgeLayer.getObjects()) {
+                    if (object instanceof RectangleMapObject) {
+                        rectangle = ((RectangleMapObject) object).getRectangle();
+                        if (_boundingBox.overlaps(rectangle)) {
+                            //Collision
+                            entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // need to also check 0_OPACITY_LAYER if it is present or active
+        MapLayer mapZeroOpacityLayer = mapMgr.getZeroOpacityLayer();
+
+        if( mapZeroOpacityLayer != null ) {
+            for (MapObject object : mapZeroOpacityLayer.getObjects()) {
+                if (object instanceof RectangleMapObject) {
+                    rectangle = ((RectangleMapObject) object).getRectangle();
+                    if (_boundingBox.overlaps(rectangle)) {
+                        //Collision
+                        entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                        return true;
+                    }
+                }
+            }
+        }
+
 
         return false;
     }

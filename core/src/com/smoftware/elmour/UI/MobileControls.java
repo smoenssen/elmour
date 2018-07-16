@@ -100,9 +100,15 @@ public class MobileControls extends MobileControlsSubject implements Screen {
         groupB.addActor(bBtnImageDown);
 
         // top, left, bottom, right
-        buttonTable.row().pad(0, 16, 16, 4);
-        buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        //buttonTable.row().pad(0, 16, 16, 4);
+        //buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
+        //buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
+
+        // top, left, bottom, right
+        buttonTable.row().pad(0, 64, 0, 4);
         buttonTable.add(groupA).size(aBtnImage.getWidth(), aBtnImage.getHeight());
+        buttonTable.row().pad(0, 0, 16, 80);
+        buttonTable.add(groupB).size(bBtnImage.getWidth(), bBtnImage.getHeight());
 
         buttonTable.left().bottom();
 

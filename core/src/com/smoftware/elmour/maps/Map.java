@@ -39,6 +39,7 @@ public abstract class Map implements AudioSubject{
     protected final static String ZERO_OPACITY_LAYER = "0_OPACITY";
     protected final static String WATER_OBSTACLE_LAYER = "WATER_OBSTACLE";
     protected final static String WATERFALL_OBSTACLE_LAYER = "WATERFALL_OBSTACLE";
+    protected final static String BRIDGE_OBSTACLE_LAYER = "BRIDGE_OBSTACLE";
     protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
     protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
     protected final static String Z_GATES_LAYER = "Z_GATES";
@@ -90,6 +91,7 @@ public abstract class Map implements AudioSubject{
     protected MapLayer zeroOpacityLayer = null;
     protected MapLayer waterObstacleLayer = null;
     protected MapLayer waterfallObstacleLayer = null;
+    protected MapLayer bridgeObstacleLayer = null;
     protected MapLayer underBridgeObstacleLayer = null;
     protected MapLayer npcBoundsLayer = null;
     protected MapLayer zGatesLayer = null;
@@ -195,6 +197,11 @@ public abstract class Map implements AudioSubject{
         waterfallObstacleLayer = _currentMap.getLayers().get(WATERFALL_OBSTACLE_LAYER);
         if( waterfallObstacleLayer == null ){
             Gdx.app.debug(TAG, "No waterfall obstacle layer!");
+        }
+
+        bridgeObstacleLayer = _currentMap.getLayers().get(BRIDGE_OBSTACLE_LAYER);
+        if( bridgeObstacleLayer == null ){
+            Gdx.app.debug(TAG, "No bridge obstacle layer!");
         }
 
         underBridgeObstacleLayer = _currentMap.getLayers().get(UNDERBRIDGE_OBSTACLE_LAYER);
@@ -385,6 +392,8 @@ public abstract class Map implements AudioSubject{
     public MapLayer getWaterObstacleLayer() { return waterObstacleLayer; }
 
     public MapLayer getWaterfallObstacleLayer() { return waterfallObstacleLayer; }
+
+    public MapLayer getBridgeObstacleLayer() { return bridgeObstacleLayer; }
 
     public MapLayer getUnderBridgeObstacleLayer() { return underBridgeObstacleLayer; }
 

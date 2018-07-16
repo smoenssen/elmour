@@ -2155,6 +2155,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
         */
 
+        //_stage.setDebugAll(true);
         battleTextArea.update();
         _stage.act(delta);
         _stage.draw();

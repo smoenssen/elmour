@@ -207,6 +207,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public MapLayer getWaterfallObstacleLayer() { return _currentMap.getWaterfallObstacleLayer(); }
 
+    public MapLayer getBridgeObstacleLayer() { return _currentMap.getBridgeObstacleLayer(); }
+
     public MapLayer getUnderBridgeObstacleLayer() { return _currentMap.getUnderBridgeObstacleLayer(); }
 
     public MapLayer getPortalLayer(){
