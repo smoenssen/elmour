@@ -498,7 +498,7 @@ public class BattleScreen extends MainGameScreen {
         setupViewport(V_WIDTH, V_HEIGHT);
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-        if (battleHUD != null)
+        if (battleHUD != null && isFirstTime)
             battleHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
     }
 
