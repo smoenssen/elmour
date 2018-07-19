@@ -1059,8 +1059,8 @@
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
   <object id="1" name="PLAYER_START" x="6" y="304" width="16" height="32"/>
-  <object id="284" name="EXIT1" x="320" y="6" width="32" height="16"/>
-  <object id="288" name="EXIT2" x="576" y="6" width="16" height="16"/>
+  <object id="284" name="PLAYER_START+1" x="320" y="6" width="32" height="16"/>
+  <object id="288" name="PLAYER_START+2" x="576" y="6" width="16" height="16"/>
   <object id="317" name="PLAYER_START" x="1792" y="618" width="48" height="16"/>
   <object id="322" name="PLAYER_START" x="1472" y="6" width="48" height="16"/>
   <object id="327" name="PLAYERSTART" x="224" y="437" width="16" height="16"/>
@@ -1068,14 +1068,14 @@
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="2" name="MAP7" x="0" y="0" width="1" height="640"/>
-  <object id="285" name="GOTO_EXIT2" x="304" y="0" width="64" height="1"/>
-  <object id="287" name="GOTO_EXIT1" x="576" y="0" width="16" height="1"/>
+  <object id="285" name="MAP10+2" x="304" y="0" width="64" height="1"/>
+  <object id="287" name="MAP10+1" x="576" y="0" width="16" height="1"/>
   <object id="315" name="MAP11" x="1744" y="639" width="144" height="1"/>
   <object id="320" name="M10_HIDDEN" x="1456" y="0" width="80" height="1"/>
   <object id="325" name="M10_CAVE_A" x="224" y="423" width="16" height="1"/>
   <object id="326" name="M10_CAVE_B" x="432" y="423" width="16" height="1"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
+ <objectgroup name="Z_GATES" visible="0">
   <object id="273" name="ZDOWN" x="6" y="304" width="16" height="32"/>
   <object id="274" name="ZUP" x="240" y="80" width="32" height="1"/>
   <object id="275" name="ZDOWN" x="240" y="102" width="32" height="1"/>

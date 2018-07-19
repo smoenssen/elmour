@@ -458,7 +458,7 @@ conversations: {
 	}
 	n124: {
 		id: n124
-		dialog: "Some people call me that, but I'm mostly known as {CHARACTER_2}."
+		dialog: "Some people call me that, but I’m mostly known as {CHARACTER_2}."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
