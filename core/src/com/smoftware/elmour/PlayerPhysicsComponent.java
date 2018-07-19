@@ -590,10 +590,28 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         return false;
                     }
 
+                    // check if there is a specific spawn position in the map name
+                    String spawnPosition = null;
+                    if (mapName.contains("+")) {
+                        // get spawn position
+                        spawnPosition = mapName.substring(mapName.indexOf("+") + 1);
+
+                        // strip off spawn position for actual map name
+                        mapName = mapName.substring(0, mapName.indexOf("+"));
+                    }
+
                     Gdx.app.debug(TAG, "loading map " + mapName);
                     //mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
+
+                    //todo: loading map calls setClosestStartPosition, so this could cause confusion
                     mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
-                    mapMgr.setStartPositionFromPreviousMap();
+
+                    if (spawnPosition != null) {
+                        mapMgr.setStartPostionByNameExtension(spawnPosition);
+                    }
+                    else {
+                        mapMgr.setStartPositionFromPreviousMap();
+                    }
 
                     _currentEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
                     _currentEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;

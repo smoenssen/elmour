@@ -523,6 +523,24 @@ public abstract class Map implements AudioSubject{
         setClosestStartPosition(_convertedUnits);
     }
 
+    public void setStartPositionByNameExtension(String nameExtension) {
+        // Go through all player start positions and choose map portal position with the name extension
+        for( MapObject object: _spawnsLayer.getObjects()){
+            String objectName = object.getName();
+
+            if( objectName == null || objectName.isEmpty() ){
+                continue;
+            }
+
+            if( objectName.equalsIgnoreCase(PLAYER_START + "+" + nameExtension) ){
+                ((RectangleMapObject)object).getRectangle().getPosition(_playerStartPositionRect);
+                    _closestPlayerStartPosition.set(_playerStartPositionRect);
+                    Gdx.app.debug(TAG, "setStartPositionByNameExtension: : (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
+            }
+        }
+        _playerStart =  _closestPlayerStartPosition.cpy();
+    }
+
     public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
         float shortestDistance = 0f;
         Vector2 portalObjectPos = new Vector2(0f, 0f);

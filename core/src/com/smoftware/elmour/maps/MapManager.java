@@ -193,6 +193,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         _currentMap.setStartPositionFromPreviousMap(previousMapType);
     }
 
+    public void setStartPostionByNameExtension(String nameExtension) {
+        _currentMap.setStartPositionByNameExtension(nameExtension);
+    }
+
     public MapLayer getCollisionLayer(){
         return _currentMap.getCollisionLayer();
     }
