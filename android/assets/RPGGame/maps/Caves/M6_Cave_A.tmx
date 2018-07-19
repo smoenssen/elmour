@@ -487,14 +487,14 @@
   <object id="111" x="48" y="439" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
-  <object id="46" name="PLAYER_START" x="848" y="601" width="32" height="16"/>
+  <object id="46" name="PLAYER_START+1" x="848" y="601" width="32" height="16"/>
   <object id="49" name="PLAYER_START" x="528" y="54" width="16" height="16"/>
   <object id="51" name="PLAYER_START" x="192" y="394" width="16" height="16"/>
-  <object id="53" name="PLAYER_START" x="32" y="602" width="16" height="16"/>
+  <object id="53" name="PLAYER_START+2" x="32" y="602" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
-  <object id="55" name="MAP6" x="784" y="623" width="160" height="1"/>
-  <object id="56" name="MAP6" x="16" y="623" width="48" height="1"/>
+  <object id="55" name="MAP6+1" x="784" y="623" width="160" height="1"/>
+  <object id="56" name="MAP6+2" x="16" y="623" width="48" height="1"/>
   <object id="57" name="M6_CAVE_B" x="192" y="416" width="16" height="16"/>
   <object id="58" name="M6_CAVE_B" x="528" y="32" width="16" height="16"/>
  </objectgroup>
