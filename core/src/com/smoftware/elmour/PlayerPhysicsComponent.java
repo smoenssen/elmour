@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 
@@ -266,12 +268,12 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //
         // CHECK IF PASSING THROUGH A PLAYER Z_GATE OR SHADOW Z_GATE
         //
-        object = checkCollisionWithZGatesLayer(mapMgr);
-        if (object != null) {
-            if (object.getName().contains("SHADOW"))
-                MapFactory.getMap(mapMgr.getCurrentMapType()).setShadowZLayer(object.getName());
+        Array<MapObject> objects = checkCollisionWithZGatesLayers(mapMgr);
+        for (MapObject mapObject : objects) {
+            if (mapObject.getName().contains("SHADOW"))
+                MapFactory.getMap(mapMgr.getCurrentMapType()).setShadowZLayer(mapObject.getName());
             else
-                MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(object.getName());
+                MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(mapObject.getName());
         }
 
         /////////////////////////////////////////
@@ -347,22 +349,38 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
             updatePosition(entity, mapMgr, delta);
         }
-        else if (ElmourGame.isAndroid() && (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
-            // check if okay to move next vertical or horizontal position based on joystick position
+        else if (lastCollisionWasPolyline && (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
+            // check if okay to move next position parallel to polyline
             // (prevents "sticking" to obstacle)
-            calculateNextVerticalPosition(delta);
+            calculateNextPositionParallelToLine(delta);
             updateBoundingBoxPosition(_nextEntityPosition);
             if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
                 updatePosition(entity, mapMgr, delta);
             }
-            else {
-                calculateNextHorizontalPosition(delta);
+        }
+        else if (ElmourGame.isAndroid() && (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
+            // check if okay to move next vertical or horizontal position based on joystick position
+            // (prevents "sticking" to obstacle)
+            if (lastCollisionWasPolyline) {
+                calculateNextPositionParallelToLine(delta);
                 updateBoundingBoxPosition(_nextEntityPosition);
                 if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
                     updatePosition(entity, mapMgr, delta);
                 }
-                else {
-                    updateBoundingBoxPosition(_currentEntityPosition);
+            }
+            else {
+                calculateNextVerticalPosition(delta);
+                updateBoundingBoxPosition(_nextEntityPosition);
+                if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
+                    updatePosition(entity, mapMgr, delta);
+                } else {
+                    calculateNextHorizontalPosition(delta);
+                    updateBoundingBoxPosition(_nextEntityPosition);
+                    if (!isCollisionWithMapLayer(entity, mapMgr) && !isCollisionWithMapEntities(entity, mapMgr)) {
+                        updatePosition(entity, mapMgr, delta);
+                    } else {
+                        updateBoundingBoxPosition(_currentEntityPosition);
+                    }
                 }
             }
         }

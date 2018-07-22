@@ -3,7 +3,12 @@ package com.smoftware.elmour;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -27,6 +32,10 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected Vector2 _velocity;
     protected Vector2 actualVelocityVector;
     protected float actualVelocity;
+    protected boolean lastCollisionWasPolyline;
+    private float polyLineCollisionAngle;
+    private float polyLineCollisionSlope;
+    private float polyLineVertices [];
     protected boolean isRunning;
     protected boolean isNPC;
     protected boolean isConversationInProgress;
@@ -126,6 +135,44 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return isCollisionWithMapEntities;
     }
 
+    // Check if Polygon intersects Rectangle
+    private boolean polygonOverlapsRectangle(Polygon p, Rectangle r) {
+        Polygon rPoly = new Polygon(new float[] { 0, 0, r.width, 0, r.width,
+                r.height, 0, r.height });
+        rPoly.setPosition(r.x, r.y);
+        if (Intersector.overlapConvexPolygons(rPoly, p))
+            return true;
+        return false;
+    }
+
+    // Check if PolyLine intersects Rectangle
+    private boolean polyLineOverlapsRectangle(Polyline p, Rectangle r) {
+        polyLineVertices  = p.getTransformedVertices();
+
+        if (polyLineVertices.length != 4) {
+            throw new IllegalArgumentException("Currently can't have more than 2 points in polyline!!");
+        }
+
+        // calculate angle and slope
+        polyLineCollisionAngle = (float) Math.toDegrees(Math.atan2(polyLineVertices[3] - polyLineVertices[1], polyLineVertices[2] - polyLineVertices[0]));
+        polyLineCollisionSlope = (polyLineVertices[3] - polyLineVertices[1]) / (polyLineVertices[2] - polyLineVertices[0]);
+        /*
+        if(angle < 0){
+            angle += 360;
+        }
+        */
+
+        Polygon rPoly = new Polygon(new float[] { 0, 0, r.width, 0, r.width,
+                r.height, 0, r.height });
+        Polygon plPoly = new Polygon(new float[] { polyLineVertices[0], polyLineVertices[1], polyLineVertices[2], polyLineVertices[3],
+                polyLineVertices[2] + .01f, polyLineVertices[3] + .01f});   // hack to create a real skinny triangular polygon
+
+        rPoly.setPosition(r.x, r.y);
+        if (Intersector.overlapConvexPolygons(rPoly, plPoly))
+            return true;
+        return false;
+    }
+
     protected boolean isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
 
@@ -133,14 +180,31 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             return false;
         }
 
-        Rectangle rectangle = null;
+        lastCollisionWasPolyline = false;
 
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
+                Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
                 if( _boundingBox.overlaps(rectangle) ){
                     //Collision
                     entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                    return true;
+                }
+            }
+            else if (object instanceof  PolygonMapObject) {
+                Polygon polygon = ((PolygonMapObject)object).getPolygon();
+                if (polygonOverlapsRectangle(polygon, _boundingBox)) {
+                    //Collision
+                    entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                    return true;
+                }
+            }
+            else if (object instanceof PolylineMapObject) {
+                Polyline polyLine = ((PolylineMapObject)object).getPolyline();
+                if (polyLineOverlapsRectangle(polyLine, _boundingBox)) {
+                    //Collision
+                    entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
+                    lastCollisionWasPolyline = true;
                     return true;
                 }
             }
@@ -154,7 +218,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             if( underBridgeLayer != null ) {
                 for (MapObject object : underBridgeLayer.getObjects()) {
                     if (object instanceof RectangleMapObject) {
-                        rectangle = ((RectangleMapObject) object).getRectangle();
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                         if (_boundingBox.overlaps(rectangle)) {
                             //Collision
                             entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
@@ -170,7 +234,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             if( bridgeLayer != null ) {
                 for (MapObject object : bridgeLayer.getObjects()) {
                     if (object instanceof RectangleMapObject) {
-                        rectangle = ((RectangleMapObject) object).getRectangle();
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                         if (_boundingBox.overlaps(rectangle)) {
                             //Collision
                             entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
@@ -187,7 +251,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         if( mapZeroOpacityLayer != null ) {
             for (MapObject object : mapZeroOpacityLayer.getObjects()) {
                 if (object instanceof RectangleMapObject) {
-                    rectangle = ((RectangleMapObject) object).getRectangle();
+                    Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                     if (_boundingBox.overlaps(rectangle)) {
                         //Collision
                         entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
@@ -284,7 +348,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
-    protected MapObject checkCollisionWithZGatesLayer(MapManager mapMgr){
+    protected Array<MapObject> checkCollisionWithZGatesLayers(MapManager mapMgr){
+        Array<MapObject> objects = new Array<>();
         MapLayer zGatesLayer =  mapMgr.getZGatesLayer();
 
         if( zGatesLayer == null ){
@@ -297,12 +362,12 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             if(object instanceof RectangleMapObject) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
                 if( _boundingBox.overlaps(rectangle) ){
-                    return object;
+                    objects.add(object);
                 }
             }
         }
 
-        return null;
+        return objects;
     }
 
     protected void setNextPositionToCurrent(Entity entity, float delta){
@@ -317,10 +382,29 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         entity.sendMessage(MESSAGE.CURRENT_POSITION, _json.toJson(_currentEntityPosition));
     }
 
+    private float getVelocityFactor() {
+        float velocityFactor;
+
+        if (ElmourGame.isAndroid()) {
+            velocityFactor = 0.075f;
+            if (isRunning)
+                velocityFactor = 0.125f;
+        }
+        else {
+            velocityFactor = 2.0f;
+            if (isRunning)
+                velocityFactor = 8.0f; // super fast for desktop!
+            else if (isNPC)
+                velocityFactor = 1.0f;
+        }
+
+        return velocityFactor;
+    }
+
     protected void calculateNextPosition(float deltaTime){
         if( _currentDirection == null ) return;
 
-        //Gdx.app.log(TAG, String.format("deltaTime = %3.2f", deltaTime));
+        //Gdx.app.log(TAG, String.format("deltaTime = %3.3f", deltaTime));
 
         if( deltaTime > .7) return;
 
@@ -328,9 +412,15 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float testY = _currentEntityPosition.y;
 
         if (ElmourGame.isAndroid()) {
-            float velocityFactor = 0.075f;
-            if (isRunning)
-                velocityFactor = 0.125f;
+            float fps = 1/deltaTime;
+            float frameRateCompensation = 1;
+
+            if (fps < 40) {
+                // todo: compensate for slower frame rate?
+                frameRateCompensation = 40/fps;
+            }
+
+            float velocityFactor = getVelocityFactor() * frameRateCompensation;
 
             if (!isNPC) {
                 // velocity is directly proportional to joystick position
@@ -364,11 +454,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             //Gdx.app.log(TAG, String.format("velocity factor = %3.2f", velocityFactor));
         }
         else {
-            float velocityFactor = 2.0f;
-            if (isRunning)
-                velocityFactor = 8.0f; // super fast for desktop!
-            else if (isNPC)
-                velocityFactor = 1.0f;
+            float velocityFactor = getVelocityFactor();
 
             _velocity.scl(deltaTime);
 
@@ -397,6 +483,99 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         _nextEntityPosition.y = testY;
     }
 
+    enum CollisionLineH { BOTTOM, TOP, NONE }
+    enum CollisionLineV { LEFT, RIGHT, NONE }
+
+    protected void calculateNextPositionParallelToLine(float deltaTime) {
+        if( deltaTime > .7) return;
+
+        CollisionLineH collisionLineH = CollisionLineH.NONE;
+        CollisionLineV collisionLineV = CollisionLineV.NONE;
+        Vector2 collisionPtH = new Vector2();
+        Vector2 collisionPtV = new Vector2();
+
+        // velocity is directly proportional to joystick position
+        //_velocity = currentJoystickPosition;
+
+        // First, get the 2 intersecting points of character's bounding box with the polyline
+
+        // Figure out if bottom or top of character is colliding.
+        // slope of line is zero, so just find point along polyline based on y position
+        // find equation of line: y - y1 = m(x - x1)
+        //                    (y - y1)/m = x - x1
+        //                             x = ((y - y1)/m) + x1
+
+        float y = _boundingBox.y;
+        float x = ((y - polyLineVertices[1])/polyLineCollisionSlope) + polyLineVertices[0];
+
+        if (x >= _boundingBox.x && x <= _boundingBox.x + _boundingBox.width) {
+            // bottom line intersects
+            collisionLineH = CollisionLineH.BOTTOM;
+        }
+        else {
+            y = _boundingBox.y + _boundingBox.height;
+            x = ((y - polyLineVertices[1])/polyLineCollisionSlope) + polyLineVertices[0];
+            if (x >= _boundingBox.x && x <= _boundingBox.x + _boundingBox.width) {
+                // top line intersects
+                collisionLineH = CollisionLineH.TOP;
+            }
+        }
+
+        if (collisionLineH == CollisionLineH.NONE) {
+            throw new IllegalArgumentException("Error calculating horizontal bounding box intersection with polyline");
+        }
+        else {
+            collisionPtH.set(x, y);
+        }
+
+        // Now need to figure out if left or right of character is colliding.
+        // slope of line is 1, so just find point along polyline based on x position
+        // find equation of line: y = m(x - x1) + y1
+        x = _boundingBox.x;
+        y = (polyLineCollisionSlope * (x - polyLineVertices[0])) + polyLineVertices[1];
+
+        if (y >= _boundingBox.y && y <= _boundingBox.y + _boundingBox.height) {
+            // left line intersects
+            collisionLineV = CollisionLineV.LEFT;
+        }
+        else {
+            x = _boundingBox.x + _boundingBox.width;
+            y = (polyLineCollisionSlope * (x - polyLineVertices[0])) + polyLineVertices[1];
+            if (y >= _boundingBox.y && y <= _boundingBox.y + _boundingBox.height) {
+                // right line intersects
+                collisionLineV = CollisionLineV.RIGHT;
+            }
+        }
+
+        if (collisionLineV == CollisionLineV.NONE) {
+            throw new IllegalArgumentException("Error calculating vertical bounding box intersection with polyline");
+        }
+        else {
+            collisionPtV.set(x, y);
+        }
+
+        // Calculate 3rd point based on difference of (x, y) coordinates of 2 intersecting points
+
+
+        // Find equation of line through 3rd point and negative slope of polyline (perpendicular)
+
+        // Find intersecting point of polyline and perpendicular line
+
+        // Set next entity position
+        /*
+        _nextEntityPosition.x = x;
+        _nextEntityPosition.y = y;
+        */
+        switch(_boundingBoxLocation){
+            case BOTTOM_LEFT:
+                break;
+            case BOTTOM_CENTER:
+                break;
+            case CENTER:
+                break;
+        }
+    }
+
     protected void calculateNextVerticalPosition(float deltaTime){
         if( deltaTime > .7) return;
 
@@ -404,9 +583,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float testY = _currentEntityPosition.y;
 
         // NOTE: this function is currently for Android only
-        float velocityFactor = 0.075f;
-        if (isRunning)
-            velocityFactor = 0.125f;
+        float velocityFactor = getVelocityFactor();
 
         // velocity is directly proportional to joystick position
         _velocity = currentJoystickPosition;
@@ -425,9 +602,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float testY = _currentEntityPosition.y;
 
         // NOTE: this function is currently for Android only
-        float velocityFactor = 0.075f;
-        if (isRunning)
-            velocityFactor = 0.125f;
+        float velocityFactor = getVelocityFactor();
 
         // velocity is directly proportional to joystick position
         _velocity = currentJoystickPosition;
