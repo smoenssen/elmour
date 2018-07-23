@@ -525,6 +525,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             throw new IllegalArgumentException("Error calculating horizontal bounding box intersection with polyline");
         }
         else {
+            // save horizontal intersection point
             collisionPtH.set(x, y);
         }
 
@@ -551,15 +552,36 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             throw new IllegalArgumentException("Error calculating vertical bounding box intersection with polyline");
         }
         else {
+            // save vertical intersection point
             collisionPtV.set(x, y);
         }
 
-        // Calculate 3rd point based on difference of (x, y) coordinates of 2 intersecting points
-
+        // Calculate 3rd point based on vertical and horizontal points
+        Vector2 point3 = new Vector2(collisionPtV.x, collisionPtH.y);
 
         // Find equation of line through 3rd point and negative slope of polyline (perpendicular)
+        // y = m(x - x1) + y1
+        // Perpendicular Line:
+        //      y = -1/polyLineCollisionSlope * (x - point3.x) + point3.y
+        //      y = (-1/polyLineCollisionSlope * x) - (-1/polyLineCollisionSlope * point3.x) + point3.y
+        // Polyline:
+        //      y = polyLineCollisionSlope * (x - collisionPtH.x)) + collisionPtH.y
+        //      y = (polyLineCollisionSlope * x) - (polyLineCollisionSlope * collisionPtH.x) + collisionPtH.y
 
         // Find intersecting point of polyline and perpendicular line
+        // Set two equations equal to each other and solve for x coordinate of intersecting point:
+        //      m = polyLineCollisionSlope
+        //      (m * x) - (m * collisionPtH.x) + collisionPtH.y = (-1/m * x) - (-1/m * point3.x) + point3.y
+        //      (m * x) - (-1/m * x) = - (-1/m * point3.x) + point3.y + (m * collisionPtH.x) - collisionPtH.y;
+        //      x * (m -(-1/m)) = -(-1/m * point3.x) + point3.y + (m * collisionPtH.x) - collisionPtH.y
+        //      x = (-(-1/m * point3.x) + point3.y + (m * collisionPtH.x) - collisionPtH.y) / (m -(-1/m))
+        //
+        float m = polyLineCollisionSlope;
+        x = (-(-1/m * point3.x) + point3.y + (m * collisionPtH.x) - collisionPtH.y) / (m -(-1/m));
+
+        // Solve for y coordinate of intersecting point (use either one, they should almost exactly equal except for rounding)
+        y = (m * x) - (m * collisionPtH.x) + collisionPtH.y;
+       //y = (-1/m * x) - (-1/m * point3.x) + point3.y;
 
         // Set next entity position
         /*
