@@ -182,6 +182,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         lastCollisionWasPolyline = false;
 
+        Gdx.app.log(TAG, String.format("boundingBox = %3.2f, %3.2f, %3.2f, %3.2f", _boundingBox.x, _boundingBox.y,
+                _boundingBox.x + _boundingBox.width, _boundingBox.y + _boundingBox.height));
+
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
                 Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
@@ -203,6 +206,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 Polyline polyLine = ((PolylineMapObject)object).getPolyline();
                 if (polyLineOverlapsRectangle(polyLine, _boundingBox)) {
                     //Collision
+                    Gdx.app.log(TAG, "---------------COLLISION--------------");
                     entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
                     lastCollisionWasPolyline = true;
                     return true;
@@ -494,8 +498,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         Vector2 collisionPtH = new Vector2();
         Vector2 collisionPtV = new Vector2();
 
-        // velocity is directly proportional to joystick position
-        //_velocity = currentJoystickPosition;
+        // todo: Get angle of velocity
+        _velocity = currentJoystickPosition;
 
         // First, get the 2 intersecting points of character's bounding box with the polyline
 
@@ -522,7 +526,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         }
 
         if (collisionLineH == CollisionLineH.NONE) {
-            throw new IllegalArgumentException("Error calculating horizontal bounding box intersection with polyline");
+            throw new RuntimeException("Error calculating horizontal bounding box intersection with polyline");
         }
         else {
             // save horizontal intersection point
@@ -549,7 +553,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         }
 
         if (collisionLineV == CollisionLineV.NONE) {
-            throw new IllegalArgumentException("Error calculating vertical bounding box intersection with polyline");
+            throw new RuntimeException("Error calculating vertical bounding box intersection with polyline");
         }
         else {
             // save vertical intersection point
@@ -583,17 +587,26 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         y = (m * x) - (m * collisionPtH.x) + collisionPtH.y;
        //y = (-1/m * x) - (-1/m * point3.x) + point3.y;
 
+        Gdx.app.log(TAG, String.format("intersection point: %3.2f, %3.2f", x, y));
         // Set next entity position
         /*
         _nextEntityPosition.x = x;
         _nextEntityPosition.y = y;
         */
+        float newX = 0;
+        float newY = 0;
+
         switch(_boundingBoxLocation){
             case BOTTOM_LEFT:
                 break;
             case BOTTOM_CENTER:
                 break;
             case CENTER:
+                newX = x - _boundingBox.width;
+                newY = y + _boundingBox.height * 0.85f;
+                Gdx.app.log(TAG, String.format("newX = %3.2f, newY = %3.2f", newX, newY));
+                _nextEntityPosition.x = x * com.smoftware.elmour.maps.Map.UNIT_SCALE;
+                _nextEntityPosition.y = newY * com.smoftware.elmour.maps.Map.UNIT_SCALE;
                 break;
         }
     }
