@@ -14,3 +14,5 @@ When entering a new zone, check if the zone is different than the one that the p
 If the zone is different, then check if the minimum is different.
 If the minimum is different, then generate a new number.
 If the newly generated number is lower than the number currently in use, override it.
+
+vertices: {410.75, 431.75, 465.25, 489.5}

@@ -182,8 +182,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
         lastCollisionWasPolyline = false;
 
-        Gdx.app.log(TAG, String.format("boundingBox = %3.2f, %3.2f, %3.2f, %3.2f", _boundingBox.x, _boundingBox.y,
-                _boundingBox.x + _boundingBox.width, _boundingBox.y + _boundingBox.height));
+        //Gdx.app.log(TAG, String.format("boundingBox: x = %3.2f, %3.2f, %3.2f, %3.2f", _boundingBox.x, _boundingBox.y,
+        //        _boundingBox.x + _boundingBox.width, _boundingBox.y + _boundingBox.height));
 
         for( MapObject object: mapCollisionLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
@@ -206,7 +206,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 Polyline polyLine = ((PolylineMapObject)object).getPolyline();
                 if (polyLineOverlapsRectangle(polyLine, _boundingBox)) {
                     //Collision
-                    Gdx.app.log(TAG, "---------------COLLISION--------------");
+                    //Gdx.app.log(TAG, "---------------COLLISION--------------");
                     entity.sendMessage(MESSAGE.COLLISION_WITH_MAP);
                     lastCollisionWasPolyline = true;
                     return true;
@@ -526,7 +526,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         }
 
         if (collisionLineH == CollisionLineH.NONE) {
-            throw new RuntimeException("Error calculating horizontal bounding box intersection with polyline");
+            return;
+            //throw new RuntimeException("Error calculating horizontal bounding box intersection with polyline");
         }
         else {
             // save horizontal intersection point
@@ -553,7 +554,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         }
 
         if (collisionLineV == CollisionLineV.NONE) {
-            throw new RuntimeException("Error calculating vertical bounding box intersection with polyline");
+            //throw new RuntimeException("Error calculating vertical bounding box intersection with polyline");
+            return;
         }
         else {
             // save vertical intersection point
@@ -583,18 +585,15 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float m = polyLineCollisionSlope;
         x = (-(-1/m * point3.x) + point3.y + (m * collisionPtH.x) - collisionPtH.y) / (m -(-1/m));
 
-        // Solve for y coordinate of intersecting point (use either one, they should almost exactly equal except for rounding)
+        // Solve for y coordinate of intersecting point (use either equation, they should be equal except for rounding)
         y = (m * x) - (m * collisionPtH.x) + collisionPtH.y;
        //y = (-1/m * x) - (-1/m * point3.x) + point3.y;
 
-        Gdx.app.log(TAG, String.format("intersection point: %3.2f, %3.2f", x, y));
+        //Gdx.app.log(TAG, String.format("intersection point: %3.2f, %3.2f", x, y));
         // Set next entity position
-        /*
-        _nextEntityPosition.x = x;
-        _nextEntityPosition.y = y;
-        */
         float newX = 0;
         float newY = 0;
+        float clearanceFactor = 0.15f;
 
         switch(_boundingBoxLocation){
             case BOTTOM_LEFT:
@@ -602,10 +601,39 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             case BOTTOM_CENTER:
                 break;
             case CENTER:
-                newX = x - _boundingBox.width;
-                newY = y + _boundingBox.height * 0.85f;
-                Gdx.app.log(TAG, String.format("newX = %3.2f, newY = %3.2f", newX, newY));
-                _nextEntityPosition.x = x * com.smoftware.elmour.maps.Map.UNIT_SCALE;
+                if (polyLineCollisionSlope > 0) {
+                    // positive slope
+                    switch (_currentDirection) {
+                        case RIGHT:
+                        case DOWN:
+                            newX = x - _boundingBox.width - clearanceFactor;
+                            newY = y + clearanceFactor;
+                            break;
+                        case LEFT:
+                        case UP:
+                            newX = x + clearanceFactor;
+                            newY = y - _boundingBox.height - clearanceFactor;
+                            break;
+                    }
+                }
+                else {
+                    // negative slope
+                    switch (_currentDirection) {
+                        case LEFT:
+                        case DOWN:
+                            newX = x + clearanceFactor;
+                            newY = y + clearanceFactor;
+                            break;
+                        case RIGHT:
+                        case UP:
+                            newX = x - _boundingBox.width - clearanceFactor;
+                            newY = y - _boundingBox.height - clearanceFactor;
+                            break;
+                    }
+                }
+
+                //Gdx.app.log(TAG, String.format("newX = %3.2f, newY = %3.2f", newX, newY));
+                _nextEntityPosition.x = newX * com.smoftware.elmour.maps.Map.UNIT_SCALE;
                 _nextEntityPosition.y = newY * com.smoftware.elmour.maps.Map.UNIT_SCALE;
                 break;
         }
@@ -717,6 +745,9 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float minX;
         float minY;
 
+        //Gdx.app.log(TAG, String.format("boundingBox before update: x = %3.2f, %3.2f, %3.2f, %3.2f", _boundingBox.x, _boundingBox.y,
+        //        _boundingBox.x + _boundingBox.width, _boundingBox.y + _boundingBox.height));
+
         if( com.smoftware.elmour.maps.Map.UNIT_SCALE > 0 ) {
             minX = position.x / com.smoftware.elmour.maps.Map.UNIT_SCALE;
             minY = position.y / com.smoftware.elmour.maps.Map.UNIT_SCALE;
@@ -733,9 +764,14 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 _boundingBox.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/4);
                 break;
             case CENTER:
-                _boundingBox.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/2);
+                //_boundingBox.setCenter(minX + Entity.FRAME_WIDTH/2, minY + Entity.FRAME_HEIGHT/2);
+                _boundingBox.setCenter(minX + _boundingBox.getWidth()/2, minY + _boundingBox.getHeight()/2);
                 break;
         }
+
+        //Gdx.app.log(TAG, String.format("minX =  %3.2f, minY = %3.2f", minX, minY));
+        //Gdx.app.log(TAG, String.format("boundingBox after update:  x = %3.2f, %3.2f, %3.2f, %3.2f", _boundingBox.x, _boundingBox.y,
+        //        _boundingBox.x + _boundingBox.width, _boundingBox.y + _boundingBox.height));
 
         //Gdx.app.debug(TAG, "SETTING Bounding Box for " + entity.getEntityConfig().getEntityID() + ": (" + minX + "," + minY + ")  width: " + width + " height: " + height);
     }

@@ -78,7 +78,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         if (currentMonsterZone == null || _currentZoneLevel == 0 || inBattle) { return false; }
 
         // for debugging
-        return true;/*
+        //return true;
         if (battleCountDown <= 0) {
             // start new countdown
             battleCountDown = currentMonsterZone.getMaxTime();
@@ -107,7 +107,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         else {
             return false;
         }
-        */
     }
 
     public void setCurrentOpponentList(){

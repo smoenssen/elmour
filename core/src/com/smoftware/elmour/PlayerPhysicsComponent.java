@@ -143,13 +143,25 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     currentJoystickPosition = _json.fromJson(Vector2.class, string[1]);
 
                     // need to figure out direction based on joystick coordinates for purposes of image to display
-                    if (_velocity.y > 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
+                    /*if (_velocity.y > 0 && currentJoystickPosition.angle() > 36 && currentJoystickPosition.angle() <= 144)
                         _currentDirection = Entity.Direction.UP;
                     else if (_velocity.x < 0 && currentJoystickPosition.angle() > 144 && currentJoystickPosition.angle() <= 216)
                         _currentDirection = Entity.Direction.LEFT;
                     else if (_velocity.y < 0 && currentJoystickPosition.angle() > 216 && currentJoystickPosition.angle() <= 324)
                         _currentDirection = Entity.Direction.DOWN;
                     else if (_velocity.x > 0 && (currentJoystickPosition.angle() > 324 || currentJoystickPosition.angle() <= 36) && currentJoystickPosition.angle() != 0)
+                        _currentDirection = Entity.Direction.RIGHT;
+                    else {
+                        // idle frame direction should be last direction of movement
+                        _currentDirection = _lasttDirection;
+                    }*/
+                    if (_velocity.y > 0 && currentJoystickPosition.angle() > 45 && currentJoystickPosition.angle() <= 135)
+                        _currentDirection = Entity.Direction.UP;
+                    else if (_velocity.x < 0 && currentJoystickPosition.angle() > 135 && currentJoystickPosition.angle() <= 225)
+                        _currentDirection = Entity.Direction.LEFT;
+                    else if (_velocity.y < 0 && currentJoystickPosition.angle() > 225 && currentJoystickPosition.angle() <= 315)
+                        _currentDirection = Entity.Direction.DOWN;
+                    else if (_velocity.x > 0 && (currentJoystickPosition.angle() > 315 || currentJoystickPosition.angle() <= 45) && currentJoystickPosition.angle() != 0)
                         _currentDirection = Entity.Direction.RIGHT;
                     else {
                         // idle frame direction should be last direction of movement
