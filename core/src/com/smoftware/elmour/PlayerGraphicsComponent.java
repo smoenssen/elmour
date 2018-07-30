@@ -2,16 +2,20 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.EntityConfig.AnimationConfig;
+import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapManager;
 
 public class PlayerGraphicsComponent extends GraphicsComponent {
@@ -172,15 +176,14 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         //batch.end();
 
         //Used to graphically debug boundingboxes
-/*
-    Rectangle rect = entity.getCurrentBoundingBox();
+        Rectangle rect = entity.getCurrentBoundingBox();
         _shapeRenderer.setProjectionMatrix(camera.combined);
-                _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                _shapeRenderer.setColor(Color.RED);
-                _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight()*Map.UNIT_SCALE);
-                _shapeRenderer.end();
-                */
-                }
+        _shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        _shapeRenderer.setColor(Color.RED);
+        _shapeRenderer.rect(rect.getX() * Map.UNIT_SCALE , rect.getY() * Map.UNIT_SCALE, rect.getWidth() * Map.UNIT_SCALE, rect.getHeight() * Map.UNIT_SCALE);
+        _shapeRenderer.end();
+
+    }
 
 @Override
 public void updateShadow(Entity entity, MapManager mapManager, Batch batch, float delta, Vector2 entityPosition) {
