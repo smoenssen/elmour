@@ -81,6 +81,9 @@ public class Map2 extends Map {
     }
 
     private void toggleSwitch() {
+        // todo: keep? sleep to fix issue with toggle not changing sometimes
+        try { Thread.sleep(50); } catch (InterruptedException e) { e.printStackTrace(); }
+
         if (switchEnabled) {
             switchEnabled = false;
             _currentMap.getLayers().get("Switch Press").setVisible(true);

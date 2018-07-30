@@ -173,7 +173,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
-    protected boolean isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
+    protected boolean          isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
 
         if( mapCollisionLayer == null ){

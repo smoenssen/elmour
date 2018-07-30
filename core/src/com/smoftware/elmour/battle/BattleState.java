@@ -79,6 +79,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         // for debugging
         //return true;
+
         if (battleCountDown <= 0) {
             // start new countdown
             battleCountDown = currentMonsterZone.getMaxTime();

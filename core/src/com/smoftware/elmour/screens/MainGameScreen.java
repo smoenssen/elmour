@@ -162,17 +162,16 @@ public class MainGameScreen extends GameScreen {
         _mapRenderer.getBatch().enableBlending();
         _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        if( _mapMgr.hasMapChanged() ){
+        if (_playerHUD.isPlayerComingFromBattle()) {
+            // player is coming from battle screen so set him back to current position in this screen
+            // NOTE: _mapMgr.hasMapChanged() doesn't become true when coming from battle screen since it's already loaded
+            _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_player.getCurrentPosition()));
+            _playerHUD.resetPlayerComingFromBattle();
+        }
+        else if( _mapMgr.hasMapChanged() ){
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
 
-            if (_playerHUD.isPlayerComingFromBattle()) {
-                // player is coming from battle screen so set him back to current position in this screen
-                _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_player.getCurrentPosition()));
-                _playerHUD.resetPlayerComingFromBattle();
-            }
-            else {
-                _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
-            }
+            _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
 
             _camera.position.set(_mapMgr.getPlayerStartUnitScaled().x, _mapMgr.getPlayerStartUnitScaled().y, 0f);
             _camera.update();
