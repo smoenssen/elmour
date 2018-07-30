@@ -677,6 +677,50 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         _nextEntityPosition.y = testY;
     }
 
+    protected void initBoundingBoxes(){
+        //Update the current bounding box
+        float width = 14;
+        float height = 7;
+
+        float origWidth =  Entity.FRAME_WIDTH;
+        float origHeight = Entity.FRAME_HEIGHT;
+
+        //Need to account for the unitscale, since the map coordinates will be in pixels
+        float minX;
+        float minY;
+
+        if( com.smoftware.elmour.maps.Map.UNIT_SCALE > 0 ) {
+            minX = _nextEntityPosition.x / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+            minY = _nextEntityPosition.y / com.smoftware.elmour.maps.Map.UNIT_SCALE;
+        }else{
+            minX = _nextEntityPosition.x;
+            minY = _nextEntityPosition.y;
+        }
+
+        _boundingBox.setWidth(width);
+        _boundingBox.setHeight(height);
+        boundingBoxNextPosition.setWidth(width);
+        boundingBoxNextPosition.setHeight(height);
+
+
+        switch(_boundingBoxLocation){
+            case BOTTOM_LEFT:
+                _boundingBox.set(minX, minY, width, height);
+                boundingBoxNextPosition.set(minX, minY, width, height);
+                break;
+            case BOTTOM_CENTER:
+                _boundingBox.setCenter(minX + origWidth/2, minY + origHeight/4);
+                boundingBoxNextPosition.setCenter(minX + origWidth/2, minY + origHeight/4);
+                break;
+            case CENTER:
+                _boundingBox.setCenter(minX + origWidth/2, minY + origHeight/2);
+                boundingBoxNextPosition.setCenter(minX + origWidth/2, minY + origHeight/2);
+                break;
+        }
+
+        //Gdx.app.debug(TAG, "SETTING Bounding Box for " + entity.getEntityConfig().getEntityID() + ": (" + minX + "," + minY + ")  width: " + width + " height: " + height);
+    }
+
     protected void initBoundingBoxes(float percentageWidthReduced, float percentageHeightReduced){
         //Update the current bounding box
         float width;
@@ -685,8 +729,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float origWidth =  Entity.FRAME_WIDTH;
         float origHeight = Entity.FRAME_HEIGHT;
 
-        float widthReductionAmount = 1.0f - percentageWidthReduced; //.8f for 20% (1 - .20)
-        float heightReductionAmount = 1.0f - percentageHeightReduced; //.8f for 20% (1 - .20)
+        float widthReductionAmount = 0;//1.0f - percentageWidthReduced; //.8f for 20% (1 - .20)
+        float heightReductionAmount = 0;//1.0f - percentageHeightReduced; //.8f for 20% (1 - .20)
 
         if( widthReductionAmount > 0 && widthReductionAmount < 1){
             width = Entity.FRAME_WIDTH * widthReductionAmount;
@@ -716,6 +760,8 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
             minY = _nextEntityPosition.y;
         }
 
+        width = 14;
+        height = 7;
         _boundingBox.setWidth(width);
         _boundingBox.setHeight(height);
         boundingBoxNextPosition.setWidth(width);

@@ -47,7 +47,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
         //reduce width and height of bounding box for better feel of collisions
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
-        initBoundingBoxes(0.4f, 0.05f);
+        //initBoundingBoxes(0.4f, 0.05f);
+        initBoundingBoxes();
 
         _previousDiscovery = "";
         _previousEnemySpawn = "0";

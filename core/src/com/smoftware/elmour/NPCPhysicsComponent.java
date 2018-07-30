@@ -15,7 +15,8 @@ public class NPCPhysicsComponent extends PhysicsComponent {
 
     public NPCPhysicsComponent(){
         _boundingBoxLocation = BoundingBoxLocation.CENTER;
-        initBoundingBoxes(0.4f, 0.15f);
+        //initBoundingBoxes(0.4f, 0.15f);
+        initBoundingBoxes();
         isNPC = true;
     }
 
