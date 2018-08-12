@@ -61,6 +61,24 @@ rewardItems: [
 		probability: 3
 	}
 ]
+entityAbilities: [
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Fire
+	numTurnsTilReset: 5
+	level: 3
+	maxHP: 15
+	priority: 1
+}
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Fire
+	numTurnsTilReset: 5
+	level: 3
+	maxHP: 15
+	priority: 1
+}
+]
 animationConfig: [
 	{
 	    frameDuration: 0.25

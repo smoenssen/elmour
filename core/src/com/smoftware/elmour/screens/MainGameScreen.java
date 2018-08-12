@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,15 +26,19 @@ import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.maps.MapObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
+import com.smoftware.elmour.sfx.ShakeCamera;
 
-public class MainGameScreen extends GameScreen {
+public class MainGameScreen extends GameScreen implements MapObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
     private final float V_WIDTH = 12;//2.4f;//srm
     private final float V_HEIGHT = 8;//1.6f;
+
+    private ShakeCamera shakeCam;
 
     public static class VIEWPORT {
         public static float viewportWidth;
@@ -72,6 +77,8 @@ public class MainGameScreen extends GameScreen {
         _game = game;
         _mapMgr = new MapManager();
         _json = new Json();
+
+        shakeCam = null;
 
         setGameState(GameState.RUNNING);
 
@@ -169,6 +176,7 @@ public class MainGameScreen extends GameScreen {
             _playerHUD.resetPlayerComingFromBattle();
         }
         else if( _mapMgr.hasMapChanged() ){
+            _mapMgr.registerMapObserver(this);
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
 
             _player.sendMessage(Component.MESSAGE.INIT_START_POSITION, _json.toJson(_mapMgr.getPlayerStartUnitScaled()));
@@ -294,6 +302,18 @@ public class MainGameScreen extends GameScreen {
 
         if (ElmourGame.isAndroid())
             mobileControls.render(delta);
+
+        if (shakeCam != null) {
+            if (shakeCam.isCameraShaking()) {
+
+                Vector2 shakeCoords = shakeCam.getNewShakePosition();
+                _camera.position.x = shakeCoords.x;
+                _camera.position.y = shakeCoords.y;
+                _camera.update();
+            } else {
+                shakeCam.reset();
+            }
+        }
     }
 
     @Override
@@ -394,5 +414,25 @@ public class MainGameScreen extends GameScreen {
         Gdx.app.debug(TAG, "WorldRenderer: virtual: (" + VIEWPORT.virtualWidth + "," + VIEWPORT.virtualHeight + ")" );
         Gdx.app.debug(TAG, "WorldRenderer: viewport: (" + VIEWPORT.viewportWidth + "," + VIEWPORT.viewportHeight + ")" );
         Gdx.app.debug(TAG, "WorldRenderer: physical: (" + VIEWPORT.physicalWidth + "," + VIEWPORT.physicalHeight + ")" );
+    }
+
+    @Override
+    public void onNotify(MapEvent event) {
+        switch(event) {
+            case SHAKE_CAM:
+                if( shakeCam == null ){
+                    //shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y, 0.2f);
+                    shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
+                            0.025f,
+                            0.2f,
+                            0.15f,
+                            0.025f,
+                            0.985f,
+                            0.970f,
+                            0.99f);
+                }
+                shakeCam.startShaking();
+                break;
+        }
     }
 }

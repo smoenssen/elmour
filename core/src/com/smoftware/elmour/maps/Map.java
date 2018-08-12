@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -20,7 +21,7 @@ import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
 import java.util.Hashtable;
 
-public abstract class Map implements AudioSubject{
+public abstract class Map extends MapSubject implements AudioSubject{
     private static final String TAG = Map.class.getSimpleName();
 
     public final static float UNIT_SCALE  = 1 / 16f;//ElmourGame.PPM;

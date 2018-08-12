@@ -30,6 +30,7 @@ public class SignPopUp extends Window {
     private State state = State.HIDDEN;
     private boolean interactReceived = false;
     private boolean isReady = false;
+    private long setVisibleDelay = 0;
 
     public SignPopUp() {
         //Notes:
@@ -53,9 +54,6 @@ public class SignPopUp extends Window {
         switch (state) {
             case HIDDEN:
                 if (fullText != "") {
-                    isReady = false;
-                    this.setVisible(true);
-                    state = State.LISTENING;
                     startInteractionThread();
                 }
                 break;
@@ -121,6 +119,16 @@ public class SignPopUp extends Window {
             FileHandle file = Gdx.files.internal("RPGGame/maps/Game/Text/Signs/" + interaction.toString() + ".txt");
             fullText = file.readString();
             Gdx.app.log(TAG, "file text = " + fullText);
+
+            if (fullText.contains(";")) {
+                // need to parse out delay time from beginning of file
+                String[] sa = fullText.split(";");
+                setVisibleDelay = Integer.parseInt(sa[0]);
+                fullText = sa[1];
+            }
+            else {
+                setVisibleDelay = 0;
+            }
         }
     }
 
@@ -130,6 +138,12 @@ public class SignPopUp extends Window {
                 Gdx.app.log(TAG, "Starting InteractionThread...");
                 char currentChar = ' ';
                 String currentVisibleText = "";
+
+                try { Thread.sleep(setVisibleDelay); } catch (InterruptedException e) { e.printStackTrace(); }
+
+                isReady = false;
+                state = State.LISTENING;
+                setVisible(true);
 
                 if (currentSignPost.lineStrings == null || currentSignPost.lineStrings.size == 0) {
                     // set full text so that the total number of lines can be figured out

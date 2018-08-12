@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.profile.ProfileManager;
 
 public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
@@ -329,10 +330,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             // check for interaction layer collision
             object = checkCollisionWithInteractionLayer(mapMgr);
             if (object != null) {
-                Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
-                entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
-                isInteractionCollisionMsgSent = true;
-                isInteractionColliding = true;
+                if (!hasInteractionBeenDoneBefore(Entity.Interaction.valueOf(object.getName()))) {
+                    Gdx.app.log(TAG, "sending INTERACTION_COLLISION for " + object.getName());
+                    entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.valueOf(object.getName())));
+                    isInteractionCollisionMsgSent = true;
+                    isInteractionColliding = true;
+                    selectionAngle = getAngleBetweenPlayerAndInteractionObject(mapMgr, object);
+                }
+                else {
+                    isInteractionCollisionMsgSent = true;
+                    Gdx.app.log(TAG, "INTERACTION_COLLISION for " + object.getName() + " has already been done once");
+                }
             } else {
                 isInteractionColliding = false;
             }
@@ -428,6 +436,19 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //Gdx.app.log(TAG, String.format("actual velocity = %2.3f", actualVelocity));
 
         calculateNextPosition(delta);
+    }
+
+    private boolean hasInteractionBeenDoneBefore(Entity.Interaction interaction) {
+        boolean isDone = false;
+
+        // Check profile to see if this interaction has already been done.
+        // This is for interactions that should only be done once.
+        String value = ProfileManager.getInstance().getProperty(interaction.toString(), String.class);
+        if (value != null) {
+            isDone = true;
+        }
+
+        return isDone;
     }
 
     private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {

@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.sfx.ClockActor;
@@ -390,6 +391,14 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public void setMapChanged(boolean hasMapChanged){
         this._mapChanged = hasMapChanged;
+    }
+
+    public void registerMapObserver(MapObserver observer) {
+        _currentMap.addObserver(observer);
+    }
+
+    public void unregisterMapObserver(MapObserver observer) {
+        _currentMap.removeObserver(observer);
     }
 
     @Override

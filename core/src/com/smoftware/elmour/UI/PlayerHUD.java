@@ -44,6 +44,7 @@ import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.maps.MapObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
@@ -55,7 +56,14 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,ComponentObserver,ConversationGraphObserver,StoreInventoryObserver, BattleObserver, InventoryObserver, StatusObserver {
+public class PlayerHUD implements Screen, AudioSubject,
+                                ProfileObserver,
+                                ComponentObserver,
+                                ConversationGraphObserver,
+                                StoreInventoryObserver,
+                                BattleObserver,
+                                InventoryObserver,
+                                StatusObserver{
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -752,8 +760,13 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     }
 
     private boolean isSignPostInteraction(Entity.Interaction interaction) {
-        String signName = interaction.toString();
-        return (signName.contains("SIGN"));
+        String name = interaction.toString();
+        return (name.contains("SIGN"));
+    }
+
+    private boolean isSwitchInteraction(Entity.Interaction interaction) {
+        String name = interaction.toString();
+        return (name.contains("SWITCH"));
     }
 
     @Override
@@ -916,8 +929,15 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
                 break;
             case DID_INITIAL_INTERACTION:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
-                if (isSignPostInteraction(interaction))
+                if (isSignPostInteraction(interaction)) {
                     signPopUp.setTextForInteraction(interaction);
+                }
+
+                if (isSwitchInteraction(interaction)) {
+                    signPopUp.setTextForInteraction(interaction);
+                    isCurrentConversationDone = false;  // this starts the "conversation" and is necessary to prevent player from moving
+                }
+
                 break;
             case DID_INTERACTION:
                 signPopUp.interact();
@@ -1299,7 +1319,7 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
         switch (event) {
             case NEXT_CONVERSATION_ID:
                 nextConversationId = value;
-                Gdx.app.log(TAG, String.format("-------nNEXT_CONVERSATION_ID = %s", nextConversationId));
+                Gdx.app.log(TAG, String.format("------- NEXT_CONVERSATION_ID = %s", nextConversationId));
                 break;
             case PLAYER_RESPONSE:
                 //if (numVisibleChoices > 0) {
@@ -1380,13 +1400,11 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
 
     @Override
     public void render(float delta) {
-        /*
         if (_shakeCam.isCameraShaking()) {
             Vector2 shakeCoords = _shakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
         }
-        */
 
         if (battleScreenTransitionTriggered) {
             // transition into battle screen after a certain amount of time
@@ -1650,6 +1668,4 @@ public class PlayerHUD implements Screen, AudioSubject, ProfileObserver,Componen
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
     }
-
-
 }

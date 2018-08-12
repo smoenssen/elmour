@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.EntityConfig.AnimationConfig;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.profile.ProfileManager;
 
 public class PlayerGraphicsComponent extends GraphicsComponent {
 

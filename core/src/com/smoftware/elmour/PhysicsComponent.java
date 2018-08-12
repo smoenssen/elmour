@@ -329,6 +329,31 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
+    protected float getAngleBetweenPlayerAndInteractionObject(MapManager mapMgr, MapObject interactionObject){
+        MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
+        float angle = 0;
+
+        if( mapInteractionLayer != null ) {
+            for (MapObject object : mapInteractionLayer.getObjects()) {
+                if (object instanceof RectangleMapObject) {
+                    if (object.equals(interactionObject)) {
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+                        // get angle from center points of player and object
+                        float objectCenterX = rectangle.x + (rectangle.getWidth() / 2);
+                        float objectCenterY = rectangle.y + (rectangle.getHeight() / 2);
+                        float playerCenterX = _boundingBox.x + (_boundingBox.getWidth() / 2);
+                        float playerCenterY = _boundingBox.y + (_boundingBox.getHeight() / 2);
+                        angle = (new Vector2(objectCenterX, objectCenterY)).sub(new Vector2(playerCenterX, playerCenterY)).angle();
+                        break;
+                    }
+                }
+            }
+        }
+
+        return angle;
+    }
+
     protected MapObject isCollisionWithWaterObstacleLayer(MapManager mapMgr){
         MapLayer waterObstacleLayer =  mapMgr.getWaterObstacleLayer();
 
@@ -680,7 +705,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected void initBoundingBoxes(){
         //Update the current bounding box
         float width = 14;
-        float height = 7;
+        float height = 5;
 
         float origWidth =  Entity.FRAME_WIDTH;
         float origHeight = Entity.FRAME_HEIGHT;

@@ -1,24 +1,59 @@
 package com.smoftware.elmour.sfx;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class ShakeCamera {
 	private static final String TAG = ShakeCamera.class.getSimpleName();
-	
+
+	private enum ShakeState { START, MAX, MID, END }
+
 	private boolean _isShaking = false;
 	private float _origShakeRadius = 30.0f;
-	private float _shakeRadius;
 	private float _randomAngle;
 	private Vector2 _offset;
 	private Vector2 _currentPosition;
 	private Vector2 _origPosition;
 
+	private ShakeState shakeState = ShakeState.START;
+
+	private float shakeRadius = 0.2f;
+	private float maxShakeRadius = 0.2f;
+	private float midShakeRadius = 0.15f;
+	private float endShakeRadius = 0.025f;
+	private float percentIncreaseToMax = 0;
+	private float percentDecreaseToMid = 0.97f;
+	private float percentDecreaseToEnd = 0.985f;
+
 	
 	public ShakeCamera(float x, float y, float shakeRadius){
 		this._origPosition = new Vector2(x,y);
-		this._shakeRadius = shakeRadius;
+		this.shakeRadius = shakeRadius;
 		this._origShakeRadius = shakeRadius;
+		this._offset = new Vector2();
+		this._currentPosition = new Vector2();
+		reset();
+	}
+
+	public ShakeCamera(float x, float y,
+					   float startShakeRadius,
+					   float maxShakeRadius,
+					   float midShakeRadius,
+					   float endShakeRadius,
+					   float percentIncreaseToMax,
+					   float percentDecreaseToMid,
+					   float percentDecreaseToEnd) {
+
+		this._origPosition = new Vector2(x,y);
+		this.shakeRadius = startShakeRadius;
+		this._origShakeRadius = startShakeRadius;
+		this.maxShakeRadius = maxShakeRadius;
+		this.midShakeRadius = midShakeRadius;
+		this.endShakeRadius = endShakeRadius;
+		this.percentIncreaseToMax = percentIncreaseToMax;
+		this.percentDecreaseToMid = percentDecreaseToMid;
+		this.percentDecreaseToEnd = percentDecreaseToEnd;
 		this._offset = new Vector2();
 		this._currentPosition = new Vector2();
 		reset();
@@ -47,8 +82,8 @@ public class ShakeCamera {
 		//Gdx.app.debug(TAG, "Sine of " + _randomAngle + " is: " + sine);
 		//Gdx.app.debug(TAG, "Cosine of " + _randomAngle + " is: " + cosine);
 
-		_offset.x =  cosine * _shakeRadius;
-		_offset.y =  sine * _shakeRadius;
+		_offset.x =  cosine * shakeRadius;
+		_offset.y =  sine * shakeRadius;
 
 		//Gdx.app.debug(TAG, "Offset is x:" + _offset.x + " , y: " + _offset.y );
 	}
@@ -59,18 +94,33 @@ public class ShakeCamera {
 
 		//Gdx.app.debug(TAG, "Current position is x:" + _currentPosition.x + " , y: " + _currentPosition.y );
 	}
-	
-	private void diminishShake(){
+
+	// startShakeRadius
+	// maxShakeRadius
+	// midShakeRadius
+	// endShakeRadius
+	// percentIncreaseToMax
+	// percentDecreaseToMid
+	// percentDecreaseToEnd
+	private void decreaseShake(){
 		//Gdx.app.debug(TAG, "Current shakeRadius is: " + _shakeRadius + " randomAngle is: " + _randomAngle);
 
-		if( _shakeRadius < 2.0 ){
+		if( shakeRadius < endShakeRadius ){
 			//Gdx.app.debug(TAG, "Done shaking");
 			reset();
 			return;
 		}
 		
 		_isShaking = true;
-		_shakeRadius *= .9f;
+
+		if (shakeRadius < midShakeRadius) {
+			shakeState = ShakeState.END;
+			shakeRadius *= percentDecreaseToEnd;
+		}
+		else {
+			shakeState = ShakeState.MID;
+			shakeRadius *= percentDecreaseToMid;
+		}
 		//Gdx.app.debug(TAG, "New shakeRadius is: " + _shakeRadius);
 
 
@@ -78,18 +128,45 @@ public class ShakeCamera {
 		//Gdx.app.debug(TAG, "New random angle: " + _randomAngle);
 	}
 
+	private void increaseShake() {
+		if (shakeRadius < maxShakeRadius) {
+			shakeRadius /= percentIncreaseToMax;
+		}
+		else {
+			shakeState = ShakeState.MAX;
+		}
+
+		_randomAngle = MathUtils.random(1, 360);
+	}
+
 	public void reset(){
-		_shakeRadius = _origShakeRadius;
+		shakeRadius = _origShakeRadius;
 		_isShaking = false;
 		seedRandomAngle();
 		_currentPosition.x = _origPosition.x;
 		_currentPosition.y = _origPosition.y;
+		shakeState = ShakeState.START;
 	}
 	
 	public Vector2 getNewShakePosition(){
 		computeCameraOffset();
 		computeCurrentPosition();
-		diminishShake();
+
+		//Gdx.app.log(TAG, "shakeState = " + shakeState.toString() + String.format(", shakeRadius = %3.3f",  shakeRadius));
+
+		switch (shakeState) {
+			case START:
+				// increase radius until max radius is reached
+				increaseShake();
+				break;
+			case MAX:
+			case MID:
+			case END:
+				// decrease radius
+				decreaseShake();
+				break;
+		}
+
 		return _currentPosition;
 	}
 }

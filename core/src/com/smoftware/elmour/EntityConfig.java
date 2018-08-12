@@ -1,8 +1,12 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.smoftware.elmour.Entity.AnimationType;
 import com.smoftware.elmour.InventoryItem.ItemTypeID;
@@ -21,6 +25,7 @@ public class EntityConfig {
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
     private String displayName;
+    private Array<EntityAbility> entityAbilities;
 
     public static enum EntityProperties{
         HIT_DAMAGE_TOTAL,//todo: remove
@@ -41,6 +46,21 @@ public class EntityConfig {
         NONE
     }
 
+    public static class EntityAbility {
+        String name;
+        int numTurnsTilReset;
+        int level;
+        int maxHP;
+        int priority;
+
+        public EntityAbility() {
+            numTurnsTilReset = 0;
+            level = 0;
+            maxHP = 0;
+            priority = 0;
+        }
+    }
+
     public static class ItemReward {
         ItemTypeID item;
         int probability;
@@ -51,6 +71,34 @@ public class EntityConfig {
         inventory = new Array<ItemTypeID>();
         entityProperties = new ObjectMap<String, String>();
         rewardItems = new Array<ItemReward>();
+        entityAbilities = new Array<EntityAbility>();
+
+        /* Test code to write to Json file
+        EntityAbility ability = new EntityAbility();
+        ability.name = "Fire";
+        ability.numTurnsTilReset = 5;
+        ability.level = 3;
+        ability.maxHP = 15;
+        ability.priority = 1;
+        entityAbilities.add(ability);
+
+        EntityAbility ability2 = new EntityAbility();
+        ability2.name = "Thunder";
+        ability2.numTurnsTilReset = 43;
+        ability2.level = 1;
+        ability2.maxHP = 10;
+        ability2.priority = 2;
+        entityAbilities.add(ability2);
+
+        Json _json = new Json();
+        String fileData = _json.prettyPrint(_json.toJson(entityAbilities));
+
+        if( Gdx.files.isLocalStorageAvailable() ) {
+            FileHandle file = Gdx.files.local("test.json");
+            String encodedString = fileData;//Base64Coder.encodeString(fileData);
+            file.writeString(encodedString, false);
+        }
+        */
     }
 
     EntityConfig(EntityConfig config){

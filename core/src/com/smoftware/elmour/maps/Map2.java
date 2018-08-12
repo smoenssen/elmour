@@ -1,6 +1,5 @@
 package com.smoftware.elmour.maps;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
@@ -39,6 +38,7 @@ public class Map2 extends Map {
     public void loadMusic() {
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
         notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TOWN);
+        notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.SOUND_MOUNTAIN_AVALANCHE);
     }
 
     @Override
@@ -81,13 +81,20 @@ public class Map2 extends Map {
     }
 
     private void toggleSwitch() {
-        if (switchEnabled) {
-            switchEnabled = false;
-            _currentMap.getLayers().get("Switch Press").setVisible(true);
-        }
-        else {
-            switchEnabled = true;
-            _currentMap.getLayers().get("Switch Press").setVisible(false);
+        // make sure switch hasn't been already set
+        String value = ProfileManager.getInstance().getProperty("M2SWITCH", String.class);
+        if (value == null) {
+            if (switchEnabled) {
+                switchEnabled = false;
+                _currentMap.getLayers().get("Switch Press").setVisible(true);
+            }
+            else {
+                switchEnabled = true;
+                _currentMap.getLayers().get("Switch Press").setVisible(false);
+                notify(MapObserver.MapEvent.SHAKE_CAM);
+                notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_MOUNTAIN_AVALANCHE);
+                ProfileManager.getInstance().setProperty(interaction.toString(), "");
+            }
         }
     }
 }

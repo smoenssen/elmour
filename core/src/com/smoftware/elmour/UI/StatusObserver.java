@@ -8,7 +8,8 @@ public interface StatusObserver {
         UPDATED_HP,
         UPDATED_MP,
         UPDATED_XP,
-        LEVELED_UP
+        LEVELED_UP,
+        SHAKE_CAM
     }
 
     void onNotify(final int value, StatusEvent event);
