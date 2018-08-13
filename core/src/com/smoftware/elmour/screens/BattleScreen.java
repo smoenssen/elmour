@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -86,7 +88,7 @@ public class BattleScreen extends MainGameScreen {
     private AnimatedImage enemy3;
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
-    
+
     public BattleScreen(ElmourGame game) {
         super(game);
 
@@ -232,6 +234,7 @@ public class BattleScreen extends MainGameScreen {
                 enemy5.addAction(Actions.fadeOut(0));
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
 
+                party1.getEntity().setCurrentPosition(new Vector2(getStartPosition("P1").x / Map.UNIT_SCALE, getStartPosition("P1").y / Map.UNIT_SCALE));
                 //todo: this needs to move, maybe to a different class
                 _game.battleState.setCurrentTurnCharacter(party1.getEntity());
             }

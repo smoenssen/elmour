@@ -193,6 +193,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     float menuItemHeight = 0;
 
+    private Image turnIndicator;
+
     private Json _json;
     private MapManager _mapMgr;
 
@@ -728,6 +730,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4 - menuItemHeight);
 
+        turnIndicator = new Image(new Texture("graphics/down_arrow.png"));
+        turnIndicator.setSize(14, 14);
+        turnIndicator.setVisible(true);
+        turnIndicator.setPosition(0, 0);
+
         _stage.addActor(selectedItemBanner);
         _stage.addActor(middleStatsTextArea);
         _stage.addActor(middleTextAreaTable);
@@ -748,6 +755,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(battleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
+        _stage.addActor(turnIndicator);
 
         //if (ElmourGame.DEV_MODE)
         //  _stage.addActor(statusButton);
@@ -2449,6 +2457,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 float y = _currentImagePosition.y + (_enemyHeight/2);
                 _effects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK, x,y));
                 */
+                break;
+            case CHARACTER_TURN_CHANGED:
+                turnIndicator.setPosition(entity.getCurrentPosition().x, entity.getCurrentPosition().y);
                 break;
             default:
                 break;

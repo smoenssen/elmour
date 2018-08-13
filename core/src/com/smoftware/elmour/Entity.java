@@ -311,6 +311,8 @@ public class Entity {
 
 	public Vector2 getCurrentPosition(){ return _graphicsComponent._currentPosition; }
 
+	public void setCurrentPosition(Vector2 position) { _graphicsComponent._currentPosition = position; }
+
 	public Vector2 getNextPosition(){ return _physicsComponent._nextEntityPosition; }
 
 	public Entity.State getCurrentState() { return _graphicsComponent.currentState; }

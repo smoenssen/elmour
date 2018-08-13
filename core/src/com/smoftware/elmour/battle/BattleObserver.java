@@ -15,6 +15,7 @@ public interface BattleObserver {
         PLAYER_TURN_START,
         PLAYER_USED_MAGIC,
         CHARACTER_SELECTED,
+        CHARACTER_TURN_CHANGED,
         NONE
     }
 
