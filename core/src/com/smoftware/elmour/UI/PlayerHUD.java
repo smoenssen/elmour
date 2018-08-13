@@ -63,7 +63,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 StoreInventoryObserver,
                                 BattleObserver,
                                 InventoryObserver,
-                                StatusObserver{
+                                StatusObserver,
+                                SignPopUpObserver{
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -456,6 +457,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         //_inventoryUI.addObserver(_battleUI.getCurrentState());
         _inventoryUI.addObserver(this);
         //_battleUI.getCurrentState().addObserver(this);
+        signPopUp.addObserver(this);
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
@@ -1667,5 +1669,15 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
+    }
+
+    @Override
+    public void onNotify(int value, SignPopUpEvent event) {
+        switch(event) {
+            case INTERACTION_THREAD_EXIT:
+                // this is necessary to allow player to move again
+                isCurrentConversationDone = true;
+                break;
+        }
     }
 }

@@ -11,7 +11,7 @@ import com.smoftware.elmour.Utility;
  * Created by steve on 9/16/17.
  */
 
-public class SignPopUp extends Window {
+public class SignPopUp extends Window implements SignPopUpSubject{
     private static final String TAG = SignPopUp.class.getSimpleName();
 
     private enum State {HIDDEN, LISTENING}
@@ -21,6 +21,7 @@ public class SignPopUp extends Window {
         public Array<String> lineStrings;
     }
 
+    private Array<SignPopUpObserver> observers;
     private Array<SignPost> signPostArray;
     private SignPost currentSignPost;
     private String fullText;
@@ -39,6 +40,7 @@ public class SignPopUp extends Window {
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "default");
 
+        observers = new Array<SignPopUpObserver>();
         signPostArray = new Array<>();
         currentSignPost = new SignPost();
     }
@@ -46,6 +48,30 @@ public class SignPopUp extends Window {
     public boolean isVisible() { return state != State.HIDDEN; }
 
     public boolean isReady() { return isReady; }
+
+    @Override
+    public void addObserver(SignPopUpObserver popUpObserver) {
+        observers.add(popUpObserver);
+    }
+
+    @Override
+    public void removeObserver(SignPopUpObserver popUpObserver) {
+        observers.removeValue(popUpObserver, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        for(SignPopUpObserver observer: observers){
+            observers.removeValue(observer, true);
+        }
+    }
+
+    @Override
+    public void notify(int value, SignPopUpObserver.SignPopUpEvent event) {
+        for(SignPopUpObserver observer: observers){
+            observer.onNotify(value, event);
+        }
+    }
 
     public void interact() {
 
@@ -255,6 +281,7 @@ public class SignPopUp extends Window {
                 displayText = false;
                 interactReceived = false;
                 Gdx.app.log(TAG, "Exiting InteractionThread");
+                SignPopUp.this.notify(0, SignPopUpObserver.SignPopUpEvent.INTERACTION_THREAD_EXIT);
             }
         };
 

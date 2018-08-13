@@ -82,7 +82,7 @@ public class Map2 extends Map {
 
     private void toggleSwitch() {
         // make sure switch hasn't been already set
-        String value = ProfileManager.getInstance().getProperty("M2SWITCH", String.class);
+        String value = ProfileManager.getInstance().getProperty(interaction.toString(), String.class);
         if (value == null) {
             if (switchEnabled) {
                 switchEnabled = false;
