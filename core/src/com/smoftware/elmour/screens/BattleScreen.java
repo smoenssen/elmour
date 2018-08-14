@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -28,6 +27,7 @@ import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -46,7 +46,7 @@ import com.smoftware.elmour.ElmourGame;
 >>>>>>> Stashed changes
  */
 
-public class BattleScreen extends MainGameScreen {
+public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private static final String TAG = BattleScreen.class.getSimpleName();
 
@@ -78,6 +78,9 @@ public class BattleScreen extends MainGameScreen {
     private Action _switchScreenAction;
     private Action setupBattleScene;
 
+    private float characterWidth = 1.0f;
+    private float characterHeight = 1.0f;
+
     private AnimatedImage party1;
     private AnimatedImage party2;
     private AnimatedImage party3;
@@ -88,6 +91,9 @@ public class BattleScreen extends MainGameScreen {
     private AnimatedImage enemy3;
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
+
+    private Texture turnIndicator;
+    private Vector2 currentTurnCharPosition;
 
     public BattleScreen(ElmourGame game) {
         super(game);
@@ -106,6 +112,8 @@ public class BattleScreen extends MainGameScreen {
 
         _viewport = new ScreenViewport(_camera);
         _stage = new Stage(_viewport);
+
+        _game.battleState.addObserver(this);
 
         if (ElmourGame.isAndroid()) {
             // capture Android back key so it is not passed on to the OS
@@ -162,6 +170,9 @@ public class BattleScreen extends MainGameScreen {
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
+        turnIndicator = new Texture("graphics/down_arrow.png");
+        currentTurnCharPosition = new Vector2(0, 0);
+
         _transitionActor = new ScreenTransitionActor();
 
         _stage.addActor(_transitionActor);
@@ -181,62 +192,78 @@ public class BattleScreen extends MainGameScreen {
                 _mapMgr.disableCurrentmapMusic();
                 _camera.position.set(10, 6, 0f);
 
-                float characterWidth = 1.0f;
-                float characterHeight = 1.0f;
-
                 party1.setSize(characterWidth, characterHeight);
                 party1.setVisible(true);
                 party1.addAction(Actions.fadeOut(0));
                 party1.setPosition(getStartPosition("P1").x, getStartPosition("P1").y);
+                if (party1.getEntity() != null)
+                    party1.getEntity().setCurrentPosition(new Vector2(party1.getX(), party1.getY()));
 
                 party2.setSize(characterWidth, characterHeight);
                 party2.setVisible(true);
                 party2.addAction(Actions.fadeOut(0));
                 party2.setPosition(getStartPosition("P2").x, getStartPosition("P2").y);
+                if (party2.getEntity() != null)
+                    party2.getEntity().setCurrentPosition(new Vector2(party2.getX(), party2.getY()));
 
                 party3.setSize(characterWidth, characterHeight);
                 party3.setVisible(true);
                 party3.addAction(Actions.fadeOut(0));
                 party3.setPosition(getStartPosition("P3").x, getStartPosition("P3").y);
+                if (party3.getEntity() != null)
+                    party3.getEntity().setCurrentPosition(new Vector2(party3.getX(), party3.getY()));
 
                 party4.setSize(characterWidth, characterHeight);
                 party4.setVisible(true);
                 party4.addAction(Actions.fadeOut(0));
                 party4.setPosition(getStartPosition("P4").x, getStartPosition("P4").y);
+                if (party4.getEntity() != null)
+                    party4.getEntity().setCurrentPosition(new Vector2(party4.getX(), party4.getY()));
 
                 party5.setSize(characterWidth, characterHeight);
                 party5.setVisible(true);
                 party5.addAction(Actions.fadeOut(0));
                 party5.setPosition(getStartPosition("P5").x, getStartPosition("P5").y);
+                if (party5.getEntity() != null)
+                    party5.getEntity().setCurrentPosition(new Vector2(party5.getX(), party5.getY()));
 
                 enemy1.setSize(characterWidth, characterHeight);
                 enemy1.setVisible(true);
                 enemy1.addAction(Actions.fadeOut(0));
                 enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
+                if (enemy1.getEntity() != null)
+                    enemy1.getEntity().setCurrentPosition(new Vector2(enemy1.getX(), enemy1.getY()));
 
                 enemy2.setSize(characterWidth, characterHeight);
                 enemy2.setVisible(true);
                 enemy2.addAction(Actions.fadeOut(0));
                 enemy2.setPosition(getStartPosition("E2").x, getStartPosition("E2").y);
+                if (enemy2.getEntity() != null)
+                    enemy2.getEntity().setCurrentPosition(new Vector2(enemy2.getX(), enemy2.getY()));
 
                 enemy3.setSize(characterWidth, characterHeight);
                 enemy3.setVisible(true);
                 enemy3.addAction(Actions.fadeOut(0));
                 enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
+                if (enemy3.getEntity() != null)
+                    enemy3.getEntity().setCurrentPosition(new Vector2(enemy3.getX(), enemy3.getY()));
 
                 enemy4.setSize(characterWidth, characterHeight);
                 enemy4.setVisible(true);
                 enemy4.addAction(Actions.fadeOut(0));
                 enemy4.setPosition(getStartPosition("E4").x, getStartPosition("E4").y);
+                if (enemy4.getEntity() != null)
+                    enemy4.getEntity().setCurrentPosition(new Vector2(enemy4.getX(), enemy4.getY()));
 
                 enemy5.setSize(characterWidth, characterHeight);
                 enemy5.setVisible(true);
                 enemy5.addAction(Actions.fadeOut(0));
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
+                if (enemy5.getEntity() != null)
+                    enemy5.getEntity().setCurrentPosition(new Vector2(enemy5.getX(), enemy5.getY()));
 
-                party1.getEntity().setCurrentPosition(new Vector2(getStartPosition("P1").x / Map.UNIT_SCALE, getStartPosition("P1").y / Map.UNIT_SCALE));
-                //todo: this needs to move, maybe to a different class
-                _game.battleState.setCurrentTurnCharacter(party1.getEntity());
+                //todo: this needs to move, maybe to BattleState
+                _game.battleState.setCurrentTurnCharacter(enemy1.getEntity());
             }
         };
 
@@ -461,6 +488,8 @@ public class BattleScreen extends MainGameScreen {
         isFirstTime = true;
     }
 
+    float flashTimer = 0;
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -494,6 +523,17 @@ public class BattleScreen extends MainGameScreen {
         battleHUD.render(delta);
 
         battleControls.render(delta);
+
+        flashTimer += delta;
+
+        if (flashTimer < 0.5f) {
+            _mapRenderer.getBatch().begin();
+            _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.15f, 0.5f, 0.5f);
+            _mapRenderer.getBatch().end();
+        }
+        else if (flashTimer > 0.75f) {
+            flashTimer = 0;
+        }
     }
 
     @Override
@@ -633,7 +673,7 @@ public class BattleScreen extends MainGameScreen {
         Gdx.app.debug(TAG, "WorldRenderer: physical: (" + BattleScreen.VIEWPORT.physicalWidth + "," + BattleScreen.VIEWPORT.physicalHeight + ")" );
     }
 
-    public Vector2 getStartPosition(String name){
+    private Vector2 getStartPosition(String name){
         Vector2 position = null;
 
         for( MapObject object: _mapMgr.getSpawnsLayer().getObjects()){
@@ -774,5 +814,19 @@ public class BattleScreen extends MainGameScreen {
                 enemy5.remove();
                 break;
         }
+    }
+
+    @Override
+    public void onNotify(Entity entity, BattleEvent event) {
+        switch (event) {
+            case CHARACTER_TURN_CHANGED:
+                currentTurnCharPosition = entity.getCurrentPosition();
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+
     }
 }

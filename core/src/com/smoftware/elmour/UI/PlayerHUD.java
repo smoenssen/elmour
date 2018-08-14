@@ -1538,16 +1538,16 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(Entity enemyEntity, BattleEvent event) {
+    public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
             case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
                 break;
             case OPPONENT_DEFEATED:
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
-                int goldReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString()));
+                int goldReward = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString()));
                 _statusUI.addGoldValue(goldReward);
-                int xpReward = Integer.parseInt(enemyEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString()));
+                int xpReward = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString()));
                 _statusUI.addXPValue(xpReward);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
                 _mapMgr.enableCurrentmapMusic();
