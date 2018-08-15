@@ -19,17 +19,22 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     //private Entity currentPartyMember = null;
     private Entity currentTurnCharacter = null;
     private Entity currentSelectedCharacter = null;
-    private Array<Entity> currentOpponentList;
+    private Array<Entity> currentPartyList;
+    private Array<Entity> currentEnemyList;
     private int _currentZoneLevel = 0;
     private int _currentPlayerAP;
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
+
     private Timer.Task _playerAttackCalculations;
     private Timer.Task _opponentAttackCalculations;
     private Timer.Task _checkPlayerMagicUse;
     private Timer.Task applyInventory;
     private Timer.Task applySpellPower;
+    private Timer.Task chooseNextCharacterTurn;
+
     private MonsterZone currentMonsterZone;
+
     private boolean inBattle = false;
 
     private float battleCountDown = 0;
@@ -40,7 +45,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
         applyInventory = getApplyInventoryTimer();
         applySpellPower = getApplySpellPowerTimer();
-        currentOpponentList = new Array<>();
+        chooseNextCharacterTurn = getChooseNextCharacterTurnTimer();
+
+        currentPartyList = new Array<>();
+        currentEnemyList = new Array<>();
     }
 
     public void resetDefaults(){
@@ -110,8 +118,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }*/
     }
 
-    public void setCurrentOpponentList(){
-        currentOpponentList.clear();
+    public void setCurrentEnemytList(){
+        currentEnemyList.clear();
         MonsterGroup monsterGroup = MonsterFactory.getInstance().getRandomMonsterGroup(_currentZoneLevel);
         Array<MonsterFactory.MonsterEntityType> monsterEntityTypes = monsterGroup.getMonsters();
 
@@ -120,7 +128,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         for (MonsterFactory.MonsterEntityType entityType : monsterEntityTypes) {
             Entity entity = MonsterFactory.getInstance().getMonster(entityType);
             if (entity != null) {
-                currentOpponentList.add(entity);
+                currentEnemyList.add(entity);
                 notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
             }
         }
@@ -130,18 +138,23 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         //todo: figure out how/when characters need to be added
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+        currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+        currentPartyList.add(entity2);
 
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+        currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+        currentPartyList.add(entity4);
 
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
+        currentPartyList.add(entity5);
     }
 
     public void setCurrentTurnCharacter(Entity entity) {
@@ -291,6 +304,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 Gdx.app.log(TAG, "Player HIT for " + damage + " BY " + _currentOpponent.getEntityConfig().getEntityID() + " leaving player with HP: " + hpVal);
 
                 BattleState.this.notify(_currentOpponent, BattleObserver.BattleEvent.OPPONENT_TURN_DONE);
+            }
+        };
+    }
+
+    private Timer.Task getChooseNextCharacterTurnTimer() {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+
             }
         };
     }

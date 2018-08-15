@@ -263,7 +263,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                     enemy5.getEntity().setCurrentPosition(new Vector2(enemy5.getX(), enemy5.getY()));
 
                 //todo: this needs to move, maybe to BattleState
-                _game.battleState.setCurrentTurnCharacter(enemy1.getEntity());
+                _game.battleState.setCurrentTurnCharacter(party1.getEntity());
             }
         };
 
@@ -528,7 +528,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         if (flashTimer < 0.5f) {
             _mapRenderer.getBatch().begin();
-            _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.15f, 0.5f, 0.5f);
+            _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.1f, 0.5f, 0.5f);
             _mapRenderer.getBatch().end();
         }
         else if (flashTimer > 0.75f) {
