@@ -370,18 +370,46 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void playerRuns(){
-        // todo: randomize
-        notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
-        /*
-        int randomVal = MathUtils.random(1,100);
-        if( _chanceOfEscape > randomVal  ) {
-            notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
-        }else if (randomVal > _criticalChance){
-            opponentAttacks();
-        }else{
-            return;
+        // Chance of escape is:
+        // 0.5/(ENEMY AVG SPD / PLAYER AVG SPD) * (1 + (F! * 0.1)
+        // where F is the number of characters that have fainted
+        int totalSPD = 0;
+        float avgPartySpd = 0;
+        float avgEnemySpd = 0;
+        int numCharsctersFainted = 4;
+        int factorial = 0;
+
+        for (Entity entity : currentPartyList) {
+            String SPD = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+            totalSPD += Integer.parseInt(SPD);
+            //todo: figure out number of fainted party members
         }
-        */
+        avgPartySpd = totalSPD / (float)currentPartyList.size;
+
+        totalSPD = 0;
+        for (Entity entity : currentEnemyList) {
+            String SPD = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+            totalSPD += Integer.parseInt(SPD);
+        }
+        avgEnemySpd = totalSPD / (float)currentEnemyList.size;
+
+        for (int i = numCharsctersFainted; i > 0; i--) {
+            if (factorial == 0) factorial = 1;
+            factorial = factorial * i;
+        }
+
+        float chanceOfEscape = 100 * (0.5f / (avgEnemySpd / avgPartySpd) * (1 + (factorial * 0.1f)));
+        int randomVal = MathUtils.random(1, 100);
+        Gdx.app.log(TAG, "Chance of escape = " + chanceOfEscape + ", randVal = " + randomVal);
+
+        if (chanceOfEscape > randomVal) {
+            Gdx.app.log(TAG, "Player escaped!");
+            notify(_currentOpponent, BattleObserver.BattleEvent.PLAYER_RUNNING);
+        }
+        else {
+            Gdx.app.log(TAG, "Player failed to escape!");
+            getNextTurnCharacter();
+        }
     }
 
     @Override
