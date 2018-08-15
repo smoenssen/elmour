@@ -261,9 +261,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
                 if (enemy5.getEntity() != null)
                     enemy5.getEntity().setCurrentPosition(new Vector2(enemy5.getX(), enemy5.getY()));
-
-                //todo: this needs to move, maybe to BattleState
-                _game.battleState.setCurrentTurnCharacter(party1.getEntity());
             }
         };
 

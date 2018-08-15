@@ -12,6 +12,12 @@ import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.InventoryObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class BattleState extends BattleSubject implements InventoryObserver {
     private static final String TAG = BattleState.class.getSimpleName();
 
@@ -21,6 +27,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private Entity currentSelectedCharacter = null;
     private Array<Entity> currentPartyList;
     private Array<Entity> currentEnemyList;
+    private ArrayList<Entity> characterTurnList;
     private int _currentZoneLevel = 0;
     private int _currentPlayerAP;
     private int _currentPlayerDP;
@@ -39,6 +46,21 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     private float battleCountDown = 0;
 
+    public class EntitySpeedComparator implements Comparator<Entity> {
+        @Override
+        public int compare(Entity arg0, Entity arg1) {
+            String SPD0 = arg0.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+            String SPD1 = arg1.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+            if (Integer.parseInt(SPD0) > Integer.parseInt(SPD1)) {
+                return -1;
+            } else if (Integer.parseInt(SPD0) == Integer.parseInt(SPD1)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
+
     public BattleState(){
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
@@ -49,6 +71,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         currentPartyList = new Array<>();
         currentEnemyList = new Array<>();
+        characterTurnList = new ArrayList<>();
     }
 
     public void resetDefaults(){
@@ -157,7 +180,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity5);
     }
 
-    public void setCurrentTurnCharacter(Entity entity) {
+    public void getNextTurnCharacter(){
+        if( !chooseNextCharacterTurn.isScheduled() ){
+            Timer.schedule(chooseNextCharacterTurn, 1);
+        }
+    }
+
+    private void setCurrentTurnCharacter(Entity entity) {
         this.currentTurnCharacter = entity;
         notify(entity, BattleObserver.BattleEvent.CHARACTER_TURN_CHANGED);
     }
@@ -312,7 +341,30 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
+                if (characterTurnList.size() == 0) {
+                    // get list of all characters
+                    for (Entity entity : currentPartyList) {
+                        characterTurnList.add(entity);
+                    }
 
+                    for (Entity entity : currentEnemyList) {
+                        characterTurnList.add(entity);
+                    }
+
+                    // sort list in descending order by SPD
+                    Collections.sort(characterTurnList, new EntitySpeedComparator());
+                }
+
+                if (characterTurnList.size() > 0) {
+                    // get character at top of list and remove it
+                    setCurrentTurnCharacter(characterTurnList.get(0));
+                    characterTurnList.remove(0);
+                }
+
+                Gdx.app.log(TAG, "Turn List:");
+                for (Entity entity : characterTurnList) {
+                    Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + " " + entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD)));
+                }
             }
         };
     }

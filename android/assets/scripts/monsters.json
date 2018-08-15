@@ -242,11 +242,11 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 10
+		value: 9
 	}
 	ACC: {
 		class: java.lang.String
-		value: 10
+		value: 9
 	}
 	LCK: {
 		class: java.lang.String
@@ -438,7 +438,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 10
+		value: 8
 	}
 	ACC: {
 		class: java.lang.String
@@ -633,7 +633,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 10
+			value: 7
 		}
 		ACC: {
 			class: java.lang.String
@@ -828,7 +828,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 10
+			value: 6
 		}
 		ACC: {
 			class: java.lang.String
