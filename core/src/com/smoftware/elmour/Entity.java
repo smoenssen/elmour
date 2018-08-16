@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
@@ -78,6 +79,8 @@ public class Entity {
 		IDLE,
 		IMMOBILE
 	}
+
+	public enum BattleEntityType { PARTY, ENEMY, UNKNOWN }
 
 	public static enum Interaction {
 		COMPASSSIGN1 {
@@ -212,6 +215,8 @@ public class Entity {
 	private InputComponent _inputComponent;
 	private GraphicsComponent _graphicsComponent;
 	private PhysicsComponent _physicsComponent;
+	private BattleEntityType battleEntityType;
+	private int battlePosition;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -233,6 +238,8 @@ public class Entity {
 		_json = entity._json;
 
 		_entityConfig = new EntityConfig(entity._entityConfig);
+		battleEntityType = entity.battleEntityType;
+		battlePosition = entity.battlePosition;
 		return this;
 	}
 
@@ -249,11 +256,22 @@ public class Entity {
 		_components.add(_inputComponent);
 		_components.add(_physicsComponent);
 		_components.add(_graphicsComponent);
+
+		battleEntityType = BattleEntityType.UNKNOWN;
+		battlePosition = 0;
 	}
 
 	public EntityConfig getEntityConfig() {
 		return _entityConfig;
 	}
+
+	public BattleEntityType getBattleEntityType() { return battleEntityType; }
+
+	public void setBattleEntityType(BattleEntityType battleEntityType) { this.battleEntityType = battleEntityType; }
+
+	public int getBattlePosition() { return battlePosition; }
+
+	public void setBattlePosition(int battlePosition) { this.battlePosition = battlePosition; }
 
 	public void sendMessage(Component.MESSAGE messageType, String ... args){
 		String fullMessage = messageType.toString();

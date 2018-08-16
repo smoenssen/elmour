@@ -27,7 +27,7 @@ public class EntityConfig {
     private String displayName;
     private Array<EntityAbility> entityAbilities;
 
-    public static enum EntityProperties{
+    public enum EntityProperties{
         HIT_DAMAGE_TOTAL,//todo: remove
         HP,         //characters only
         HP_MAX,

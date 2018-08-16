@@ -53,9 +53,27 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             String SPD1 = arg1.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
             if (Integer.parseInt(SPD0) > Integer.parseInt(SPD1)) {
                 return -1;
-            } else if (Integer.parseInt(SPD0) == Integer.parseInt(SPD1)) {
+            }
+            else if (Integer.parseInt(SPD0) == Integer.parseInt(SPD1)) {
+                switch (arg0.getBattleEntityType()) {
+                    case PARTY:
+                        if (arg1.getBattleEntityType() == Entity.BattleEntityType.ENEMY)
+                            return -1;
+                        else if (arg0.getBattlePosition() < arg1.getBattlePosition())
+                            return -1;
+                        else
+                            return 1;
+                    case ENEMY:
+                        if (arg1.getBattleEntityType() == Entity.BattleEntityType.PARTY)
+                            return 1;
+                        else if (arg0.getBattlePosition() < arg1.getBattlePosition())
+                            return -1;
+                        else
+                            return 1;
+                }
                 return 0;
-            } else {
+            }
+            else {
                 return 1;
             }
         }
@@ -148,9 +166,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         Gdx.app.log(TAG, "Setting current opponent list to: " + monsterGroup.getGroupID().toString());
 
+        int battlePosition = 1;
         for (MonsterFactory.MonsterEntityType entityType : monsterEntityTypes) {
             Entity entity = MonsterFactory.getInstance().getMonster(entityType);
             if (entity != null) {
+                entity.setBattleEntityType(Entity.BattleEntityType.ENEMY);
+                entity.setBattlePosition(battlePosition++);
                 currentEnemyList.add(entity);
                 notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
             }
@@ -159,23 +180,34 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void setCurrentPartyList() {
         //todo: figure out how/when characters need to be added
+        int battlePosition = 1;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
+        entity1.setBattleEntityType(Entity.BattleEntityType.PARTY);
+        entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
+        entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
+        entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity2);
 
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
+        entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
+        entity3.setBattlePosition(battlePosition++);
         notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
+        entity4.setBattleEntityType(Entity.BattleEntityType.PARTY);
+        entity4.setBattlePosition(battlePosition++);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity4);
 
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON);
+        entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
+        entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity5);
     }
@@ -353,17 +385,17 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                     // sort list in descending order by SPD
                     Collections.sort(characterTurnList, new EntitySpeedComparator());
+
+                    Gdx.app.log(TAG, "Battle turn order:");
+                    for (Entity entity : characterTurnList) {
+                        Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + " " + entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD)));
+                    }
                 }
 
                 if (characterTurnList.size() > 0) {
                     // get character at top of list and remove it
                     setCurrentTurnCharacter(characterTurnList.get(0));
                     characterTurnList.remove(0);
-                }
-
-                Gdx.app.log(TAG, "Turn List:");
-                for (Entity entity : characterTurnList) {
-                    Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + " " + entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD)));
                 }
             }
         };
