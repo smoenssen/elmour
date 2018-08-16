@@ -408,13 +408,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         int totalSPD = 0;
         float avgPartySpd = 0;
         float avgEnemySpd = 0;
-        int numCharsctersFainted = 4;
+        int numCharactersFainted = 0;
         int factorial = 0;
 
         for (Entity entity : currentPartyList) {
             String SPD = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
             totalSPD += Integer.parseInt(SPD);
-            //todo: figure out number of fainted party members
+            String HP = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
+            if (Integer.parseInt(HP) <= 0)
+                numCharactersFainted++;
         }
         avgPartySpd = totalSPD / (float)currentPartyList.size;
 
@@ -425,7 +427,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
         avgEnemySpd = totalSPD / (float)currentEnemyList.size;
 
-        for (int i = numCharsctersFainted; i > 0; i--) {
+        for (int i = numCharactersFainted; i > 0; i--) {
             if (factorial == 0) factorial = 1;
             factorial = factorial * i;
         }
