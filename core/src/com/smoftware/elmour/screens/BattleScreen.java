@@ -95,6 +95,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Texture turnIndicator;
     private Vector2 currentTurnCharPosition;
 
+    private Texture selectedEntityIndicator;
+    private Entity selectedEntity;
+
     public BattleScreen(ElmourGame game) {
         super(game);
 
@@ -169,6 +172,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy3 = new AnimatedImage();
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
+
+        selectedEntity = null;
+        selectedEntityIndicator = new Texture("graphics/down_arrow.png");
 
         turnIndicator = new Texture("graphics/down_arrow.png");
         currentTurnCharPosition = new Vector2(0, 0);
@@ -275,6 +281,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                   // make sure touch point is still on this image
                                   if (touchPointIsInImage(party1)) {
                                      _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
+                                     selectedEntity = party1.getEntity();
                                   }
                               }
                           }
@@ -291,6 +298,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party2)) {
                                        _game.battleState.setCurrentSelectedCharacter(party2.getEntity());
+                                       selectedEntity = party2.getEntity();
                                    }
                                }
                            }
@@ -307,6 +315,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party3)) {
                                        _game.battleState.setCurrentSelectedCharacter(party3.getEntity());
+                                       selectedEntity = party3.getEntity();
                                    }
                                }
                            }
@@ -323,6 +332,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party4)) {
                                        _game.battleState.setCurrentSelectedCharacter(party4.getEntity());
+                                       selectedEntity = party4.getEntity();
                                    }
                                }
                            }
@@ -339,6 +349,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party5)) {
                                        _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
+                                       selectedEntity = party5.getEntity();
                                    }
                                }
                            }
@@ -355,6 +366,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy1)) {
                                        _game.battleState.setCurrentSelectedCharacter(enemy1.getEntity());
+                                       selectedEntity = enemy1.getEntity();
                                    }
                                }
                            }
@@ -371,6 +383,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy2)) {
                                        _game.battleState.setCurrentSelectedCharacter(enemy2.getEntity());
+                                       selectedEntity = enemy2.getEntity();
                                    }
                                }
                            }
@@ -387,6 +400,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy3)) {
                                        _game.battleState.setCurrentSelectedCharacter(enemy3.getEntity());
+                                       selectedEntity = enemy3.getEntity();
                                    }
                                }
                            }
@@ -403,6 +417,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy4)) {
                                        _game.battleState.setCurrentSelectedCharacter(enemy4.getEntity());
+                                       selectedEntity = enemy4.getEntity();
                                    }
                                }
                            }
@@ -419,6 +434,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy5)) {
                                        _game.battleState.setCurrentSelectedCharacter(enemy5.getEntity());
+                                       selectedEntity = enemy5.getEntity();
                                    }
                                }
                            }
@@ -485,7 +501,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         isFirstTime = true;
     }
 
-    float flashTimer = 0;
+    float currentTurnFlashTimer = 0;
+    float selectedEntityFlashTimer = 0;
 
     @Override
     public void render(float delta) {
@@ -521,15 +538,27 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         battleControls.render(delta);
 
-        flashTimer += delta;
+        currentTurnFlashTimer += delta;
 
-        if (flashTimer < 0.5f) {
+        if (currentTurnFlashTimer < 0.5f) {
             _mapRenderer.getBatch().begin();
             _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.1f, 0.5f, 0.5f);
             _mapRenderer.getBatch().end();
         }
-        else if (flashTimer > 0.75f) {
-            flashTimer = 0;
+        else if (currentTurnFlashTimer > 0.75f) {
+            currentTurnFlashTimer = 0;
+        }
+
+        if (selectedEntity != null) {
+            selectedEntityFlashTimer += delta;
+            if (selectedEntityFlashTimer < 0.5f) {
+                _mapRenderer.getBatch().begin();
+                _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+                _mapRenderer.getBatch().end();
+            }
+            else if (selectedEntityFlashTimer > 0.75f) {
+                selectedEntityFlashTimer = 0;
+            }
         }
     }
 
@@ -824,6 +853,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     @Override
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
-
+        switch (event) {
+            case PLAYER_TURN_DONE:
+                selectedEntity = null;
+                break;
+        }
     }
 }

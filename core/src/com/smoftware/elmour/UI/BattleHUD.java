@@ -998,6 +998,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                        battleTextArea.interact(); // first interact sets battleTextArea visible
 
                                                        switch (previousScreenState) {
+                                                           case FIGHT:
+                                                               game.battleState.playerAttacks();
+                                                               break;
                                                            case INVENTORY:
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
                                                                break;
