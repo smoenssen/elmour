@@ -28,9 +28,9 @@ Character_1DEF: {
 	class: java.lang.String
 	value: 15
 }
-CHARACTER_1: {
+Character_2SPD: {
 	class: java.lang.String
-	value: Purple Boy
+	value: 12
 }
 topWorldMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
@@ -45,9 +45,9 @@ JustinMagicATK: {
 	class: java.lang.String
 	value: 45
 }
-JustinACC: {
+Character_1AVO: {
 	class: java.lang.String
-	value: 10
+	value: 5
 }
 playerQuests: []
 DouglasLCK: {
@@ -62,10 +62,6 @@ CarmenATK: {
 	class: java.lang.String
 	value: 7
 }
-currentPlayerHP: {
-	class: java.lang.Integer
-	value: 50
-}
 currentPlayerMPMax: {
 	class: java.lang.Integer
 	value: 50
@@ -73,10 +69,6 @@ currentPlayerMPMax: {
 JaxonAVO: {
 	class: java.lang.String
 	value: 5
-}
-Character_2SPD: {
-	class: java.lang.String
-	value: 10
 }
 Character_1ATK: {
 	class: java.lang.String
@@ -90,9 +82,10 @@ Character_2MP: {
 	class: java.lang.String
 	value: 6
 }
-currentPlayerXPMax: {
-	class: java.lang.Integer
-	value: 200
+playerCurrentPosition: {
+	class: com.badlogic.gdx.math.Vector2
+	x: 9.9375
+	y: 1.176136
 }
 currentPlayerGP: {
 	class: java.lang.Integer
@@ -106,9 +99,9 @@ JustinAVO: {
 	class: java.lang.String
 	value: 5
 }
-JustinATK: {
+DouglasAVO: {
 	class: java.lang.String
-	value: 7
+	value: 5
 }
 JaxonHP: {
 	class: java.lang.String
@@ -120,7 +113,7 @@ CarmenHP: {
 }
 Character_1SPD: {
 	class: java.lang.String
-	value: 10
+	value: 11
 }
 JaxonHP_MAX: {
 	class: java.lang.String
@@ -134,10 +127,9 @@ CarmenHP_MAX: {
 	class: java.lang.String
 	value: 30
 }
-playerCurrentPosition: {
-	class: com.badlogic.gdx.math.Vector2
-	x: 11.941211
-	y: 5.3822584
+JaxonMagicDEF: {
+	class: java.lang.String
+	value: 35
 }
 currentPlayerXP: {
 	class: java.lang.Integer
@@ -151,10 +143,6 @@ Character_2MagicDEF: {
 	class: java.lang.String
 	value: 35
 }
-CarmenMP: {
-	class: java.lang.String
-	value: 7
-}
 JustinSPD: {
 	class: java.lang.String
 	value: 10
@@ -163,15 +151,15 @@ shadowZLayer: {
 	class: java.lang.String
 	value: ZSHADOWDOWN
 }
-Character_2LCK: {
+playerZLayer: {
 	class: java.lang.String
-	value: 75
+	value: ZDOWN
 }
 DouglasMagicDEF: {
 	class: java.lang.String
 	value: 35
 }
-DouglasATK: {
+JustinATK: {
 	class: java.lang.String
 	value: 7
 }
@@ -187,7 +175,7 @@ JaxonACC: {
 	class: java.lang.String
 	value: 10
 }
-currentPlayerHPMax: {
+currentPlayerHP: {
 	class: java.lang.Integer
 	value: 50
 }
@@ -199,17 +187,17 @@ DouglasDEF: {
 	class: java.lang.String
 	value: 15
 }
-JaxonDEF: {
+CarmenMP: {
 	class: java.lang.String
-	value: 15
+	value: 7
 }
 Character_1MagicATK: {
 	class: java.lang.String
 	value: 45
 }
-Character_2MagicATK: {
+CHARACTER_1: {
 	class: java.lang.String
-	value: 45
+	value: Purple Boy
 }
 Character_1HP_MAX: {
 	class: java.lang.String
@@ -236,9 +224,9 @@ CarmenLCK: {
 	class: java.lang.String
 	value: 75
 }
-Character_1MP_MAX: {
+DouglasATK: {
 	class: java.lang.String
-	value: 15
+	value: 7
 }
 CarmenAVO: {
 	class: java.lang.String
@@ -264,18 +252,22 @@ Character_1MP: {
 	class: java.lang.String
 	value: 8
 }
-Character_1AVO: {
+JaxonDEF: {
 	class: java.lang.String
-	value: 5
+	value: 15
+}
+Character_2MagicATK: {
+	class: java.lang.String
+	value: 45
 }
 townMapStartPosition: {
 	class: com.badlogic.gdx.math.Vector2
 	x: 208
 	y: 32
 }
-JustinLCK: {
+Character_1MP_MAX: {
 	class: java.lang.String
-	value: 75
+	value: 15
 }
 DouglasMP: {
 	class: java.lang.String
@@ -291,7 +283,11 @@ currentTime: {
 }
 JaxonSPD: {
 	class: java.lang.String
-	value: 10
+	value: 13
+}
+currentPlayerHPMax: {
+	class: java.lang.Integer
+	value: 50
 }
 DouglasMP_MAX: {
 	class: java.lang.String
@@ -313,9 +309,13 @@ CarmenMagicATK: {
 	class: java.lang.String
 	value: 45
 }
+Character_2LCK: {
+	class: java.lang.String
+	value: 75
+}
 CarmenSPD: {
 	class: java.lang.String
-	value: 10
+	value: 7
 }
 Character_2DEF: {
 	class: java.lang.String
@@ -329,21 +329,25 @@ JustinMP_MAX: {
 	class: java.lang.String
 	value: 15
 }
-DouglasAVO: {
+JustinLCK: {
 	class: java.lang.String
-	value: 5
+	value: 75
 }
 JustinDEF: {
 	class: java.lang.String
 	value: 15
 }
-playerZLayer: {
-	class: java.lang.String
-	value: ZDOWN
+currentPlayerXPMax: {
+	class: java.lang.Integer
+	value: 200
 }
-JaxonMagicDEF: {
+JustinACC: {
 	class: java.lang.String
-	value: 35
+	value: 10
+}
+JustinHP: {
+	class: java.lang.String
+	value: 30
 }
 playerInventory: [
 	{
@@ -452,9 +456,5 @@ JustinHP_MAX: {
 CarmenACC: {
 	class: java.lang.String
 	value: 10
-}
-JustinHP: {
-	class: java.lang.String
-	value: 30
 }
 }
