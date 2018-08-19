@@ -51,6 +51,10 @@ public final class Utility {
 	private final static String ELMOUR_SKIN_PATH = "skins/elmour_ui.json";
 	public static TextureAtlas ELMOUR_UI_TEXTUREATLAS = new TextureAtlas(ELMOUR_TEXTURE_ATLAS_PATH);
 	public static Skin ELMOUR_UI_SKIN;
+	public static int myFontSize;
+	public static int fontSmallSize;
+	public static int myFontVerySmallSize;
+	public static int myFontSuperSmallSize;
 
 	public static void initializeElmourUISkin() {
 		//NOTE!!! if elmour_ui.json is generated again, then need to replace instances of default-font with myFont:
@@ -63,7 +67,8 @@ public final class Utility {
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		// LARGE TEXT
-		parameter.size = 18;
+		myFontSize = 18;
+		parameter.size = myFontSize;
 		parameter.color = Color.DARK_GRAY;
 		parameter.shadowColor = Color.LIGHT_GRAY;
 		//parameter.gamma = 200f;
@@ -86,13 +91,15 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 15;
+			fontSmallSize = 15;
 		}
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 18;
+			fontSmallSize = 18;
 		}
+
+		parameter.size = fontSmallSize;
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
 		//fontSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -101,13 +108,15 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 12;
+			myFontVerySmallSize = 12;
 		}
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 15;
+			myFontVerySmallSize = 15;
 		}
+
+		parameter.size = myFontVerySmallSize;
 
 		BitmapFont fontVerySmall = generator.generateFont(parameter);
 		//fontVerySmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -116,13 +125,15 @@ public final class Utility {
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 7;
+			myFontSuperSmallSize = 7;
 		}
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			parameter.size = 9;
+			myFontSuperSmallSize = 9;
 		}
+
+		parameter.size = myFontSuperSmallSize;
 
 		BitmapFont fontSuperSmall = generator.generateFont(parameter);
 		//fontSuperSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

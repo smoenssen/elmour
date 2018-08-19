@@ -183,7 +183,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void enableCurrentmapMusic(){
-        _currentMap.loadMusic();
+        if (_currentMap != null)
+            _currentMap.loadMusic();
     }
 
     public void setClosestStartPositionFromScaledUnits(Vector2 position) {

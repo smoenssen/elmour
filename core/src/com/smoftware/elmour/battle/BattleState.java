@@ -255,8 +255,27 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         // DEF blocks ATK 2:1
         Gdx.app.log(TAG, "playerATK = " + playerATK + ", enemyDEF = " + enemyDEF);
         int hitPoints = Integer.parseInt(playerATK) - Integer.parseInt(enemyDEF) / 2;
-        Gdx.app.log(TAG, "enemy takes " + hitPoints);
+        if (hitPoints < 0)
+            hitPoints = 0;
 
+        Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
+
+        String message = ", causing " + hitPoints + " HP damage.";
+        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
+
+        String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
+        int newEnemyHP = Integer.parseInt(enemyHP) - hitPoints;
+        currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
+
+        if (hitPoints > 0) {
+            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
+        }
+
+        Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
+
+        if (newEnemyHP <= 0) {
+            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
+        }
         /*
         //Check for magic if used in attack; If we don't have enough MP, then return
         int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
@@ -294,6 +313,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
+                //todo
                 String message = ", healing 15 HP.";
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), "25");
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP.toString(), "1");
@@ -344,7 +364,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
                 }
 
-                if (currentOpponentHP == 0) {
+                if (currentOpponentHP <= 0) {
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
                 }
 
@@ -454,6 +474,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
         else {
             Gdx.app.log(TAG, "Player failed to escape!");
+            //todo: notify
             getNextTurnCharacter();
         }
     }

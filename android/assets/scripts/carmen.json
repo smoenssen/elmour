@@ -18,7 +18,7 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 7
+		value: 11
 	}
 	MP_MAX: {
 		class: java.lang.String
@@ -26,7 +26,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 11
 	}
 	MagicATK: {
 		class: java.lang.String

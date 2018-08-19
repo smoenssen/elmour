@@ -29,7 +29,7 @@ public class EntityConfig {
 
     public enum EntityProperties{
         HIT_DAMAGE_TOTAL,//todo: remove
-        HP,         //characters only
+        HP,
         HP_MAX,
         MP,         //characters only
         MP_MAX,     //characters only

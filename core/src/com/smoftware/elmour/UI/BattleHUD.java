@@ -4,7 +4,10 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -12,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -2423,6 +2427,44 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 break;
             case OPPONENT_HIT_DAMAGE:
+                Label.LabelStyle ls;
+
+                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
+                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+                parameter.size = Utility.myFontVerySmallSize;
+                parameter.shadowColor = Color.LIGHT_GRAY;
+
+                int HP = Integer.parseInt(entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP)));
+                int HP_MAX = Integer.parseInt(entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP_MAX)));
+
+                Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
+
+                if (HP < 0.3f * (float)HP_MAX) {
+                    Color red = new Color (1, 0, 0, 1);
+                    parameter.color = red;
+                }
+                else if (HP < 0.6f * (float)HP_MAX) {
+                    Color orange = new Color(1, 0.7f, 0, 1);
+                    parameter.color = orange;
+                }
+                else {
+                    parameter.color = Color.DARK_GRAY;
+                }
+
+                // set color of entity name
+                BitmapFont font = generator.generateFont(parameter);
+                ls = new Label.LabelStyle(font, parameter.color);
+
+                if (monster1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    monster1Name.setStyle(ls);
+                else if (monster2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    monster2Name.setStyle(ls);
+                else if (monster3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    monster3Name.setStyle(ls);
+                else if (monster4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    monster4Name.setStyle(ls);
+                else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    monster5Name.setStyle(ls);
                 /*
                 int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString()));
                 _damageValLabel.setText(String.valueOf(damage));
@@ -2433,10 +2475,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 _battleShakeCam.startShaking();
                 break;
             case OPPONENT_DEFEATED:
-                /*
-                _damageValLabel.setVisible(false);
-                _damageValLabel.setY(_origDamageValLabelY);
-                */
+                Gdx.app.log(TAG, "entity " + entity.getEntityConfig().getDisplayName() + " defeated!!");
+
+                if (monster1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    monster1Name.setVisible(false);
+                }
+                else if (monster2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    monster2Name.setVisible(false);
+                }
+                else if (monster3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    monster3Name.setVisible(false);
+                }
+                else if (monster4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    monster4Name.setVisible(false);
+                }
+                else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())){
+                    monster5Name.setVisible(false);
+                }
                 break;
             case OPPONENT_TURN_DONE:
                 selectedCharacter = null;
@@ -2536,6 +2591,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
 
                 switch (previousScreenState) {
+                    case FIGHT:
+                        fullMsg = String.format("%s attacked %s%s", sourceEntity.getEntityConfig().getDisplayName(),
+                                destinationEntity.getEntityConfig().getDisplayName(),
+                                message);
+                        Gdx.app.log(TAG, fullMsg);
+                        battleTextArea.populateText(fullMsg);
+                        if (battleTextArea.interact()) {
+                            showMainScreen(true);
+                        }
+                        break;
                     case INVENTORY:
                         fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
                                                                             selectedInventoryElement.name,
@@ -2565,6 +2630,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 selectedCharacter = null;
                 break;
         }
+
+        game.battleState.getNextTurnCharacter();
     }
 
     private void showMainScreen(boolean immediate) {

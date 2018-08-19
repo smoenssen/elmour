@@ -26,7 +26,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 13
 	}
 	MagicATK: {
 		class: java.lang.String

@@ -10,6 +10,10 @@ entityProperties: {
 		class: java.lang.String
 		value: 15
 	}
+	HP_MAX: {
+		class: java.lang.String
+		value: 15
+	}
 	ATK: {
 		class: java.lang.String
 		value: 7
@@ -72,11 +76,11 @@ entityAbilities: [
 }
 {
 	class: com.smoftware.elmour.EntityConfig$EntityAbility
-	name: Fire
-	numTurnsTilReset: 5
-	level: 3
-	maxHP: 15
-	priority: 1
+	name: Thunder
+	numTurnsTilReset: 43
+	level: 1
+	maxHP: 10
+	priority: 2
 }
 ]
 animationConfig: [
@@ -222,7 +226,11 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 15
+		value: 9
+	}
+	HP_MAX: {
+		class: java.lang.String
+		value: 9
 	}
 	ATK: {
 		class: java.lang.String
@@ -246,7 +254,7 @@ entityProperties: {
 	}
 	ACC: {
 		class: java.lang.String
-		value: 9
+		value: 10
 	}
 	LCK: {
 		class: java.lang.String
@@ -418,7 +426,11 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 15
+		value: 20
+	}
+	HP_MAX: {
+		class: java.lang.String
+		value: 20
 	}
 	ATK: {
 		class: java.lang.String
@@ -613,7 +625,11 @@ animationConfig: [
 	entityProperties: {
 		HP: {
 			class: java.lang.String
-			value: 15
+			value: 18
+		}
+		HP_MAX: {
+			class: java.lang.String
+			value: 18
 		}
 		ATK: {
 			class: java.lang.String
@@ -633,7 +649,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 7
+			value: 10
 		}
 		ACC: {
 			class: java.lang.String
@@ -808,7 +824,11 @@ animationConfig: [
 	entityProperties: {
 		HP: {
 			class: java.lang.String
-			value: 15
+			value: 26
+		}
+		HP_MAX: {
+			class: java.lang.String
+			value: 26
 		}
 		ATK: {
 			class: java.lang.String
@@ -828,7 +848,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 6
+			value: 10
 		}
 		ACC: {
 			class: java.lang.String

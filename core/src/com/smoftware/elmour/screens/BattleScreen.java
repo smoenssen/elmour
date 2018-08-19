@@ -502,7 +502,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     float currentTurnFlashTimer = 0;
-    float selectedEntityFlashTimer = 0;
 
     @Override
     public void render(float delta) {
@@ -543,22 +542,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (currentTurnFlashTimer < 0.5f) {
             _mapRenderer.getBatch().begin();
             _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.1f, 0.5f, 0.5f);
+
+            if (selectedEntity != null) {
+                _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+            }
+
             _mapRenderer.getBatch().end();
         }
         else if (currentTurnFlashTimer > 0.75f) {
             currentTurnFlashTimer = 0;
-        }
-
-        if (selectedEntity != null) {
-            selectedEntityFlashTimer += delta;
-            if (selectedEntityFlashTimer < 0.5f) {
-                _mapRenderer.getBatch().begin();
-                _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
-                _mapRenderer.getBatch().end();
-            }
-            else if (selectedEntityFlashTimer > 0.75f) {
-                selectedEntityFlashTimer = 0;
-            }
         }
     }
 
@@ -848,6 +840,34 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case CHARACTER_TURN_CHANGED:
                 currentTurnCharPosition = entity.getCurrentPosition();
                 break;
+            case OPPONENT_DEFEATED:
+                float fadeOutTime = 1;
+
+                if (enemy1.getEntity() != null) {
+                    if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        enemy1.addAction(Actions.fadeOut(fadeOutTime));
+                    }
+                }
+                if (enemy2.getEntity() != null) {
+                    if (enemy2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        enemy2.addAction(Actions.fadeOut(fadeOutTime));
+                    }
+                }
+                if (enemy3.getEntity() != null) {
+                    if (enemy3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        enemy3.addAction(Actions.fadeOut(fadeOutTime));
+                    }
+                }
+                if (enemy4.getEntity() != null) {
+                    if (enemy4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        enemy4.addAction(Actions.fadeOut(fadeOutTime));
+                    }
+                }
+                if (enemy5.getEntity() != null) {
+                    if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        enemy5.addAction(Actions.fadeOut(fadeOutTime));
+                    }
+                }
         }
     }
 
