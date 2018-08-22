@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -1003,7 +1002,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                                        switch (previousScreenState) {
                                                            case FIGHT:
-                                                               game.battleState.playerAttacks();
+                                                               game.battleState.playerMeleeAttack();
                                                                break;
                                                            case INVENTORY:
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
@@ -2425,6 +2424,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     Gdx.app.log(TAG, selectedCharacter + " selected");
                 }
 
+                break;
+            case OPPONENT_BLOCKED:
+                battleTextArea.populateText("Melee attack on " + entity.getEntityConfig().getDisplayName() + " has been blocked!");
+                if (battleTextArea.interact()) {
+                    showMainScreen(true);
+                }
                 break;
             case OPPONENT_HIT_DAMAGE:
                 Label.LabelStyle ls;

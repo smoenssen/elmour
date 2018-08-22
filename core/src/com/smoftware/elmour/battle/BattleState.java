@@ -169,6 +169,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         for (MonsterFactory.MonsterEntityType entityType : monsterEntityTypes) {
             Entity entity = MonsterFactory.getInstance().getMonster(entityType);
             if (entity != null) {
+                entity.setAlive(true);
                 entity.setBattleEntityType(Entity.BattleEntityType.ENEMY);
                 entity.setBattlePosition(battlePosition++);
                 currentEnemyList.add(entity);
@@ -181,30 +182,35 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         //todo: figure out how/when characters need to be added
         int battlePosition = 1;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
+        entity1.setAlive(true);
         entity1.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
+        entity2.setAlive(true);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity2);
 
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
+        entity3.setAlive(true);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity3.setBattlePosition(battlePosition++);
         notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
+        entity4.setAlive(true);
         entity4.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity4.setBattlePosition(battlePosition++);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
         currentPartyList.add(entity4);
 
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON);
+        entity5.setAlive(true);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBBER_ADDED);
@@ -241,9 +247,51 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
     }
 
-    public void playerAttacks(){
+    public void playerMeleeAttack(){
         if( currentSelectedCharacter == null ){
             return;
+        }
+
+        // Melee attack against enemy 1, 3 or 5 can be blocked by enemies 2 or 4 if they are alive
+        // i.e.,
+        // 1
+        //    2
+        // 3
+        //    4
+        // 5
+        // check for block
+        Entity enemy;
+        switch (currentSelectedCharacter.getBattlePosition()) {
+            case 1:
+                if (currentEnemyList.size > 1) {
+                    enemy = currentEnemyList.get(1);
+                    if (enemy.isAlive()) {
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                        return;
+                    }
+                }
+                break;
+            case 3:
+                enemy = currentEnemyList.get(1);
+                if (enemy.isAlive()) {
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                    return;
+                }
+                else if (currentEnemyList.size > 3) {
+                    enemy = currentEnemyList.get(3);
+                    if (enemy.isAlive()) {
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                        return;
+                    }
+                }
+                break;
+            case 5:
+                enemy = currentEnemyList.get(3);
+                if (enemy.isAlive()) {
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                    return;
+                }
+                break;
         }
 
         String playerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
@@ -274,6 +322,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
 
         if (newEnemyHP <= 0) {
+            currentSelectedCharacter.setAlive(false);
             BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
         }
         /*

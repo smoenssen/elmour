@@ -217,6 +217,7 @@ public class Entity {
 	private PhysicsComponent _physicsComponent;
 	private BattleEntityType battleEntityType;
 	private int battlePosition;
+	private boolean isAlive;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -240,6 +241,7 @@ public class Entity {
 		_entityConfig = new EntityConfig(entity._entityConfig);
 		battleEntityType = entity.battleEntityType;
 		battlePosition = entity.battlePosition;
+		isAlive = entity.isAlive;
 		return this;
 	}
 
@@ -259,6 +261,7 @@ public class Entity {
 
 		battleEntityType = BattleEntityType.UNKNOWN;
 		battlePosition = 0;
+		isAlive = false;
 	}
 
 	public EntityConfig getEntityConfig() {
@@ -272,6 +275,10 @@ public class Entity {
 	public int getBattlePosition() { return battlePosition; }
 
 	public void setBattlePosition(int battlePosition) { this.battlePosition = battlePosition; }
+
+	public void setAlive(boolean isAlive) { this.isAlive = isAlive; }
+
+	public boolean isAlive() { return  isAlive; }
 
 	public void sendMessage(Component.MESSAGE messageType, String ... args){
 		String fullMessage = messageType.toString();
