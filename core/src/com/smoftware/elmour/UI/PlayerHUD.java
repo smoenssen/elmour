@@ -2,8 +2,10 @@ package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -49,6 +51,8 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class PlayerHUD implements Screen, AudioSubject,
@@ -115,7 +119,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton inventoryButton;
     private TextButton optionsButton;
     private TextButton saveButton;
-    private TextButton parseXMLButton;
+    private TextButton utilityButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -289,7 +293,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton = new TextButton("Inventory", Utility.ELMOUR_UI_SKIN);
         optionsButton = new TextButton("Options", Utility.ELMOUR_UI_SKIN);
         saveButton = new TextButton("Save", Utility.ELMOUR_UI_SKIN);
-        parseXMLButton = new TextButton("Parse XML", Utility.ELMOUR_UI_SKIN);
+        utilityButton = new TextButton("Utility Button!!", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -322,10 +326,10 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         menuItemY -= menuItemHeight - 2;
 
-        parseXMLButton.setWidth(menuItemWidth);
-        parseXMLButton.setHeight(menuItemHeight);
-        parseXMLButton.setPosition(menuItemX, menuItemY);
-        parseXMLButton.setVisible(false);
+        utilityButton.setWidth(menuItemWidth);
+        utilityButton.setHeight(menuItemHeight);
+        utilityButton.setPosition(menuItemX, menuItemY);
+        utilityButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -421,7 +425,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(saveButton);
 
         if (ElmourGame.DEV_MODE)
-            _stage.addActor(parseXMLButton);
+            _stage.addActor(utilityButton);
 
         //_battleUI.validate();
         _questUI.validate();
@@ -549,7 +553,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                }
         );
 
-        parseXMLButton.addListener(new ClickListener() {
+        utilityButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                        return true;
@@ -558,9 +562,25 @@ public class PlayerHUD implements Screen, AudioSubject,
                                    @Override
                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                        // make sure touch point is still on this button
-                                       if (touchPointIsInButton(parseXMLButton)) {
+                                       if (touchPointIsInButton(utilityButton)) {
                                            hideMenu(true);
-                                           Utility.parseConversationXMLFiles();
+                                           //Utility.parseConversationXMLFiles();
+
+                                           FileHandle file = Gdx.files.local("Ben.csv");
+
+                                           for (int i = 0; i < 1000; i++) {
+                                               int sum = 0;
+                                               double B = 1.05f;
+
+                                               for (int X = 0; X < 100; X++) {
+                                                   int R = MathUtils.random(1, 4);
+                                                   sum += (int) (R * Math.pow(B, X));
+                                               }
+
+                                               String output = String.format("%d\n", sum);
+                                               Gdx.app.log(TAG, output);
+                                               file.writeString(output, true);
+                                           }
                                        }
                                    }
                                }
@@ -624,7 +644,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton.setVisible(false);
         optionsButton.setVisible(false);
         saveButton.setVisible(false);
-        parseXMLButton.setVisible(false);
+        utilityButton.setVisible(false);
 
         if (setVisibleFlag)
             menuIsVisible = false;
@@ -635,7 +655,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton.setVisible(true);
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
-        parseXMLButton.setVisible(true);
+        utilityButton.setVisible(true);
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
     }
@@ -1469,7 +1489,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             if (!Utility.pointInRectangle(menuButtonRect, localPos.x, localPos.y)) {
                 Vector2 bottomLeftHandCorner;
                 if (ElmourGame.DEV_MODE)
-                    bottomLeftHandCorner = new Vector2(parseXMLButton.getX(), parseXMLButton.getY());
+                    bottomLeftHandCorner = new Vector2(utilityButton.getX(), utilityButton.getY());
                 else
                     bottomLeftHandCorner = new Vector2(saveButton.getX(), saveButton.getY());
 
