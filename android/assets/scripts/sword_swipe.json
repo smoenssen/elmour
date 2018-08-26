@@ -1,0 +1,34 @@
+{
+entityID : SWORD_SWIPE
+state : IDLE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: WALK_LEFT
+		texturePaths: [
+				graphics/Sword_Slash.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+		]
+	}
+]
+}

@@ -260,7 +260,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
 
-        String message = ", causing " + hitPoints + " HP damage.";
+        String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                                                currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
+
+        //String message = ", causing " + hitPoints + " HP damage.";
         BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
 
         String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
@@ -300,12 +303,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void opponentAttacks(){
-        if( currentSelectedCharacter == null ){
-            return;
-        }
+        // todo: select character
+        currentSelectedCharacter = currentPartyList.get(1);
 
         if( !_opponentAttackCalculations.isScheduled() ){
-            Timer.schedule(_opponentAttackCalculations, 1);
+            Timer.schedule(_opponentAttackCalculations, 3);
         }
     }
 
@@ -314,7 +316,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             @Override
             public void run() {
                 //todo
-                String message = ", healing 15 HP.";
+                String inventoryItem = "TODO";
+                String message = String.format("%s used %s on %s, healing 15 HP.", currentTurnCharacter.getEntityConfig().getDisplayName(), inventoryItem,
+                                        currentSelectedCharacter.getEntityConfig().getDisplayName());
+
+                //todo
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), "25");
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP.toString(), "1");
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
@@ -326,7 +332,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, ".");
+                String spell = "TODO";
+                String message = String.format("%s used %s on %s.", currentTurnCharacter.getEntityConfig().getDisplayName(), spell,
+                                        currentSelectedCharacter.getEntityConfig().getDisplayName());
+
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
             }
         };
     }
@@ -391,10 +401,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 ProfileManager.getInstance().setProperty("currentPlayerHP", hpVal);
 
                 if( damage > 0 ) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
+                    String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                            currentSelectedCharacter.getEntityConfig().getDisplayName(), damage);
+
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE, message);
                 }
 
-                Gdx.app.log(TAG, "Player HIT for " + damage + " BY " + currentSelectedCharacter.getEntityConfig().getEntityID() + " leaving player with HP: " + hpVal);
+                Gdx.app.log(TAG, "Player HIT for " + damage + " HP BY " + currentSelectedCharacter.getEntityConfig().getEntityID() + " leaving player with HP: " + hpVal);
 
                 BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_TURN_DONE);
             }

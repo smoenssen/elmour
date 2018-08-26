@@ -202,6 +202,8 @@ public class EntityConfig {
 
     static public class AnimationConfig{
         private float frameDuration = 1.0f;
+        private int frameWidth = 16;
+        private int frameHeight = 16;
         private AnimationType animationType;
         private Array<String> texturePaths;
         private Array<GridPoint2> gridPoints;
@@ -219,6 +221,14 @@ public class EntityConfig {
         public void setFrameDuration(float frameDuration) {
             this.frameDuration = frameDuration;
         }
+
+        public int getFrameWidth() { return frameWidth; }
+
+        public void setFrameWidth(int frameWidth ) { this.frameWidth = frameWidth; }
+
+        public int getFrameHeight() { return frameHeight; }
+
+        public void setFrameHeight(int frameHeight ) { this.frameHeight = frameHeight; }
 
         public Array<String> getTexturePaths() {
             return texturePaths;

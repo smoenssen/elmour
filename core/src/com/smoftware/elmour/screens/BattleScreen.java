@@ -5,9 +5,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -16,12 +20,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.GraphicsComponent;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
@@ -35,6 +42,8 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
+
+import java.util.Hashtable;
 
 /**
  * Created by steve on 3/2/18.
@@ -52,6 +61,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
+
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> swordAnimations;
+    protected TextureRegion _currentFrame = null;
+    private float _frameTime = 0;
     
     protected OrthogonalTiledMapRenderer _mapRenderer = null;
     protected MapManager _mapMgr;
@@ -94,6 +107,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Texture turnIndicator;
     private Vector2 currentTurnCharPosition;
+    private AnimatedImage currentTurnCharacter;
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
@@ -173,9 +187,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
-        selectedEntity = null;
+        swordAnimations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.SWORD_SWIPE);
         selectedEntityIndicator = new Texture("graphics/down_arrow.png");
-
         turnIndicator = new Texture("graphics/down_arrow.png");
         currentTurnCharPosition = new Vector2(0, 0);
 
@@ -350,6 +363,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    if (touchPointIsInImage(party5)) {
                                        _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
                                        selectedEntity = party5.getEntity();
+
+                                       playerAttackCutSceneAction = getPlayerAttackCutScreenAction();
+                                       _stage.addAction(playerAttackCutSceneAction);
                                    }
                                }
                            }
@@ -438,6 +454,75 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    }
                                }
                            }
+        );
+    }
+
+    boolean shouldShowWeaponAnimation = false;
+
+    public class showWeaponAnimation extends Action {
+        //AnimatedImage character = null;
+        boolean visible = true;
+
+        public showWeaponAnimation(boolean visible) {
+            //this.character = character;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            //this.character.setVisible(visible);
+            if (this.visible) {
+                shouldShowWeaponAnimation = true;
+                _frameTime = 0;
+            }
+            else {
+                shouldShowWeaponAnimation = false;
+            }
+
+            return true;
+        }
+    }
+
+    public class setWalkDirection extends Action {
+        AnimatedImage character = null;
+        Entity.AnimationType direction = Entity.AnimationType.IDLE;
+
+        public setWalkDirection(AnimatedImage character, Entity.AnimationType direction) {
+            this.character = character;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            character.setCurrentAnimationType(direction);
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    private Action playerAttackCutSceneAction;
+
+    private Action getPlayerAttackCutScreenAction() {
+        return Actions.sequence(
+
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX() - 2, currentTurnCharacter.getY(), 0.5f, Interpolation.linear), currentTurnCharacter),
+
+                Actions.delay(0.5f),
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                Actions.delay(1.0f),
+                new showWeaponAnimation(true),
+                Actions.delay(1.0f),
+                new showWeaponAnimation(false),
+
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_RIGHT),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.5f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.5f),
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE)
+
+                //Actions.delay(3f),
+                //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor)
+
         );
     }
 
@@ -552,6 +637,18 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         else if (currentTurnFlashTimer > 0.75f) {
             currentTurnFlashTimer = 0;
         }
+
+        Animation<TextureRegion> animation = swordAnimations.get(Entity.AnimationType.WALK_LEFT);
+        if (animation != null) {
+            _frameTime = (_frameTime + delta) % 5;
+            _currentFrame = animation.getKeyFrame(_frameTime);
+        }
+
+
+        _mapRenderer.getBatch().begin();
+        if (currentTurnCharacter != null && _currentFrame != null && shouldShowWeaponAnimation)
+            _mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - characterWidth, currentTurnCharacter.getY() - characterHeight,  3.0f, 3.0f);
+        _mapRenderer.getBatch().end();
     }
 
     @Override
@@ -839,6 +936,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         switch (event) {
             case CHARACTER_TURN_CHANGED:
                 currentTurnCharPosition = entity.getCurrentPosition();
+                //todo:
+                currentTurnCharacter = party3;
                 break;
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;

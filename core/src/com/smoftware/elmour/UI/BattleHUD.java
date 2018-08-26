@@ -1259,6 +1259,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_EATING);
@@ -2496,10 +2497,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case OPPONENT_TURN_DONE:
                 selectedCharacter = null;
 
+                enableButtons();
+                /*
                 attackButton.setDisabled(false);
                 attackButton.setTouchable(Touchable.enabled);
                 runButton.setDisabled(false);
                 runButton.setTouchable(Touchable.enabled);
+                */
                 break;
             case PLAYER_USED_MAGIC:
                 /*
@@ -2509,6 +2513,36 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             case CHARACTER_TURN_CHANGED:
+                Entity.BattleEntityType type = entity.getBattleEntityType();
+                if (type == Entity.BattleEntityType.ENEMY)  {
+                    // disable player input and kick off enemy turn
+                    disableButtons();
+                    /*////////////////
+                    middleStatsTextArea.addAction(Actions.fadeOut(0));
+                    middleStatsTextArea.setText("", true);
+
+                    backButton.addAction(Actions.fadeOut(0));
+                    backButton.setWidth(middleAreaWidth);
+
+                    statusButton.addAction(Actions.fadeOut(0));
+                    statusButton.setText(BTN_NAME_STATUS);
+*/
+                    // look at second item in stack
+                    //currentScreenState = screenStack.pop();
+                    //ScreenState previousScreenState = screenStack.peek();
+                    //screenStack.push(currentScreenState);
+
+                    topLeftButton.addAction(Actions.fadeOut(0));
+                    topRightButton.addAction(Actions.fadeOut(0));
+                    runButton.addAction(Actions.fadeOut(0));
+                    statusButton.addAction(Actions.fadeOut(0));
+
+                    battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                    battleTextArea.interact(); // first interact sets battleTextArea visible
+                    battleTextArea.interact();
+                    /////////////////////////
+                    game.battleState.opponentAttacks();
+                }
                 break;
             default:
                 break;
@@ -2520,11 +2554,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         Gdx.app.log(TAG, event.toString() + " notification received");
 
         switch(event){
+            case PLAYER_HIT_DAMAGE:
+                battleTextArea.populateText(message);
+                break;
+            case OPPONENT_TURN_DONE:
+                battleTextArea.populateText(message);
+                break;
             case PLAYER_TURN_DONE:
-                /*
-                _battleState.opponentAttacks();
-                */
-
                 // go back to Main screen and enable buttons
                 ScreenState currentScreenState = screenStack.pop();
                 ScreenState previousScreenState = screenStack.peek();
@@ -2539,7 +2575,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     }
                 }
 
-                String fullMsg;
+                //String fullMsg;
 
                 // store any updated stats
                 ProfileManager.getInstance().setStatProperties(destinationEntity, true);
@@ -2592,22 +2628,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 switch (previousScreenState) {
                     case FIGHT:
-                        fullMsg = String.format("%s attacked %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                                destinationEntity.getEntityConfig().getDisplayName(),
-                                message);
-                        Gdx.app.log(TAG, fullMsg);
-                        battleTextArea.populateText(fullMsg);
+                        //fullMsg = String.format("%s attacked %s%s", sourceEntity.getEntityConfig().getDisplayName(),
+                        //        destinationEntity.getEntityConfig().getDisplayName(),
+                        //        message);
+                        Gdx.app.log(TAG, message);
+                        battleTextArea.populateText(message);
                         if (battleTextArea.interact()) {
                             showMainScreen(true);
                         }
                         break;
                     case INVENTORY:
-                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                                                                            selectedInventoryElement.name,
-                                                                            destinationEntity.getEntityConfig().getDisplayName(),
-                                                                            message);
-                        Gdx.app.log(TAG, fullMsg);
-                        battleTextArea.populateText(fullMsg);
+                        //fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
+                        //                                                    selectedInventoryElement.name,
+                        //                                                    destinationEntity.getEntityConfig().getDisplayName(),
+                         //                                                    message);
+                        Gdx.app.log(TAG, message);
+                        battleTextArea.populateText(message);
                         if (battleTextArea.interact()) {
                             showMainScreen(true);
                         }
@@ -2615,12 +2651,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case SPELLS_BLACK:
                     case SPELLS_WHITE:
                     case POWER:
-                        fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                                                                            selectedSpellsPowerElement.name,
-                                                                            destinationEntity.getEntityConfig().getDisplayName(),
-                                                                            message);
-                        Gdx.app.log(TAG, fullMsg);
-                        battleTextArea.populateText(fullMsg);
+                        //fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
+                         //                                                   selectedSpellsPowerElement.name,
+                         //                                                   destinationEntity.getEntityConfig().getDisplayName(),
+                         //                                                   message);
+                        Gdx.app.log(TAG, message);
+                        battleTextArea.populateText(message);
                         if (battleTextArea.interact()) {
                             showMainScreen(true);
                         }
