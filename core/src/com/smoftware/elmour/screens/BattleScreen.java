@@ -363,9 +363,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                    if (touchPointIsInImage(party5)) {
                                        _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
                                        selectedEntity = party5.getEntity();
-
-                                       playerAttackCutSceneAction = getPlayerAttackCutScreenAction();
-                                       _stage.addAction(playerAttackCutSceneAction);
                                    }
                                }
                            }
@@ -936,8 +933,38 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         switch (event) {
             case CHARACTER_TURN_CHANGED:
                 currentTurnCharPosition = entity.getCurrentPosition();
-                //todo:
-                currentTurnCharacter = party3;
+                switch (entity.getBattlePosition()) {
+                    case 1:
+                        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                            currentTurnCharacter = party1;
+                        else
+                            currentTurnCharacter = enemy1;
+                        break;
+                    case 2:
+                        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                            currentTurnCharacter = party2;
+                        else
+                            currentTurnCharacter = enemy2;
+                        break;
+                    case 3:
+                        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                            currentTurnCharacter = party3;
+                        else
+                            currentTurnCharacter = enemy3;
+                        break;
+                    case 4:
+                        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                            currentTurnCharacter = party4;
+                        else
+                            currentTurnCharacter = enemy4;
+                        break;
+                    case 5:
+                        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                            currentTurnCharacter = party5;
+                        else
+                            currentTurnCharacter = enemy5;
+                        break;
+                }
                 break;
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;
@@ -973,6 +1000,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     @Override
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
         switch (event) {
+            case PLAYER_ATTACKS:
+                playerAttackCutSceneAction = getPlayerAttackCutScreenAction();
+                _stage.addAction(playerAttackCutSceneAction);
+                break;
             case PLAYER_TURN_DONE:
                 selectedEntity = null;
                 break;

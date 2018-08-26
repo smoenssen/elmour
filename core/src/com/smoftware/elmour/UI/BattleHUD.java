@@ -2305,9 +2305,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case PARTY_MEMBBER_ADDED:
                 Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
                 numberOfPartyMembers++;
-                battleScreen.addPartyMember(entity, numberOfPartyMembers);
+                battleScreen.addPartyMember(entity, entity.getBattlePosition());
 
-                switch (numberOfPartyMembers) {
+                switch (entity.getBattlePosition()) {
                     case 1:
                         String s = entity.getEntityConfig().getDisplayName();
                         party1Name.setText(entity.getEntityConfig().getDisplayName());

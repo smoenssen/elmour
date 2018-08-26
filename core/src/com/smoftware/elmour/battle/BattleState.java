@@ -213,7 +213,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void getNextTurnCharacter(){
         if( !chooseNextCharacterTurn.isScheduled() ){
-            Timer.schedule(chooseNextCharacterTurn, 1);
+            Timer.schedule(chooseNextCharacterTurn, 3);
         }
     }
 
@@ -246,39 +246,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             return;
         }
 
-        String playerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
-        String enemyDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
+        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_ATTACKS, "");
 
-        // If Character attacks enemy with a normal attack of 10 ATK, then there is 10 POW going at enemy.
-        // Every 2 DEF blocks one ATK, meaning that because enemy has 15 DEF, it blocks 7 POW (rounding down).
-        // This means that they take 3 HP
-        // DEF blocks ATK 2:1
-        Gdx.app.log(TAG, "playerATK = " + playerATK + ", enemyDEF = " + enemyDEF);
-        int hitPoints = Integer.parseInt(playerATK) - Integer.parseInt(enemyDEF) / 2;
-        if (hitPoints < 0)
-            hitPoints = 0;
-
-        Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
-
-        String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                                                currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
-
-        //String message = ", causing " + hitPoints + " HP damage.";
-        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
-
-        String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-        int newEnemyHP = Integer.parseInt(enemyHP) - hitPoints;
-        currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
-
-        if (hitPoints > 0) {
-            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
+        if( !_playerAttackCalculations.isScheduled() ){
+            Timer.schedule(_playerAttackCalculations, 1.75f);
         }
 
-        Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
 
-        if (newEnemyHP <= 0) {
-            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
-        }
         /*
         //Check for magic if used in attack; If we don't have enough MP, then return
         int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
@@ -307,7 +281,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentSelectedCharacter = currentPartyList.get(1);
 
         if( !_opponentAttackCalculations.isScheduled() ){
-            Timer.schedule(_opponentAttackCalculations, 3);
+            Timer.schedule(_opponentAttackCalculations, 1);
         }
     }
 
@@ -357,6 +331,40 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
+                String playerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
+                String enemyDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
+
+                // If Character attacks enemy with a normal attack of 10 ATK, then there is 10 POW going at enemy.
+                // Every 2 DEF blocks one ATK, meaning that because enemy has 15 DEF, it blocks 7 POW (rounding down).
+                // This means that they take 3 HP
+                // DEF blocks ATK 2:1
+                Gdx.app.log(TAG, "playerATK = " + playerATK + ", enemyDEF = " + enemyDEF);
+                int hitPoints = Integer.parseInt(playerATK) - Integer.parseInt(enemyDEF) / 2;
+                if (hitPoints < 0)
+                    hitPoints = 0;
+
+                Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
+
+                String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                        currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
+
+                //String message = ", causing " + hitPoints + " HP damage.";
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE, message);
+
+                String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
+                int newEnemyHP = Integer.parseInt(enemyHP) - hitPoints;
+                currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
+
+                if (hitPoints > 0) {
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
+                }
+
+                Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
+
+                if (newEnemyHP <= 0) {
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
+                }
+                /*
                 int currentOpponentHP = Integer.parseInt(currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
                 int currentOpponentDP = Integer.parseInt(currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DEF.toString()));
 
@@ -379,6 +387,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 }
 
                 BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
+                */
             }
         };
     }
