@@ -90,7 +90,7 @@ public class BattleTextArea extends Window {
         this.add(textArea);
     }
 
-    public void hide() {
+    private void hide() {
         cleanupTextArea();
         this.setVisible(false);
         state = State.HIDDEN;
