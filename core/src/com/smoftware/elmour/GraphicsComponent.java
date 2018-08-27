@@ -199,6 +199,44 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         return animation;
     }
 
+    protected static Animation loadAnimation(String textureName, Array<GridPoint2> points, float frameDuration, int frameWidth, int frameHeight){
+        Utility.loadTextureAsset(textureName);
+        Texture texture = Utility.getTextureAsset(textureName);
+
+        TextureRegion[][] textureFrames = TextureRegion.split(texture, frameWidth, frameHeight);
+
+        TextureRegion[] animationKeyFrames = new TextureRegion[points.size];
+
+        for(int i=0; i < points.size; i++){
+            animationKeyFrames[i] = textureFrames[points.get(i).x][points.get(i).y];
+        }
+
+        Animation animation = new Animation(frameDuration, (Object[])animationKeyFrames);
+        animation.setPlayMode(Animation.PlayMode.NORMAL);
+
+        return animation;
+    }
+
+    public static Hashtable<Entity.AnimationType, Animation<TextureRegion>> loadAnimationsByName(EntityFactory.EntityName entityName) {
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations = new Hashtable<>();
+        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        Array<EntityConfig.AnimationConfig> animationConfigs = entity.getEntityConfig().getAnimationConfig();
+
+        for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
+            Array<String> textureNames = animationConfig.getTexturePaths();
+            Array<GridPoint2> points = animationConfig.getGridPoints();
+            Entity.AnimationType animationType = animationConfig.getAnimationType();
+            float frameDuration = animationConfig.getFrameDuration();
+
+            Animation<TextureRegion> animation = GraphicsComponent.loadAnimation(textureNames.get(0), points, frameDuration,
+                                                animationConfig.getFrameWidth(), animationConfig.getFrameHeight());
+
+            animations.put(animationType, animation);
+        }
+
+        return animations;
+    }
+
     public Animation<TextureRegion> getAnimation(Entity.AnimationType type){
         return animations.get(type);
     }

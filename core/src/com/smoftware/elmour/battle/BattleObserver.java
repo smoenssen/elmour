@@ -6,10 +6,11 @@ public interface BattleObserver {
     public static enum BattleEvent{
         OPPONENT_ADDED,
         PARTY_MEMBBER_ADDED,
+        OPPONENT_BLOCKED,
         OPPONENT_HIT_DAMAGE,
         OPPONENT_DEFEATED,
         OPPONENT_TURN_DONE,
-        OPPONENT_BLOCKED,
+        PLAYER_ATTACKS,
         PLAYER_HIT_DAMAGE,
         PLAYER_RUNNING,
         PLAYER_TURN_DONE,

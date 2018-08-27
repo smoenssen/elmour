@@ -35,6 +35,7 @@ public class EntityFactory {
         TOWN_FOLK6, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10,
         TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
         FIRE,
+        SWORD_SWIPE
     }
 
     public static String CARMEN_CONFIG = "scripts/carmen.json";
@@ -50,6 +51,7 @@ public class EntityFactory {
     public static String TOWN_INNKEEPER_CONFIG = "scripts/town_innkeeper.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
+    public static String SWORD_SWIPE_CONFIG = "scripts/sword_swipe.json";
 
 
     private EntityFactory(){
@@ -76,6 +78,7 @@ public class EntityFactory {
         entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));
         entities.put(EntityName.TOWN_INNKEEPER.toString(), Entity.loadEntityConfigByPath(TOWN_INNKEEPER_CONFIG));
         entities.put(EntityName.PLAYER_PUPPET.toString(), Entity.loadEntityConfigByPath(PLAYER_CONFIG));
+        entities.put(EntityName.SWORD_SWIPE.toString(), Entity.loadEntityConfigByPath(SWORD_SWIPE_CONFIG));
     }
 
     public static EntityFactory getInstance() {
