@@ -294,6 +294,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 break;
         }
 
+        // if got this far, then kick off animation for player attacking
+        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_ATTACKS, "");
+
         if( !_playerAttackCalculations.isScheduled() ){
             Timer.schedule(_playerAttackCalculations, 1.75f);
         }
