@@ -1,0 +1,36 @@
+[
+{
+groupID : GROUP001
+monsters: [
+	{
+		value: Douglas
+		Order: 3
+	}
+	]
+},
+{
+groupID : GROUP002
+monsters: [
+	{
+		value: Goblin
+	}
+	{
+		value: Ogre
+	}
+]
+},
+{
+groupID : GROUP003
+monsters: [
+	{
+		value: Goblin
+	}
+	{
+		value: Octomaniac
+	}
+	{
+		value: Ogre
+	}
+]
+},
+]

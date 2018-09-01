@@ -14,11 +14,14 @@ public class MapFactory {
         CASTLE,
         COMPASS,
         COURTYARD,
+        DESERT_TEMPLE,
         ELMOUR,
         GRASS_BATTLE,
         GRASS_TEMPLE,
         INN,
         JERBADIA,
+        LOST_FOREST,
+        LOST_FOREST_A,
         MAP1,
         MAP2,
         MAP3,
@@ -82,6 +85,13 @@ public class MapFactory {
                     _mapTable.put(MapType.COURTYARD, map);
                 }
                 break;
+            case DESERT_TEMPLE:
+                map = _mapTable.get(MapType.DESERT_TEMPLE);
+                if( map == null ){
+                    map = new DesertTemple();
+                    _mapTable.put(MapType.DESERT_TEMPLE, map);
+                }
+                break;
             case ELMOUR:
                 map = _mapTable.get(MapType.ELMOUR);
                 if( map == null ){
@@ -115,6 +125,20 @@ public class MapFactory {
                 if( map == null ){
                     map = new Jerbadia();
                     _mapTable.put(MapType.JERBADIA, map);
+                }
+                break;
+            case LOST_FOREST:
+                map = _mapTable.get(MapType.LOST_FOREST);
+                if( map == null ){
+                    map = new LostForest();
+                    _mapTable.put(MapType.LOST_FOREST, map);
+                }
+                break;
+            case LOST_FOREST_A:
+                map = _mapTable.get(MapType.LOST_FOREST_A);
+                if( map == null ){
+                    map = new LostForestA();
+                    _mapTable.put(MapType.LOST_FOREST_A, map);
                 }
                 break;
             case MAP1:

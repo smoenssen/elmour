@@ -1,1 +1,1 @@
-6000;Something just happened!
+6000;It sounds like something just collapsed!

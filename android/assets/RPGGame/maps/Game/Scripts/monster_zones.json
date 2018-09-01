@@ -1,0 +1,50 @@
+[
+{
+zoneID : 1
+minTime: 10
+maxTime: 1000
+minLevel: 1
+maxLevel: 5
+deviance: 1
+groups: [
+	{
+		value: GROUP001
+	}
+	{
+		value: GROUP002
+	}
+	{
+		value: GROUP003
+	}
+]
+},
+{
+zoneID : 2
+minTime: 50
+maxTime: 500
+minLevel: 3
+maxLevel: 9
+deviance: 2
+groups: [
+	{
+		value: GROUP003
+	}
+	{
+		value: GROUP002
+	}
+]
+},
+{
+zoneID : 3
+minTime: 75
+maxTime: 750
+minLevel: 7
+maxLevel: 12
+deviance: 3
+groups: [
+	{
+		value: GROUP002
+	}
+]
+},
+]

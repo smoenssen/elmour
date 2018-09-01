@@ -1,0 +1,216 @@
+[
+{
+entityID : Possessed
+displayName : Possessed
+state : IMMOBILE
+direction : RIGHT
+itemTypeID: NONE
+entityProperties: {
+	HP: {
+		class: java.lang.String
+		value: 5
+	}
+	ATK: {
+		class: java.lang.String
+		value: 15
+	}
+	DEF: {
+		class: java.lang.String
+		value: 15
+	}
+	MagicATK: {
+		class: java.lang.String
+		value: 15
+	}
+	MagicDEF: {
+		class: java.lang.String
+		value: 20
+	}
+	SPD: {
+		class: java.lang.String
+		value: 10
+	}
+	ACC: {
+		class: java.lang.String
+		value: 15
+	}
+	AVO: {
+		class: java.lang.String
+		value: 5
+	}
+	LCK: {
+		class: java.lang.String
+		value: 1
+	}
+	XP_REWARD: {
+		class: java.lang.String
+		value: 5
+	}
+	DIBS_REWARD: {
+		class: java.lang.String
+		value: 1
+	}
+}
+rewardItems: [
+	{
+		item: ARMOR01
+		probability: 4
+	}
+	{
+		item: ARMOR02
+		probability: 3
+	}
+]
+entityAbilities: [
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Fire
+	numTurnsTilReset: 5
+	level: 3
+	maxHP: 15
+	priority: 1
+}
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Thunder
+	numTurnsTilReset: 43
+	level: 1
+	maxHP: 10
+	priority: 2
+}
+]
+animationConfig: [
+	{
+	    frameDuration: 0.25
+		animationType: IDLE
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+
+			{
+				x: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
+			}
+		]
+	}
+	{
+	    frameDuration: 0.25
+		animationType: WALK_DOWN
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+
+			{
+				x: 0
+				y: 1
+			}
+			{
+			    x: 0
+				y: 2
+			}
+			{
+			    x: 0
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_LEFT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+
+			{
+				x: 1
+				y: 1
+			}
+			{
+			    x: 1
+				y: 2
+			}
+			{
+			    x: 1
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_RIGHT
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+
+			{
+				x: 2
+				y: 1
+			}
+			{
+			    x: 2
+				y: 2
+			}
+			{
+			    x: 2
+				y: 3
+			}
+		]
+	}
+	{
+		frameDuration: 0.25
+		animationType: WALK_UP
+		texturePaths: [
+			sprites/characters/Douglas.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+
+			{
+				x: 3
+				y: 1
+			}
+			{
+			    x: 3
+				y: 2
+			}
+			{
+			    x: 3
+				y: 3
+			}
+		]
+	}
+]
+},
+
+]

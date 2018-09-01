@@ -67,7 +67,7 @@
 	class: com.smoftware.elmour.SpellsPowerElement
 	category: Black
 	name: Water
-	summary: Casts a powerful stream of water at the enemy.
+	summary: Casts a powerful stream of water at the enemy that has a possibility of confusing them.
 	MP: 10
 	DMG: 25
 	ACC: 100
