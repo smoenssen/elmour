@@ -332,6 +332,10 @@ public class Entity {
 		}
 	}
 
+	public void setNoClipping() {
+		_physicsComponent.setNoClipping();
+	}
+
 	public float getActualVelocity() { return _physicsComponent.getActualVelocity(); }
 
 	public Rectangle getCurrentBoundingBox(){

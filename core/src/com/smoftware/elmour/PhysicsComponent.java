@@ -39,6 +39,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected boolean isRunning;
     protected boolean isNPC;
     protected boolean isConversationInProgress;
+    private boolean noClipping;
 
     protected Array<Entity> _tempEntities;
 
@@ -71,6 +72,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         isRunning = false;
         isNPC = false;
         isConversationInProgress = false;
+        noClipping = false;
 
         this._boundingBox = new Rectangle();
         this.boundingBoxNextPosition = new Rectangle();
@@ -85,7 +87,13 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
     public float getActualVelocity() { return actualVelocity; }
 
+    public void setNoClipping() { noClipping = true; }
+
     protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
+        if (noClipping) {
+            return false;
+        }
+
         _tempEntities.clear();
         _tempEntities.addAll(mapMgr.getCurrentMapEntities());
         _tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
@@ -173,7 +181,11 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
-    protected boolean          isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
+    protected boolean isCollisionWithMapLayer(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
+        if (noClipping) {
+            return false;
+        }
+
         MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
 
         if( mapCollisionLayer == null ){

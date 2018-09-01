@@ -135,7 +135,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public PlayerHUD(final ElmourGame game, Camera camera, Entity player, MapManager mapMgr) {
+    public PlayerHUD(final ElmourGame game, Camera camera, final Entity player, MapManager mapMgr) {
         this.game = game;
         _camera = camera;
         _player = player;
@@ -628,6 +628,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           // make sure touch point is still on this button
                                           if (touchPointIsInButton(noClipModeButton)) {
                                               hideDebugMenu();
+                                              _player.setNoClipping();
                                           }
                                       }
                                   }
