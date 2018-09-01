@@ -47,6 +47,11 @@ public class Map4  extends Map {
     }
 
     @Override
+    public void handleInteraction(MapManager mapMgr) {
+
+    }
+
+    @Override
     public void handleInteractionFinished() {
 
     }

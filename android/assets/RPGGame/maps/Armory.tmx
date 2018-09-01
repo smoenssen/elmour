@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="45">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="45">
  <tileset firstgid="1" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
  </tileset>
@@ -37,12 +37,40 @@
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,9,0,
 0,0,0,0,0,0,0,0,0,
-0,8,3,4,5,6,7,0,0,
+0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,1,0,0,0,0,
+0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZSHADOWDOWN" width="9" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Highest" width="9" height="10">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,8,3,4,5,6,7,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0
 </data>
  </layer>
@@ -63,20 +91,20 @@
  <objectgroup name="COLLISION_LAYER">
   <object id="30" x="16" y="144" width="112" height="16"/>
   <object id="31" x="128" y="0" width="16" height="160"/>
-  <object id="32" x="16" y="0" width="112" height="24"/>
+  <object id="32" x="16" y="0" width="112" height="32"/>
   <object id="33" x="0" y="0" width="16" height="160"/>
-  <object id="34" x="32" y="48" width="80" height="6"/>
+  <object id="34" x="32" y="48" width="80" height="15"/>
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
-  <object id="39" name="PLAYER_START" x="64" y="132" width="16" height="12"/>
+  <object id="39" name="PLAYER_START" x="64" y="128" width="16" height="12"/>
  </objectgroup>
  <objectgroup name="Z_GATES">
-  <object id="40" name="ZDOWN" x="64" y="132" width="16" height="12"/>
+  <object id="40" name="ZDOWN" x="64" y="128" width="16" height="12"/>
  </objectgroup>
  <objectgroup name="INTERACTION">
-  <object id="36" name="EXIT" x="64" y="132" width="16" height="12"/>
-  <object id="37" name="TBD" x="112" y="24" width="16" height="8"/>
-  <object id="41" name="Jaxon" x="56" y="54" width="16" height="9"/>
-  <object id="42" name="Justin" x="72" y="54" width="16" height="9"/>
+  <object id="36" name="EXIT" x="64" y="143" width="16" height="1"/>
+  <object id="37" name="TBD" x="112" y="32" width="16" height="8"/>
+  <object id="41" name="Jaxon" x="56" y="63" width="16" height="9"/>
+  <object id="42" name="Justin" x="72" y="63" width="16" height="9"/>
  </objectgroup>
 </map>

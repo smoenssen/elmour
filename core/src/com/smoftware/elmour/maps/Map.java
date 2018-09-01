@@ -591,6 +591,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
     abstract public void handleInteractionInit(Entity.Interaction interaction);
     abstract public void handleInteraction();
+    abstract public void handleInteraction(MapManager mapMgr);
     abstract public void handleInteractionFinished();
 
     @Override

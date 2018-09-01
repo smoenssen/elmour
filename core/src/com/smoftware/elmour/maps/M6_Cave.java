@@ -54,6 +54,11 @@ public class M6_Cave extends Map {
     }
 
     @Override
+    public void handleInteraction(MapManager mapMgr) {
+
+    }
+
+    @Override
     public void handleInteractionFinished() {
 
     }

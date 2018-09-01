@@ -51,8 +51,6 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class PlayerHUD implements Screen, AudioSubject,
@@ -119,7 +117,10 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton inventoryButton;
     private TextButton optionsButton;
     private TextButton saveButton;
+    private TextButton debugButton;
+
     private TextButton utilityButton;
+    private TextButton noClipModeButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -293,7 +294,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton = new TextButton("Inventory", Utility.ELMOUR_UI_SKIN);
         optionsButton = new TextButton("Options", Utility.ELMOUR_UI_SKIN);
         saveButton = new TextButton("Save", Utility.ELMOUR_UI_SKIN);
-        utilityButton = new TextButton("Utility Button!!", Utility.ELMOUR_UI_SKIN);
+        debugButton = new TextButton("Debug", Utility.ELMOUR_UI_SKIN);
+
+        utilityButton = new TextButton("Utility", Utility.ELMOUR_UI_SKIN);
+        noClipModeButton = new TextButton("Noclip Mode", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -306,11 +310,21 @@ public class PlayerHUD implements Screen, AudioSubject,
         partyButton.setPosition(menuItemX, menuItemY);
         partyButton.setVisible(false);
 
+        utilityButton.setWidth(menuItemWidth);
+        utilityButton.setHeight(menuItemHeight);
+        utilityButton.setPosition(menuItemX, menuItemY);
+        utilityButton.setVisible(false);
+
         menuItemY -= menuItemHeight - 2;
         inventoryButton.setWidth(menuItemWidth);
         inventoryButton.setHeight(menuItemHeight);
         inventoryButton.setPosition(menuItemX, menuItemY);
         inventoryButton.setVisible(false);
+
+        noClipModeButton.setWidth(menuItemWidth);
+        noClipModeButton.setHeight(menuItemHeight);
+        noClipModeButton.setPosition(menuItemX, menuItemY);
+        noClipModeButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         optionsButton.setWidth(menuItemWidth);
@@ -325,11 +339,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         saveButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
-
-        utilityButton.setWidth(menuItemWidth);
-        utilityButton.setHeight(menuItemHeight);
-        utilityButton.setPosition(menuItemX, menuItemY);
-        utilityButton.setVisible(false);
+        debugButton.setWidth(menuItemWidth);
+        debugButton.setHeight(menuItemHeight);
+        debugButton.setPosition(menuItemX, menuItemY);
+        debugButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -424,8 +437,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
 
-        if (ElmourGame.DEV_MODE)
+        if (ElmourGame.DEV_MODE) {
+            _stage.addActor(debugButton);
             _stage.addActor(utilityButton);
+            _stage.addActor(noClipModeButton);
+        }
 
         //_battleUI.validate();
         _questUI.validate();
@@ -553,7 +569,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                }
         );
 
-        utilityButton.addListener(new ClickListener() {
+        debugButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                        return true;
@@ -561,46 +577,61 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                                    @Override
                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       // make sure touch point is still on this button
-                                       if (touchPointIsInButton(utilityButton)) {
-                                           hideMenu(true);
-                                           //Utility.parseConversationXMLFiles();
-
-                                           FileHandle file = Gdx.files.local("Ben.csv");
-
-                                           for (int i = 0; i < 1000; i++) {
-                                               int sum = 0;
-                                               double B = 1.05f;
-
-                                               for (int X = 0; X < 100; X++) {
-                                                   int R = MathUtils.random(1, 4);
-                                                   sum += (int) (R * Math.pow(B, X));
-                                               }
-
-                                               String output = String.format("%d\n", sum);
-                                               Gdx.app.log(TAG, output);
-                                               file.writeString(output, true);
-                                           }
-                                       }
+                                       hideMenu(true);
+                                       utilityButton.setVisible(true);
+                                       noClipModeButton.setVisible(true);
                                    }
                                }
         );
 
-        /*
-        ImageButton inventoryButton = _statusUI.getInventoryButton();
-        inventoryButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                _inventoryUI.setVisible(_inventoryUI.isVisible() ? false : true);
-            }
-        });
+        utilityButton.addListener(new ClickListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
 
-        ImageButton questButton = _statusUI.getQuestButton();
-        questButton.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                _questUI.setVisible(_questUI.isVisible() ? false : true);
-            }
-        });
-        */
+                                      @Override
+                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                          // make sure touch point is still on this button
+                                          if (touchPointIsInButton(utilityButton)) {
+                                              hideDebugMenu();
+                                              //Utility.parseConversationXMLFiles();
+
+                                              FileHandle file = Gdx.files.local("Ben.csv");
+
+                                              for (int i = 0; i < 1000; i++) {
+                                                  int sum = 0;
+                                                  double B = 1.05f;
+
+                                                  for (int X = 0; X < 100; X++) {
+                                                      int R = MathUtils.random(1, 4);
+                                                      sum += (int) (R * Math.pow(B, X));
+                                                  }
+
+                                                  String output = String.format("%d\n", sum);
+                                                  Gdx.app.log(TAG, output);
+                                                  file.writeString(output, true);
+                                              }
+                                          }
+                                      }
+                                  }
+        );
+
+        noClipModeButton.addListener(new ClickListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                          // make sure touch point is still on this button
+                                          if (touchPointIsInButton(noClipModeButton)) {
+                                              hideDebugMenu();
+                                          }
+                                      }
+                                  }
+        );
 
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
@@ -645,10 +676,15 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton.setVisible(false);
         optionsButton.setVisible(false);
         saveButton.setVisible(false);
-        utilityButton.setVisible(false);
+        debugButton.setVisible(false);
 
         if (setVisibleFlag)
             menuIsVisible = false;
+    }
+
+    private void hideDebugMenu() {
+        utilityButton.setVisible(false);
+        noClipModeButton.setVisible(false);
     }
 
     private void showMenu() {
@@ -656,7 +692,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton.setVisible(true);
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
-        utilityButton.setVisible(true);
+        debugButton.setVisible(true);
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
     }
@@ -1490,7 +1526,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             if (!Utility.pointInRectangle(menuButtonRect, localPos.x, localPos.y)) {
                 Vector2 bottomLeftHandCorner;
                 if (ElmourGame.DEV_MODE)
-                    bottomLeftHandCorner = new Vector2(utilityButton.getX(), utilityButton.getY());
+                    bottomLeftHandCorner = new Vector2(debugButton.getX(), debugButton.getY());
                 else
                     bottomLeftHandCorner = new Vector2(saveButton.getX(), saveButton.getY());
 

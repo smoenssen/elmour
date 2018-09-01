@@ -54,6 +54,11 @@ public class Map2 extends Map {
     }
 
     @Override
+    public void handleInteraction(MapManager mapMgr) {
+
+    }
+
+    @Override
     public void handleInteractionFinished() {
         interaction = Entity.Interaction.NONE;
     }

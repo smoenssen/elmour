@@ -410,6 +410,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 break;
             case DID_INTERACTION:
                 _currentMap.handleInteraction();
+                _currentMap.handleInteraction(this);
                 break;
             case FINISHED_INTERACTION:
                 _currentMap.handleInteractionFinished();

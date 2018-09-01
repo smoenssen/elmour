@@ -47,6 +47,11 @@ public class TarpingTown extends Map {
     }
 
     @Override
+    public void handleInteraction(MapManager mapMgr) {
+
+    }
+
+    @Override
     public void handleInteractionFinished() {
 
     }

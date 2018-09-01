@@ -199,6 +199,10 @@ public class Entity {
 			@Override
 			public String toString() { return "M2SWITCH"; }
 		},
+		Portal_Room {
+			@Override
+			public String toString() { return "Portal_Room"; }
+		},
 		NONE {
 			@Override
 			public String toString() { return "NONE"; }
