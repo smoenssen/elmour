@@ -535,9 +535,6 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         Vector2 collisionPtH = new Vector2();
         Vector2 collisionPtV = new Vector2();
 
-        // todo: Get angle of velocity
-        _velocity = currentJoystickPosition;
-
         // First, get the 2 intersecting points of character's bounding box with the polyline
 
         // Figure out if bottom or top of character is colliding.
@@ -643,13 +640,53 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                     switch (_currentDirection) {
                         case RIGHT:
                         case DOWN:
-                            newX = x - _boundingBox.width - clearanceFactor;
-                            newY = y + clearanceFactor;
+                            if (ElmourGame.isAndroid()) {
+                                //****************
+                                // ANDROID
+                                //
+                                newX = x - _boundingBox.width - clearanceFactor;
+                                newY = y + clearanceFactor;
+                            }
+                            else {
+                                //****************
+                                // DESKTOP
+                                //
+                                // Bottom Right
+                                if (collisionLineH == CollisionLineH.BOTTOM && collisionLineV == CollisionLineV.RIGHT) {
+                                    newX = x - _boundingBox.width - clearanceFactor;
+                                    newY = y + clearanceFactor;
+                                }
+                                // Top Left
+                                else if (collisionLineH == CollisionLineH.TOP && collisionLineV == CollisionLineV.LEFT) {
+                                    newX = x;
+                                    newY = y;
+                                }
+                            }
                             break;
                         case LEFT:
                         case UP:
-                            newX = x + clearanceFactor;
-                            newY = y - _boundingBox.height - clearanceFactor;
+                            if (ElmourGame.isAndroid()) {
+                                //****************
+                                // ANDROID
+                                //
+                                newX = x + clearanceFactor;
+                                newY = y - _boundingBox.height - clearanceFactor;
+                            }
+                            else {
+                                //****************
+                                // DESKTOP
+                                //
+                                // Bottom Right
+                                if (collisionLineH == CollisionLineH.BOTTOM && collisionLineV == CollisionLineV.RIGHT) {
+                                    newX = x;
+                                    newY = y;
+                                }
+                                // Top Left
+                                else if (collisionLineH == CollisionLineH.TOP && collisionLineV == CollisionLineV.LEFT) {
+                                    newX = x + clearanceFactor;
+                                    newY = y - _boundingBox.height - clearanceFactor;
+                                }
+                            }
                             break;
                     }
                 }
@@ -658,13 +695,54 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                     switch (_currentDirection) {
                         case LEFT:
                         case DOWN:
-                            newX = x + clearanceFactor;
-                            newY = y + clearanceFactor;
+                            if (ElmourGame.isAndroid()) {
+                                //****************
+                                // ANDROID
+                                //
+                                newX = x + clearanceFactor;
+                                newY = y + clearanceFactor;
+                            }
+                            else {
+                                //****************
+                                // DESKTOP
+                                //
+                                // Bottom Left
+                                if (collisionLineH == CollisionLineH.BOTTOM && collisionLineV == CollisionLineV.LEFT) {
+                                    newX = x + clearanceFactor;
+                                    newY = y + clearanceFactor;
+                                }
+                                // Top Right
+                                else if (collisionLineH == CollisionLineH.TOP && collisionLineV == CollisionLineV.RIGHT) {
+                                    newX = x;
+                                    newY = y;
+                                }
+                            }
                             break;
                         case RIGHT:
                         case UP:
-                            newX = x - _boundingBox.width - clearanceFactor;
-                            newY = y - _boundingBox.height - clearanceFactor;
+                            if (ElmourGame.isAndroid()) {
+                                //****************
+                                // ANDROID
+                                //
+                                newX = x - _boundingBox.width - clearanceFactor;
+                                newY = y - _boundingBox.height - clearanceFactor;
+                            }
+                            else {
+                                //****************
+                                // DESKTOP
+                                //
+                                // Bottom Left
+                                if (collisionLineH == CollisionLineH.BOTTOM && collisionLineV == CollisionLineV.LEFT) {
+                                    newX = x;
+                                    newY = y;
+                                }
+                                // Top Right
+                                else if (collisionLineH == CollisionLineH.TOP && collisionLineV == CollisionLineV.RIGHT) {
+                                    newX = x - _boundingBox.width - clearanceFactor;
+                                    newY = y - _boundingBox.height - clearanceFactor;
+
+                                }
+                            }
                             break;
                     }
                 }
