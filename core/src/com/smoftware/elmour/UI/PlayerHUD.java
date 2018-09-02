@@ -297,7 +297,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         debugButton = new TextButton("Debug", Utility.ELMOUR_UI_SKIN);
 
         utilityButton = new TextButton("Utility", Utility.ELMOUR_UI_SKIN);
-        noClipModeButton = new TextButton("Noclip Mode", Utility.ELMOUR_UI_SKIN);
+        noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -628,7 +628,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           // make sure touch point is still on this button
                                           if (touchPointIsInButton(noClipModeButton)) {
                                               hideDebugMenu();
-                                              _player.setNoClipping();
+                                              _player.toggleNoClipping();
                                           }
                                       }
                                   }

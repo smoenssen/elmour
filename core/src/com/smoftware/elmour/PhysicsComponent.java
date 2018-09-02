@@ -87,7 +87,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
 
     public float getActualVelocity() { return actualVelocity; }
 
-    public void setNoClipping() { noClipping = true; }
+    public void toggleNoClipping() { noClipping = !noClipping; }
 
     protected boolean isCollisionWithMapEntities(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr){
         if (noClipping) {
