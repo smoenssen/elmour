@@ -145,6 +145,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
 
+        //todo: should this be removed????
         game.battleState.addObserver(this);
 
         isCutScene = false;

@@ -62,7 +62,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
 
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> swordAnimations;
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
     protected TextureRegion _currentFrame = null;
     private float _frameTime = 0;
     
@@ -187,9 +187,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
-        swordAnimations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.SWORD_SWIPE);
-        selectedEntityIndicator = new Texture("graphics/down_arrow.png");
-        turnIndicator = new Texture("graphics/down_arrow.png");
+        char1BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_1_BATTLE));
+        selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
+        turnIndicator = new Texture("graphics/down_arrow_blue.png");
         currentTurnCharPosition = new Vector2(0, 0);
 
         _transitionActor = new ScreenTransitionActor();
@@ -457,17 +457,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     boolean shouldShowWeaponAnimation = false;
 
     public class showWeaponAnimation extends Action {
-        //AnimatedImage character = null;
         boolean visible = true;
 
         public showWeaponAnimation(boolean visible) {
-            //this.character = character;
             this.visible = visible;
         }
 
         @Override
         public boolean act(float delta) {
-            //this.character.setVisible(visible);
             if (this.visible) {
                 shouldShowWeaponAnimation = true;
                 _frameTime = 0;
@@ -496,30 +493,50 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
+    public class showMainCharacterAnimation extends Action {
+        AnimatedImage character = null;
+        boolean show = false;
+
+        public showMainCharacterAnimation(AnimatedImage character, boolean show) {
+            this.character = character;
+            this.show = show;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            if (show)
+                character.setVisible(true);
+            else
+                character.setVisible(false);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     private Action playerAttackCutSceneAction;
 
     private Action getPlayerAttackCutScreenAction() {
         return Actions.sequence(
 
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX() - 2, currentTurnCharacter.getY(), 0.5f, Interpolation.linear), currentTurnCharacter),
+                //Actions.addAction(Actions.moveTo(currentTurnCharacter.getX() - 2, currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
+                //Actions.delay(0.5f),
+                Actions.addAction(Actions.moveTo(selectedEntity.getCurrentPosition().x + 1, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
 
-                Actions.delay(0.5f),
+                Actions.delay(0.75f),
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
-                Actions.delay(1.0f),
+                Actions.delay(0.75f),
                 new showWeaponAnimation(true),
-                Actions.delay(1.0f),
+                new showMainCharacterAnimation(currentTurnCharacter, false),
+                // Framerate * # of Frames
+                Actions.delay(0.4f),
                 new showWeaponAnimation(false),
+                new showMainCharacterAnimation(currentTurnCharacter, true),
 
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_RIGHT),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.5f, Interpolation.linear), currentTurnCharacter),
-                Actions.delay(0.5f),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.75f),
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE)
-
-                //Actions.delay(3f),
-                //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor)
-
         );
     }
 
@@ -635,7 +652,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             currentTurnFlashTimer = 0;
         }
 
-        Animation<TextureRegion> animation = swordAnimations.get(Entity.AnimationType.WALK_LEFT);
+        Animation<TextureRegion> animation = char1BattleAnimations.get(Entity.AnimationType.DAGGER_LEFT);
+        //animation.getKeyFrames().length;
         if (animation != null) {
             _frameTime = (_frameTime + delta) % 5;
             _currentFrame = animation.getKeyFrame(_frameTime);
@@ -644,7 +662,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         _mapRenderer.getBatch().begin();
         if (currentTurnCharacter != null && _currentFrame != null && shouldShowWeaponAnimation)
-            _mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - characterWidth, currentTurnCharacter.getY() - characterHeight,  3.0f, 3.0f);
+            // Frame_Width / 16, Frame_Height / 16
+           /* Sword */ //_mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - characterWidth, currentTurnCharacter.getY() - characterHeight,  3.0f, 3.0f);
+           /* Dagger */ _mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - characterWidth*2, currentTurnCharacter.getY(),  5.0f, 1.0f);
+           /* Punch / Spell */ //_mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX(), currentTurnCharacter.getY(),  1.0f, 1.0f);
         _mapRenderer.getBatch().end();
     }
 

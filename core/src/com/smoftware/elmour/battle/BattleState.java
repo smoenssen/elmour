@@ -126,8 +126,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         if (currentMonsterZone == null || _currentZoneLevel == 0 || inBattle) { return false; }
 
         // for debugging
-        //return true;
-
+        return true;
+/*
         if (battleCountDown <= 0) {
             // start new countdown
             battleCountDown = currentMonsterZone.getMaxTime();
@@ -155,7 +155,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
         else {
             return false;
-        }
+        }*/
     }
 
     public void setCurrentEnemytList(){
@@ -252,47 +252,50 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             return;
         }
 
-        // Melee attack against enemy 1, 3 or 5 can be blocked by enemies 2 or 4 if they are alive
-        // i.e.,
-        // 1
-        //    2
-        // 3
-        //    4
-        // 5
-        // check for block
-        Entity enemy;
-        switch (currentSelectedCharacter.getBattlePosition()) {
-            case 1:
-                if (currentEnemyList.size > 1) {
+        if (currentSelectedCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+            // Melee attack against enemy 1, 3 or 5 can be blocked by enemies 2 or 4 if they are alive
+            // i.e.,
+            // 1
+            //    2
+            // 3
+            //    4
+            // 5
+            // check for block
+            Entity enemy;
+            switch (currentSelectedCharacter.getBattlePosition()) {
+                case 1:
+                    if (currentEnemyList.size > 1) {
+                        enemy = currentEnemyList.get(1);
+                        if (enemy.isAlive()) {
+                            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                            return;
+                        }
+                    }
+                    break;
+                case 3:
                     enemy = currentEnemyList.get(1);
                     if (enemy.isAlive()) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
                         return;
+                    } else if (currentEnemyList.size > 3) {
+                        enemy = currentEnemyList.get(3);
+                        if (enemy.isAlive()) {
+                            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                            return;
+                        }
                     }
-                }
-                break;
-            case 3:
-                enemy = currentEnemyList.get(1);
-                if (enemy.isAlive()) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
-                    return;
-                }
-                else if (currentEnemyList.size > 3) {
+                    break;
+                case 5:
                     enemy = currentEnemyList.get(3);
                     if (enemy.isAlive()) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
                         return;
                     }
-                }
-                break;
-            case 5:
-                enemy = currentEnemyList.get(3);
-                if (enemy.isAlive()) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
-                    return;
-                }
-                break;
+                    break;
+            }
         }
+        // else Melee attack against party members can be made as long as they are alive; no blocking
+
 
         // if got this far, then kick off animation for player attacking
         BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_ATTACKS, "");

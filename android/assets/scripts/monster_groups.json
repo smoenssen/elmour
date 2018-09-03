@@ -4,6 +4,7 @@ groupID : GROUP001
 monsters: [
 	{
 		value: Douglas
+		Order: 3
 	}
 	]
 },

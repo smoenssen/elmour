@@ -953,7 +953,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                game.battleState.playerRuns();
                                                // see note below why this isn't being used
                                                //switchScreen(game, game.getScreenType(ElmourGame.ScreenType.MainGame));
-                                               resetControls();
                                            }
                                        }
                                    }
@@ -2435,6 +2434,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case OPPONENT_HIT_DAMAGE:
                 Label.LabelStyle ls;
 
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
+
                 FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
                 FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
                 parameter.size = Utility.myFontVerySmallSize;
@@ -2516,6 +2518,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 float y = _currentImagePosition.y + (_enemyHeight/2);
                 _effects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK, x,y));
                 */
+                break;
+            case PLAYER_RUNNING:
+                resetControls();
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();

@@ -22,6 +22,7 @@ public class EntityFactory {
     public static enum EntityName{
         CARMEN,
         CHARACTER_1,
+        CHARACTER_1_BATTLE,
         CHARACTER_2,
         DOUGLAS,
         JUSTIN,
@@ -40,6 +41,7 @@ public class EntityFactory {
 
     public static String CARMEN_CONFIG = "scripts/carmen.json";
     public static String CHARACTER_1_CONFIG = "scripts/character_1.json";
+    public static String CHARACTER_1_BATTLE_CONFIG = "RPGGame/maps/Game/Scripts/character_1_battle.json";
     public static String CHARACTER_2_CONFIG = "scripts/character_2.json";
     public static String DOUGLAS_CONFIG = "scripts/douglas.json";
     public static String JUSTIN_CONFIG = "scripts/justin.json";
@@ -69,6 +71,7 @@ public class EntityFactory {
 
         entities.put(EntityName.CARMEN.toString(), Entity.loadEntityConfigByPath(CARMEN_CONFIG));
         entities.put(EntityName.CHARACTER_1.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_CONFIG));
+        entities.put(EntityName.CHARACTER_1_BATTLE.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_BATTLE_CONFIG));
         entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
         entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.JUSTIN.toString(), Entity.loadEntityConfigByPath(JUSTIN_CONFIG));
