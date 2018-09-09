@@ -150,6 +150,7 @@ public class BattleUI extends Window implements BattleObserver {
                 _damageValLabel.setVisible(false);
                 _damageValLabel.setY(_origDamageValLabelY);
                 break;
+                /*
             case OPPONENT_TURN_DONE:
                  _attackButton.setDisabled(false);
                  _attackButton.setTouchable(Touchable.enabled);
@@ -158,7 +159,7 @@ public class BattleUI extends Window implements BattleObserver {
                 break;
             case PLAYER_TURN_DONE:
                 _battleState.opponentAttacks();
-                break;
+                break;*/
             case PLAYER_USED_MAGIC:
                 float x = _currentImagePosition.x + (_enemyWidth/2);
                 float y = _currentImagePosition.y + (_enemyHeight/2);
@@ -170,7 +171,7 @@ public class BattleUI extends Window implements BattleObserver {
     }
 
     @Override
-    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
 
     }
 

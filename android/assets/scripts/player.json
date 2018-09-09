@@ -66,7 +66,7 @@ animationConfig: [
 			}
 			{
 			    x: 0
-				y: 2
+				y: 0
 			}
 			{
 			    x: 0
@@ -92,7 +92,7 @@ animationConfig: [
 			}
 			{
 			    x: 0
-				y: 2
+				y: 0
 			}
 			{
 			    x: 0
@@ -118,7 +118,7 @@ animationConfig: [
 			}
 			{
 			    x: 1
-				y: 2
+				y: 0
 			}
 			{
 			    x: 1
@@ -144,7 +144,7 @@ animationConfig: [
 			}
 			{
 			    x: 2
-				y: 2
+				y: 0
 			}
 			{
 			    x: 2
@@ -170,7 +170,7 @@ animationConfig: [
 			}
 			{
 			    x: 3
-				y: 2
+				y: 0
 			}
 			{
 			    x: 3
@@ -196,7 +196,7 @@ animationConfig: [
       }
       {
         x: 0
-        y: 2
+        y: 0
       }
       {
         x: 0
@@ -222,7 +222,7 @@ animationConfig: [
       }
       {
         x: 1
-        y: 2
+        y: 0
       }
       {
         x: 1
@@ -248,7 +248,7 @@ animationConfig: [
       }
       {
         x: 2
-        y: 2
+        y: 0
       }
       {
         x: 2
@@ -274,7 +274,7 @@ animationConfig: [
       }
       {
         x: 3
-        y: 2
+        y: 0
       }
       {
         x: 3

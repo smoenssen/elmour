@@ -2300,7 +2300,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 attackButton.setTouchable(Touchable.disabled);
                 */
                 break;
-            case PARTY_MEMBBER_ADDED:
+            case PARTY_MEMBER_ADDED:
                 Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
                 numberOfPartyMembers++;
                 battleScreen.addPartyMember(entity, entity.getBattlePosition());
@@ -2501,17 +2501,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     monster5Name.setVisible(false);
                 }
                 break;
-            case OPPONENT_TURN_DONE:
-                selectedCharacter = null;
-
-                enableButtons();
-                /*
-                attackButton.setDisabled(false);
-                attackButton.setTouchable(Touchable.enabled);
-                runButton.setDisabled(false);
-                runButton.setTouchable(Touchable.enabled);
-                */
-                break;
             case PLAYER_USED_MAGIC:
                 /*
                 float x = _currentImagePosition.x + (_enemyWidth/2);
@@ -2527,20 +2516,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 if (type == Entity.BattleEntityType.ENEMY)  {
                     // disable player input and kick off enemy turn
                     disableButtons();
-                    /*////////////////
-                    middleStatsTextArea.addAction(Actions.fadeOut(0));
-                    middleStatsTextArea.setText("", true);
-
-                    backButton.addAction(Actions.fadeOut(0));
-                    backButton.setWidth(middleAreaWidth);
-
-                    statusButton.addAction(Actions.fadeOut(0));
-                    statusButton.setText(BTN_NAME_STATUS);
-*/
-                    // look at second item in stack
-                    //currentScreenState = screenStack.pop();
-                    //ScreenState previousScreenState = screenStack.peek();
-                    //screenStack.push(currentScreenState);
 
                     topLeftButton.addAction(Actions.fadeOut(0));
                     topRightButton.addAction(Actions.fadeOut(0));
@@ -2549,9 +2524,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     battleTextArea.interact(); // first interact sets battleTextArea visible
-                    battleTextArea.interact();
-                    /////////////////////////
-                    game.battleState.opponentAttacks();
+                }
+                else {
+                    showMainScreen(true);
+                    enableButtons();
                 }
                 break;
             default:
@@ -2560,8 +2536,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     @Override
-    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
-        Gdx.app.log(TAG, event.toString() + " notification received");
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
+        Gdx.app.log(TAG, event.toString() + " notification received, message = " + message);
 
         switch(event){
             case PLAYER_HIT_DAMAGE:
@@ -2569,6 +2545,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case OPPONENT_TURN_DONE:
                 battleTextArea.populateText(message);
+                if (battleTextArea.interact()) {
+                    if (!transitionToMainScreen.isScheduled()) {
+                        Timer.schedule(transitionToMainScreen, 4);
+                    }
+                    //showMainScreen(true);
+                }
+                selectedCharacter = null;
+                enableButtons();
                 break;
             case PLAYER_TURN_DONE:
                 // go back to Main screen and enable buttons

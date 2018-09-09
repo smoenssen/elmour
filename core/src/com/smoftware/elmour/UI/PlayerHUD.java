@@ -1670,7 +1670,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEvent event, String message) {
+    public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
 
     }
 
