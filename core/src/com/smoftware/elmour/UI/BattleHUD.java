@@ -279,23 +279,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         topLeftButton.setWidth(menuItemWidth);
         topLeftButton.setHeight(menuItemHeight);
         topLeftButton.setPosition(menuItemX, menuItemY - menuItemHeight);
-        topLeftButton.setVisible(true);
+        topLeftButton.setVisible(false);
 
         menuItemX += menuItemWidth - 2;
         topRightButton.setWidth(menuItemWidth);
         topRightButton.setHeight(menuItemHeight);
         topRightButton.setPosition(menuItemX, menuItemY - menuItemHeight);
-        topRightButton.setVisible(true);
+        topRightButton.setVisible(false);
 
         runButton.setWidth(menuItemWidth);
         runButton.setHeight(menuItemHeight);
         runButton.setPosition(topLeftButton.getX(), 2 - menuItemHeight);
-        runButton.setVisible(true);
+        runButton.setVisible(false);
 
         statusButton.setWidth(menuItemWidth);
         statusButton.setHeight(menuItemHeight);
         statusButton.setPosition(menuItemX, 2 - menuItemHeight);
-        statusButton.setVisible(true);
+        statusButton.setVisible(false);
 
         dummyButtonLeft.setWidth(menuItemWidth);
         dummyButtonLeft.setHeight(menuItemHeight + 2);
@@ -391,8 +391,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleStatsTextArea.setAlignment(Align.center);
         middleStatsTextArea.setWidth(middleAreaWidth);
         middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
-        middleStatsTextArea.setPosition(leftTextAreaWidth, 2);
-        middleStatsTextArea.setVisible(false);
+        middleStatsTextArea.setPosition(leftTextAreaWidth, -menuItemHeight + 2);
 
         battleTextArea = new BattleTextArea();
         battleTextArea.setWidth(middleAreaWidth);
@@ -1406,7 +1405,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         @Override
         public boolean act (float delta) {
-            battleTextArea.interact();
+            if (battleTextArea.isVisible()) {
+                battleTextArea.interact();
+            }
             return true; // An action returns true when it's completed
         }
     }
@@ -2193,6 +2194,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        //middleStatsTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(), middleStatsTextArea.getY() - 2 * menuItemHeight);
 
         // reset other variables
         party1Name.setText("");
@@ -2243,6 +2246,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         rightTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        middleStatsTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
     }
 
     @Override
@@ -2527,7 +2531,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 else {
                     showMainScreen(true);
-                    enableButtons();
                 }
                 break;
             default:
@@ -2673,6 +2676,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         if (immediate) {
             delay = 0;
         }
+
+        topLeftButton.setVisible(true);
+        topRightButton.setVisible(true);
+        runButton.setVisible(true);
+        statusButton.setVisible(true);
 
         enableButtons();
 

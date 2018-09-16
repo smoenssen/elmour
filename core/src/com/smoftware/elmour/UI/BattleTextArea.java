@@ -147,6 +147,7 @@ public class BattleTextArea extends Window {
 
                         numLines = textArea.getLines();
                         //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                        //Gdx.app.log(TAG, "fulltext = " + fullText);
                     }
 
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
