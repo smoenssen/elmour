@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -184,6 +185,8 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     protected Animation loadAnimation(String textureName, Array<GridPoint2> points, float frameDuration){
         Utility.loadTextureAsset(textureName);
         Texture texture = Utility.getTextureAsset(textureName);
+
+        //Gdx.app.log("GP", "textureName = " + textureName);
 
         TextureRegion[][] textureFrames = TextureRegion.split(texture, Entity.FRAME_WIDTH, Entity.FRAME_HEIGHT);
 

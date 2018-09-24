@@ -1,6 +1,6 @@
 {
 entityID : Jaxon
-displayName : Jaxon
+displayName : "Jaxon"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 30
+		value: 10
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -66,21 +66,21 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
 
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+		    x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+		    x: 25
+				y: 2
 			}
 		]
 	}
@@ -92,21 +92,21 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
 
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+			  x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+			  x: 25
+				y: 2
 			}
 		]
 	}
@@ -118,21 +118,21 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 1
-				y: 0
+				x: 25
+				y: 3
 			}
 
 			{
-				x: 1
-				y: 1
+				x: 25
+				y: 4
 			}
 			{
-			    x: 1
-				y: 2
-			}
-			{
-			    x: 1
+		    x: 25
 				y: 3
+			}
+			{
+		    x: 25
+				y: 5
 			}
 		]
 	}
@@ -144,21 +144,21 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 2
-				y: 0
+				x: 25
+				y: 6
 			}
 
 			{
-				x: 2
-				y: 1
+				x: 25
+				y: 7
 			}
 			{
-			    x: 2
-				y: 2
+		    x: 25
+				y: 6
 			}
 			{
-			    x: 2
-				y: 3
+		    x: 25
+				y: 8
 			}
 		]
 	}
@@ -170,21 +170,329 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
+				x: 25
+				y: 9
+			}
+
+			{
+				x: 25
+				y: 10
+			}
+			{
+		    x: 25
+				y: 9
+			}
+			{
+		    x: 25
+				y: 11
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+			{
+				x: 1
+				y: 2
+			}
+			{
+				x: 1
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+			{
+				x: 2
+				y: 2
+			}
+			{
+				x: 2
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
 				x: 3
 				y: 0
 			}
-
 			{
 				x: 3
 				y: 1
 			}
 			{
-			    x: 3
+				x: 3
 				y: 2
 			}
 			{
-			    x: 3
+				x: 3
 				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 4
+				y: 0
+			}
+			{
+				x: 4
+				y: 1
+			}
+			{
+				x: 4
+				y: 2
+			}
+			{
+				x: 4
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 5
+				y: 0
+			}
+			{
+				x: 5
+				y: 1
+			}
+			{
+				x: 5
+				y: 2
+			}
+			{
+				x: 5
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.0667
+			frameWidth : 80
+			frameHeight : 16
+		animationType: DAGGER_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 18
+				y: 0
+			}
+			{
+				x: 18
+				y: 1
+			}
+			{
+				x: 19
+				y: 0
+			}
+			{
+				x: 19
+				y: 1
+			}
+			{
+				x: 20
+				y: 0
+			}
+			{
+				x: 20
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0667
+			frameWidth : 80
+			frameHeight : 16
+		animationType: DAGGER_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 21
+				y: 0
+			}
+			{
+				x: 21
+				y: 1
+			}
+			{
+				x: 22
+				y: 0
+			}
+			{
+				x: 22
+				y: 1
+			}
+			{
+				x: 23
+				y: 0
+			}
+			{
+				x: 23
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0333
+			frameWidth : 16
+			frameHeight : 16
+		animationType: PUNCH_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 24
+				y: 0
+			}
+			{
+				x: 24
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0333
+			frameWidth : 16
+			frameHeight : 16
+		animationType: PUNCH_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 24
+				y: 2
+			}
+			{
+				x: 24
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.75
+			frameWidth : 16
+			frameHeight : 16
+		animationType: SPELL_LEFT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 24
+				y: 4
+			}
+			{
+				x: 24
+				y: 5
+			}
+		]
+	}
+	{
+			frameDuration: 0.75
+			frameWidth : 16
+			frameHeight : 16
+		animationType: SPELL_RIGHT
+		texturePaths: [
+				sprites/characters/Jaxon_1.png
+		]
+		gridPoints: [
+			{
+				x: 24
+				y: 6
+			}
+			{
+				x: 24
+				y: 7
 			}
 		]
 	}
