@@ -16,7 +16,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 15
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -234,7 +234,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 17
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -434,7 +434,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 16
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -633,7 +633,7 @@ animationConfig: [
 		}
 		ATK: {
 			class: java.lang.String
-			value: 7
+			value: 18
 		}
 		MagicATK: {
 			class: java.lang.String
@@ -649,7 +649,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 10
+			value: 20
 		}
 		ACC: {
 			class: java.lang.String
@@ -848,7 +848,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 10
+			value: 20
 		}
 		ACC: {
 			class: java.lang.String

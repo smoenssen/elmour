@@ -1603,8 +1603,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     selectedItemBanner.setText(selectedInventoryElement.name, true);
                 }
                 else if (currentScreenState == ScreenState.FIGHT) {
-                    middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 2, 0));
-                    middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, 0));
+                    // no transition here, just set the size and position
+                    middleStatsTextArea.setHeight(topLeftButton.getHeight());
+                    middleStatsTextArea.setPosition(topLeftButton.getX(), topLeftButton.getY());
                     middleStatsTextArea.setVisible(true);
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/4), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
@@ -2530,7 +2531,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     battleTextArea.interact(); // first interact sets battleTextArea visible
                 }
                 else {
-                    showMainScreen(true);
+                    showMainScreen(false);
                 }
                 break;
             default:
@@ -2543,10 +2544,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         Gdx.app.log(TAG, event.toString() + " notification received, message = " + message);
 
         switch(event){
+            case OPPONENT_ATTACKS:
+                middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
+                break;
             case PLAYER_HIT_DAMAGE:
                 battleTextArea.populateText(message);
                 break;
             case OPPONENT_TURN_DONE:
+                UpdateStats(destinationEntity);
+
                 battleTextArea.populateText(message);
                 if (battleTextArea.interact()) {
                     if (!transitionToMainScreen.isScheduled()) {
@@ -2572,56 +2578,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     }
                 }
 
-                //String fullMsg;
-
-                // store any updated stats
-                ProfileManager.getInstance().setStatProperties(destinationEntity, true);
-
-                // update HUD graphic stats for destination entity
-                // todo: handle if destination entity is enemy
-                Image hpBar = null;
-                Label hpStats = null;
-                Image mpBar = null;
-                Label mpStats = null;
-
-                if (destinationEntity.getEntityConfig().getDisplayName().equals(party1Name.getText().toString())) {
-                    hpBar = hpBar1;
-                    hpStats = hp1Stats;
-                    mpBar = mpBar1;
-                    mpStats = mp1Stats;
-                }
-                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party2Name.getText().toString())) {
-                    hpBar = hpBar2;
-                    hpStats = hp2Stats;
-                    mpBar = mpBar2;
-                    mpStats = mp2Stats;
-                }
-                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party3Name.getText().toString())) {
-                    hpBar = hpBar3;
-                    hpStats = hp3Stats;
-                    mpBar = mpBar3;
-                    mpStats = mp3Stats;
-                }
-                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party4Name.getText().toString())) {
-                    hpBar = hpBar4;
-                    hpStats = hp4Stats;
-                    mpBar = mpBar4;
-                    mpStats = mp4Stats;
-                }
-                else if (destinationEntity.getEntityConfig().getDisplayName().equals(party5Name.getText().toString())) {
-                    hpBar = hpBar5;
-                    hpStats = hp5Stats;
-                    mpBar = mpBar5;
-                    mpStats = mp5Stats;
-                }
-
-                if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
-                    updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                            destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar, hpStats);
-
-                    updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                            destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar, mpStats);
-                }
+                UpdateStats(destinationEntity);
 
                 switch (previousScreenState) {
                     case FIGHT:
@@ -2665,6 +2622,57 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
 
         game.battleState.getNextTurnCharacter();
+    }
+
+    private void UpdateStats(Entity destinationEntity) {
+        // store any updated stats
+        ProfileManager.getInstance().setStatProperties(destinationEntity, true);
+
+        // update HUD graphic stats for destination entity
+        // todo: handle if destination entity is enemy
+        Image hpBar = null;
+        Label hpStats = null;
+        Image mpBar = null;
+        Label mpStats = null;
+
+        if (destinationEntity.getEntityConfig().getDisplayName().equals(party1Name.getText().toString())) {
+            hpBar = hpBar1;
+            hpStats = hp1Stats;
+            mpBar = mpBar1;
+            mpStats = mp1Stats;
+        }
+        else if (destinationEntity.getEntityConfig().getDisplayName().equals(party2Name.getText().toString())) {
+            hpBar = hpBar2;
+            hpStats = hp2Stats;
+            mpBar = mpBar2;
+            mpStats = mp2Stats;
+        }
+        else if (destinationEntity.getEntityConfig().getDisplayName().equals(party3Name.getText().toString())) {
+            hpBar = hpBar3;
+            hpStats = hp3Stats;
+            mpBar = mpBar3;
+            mpStats = mp3Stats;
+        }
+        else if (destinationEntity.getEntityConfig().getDisplayName().equals(party4Name.getText().toString())) {
+            hpBar = hpBar4;
+            hpStats = hp4Stats;
+            mpBar = mpBar4;
+            mpStats = mp4Stats;
+        }
+        else if (destinationEntity.getEntityConfig().getDisplayName().equals(party5Name.getText().toString())) {
+            hpBar = hpBar5;
+            hpStats = hp5Stats;
+            mpBar = mpBar5;
+            mpStats = mp5Stats;
+        }
+
+        if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
+            updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
+                    destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar, hpStats);
+
+            updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
+                    destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar, mpStats);
+        }
     }
 
     private void showMainScreen(boolean immediate) {

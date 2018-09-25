@@ -157,6 +157,7 @@ public class BattleTextArea extends Window {
                 }
 
                 boolean delay = true;
+                Gdx.app.log(TAG, "fulltext = " + fullText);
 
                 // loop through lines
                 for (int lineIdx = 0; lineIdx < lineStrings.size; lineIdx++) {
@@ -191,7 +192,7 @@ public class BattleTextArea extends Window {
 
                             // delay for each character
                             try {
-                                Thread.sleep(25);
+                                Thread.sleep(20);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
