@@ -220,6 +220,25 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         return animation;
     }
 
+    protected static Animation loadBattleAnimation(String textureName, Array<GridPoint2> points, float frameDuration, int frameWidth, int frameHeight){
+        Utility.loadTextureAsset(textureName);
+        Texture texture = Utility.getTextureAsset(textureName);
+
+        //TextureRegion[][] textureFrames = TextureRegion.split(texture, frameWidth, frameHeight);
+
+        TextureRegion[] animationKeyFrames = new TextureRegion[points.size];
+
+        for(int i=0; i < points.size; i++){
+            //animationKeyFrames[i] = textureFrames[points.get(i).x][points.get(i).y];
+            animationKeyFrames[i] = new TextureRegion(texture,points.get(i).x, points.get(i).y, frameWidth, frameHeight);
+        }
+
+        Animation animation = new Animation(frameDuration, (Object[])animationKeyFrames);
+        animation.setPlayMode(Animation.PlayMode.NORMAL);
+
+        return animation;
+    }
+
     public static Hashtable<Entity.AnimationType, Animation<TextureRegion>> loadAnimationsByName(EntityFactory.EntityName entityName) {
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations = new Hashtable<>();
         Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
