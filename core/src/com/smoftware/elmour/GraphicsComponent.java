@@ -220,17 +220,17 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         return animation;
     }
 
-    protected static Animation loadBattleAnimation(String textureName, Array<GridPoint2> points, float frameDuration, int frameWidth, int frameHeight){
+    // not ready for use yet
+    protected static Animation loadIrregularTileAnimation(String textureName, Array<GridPoint2> points, float frameDuration, int frameWidth, int frameHeight){
         Utility.loadTextureAsset(textureName);
         Texture texture = Utility.getTextureAsset(textureName);
-
-        //TextureRegion[][] textureFrames = TextureRegion.split(texture, frameWidth, frameHeight);
 
         TextureRegion[] animationKeyFrames = new TextureRegion[points.size];
 
         for(int i=0; i < points.size; i++){
-            //animationKeyFrames[i] = textureFrames[points.get(i).x][points.get(i).y];
-            animationKeyFrames[i] = new TextureRegion(texture,points.get(i).x, points.get(i).y, frameWidth, frameHeight);
+            // point values need work if this is going to be used
+            // see https://stackoverflow.com/questions/47026187/how-to-take-a-section-of-an-image-png-and-store-it-as-a-texture-in-libgdx
+            animationKeyFrames[i] = new TextureRegion(texture, points.get(i).x, points.get(i).y, frameWidth, frameHeight);
         }
 
         Animation animation = new Animation(frameDuration, (Object[])animationKeyFrames);

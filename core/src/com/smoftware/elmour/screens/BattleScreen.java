@@ -189,7 +189,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
-        char1BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_1_BATTLE));
+        char1BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_1));
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         turnIndicator = new Texture("graphics/down_arrow_blue.png");
         currentTurnCharPosition = new Vector2(0, 0);
@@ -681,7 +681,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         ////////////////////////////
         // Battle animation
         //todo: set correct animation elsewhere
-        Animation<TextureRegion> animation = char1BattleAnimations.get(Entity.AnimationType.SWORD_RIGHT);
+        Animation<TextureRegion> animation = char1BattleAnimations.get(Entity.AnimationType.MACE_LEFT);
         //animation.getKeyFrames().length;
         if (animation != null) {
             _frameTime = (_frameTime + delta) % 5;
