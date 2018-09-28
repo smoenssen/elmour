@@ -681,7 +681,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         ////////////////////////////
         // Battle animation
         //todo: set correct animation elsewhere
-        Animation<TextureRegion> animation = char1BattleAnimations.get(Entity.AnimationType.MACE_LEFT);
+        Animation<TextureRegion> animation = char1BattleAnimations.get(Entity.AnimationType.DAGGER_LEFT);
         //animation.getKeyFrames().length;
         if (animation != null) {
             _frameTime = (_frameTime + delta) % 5;
