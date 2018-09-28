@@ -1,0 +1,14 @@
+
+Is inventory list for whole party or per character?
+
+Is weapon list for whole party or per character?
+
+How do you select a weapon?
+
+If you have a weapon in inventory, can it only be assigned to one character? 
+i.e., Do you have to have 5 swords in order to for every character to have a sword in a battle?
+
+Where are initial stats for weapons going to be stored?
+i.e., Are weapons going to be defined in Inventory.json? (InventoryCategory has a Weapon cateogory)?
+
+How are weapons obtained? Same as inventory items?
