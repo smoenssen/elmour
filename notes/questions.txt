@@ -1,14 +1,25 @@
 
-Is inventory list for whole party or per character?
+Is inventory list for whole party or per character?y
+whole party
+Spells and powers are character specific.
 
 Is weapon list for whole party or per character?
+per character upon equipping
 
 How do you select a weapon?
+outside of battle, can't switch inside of battle
 
-If you have a weapon in inventory, can it only be assigned to one character? 
-i.e., Do you have to have 5 swords in order to for every character to have a sword in a battle?
+If you have a weapon in inventory, can it only be assigned to one character? Yes
+i.e., Do you have to have 5 swords in order to for every character to have a sword in a battle? Yes
 
-Where are initial stats for weapons going to be stored?
-i.e., Are weapons going to be defined in Inventory.json? (InventoryCategory has a Weapon cateogory)?
+Where are initial stats for weapons going to be stored? In new equipment.json, but still uses InventoryElement class
 
 How are weapons obtained? Same as inventory items?
+Can be dropped by monsters or bought at the armory
+
+
+***Add location and chapter to inventory.
+Location = where you can buy it. Can be a list.
+Chapter = what chapter it is accessible during and after. Greater than or equal to.
+If location does not exist, it defaults to everywhere.
+If chapter does not exist, it defaults to always being available.

@@ -18,11 +18,11 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 12
+		value: 10
 	}
 	MP_MAX: {
 		class: java.lang.String
-		value: 15
+		value: 1
 	}
 	ATK: {
 		class: java.lang.String

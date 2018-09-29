@@ -1,0 +1,71 @@
+[
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Weapon
+	name: Iron Dagger
+	type: Dagger
+	summary: A dagger made of iron* often used for stabbing things.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 25
+		}
+		{
+			effect: EVO_UP
+			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Weapon
+	name: Brass Knuckles
+	summary: For those who want to take a more aggressive approach.
+	buy: 225
+	sell: 113
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 15
+		}
+		{
+			effect: EVO_UP
+			value: 50
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Breastplate
+	name: Cloth Breastplate
+	summary: For those who want to take a more aggressive approach.
+	buy: 25
+	sell: 13
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 3
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	category: Helmet
+	name: Pot
+	summary: A nice, cheap alternative for more expensive armor.
+	buy: 25
+	sell: 13
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 5
+		}
+		{
+			effect: ACC_DOWN
+			value: 10
+		}
+	]
+}
+]

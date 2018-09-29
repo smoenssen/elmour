@@ -6,6 +6,8 @@
 	summary: Nothing beats lobster.
 	buy: 150
 	sell: 75
+	location: Elmour ; Jerbadia
+	chapter: 8
 	turns: 5
 	effectList: [
 		{
@@ -42,7 +44,7 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	category: Food
-	name: Canadian Bacan
+	name: Canadian Bacon
 	summary: The best tasting meat around. Too bad it doesn't give the best stats.
 	buy: 50
 	sell: 25
@@ -747,6 +749,7 @@
 		}
 	]
 }
+
 
 
 

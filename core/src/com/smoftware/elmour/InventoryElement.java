@@ -12,9 +12,12 @@ import com.badlogic.gdx.utils.Array;
 public class InventoryElement{
 
     public enum InventoryCategory {
-        Armor,
+        // Armor
+        Helmet,
+        Breastplate,
+        Legging,
         Weapon,
-        Equipment,
+        //Equipment,??
         Potion,
         Food,
         Consumables
@@ -48,6 +51,8 @@ public class InventoryElement{
     public String summary;
     public int buy;
     public int sell;
+    public String location;
+    public int chapter;
     public int turns;
     public boolean revive;
 
