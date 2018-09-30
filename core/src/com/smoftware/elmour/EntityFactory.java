@@ -45,7 +45,7 @@ public class EntityFactory {
     public static String CHARACTER_2_CONFIG = "scripts/character_2.json";
     public static String DOUGLAS_CONFIG = "scripts/douglas.json";
     public static String JUSTIN_CONFIG = "scripts/justin.json";
-    public static String JAXON_CONFIG = "scripts/jaxon.json";
+    public static String JAXON_CONFIG = "scripts/jaxon_1.json";
     public static String PLAYER_CONFIG = "scripts/player.json";
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
     public static String TOWN_BLACKSMITH_CONFIG = "scripts/town_blacksmith.json";

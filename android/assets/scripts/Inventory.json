@@ -1,6 +1,7 @@
 [
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT1
 	category: Food
 	name: Lobster
 	summary: Nothing beats lobster.
@@ -23,6 +24,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT2
 	category: Food
 	name: Steak
 	summary: Gives a large burst of energy to whoever consumes it.
@@ -43,6 +45,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT3
 	category: Food
 	name: Canadian Bacon
 	summary: The best tasting meat around. Too bad it doesn't give the best stats.
@@ -63,6 +66,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT4
 	category: Food
 	name: Liver
 	summary: High in nutrients* just tastes terrible.
@@ -83,6 +87,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT5
 	category: Food
 	name: Salmon
 	summary: Fished up from one of the many rivers that flow throughout China. Try to guess which one.
@@ -103,6 +108,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MEAT6
 	category: Food
 	name: Rat Meat
 	summary: The meat from a rat. Sure* it tastes terrible* but once the bad taste is over* the benefits start to set in.
@@ -128,6 +134,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: VEG1
 	category: Food
 	name: Broccoli
 	summary: Strengthens the person's bones.
@@ -148,6 +155,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: VEG2
 	category: Food
 	name: Cauliflower
 	summary: Like broccoli* but tastes better. Also has a lot of vitamin C.
@@ -168,6 +176,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: VEG3
 	category: Food
 	name: Brussels Sprouts
 	summary: Who even eats brussels sprouts?
@@ -188,6 +197,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: VEG4
 	category: Food
 	name: Carrots
 	summary: Not only does this vegetable increase defence* but it also improves the consumer's eyesight.
@@ -212,6 +222,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: SUGAR1
 	category: Food
 	name: Honey
 	summary: A sweet* viscous food typically produced by bees. Bears love it.
@@ -232,6 +243,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: SUGAR2
 	category: Food
 	name: Brown Sugar
 	summary: Like white sugar* but has a little bit of molasses in it. Whether or not it tastes better is purely subjective.
@@ -252,6 +264,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: SUGAR3
 	category: Food
 	name: White Sugar
 	summary: Consuming often gives the consumer a sugar rush.
@@ -272,6 +285,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: FRUIT1
 	category: Food
 	name: Orange
 	summary: Has many terrible puns based off of it. Making a true pun takes experience.
@@ -292,6 +306,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: FRUIT2
 	category: Food
 	name: Banana
 	summary: The wonderfull taste of a banana a peels many.
@@ -312,6 +327,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: FRUIT3
 	category: Food
 	name: Apple
 	summary: Comparing the amount of bonus exp that apples and oranges give is like comparing apples to oranges.
@@ -332,6 +348,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: CHEESE1
 	category: Food
 	name: Swiss Cheese
 	summary: Consuming this cheese gives a hole lot of bonus coins.
@@ -352,6 +369,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: CHEESE2
 	category: Food
 	name: Feta
 	summary: I'm feta up with writing all of these summaries.
@@ -372,6 +390,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: CHEESE3
 	category: Food
 	name: Mozzarella
 	summary: Most cheese puns are often too cheesy.
@@ -392,6 +411,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: CHEESE4
 	category: Food
 	name: Sharp Cheddar
 	summary: It's so sharp* it hurts to consume it.
@@ -412,6 +432,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: LCK1
 	category: Food
 	name: Rabbit's Foot
 	summary: Upon consuming* luck will be on their side.
@@ -433,6 +454,7 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	category: Consumables
+	id: LCK2
 	name: Maneki-neko
 	summary: This lucky statue is just that: lucky. Much like the lucky horseshoe* it is not edible.
 	buy: 50
@@ -449,6 +471,7 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	category: Consumables
+	id: LCK3
 	name: Lucky Horseshoe
 	summary: Although not edible* just looking at this horseshoe makes anyone's day better. Unfortunately* it is introverted and doesn't like people staring at it* terminating itself to avoid such a terrible fate.
 	buy: 25
@@ -464,6 +487,199 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: HP1
+	category: Potion
+	name: Mini Health Potion
+	summary: Heals the consumer a little.
+	buy: 20
+	sell: 10
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 20
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HP2
+	category: Potion
+	name: Lesser Health Potion
+	summary: Heals the consumer a bit.
+	buy: 125
+	sell: 25
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 100
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HP3
+	category: Potion
+	name: Health Potion
+	summary: Heals the consumer.
+	buy: 750
+	sell: 375
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 500
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HP4
+	category: Potion
+	name: Greater Health Potion
+	summary: Heals the consumer more than usual.
+	buy: 4700
+	sell: 2350
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 2500
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HP5
+	category: Potion
+	name: Super Health Potion
+	summary: Heals the consumer a lot.
+	buy: 30000
+	sell: 15000
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 12500
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HP6
+	category: Potion
+	name: Max Health Potion
+	summary: Heals the consumer completely.
+	buy: 180000
+	sell: 90000
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 999999
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP1
+	category: Potion
+	name: Mini Mana Potion
+	summary: Supplies a little bit of mana to whoever drinks it.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 50
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP2
+	category: Potion
+	name: Lesser Mana Potion
+	summary: Supplies a bit of mana to whoever drinks it.
+	buy: 250
+	sell: 125
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 100
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP3
+	category: Potion
+	name: Mana Potion
+	summary: Supplies mana to whoever drinks it.
+	buy: 450
+	sell: 225
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 150
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP4
+	category: Potion
+	name: Greater Mana Potion
+	summary: Supplies more mana than usual to whoever drinks it..
+	buy: 750
+	sell: 375
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 200
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP5
+	category: Potion
+	name: Super Mana Potion
+	summary: Supplies a lot of mana to whoever drinks it.
+	buy: 1500
+	sell: 750
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 300
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MP6
+	category: Potion
+	name: Max Mana Potion
+	summary: Supplies a ton of mana to whoever drinks it.
+	buy: 3000
+	sell: 1500
+	effectList: [
+		{
+			effect: HEAL_MP
+			value: 9999
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: BOTTLE1
 	category: Potion
 	name: Whiskey
 	summary: Improves power and supplies Mana* but with a price.
@@ -500,186 +716,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Mini Health Potion
-	summary: Heals the consumer a little.
-	buy: 20
-	sell: 10
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 20
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Lesser Health Potion
-	summary: Heals the consumer a bit.
-	buy: 50
-	sell: 25
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 50
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Health Potion
-	summary: Heals the consumer.
-	buy: 75
-	sell: 37
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 75
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Greater Health Potion
-	summary: Heals the consumer more than usual.
-	buy: 175
-	sell: 87
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 150
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Super Health Potion
-	summary: Heals the consumer a lot.
-	buy: 300
-	sell: 150
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 250
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Max Health Potion
-	summary: Heals the consumer completely.
-	buy: 500
-	sell: 250
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 9999
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Mini Mana Potion
-	summary: Supplies a little bit of mana to whoever drinks it.
-	buy: 25
-	sell: 12
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 50
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Lesser Mana Potion
-	summary: Supplies a bit of mana to whoever drinks it.
-	buy: 50
-	sell: 25
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 100
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Mana Potion
-	summary: Supplies mana to whoever drinks it.
-	buy: 75
-	sell: 37
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 150
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Greater Mana Potion
-	summary: Supplies more mana than usual to whoever drinks it..
-	buy: 125
-	sell: 62
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 200
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Super Mana Potion
-	summary: Supplies a lot of mana to whoever drinks it.
-	buy: 200
-	sell: 100
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 300
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	category: Potion
-	name: Max Mana Potion
-	summary: Supplies a ton of mana to whoever drinks it.
-	buy: 300
-	sell: 150
-	effectList: [
-		{
-			effect: HEAL_MP
-			value: 9999
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
+	id: BOTTLE2
 	category: Potion
 	name: Potion of Strength
 	summary: For those who need extra strength immediately. Gives a lot of strength at first* then wanes away.
@@ -716,6 +753,7 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: BOTTLE3
 	category: Potion
 	name: Reverse Potion of Strength
 	summary: For those who like the Potion of strength* but are patient. Basically the reverse of a potion of strength: starts off with a little bit of extra strength* and ends with a lot.

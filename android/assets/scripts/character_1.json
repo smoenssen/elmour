@@ -18,11 +18,11 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 10
+		value: 12
 	}
 	MP_MAX: {
 		class: java.lang.String
-		value: 1
+		value: 15
 	}
 	ATK: {
 		class: java.lang.String
@@ -69,7 +69,6 @@ animationConfig: [
 				x: 25
 				y: 0
 			}
-
 			{
 				x: 25
 				y: 1
@@ -95,7 +94,6 @@ animationConfig: [
 				x: 25
 				y: 0
 			}
-
 			{
 				x: 25
 				y: 1
@@ -121,7 +119,6 @@ animationConfig: [
 				x: 25
 				y: 3
 			}
-
 			{
 				x: 25
 				y: 4
@@ -147,7 +144,6 @@ animationConfig: [
 				x: 25
 				y: 6
 			}
-
 			{
 				x: 25
 				y: 7
@@ -173,7 +169,6 @@ animationConfig: [
 				x: 25
 				y: 9
 			}
-
 			{
 				x: 25
 				y: 10
@@ -352,7 +347,7 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 96
+			frameWidth : 80
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
@@ -387,7 +382,7 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 96
+			frameWidth : 80
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [

@@ -112,6 +112,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Image menuButton;
     private Image menuButtonDown;
     private boolean menuIsVisible;
+    private boolean debugMenuIsVisible;
     private int numberOfMenuItems;
     private TextButton partyButton;
     private TextButton inventoryButton;
@@ -119,8 +120,10 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton saveButton;
     private TextButton debugButton;
 
+    // for debugging
     private TextButton utilityButton;
     private TextButton noClipModeButton;
+    private TextButton adjustInventoryButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -278,6 +281,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         didSendConversationDoneMsg = false;
 
         menuIsVisible = false;
+        debugMenuIsVisible = false;
 
         numberOfMenuItems = 4; // update this if number of menu items changes
         float menuBtnWidth = 50;
@@ -299,6 +303,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         utilityButton = new TextButton("Utility", Utility.ELMOUR_UI_SKIN);
         noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
+        adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -332,6 +337,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         optionsButton.setHeight(menuItemHeight);
         optionsButton.setPosition(menuItemX, menuItemY);
         optionsButton.setVisible(false);
+
+        adjustInventoryButton.setWidth(menuItemWidth);
+        adjustInventoryButton.setHeight(menuItemHeight);
+        adjustInventoryButton.setPosition(menuItemX, menuItemY);
+        adjustInventoryButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         saveButton.setWidth(menuItemWidth);
@@ -442,6 +452,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(debugButton);
             _stage.addActor(utilityButton);
             _stage.addActor(noClipModeButton);
+            _stage.addActor(adjustInventoryButton);
         }
 
         //_battleUI.validate();
@@ -581,6 +592,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        hideMenu(true);
                                        utilityButton.setVisible(true);
                                        noClipModeButton.setVisible(true);
+                                       adjustInventoryButton.setVisible(true);
+                                       debugMenuIsVisible = true;
                                    }
                                }
         );
@@ -635,6 +648,26 @@ public class PlayerHUD implements Screen, AudioSubject,
                                   }
         );
 
+        adjustInventoryButton.addListener(new ClickListener() {
+                                              @Override
+                                              public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                                  return true;
+                                              }
+
+                                              @Override
+                                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                                  // make sure touch point is still on this button
+                                                  if (touchPointIsInButton(adjustInventoryButton)) {
+                                                      hideDebugMenu();
+                                                      Gdx.app.log(TAG, "adjustInventoryButton clicked");
+
+                                                      AdjustInventoryInputListener listener = new AdjustInventoryInputListener(_stage);
+                                                      Gdx.input.getTextInput(listener, "Dialog Title", "", "");
+                                                  }
+                                              }
+                                          }
+        );
+
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
                                                            public void clicked(InputEvent event, float x, float y) {
@@ -687,6 +720,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private void hideDebugMenu() {
         utilityButton.setVisible(false);
         noClipModeButton.setVisible(false);
+        adjustInventoryButton.setVisible(false);
+        debugMenuIsVisible = false;
     }
 
     private void showMenu() {
@@ -757,13 +792,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 return true;
             }
         });
-/*
-        TextureRegion myTex = new TextureRegion(_dialogBackgroundTextureRegion);
-        myTex.flip(false, true);
-        myTex.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        Drawable drawable = new TextureRegionDrawable(myTex);
-        dialog.setBackground(drawable);
-*/
+
         float btnHeight = 30f;
         float btnWidth = 100f;
         Table t = new Table();
@@ -1513,7 +1542,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         // hide menu if screen is touched anywhere but the menu area or menu button
-        if(Gdx.input.justTouched() && menuIsVisible) {
+        if(Gdx.input.justTouched() && (menuIsVisible || debugMenuIsVisible)) {
             // Get the touch point in screen coordinates.
             Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 
@@ -1537,6 +1566,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 // Make sure the menu area wasn't touched
                 if (!Utility.pointInRectangle(menuAreaRect, localPos.x, localPos.y)) {
                     hideMenu(true);
+                    hideDebugMenu();
                     Gdx.app.log(TAG, "render set menuIsVisible = false");
                 }
             }

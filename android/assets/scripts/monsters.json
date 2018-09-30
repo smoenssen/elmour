@@ -6,81 +6,81 @@ state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
 entityProperties: {
-	HP: {
-		class: java.lang.String
-		value: 15
-	}
-	HP_MAX: {
-		class: java.lang.String
-		value: 15
-	}
-	ATK: {
-		class: java.lang.String
-		value: 15
-	}
-	MagicATK: {
-		class: java.lang.String
-		value: 45
-	}
-	DEF: {
-		class: java.lang.String
-		value: 15
-	}
-	MagicDEF: {
-		class: java.lang.String
-		value: 35
-	}
-	SPD: {
-		class: java.lang.String
-		value: 170
-	}
-	ACC: {
-		class: java.lang.String
-		value: 10
-	}
-	LCK: {
-		class: java.lang.String
-		value: 75
-	}
-	AVO: {
-		class: java.lang.String
-		value: 5
-	}
-	XP_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
-	DIBS_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
+  HP: {
+    class: java.lang.String
+    value: 15
+  }
+  HP_MAX: {
+    class: java.lang.String
+    value: 15
+  }
+  ATK: {
+    class: java.lang.String
+    value: 15
+  }
+  MagicATK: {
+    class: java.lang.String
+    value: 45
+  }
+  DEF: {
+    class: java.lang.String
+    value: 15
+  }
+  MagicDEF: {
+    class: java.lang.String
+    value: 35
+  }
+  SPD: {
+    class: java.lang.String
+    value: 170
+  }
+  ACC: {
+    class: java.lang.String
+    value: 10
+  }
+  LCK: {
+    class: java.lang.String
+    value: 75
+  }
+  AVO: {
+    class: java.lang.String
+    value: 5
+  }
+  XP_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
+  DIBS_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
 }
 rewardItems: [
-	{
-		item: ARMOR01
-		probability: 4
-	}
-	{
-		item: ARMOR02
-		probability: 3
-	}
+  {
+    item: ARMOR01
+    probability: 4
+  }
+  {
+    item: ARMOR02
+    probability: 3
+  }
 ]
 entityAbilities: [
 {
-	class: com.smoftware.elmour.EntityConfig$EntityAbility
-	name: Fire
-	numTurnsTilReset: 5
-	level: 3
-	maxHP: 15
-	priority: 1
+  class: com.smoftware.elmour.EntityConfig$EntityAbility
+  name: Fire
+  numTurnsTilReset: 5
+  level: 3
+  maxHP: 15
+  priority: 1
 }
 {
-	class: com.smoftware.elmour.EntityConfig$EntityAbility
-	name: Thunder
-	numTurnsTilReset: 43
-	level: 1
-	maxHP: 10
-	priority: 2
+  class: com.smoftware.elmour.EntityConfig$EntityAbility
+  name: Thunder
+  numTurnsTilReset: 43
+  level: 1
+  maxHP: 10
+  priority: 2
 }
 ]
 animationConfig: [
@@ -92,21 +92,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+		    x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+		    x: 25
+				y: 2
 			}
 		]
 	}
@@ -118,21 +117,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+			  x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+			  x: 25
+				y: 2
 			}
 		]
 	}
@@ -144,21 +142,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 1
-				y: 0
-			}
-
-			{
-				x: 1
-				y: 1
-			}
-			{
-			    x: 1
-				y: 2
-			}
-			{
-			    x: 1
+				x: 25
 				y: 3
+			}
+			{
+				x: 25
+				y: 4
+			}
+			{
+		    x: 25
+				y: 3
+			}
+			{
+		    x: 25
+				y: 5
 			}
 		]
 	}
@@ -170,21 +167,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 2
-				y: 0
-			}
-
-			{
-				x: 2
-				y: 1
+				x: 25
+				y: 6
 			}
 			{
-			    x: 2
-				y: 2
+				x: 25
+				y: 7
 			}
 			{
-			    x: 2
-				y: 3
+		    x: 25
+				y: 6
+			}
+			{
+		    x: 25
+				y: 8
 			}
 		]
 	}
@@ -196,27 +192,25 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 3
-				y: 0
-			}
-
-			{
-				x: 3
-				y: 1
+				x: 25
+				y: 9
 			}
 			{
-			    x: 3
-				y: 2
+				x: 25
+				y: 10
 			}
 			{
-			    x: 3
-				y: 3
+		    x: 25
+				y: 9
+			}
+			{
+		    x: 25
+				y: 11
 			}
 		]
 	}
 ]
 },
-
 {
 entityID : Octomaniac
 displayName : Octomaniac
@@ -224,64 +218,64 @@ state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
 entityProperties: {
-	HP: {
-		class: java.lang.String
-		value: 9
-	}
-	HP_MAX: {
-		class: java.lang.String
-		value: 9
-	}
-	ATK: {
-		class: java.lang.String
-		value: 17
-	}
-	MagicATK: {
-		class: java.lang.String
-		value: 45
-	}
-	DEF: {
-		class: java.lang.String
-		value: 15
-	}
-	MagicDEF: {
-		class: java.lang.String
-		value: 35
-	}
-	SPD: {
-		class: java.lang.String
-		value: 15
-	}
-	ACC: {
-		class: java.lang.String
-		value: 10
-	}
-	LCK: {
-		class: java.lang.String
-		value: 75
-	}
-	AVO: {
-		class: java.lang.String
-		value: 5
-	}
-	XP_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
-	DIBS_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
+  HP: {
+    class: java.lang.String
+    value: 9
+  }
+  HP_MAX: {
+    class: java.lang.String
+    value: 9
+  }
+  ATK: {
+    class: java.lang.String
+    value: 17
+  }
+  MagicATK: {
+    class: java.lang.String
+    value: 45
+  }
+  DEF: {
+    class: java.lang.String
+    value: 15
+  }
+  MagicDEF: {
+    class: java.lang.String
+    value: 35
+  }
+  SPD: {
+    class: java.lang.String
+    value: 15
+  }
+  ACC: {
+    class: java.lang.String
+    value: 10
+  }
+  LCK: {
+    class: java.lang.String
+    value: 75
+  }
+  AVO: {
+    class: java.lang.String
+    value: 5
+  }
+  XP_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
+  DIBS_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
 }
 rewardItems: [
-	{
-		item: ARMOR01
-		probability: 4
-	}
-	{
-		item: ARMOR02
-		probability: 3
-	}
+  {
+    item: ARMOR01
+    probability: 4
+  }
+  {
+    item: ARMOR02
+    probability: 3
+  }
 ]
 animationConfig: [
 	{
@@ -292,21 +286,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+		    x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+		    x: 25
+				y: 2
 			}
 		]
 	}
@@ -318,21 +311,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+			  x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+			  x: 25
+				y: 2
 			}
 		]
 	}
@@ -344,21 +336,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 1
-				y: 0
-			}
-
-			{
-				x: 1
-				y: 1
-			}
-			{
-			    x: 1
-				y: 2
-			}
-			{
-			    x: 1
+				x: 25
 				y: 3
+			}
+			{
+				x: 25
+				y: 4
+			}
+			{
+		    x: 25
+				y: 3
+			}
+			{
+		    x: 25
+				y: 5
 			}
 		]
 	}
@@ -370,21 +361,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 2
-				y: 0
-			}
-
-			{
-				x: 2
-				y: 1
+				x: 25
+				y: 6
 			}
 			{
-			    x: 2
-				y: 2
+				x: 25
+				y: 7
 			}
 			{
-			    x: 2
-				y: 3
+		    x: 25
+				y: 6
+			}
+			{
+		    x: 25
+				y: 8
 			}
 		]
 	}
@@ -396,27 +386,25 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 3
-				y: 0
-			}
-
-			{
-				x: 3
-				y: 1
+				x: 25
+				y: 9
 			}
 			{
-			    x: 3
-				y: 2
+				x: 25
+				y: 10
 			}
 			{
-			    x: 3
-				y: 3
+		    x: 25
+				y: 9
+			}
+			{
+		    x: 25
+				y: 11
 			}
 		]
 	}
 ]
 },
-
 {
 entityID : Goblin
 displayName : Goblin
@@ -424,64 +412,64 @@ state : IMMOBILE
 direction : RIGHT
 itemTypeID: NONE
 entityProperties: {
-	HP: {
-		class: java.lang.String
-		value: 20
-	}
-	HP_MAX: {
-		class: java.lang.String
-		value: 20
-	}
-	ATK: {
-		class: java.lang.String
-		value: 16
-	}
-	MagicATK: {
-		class: java.lang.String
-		value: 45
-	}
-	DEF: {
-		class: java.lang.String
-		value: 15
-	}
-	MagicDEF: {
-		class: java.lang.String
-		value: 35
-	}
-	SPD: {
-		class: java.lang.String
-		value: 15
-	}
-	ACC: {
-		class: java.lang.String
-		value: 10
-	}
-	LCK: {
-		class: java.lang.String
-		value: 75
-	}
-	AVO: {
-		class: java.lang.String
-		value: 5
-	}
-	XP_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
-	DIBS_REWARD: {
-		class: java.lang.String
-		value: 15
-	}
+  HP: {
+    class: java.lang.String
+    value: 20
+  }
+  HP_MAX: {
+    class: java.lang.String
+    value: 20
+  }
+  ATK: {
+    class: java.lang.String
+    value: 16
+  }
+  MagicATK: {
+    class: java.lang.String
+    value: 45
+  }
+  DEF: {
+    class: java.lang.String
+    value: 15
+  }
+  MagicDEF: {
+    class: java.lang.String
+    value: 35
+  }
+  SPD: {
+    class: java.lang.String
+    value: 15
+  }
+  ACC: {
+    class: java.lang.String
+    value: 10
+  }
+  LCK: {
+    class: java.lang.String
+    value: 75
+  }
+  AVO: {
+    class: java.lang.String
+    value: 5
+  }
+  XP_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
+  DIBS_REWARD: {
+    class: java.lang.String
+    value: 15
+  }
 }
 rewardItems: [
-	{
-		item: ARMOR01
-		probability: 4
-	}
-	{
-		item: ARMOR02
-		probability: 3
-	}
+  {
+    item: ARMOR01
+    probability: 4
+  }
+  {
+    item: ARMOR02
+    probability: 3
+  }
 ]
 animationConfig: [
 	{
@@ -492,21 +480,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+		    x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+		    x: 25
+				y: 2
 			}
 		]
 	}
@@ -518,21 +505,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 0
+				x: 25
 				y: 0
 			}
-
 			{
-				x: 0
+				x: 25
 				y: 1
 			}
 			{
-			    x: 0
-				y: 2
+			  x: 25
+				y: 0
 			}
 			{
-			    x: 0
-				y: 3
+			  x: 25
+				y: 2
 			}
 		]
 	}
@@ -544,21 +530,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 1
-				y: 0
-			}
-
-			{
-				x: 1
-				y: 1
-			}
-			{
-			    x: 1
-				y: 2
-			}
-			{
-			    x: 1
+				x: 25
 				y: 3
+			}
+			{
+				x: 25
+				y: 4
+			}
+			{
+		    x: 25
+				y: 3
+			}
+			{
+		    x: 25
+				y: 5
 			}
 		]
 	}
@@ -570,21 +555,20 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 2
-				y: 0
-			}
-
-			{
-				x: 2
-				y: 1
+				x: 25
+				y: 6
 			}
 			{
-			    x: 2
-				y: 2
+				x: 25
+				y: 7
 			}
 			{
-			    x: 2
-				y: 3
+		    x: 25
+				y: 6
+			}
+			{
+		    x: 25
+				y: 8
 			}
 		]
 	}
@@ -596,421 +580,420 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 3
-				y: 0
-			}
-
-			{
-				x: 3
-				y: 1
+				x: 25
+				y: 9
 			}
 			{
-			    x: 3
-				y: 2
+				x: 25
+				y: 10
 			}
 			{
-			    x: 3
-				y: 3
+		    x: 25
+				y: 9
+			}
+			{
+		    x: 25
+				y: 11
 			}
 		]
 	}
 ]
 },
-
 {
-	entityID : Ogre
-	displayName : Ogre
-	state : IMMOBILE
-	direction : RIGHT
-	entityProperties: {
-		HP: {
-			class: java.lang.String
-			value: 18
-		}
-		HP_MAX: {
-			class: java.lang.String
-			value: 18
-		}
-		ATK: {
-			class: java.lang.String
-			value: 18
-		}
-		MagicATK: {
-			class: java.lang.String
-			value: 45
-		}
-		DEF: {
-			class: java.lang.String
-			value: 15
-		}
-		MagicDEF: {
-			class: java.lang.String
-			value: 35
-		}
-		SPD: {
-			class: java.lang.String
-			value: 20
-		}
-		ACC: {
-			class: java.lang.String
-			value: 10
-		}
-		LCK: {
-			class: java.lang.String
-			value: 75
-		}
-		AVO: {
-			class: java.lang.String
-			value: 5
-		}
-		XP_REWARD: {
-			class: java.lang.String
-			value: 15
-		}
-		DIBS_REWARD: {
-			class: java.lang.String
-			value: 15
-		}
-	}
-	rewardItems: [
-		{
-			item: ARMOR01
-			probability: 4
-		}
-		{
-			item: ARMOR02
-			probability: 3
-		}
-	]
-	animationConfig: [
-		{
-		    frameDuration: 0.25
-			animationType: IDLE
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 0
-					y: 0
-				}
+  entityID : Ogre
+  displayName : Ogre
+  state : IMMOBILE
+  direction : RIGHT
+  entityProperties: {
+    HP: {
+      class: java.lang.String
+      value: 18
+    }
+    HP_MAX: {
+      class: java.lang.String
+      value: 18
+    }
+    ATK: {
+      class: java.lang.String
+      value: 18
+    }
+    MagicATK: {
+      class: java.lang.String
+      value: 45
+    }
+    DEF: {
+      class: java.lang.String
+      value: 15
+    }
+    MagicDEF: {
+      class: java.lang.String
+      value: 35
+    }
+    SPD: {
+      class: java.lang.String
+      value: 20
+    }
+    ACC: {
+      class: java.lang.String
+      value: 10
+    }
+    LCK: {
+      class: java.lang.String
+      value: 75
+    }
+    AVO: {
+      class: java.lang.String
+      value: 5
+    }
+    XP_REWARD: {
+      class: java.lang.String
+      value: 15
+    }
+    DIBS_REWARD: {
+      class: java.lang.String
+      value: 15
+    }
+  }
+  rewardItems: [
+    {
+      item: ARMOR01
+      probability: 4
+    }
+    {
+      item: ARMOR02
+      probability: 3
+    }
+  ]
+  animationConfig: [
+    {
+        frameDuration: 0.25
+      animationType: IDLE
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 0
+          y: 0
+        }
 
-				{
-					x: 0
-					y: 1
-				}
-				{
-				    x: 0
-					y: 2
-				}
-				{
-				    x: 0
-					y: 3
-				}
-			]
-		}
-		{
-		    frameDuration: 0.25
-			animationType: WALK_DOWN
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 0
-					y: 0
-				}
+        {
+          x: 0
+          y: 1
+        }
+        {
+            x: 0
+          y: 2
+        }
+        {
+            x: 0
+          y: 3
+        }
+      ]
+    }
+    {
+        frameDuration: 0.25
+      animationType: WALK_DOWN
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 0
+          y: 0
+        }
 
-				{
-					x: 0
-					y: 1
-				}
-				{
-				    x: 0
-					y: 2
-				}
-				{
-				    x: 0
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_LEFT
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 1
-					y: 0
-				}
+        {
+          x: 0
+          y: 1
+        }
+        {
+            x: 0
+          y: 2
+        }
+        {
+            x: 0
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_LEFT
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 1
+          y: 0
+        }
 
-				{
-					x: 1
-					y: 1
-				}
-				{
-				    x: 1
-					y: 2
-				}
-				{
-				    x: 1
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_RIGHT
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 2
-					y: 0
-				}
+        {
+          x: 1
+          y: 1
+        }
+        {
+            x: 1
+          y: 2
+        }
+        {
+            x: 1
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_RIGHT
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 2
+          y: 0
+        }
 
-				{
-					x: 2
-					y: 1
-				}
-				{
-				    x: 2
-					y: 2
-				}
-				{
-				    x: 2
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_UP
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 3
-					y: 0
-				}
+        {
+          x: 2
+          y: 1
+        }
+        {
+            x: 2
+          y: 2
+        }
+        {
+            x: 2
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_UP
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 3
+          y: 0
+        }
 
-				{
-					x: 3
-					y: 1
-				}
-				{
-				    x: 3
-					y: 2
-				}
-				{
-				    x: 3
-					y: 3
-				}
-			]
-		}
-	]
+        {
+          x: 3
+          y: 1
+        }
+        {
+            x: 3
+          y: 2
+        }
+        {
+            x: 3
+          y: 3
+        }
+      ]
+    }
+  ]
 },
 
 {
-	entityID : Royal_Guard
-	displayName : Royal Guard
-	state : IMMOBILE
-	direction : RIGHT
-	entityProperties: {
-		HP: {
-			class: java.lang.String
-			value: 26
-		}
-		HP_MAX: {
-			class: java.lang.String
-			value: 26
-		}
-		ATK: {
-			class: java.lang.String
-			value: 7
-		}
-		MagicATK: {
-			class: java.lang.String
-			value: 45
-		}
-		DEF: {
-			class: java.lang.String
-			value: 15
-		}
-		MagicDEF: {
-			class: java.lang.String
-			value: 35
-		}
-		SPD: {
-			class: java.lang.String
-			value: 20
-		}
-		ACC: {
-			class: java.lang.String
-			value: 10
-		}
-		LCK: {
-			class: java.lang.String
-			value: 75
-		}
-		AVO: {
-			class: java.lang.String
-			value: 5
-		}
-		XP_REWARD: {
-			class: java.lang.String
-			value: 15
-		}
-		DIBS_REWARD: {
-			class: java.lang.String
-			value: 15
-		}
-	}
-	rewardItems: [
-		{
-			item: ARMOR01
-			probability: 4
-		}
-		{
-			item: ARMOR02
-			probability: 3
-		}
-	]
-	animationConfig: [
-		{
-		    frameDuration: 0.25
-			animationType: IDLE
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 0
-					y: 0
-				}
+  entityID : Royal_Guard
+  displayName : Royal Guard
+  state : IMMOBILE
+  direction : RIGHT
+  entityProperties: {
+    HP: {
+      class: java.lang.String
+      value: 26
+    }
+    HP_MAX: {
+      class: java.lang.String
+      value: 26
+    }
+    ATK: {
+      class: java.lang.String
+      value: 7
+    }
+    MagicATK: {
+      class: java.lang.String
+      value: 45
+    }
+    DEF: {
+      class: java.lang.String
+      value: 15
+    }
+    MagicDEF: {
+      class: java.lang.String
+      value: 35
+    }
+    SPD: {
+      class: java.lang.String
+      value: 20
+    }
+    ACC: {
+      class: java.lang.String
+      value: 10
+    }
+    LCK: {
+      class: java.lang.String
+      value: 75
+    }
+    AVO: {
+      class: java.lang.String
+      value: 5
+    }
+    XP_REWARD: {
+      class: java.lang.String
+      value: 15
+    }
+    DIBS_REWARD: {
+      class: java.lang.String
+      value: 15
+    }
+  }
+  rewardItems: [
+    {
+      item: ARMOR01
+      probability: 4
+    }
+    {
+      item: ARMOR02
+      probability: 3
+    }
+  ]
+  animationConfig: [
+    {
+        frameDuration: 0.25
+      animationType: IDLE
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 0
+          y: 0
+        }
 
-				{
-					x: 0
-					y: 1
-				}
-				{
-				    x: 0
-					y: 2
-				}
-				{
-				    x: 0
-					y: 3
-				}
-			]
-		}
-		{
-		    frameDuration: 0.25
-			animationType: WALK_DOWN
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 0
-					y: 0
-				}
+        {
+          x: 0
+          y: 1
+        }
+        {
+            x: 0
+          y: 2
+        }
+        {
+            x: 0
+          y: 3
+        }
+      ]
+    }
+    {
+        frameDuration: 0.25
+      animationType: WALK_DOWN
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 0
+          y: 0
+        }
 
-				{
-					x: 0
-					y: 1
-				}
-				{
-				    x: 0
-					y: 2
-				}
-				{
-				    x: 0
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_LEFT
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 1
-					y: 0
-				}
+        {
+          x: 0
+          y: 1
+        }
+        {
+            x: 0
+          y: 2
+        }
+        {
+            x: 0
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_LEFT
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 1
+          y: 0
+        }
 
+        {
+          x: 1
+          y: 1
+        }
+        {
+            x: 1
+          y: 2
+        }
+        {
+            x: 1
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_RIGHT
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
 				{
-					x: 1
-					y: 1
-				}
-				{
-				    x: 1
-					y: 2
-				}
-				{
-				    x: 1
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_RIGHT
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-					x: 2
-					y: 0
-				}
+          x: 2
+          y: 0
+        }
 
-				{
-					x: 2
-					y: 1
-				}
-				{
-				    x: 2
-					y: 2
-				}
-				{
-				    x: 2
-					y: 3
-				}
-			]
-		}
-		{
-			frameDuration: 0.25
-			animationType: WALK_UP
-			texturePaths: [
-				sprites/characters/Douglas.png
-			]
-			gridPoints: [
-				{
-					x: 3
-					y: 0
-				}
+        {
+          x: 2
+          y: 1
+        }
+        {
+            x: 2
+          y: 2
+        }
+        {
+            x: 2
+          y: 3
+        }
+      ]
+    }
+    {
+      frameDuration: 0.25
+      animationType: WALK_UP
+      texturePaths: [
+        sprites/characters/Douglas.png
+      ]
+      gridPoints: [
+        {
+          x: 3
+          y: 0
+        }
 
-				{
-					x: 3
-					y: 1
-				}
-				{
-				    x: 3
-					y: 2
-				}
-				{
-				    x: 3
-					y: 3
-				}
-			]
-		}
-	]
-},
+        {
+          x: 3
+          y: 1
+        }
+        {
+            x: 3
+          y: 2
+        }
+        {
+            x: 3
+          y: 3
+        }
+      ]
+    }
+  ]
+}
 ]
