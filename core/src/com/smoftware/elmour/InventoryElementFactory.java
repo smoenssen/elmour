@@ -13,8 +13,8 @@ import java.util.Hashtable;
 
 public class InventoryElementFactory {
     private Json _json = new Json();
-    private final String INVENTORY_JSON = "scripts/inventory.json";
-    private final String EQUIPMENT_JSON = "scripts/equipment.json";
+    private final String INVENTORY_JSON = "RPGGame/maps/Game/Scripts/Inventory.json";
+    private final String EQUIPMENT_JSON = "RPGGame/maps/Game/Scripts/equipment.json";
     private static InventoryElementFactory _instance = null;
     private Hashtable<InventoryElement.ElementID, InventoryElement> inventoryList;
     private Hashtable<InventoryElement.ElementID, InventoryElement> equipmentList;
@@ -28,20 +28,35 @@ public class InventoryElementFactory {
     }
 
     private InventoryElementFactory(){
-        ArrayList<JsonValue> jsonInventoryList = _json.fromJson(ArrayList.class, Gdx.files.internal(INVENTORY_JSON));
+        ArrayList<InventoryElement> jsonInventoryList = _json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal(INVENTORY_JSON));
         inventoryList = new Hashtable<>();
 
-        for (JsonValue jsonVal : jsonInventoryList) {
-            InventoryElement inventoryElement = _json.readValue(InventoryElement.class, jsonVal);
+        for (InventoryElement inventoryElement : jsonInventoryList) {
             inventoryList.put(inventoryElement.id, inventoryElement);
         }
 
-        ArrayList<JsonValue> jsonEquipmentList = _json.fromJson(ArrayList.class, Gdx.files.internal(EQUIPMENT_JSON));
+        ArrayList<InventoryElement> jsonEquipmentList = _json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal(EQUIPMENT_JSON));
         equipmentList = new Hashtable<>();
 
-        for (JsonValue jsonVal : jsonEquipmentList) {
-            InventoryElement inventoryElement = _json.readValue(InventoryElement.class, jsonVal);
+        for (InventoryElement inventoryElement : jsonEquipmentList) {
             equipmentList.put(inventoryElement.id, inventoryElement);
         }
+    }
+
+    public InventoryElement getInventoryElement(InventoryElement.ElementID elementID){
+        InventoryElement element = inventoryList.get(elementID);
+
+        if (element != null) {
+            element = new InventoryElement(element);
+        }
+        else {
+            element = equipmentList.get(elementID);
+
+            if (element != null) {
+                element = new InventoryElement(element);
+            }
+        }
+
+        return element;
     }
 }

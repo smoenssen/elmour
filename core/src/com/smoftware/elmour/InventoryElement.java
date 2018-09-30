@@ -14,11 +14,12 @@ public class InventoryElement{
     public enum InventoryCategory {
         Helmet,
         Breastplate,
-        Legging,
+        LEGGINGS,
         Weapon,
         Potion,
         Food,
-        Consumables
+        Consumables,
+        Throwing
     }
 
     public enum WeaponType {
@@ -31,7 +32,9 @@ public class InventoryElement{
 
     public enum Effect {
         HEAL_HP,
+        HEAL_HP_PERCENT,
         HEAL_MP,
+        HEAL_MP_PERCENT,
         ATK_UP,
         ATK_DOWN,
         DEF_UP,
@@ -57,6 +60,7 @@ public class InventoryElement{
         MEAT1, MEAT2, MEAT3, MEAT4, MEAT5, MEAT6, VEG1, VEG2, VEG3, VEG4, SUGAR1, SUGAR2, SUGAR3,
         FRUIT1, FRUIT2, FRUIT3, CHEESE1, CHEESE2, CHEESE3, CHEESE4, LCK1, LCK2, LCK3, HP1, HP2, HP3,
         HP4, HP5, HP6, MP1, MP2, MP3, MP4, MP5, MP6, BOTTLE1, BOTTLE2, BOTTLE3,
+        THROW1, THROW2, THROW3, THROW4, THROW5,
 
         DAGGER1, DAGGER2, DAGGER3, KNUCKLES1, KNUCKLES2, KNUCKLES3, HELMET1, HELMET2, HELMET3,
         BREASTPLATE1, BREASTPLATE2, BREASTPLATE3, LEGGINGS1, LEGGINGS2, LEGGINGS3,
@@ -98,5 +102,25 @@ public class InventoryElement{
         chapter = 0;
         turns = 0x7FFFFFFF;
         revive = false;
+    }
+
+    public InventoryElement(InventoryElement element) {
+        // copy constructor
+        this.category = element.category;
+        this.name = element.name;
+        this.id = element.id;
+        this.type = element.type;
+        this.summary = element.summary;
+        this.buy = element.buy;
+        this.sell = element.sell;
+        this.location = element.location;
+        this.chapter = element.chapter;
+        this.turns = element.turns;
+        this.revive = element.revive;
+
+        if (element.effectList != null) {
+            this.effectList = new Array<>();
+            this.effectList.addAll(element.effectList);
+        }
     }
 }

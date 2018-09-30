@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
+import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.Utility;
 
 /**
@@ -18,12 +20,13 @@ import com.smoftware.elmour.Utility;
 
 public class AdjustInventoryInputListener implements Input.TextInputListener {
 
-    private enum InputState { GET_QUANTITY, GET_ITEM, DONE, CANCEL }
+    private static final String TAG = AdjustInventoryInputListener.class.getSimpleName();
+
+    private enum InputState { GET_QUANTITY, GET_ITEM, DONE }
     private InputState state = InputState.GET_QUANTITY;
     private Stage stage;
-
-    public AdjustInventoryInputListener() {
-    }
+    private static int quantity;
+    //private static
 
     public AdjustInventoryInputListener(Stage stage) {
         this.stage = stage;
@@ -36,28 +39,91 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
 
     @Override
     public void input (String text) {
-        Gdx.app.log("tag", "state = " + state.toString());
+        Gdx.app.log(TAG, "state = " + state.toString());
+        Gdx.app.log(TAG, "input = " + text);
+
+        boolean validInput = false;
 
         switch(state) {
             case GET_QUANTITY:
                 if (text.equals("")) {
-                    displayErrorDialog();
+                    displayErrorDialog("Quantity cannot be null!");
                 }
-                    else {
-                    Gdx.app.log("tag", "Input: " + text);
+                else {
+                    try {
+                        quantity = Integer.parseInt(text);
+                        validInput = true;
+                    }
+                    catch (NumberFormatException ex) {
+                        displayErrorDialog("\"" + text + "\"" + " is not a valid integer!");
+                    }
+                }
+
+                if (validInput) {
                     AdjustInventoryInputListener listener = new AdjustInventoryInputListener(stage, InputState.GET_ITEM);
-                    Gdx.input.getTextInput(listener, "Dialog Title 2", "", "");
+                    Gdx.input.getTextInput(listener, "Enter Item ID or ALL", "", "");
                 }
+                else {
+                    AdjustInventoryInputListener listener = new AdjustInventoryInputListener(stage, InputState.GET_QUANTITY);
+                    Gdx.input.getTextInput(listener, "Enter Quantity", "", "");
+                }
+
                 break;
+
             case GET_ITEM:
-                Gdx.app.log("tag", "Input: " + text);
-                state = InputState.DONE;
+                InventoryElement.ElementID elementID = null;
+
+                if (text.equals("")) {
+                    displayErrorDialog("Item ID cannot be null!");
+                }
+                else {
+                    text = text.toUpperCase();
+                    if (text.equals("ALL")) {
+                        validInput = true;
+
+                        // add quantity of ALL items to the inventory
+                        Gdx.app.log(TAG, String.format("Adding (%d) of ALL items to inventory", quantity));
+                    }
+                    else {
+                        try {
+                            elementID = InventoryElement.ElementID.valueOf(text);
+                            validInput = true;
+                        } catch (IllegalArgumentException ex) {
+                            displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
+                        }
+                    }
+
+                    if (validInput) {
+                        if (!text.equals("ALL")) {
+                            InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
+
+                            if (element == null) {
+                                // this should never happen since error condition would be caught in above exception handler
+                                displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
+                            } else {
+                                // add quantity of this item to the inventory
+                                Gdx.app.log(TAG, String.format("Adding (%d) %s to inventory", quantity, elementID.toString()));
+                            }
+                        }
+                    }
+                    else {
+                        AdjustInventoryInputListener listener = new AdjustInventoryInputListener(stage, InputState.GET_ITEM);
+                        Gdx.input.getTextInput(listener, "Enter Item ID or ALL", "", "");
+                    }
+                }
+
+                if (validInput) {
+                    state = InputState.DONE;
+                }
+                else {
+                    AdjustInventoryInputListener listener = new AdjustInventoryInputListener(stage, InputState.GET_ITEM);
+                    Gdx.input.getTextInput(listener, "Enter Item ID or ALL", "", "");
+                }
+
+
                 break;
             case DONE:
-                Gdx.app.log("tag", "Done");
-                break;
-            case CANCEL:
-                state = InputState.GET_QUANTITY;
+                Gdx.app.log(TAG, "Done");
                 break;
         }
     }
@@ -67,9 +133,8 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
         state = InputState.GET_QUANTITY;
     }
 
-    private void displayErrorDialog() {
-        TextButton btnYes = new TextButton("Yes", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnNo = new TextButton("No", Utility.ELMOUR_UI_SKIN, "message_box");
+    private void displayErrorDialog(String text) {
+        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
 
         final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
             @Override
@@ -88,19 +153,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
         dialog.setMovable(false);
         dialog.setResizable(false);
 
-        btnYes.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                                     int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
-                //todo: is this necessary?
-                //dialog.remove();
-                return true;
-            }
-        });
-
-        btnNo.addListener(new InputListener() {
+        btnOK.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
@@ -116,18 +169,16 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label("What the?", Utility.ELMOUR_UI_SKIN, "message_box");
+        Label label1 = new Label(text, Utility.ELMOUR_UI_SKIN, "message_box");
         label1.setAlignment(Align.center);
         dialog.getContentTable().add(label1).padTop(5f);
 
-        t.add(btnYes).width(btnWidth).height(btnHeight);
-        t.add(btnNo).width(btnWidth).height(btnHeight);
+        t.add(btnOK).width(btnWidth).height(btnHeight);
 
         dialog.getButtonTable().add(t).center().padBottom(10f);
         dialog.show(stage).setPosition(stage.getWidth() / 2 - dialog.getWidth() / 2, 25);
 
-        dialog.setName("confirmDialog");
+        dialog.setName("errorDialog");
         stage.addActor(dialog);
-
     }
 }

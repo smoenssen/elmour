@@ -1,0 +1,282 @@
+[
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: DAGGER1
+	category: Weapon
+	name: Wooden Dagger
+	type: Dagger
+	summary: A dagger made of wood* typically used for practice.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 5
+		}
+		{
+			effect: EVO_UP
+			value: 2
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: DAGGER2
+	category: Weapon
+	name: Bone Dagger
+	type: Dagger
+	summary: A dagger made of bones. How spooky!
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 15
+		}
+		{
+			effect: EVO_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: DAGGER3
+	category: Weapon
+	name: Iron Dagger
+	type: Dagger
+	summary: A dagger made of iron* often used for stabbing things.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 25
+		}
+		{
+			effect: EVO_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: KNUCKLES1
+	category: Weapon
+	name: Rings
+	summary: A set of five rings to beat up your opponent with.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 2
+		}
+		{
+			effect: EVO_UP
+			value: 2
+		}
+		{
+			effect: SPD_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: KNUCKLES2
+	category: Weapon
+	name: Bone Knuckles
+	summary: They say that brass knuckles break bones... but what if they're made of bones?
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 7
+		}
+		{
+			effect: EVO_UP
+			value: 7
+		}
+		{
+			effect: SPD_UP
+			value: 15
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: KNUCKLES3
+	category: Weapon
+	name: Brass Knuckles
+	summary: For those who want to take a more aggressive approach.
+	buy: 225
+	sell: 113
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 15
+		}
+		{
+			effect: EVO_UP
+			value: 15
+		}
+		{
+			effect: SPD_UP
+			value: 30
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HELMET1
+	category: Helmet
+	name: Pot
+	summary: A nice* cheap alternative for more expensive armor.
+	buy: 25
+	sell: 13
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 2
+		}
+		{
+			effect: ACC_DOWN
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HELMET2
+	category: Helmet
+	name: Bike Helmet
+	summary: Spreads out the impact damage when falling off of a bike.
+	buy: 90
+	sell: 45
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 7
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: HELMET3
+	category: Helmet
+	name: Iron Helmet
+	summary: Makes the wearer feel like they live in medieval times.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: BREASTPLATE1
+	category: Breastplate
+	name: Cloth Breastplate
+	summary: Doesn't help very much other than not looking like an idiot.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: BREASTPLATE2
+	category: Breastplate
+	name: Leather Breastplate
+	summary: Leather is a little bit thicker than cloth* so it protects more.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: BREASTPLATE3
+	category: Breastplate
+	name: Iron Breastplate
+	summary: Just make sure there isn't a lightning storm outside.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 30
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: LEGGINGS1
+	category: LEGGINGS
+	name: Cloth Leggings
+	summary: Helps keep people warm in the winter.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 2
+		}
+		{
+			effect: SPD_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: LEGGINGS2
+	category: LEGGINGS
+	name: Leather Leggings
+	summary: Made from the hide of a boar.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 5
+		}
+		{
+			effect: SPD_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: LEGGINGS1
+	category: LEGGINGS
+	name: Cloth Leggings
+	summary: Helps keep people warm in the winter.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: DEF_UP
+			value: 10
+		}
+		{
+			effect: SPD_UP
+			value: 25
+		}
+	]
+}
+]

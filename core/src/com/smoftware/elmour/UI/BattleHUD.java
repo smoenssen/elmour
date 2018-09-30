@@ -429,17 +429,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         middleTree.setIconSpacing(4, 4);
 
-        // load tree from inventory.json, for battle only show Potion, Food, and Consumables
+        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
         Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "tree_node"));
         Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "tree_node"));
         Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "tree_node"));
+        Tree.Node Throwing = new Tree.Node(new TextButton("Throwing Items", Utility.ELMOUR_UI_SKIN, "tree_node"));
         rootNodes.add(new rootNode("Potions", false));
         rootNodes.add(new rootNode("Food", false));
         rootNodes.add(new rootNode("Consumables", false));
+        rootNodes.add(new rootNode("Throwing", false));
 
         middleTree.add(Potions);
         middleTree.add(Food);
         middleTree.add(Consumables);
+        middleTree.add(Throwing);
 
         // load inventory and spells/powers from json files
         Json json = new Json();
@@ -459,6 +462,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     break;
                 case Consumables:
                     Consumables.add(node);
+                    break;
+                case Throwing:
+                    Throwing.add(node);
                     break;
             }
         }

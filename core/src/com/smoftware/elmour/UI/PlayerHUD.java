@@ -662,7 +662,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                                       Gdx.app.log(TAG, "adjustInventoryButton clicked");
 
                                                       AdjustInventoryInputListener listener = new AdjustInventoryInputListener(_stage);
-                                                      Gdx.input.getTextInput(listener, "Dialog Title", "", "");
+                                                      Gdx.input.getTextInput(listener, "Enter Quantity", "", "");
                                                   }
                                               }
                                           }
