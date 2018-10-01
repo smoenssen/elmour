@@ -130,10 +130,9 @@
 }
 {
 	class: com.smoftware.elmour.InventoryElement
-	id: HELMET1
-	category: Helmet
+	category: Helmet1
 	name: Pot
-	summary: A nice* cheap alternative for more expensive armor.
+	summary: A nice, cheap alternative for more expensive armor.
 	buy: 25
 	sell: 13
 	effectList: [

@@ -156,7 +156,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
         justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
-        jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON);
+        jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON_1);
 
         _transitionActor = new ScreenTransitionActor();
 

@@ -1,6 +1,6 @@
 {
-entityID : Douglas
-displayName : "Douglas"
+entityID : Justin
+displayName : "Justin"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 12
+		value: 30
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -18,7 +18,7 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 5
+		value: 11
 	}
 	MP_MAX: {
 		class: java.lang.String
@@ -26,7 +26,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 7
+		value: 5
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -62,7 +62,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			sprites/characters/Douglas.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -87,7 +87,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			sprites/characters/Douglas.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -112,7 +112,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			sprites/characters/Douglas.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -137,7 +137,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			sprites/characters/Douglas.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -162,7 +162,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			sprites/characters/Douglas.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -189,7 +189,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -216,7 +216,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -243,7 +243,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -270,7 +270,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -297,7 +297,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -324,7 +324,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -351,7 +351,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -386,7 +386,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -421,7 +421,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -440,7 +440,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -459,7 +459,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -478,7 +478,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				sprites/characters/Douglas.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{

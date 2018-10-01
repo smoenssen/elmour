@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -20,13 +19,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.GraphicsComponent;
 import com.smoftware.elmour.UI.AnimatedImage;
@@ -46,13 +43,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import java.util.Hashtable;
 
 /**
- * Created by steve on 3/2/18.
-=======
-import com.smoftware.elmour.ElmourGame;
-
-/**
  * Created by moenssr on 3/1/2018.
->>>>>>> Stashed changes
  */
 
 public class BattleScreen extends MainGameScreen implements BattleObserver{
@@ -62,7 +53,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
 
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> carmenBattleAnimations;
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char2BattleAnimations;
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> justinBattleAnimations;
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> jaxonBattleAnimations;
+
+    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> douglasBattleAnimations;
+
     protected TextureRegion _currentFrame = null;
     private float _frameTime = 0;
     private Animation<TextureRegion> currentCharacterAnimation;
@@ -189,7 +187,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
+        carmenBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CARMEN));
         char1BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_1));
+        char2BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_2));
+        justinBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.JUSTIN));
+        jaxonBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.JAXON_1));
+
+        douglasBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.DOUGLAS));
+
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         turnIndicator = new Texture("graphics/down_arrow_blue.png");
         currentTurnCharPosition = new Vector2(0, 0);
@@ -510,21 +515,30 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     private Action getAttackCutScreenAction(Entity entity) {
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkTowardsVictim;
         Entity.AnimationType walkAwayFromVictim;
         float destinationX;
 
+        EntityFactory.EntityName entityName;
+
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
             walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
             destinationX = selectedEntity.getCurrentPosition().x + 1;
         }
         else {
             // Entity.BattleEntityType.ENEMY
+            // todo
+            entityName = EntityFactory.EntityName.DOUGLAS;
+            MonsterFactory.MonsterEntityType type;
             walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
             walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
             destinationX = selectedEntity.getCurrentPosition().x - 1;
         }
+
+        currentCharacterBattleAnimation = getBattleAnimations(entityName);
 
         return Actions.sequence(
 
@@ -534,7 +548,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.delay(0.75f),
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.75f),
-                new setCurrentCharacterAnimation(char1BattleAnimations.get(Entity.AnimationType.SWORD_LEFT)),
+                //new setCurrentCharacterAnimation(char1BattleAnimations.get(Entity.AnimationType.SWORD_LEFT)),
+                new setCurrentCharacterAnimation(currentCharacterBattleAnimation.get(Entity.AnimationType.SWORD_LEFT)),
                 new showMainCharacterAnimation(currentTurnCharacter, false),
                 // Framerate * # of Frames
                 Actions.delay(0.4f),
@@ -549,6 +564,28 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE)
         );
+    }
+
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> getBattleAnimations(EntityFactory.EntityName entityName) {
+        switch(entityName) {
+            // Party
+            case CARMEN:
+                return carmenBattleAnimations;
+            case CHARACTER_1:
+                return char1BattleAnimations;
+            case CHARACTER_2:
+                return char2BattleAnimations;
+            case JUSTIN:
+                return justinBattleAnimations;
+            case JAXON_1:
+                return jaxonBattleAnimations;
+
+            //Enemies
+            case DOUGLAS:
+                return douglasBattleAnimations;
+        }
+
+        return null;
     }
 
     private boolean touchPointIsInImage(AnimatedImage image) {

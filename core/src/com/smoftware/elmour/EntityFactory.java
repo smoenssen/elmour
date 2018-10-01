@@ -22,11 +22,10 @@ public class EntityFactory {
     public static enum EntityName{
         CARMEN,
         CHARACTER_1,
-        CHARACTER_1_BATTLE,
         CHARACTER_2,
         DOUGLAS,
         JUSTIN,
-        JAXON,
+        JAXON_1,
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -39,13 +38,13 @@ public class EntityFactory {
         SWORD_SWIPE
     }
 
-    public static String CARMEN_CONFIG = "scripts/carmen.json";
-    public static String CHARACTER_1_CONFIG = "scripts/character_1.json";
-    public static String CHARACTER_1_BATTLE_CONFIG = "RPGGame/maps/Game/Scripts/character_1_battle.json";
-    public static String CHARACTER_2_CONFIG = "scripts/character_2.json";
-    public static String DOUGLAS_CONFIG = "scripts/douglas.json";
-    public static String JUSTIN_CONFIG = "scripts/justin.json";
-    public static String JAXON_CONFIG = "scripts/jaxon_1.json";
+    public static String CARMEN_CONFIG = "RPGGame/maps/Game/Scripts/carmen.json";
+    public static String CHARACTER_1_CONFIG = "RPGGame/maps/Game/Scripts/character_1.json";
+    public static String CHARACTER_2_CONFIG = "RPGGame/maps/Game/Scripts/character_2.json";
+    public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
+    public static String JUSTIN_CONFIG = "RPGGame/maps/Game/Scripts/justin.json";
+    public static String JAXON_1_CONFIG = "RPGGame/maps/Game/Scripts/jaxon_1.json";
+
     public static String PLAYER_CONFIG = "scripts/player.json";
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
     public static String TOWN_BLACKSMITH_CONFIG = "scripts/town_blacksmith.json";
@@ -53,7 +52,6 @@ public class EntityFactory {
     public static String TOWN_INNKEEPER_CONFIG = "scripts/town_innkeeper.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
-    public static String SWORD_SWIPE_CONFIG = "scripts/sword_swipe.json";
 
 
     private EntityFactory(){
@@ -71,17 +69,15 @@ public class EntityFactory {
 
         entities.put(EntityName.CARMEN.toString(), Entity.loadEntityConfigByPath(CARMEN_CONFIG));
         entities.put(EntityName.CHARACTER_1.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_CONFIG));
-        entities.put(EntityName.CHARACTER_1_BATTLE.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_BATTLE_CONFIG));
         entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
         entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.JUSTIN.toString(), Entity.loadEntityConfigByPath(JUSTIN_CONFIG));
-        entities.put(EntityName.JAXON.toString(), Entity.loadEntityConfigByPath(JAXON_CONFIG));
+        entities.put(EntityName.JAXON_1.toString(), Entity.loadEntityConfigByPath(JAXON_1_CONFIG));
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
         entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
         entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));
         entities.put(EntityName.TOWN_INNKEEPER.toString(), Entity.loadEntityConfigByPath(TOWN_INNKEEPER_CONFIG));
         entities.put(EntityName.PLAYER_PUPPET.toString(), Entity.loadEntityConfigByPath(PLAYER_CONFIG));
-        entities.put(EntityName.SWORD_SWIPE.toString(), Entity.loadEntityConfigByPath(SWORD_SWIPE_CONFIG));
     }
 
     public static EntityFactory getInstance() {

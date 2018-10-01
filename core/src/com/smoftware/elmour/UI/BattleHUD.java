@@ -928,7 +928,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                               list.add(element2);
                                               json.toJson(list);
 
-                                              FileHandle file = Gdx.files.local("scripts/InventoryTest.json");
+                                              FileHandle file = Gdx.files.local("RPGGame/maps/Game/Scripts/InventoryTest.json");
                                               file.writeString(json.prettyPrint(list), false);
  test .json file*/
                                           }

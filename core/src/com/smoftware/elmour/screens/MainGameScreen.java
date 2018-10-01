@@ -164,6 +164,10 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        if (_mapRenderer == null) {
+            return;
+        }
+
         _mapRenderer.setView(_camera);
 
         _mapRenderer.getBatch().enableBlending();

@@ -25,11 +25,11 @@ public class MonsterFactory {
     private Hashtable<String, MonsterZone> monsterZones;
 
     private MonsterFactory(){
-        Array<EntityConfig> configs = Entity.getEntityConfigs("scripts/monsters.json");
+        Array<EntityConfig> configs = Entity.getEntityConfigs("RPGGame/maps/Game/Scripts/monsters.json");
         _entities =  Entity.initEntities(configs);
-        monsterGroups = MonsterGroup.getMonsterGroups("scripts/monster_groups.json");
-        _monsterZoneGroups = MonsterZone.getMonsterZoneGroups("scripts/monster_zones.json");
-        monsterZones = MonsterZone.getMonsterZones("scripts/monster_zones.json");
+        monsterGroups = MonsterGroup.getMonsterGroups("RPGGame/maps/Game/Scripts/monster_groups.json");
+        _monsterZoneGroups = MonsterZone.getMonsterZoneGroups("RPGGame/maps/Game/Scripts/monster_zones.json");
+        monsterZones = MonsterZone.getMonsterZones("RPGGame/maps/Game/Scripts/monster_zones.json");
     }
 
     public static MonsterFactory getInstance() {

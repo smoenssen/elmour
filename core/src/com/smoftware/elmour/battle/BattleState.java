@@ -207,7 +207,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity4);
 
-        Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON);
+        Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1);
         entity5.setAlive(true);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);

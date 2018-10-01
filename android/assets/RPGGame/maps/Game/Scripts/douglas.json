@@ -1,6 +1,6 @@
 {
-entityID : Character_1
-displayName : "Boy"
+entityID : Douglas
+displayName : "Douglas"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 25
+		value: 12
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -18,7 +18,7 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 12
+		value: 5
 	}
 	MP_MAX: {
 		class: java.lang.String
@@ -26,7 +26,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 12
+		value: 7
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -42,7 +42,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 11
+		value: 10
 	}
 	ACC: {
 		class: java.lang.String
@@ -62,7 +62,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -87,7 +87,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -112,7 +112,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -137,7 +137,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -162,7 +162,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -189,7 +189,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -202,7 +202,7 @@ animationConfig: [
 			}
 			{
 				x: 0
-				y: 2
+				y: 0
 			}
 			{
 				x: 0
@@ -216,7 +216,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -243,7 +243,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -270,7 +270,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -297,7 +297,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -324,7 +324,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -351,7 +351,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -386,7 +386,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -421,7 +421,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -440,7 +440,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -459,7 +459,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{
@@ -478,7 +478,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Douglas/Douglas.png
 		]
 		gridPoints: [
 			{

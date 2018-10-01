@@ -12,7 +12,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			sprites/characters/Character_2.png
+			sprites/characters/Paladin.png
 		]
 		gridPoints: [
 			{

@@ -1,6 +1,6 @@
 {
-entityID : Jaxon
-displayName : "Jaxon"
+entityID : Character_2
+displayName : Girl
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 10
+		value: 14
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -18,7 +18,7 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 15
+		value: 6
 	}
 	MP_MAX: {
 		class: java.lang.String
@@ -26,7 +26,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 10
+		value: 13
 	}
 	MagicATK: {
 		class: java.lang.String
@@ -42,7 +42,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 13
+		value: 12
 	}
 	ACC: {
 		class: java.lang.String
@@ -62,13 +62,14 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			sprites/characters/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
 				x: 25
 				y: 0
 			}
+
 			{
 				x: 25
 				y: 1
@@ -87,13 +88,14 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			sprites/characters/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
 				x: 25
 				y: 0
 			}
+
 			{
 				x: 25
 				y: 1
@@ -112,13 +114,14 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			sprites/characters/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
 				x: 25
 				y: 3
 			}
+
 			{
 				x: 25
 				y: 4
@@ -137,13 +140,14 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			sprites/characters/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
 				x: 25
 				y: 6
 			}
+
 			{
 				x: 25
 				y: 7
@@ -162,13 +166,14 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			sprites/characters/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
 				x: 25
 				y: 9
 			}
+
 			{
 				x: 25
 				y: 10
@@ -189,7 +194,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -216,7 +221,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -243,7 +248,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -270,7 +275,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -297,7 +302,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -324,7 +329,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -351,7 +356,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -386,7 +391,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -421,7 +426,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -440,7 +445,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -459,7 +464,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{
@@ -478,7 +483,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				sprites/characters/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Character_2/Character_2.png
 		]
 		gridPoints: [
 			{

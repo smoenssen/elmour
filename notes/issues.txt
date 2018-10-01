@@ -1,0 +1,10 @@
+need to use old monsters.json for now
+
+
+Inventory.json:
+Throw1-5 ids need to be capitalized
+There are 2 Throw3's (THROW6 missing)
+
+Grass_Battle.tmx doesn't have E1-5 positions
+
+all characters' SWORD_LEFT need to be fixed

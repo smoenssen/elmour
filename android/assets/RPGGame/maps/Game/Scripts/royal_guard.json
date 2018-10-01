@@ -1,6 +1,6 @@
 {
-entityID : Character_1
-displayName : "Boy"
+entityID : Royal_Guard
+displayName : "Royal_Guard"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -62,7 +62,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			sprites/characters/Character_1.png
+			RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -87,7 +87,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			sprites/characters/Character_1.png
+			RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -112,7 +112,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			sprites/characters/Character_1.png
+			RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -137,7 +137,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			sprites/characters/Character_1.png
+			RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -162,7 +162,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			sprites/characters/Character_1.png
+			RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -189,7 +189,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -202,7 +202,7 @@ animationConfig: [
 			}
 			{
 				x: 0
-				y: 2
+				y: 0
 			}
 			{
 				x: 0
@@ -216,7 +216,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -243,7 +243,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -270,7 +270,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -297,7 +297,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -324,7 +324,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -351,7 +351,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -386,7 +386,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -421,7 +421,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -440,7 +440,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -459,7 +459,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{
@@ -478,7 +478,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				sprites/characters/Character_1.png
+				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
 		gridPoints: [
 			{

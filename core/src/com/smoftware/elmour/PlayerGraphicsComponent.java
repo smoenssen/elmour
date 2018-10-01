@@ -80,7 +80,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
                 }
 
                 // shadow
-                String textureName = "sprites/characters/Shadow.png";
+                String textureName = "RPGGame/maps/Game/Characters/Shadow/Shadow.png";
                 Animation<TextureRegion> shadowAnimation= null;
                 Array<GridPoint2> gridPoints = new Array<GridPoint2>();
 

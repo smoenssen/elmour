@@ -2,13 +2,129 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT1
-	category: Throwing
+	category: Food
+	name: Rat Meat
+	summary: The meat from a rat. Sure* it tastes terrible* but once the bad taste is over* the benefits start to set in.
+	buy: 20
+	sell: 10
+	turns: 4
+	effectList: [
+		{
+			effect: HEAL_HP_PERCENT
+			value: -8
+		}
+		{
+			effect: ATK_UP
+			value: 5
+		}
+		{
+			effect: ATK_DOWN
+			value: 10
+			turns: 2
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MEAT2
+	category: Food
+	name: Salmon
+	summary: Fished up from one of the many rivers that flow throughout China. Try to guess which one.
+	buy: 40
+	sell: 20
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 5
+		}
+		{
+			effect: ATK_UP
+			value: 2
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MEAT3
+	category: Food
+	name: Liver
+	summary: High in nutrients* just tastes terrible.
+	buy: 50
+	sell: 25
+	location: Jerbadia
+	chapter: 7
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP_PERCENT
+			value: -20
+		}
+		{
+			effect: ATK_UP
+			value: 10
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MEAT4
+	category: Food
+	name: Canadian Bacon
+	summary: The best tasting meat around. Too bad it doesn't give the best stats.
+	buy: 250
+	sell: 125
+	location: Elmour ; Tarping Town ; Diblethia ; Christo
+	chapter: 9
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 20
+		}
+		{
+			effect: ATK_UP
+			value: 10
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MEAT5
+	category: Food
+	name: Steak
+	summary: Gives a large burst of energy to whoever consumes it.
+	buy: 500
+	sell: 250
+	location: Elmour ; Diblethia ; Talofofo
+	chapter: 13
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 30
+		}
+		{
+			effect: ATK_UP
+			value: 15
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MEAT6
+	category: Food
 	name: Lobster
 	summary: Nothing beats lobster.
-	buy: 150
-	sell: 75
-	location: Elmour ; Jerbadia
-	chapter: 8
+	buy: 1000
+	sell: 500
+	location: Elmour ; Shnarfulapogus ; Talofofo
+	chapter: 18
 	turns: 5
 	effectList: [
 		{
@@ -24,131 +140,21 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
-	id: MEAT2
-	category: Food
-	name: Steak
-	summary: Gives a large burst of energy to whoever consumes it.
-	buy: 100
-	sell: 50
-	turns: 3
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 30
-		}
-		{
-			effect: ATK_UP
-			value: 15
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	id: MEAT3
-	category: Food
-	name: Canadian Bacon
-	summary: The best tasting meat around. Too bad it doesn't give the best stats.
-	buy: 50
-	sell: 25
-	turns: 3
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 20
-		}
-		{
-			effect: ATK_UP
-			value: 10
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	id: MEAT4
-	category: Food
-	name: Liver
-	summary: High in nutrients* just tastes terrible.
-	buy: 50
-	sell: 25
-	turns: 3
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: -10
-		}
-		{
-			effect: ATK_UP
-			value: 15
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	id: MEAT5
-	category: Food
-	name: Salmon
-	summary: Fished up from one of the many rivers that flow throughout China. Try to guess which one.
-	buy: 25
-	sell: 12
-	turns: 3
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 10
-		}
-		{
-			effect: ATK_UP
-			value: 5
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	id: MEAT6
-	category: Food
-	name: Rat Meat
-	summary: The meat from a rat. Sure* it tastes terrible* but once the bad taste is over* the benefits start to set in.
-	buy: 50
-	sell: 25
-	turns: 4
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 10
-		}
-		{
-			effect: ATK_UP
-			value: 25
-		}
-		{
-			effect: ATK_DOWN
-			value: 30
-			turns: 2
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
 	id: VEG1
 	category: Food
-	name: Broccoli
-	summary: Strengthens the person's bones.
-	buy: 50
-	sell: 25
+	name: Brussels Sprouts
+	summary: Who even eats brussels sprouts?
+	buy: 40
+	sell: 20
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 20
+			value: 5
 		}
 		{
 			effect: DEF_UP
-			value: 10
+			value: 2
 		}
 	]
 }
@@ -157,10 +163,35 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: VEG2
 	category: Food
+	name: Broccoli
+	summary: Strengthens the person's bones.
+	buy: 250
+	sell: 125
+	location: Elmour ; Tarping Town ; Diblethia ; Christo ; Talofofo
+	chapter: 9
+	turns: 3
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: 20
+		}
+		{
+			effect: DEF_UP
+			value: 10
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: VEG3
+	category: Food
 	name: Cauliflower
 	summary: Like broccoli* but tastes better. Also has a lot of vitamin C.
-	buy: 100
-	sell: 50
+	buy: 500
+	sell: 250
+	location: Elmour ; Shnarfulapogus ; Diblethia ; Talofofo
+	chapter: 13
 	turns: 3
 	effectList: [
 		{
@@ -170,27 +201,6 @@
 		{
 			effect: DEF_UP
 			value: 15
-		}
-	]
-}
-
-{
-	class: com.smoftware.elmour.InventoryElement
-	id: VEG3
-	category: Food
-	name: Brussels Sprouts
-	summary: Who even eats brussels sprouts?
-	buy: 25
-	sell: 12
-	turns: 3
-	effectList: [
-		{
-			effect: HEAL_HP
-			value: 10
-		}
-		{
-			effect: DEF_UP
-			value: 5
 		}
 	]
 }
@@ -201,8 +211,10 @@
 	category: Food
 	name: Carrots
 	summary: Not only does this vegetable increase defence* but it also improves the consumer's eyesight.
-	buy: 120
-	sell: 60
+	buy: 1000
+	sell: 500
+	location: Elmour ; Christo ; Talofofo
+	chapter: 16
 	turns: 3
 	effectList: [
 		{
@@ -211,7 +223,7 @@
 		}
 		{
 			effect: DEF_UP
-			value: 10
+			value: 15
 		}
 		{
 			effect: ACC_UP
@@ -224,19 +236,19 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: SUGAR1
 	category: Food
-	name: Honey
-	summary: A sweet* viscous food typically produced by bees. Bears love it.
-	buy: 100
-	sell: 50
+	name: White Sugar
+	summary: Consuming often gives the consumer a sugar rush.
+	buy: 40
+	sell: 20
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 30
+			value: 10
 		}
 		{
 			effect: SPD_UP
-			value: 15
+			value: 5
 		}
 	]
 }
@@ -247,8 +259,10 @@
 	category: Food
 	name: Brown Sugar
 	summary: Like white sugar* but has a little bit of molasses in it. Whether or not it tastes better is purely subjective.
-	buy: 50
-	sell: 25
+	buy: 250
+	sell: 125
+	location: Elmour ; Tarping Town ; Diblethia ; Christo ; Talofofo
+	chapter: 9
 	turns: 3
 	effectList: [
 		{
@@ -266,19 +280,21 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: SUGAR3
 	category: Food
-	name: White Sugar
-	summary: Consuming often gives the consumer a sugar rush.
-	buy: 25
-	sell: 12
+	name: Honey
+	summary: A sweet* viscous food typically produced by bees. Bears love it.
+	buy: 500
+	sell: 250
+	location: Elmour ; Shnarfulapogus ; Diblethia ; Talofofo
+	chapter: 13
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 10
+			value: 30
 		}
 		{
 			effect: SPD_UP
-			value: 5
+			value: 15
 		}
 	]
 }
@@ -287,19 +303,19 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: FRUIT1
 	category: Food
-	name: Orange
-	summary: Has many terrible puns based off of it. Making a true pun takes experience.
-	buy: 100
-	sell: 50
+	name: Apple
+	summary: Comparing the amount of bonus exp that apples and oranges give is like comparing apples to oranges.
+	buy: 40
+	sell: 20
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 30
+			value: 10
 		}
 		{
 			effect: EXP_UP
-			value: 15
+			value: 5
 		}
 	]
 }
@@ -310,8 +326,10 @@
 	category: Food
 	name: Banana
 	summary: The wonderfull taste of a banana a peels many.
-	buy: 50
-	sell: 25
+	buy: 250
+	sell: 125
+	location: Elmour ; Jerbadia ; Diblethia ; Christo ; Talofofo
+	chapter: 9
 	turns: 3
 	effectList: [
 		{
@@ -329,19 +347,21 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: FRUIT3
 	category: Food
-	name: Apple
-	summary: Comparing the amount of bonus exp that apples and oranges give is like comparing apples to oranges.
-	buy: 25
-	sell: 12
+	name: Orange
+	summary: Has many terrible puns based off of it. Making a true pun takes experience.
+	buy: 500
+	sell: 250
+	location: Elmour ; Diblethia ; Christo ; Talofofo
+	chapter: 13
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 10
+			value: 30
 		}
 		{
 			effect: EXP_UP
-			value: 5
+			value: 15
 		}
 	]
 }
@@ -350,19 +370,19 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE1
 	category: Food
-	name: Swiss Cheese
-	summary: Consuming this cheese gives a hole lot of bonus coins.
-	buy: 100
-	sell: 50
+	name: Mozzarella
+	summary: Most cheese puns are often too cheesy.
+	buy: 40
+	sell: 20
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 30
+			value: 10
 		}
 		{
 			effect: DIBS_UP
-			value: 15
+			value: 5
 		}
 	]
 }
@@ -373,8 +393,10 @@
 	category: Food
 	name: Feta
 	summary: I'm feta up with writing all of these summaries.
-	buy: 100
-	sell: 50
+	buy: 250
+	sell: 125
+	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
+	chapter: 9
 	turns: 3
 	effectList: [
 		{
@@ -392,19 +414,21 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE3
 	category: Food
-	name: Mozzarella
-	summary: Most cheese puns are often too cheesy.
-	buy: 25
-	sell: 12
+	name: Swiss Cheese
+	summary: Consuming this cheese gives a hole lot of bonus coins.
+	buy: 500
+	sell: 250
+	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
+	chapter: 13
 	turns: 3
 	effectList: [
 		{
 			effect: HEAL_HP
-			value: 10
+			value: 30
 		}
 		{
 			effect: DIBS_UP
-			value: 5
+			value: 15
 		}
 	]
 }
@@ -415,13 +439,15 @@
 	category: Food
 	name: Sharp Cheddar
 	summary: It's so sharp* it hurts to consume it.
-	buy: 100
-	sell: 50
+	buy: 500
+	sell: 250
+	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
+	chapter: 13
 	turns: 3
 	effectList: [
 		{
-			effect: HEAL_HP
-			value: -10
+			effect: HEAL_HP_PERCENT
+			value: -50
 		}
 		{
 			effect: DIBS_UP
@@ -432,21 +458,17 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
+	category: Consumables
 	id: LCK1
-	category: Food
-	name: Rabbit's Foot
-	summary: Upon consuming* luck will be on their side.
+	name: Lucky Horseshoe
+	summary: Although not edible* just looking at this horseshoe makes anyone's day better. Unfortunately* it is introverted and doesn't like people staring at it* terminating itself to avoid such a terrible fate.
 	buy: 100
 	sell: 50
 	turns: 3
 	effectList: [
 		{
-			effect: HEAL_HP
-			value: 30
-		}
-		{
 			effect: LCK_UP
-			value: 20
+			value: 10
 		}
 	]
 }
@@ -457,8 +479,10 @@
 	id: LCK2
 	name: Maneki-neko
 	summary: This lucky statue is just that: lucky. Much like the lucky horseshoe* it is not edible.
-	buy: 50
-	sell: 25
+	buy: 250
+	sell: 125
+	location: Elmour ;  Diblethia
+	chapter: 9
 	turns: 3
 	effectList: [
 		{
@@ -470,17 +494,23 @@
 
 {
 	class: com.smoftware.elmour.InventoryElement
-	category: Consumables
 	id: LCK3
-	name: Lucky Horseshoe
-	summary: Although not edible* just looking at this horseshoe makes anyone's day better. Unfortunately* it is introverted and doesn't like people staring at it* terminating itself to avoid such a terrible fate.
-	buy: 25
-	sell: 12
+	category: Food
+	name: Rabbit's Foot
+	summary: Upon consuming* luck will be on their side.
+	buy: 1000
+	sell: 500
+	location: Elmour ; Shnarfulapogus
+	chapter: 18
 	turns: 3
 	effectList: [
 		{
+			effect: HEAL_HP
+			value: 30
+		}
+		{
 			effect: LCK_UP
-			value: 10
+			value: 20
 		}
 	]
 }
@@ -509,6 +539,7 @@
 	summary: Heals the consumer a bit.
 	buy: 125
 	sell: 25
+	chapter: 5
 	effectList: [
 		{
 			effect: HEAL_HP
@@ -525,6 +556,7 @@
 	summary: Heals the consumer.
 	buy: 750
 	sell: 375
+	chapter: 8
 	effectList: [
 		{
 			effect: HEAL_HP
@@ -541,6 +573,7 @@
 	summary: Heals the consumer more than usual.
 	buy: 4700
 	sell: 2350
+	chapter: 13
 	effectList: [
 		{
 			effect: HEAL_HP
@@ -557,6 +590,7 @@
 	summary: Heals the consumer a lot.
 	buy: 30000
 	sell: 15000
+	chapter: 16
 	effectList: [
 		{
 			effect: HEAL_HP
@@ -571,8 +605,9 @@
 	category: Potion
 	name: Max Health Potion
 	summary: Heals the consumer completely.
-	buy: 500
-	sell: 250
+	buy: 180000
+	sell: 90000
+	chapter: 22
 	effectList: [
 		{
 			effect: HEAL_HP
@@ -605,6 +640,7 @@
 	summary: Supplies a bit of mana to whoever drinks it.
 	buy: 250
 	sell: 125
+	chapter: 5
 	effectList: [
 		{
 			effect: HEAL_MP
@@ -621,6 +657,7 @@
 	summary: Supplies mana to whoever drinks it.
 	buy: 450
 	sell: 225
+	chapter: 8
 	effectList: [
 		{
 			effect: HEAL_MP
@@ -637,6 +674,7 @@
 	summary: Supplies more mana than usual to whoever drinks it..
 	buy: 750
 	sell: 375
+	chapter: 13
 	effectList: [
 		{
 			effect: HEAL_MP
@@ -653,6 +691,7 @@
 	summary: Supplies a lot of mana to whoever drinks it.
 	buy: 1500
 	sell: 750
+	chapter: 16
 	effectList: [
 		{
 			effect: HEAL_MP
@@ -669,6 +708,7 @@
 	summary: Supplies a ton of mana to whoever drinks it.
 	buy: 3000
 	sell: 1500
+	chapter: 22
 	effectList: [
 		{
 			effect: HEAL_MP
@@ -683,8 +723,8 @@
 	category: Potion
 	name: Whiskey
 	summary: Improves power and supplies Mana* but with a price.
-	buy: 100
-	sell: 50
+	buy: 10000
+	sell: 5000
 	turns: 3
 	effectList: [
 		{
@@ -720,8 +760,8 @@
 	category: Potion
 	name: Potion of Strength
 	summary: For those who need extra strength immediately. Gives a lot of strength at first* then wanes away.
-	buy: 100
-	sell: 75
+	buy: 10000
+	sell: 5000
 	turns: 5
 	effectList: [
 		{
@@ -757,8 +797,8 @@
 	category: Potion
 	name: Reverse Potion of Strength
 	summary: For those who like the Potion of strength* but are patient. Basically the reverse of a potion of strength: starts off with a little bit of extra strength* and ends with a lot.
-	buy: 75
-	sell: 36
+	buy: 7500
+	sell: 3600
 	turns: 5
 	effectList: [
 		{
@@ -788,8 +828,104 @@
 	]
 }
 
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW1
+	category: Throwing
+	name: Throwing Knife
+	summary: A knife specially weighted to be easily thrown.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -10
+		}
+	]
+}
 
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW2
+	category: Throwing
+	name: Throwing Axe
+	summary: Like a throwing knife* but an axe.
+	buy: 500
+	sell: 250
+	chapter: 8
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -50
+		}
+	]
+}
 
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW3
+	category: Throwing
+	name: Grenade
+	summary: A small bomb that can be thrown.
+	buy: 5000
+	sell: 2500
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -500
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW4
+	category: Throwing
+	name: TNT
+	summary: A larger bomb that can be thrown* even if it isn't ment to be.
+	buy: 5000
+	sell: 2500
+	chapter: 16
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -500
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW5
+	category: Throwing
+	name: C4
+	summary: An even more powerful bomb that can be remotely exploded.
+	buy: 50000
+	sell: 25000
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -5000
+		}
+	]
+}
+
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: THROW6
+	category: Throwing
+	name: Mini Nuke
+	summary: A mini version of what started the war.
+	buy: 500000
+	sell: 250000
+	location: Black Market
+	effectList: [
+		{
+			effect: HEAL_HP
+			value: -25000
+		}
+	]
+}
 
 
 

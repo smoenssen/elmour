@@ -153,7 +153,7 @@ public class ProfileManager extends ProfileSubject {
             setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2), false);
             setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.DOUGLAS), false);
             setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN), false);
-            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON), false);
+            setStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1), false);
 
             notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
             _isNewProfile = false;
