@@ -607,8 +607,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _stage.addAction(openBattleSceneAction);
 
         ProfileManager.getInstance().addObserver(_mapMgr);
-        if (battleHUD != null)
-            ProfileManager.getInstance().addObserver(battleHUD);
 
         Gdx.input.setInputProcessor(_multiplexer);
 

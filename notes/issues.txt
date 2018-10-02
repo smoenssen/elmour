@@ -5,6 +5,13 @@ Inventory.json:
 Throw1-5 ids need to be capitalized
 There are 2 Throw3's (THROW6 missing)
 
-Grass_Battle.tmx doesn't have E1-5 positions
+Grass_Battle.tmx doesn't have E1-E5 positions
 
 all characters' SWORD_LEFT need to be fixed
+
+equipment.json
+Helmet1 should be:
+	id: HELMET1
+	category: Helmet
+
+Also, description should have * instead of comma

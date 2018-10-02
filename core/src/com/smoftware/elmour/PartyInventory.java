@@ -16,6 +16,7 @@ public class PartyInventory {
 
     private static PartyInventory partyInventory;
     private Array<PartyInventoryItem> list;
+    public final String PROPERTY_NAME = "partyInventory";
 
     private PartyInventory(){
         list = new Array<>();
@@ -48,7 +49,7 @@ public class PartyInventory {
             if (!profileString.equals("")) {
                 profileString += "|";
             }
-            String newItem = item.item.toString() + "," + Integer.toString(item.quantity);
+            String newItem = item.item.id.toString() + "," + Integer.toString(item.quantity);
             profileString += newItem;
         }
         return profileString;

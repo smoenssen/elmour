@@ -36,6 +36,7 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -221,6 +222,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         this.game = game;
 
         game.battleState.addObserver(this);
+        ProfileManager.getInstance().addObserver(this);
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
@@ -2105,6 +2107,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         switch(event){
             case PROFILE_LOADED:
                 boolean firstTime = profileManager.getIsNewProfile();
+                String test;
+
+                test = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
+                int x;
+                x=0;
 
                 if( firstTime ){
 
@@ -2242,6 +2249,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void resize(int width, int height) {
+        // This is the function that is called when the battle screen is opened.
         _stage.getViewport().update(width, height, true);
 
         // make controls rise from the bottom of the screen when it is first displayed

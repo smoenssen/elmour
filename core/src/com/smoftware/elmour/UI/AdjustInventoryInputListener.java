@@ -14,6 +14,7 @@ import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.Hashtable;
 import java.util.Set;
@@ -112,13 +113,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                         try {
                             elementID = InventoryElement.ElementID.valueOf(text);
                             validInput = true;
-                        } catch (IllegalArgumentException ex) {
-                            displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
-                        }
-                    }
 
-                    if (validInput) {
-                        if (!text.equals("ALL")) {
                             InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
 
                             if (element == null) {
@@ -130,7 +125,15 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
 
                                 PartyInventory.getInstance().addItem(element, quantity);
                             }
+                        } catch (IllegalArgumentException ex) {
+                            displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
                         }
+                    }
+
+                    if (validInput) {
+                        String test = PartyInventory.getInstance().getInventoryProfileString();
+                        ProfileManager.getInstance().setProperty(PartyInventory.getInstance().PROPERTY_NAME,
+                                PartyInventory.getInstance().getInventoryProfileString());
                     }
                     else {
                         AdjustInventoryInputListener listener = new AdjustInventoryInputListener(stage, InputState.GET_ITEM);
