@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 public class PartyInventory {
     private static final String TAG = PartyInventory.class.getSimpleName();
 
-    public class PartyInventoryItem {
+    private class PartyInventoryItem {
         public InventoryElement item;
         public int quantity;
     }
@@ -33,13 +33,10 @@ public class PartyInventory {
         String [] saItems = profileString.split("|");
 
         for (String item : saItems) {
-            PartyInventoryItem inventoryItem = new PartyInventoryItem();
             String [] saValues = item.split("|");
 
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
-            inventoryItem.item = InventoryElementFactory.getInstance().getInventoryElement(elementID);
-            inventoryItem.quantity = Integer.parseInt(saValues[1]);
-            addItem(inventoryItem);
+            addItem(InventoryElementFactory.getInstance().getInventoryElement(elementID), Integer.parseInt(saValues[1]));
         }
     }
 
@@ -61,32 +58,35 @@ public class PartyInventory {
         return list;
     }
 
-    public void addItem(PartyInventoryItem itemToAdd) {
+    public void addItem(InventoryElement item, int quantity) {
         // add item to list if it doesn't exist, otherwise update the quantity
-        if (itemToAdd.quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
+        if (quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
 
         boolean itemInList = false;
         for (PartyInventoryItem listItem : list) {
-            if (listItem.item.id == itemToAdd.item.id) {
+            if (listItem.item.id == item.id) {
                 itemInList = true;
-                listItem.quantity += itemToAdd.quantity;
+                listItem.quantity += quantity;
                 break;
             }
         }
 
         if (!itemInList) {
+            PartyInventoryItem itemToAdd = new PartyInventoryItem();
+            itemToAdd.item = item;
+            itemToAdd.quantity = quantity;
             list.add(itemToAdd);
         }
     }
 
-    public void removeItem(PartyInventoryItem itemToRemove) {
+    public void removeItem(InventoryElement item, int quantity) {
         // decrement number of items, remove totally from list if quantity reaches zero
-        if (itemToRemove.quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
+        if (quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
 
         int index = 0;
         for (PartyInventoryItem listItem : list) {
-            if (listItem.item.id == itemToRemove.item.id) {
-                listItem.quantity -= itemToRemove.quantity;
+            if (listItem.item.id == item.id) {
+                listItem.quantity -= quantity;
 
                 if (listItem.quantity <= 0) {
                     list.removeIndex(index);

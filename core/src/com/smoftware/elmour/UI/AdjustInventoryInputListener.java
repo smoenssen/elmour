@@ -12,7 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
+import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.Utility;
+
+import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * Created by steve on 9/30/18.
@@ -80,9 +84,29 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                     text = text.toUpperCase();
                     if (text.equals("ALL")) {
                         validInput = true;
+                        String profileString = "";
 
                         // add quantity of ALL items to the inventory
                         Gdx.app.log(TAG, String.format("Adding (%d) of ALL items to inventory", quantity));
+
+                        Hashtable<InventoryElement.ElementID, InventoryElement> inventoryList = InventoryElementFactory.getInstance().getInventoryList();
+                        Hashtable<InventoryElement.ElementID, InventoryElement> equipmentList = InventoryElementFactory.getInstance().getEquipmentList();
+
+                        Set<InventoryElement.ElementID> inventoryKeys = inventoryList.keySet();
+                        for(InventoryElement.ElementID key: inventoryKeys){
+                            InventoryElement element = inventoryList.get(key);
+                            // todo?
+                            //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
+                            PartyInventory.getInstance().addItem(element, quantity);
+                        }
+
+                        Set<InventoryElement.ElementID> equipmentKeys = equipmentList.keySet();
+                        for(InventoryElement.ElementID key: equipmentKeys){
+                            InventoryElement element = equipmentList.get(key);
+                            // todo?
+                            //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
+                            PartyInventory.getInstance().addItem(element, quantity);
+                        }
                     }
                     else {
                         try {
@@ -103,6 +127,8 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                             } else {
                                 // add quantity of this item to the inventory
                                 Gdx.app.log(TAG, String.format("Adding (%d) %s to inventory", quantity, elementID.toString()));
+
+                                PartyInventory.getInstance().addItem(element, quantity);
                             }
                         }
                     }

@@ -59,4 +59,12 @@ public class InventoryElementFactory {
 
         return element;
     }
+
+    public Hashtable<InventoryElement.ElementID, InventoryElement> getInventoryList() {
+        return inventoryList;
+    }
+
+    public Hashtable<InventoryElement.ElementID, InventoryElement> getEquipmentList() {
+        return equipmentList;
+    }
 }
