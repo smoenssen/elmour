@@ -1,4 +1,0 @@
-Sword:
-	Copy a character's (Character_1) sword animation and use a different color palette.
-Dagger:
-	Copy a character's (Character_1) dagger animation and use a different color palette.
