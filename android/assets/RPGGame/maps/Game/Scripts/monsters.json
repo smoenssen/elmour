@@ -32,7 +32,7 @@ entityProperties: {
   }
   SPD: {
     class: java.lang.String
-    value: 150
+    value: 5
   }
   ACC: {
     class: java.lang.String
@@ -244,7 +244,7 @@ entityProperties: {
   }
   SPD: {
     class: java.lang.String
-    value: 16
+    value: 5
   }
   ACC: {
     class: java.lang.String
@@ -438,7 +438,7 @@ entityProperties: {
   }
   SPD: {
     class: java.lang.String
-    value: 9
+    value: 5
   }
   ACC: {
     class: java.lang.String
@@ -665,138 +665,133 @@ animationConfig: [
     }
   ]
   animationConfig: [
-    {
-        frameDuration: 0.25
-      animationType: IDLE
-      texturePaths: [
-        RPGGame/maps/Game/Characters/Douglas/Douglas.png
-      ]
-      gridPoints: [
-        {
-          x: 0
-          y: 0
-        }
-
-        {
-          x: 0
-          y: 1
-        }
-        {
-            x: 0
-          y: 2
-        }
-        {
-            x: 0
-          y: 3
-        }
-      ]
-    }
-    {
-        frameDuration: 0.25
-      animationType: WALK_DOWN
-      texturePaths: [
-        RPGGame/maps/Game/Characters/Douglas/Douglas.png
-      ]
-      gridPoints: [
-        {
-          x: 0
-          y: 0
-        }
-
-        {
-          x: 0
-          y: 1
-        }
-        {
-            x: 0
-          y: 2
-        }
-        {
-            x: 0
-          y: 3
-        }
-      ]
-    }
-    {
-      frameDuration: 0.25
-      animationType: WALK_LEFT
-      texturePaths: [
-        RPGGame/maps/Game/Characters/Douglas/Douglas.png
-      ]
-      gridPoints: [
-        {
-          x: 1
-          y: 0
-        }
-
-        {
-          x: 1
-          y: 1
-        }
-        {
-            x: 1
-          y: 2
-        }
-        {
-            x: 1
-          y: 3
-        }
-      ]
-    }
-    {
-      frameDuration: 0.25
-      animationType: WALK_RIGHT
-      texturePaths: [
-        RPGGame/maps/Game/Characters/Douglas/Douglas.png
-      ]
-      gridPoints: [
-        {
-          x: 2
-          y: 0
-        }
-
-        {
-          x: 2
-          y: 1
-        }
-        {
-            x: 2
-          y: 2
-        }
-        {
-            x: 2
-          y: 3
-        }
-      ]
-    }
-    {
-      frameDuration: 0.25
-      animationType: WALK_UP
-      texturePaths: [
-        RPGGame/maps/Game/Characters/Douglas/Douglas.png
-      ]
-      gridPoints: [
-        {
-          x: 3
-          y: 0
-        }
-
-        {
-          x: 3
-          y: 1
-        }
-        {
-            x: 3
-          y: 2
-        }
-        {
-            x: 3
-          y: 3
-        }
-      ]
-    }
+  	{
+  	    frameDuration: 0.25
+  		animationType: IDLE
+  		texturePaths: [
+  			RPGGame/maps/Game/Characters/Douglas/Douglas.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 25
+  				y: 0
+  			}
+  			{
+  				x: 25
+  				y: 1
+  			}
+  			{
+  		    x: 25
+  				y: 0
+  			}
+  			{
+  		    x: 25
+  				y: 2
+  			}
+  		]
+  	}
+  	{
+  	    frameDuration: 0.25
+  		animationType: WALK_DOWN
+  		texturePaths: [
+  			RPGGame/maps/Game/Characters/Douglas/Douglas.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 25
+  				y: 0
+  			}
+  			{
+  				x: 25
+  				y: 1
+  			}
+  			{
+  			  x: 25
+  				y: 0
+  			}
+  			{
+  			  x: 25
+  				y: 2
+  			}
+  		]
+  	}
+  	{
+  		frameDuration: 0.25
+  		animationType: WALK_LEFT
+  		texturePaths: [
+  			RPGGame/maps/Game/Characters/Douglas/Douglas.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 25
+  				y: 3
+  			}
+  			{
+  				x: 25
+  				y: 4
+  			}
+  			{
+  		    x: 25
+  				y: 3
+  			}
+  			{
+  		    x: 25
+  				y: 5
+  			}
+  		]
+  	}
+  	{
+  		frameDuration: 0.25
+  		animationType: WALK_RIGHT
+  		texturePaths: [
+  			RPGGame/maps/Game/Characters/Douglas/Douglas.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 25
+  				y: 6
+  			}
+  			{
+  				x: 25
+  				y: 7
+  			}
+  			{
+  		    x: 25
+  				y: 6
+  			}
+  			{
+  		    x: 25
+  				y: 8
+  			}
+  		]
+  	}
+  	{
+  		frameDuration: 0.25
+  		animationType: WALK_UP
+  		texturePaths: [
+  			RPGGame/maps/Game/Characters/Douglas/Douglas.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 25
+  				y: 9
+  			}
+  			{
+  				x: 25
+  				y: 10
+  			}
+  			{
+  		    x: 25
+  				y: 9
+  			}
+  			{
+  		    x: 25
+  				y: 11
+  			}
+  		]
+  	}
   ]
-},
+  },
 
 {
   entityID : Royal_Guard

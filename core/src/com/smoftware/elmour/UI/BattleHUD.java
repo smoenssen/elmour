@@ -431,46 +431,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         middleTree.setIconSpacing(4, 4);
 
-        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
-        Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Throwing = new Tree.Node(new TextButton("Throwing Items", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        rootNodes.add(new rootNode("Potions", false));
-        rootNodes.add(new rootNode("Food", false));
-        rootNodes.add(new rootNode("Consumables", false));
-        rootNodes.add(new rootNode("Throwing", false));
-
-        middleTree.add(Potions);
-        middleTree.add(Food);
-        middleTree.add(Consumables);
-        middleTree.add(Throwing);
-
-        // load inventory and spells/powers from json files
-        Json json = new Json();
-        inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Inventory.json"));
-        spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
-
-        for (InventoryElement element : inventoryList) {
-
-            Tree.Node node = new Tree.Node(new TextButton(element.name, Utility.ELMOUR_UI_SKIN, "tree_node"));
-            node.setObject(element);
-            switch(element.category) {
-                case Potion:
-                    Potions.add(node);
-                    break;
-                case Food:
-                    Food.add(node);
-                    break;
-                case Consumables:
-                    Consumables.add(node);
-                    break;
-                case Throwing:
-                    Throwing.add(node);
-                    break;
-            }
-        }
-
         spellsPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
         middleScrollPaneList = new ScrollPane(spellsPowerListView);
         middleScrollPaneList.setWidth(middleTreeTextArea.getWidth() - 4);
@@ -2107,17 +2067,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         switch(event){
             case PROFILE_LOADED:
                 boolean firstTime = profileManager.getIsNewProfile();
-                String test;
-
-                test = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
-                int x;
-                x=0;
 
                 if( firstTime ){
-
+                    // no inventory
                 }
                 else {
-
+                    // load inventory from profile manager
+                    loadInventoryTree(ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class));
                 }
 
                 break;
@@ -2764,5 +2720,47 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 Actions.delay(2),
                 Actions.parallel(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2),
                         Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
+    }
+
+    private void loadInventoryTree(String partyInventory) {
+        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
+        Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "tree_node"));
+        Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "tree_node"));
+        Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "tree_node"));
+        Tree.Node Throwing = new Tree.Node(new TextButton("Throwing Items", Utility.ELMOUR_UI_SKIN, "tree_node"));
+        rootNodes.add(new rootNode("Potions", false));
+        rootNodes.add(new rootNode("Food", false));
+        rootNodes.add(new rootNode("Consumables", false));
+        rootNodes.add(new rootNode("Throwing", false));
+
+        middleTree.add(Potions);
+        middleTree.add(Food);
+        middleTree.add(Consumables);
+        middleTree.add(Throwing);
+
+        // load inventory and spells/powers from json files
+        Json json = new Json();
+        inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Inventory.json"));
+        spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
+
+        for (InventoryElement element : inventoryList) {
+
+            Tree.Node node = new Tree.Node(new TextButton(element.name, Utility.ELMOUR_UI_SKIN, "tree_node"));
+            node.setObject(element);
+            switch(element.category) {
+                case Potion:
+                    Potions.add(node);
+                    break;
+                case Food:
+                    Food.add(node);
+                    break;
+                case Consumables:
+                    Consumables.add(node);
+                    break;
+                case Throwing:
+                    Throwing.add(node);
+                    break;
+            }
+        }
     }
 }
