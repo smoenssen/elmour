@@ -15,7 +15,7 @@ monsters: [
 		value: Goblin
 	}
 	{
-		value: Ogre
+		value: Steve
 	}
 ]
 },
@@ -26,10 +26,10 @@ monsters: [
 		value: Goblin
 	}
 	{
-		value: Octomaniac
+		value: Royal_Guard
 	}
 	{
-		value: Ogre
+		value: Steve
 	}
 ]
 },
