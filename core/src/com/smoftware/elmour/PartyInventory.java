@@ -9,14 +9,11 @@ import com.badlogic.gdx.utils.Array;
 public class PartyInventory {
     private static final String TAG = PartyInventory.class.getSimpleName();
 
-    private class PartyInventoryItem {
-        public InventoryElement item;
-        public int quantity;
-    }
-
     private static PartyInventory partyInventory;
     private Array<PartyInventoryItem> list;
     public final String PROPERTY_NAME = "partyInventory";
+    public final String ITEM_DELIMITER = ";";
+    public final String VALUE_DELIMITER = ",";
 
     private PartyInventory(){
         list = new Array<>();
@@ -31,10 +28,10 @@ public class PartyInventory {
 
     public void setInventoryList(String profileString) {
         // create list based on delimited string of inventory item ids and quantities
-        String [] saItems = profileString.split(";");
+        String [] saItems = profileString.split(ITEM_DELIMITER);
 
         for (String item : saItems) {
-            String [] saValues = item.split(",");
+            String [] saValues = item.split(VALUE_DELIMITER);
 
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
             addItem(InventoryElementFactory.getInstance().getInventoryElement(elementID), Integer.parseInt(saValues[1]));
@@ -47,9 +44,9 @@ public class PartyInventory {
 
         for (PartyInventoryItem item : list) {
             if (!profileString.equals("")) {
-                profileString += ";";
+                profileString += ITEM_DELIMITER;
             }
-            String newItem = item.item.id.toString() + "," + Integer.toString(item.quantity);
+            String newItem = item.getItem().id.toString() + VALUE_DELIMITER + Integer.toString(item.getQuantity());
             profileString += newItem;
         }
         return profileString;
@@ -61,35 +58,29 @@ public class PartyInventory {
 
     public void addItem(InventoryElement item, int quantity) {
         // add item to list if it doesn't exist, otherwise update the quantity
-        if (quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
-
         boolean itemInList = false;
         for (PartyInventoryItem listItem : list) {
-            if (listItem.item.id == item.id) {
+            if (listItem.getItem().id == item.id) {
                 itemInList = true;
-                listItem.quantity += quantity;
+                listItem.increaseQuantity(quantity);
                 break;
             }
         }
 
         if (!itemInList) {
-            PartyInventoryItem itemToAdd = new PartyInventoryItem();
-            itemToAdd.item = item;
-            itemToAdd.quantity = quantity;
+            PartyInventoryItem itemToAdd = new PartyInventoryItem(item, quantity);
             list.add(itemToAdd);
         }
     }
 
     public void removeItem(InventoryElement item, int quantity) {
         // decrement number of items, remove totally from list if quantity reaches zero
-        if (quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
-
         int index = 0;
         for (PartyInventoryItem listItem : list) {
-            if (listItem.item.id == item.id) {
-                listItem.quantity -= quantity;
+            if (listItem.getItem().id == item.id) {
+                listItem.reduceQuantity(quantity);
 
-                if (listItem.quantity <= 0) {
+                if (listItem.getQuantity() <= 0) {
                     list.removeIndex(index);
                 }
                 break;

@@ -86,6 +86,21 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    final String POTIONS = "Potions";
+    final String FOOD = "Food";
+    final String CONSUMABLES = "Consumables";
+    final String THROWING = "Throwing Items";
+
+    Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node FoodNode = new Tree.Node(new TextButton(FOOD, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node ThrowingNode = new Tree.Node(new TextButton(THROWING, Utility.ELMOUR_UI_SKIN, "tree_node"));
+
+    rootNode potionsRootNode = new rootNode(POTIONS, false);
+    rootNode foodRootNode = new rootNode(FOOD, false);
+    rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
+    rootNode throwingRootNode = new rootNode(THROWING, false);
+
     private final String SELECT_AN_ITEM = "Select an item";
     private final String SELECT_A_SPELL = "Select a spell";
     private final String SELECT_A_POWER = "Select a power";
@@ -2734,41 +2749,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
     }
 
-    final String POTIONS = "Potions";
-    final String FOOD = "Food";
-    final String CONSUMABLES = "Consumables";
-    final String THROWING = "Throwing Items";
-
-    Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
-    Tree.Node FoodNode = new Tree.Node(new TextButton(FOOD, Utility.ELMOUR_UI_SKIN, "tree_node"));
-    Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
-    Tree.Node ThrowingNode = new Tree.Node(new TextButton(THROWING, Utility.ELMOUR_UI_SKIN, "tree_node"));
-
-    // Need to use rootNode that overrides .equals function so that .contains works properly
-    // rootNodes are also used for keeping track of expanded state the node
-    rootNode potionsRootNode = new rootNode(POTIONS, false);
-    rootNode foodRootNode = new rootNode(FOOD, false);
-    rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
-    rootNode throwingRootNode = new rootNode(THROWING, false);
-
     private void populateInventoryTree(String partyInventory) {
         // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
         // Parse list of delimited inventory item ids and quantities
         // Only show Potion, Food, Consumables, and Throwing Items
-        String [] saInventoryItems = partyInventory.split(";");
+        String [] saInventoryItems = partyInventory.split(PartyInventory.getInstance().ITEM_DELIMITER);
 
-        // load inventory and spells/powers from json files
+        // load spells/powers from json file
         Json json = new Json();
-        //inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Inventory.json"));
         spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
 
         for (String item : saInventoryItems) {
-            String [] saValues = item.split(",");
+            String [] saValues = item.split(PartyInventory.getInstance().VALUE_DELIMITER);
 
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
             InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
             int quantity = Integer.parseInt(saValues[1]);
-            String text = String.format("(%d) %s", quantity, element.name);
+            String text = String.format("%s (%d)", element.name, quantity);
 
             Tree.Node node = new Tree.Node(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"));
             node.setObject(element);

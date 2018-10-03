@@ -23,7 +23,7 @@ public class PartyInventorySubject {
         }
     }
 
-    public void notify(final String partyInventoryItem, final PartyInventoryObserver.PartyInventoryEvent event) {
+    public void notify(final PartyInventoryItem partyInventoryItem, final PartyInventoryObserver.PartyInventoryEvent event) {
         for(PartyInventoryObserver observer: _observers){
             observer.onNotify(partyInventoryItem, event);
         }

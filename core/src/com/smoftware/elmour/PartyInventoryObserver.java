@@ -6,5 +6,5 @@ public interface PartyInventoryObserver {
         INVENTORY_REMOVED
     }
 
-    void onNotify(final String partyInventoryItem, final PartyInventoryEvent event);
+    void onNotify(final PartyInventoryItem partyInventoryItem, final PartyInventoryEvent event);
 }
