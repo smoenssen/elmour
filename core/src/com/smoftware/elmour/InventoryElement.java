@@ -14,7 +14,7 @@ public class InventoryElement{
     public enum InventoryCategory {
         Helmet,
         Breastplate,
-        LEGGINGS,
+        Leggings,
         Weapon,
         Potion,
         Food,
