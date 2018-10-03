@@ -36,6 +36,7 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.Utility;
@@ -63,13 +64,25 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Stack<ScreenState> screenStack;
 
     // for keeping track of node's expanded state
-    Array<rootNode> rootNodes = new Array<>();
+    // and .equals comparison for .contains function
+    Array<rootNode> rootNodeArray = new Array<>();
     class rootNode {
         String name = "";
         boolean isExpanded = false;
         rootNode(String name, boolean isExpanded) {
             this.name = name;
             this.isExpanded = isExpanded;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (object == null || !(object instanceof rootNode)) {
+                return false;
+            }
+
+            rootNode other = (rootNode) object;
+
+            return this.name.equals(other.name);
         }
     }
 
@@ -139,7 +152,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Tree middleTree;
     private float middleTreeHeight;
     private ScrollPane middleScrollPaneTree;
-    private ArrayList<InventoryElement> inventoryList;
     private InventoryElement selectedInventoryElement;
 
     // area under scrolling tree
@@ -1175,7 +1187,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                // expand or collapse if root node selected
                                                TextButton btn = (TextButton)node.getActor();
                                                if (btn != null) {
-                                                   for (rootNode r : rootNodes) {
+                                                   for (rootNode r : rootNodeArray) {
                                                        if (r.name.equals(btn.getLabel().getText().toString())) {
                                                            if (r.isExpanded) {
                                                                r.isExpanded = false;
@@ -1827,7 +1839,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         leftSummaryText.setText("");
 
                         // reset root node array
-                        for (rootNode r : rootNodes) {
+                        for (rootNode r : rootNodeArray) {
                             r.isExpanded = false;
                         }
                     }
@@ -2073,7 +2085,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 else {
                     // load inventory from profile manager
-                    loadInventoryTree(ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class));
+                    populateInventoryTree(ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class));
                 }
 
                 break;
@@ -2722,43 +2734,73 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
     }
 
-    private void loadInventoryTree(String partyInventory) {
-        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
-        Tree.Node Potions = new Tree.Node(new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Food = new Tree.Node(new TextButton("Food", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Consumables = new Tree.Node(new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        Tree.Node Throwing = new Tree.Node(new TextButton("Throwing Items", Utility.ELMOUR_UI_SKIN, "tree_node"));
-        rootNodes.add(new rootNode("Potions", false));
-        rootNodes.add(new rootNode("Food", false));
-        rootNodes.add(new rootNode("Consumables", false));
-        rootNodes.add(new rootNode("Throwing", false));
+    final String POTIONS = "Potions";
+    final String FOOD = "Food";
+    final String CONSUMABLES = "Consumables";
+    final String THROWING = "Throwing Items";
 
-        middleTree.add(Potions);
-        middleTree.add(Food);
-        middleTree.add(Consumables);
-        middleTree.add(Throwing);
+    Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node FoodNode = new Tree.Node(new TextButton(FOOD, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node ThrowingNode = new Tree.Node(new TextButton(THROWING, Utility.ELMOUR_UI_SKIN, "tree_node"));
+
+    // Need to use rootNode that overrides .equals function so that .contains works properly
+    // rootNodes are also used for keeping track of expanded state the node
+    rootNode potionsRootNode = new rootNode(POTIONS, false);
+    rootNode foodRootNode = new rootNode(FOOD, false);
+    rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
+    rootNode throwingRootNode = new rootNode(THROWING, false);
+
+    private void populateInventoryTree(String partyInventory) {
+        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
+        // Parse list of delimited inventory item ids and quantities
+        // Only show Potion, Food, Consumables, and Throwing Items
+        String [] saInventoryItems = partyInventory.split(";");
 
         // load inventory and spells/powers from json files
         Json json = new Json();
-        inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Inventory.json"));
+        //inventoryList = json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Inventory.json"));
         spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
 
-        for (InventoryElement element : inventoryList) {
+        for (String item : saInventoryItems) {
+            String [] saValues = item.split(",");
 
-            Tree.Node node = new Tree.Node(new TextButton(element.name, Utility.ELMOUR_UI_SKIN, "tree_node"));
+            InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
+            InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
+            int quantity = Integer.parseInt(saValues[1]);
+            String text = String.format("(%d) %s", quantity, element.name);
+
+            Tree.Node node = new Tree.Node(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"));
             node.setObject(element);
+
             switch(element.category) {
                 case Potion:
-                    Potions.add(node);
+                    if (!rootNodeArray.contains(potionsRootNode, false)) {
+                        rootNodeArray.add(new rootNode(POTIONS, false));
+                        middleTree.add(PotionsNode);
+                    }
+                    PotionsNode.add(node);
                     break;
                 case Food:
-                    Food.add(node);
+                    if (!rootNodeArray.contains(foodRootNode, false)) {
+                        rootNodeArray.add(new rootNode(FOOD, false));
+                        middleTree.add(FoodNode);
+                    }
+                    FoodNode.add(node);
                     break;
                 case Consumables:
-                    Consumables.add(node);
+                    if (!rootNodeArray.contains(consumablesRootNode, false)) {
+                        rootNodeArray.add(new rootNode(CONSUMABLES, false));
+                        middleTree.add(ConsumablesNode);
+                    }
+                    ConsumablesNode.add(node);
                     break;
                 case Throwing:
-                    Throwing.add(node);
+                    if (!rootNodeArray.contains(throwingRootNode, false)) {
+                        rootNodeArray.add(new rootNode(THROWING, false));
+                        middleTree.add(ThrowingNode);
+                    }
+                    ThrowingNode.add(node);
                     break;
             }
         }

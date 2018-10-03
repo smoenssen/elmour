@@ -31,10 +31,10 @@ public class PartyInventory {
 
     public void setInventoryList(String profileString) {
         // create list based on delimited string of inventory item ids and quantities
-        String [] saItems = profileString.split("|");
+        String [] saItems = profileString.split(";");
 
         for (String item : saItems) {
-            String [] saValues = item.split("|");
+            String [] saValues = item.split(",");
 
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
             addItem(InventoryElementFactory.getInstance().getInventoryElement(elementID), Integer.parseInt(saValues[1]));
@@ -47,7 +47,7 @@ public class PartyInventory {
 
         for (PartyInventoryItem item : list) {
             if (!profileString.equals("")) {
-                profileString += "|";
+                profileString += ";";
             }
             String newItem = item.item.id.toString() + "," + Integer.toString(item.quantity);
             profileString += newItem;
@@ -55,7 +55,7 @@ public class PartyInventory {
         return profileString;
     }
 
-    public Array<PartyInventoryItem> getList() {
+    public Array<PartyInventoryItem> getFullList() {
         return list;
     }
 
