@@ -5,21 +5,21 @@ package com.smoftware.elmour;
  */
 
 public class PartyInventoryItem {
-    private InventoryElement item;
+    private InventoryElement element;
     private int quantity;
 
     public PartyInventoryItem() {
 
     }
 
-    public PartyInventoryItem(InventoryElement item, int quantity) {
-        this.item = item;
+    public PartyInventoryItem(InventoryElement element, int quantity) {
+        this.element = element;
         this.quantity = quantity;
     }
 
-    public InventoryElement getItem() { return item; }
+    public InventoryElement getElement() { return element; }
 
-    public void setItem(InventoryElement item) { this.item = item; }
+    public void setElement(InventoryElement element) { this.element = element; }
 
     public int getQuantity() { return quantity; }
 

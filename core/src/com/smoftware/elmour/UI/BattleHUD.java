@@ -38,6 +38,8 @@ import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
+import com.smoftware.elmour.PartyInventoryItem;
+import com.smoftware.elmour.PartyInventoryObserver;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -54,10 +56,11 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
-public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver {
+public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver, PartyInventoryObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
 
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, POWER, SPELL_TYPE, SPELLS_WHITE, SPELLS_BLACK, STATS, UNKNOWN }
@@ -84,6 +87,41 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
             return this.name.equals(other.name);
         }
+    }
+
+    class InventoryNode extends Tree.Node {
+        InventoryElement.ElementID elementID;
+
+        public InventoryNode(TextButton textButton, InventoryElement.ElementID elementID) {
+            super(textButton);
+            this.elementID = elementID;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            InventoryNode that = (InventoryNode) o;
+            boolean test = elementID.equals(that.elementID);
+            return elementID.equals(that.elementID);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(elementID);
+        }
+/*
+        @Override
+        public boolean equals(Object object) {
+            if (object == null || !(object instanceof InventoryNode)) {
+                return false;
+            }
+
+            InventoryNode other = (InventoryNode) object;
+
+            return this.elementID.equals(other.elementID);
+        }*/
     }
 
     final String POTIONS = "Potions";
@@ -250,6 +288,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         game.battleState.addObserver(this);
         ProfileManager.getInstance().addObserver(this);
+        PartyInventory.getInstance().addObserver(this);
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
@@ -2100,7 +2139,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 else {
                     // load inventory from profile manager
-                    populateInventoryTree(ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class));
+                    String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
+                    populateInventoryTree(partyInventoryString);
+                    PartyInventory.getInstance().setInventoryList(partyInventoryString);
                 }
 
                 break;
@@ -2749,9 +2790,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
     }
 
+    private String getInventoryDescription(String name, int quantity) {
+        return String.format("%s (%d)", name, quantity);
+    }
+
     private void populateInventoryTree(String partyInventory) {
-        // load tree from inventory.json, for battle only show Potion, Food, Consumables, and Throwing Items
-        // Parse list of delimited inventory item ids and quantities
+        // Parse list of delimited inventory element ids and quantities
         // Only show Potion, Food, Consumables, and Throwing Items
         String [] saInventoryItems = partyInventory.split(PartyInventory.getInstance().ITEM_DELIMITER);
 
@@ -2765,9 +2809,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
             InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
             int quantity = Integer.parseInt(saValues[1]);
-            String text = String.format("%s (%d)", element.name, quantity);
+            String text = getInventoryDescription(element.name, quantity);
 
-            Tree.Node node = new Tree.Node(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"));
+            InventoryNode node = new InventoryNode(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"), elementID);
             node.setObject(element);
 
             switch(element.category) {
@@ -2800,6 +2844,71 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     ThrowingNode.add(node);
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
+        InventoryElement element = partyInventoryItem.getElement();
+        Array<Tree.Node> nodeArray = null;
+        InventoryNode inventoryNode = null;
+        Tree.Node categoryNode = null;
+        String categoryName = "";
+        PartyInventoryItem item = PartyInventory.getInstance().getItem(element);
+
+        switch(element.category) {
+            case Potion:
+                break;
+            case Food:
+                categoryNode = FoodNode;
+                categoryName = FOOD;
+                break;
+            case Consumables:
+                break;
+            case Throwing:
+                break;
+        }
+
+        if (categoryNode != null) {
+            nodeArray = categoryNode.getChildren();
+
+            if (nodeArray != null) {
+                // find node in tree
+                for (Tree.Node nodeIterator : nodeArray) {
+                    InventoryNode n = (InventoryNode) nodeIterator;
+                    if (partyInventoryItem.getElement().id.equals(n.elementID)) {
+                        inventoryNode = n;
+                        break;
+                    }
+                }
+            }
+            else {
+                // add root node
+                rootNodeArray.add(new rootNode(categoryName, false));
+                middleTree.add(categoryNode);
+            }
+        }
+
+        switch (event) {
+            case INVENTORY_ADDED:
+                if (inventoryNode != null && item != null) {
+                    // update node
+                    item.increaseQuantity(partyInventoryItem.getQuantity());
+                    String text = getInventoryDescription(element.name, item.getQuantity());
+                    TextButton label = (TextButton)inventoryNode.getActor();
+                    label.setText(text);
+                }
+                else {
+                    // add node
+                }
+                break;
+            case INVENTORY_REMOVED:
+                if (inventoryNode != null && item != null) {
+                    // update node
+
+                    // if no nodes left in category, remove root node
+                }
+                break;
         }
     }
 }

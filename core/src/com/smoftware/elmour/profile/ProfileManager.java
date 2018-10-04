@@ -120,7 +120,7 @@ public class ProfileManager extends ProfileSubject {
     public void saveProfile(){
         notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
         String text = _json.prettyPrint(_json.toJson(_profileProperties));
-        Gdx.app.log(TAG, text);
+        //Gdx.app.log(TAG, text);
         writeProfileToStorage(_profileName, text, true);
     }
 

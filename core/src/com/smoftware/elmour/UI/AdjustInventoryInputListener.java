@@ -98,7 +98,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                             InventoryElement element = inventoryList.get(key);
                             // todo?
                             //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
-                            PartyInventory.getInstance().addItem(element, quantity);
+                            PartyInventory.getInstance().addItem(element, quantity, true);
                         }
 
                         Set<InventoryElement.ElementID> equipmentKeys = equipmentList.keySet();
@@ -106,7 +106,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                             InventoryElement element = equipmentList.get(key);
                             // todo?
                             //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
-                            PartyInventory.getInstance().addItem(element, quantity);
+                            PartyInventory.getInstance().addItem(element, quantity, true);
                         }
                     }
                     else {
@@ -123,7 +123,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                                 // add quantity of this item to the inventory
                                 Gdx.app.log(TAG, String.format("Adding (%d) %s to inventory", quantity, elementID.toString()));
 
-                                PartyInventory.getInstance().addItem(element, quantity);
+                                PartyInventory.getInstance().addItem(element, quantity, true);
                             }
                         } catch (IllegalArgumentException ex) {
                             displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
