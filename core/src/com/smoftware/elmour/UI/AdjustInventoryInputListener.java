@@ -123,7 +123,16 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                                 // add quantity of this item to the inventory
                                 Gdx.app.log(TAG, String.format("Adding (%d) %s to inventory", quantity, elementID.toString()));
 
-                                PartyInventory.getInstance().addItem(element, quantity, true);
+                                if (quantity > 0) {
+                                    PartyInventory.getInstance().addItem(element, quantity, true);
+                                }
+                                else if (quantity < 0) {
+                                    quantity *= -1;
+                                    PartyInventory.getInstance().removeItem(element, quantity, true);
+                                }
+                                else {
+                                    return;
+                                }
                             }
                         } catch (IllegalArgumentException ex) {
                             displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");

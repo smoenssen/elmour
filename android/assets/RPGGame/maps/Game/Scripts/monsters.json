@@ -32,7 +32,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 170
+		value: 5
 	}
 	ACC: {
 		class: java.lang.String
@@ -553,7 +553,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 15
+		value: 5
 	}
 	ACC: {
 		class: java.lang.String
@@ -1056,7 +1056,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 15
+		value: 5
 	}
 	ACC: {
 		class: java.lang.String
@@ -1558,7 +1558,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 20
+			value: 5
 		}
 		ACC: {
 			class: java.lang.String
@@ -2060,7 +2060,7 @@ animationConfig: [
 		}
 		SPD: {
 			class: java.lang.String
-			value: 20
+			value: 5
 		}
 		ACC: {
 			class: java.lang.String

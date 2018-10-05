@@ -1446,22 +1446,27 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
-    public class setTextFieldWidthAndPosition extends Action {
+    public class setTextFieldPositionAndSize extends Action {
         MyTextField textField = null;
-        float width = 0;
-        float positionX = 0;
-        float positionY = 0;
+        float width;
+        float height;
+        float x;
+        float y;
 
-        public setTextFieldWidthAndPosition(MyTextField textField, float width, float positionX) {
+        public setTextFieldPositionAndSize(MyTextField textField, float x, float y, float width, float height) {
             this.textField = textField;
+            this.x = x;
+            this.y = y;
             this.width = width;
-            this.positionX = positionX;
+            this.height = height;
         }
 
         @Override
         public boolean act (float delta) {
+            textField.setX(x);
+            textField.setY(y);
             textField.setWidth(width);
-            textField.setX(positionX);
+            textField.setHeight(height);
             return true; // An action returns true when it's completed
         }
     }
@@ -2140,8 +2145,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 else {
                     // load inventory from profile manager
                     String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
-                    populateInventoryTree(partyInventoryString);
                     PartyInventory.getInstance().setInventoryList(partyInventoryString);
+
+                    // load spells/powers from json file
+                    Json json = new Json();
+                    spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
                 }
 
                 break;
@@ -2754,6 +2762,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleStatsTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
         middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
+        middleStatsTextArea.addAction(Actions.sequence(
+                Actions.delay(delay),
+                new setTextFieldPositionAndSize(middleStatsTextArea,
+                        topLeftButton.getX(),
+                        middleStatsTextArea.getY(),
+                        middleStatsTextArea.getWidth(),
+                        menuItemHeight * 2 - 2)));
+
         middleTextAreaTable.setVisible(false);
 
         backButton.addAction(Actions.fadeOut(delay * crossFadeInFactor));
@@ -2782,7 +2798,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         selectedItemBanner.addAction(Actions.sequence(Actions.delay(fadeTime/2),
                 new setTextAreaText(selectedItemBanner, text),
-                new setTextFieldWidthAndPosition(selectedItemBanner, bannerWidth, (_stage.getWidth() - bannerWidth)/2),
+                new setTextFieldPositionAndSize(selectedItemBanner,
+                        (_stage.getWidth() - bannerWidth)/2,
+                        selectedItemBanner.getY(),
+                        bannerWidth,
+                        selectedItemBanner.getHeight()),
                 Actions.sizeBy(0, selectedItemBannerHeight, fadeTime),
                 Actions.moveBy(0, -selectedItemBannerHeight, fadeTime),
                 Actions.delay(2),
@@ -2794,119 +2814,94 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         return String.format("%s (%d)", name, quantity);
     }
 
-    private void populateInventoryTree(String partyInventory) {
-        // Parse list of delimited inventory element ids and quantities
-        // Only show Potion, Food, Consumables, and Throwing Items
-        String [] saInventoryItems = partyInventory.split(PartyInventory.getInstance().ITEM_DELIMITER);
-
-        // load spells/powers from json file
-        Json json = new Json();
-        spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
-
-        for (String item : saInventoryItems) {
-            String [] saValues = item.split(PartyInventory.getInstance().VALUE_DELIMITER);
-
-            InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
-            InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(elementID);
-            int quantity = Integer.parseInt(saValues[1]);
-            String text = getInventoryDescription(element.name, quantity);
-
-            InventoryNode node = new InventoryNode(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"), elementID);
-            node.setObject(element);
-
-            switch(element.category) {
-                case Potion:
-                    if (!rootNodeArray.contains(potionsRootNode, false)) {
-                        rootNodeArray.add(new rootNode(POTIONS, false));
-                        middleTree.add(PotionsNode);
-                    }
-                    PotionsNode.add(node);
-                    break;
-                case Food:
-                    if (!rootNodeArray.contains(foodRootNode, false)) {
-                        rootNodeArray.add(new rootNode(FOOD, false));
-                        middleTree.add(FoodNode);
-                    }
-                    FoodNode.add(node);
-                    break;
-                case Consumables:
-                    if (!rootNodeArray.contains(consumablesRootNode, false)) {
-                        rootNodeArray.add(new rootNode(CONSUMABLES, false));
-                        middleTree.add(ConsumablesNode);
-                    }
-                    ConsumablesNode.add(node);
-                    break;
-                case Throwing:
-                    if (!rootNodeArray.contains(throwingRootNode, false)) {
-                        rootNodeArray.add(new rootNode(THROWING, false));
-                        middleTree.add(ThrowingNode);
-                    }
-                    ThrowingNode.add(node);
-                    break;
-            }
-        }
-    }
-
     @Override
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
         InventoryElement element = partyInventoryItem.getElement();
         Array<Tree.Node> nodeArray = null;
+        rootNode rNode = null;
         InventoryNode inventoryNode = null;
         Tree.Node categoryNode = null;
         String categoryName = "";
-        PartyInventoryItem item = PartyInventory.getInstance().getItem(element);
 
         switch(element.category) {
             case Potion:
+                categoryNode = PotionsNode;
+                categoryName = POTIONS;
+                rNode = potionsRootNode;
                 break;
             case Food:
                 categoryNode = FoodNode;
                 categoryName = FOOD;
+                rNode = foodRootNode;
                 break;
             case Consumables:
+                categoryNode = ConsumablesNode;
+                categoryName = CONSUMABLES;
+                rNode = consumablesRootNode;
                 break;
             case Throwing:
+                categoryNode = ThrowingNode;
+                categoryName = THROWING;
+                rNode = throwingRootNode;
                 break;
         }
 
-        if (categoryNode != null) {
-            nodeArray = categoryNode.getChildren();
+        if (categoryNode == null) {
+            // Only show Potion, Food, Consumables, and Throwing Items
+            return;
+        }
 
-            if (nodeArray != null) {
-                // find node in tree
-                for (Tree.Node nodeIterator : nodeArray) {
-                    InventoryNode n = (InventoryNode) nodeIterator;
-                    if (partyInventoryItem.getElement().id.equals(n.elementID)) {
-                        inventoryNode = n;
-                        break;
-                    }
+        nodeArray = categoryNode.getChildren();
+
+        if (nodeArray != null && nodeArray.size != 0) {
+            // find node in tree
+            for (Tree.Node nodeIterator : nodeArray) {
+                InventoryNode n = (InventoryNode) nodeIterator;
+                if (partyInventoryItem.getElement().id.equals(n.elementID)) {
+                    inventoryNode = n;
+                    break;
                 }
             }
-            else {
-                // add root node
-                rootNodeArray.add(new rootNode(categoryName, false));
-                middleTree.add(categoryNode);
-            }
         }
+        else {
+            // add root node
+            rootNodeArray.add(new rootNode(categoryName, false));
+            middleTree.add(categoryNode);
+        }
+
+        PartyInventoryItem item = PartyInventory.getInstance().getItem(element);
+        String text = getInventoryDescription(element.name, item.getQuantity());
 
         switch (event) {
             case INVENTORY_ADDED:
-                if (inventoryNode != null && item != null) {
+                if (inventoryNode != null) {
                     // update node
-                    item.increaseQuantity(partyInventoryItem.getQuantity());
-                    String text = getInventoryDescription(element.name, item.getQuantity());
                     TextButton label = (TextButton)inventoryNode.getActor();
                     label.setText(text);
                 }
                 else {
                     // add node
+                    InventoryNode node = new InventoryNode(new TextButton(text, Utility.ELMOUR_UI_SKIN, "tree_node"), element.id);
+                    node.setObject(element);
+                    categoryNode.add(node);
                 }
                 break;
             case INVENTORY_REMOVED:
-                if (inventoryNode != null && item != null) {
+                if (inventoryNode != null) {
                     // update node
+                    TextButton label = (TextButton)inventoryNode.getActor();
+                    label.setText(text);
+
+                    if (partyInventoryItem.getQuantity() == 0) {
+                        categoryNode.remove(inventoryNode);
+                    }
 
                     // if no nodes left in category, remove root node
+                    nodeArray = categoryNode.getChildren();
+                    if (nodeArray.size == 0) {
+                        categoryNode.remove();  // remove from tree
+                        rootNodeArray.removeValue(rNode, false); // remove from rootNode array
+                    }
                 }
                 break;
         }

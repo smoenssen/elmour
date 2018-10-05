@@ -33,5 +33,7 @@ public class PartyInventoryItem {
     public void reduceQuantity(int quantity) {
         if (quantity <= 0) throw new IllegalArgumentException("item quantity must be > 0");
         this.quantity -= quantity;
+        if (this.quantity < 0)
+            this.quantity = 0;
     }
 }
