@@ -29,6 +29,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private int _currentPlayerAP;
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
+    private InventoryElement selectedInventoryElement = null;
 
     private Timer.Task _playerAttackCalculations;
     private Timer.Task _opponentAttackCalculations;
@@ -215,9 +216,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity5);
     }
 
-    public void getNextTurnCharacter(){
+    public void getNextTurnCharacter(float delay){
         if( !chooseNextCharacterTurn.isScheduled() ){
-            Timer.schedule(chooseNextCharacterTurn, 3);
+            Timer.schedule(chooseNextCharacterTurn, delay);//srm delay
         }
     }
 
@@ -242,7 +243,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void applyInventoryItemToCharacter(InventoryElement selectedElement) {
         if (!applyInventory.isScheduled()) {
-            Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
+            selectedInventoryElement = selectedElement;
+            Gdx.app.log(TAG, selectedInventoryElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
             Timer.schedule(applyInventory, 1);
         }
     }
@@ -343,18 +345,104 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
     }
 
+    private String getEffectPhrase(Integer value, String type, boolean useAnd) {
+        String phrase = "";
+        if (value >= 0) {
+            if (useAnd) {
+                phrase += " and healing " + value.toString() + " " + type;
+            }
+            else {
+                phrase += ", healing " + value.toString() + " " + type;
+            }
+        }
+        else {
+            if (useAnd) {
+                phrase += " and dealing " + value.toString() + " " + type;
+            }
+            else {
+                phrase += ", dealing " + value.toString() + " " + type;
+            }
+        }
+
+        return phrase;
+    }
+
     private Timer.Task getApplyInventoryTimer(){
         return new Timer.Task() {
             @Override
             public void run() {
-                //todo
-                String inventoryItem = "TODO";
-                String message = String.format("%s used %s on %s, healing 15 HP.", currentTurnCharacter.getEntityConfig().getDisplayName(), inventoryItem,
-                                        currentSelectedCharacter.getEntityConfig().getDisplayName());
+                String inventoryItem = selectedInventoryElement.name;
+                String message = String.format("%s used %s", currentTurnCharacter.getEntityConfig().getDisplayName(), inventoryItem);
 
-                //todo
-                currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.HP.toString(), "25");
-                currentSelectedCharacter.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MP.toString(), "1");
+                if (!currentTurnCharacter.getEntityConfig().getEntityID().equals(currentSelectedCharacter)) {
+                    // inventory used on another character
+                    message += String.format(" on %s", currentSelectedCharacter.getEntityConfig().getDisplayName());
+                }
+
+                // Loop through effect list and apply effect value to character's profile.
+                // Also modify message text for HP and MP
+                boolean gotHPorMP = false;
+                boolean addedPeriod = false;
+                for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
+                    String sVal;
+
+                    Integer currVal = 0;
+                    Integer newVal = 0;
+                    if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP)) {
+                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+                        String hpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString());
+                        currVal = Integer.parseInt(sVal);
+                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, Integer.parseInt(hpMax));
+                        message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                        gotHPorMP = true;
+                    }
+                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
+                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+                        String hpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString());
+                        currVal = Integer.parseInt(sVal);
+                        float fVal = (float)currVal * (float)effectItem.value * 0.01f;
+                        newVal = MathUtils.clamp(currVal + (int)fVal, 0, Integer.parseInt(hpMax));
+                        message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                        gotHPorMP = true;
+                    }
+                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP)) {
+                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString());
+                        String mpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString());
+                        currVal = Integer.parseInt(sVal);
+                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, Integer.parseInt(mpMax));
+                        message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
+                        gotHPorMP = true;
+                    }
+                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT)) {
+                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString());
+                        String mpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString());
+                        currVal = Integer.parseInt(sVal);
+                        float fVal = (float)currVal * (float)effectItem.value * 0.01f;
+                        newVal = MathUtils.clamp(currVal + (int)fVal, 0, Integer.parseInt(mpMax));
+                        message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
+                        gotHPorMP = true;
+                    }
+                    else {
+                        if (gotHPorMP && !addedPeriod) {
+                            message += ".";
+                            addedPeriod = true;
+                        }
+
+                        // all other entity properties are the effect item's name left of the underscore
+                        String entityProperty = effectItem.effect.toString();
+                        entityProperty = entityProperty.substring(0, entityProperty.indexOf("_"));
+                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(entityProperty);
+                        currVal = Integer.parseInt(sVal);
+                        newVal = currVal + effectItem.value;
+                    }
+
+                    if (!selectedInventoryElement.effectText.equals("")) {
+                        message += " " + selectedInventoryElement.effectText;
+                    }
+
+                    currentSelectedCharacter.getEntityConfig().setPropertyValue(effectItem.effect.toString(), newVal.toString());
+                }
+
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
             }
         };
@@ -557,13 +645,18 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         if (chanceOfEscape > randomVal) {
             Gdx.app.log(TAG, "Player escaped!");
+            resetBattleState();
             notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_RUNNING);
         }
         else {
             Gdx.app.log(TAG, "Player failed to escape!");
             //todo: notify
-            getNextTurnCharacter();
+            getNextTurnCharacter(3);
         }
+    }
+
+    void resetBattleState() {
+        characterTurnList.clear();
     }
 
     @Override

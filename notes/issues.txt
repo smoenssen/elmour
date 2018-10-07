@@ -1,17 +1,7 @@
 need to use old monsters.json for now
 
+monster name disappears if killed, but doesn't come back next battle
 
-Inventory.json:
-Throw1-5 ids need to be capitalized
-There are 2 Throw3's (THROW6 missing)
+if going from 3 monsters to two, run, then getting 2 monsters, there is a ghost monster in 3rd spot
 
-Grass_Battle.tmx doesn't have E1-E5 positions
-
-all characters' SWORD_LEFT need to be fixed
-
-equipment.json
-Helmet1 should be:
-	id: HELMET1
-	category: Helmet
-
-Also, description should have * instead of comma
+after attacking, the banner size and location gets messed up

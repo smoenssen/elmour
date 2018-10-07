@@ -73,6 +73,7 @@ public class InventoryElement{
     public ElementID id;
     public WeaponType type;
     public String summary;
+    public String effectText;
     public int buy;
     public int sell;
     public String location;
@@ -98,6 +99,7 @@ public class InventoryElement{
         // default values
         id = ElementID.NONE;
         type = WeaponType.None;
+        effectText = "";
         location = "";
         chapter = 0;
         turns = 0x7FFFFFFF;
@@ -111,6 +113,7 @@ public class InventoryElement{
         this.id = element.id;
         this.type = element.type;
         this.summary = element.summary;
+        this.effectText = element.effectText;
         this.buy = element.buy;
         this.sell = element.sell;
         this.location = element.location;
@@ -122,5 +125,18 @@ public class InventoryElement{
             this.effectList = new Array<>();
             this.effectList.addAll(element.effectList);
         }
+    }
+
+    public EffectItem getEffectItem(InventoryElement.Effect effect) {
+        EffectItem item = null;
+
+        for (EffectItem effectItem : effectList) {
+            if (effectItem.effect.equals(effect)) {
+                item = effectItem;
+                break;
+            }
+        }
+
+        return item;
     }
 }

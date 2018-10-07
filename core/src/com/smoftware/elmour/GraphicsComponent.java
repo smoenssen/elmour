@@ -186,7 +186,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         Utility.loadTextureAsset(textureName);
         Texture texture = Utility.getTextureAsset(textureName);
 
-        Gdx.app.log("GP", "textureName = " + textureName);
+        //Gdx.app.log("GP", "textureName = " + textureName);
 
         TextureRegion[][] textureFrames = TextureRegion.split(texture, Entity.FRAME_WIDTH, Entity.FRAME_HEIGHT);
 

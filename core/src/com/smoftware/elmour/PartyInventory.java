@@ -51,7 +51,7 @@ public class PartyInventory extends PartyInventorySubject {
         for(InventoryElement.ElementID key: setKeys){
             PartyInventoryItem item = _list.get(key);
             String newItem = key.toString() + VALUE_DELIMITER + Integer.toString(item.getQuantity());
-            profileString += newItem;
+            profileString += newItem + ITEM_DELIMITER;
         }
         return profileString;
     }

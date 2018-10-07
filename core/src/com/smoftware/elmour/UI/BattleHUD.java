@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -36,7 +35,6 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
@@ -163,6 +161,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Camera _camera;
     private Entity _player;
 
+    private MyActions myActions;
     final private float fadeTime = 0.35f;
     final private float crossFadeInFactor = 0.75f;
     final private float crossFadeOutFactor = 1.5f;
@@ -306,6 +305,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _currentImagePosition = new Vector2(0,0);
 
         transitionToMainScreen = getTransitionToMainScreenTimer();
+
+        myActions = new MyActions();
 
         _json = new Json();
 
@@ -1297,180 +1298,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
-    // Actions
-    public class setTextAreaText extends Action {
-        MyTextField textArea = null;
-        String text = "";
-
-        public setTextAreaText(MyTextField textArea, String text) {
-            this.textArea = textArea;
-            this.text = text;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            textArea.setText(text, true);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setButtonText extends Action {
-        TextButton btn = null;
-        String text = "";
-
-        public setButtonText(TextButton btn, String text) {
-            this.btn = btn;
-            this.text = text;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            btn.setText(text);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setButtonHeight extends Action {
-        TextButton btn = null;
-        float height = 0;
-
-        public setButtonHeight(TextButton btn, float height) {
-            this.btn = btn;
-            this.height = height;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            btn.setHeight(height);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setButtonWidth extends Action {
-        TextButton btn = null;
-        float width = 0;
-
-        public setButtonWidth(TextButton btn, float width) {
-            this.btn = btn;
-            this.width = width;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            btn.setWidth(width);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setLabelText extends Action {
-        Label label = null;
-        String text = "";
-
-        public setLabelText(Label label, String text) {
-            this.label = label;
-            this.text = text;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            label.setText(text);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setTextAreaVisible extends Action {
-        MyTextField textArea = null;
-        boolean visible = false;
-
-        public setTextAreaVisible(MyTextField textArea, boolean visible) {
-            this.textArea = textArea;
-            this.visible = visible;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            textArea.setVisible(visible);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setTableVisible extends Action {
-        Table table = null;
-        boolean visible = false;
-
-        public setTableVisible(Table table, boolean visible) {
-            this.table = table;
-            this.visible = visible;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            table.setVisible(visible);
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class enabledScrollPane extends Action {
-        ScrollPane pane = null;
-        boolean enable = false;
-
-        public enabledScrollPane(ScrollPane pane, boolean enable) {
-            this.pane = pane;
-            this.enable = enable;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            if (enable)
-                pane.setTouchable(Touchable.enabled);
-            else
-                pane.setTouchable(Touchable.disabled);
-
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class closeBattleTextAction extends Action {
-        BattleTextArea battleTextArea = null;
-
-        public closeBattleTextAction(BattleTextArea battleTextArea) {
-            this.battleTextArea = battleTextArea;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            if (battleTextArea.isVisible()) {
-                battleTextArea.interact();
-            }
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setTextFieldPositionAndSize extends Action {
-        MyTextField textField = null;
-        float width;
-        float height;
-        float x;
-        float y;
-
-        public setTextFieldPositionAndSize(MyTextField textField, float x, float y, float width, float height) {
-            this.textField = textField;
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            textField.setX(x);
-            textField.setY(y);
-            textField.setWidth(width);
-            textField.setHeight(height);
-            return true; // An action returns true when it's completed
-        }
-    }
-
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
         blackbar.setWidth(barWidth);
         blackbar.setHeight(barHeight);
@@ -1586,7 +1413,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 backButton.setHeight(2);
                 backButton.setVisible(true);
-                backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
+                backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), myActions.new setButtonText(backButton, BTN_NAME_BACK)));
                 backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                 backButton.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
 
@@ -1612,7 +1439,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     monster5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
                     leftSummaryText.addAction(Actions.fadeOut(fadeTime/2));
-                    leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setLabelText(leftSummaryText, "")));
+                    leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setLabelText(leftSummaryText, "")));
 
                     middleTree.setTouchable(Touchable.disabled);
 
@@ -1623,17 +1450,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     backButton.setHeight(2);
                     backButton.setVisible(true);
-                    backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
+                    backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), myActions.new setButtonText(backButton, BTN_NAME_BACK)));
                     backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     backButton.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
 
                     middleTextAreaTable.addAction(Actions.fadeOut(fadeTime/2));
-                    middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setTableVisible(middleTextAreaTable, false)));
+                    middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setTableVisible(middleTextAreaTable, false)));
 
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     middleStatsTextArea.addAction(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime));
                     middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, fadeTime));
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
 
                     selectedItemBanner.setWidth(calculateBannerWidth(selectedInventoryElement.name));
                     selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 8);
@@ -1644,10 +1471,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 else if (currentScreenState == ScreenState.FIGHT) {
                     // no transition here, just set the size and position
                     middleStatsTextArea.setHeight(topLeftButton.getHeight());
-                    middleStatsTextArea.setPosition(topLeftButton.getX(), topLeftButton.getY());
+                    middleStatsTextArea.setPosition(middleStatsTextArea.getX(), topLeftButton.getY());
                     middleStatsTextArea.setVisible(true);
                     middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/4), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/4), myActions.new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
 
                     topLeftButton.addAction(Actions.fadeOut(0));
                     topRightButton.addAction(Actions.fadeOut(0));
@@ -1663,7 +1490,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     monster5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
                     leftSummaryText.addAction(Actions.fadeOut(fadeTime/2));
-                    leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setLabelText(leftSummaryText, "")));
+                    leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setLabelText(leftSummaryText, "")));
 
                     middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                     middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
@@ -1673,7 +1500,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     backButton.setHeight(2);
                     backButton.setVisible(true);
-                    backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
+                    backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), myActions.new setButtonText(backButton, BTN_NAME_BACK)));
                     backButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     backButton.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
 
@@ -1684,10 +1511,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     middleStatsTextArea.addAction(Actions.moveBy(0, backButtonHeight - 2, fadeTime));
 
                     if (currentScreenState == ScreenState.SPELLS_WHITE) {
-                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, CHOOSE_A_CHARACTER)));
                     }
                     else {
-                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
                     }
 
                     selectedItemBanner.setWidth(calculateBannerWidth(selectedSpellsPowerElement.name));
@@ -1761,25 +1588,25 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 //middleTree.setVisible(false);
 
-                middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), new enabledScrollPane(middleScrollPaneList, true)));
+                middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
 
                 middleStatsTextArea.setVisible(true);
                 if (newState == ScreenState.POWER) {
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, SELECT_A_POWER)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_POWER)));
                 }
                 else if (newState == ScreenState.SPELLS_BLACK || newState == ScreenState.SPELLS_WHITE) {
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
                 }
 
                 float startingHeight = topLeftButton.getHeight() + runButton.getHeight();
                 middleStatsTextArea.setHeight(topLeftButton.getHeight());
-                middleStatsTextArea.setPosition(topLeftButton.getX(), topLeftButton.getY());
+                middleStatsTextArea.setPosition(middleStatsTextArea.getX(), topLeftButton.getY());
                 middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                 middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
                 middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
 
                 backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
-                backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
+                backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), myActions.new setButtonText(backButton, "")));
 
                 middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.2f)));
                 middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
@@ -1835,7 +1662,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, 0));
                         middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, 0));
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime/2));
-                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/2), new setTextAreaVisible(middleStatsTextArea, false)));
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setTextAreaVisible(middleStatsTextArea, false)));
                     }
                     break;
                 case FINAL:
@@ -1846,7 +1673,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                         backButton.setVisible(true);
-                        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), new setButtonText(backButton, BTN_NAME_BACK)));
+                        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), myActions.new setButtonText(backButton, BTN_NAME_BACK)));
                         backButton.addAction(Actions.sizeBy(0, backButtonHeight + 3, fadeTime));
 
                         middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
@@ -1910,7 +1737,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                         backButton.addAction(Actions.sequence(Actions.delay(fadeTime / 2), Actions.fadeOut(fadeTime / 2)));
                         backButton.addAction(Actions.sizeBy(0, -backButtonHeight, fadeTime));
-                        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
+                        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), myActions.new setButtonText(backButton, "")));
 
                         dummyButtonLeft.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                         dummyButtonLeft.addAction(Actions.sizeBy(0, backButtonHeight, fadeTime));
@@ -1972,7 +1799,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 case SPELLS_WHITE:
                     middleTextAreaTable.setVisible(true);
 
-                    middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), new enabledScrollPane(middleScrollPaneList, true)));
+                    middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
                     middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
                     setCommonTransitionBackFromFinal();
@@ -2046,7 +1873,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
         backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
-        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), new setButtonText(backButton, "")));
+        backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), myActions.new setButtonText(backButton, "")));
 
         selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime));
         selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime));
@@ -2054,11 +1881,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         if (statusButton.getText().toString().equals(BTN_NAME_OK)) {
             statusButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
             statusButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f),
-                    new setButtonText(statusButton, ""),
-                    new setButtonText(statusButton, BTN_NAME_STATUS),
+                    myActions.new setButtonText(statusButton, ""),
+                    myActions.new setButtonText(statusButton, BTN_NAME_STATUS),
                     Actions.delay(fadeTime * 0.8f),
                     Actions.sizeBy(0, backButtonHeight - 2, 0),
-                    new setButtonWidth(backButton, middleAreaWidth)));
+                    myActions.new setButtonWidth(backButton, middleAreaWidth)));
         }
     }
 
@@ -2228,6 +2055,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.getRoot().addAction(sequenceAction);
     }
 
+    private void setLabelFontColor(Label label, Color color) {
+        Label.LabelStyle ls;
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = Utility.myFontVerySmallSize;
+        parameter.shadowColor = Color.LIGHT_GRAY;
+        parameter.color = color;
+
+        BitmapFont font = generator.generateFont(parameter);
+        ls = new Label.LabelStyle(font, parameter.color);
+        label.setStyle(ls);
+    }
+
     public void resetControls() {
 
         float fadeTime = 0f;
@@ -2240,6 +2080,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        //middleStatsTextArea is handled elsewhere
         //middleStatsTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         //middleStatsTextArea.setPosition(middleStatsTextArea.getX(), middleStatsTextArea.getY() - 2 * menuItemHeight);
 
@@ -2255,6 +2096,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         monster3Name.setText("");
         monster4Name.setText("");
         monster5Name.setText("");
+
+        // reset color of monster names
+        setLabelFontColor(monster1Name, Color.DARK_GRAY);
+        setLabelFontColor(monster2Name, Color.DARK_GRAY);
+        setLabelFontColor(monster3Name, Color.DARK_GRAY);
+        setLabelFontColor(monster4Name, Color.DARK_GRAY);
+        setLabelFontColor(monster5Name, Color.DARK_GRAY);
 
         for (int i = 1; i <= numberOfPartyMembers; i++) {
             battleScreen.removePartyMember(i);
@@ -2483,8 +2331,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 break;
             case OPPONENT_HIT_DAMAGE:
-                Label.LabelStyle ls;
-
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
 
@@ -2498,32 +2344,28 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
 
+                // set color of monster name based on current HP
+                Color color;
                 if (HP < 0.3f * (float)HP_MAX) {
-                    Color red = new Color (1, 0, 0, 1);
-                    parameter.color = red;
+                    color = new Color (1, 0, 0, 1); // red
                 }
                 else if (HP < 0.6f * (float)HP_MAX) {
-                    Color orange = new Color(1, 0.7f, 0, 1);
-                    parameter.color = orange;
+                    color = new Color(1, 0.7f, 0, 1); // orange
                 }
                 else {
-                    parameter.color = Color.DARK_GRAY;
+                    color = Color.DARK_GRAY;
                 }
 
-                // set color of entity name
-                BitmapFont font = generator.generateFont(parameter);
-                ls = new Label.LabelStyle(font, parameter.color);
-
                 if (monster1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    monster1Name.setStyle(ls);
+                    setLabelFontColor(monster1Name, color);
                 else if (monster2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    monster2Name.setStyle(ls);
+                    setLabelFontColor(monster2Name, color);
                 else if (monster3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    monster3Name.setStyle(ls);
+                    setLabelFontColor(monster3Name, color);
                 else if (monster4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    monster4Name.setStyle(ls);
+                    setLabelFontColor(monster4Name, color);
                 else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    monster5Name.setStyle(ls);
+                    setLabelFontColor(monster5Name, color);
                 /*
                 int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString()));
                 _damageValLabel.setText(String.valueOf(damage));
@@ -2667,7 +2509,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
         }
 
-        game.battleState.getNextTurnCharacter();
+        // delay is needed here so middle status text area has time to show results
+        // before main screen comes up again
+        game.battleState.getNextTurnCharacter(3.5f);
     }
 
     private void UpdateStats(Entity destinationEntity) {
@@ -2722,6 +2566,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     private void showMainScreen(boolean immediate) {
+        //immediate = true;//srm delay
         // cancel any pending transitions
         transitionToMainScreen.cancel();
 
@@ -2748,7 +2593,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
-                new closeBattleTextAction(battleTextArea)));
+                myActions.new closeBattleTextAction(battleTextArea)));
 
         dummyButtonLeft.setVisible(false);
         dummyButtonLeft.setHeight(menuItemHeight + 2);
@@ -2758,15 +2603,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyButtonRight.setHeight(menuItemHeight + 2);
         dummyButtonRight.setPosition(dummyButtonLeft.getX() + dummyButtonLeft.getWidth() - 2, 0);
 
+        middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
+        middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setText("", true);
         middleStatsTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
         middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
         middleStatsTextArea.addAction(Actions.sequence(
                 Actions.delay(delay),
-                new setTextFieldPositionAndSize(middleStatsTextArea,
-                        topLeftButton.getX(),
-                        middleStatsTextArea.getY(),
+                myActions.new setTextFieldPositionAndSize(middleStatsTextArea,
+                        middleStatsTextArea.getX(),
+                        2,
                         middleStatsTextArea.getWidth(),
                         menuItemHeight * 2 - 2)));
 
@@ -2797,12 +2644,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2));
 
         selectedItemBanner.addAction(Actions.sequence(Actions.delay(fadeTime/2),
-                new setTextAreaText(selectedItemBanner, text),
-                new setTextFieldPositionAndSize(selectedItemBanner,
+                myActions.new setTextAreaText(selectedItemBanner, text),
+                myActions.new setTextFieldPositionAndSize(selectedItemBanner,
                         (_stage.getWidth() - bannerWidth)/2,
                         selectedItemBanner.getY(),
                         bannerWidth,
-                        selectedItemBanner.getHeight()),
+                        selectedItemBannerHeight),
                 Actions.sizeBy(0, selectedItemBannerHeight, fadeTime),
                 Actions.moveBy(0, -selectedItemBannerHeight, fadeTime),
                 Actions.delay(2),
