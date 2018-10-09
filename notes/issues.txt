@@ -5,3 +5,7 @@ monster name disappears if killed, but doesn't come back next battle
 if going from 3 monsters to two, run, then getting 2 monsters, there is a ghost monster in 3rd spot
 
 after attacking, the banner size and location gets messed up
+
+when first coming into battle screen, the turn indicator arrow is missing
+
+when applying inventory, turn doesn't change

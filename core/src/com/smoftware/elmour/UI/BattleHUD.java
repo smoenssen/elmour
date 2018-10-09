@@ -460,7 +460,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleStatsTextArea.setAlignment(Align.center);
         middleStatsTextArea.setWidth(middleAreaWidth);
         middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
-        middleStatsTextArea.setPosition(leftTextAreaWidth, -menuItemHeight + 2);
+        middleStatsTextArea.setPosition(leftTextAreaWidth, 2 - menuItemHeight);
+        middleStatsTextArea.setVisible(false);
 
         battleTextArea = new BattleTextArea();
         battleTextArea.setWidth(middleAreaWidth);
@@ -2080,9 +2081,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        //middleStatsTextArea is handled elsewhere
-        //middleStatsTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(), middleStatsTextArea.getY() - 2 * menuItemHeight);
+        // middleStatsTextArea is handled elsewhere
+        //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
+        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(),2 - menuItemHeight);
 
         // reset other variables
         party1Name.setText("");
@@ -2511,15 +2512,27 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         // delay is needed here so middle status text area has time to show results
         // before main screen comes up again
-        game.battleState.getNextTurnCharacter(3.5f);
+        //if( !testTask.isScheduled() ){
+        //    Timer.schedule(testTask, 0);
+        //}
+        game.battleState.getNextTurnCharacter(3.5f, battleTextArea.signalObject);
     }
 
+    private Timer.Task testTask = getTestTimer();;
+
+    private Timer.Task getTestTimer() {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                game.battleState.getNextTurnCharacter(0, battleTextArea.signalObject);
+            }
+        };
+    }
     private void UpdateStats(Entity destinationEntity) {
         // store any updated stats
         ProfileManager.getInstance().setStatProperties(destinationEntity, true);
 
         // update HUD graphic stats for destination entity
-        // todo: handle if destination entity is enemy
         Image hpBar = null;
         Label hpStats = null;
         Image mpBar = null;
@@ -2555,6 +2568,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             mpBar = mpBar5;
             mpStats = mp5Stats;
         }
+        else {
+            // must be enemy
+            return;
+        }
 
         if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
             updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
@@ -2566,9 +2583,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     private void showMainScreen(boolean immediate) {
-        //immediate = true;//srm delay
         // cancel any pending transitions
         transitionToMainScreen.cancel();
+
+        //middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        //middleStatsTextArea.setVisible(true);
 
         float delay = fadeTime;
 
@@ -2586,10 +2605,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         topLeftButton.setText(BTN_NAME_INVENTORY);
         topRightButton.setText(BTN_NAME_FIGHT);
 
-        topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
-        runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
-        topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
-        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(delay * crossFadeInFactor)));
+        // Not sure why, but setting fadeIn for buttons here to zero delay is necessary,
+        // otherwise transition into BattleHUD screen first shows buttons as invisible
+        // and trying to cross-fade with middleStatsTextArea was ugly.
+        // Fade-ins from other BattleHUD screens still work though!
+        topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
 
         battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
@@ -2603,21 +2626,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyButtonRight.setHeight(menuItemHeight + 2);
         dummyButtonRight.setPosition(dummyButtonLeft.getX() + dummyButtonLeft.getWidth() - 2, 0);
 
-        middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
-        middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
+        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
+        //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setText("", true);
         middleStatsTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
-        middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
-        middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
+        //middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
+        //middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
         middleStatsTextArea.addAction(Actions.sequence(
                 Actions.delay(delay),
                 myActions.new setTextFieldPositionAndSize(middleStatsTextArea,
                         middleStatsTextArea.getX(),
                         2,
                         middleStatsTextArea.getWidth(),
-                        menuItemHeight * 2 - 2)));
-
-        middleTextAreaTable.setVisible(false);
+                        menuItemHeight * 2 - 2),
+                        myActions.new setTextAreaVisible(middleStatsTextArea, false)));
 
         backButton.addAction(Actions.fadeOut(delay * crossFadeInFactor));
         backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, delay)); // need -3 or else back button height wrong on final screen

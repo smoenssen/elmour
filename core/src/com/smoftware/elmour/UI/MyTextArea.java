@@ -118,6 +118,7 @@ public class MyTextArea extends MyTextField {
         String currString = new String();
 
         int currLineBreak = 1;
+        Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
         for (int i = 0; i < text.length(); i++) {
             if (currLineBreak < linesBreak.size) {
                 if (i > 0 && i == linesBreak.get(currLineBreak)) {
@@ -129,7 +130,11 @@ public class MyTextArea extends MyTextField {
                 }
             }
 
-            currString += text.charAt(i);
+            Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
+            Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
+
+            if (text.length() > 0)
+                currString += text.charAt(i);
         }
 
         if (currString.length() > 0)

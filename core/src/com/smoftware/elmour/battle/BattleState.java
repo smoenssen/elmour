@@ -38,6 +38,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private Timer.Task applySpellPower;
     private Timer.Task chooseNextCharacterTurn;
 
+    private Object signalObj;
+
     private MonsterZone currentMonsterZone;
 
     private boolean inBattle = false;
@@ -88,6 +90,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList = new Array<>();
         currentEnemyList = new Array<>();
         characterTurnList = new ArrayList<>();
+
+        signalObj = new Object();
     }
 
     public void resetDefaults(){
@@ -216,7 +220,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity5);
     }
 
-    public void getNextTurnCharacter(float delay){
+    public void getNextTurnCharacter(float delay, Object signalObj){
+        if (signalObj != null) {
+            this.signalObj = signalObj;
+        }
+
         if( !chooseNextCharacterTurn.isScheduled() ){
             Timer.schedule(chooseNextCharacterTurn, delay);//srm delay
         }
@@ -600,9 +608,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 }
 
                 if (characterTurnList.size() > 0) {
-                    // get character at top of list and remove it
-                    setCurrentTurnCharacter(characterTurnList.get(0));
-                    characterTurnList.remove(0);
+                //    synchronized (signalObj) {
+                        // get character at top of list and remove it
+                        setCurrentTurnCharacter(characterTurnList.get(0));
+                        characterTurnList.remove(0);
+                 //   }
                 }
             }
         };
@@ -651,7 +661,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         else {
             Gdx.app.log(TAG, "Player failed to escape!");
             //todo: notify
-            getNextTurnCharacter(3);
+            getNextTurnCharacter(3, null);
         }
     }
 

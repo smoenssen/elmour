@@ -23,6 +23,7 @@ public class BattleTextArea extends Window {
     private boolean interactReceived = false;
     private boolean isReady = false;
     private boolean waitingForFinalInteraction = false;
+    public Object signalObject;
 
     public BattleTextArea() {
         //Notes:
@@ -33,6 +34,7 @@ public class BattleTextArea extends Window {
 
 
         lineStrings = new Array<>();
+        signalObject = new Object();
         hide();
     }
 
@@ -126,6 +128,8 @@ public class BattleTextArea extends Window {
     private void startInteractionThread() {
         Runnable r = new Runnable() {
             public void run() {
+                synchronized (signalObject) {
+
                 Gdx.app.log(TAG, "Starting InteractionThread...");
                 char currentChar = ' ';
                 String currentVisibleText = "";
@@ -239,6 +243,8 @@ public class BattleTextArea extends Window {
                 interactReceived = false;
                 Gdx.app.log(TAG, "Exiting InteractionThread");
                 waitingForFinalInteraction = false;
+                signalObject.notify();
+                }
             }
         };
 
