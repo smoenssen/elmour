@@ -1028,8 +1028,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                        ScreenState previousScreenState = screenStack.peek();
                                                        screenStack.push(currentScreenState);
 
-                                                       selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2));
-                                                       selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2));
+                                                       if (previousScreenState != ScreenState.FIGHT) {
+                                                           selectedItemBanner.addAction(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime / 2));
+                                                           selectedItemBanner.addAction(Actions.moveBy(0, selectedItemBannerHeight, fadeTime / 2));
+                                                       }
 
                                                        battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                                                        battleTextArea.interact(); // first interact sets battleTextArea visible
