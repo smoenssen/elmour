@@ -1,10 +1,13 @@
 package com.smoftware.elmour.battle;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class MonsterFactory {
@@ -26,6 +29,15 @@ public class MonsterFactory {
 
     private MonsterFactory(){
         Array<EntityConfig> configs = Entity.getEntityConfigs("RPGGame/maps/Game/Scripts/monsters.json");
+
+        /*
+        Array<EntityConfig> configs = new Array<>();
+        Array<String> stringConfigs = getConfigPaths("RPGGame/maps/Game/Scripts/monsters.json");
+        for (String config : stringConfigs) {
+            configs.add(Entity.getEntityConfig(config));
+        }
+        */
+
         _entities =  Entity.initEntities(configs);
         monsterGroups = MonsterGroup.getMonsterGroups("RPGGame/maps/Game/Scripts/monster_groups.json");
         _monsterZoneGroups = MonsterZone.getMonsterZoneGroups("RPGGame/maps/Game/Scripts/monster_zones.json");
@@ -38,6 +50,19 @@ public class MonsterFactory {
         }
 
         return _instance;
+    }
+
+    static public Array<String> getConfigPaths(String monstersJson){
+        Json json = new Json();
+        Array<String> configs = new Array<String>();
+
+        ArrayList<String> list = json.fromJson(ArrayList.class, Gdx.files.internal(monstersJson));
+
+        for (String jsonVal : list) {
+            configs.add(jsonVal);
+        }
+
+        return configs;
     }
 
     public Entity getMonster(MonsterEntityType monsterEntityType){
