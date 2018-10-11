@@ -118,7 +118,7 @@ public class MyTextArea extends MyTextField {
         String currString = new String();
 
         int currLineBreak = 1;
-        Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
+        //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
         for (int i = 0; i < text.length(); i++) {
             if (currLineBreak < linesBreak.size) {
                 if (i > 0 && i == linesBreak.get(currLineBreak)) {
@@ -130,8 +130,8 @@ public class MyTextArea extends MyTextField {
                 }
             }
 
-            Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
-            Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
+            //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
+            //Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
 
             if (text.length() > 0)
                 currString += text.charAt(i);
@@ -268,9 +268,14 @@ public class MyTextArea extends MyTextField {
         float offsetY = 0;
         for (int i = firstLineShowing * 2; i < (firstLineShowing + linesShowing) * 2 && i < linesBreak.size; i += 2) {
             // todo: have seen StringIndexOutOfBoundsException thrown here
-            // (at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:113))
-            font.draw(batch, displayText, x, y + offsetY, linesBreak.items[i], linesBreak.items[i + 1], 0, Align.left, false);
-            offsetY -= font.getLineHeight();
+            try {
+                // (at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:113))
+                font.draw(batch, displayText, x, y + offsetY, linesBreak.items[i], linesBreak.items[i + 1], 0, Align.left, false);
+                offsetY -= font.getLineHeight();
+            }
+            catch (StringIndexOutOfBoundsException e){
+                Gdx.app.log("MyTextArea", "StringIndexOutOfBoundsException EXCEPTION CAUGHT!!!");
+            }
         }
     }
 

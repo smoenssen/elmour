@@ -105,9 +105,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
 
-    private Texture turnIndicator;
-    private Vector2 currentTurnCharPosition;
+    private Texture currentTurnIndicator;
     private AnimatedImage currentTurnCharacter;
+    private Entity currentTurnEntity;
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
@@ -196,8 +196,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         douglasBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.DOUGLAS));
 
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
-        turnIndicator = new Texture("graphics/down_arrow_blue.png");
-        currentTurnCharPosition = new Vector2(0, 0);
+        currentTurnIndicator = new Texture("graphics/down_arrow_blue.png");
 
         _transitionActor = new ScreenTransitionActor();
 
@@ -643,6 +642,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4.addAction(Actions.fadeOut(0));
         enemy5.addAction(Actions.fadeOut(0));
 
+        party1.setEntity(null);
+        party2.setEntity(null);
+        party3.setEntity(null);
+        party4.setEntity(null);
+        party5.setEntity(null);
+        enemy1.setEntity(null);
+        enemy2.setEntity(null);
+        enemy3.setEntity(null);
+        enemy4.setEntity(null);
+        enemy5.setEntity(null);
+
         isFirstTime = true;
     }
 
@@ -688,7 +698,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         // Flashing turn indicator
         if (currentTurnFlashTimer < 0.5f) {
             _mapRenderer.getBatch().begin();
-            _mapRenderer.getBatch().draw(turnIndicator, currentTurnCharPosition.x + characterWidth / 2 * 0.5f, currentTurnCharPosition.y + characterHeight * 1.1f, 0.5f, 0.5f);
+
+            if (currentTurnEntity != null) {
+                _mapRenderer.getBatch().draw(currentTurnIndicator, currentTurnEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, currentTurnEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+            }
 
             if (selectedEntity != null) {
                 _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
@@ -1004,7 +1017,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
             case CHARACTER_TURN_CHANGED:
-                currentTurnCharPosition = entity.getCurrentPosition();
+                currentTurnEntity = entity;
+                selectedEntity = null;
                 switch (entity.getBattlePosition()) {
                     case 1:
                         if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
@@ -1041,8 +1055,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case CHARACTER_SELECTED:
                 selectedEntity = entity;
                 break;
+            case OPPONENT_BLOCKED:
+                selectedEntity = null;
+                break;
+            case PLAYER_RUNNING:
+                selectedEntity = null;
+                break;
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;
+                selectedEntity = null;
 
                 if (enemy1.getEntity() != null) {
                     if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {

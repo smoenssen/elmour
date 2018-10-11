@@ -1047,7 +1047,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if( game.battleState.isBattleReady(_player.getActualVelocity(), Float.parseFloat(value)) && !battleScreenTransitionTriggered){
                     battleScreenTransitionTriggered = true;
                     playerIsInBattle = true;
-                    game.battleState.setCurrentEnemytList();
+                    game.battleState.setCurrentEnemyList();
                     game.battleState.setCurrentPartyList();
                     game.battleState.getNextTurnCharacter(0, null);
                     _mapMgr.disableCurrentmapMusic();

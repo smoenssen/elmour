@@ -26,8 +26,11 @@ public class AnimatedImage extends Image {
 
     public void setEntity(Entity entity){
         this._entity = entity;
-        //set default
-        setCurrentAnimation(Entity.AnimationType.IDLE);
+
+        if (entity != null) {
+            //set default
+            setCurrentAnimation(Entity.AnimationType.IDLE);
+        }
     }
 
     public Entity getEntity() {

@@ -92,6 +92,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         characterTurnList = new ArrayList<>();
 
         signalObj = new Object();
+
+        // for EntitySpeedComparator that was throwing an exception
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
     }
 
     public void resetDefaults(){
@@ -161,7 +164,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }*/
     }
 
-    public void setCurrentEnemytList(){
+    public void setCurrentEnemyList(){
         currentEnemyList.clear();
         MonsterGroup monsterGroup = MonsterFactory.getInstance().getRandomMonsterGroup(_currentZoneLevel);
         Array<MonsterFactory.MonsterEntityType> monsterEntityTypes = monsterGroup.getMonsters();

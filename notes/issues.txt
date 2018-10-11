@@ -1,9 +1,3 @@
 need to use old monsters.json for now
 
-monster name disappears if killed, but doesn't come back next battle
-
-if going from 3 monsters to two, run, then getting 2 monsters, there is a ghost monster in 3rd spot
-
-when first coming into battle screen, the turn indicator arrow is missing
-
-when applying inventory, turn doesn't change
+when applying inventory, turn doesn't change (can't reproduce though)

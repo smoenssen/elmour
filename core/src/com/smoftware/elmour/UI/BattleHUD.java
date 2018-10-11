@@ -276,7 +276,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     String selectedCharacter = null;
 
-    private static final String INVENTORY_FULL = "Your inventory is full!";
+    private boolean initialMainScreenDisplayed = false;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -1283,6 +1283,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (battleTextArea.interact()) {
+                                               // this is necessary!
                                                showMainScreen(true);
                                            }
                                        }
@@ -2128,6 +2129,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupMp4.setVisible(false);
         groupHp5.setVisible(false);
         groupMp5.setVisible(false);
+
+        initialMainScreenDisplayed = false;
     }
 
     @Override
@@ -2145,6 +2148,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         middleStatsTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+
+        // Set names visible in case they were set invisible during last battle.
+        // It's okay to do for all since if they shouldn't be shown, they will be faded out.
+        party1Name.setVisible(true);
+        party2Name.setVisible(true);
+        party3Name.setVisible(true);
+        party4Name.setVisible(true);
+        party5Name.setVisible(true);
+        monster1Name.setVisible(true);
+        monster2Name.setVisible(true);
+        monster3Name.setVisible(true);
+        monster4Name.setVisible(true);
+        monster5Name.setVisible(true);
     }
 
     @Override
@@ -2290,12 +2306,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         break;
                 }
 
-                /*
-                _image.setEntity(enemyEntity);
-                _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);
-                _image.setSize(_enemyWidth, _enemyHeight);
-                _image.setPosition(this.getCell(_image).getActorX(), this.getCell(_image).getActorY());
-*/
                 _currentImagePosition.set(15, 15);
 
                 if( _battleShakeCam == null ){
@@ -2332,6 +2342,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 if (battleTextArea.interact()) {
                     showMainScreen(true);
                 }
+
+                // reset screen stack
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
+                selectedCharacter = null;
                 break;
             case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
@@ -2377,6 +2393,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 _damageValLabel.setVisible(true);
                 */
                 _battleShakeCam.startShaking();
+                selectedCharacter = null;
                 break;
             case OPPONENT_DEFEATED:
                 Gdx.app.log(TAG, "entity " + entity.getEntityConfig().getDisplayName() + " defeated!!");
@@ -2396,6 +2413,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())){
                     monster5Name.setVisible(false);
                 }
+
+                selectedCharacter = null;
                 break;
             case PLAYER_USED_MAGIC:
                 /*
@@ -2406,6 +2425,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case PLAYER_RUNNING:
                 resetControls();
+                selectedCharacter = null;
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();
@@ -2422,8 +2442,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     battleTextArea.interact(); // first interact sets battleTextArea visible
                 }
                 else {
-                    showMainScreen(false);
+                    if (!initialMainScreenDisplayed) {
+                        showMainScreen(false);
+                        initialMainScreenDisplayed = true;
+                    }
                 }
+                selectedCharacter = null;
                 break;
             default:
                 break;
@@ -2440,16 +2464,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case PLAYER_HIT_DAMAGE:
                 battleTextArea.populateText(message);
+                selectedCharacter = null;
                 break;
             case OPPONENT_TURN_DONE:
                 UpdateStats(destinationEntity);
 
                 battleTextArea.populateText(message);
                 if (battleTextArea.interact()) {
-                    if (!transitionToMainScreen.isScheduled()) {
-                        Timer.schedule(transitionToMainScreen, 4);
-                    }
-                    //showMainScreen(true);
+                    //if (!transitionToMainScreen.isScheduled()) {
+                    //    Timer.schedule(transitionToMainScreen, 4);
+                    //}
+                    showMainScreen(true);
                 }
                 selectedCharacter = null;
                 enableButtons();
@@ -2460,14 +2485,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 ScreenState previousScreenState = screenStack.peek();
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);
-
-                // todo: screen shouldn't necessarily be shown here. might have to do it after opponent turn is done
-                if (currentScreenState == ScreenState.FINAL) {
-
-                    if (!transitionToMainScreen.isScheduled()) {
-                        Timer.schedule(transitionToMainScreen, 4);
-                    }
-                }
 
                 UpdateStats(destinationEntity);
 
@@ -2512,11 +2529,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
         }
 
-        // delay is needed here so middle status text area has time to show results
-        // before main screen comes up again
-        //if( !testTask.isScheduled() ){
-        //    Timer.schedule(testTask, 0);
-        //}
+        // delay is needed here so character has time to show battle animation
         game.battleState.getNextTurnCharacter(3.5f, battleTextArea.signalObject);
     }
 
@@ -2587,10 +2600,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private void showMainScreen(boolean immediate) {
         // cancel any pending transitions
         transitionToMainScreen.cancel();
-
-        //middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-        //middleStatsTextArea.setVisible(true);
-
         float delay = fadeTime;
 
         if (immediate) {
@@ -2628,12 +2637,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyButtonRight.setHeight(menuItemHeight + 2);
         dummyButtonRight.setPosition(dummyButtonLeft.getX() + dummyButtonLeft.getWidth() - 2, 0);
 
-        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
-        //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         middleStatsTextArea.setText("", true);
         middleStatsTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
-        //middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, delay));
-        //middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, delay));
         middleStatsTextArea.addAction(Actions.sequence(
                 Actions.delay(delay),
                 myActions.new setTextFieldPositionAndSize(middleStatsTextArea,

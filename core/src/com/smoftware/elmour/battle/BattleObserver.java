@@ -34,7 +34,7 @@ public interface BattleObserver {
         PLAYER_ATTACKS,
         PLAYER_HIT_DAMAGE,
         PLAYER_DEFEATED,
-        PLAYER_RUNNING,
+        //PLAYER_RUNNING,
         PLAYER_TURN_DONE,
         PLAYER_TURN_START,
         PLAYER_USED_MAGIC,
