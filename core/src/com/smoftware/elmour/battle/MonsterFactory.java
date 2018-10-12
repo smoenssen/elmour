@@ -31,9 +31,11 @@ public class MonsterFactory {
         Array<EntityConfig> configs = Entity.getEntityConfigs("RPGGame/maps/Game/Scripts/monsters.json");
 
         /*
+        Json json = new Json();
         Array<EntityConfig> configs = new Array<>();
-        Array<String> stringConfigs = getConfigPaths("RPGGame/maps/Game/Scripts/monsters.json");
-        for (String config : stringConfigs) {
+        ArrayList<String> list = json.fromJson(ArrayList.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/monsters.json"));
+
+        for (String config : list) {
             configs.add(Entity.getEntityConfig(config));
         }
         */
@@ -50,19 +52,6 @@ public class MonsterFactory {
         }
 
         return _instance;
-    }
-
-    static public Array<String> getConfigPaths(String monstersJson){
-        Json json = new Json();
-        Array<String> configs = new Array<String>();
-
-        ArrayList<String> list = json.fromJson(ArrayList.class, Gdx.files.internal(monstersJson));
-
-        for (String jsonVal : list) {
-            configs.add(jsonVal);
-        }
-
-        return configs;
     }
 
     public Entity getMonster(MonsterEntityType monsterEntityType){
