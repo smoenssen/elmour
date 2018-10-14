@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 public class MonsterFactory {
     public static enum MonsterEntityType{
-        Goblin, Octomaniac, Ogre, Douglas, Steve, Royal_Guard,
+        Octomaniac, Ogre, Douglas, Steve, Royal_Guard,
         NONE
     }
 
@@ -28,9 +28,8 @@ public class MonsterFactory {
     private Hashtable<String, MonsterZone> monsterZones;
 
     private MonsterFactory(){
-        Array<EntityConfig> configs = Entity.getEntityConfigs("RPGGame/maps/Game/Scripts/monsters.json");
+        //Array<EntityConfig> configs = Entity.getEntityConfigs("RPGGame/maps/Game/Scripts/monsters.json");
 
-        /*
         Json json = new Json();
         Array<EntityConfig> configs = new Array<>();
         ArrayList<String> list = json.fromJson(ArrayList.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/monsters.json"));
@@ -38,7 +37,6 @@ public class MonsterFactory {
         for (String config : list) {
             configs.add(Entity.getEntityConfig(config));
         }
-        */
 
         _entities =  Entity.initEntities(configs);
         monsterGroups = MonsterGroup.getMonsterGroups("RPGGame/maps/Game/Scripts/monster_groups.json");

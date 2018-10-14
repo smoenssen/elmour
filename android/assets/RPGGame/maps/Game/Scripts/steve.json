@@ -56,7 +56,43 @@ entityProperties: {
 		class: java.lang.String
 		value: 5
 	}
+	XP_REWARD: {
+		class: java.lang.String
+		value: 15
+	}
+	DIBS_REWARD: {
+		class: java.lang.String
+		value: 15
+	}
 }
+rewardItems: [
+	{
+		item: ARMOR01
+		probability: 4
+	}
+	{
+		item: ARMOR02
+		probability: 3
+	}
+]
+entityAbilities: [
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Fire
+	numTurnsTilReset: 5
+	level: 3
+	maxHP: 15
+	priority: 1
+}
+{
+	class: com.smoftware.elmour.EntityConfig$EntityAbility
+	name: Thunder
+	numTurnsTilReset: 43
+	level: 1
+	maxHP: 10
+	priority: 2
+}
+]
 animationConfig: [
 	{
 	    frameDuration: 0.25

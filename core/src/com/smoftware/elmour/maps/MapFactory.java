@@ -22,6 +22,8 @@ public class MapFactory {
         JERBADIA,
         LOST_FOREST,
         LOST_FOREST_A,
+        LOST_FOREST_B,
+        LOST_FOREST_C,
         MAP1,
         MAP2,
         MAP3,
@@ -139,6 +141,20 @@ public class MapFactory {
                 if( map == null ){
                     map = new LostForestA();
                     _mapTable.put(MapType.LOST_FOREST_A, map);
+                }
+                break;
+            case LOST_FOREST_B:
+                map = _mapTable.get(MapType.LOST_FOREST_B);
+                if( map == null ){
+                    map = new LostForestB();
+                    _mapTable.put(MapType.LOST_FOREST_B, map);
+                }
+                break;
+            case LOST_FOREST_C:
+                map = _mapTable.get(MapType.LOST_FOREST_C);
+                if( map == null ){
+                    map = new LostForestC();
+                    _mapTable.put(MapType.LOST_FOREST_C, map);
                 }
                 break;
             case MAP1:

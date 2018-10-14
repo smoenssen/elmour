@@ -1,5 +1,5 @@
 {
-entityID : Character_1
+entityID : Stat_Arrows
 state : IDLE
 animationConfig: [
 	{

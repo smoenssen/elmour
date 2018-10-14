@@ -105,7 +105,7 @@ public class CutSceneScreen extends MainGameScreen {
         _animInnKeeper = getAnimatedImage(EntityFactory.EntityName.TOWN_INNKEEPER);
         _animMage = getAnimatedImage(EntityFactory.EntityName.TOWN_MAGE);
         _animFire = getAnimatedImage(EntityFactory.EntityName.FIRE);
-        _animDemon = getAnimatedImage(MonsterFactory.MonsterEntityType.Goblin);
+        //_animDemon = getAnimatedImage(MonsterFactory.MonsterEntityType.Goblin);
 
         //Actions
         _switchScreenAction = new RunnableAction(){
@@ -208,7 +208,7 @@ public class CutSceneScreen extends MainGameScreen {
         _stage.addActor(_animBlackSmith);
         _stage.addActor(_animInnKeeper);
         _stage.addActor(_animFire);
-        _stage.addActor(_animDemon);
+        //_stage.addActor(_animDemon);
         _stage.addActor(_transitionActor);
 
         _UIStage.addActor(conversationPopUp);

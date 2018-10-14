@@ -6,16 +6,13 @@ monsters: [
 		value: Douglas
 		Order: 3
 	}
-	{
-		value: Goblin
-	}
 	]
 },
 {
 groupID : GROUP002
 monsters: [
 	{
-		value: Goblin
+		value: Royal_Guard
 	}
 	{
 		value: Steve
@@ -26,7 +23,7 @@ monsters: [
 groupID : GROUP003
 monsters: [
 	{
-		value: Goblin
+		value: Douglas
 	}
 	{
 		value: Royal_Guard
