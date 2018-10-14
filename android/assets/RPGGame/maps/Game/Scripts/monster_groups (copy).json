@@ -6,9 +6,6 @@ monsters: [
 		value: Douglas
 		Order: 3
 	}
-	{
-		value: Goblin
-	}
 	]
 },
 {

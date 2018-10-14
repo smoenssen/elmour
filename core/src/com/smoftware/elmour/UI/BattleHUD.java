@@ -123,17 +123,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     final String POTIONS = "Potions";
-    final String FOOD = "Food";
     final String CONSUMABLES = "Consumables";
     final String THROWING = "Throwing Items";
 
     Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
-    Tree.Node FoodNode = new Tree.Node(new TextButton(FOOD, Utility.ELMOUR_UI_SKIN, "tree_node"));
     Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
     Tree.Node ThrowingNode = new Tree.Node(new TextButton(THROWING, Utility.ELMOUR_UI_SKIN, "tree_node"));
 
     rootNode potionsRootNode = new rootNode(POTIONS, false);
-    rootNode foodRootNode = new rootNode(FOOD, false);
     rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
     rootNode throwingRootNode = new rootNode(THROWING, false);
 
@@ -162,9 +159,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Entity _player;
 
     private MyActions myActions;
-    final private float fadeTime = 0.35f;
-    final private float crossFadeInFactor = 0.75f;
-    final private float crossFadeOutFactor = 1.5f;
+    final public static float fadeTime = 0.35f;
+    final public static float crossFadeInFactor = 0.75f;
+    final public static float crossFadeOutFactor = 1.5f;
+    private float currentDelta = 0;
 
     private TextButton topLeftButton;
     private TextButton topRightButton;
@@ -270,13 +268,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private ShakeCamera _battleShakeCam = null;
     private Vector2 _currentImagePosition;
 
-    BattleScreen battleScreen;
-    BattleTextArea battleTextArea;
+    private BattleScreen battleScreen;
+    private BattleTextArea battleTextArea;
+    private TextButton dummyTextArea;
     private Timer.Task transitionToMainScreen;
 
     String selectedCharacter = null;
 
     private boolean initialMainScreenDisplayed = false;
+    private boolean turnInProgress = false;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -467,6 +467,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleTextArea.setWidth(middleAreaWidth);
         battleTextArea.setHeight((menuItemHeight * 2) - 2);
         battleTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, 2);
+        battleTextArea.setVisible(false);
+
+        dummyTextArea = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
+        dummyTextArea.setWidth(middleAreaWidth);
+        dummyTextArea.setHeight((menuItemHeight * 2) - 2);
+        dummyTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, 2 - menuItemHeight);
 
         middleTreeHeight = menuItemHeight * 2;
 
@@ -767,6 +773,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setY(4 - menuItemHeight);
 
         _stage.addActor(selectedItemBanner);
+        _stage.addActor(dummyTextArea);
         _stage.addActor(middleStatsTextArea);
         _stage.addActor(middleTextAreaTable);
 
@@ -1282,10 +1289,39 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           if (battleTextArea.interact()) {
-                                               // this is necessary!
-                                               showMainScreen(true);
+                                           if (turnInProgress) return;
+
+                                           if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                                               if (battleTextArea.interact()) {
+                                                   // this is necessary!
+                                                   showMainScreen(true);
+                                               }
                                            }
+                                           else {
+                                               // enemy
+                                               battleTextArea.setHideOnFinalInteraction(false);
+                                               battleTextArea.interact();
+
+                                               if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                   // show dummyTextArea briefly to fix blip before battleTextArea
+                                                   dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
+                                                   //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
+                                                   while (!battleTextArea.isVisible())
+
+                                                       battleTextArea.setHideOnFinalInteraction(false);
+
+                                                       battleTextArea.interact();
+                                                       try {
+                                                           Thread.sleep(100);
+                                                       } catch (InterruptedException e) {
+                                                           e.printStackTrace();
+                                                       }
+                                               }
+                                           }
+
+                                           turnInProgress = true;
+                                           game.battleState.getNextTurnCharacter(0);
                                        }
                                    }
         );
@@ -1354,6 +1390,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             backButton.act(delta);
             dummyButtonLeft.act(delta);
             dummyButtonRight.act(delta);
+            dummyTextArea.act(delta);
+            battleTextArea.act(delta);
             middleTree.act(delta);
             middleTreeTextArea.act(delta);
             middleScrollPaneTree.act(delta);
@@ -1375,6 +1413,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         runButton.setTouchable(Touchable.enabled);
         statusButton.setTouchable(Touchable.enabled);
         backButton.setTouchable(Touchable.enabled);
+
+        battleTextArea.setTouchable(Touchable.enabled);
     }
 
     private void disableButtons() {
@@ -1389,6 +1429,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         runButton.setTouchable(Touchable.disabled);
         statusButton.setTouchable(Touchable.disabled);
         backButton.setTouchable(Touchable.disabled);
+
+        battleTextArea.setTouchable(Touchable.disabled);
     }
 
     private void setHUDNewState(ScreenState newState) {
@@ -2084,6 +2126,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+        dummyTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
         // middleStatsTextArea is handled elsewhere
         //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
         //middleStatsTextArea.setPosition(middleStatsTextArea.getX(),2 - menuItemHeight);
@@ -2148,6 +2191,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         rightTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         middleStatsTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
+        dummyTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
 
         // Set names visible in case they were set invisible during last battle.
         // It's okay to do for all since if they shouldn't be shown, they will be faded out.
@@ -2161,6 +2205,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         monster3Name.setVisible(true);
         monster4Name.setVisible(true);
         monster5Name.setVisible(true);
+
+        turnInProgress = true;
     }
 
     @Override
@@ -2440,6 +2486,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                     battleTextArea.interact(); // first interact sets battleTextArea visible
+
+                    // delay for one frame here to fix issue with blip when battleTextArea is set to visible
+                    dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
                 }
                 else {
                     if (!initialMainScreenDisplayed) {
@@ -2476,6 +2525,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     //}
                     showMainScreen(true);
                 }
+                turnInProgress = false;
                 selectedCharacter = null;
                 enableButtons();
                 break;
@@ -2525,24 +2575,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         break;
                 }
 
+                turnInProgress = false;
                 selectedCharacter = null;
                 break;
         }
-
-        // delay is needed here so character has time to show battle animation
-        game.battleState.getNextTurnCharacter(3.5f, battleTextArea.signalObject);
     }
 
-    private Timer.Task testTask = getTestTimer();;
-
-    private Timer.Task getTestTimer() {
-        return new Timer.Task() {
-            @Override
-            public void run() {
-                game.battleState.getNextTurnCharacter(0, battleTextArea.signalObject);
-            }
-        };
-    }
     private void UpdateStats(Entity destinationEntity) {
         // store any updated stats
         ProfileManager.getInstance().setStatProperties(destinationEntity, true);
@@ -2610,6 +2648,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         topRightButton.setVisible(true);
         runButton.setVisible(true);
         statusButton.setVisible(true);
+        dummyTextArea.setVisible(true);
 
         enableButtons();
 
@@ -2624,6 +2663,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
         topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
         statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
+        dummyTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
 
         battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
@@ -2705,11 +2746,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 categoryName = POTIONS;
                 rNode = potionsRootNode;
                 break;
-            case Food:
-                categoryNode = FoodNode;
-                categoryName = FOOD;
-                rNode = foodRootNode;
-                break;
             case Consumables:
                 categoryNode = ConsumablesNode;
                 categoryName = CONSUMABLES;
@@ -2723,7 +2759,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
 
         if (categoryNode == null) {
-            // Only show Potion, Food, Consumables, and Throwing Items
+            // Only show Potion, Consumables, and Throwing Items
             return;
         }
 

@@ -2,9 +2,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT1
-	category: Food
+	category: Consumables
 	name: Rat Meat
 	summary: The meat from a rat. Sure* it tastes terrible* but once the bad taste is over* the benefits start to set in.
+	effectText: %Character% doesn't feel so good.
 	buy: 20
 	sell: 10
 	turns: 4
@@ -28,9 +29,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT2
-	category: Food
+	category: Consumables
 	name: Salmon
 	summary: Fished up from one of the many rivers that flow throughout China. Try to guess which one.
+	effectText: %Character% ate the salmon.
 	buy: 40
 	sell: 20
 	turns: 3
@@ -49,9 +51,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT3
-	category: Food
+	category: Consumables
 	name: Liver
 	summary: High in nutrients* just tastes terrible.
+	effectText: %Character% regrets eating it.
 	buy: 50
 	sell: 25
 	location: Jerbadia
@@ -72,9 +75,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT4
-	category: Food
+	category: Consumables
 	name: Canadian Bacon
 	summary: The best tasting meat around. Too bad it doesn't give the best stats.
+	effectText: %Character% gets stronger.
 	buy: 250
 	sell: 125
 	location: Elmour ; Tarping Town ; Diblethia ; Christo
@@ -95,9 +99,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT5
-	category: Food
+	category: Consumables
 	name: Steak
 	summary: Gives a large burst of energy to whoever consumes it.
+	effectText: %Character% feel like they can take on anything.
 	buy: 500
 	sell: 250
 	location: Elmour ; Diblethia ; Talofofo
@@ -118,9 +123,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: MEAT6
-	category: Food
+	category: Consumables
 	name: Lobster
 	summary: Nothing beats lobster.
+	effectText: %Character% feels unstoppable!
 	buy: 1000
 	sell: 500
 	location: Elmour ; Shnarfulapogus ; Talofofo
@@ -141,9 +147,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: VEG1
-	category: Food
+	category: Consumables
 	name: Brussels Sprouts
 	summary: Who even eats brussels sprouts?
+	effectText: %Character% ate brussels sprouts.
 	buy: 40
 	sell: 20
 	turns: 3
@@ -162,9 +169,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: VEG2
-	category: Food
+	category: Consumables
 	name: Broccoli
 	summary: Strengthens the person's bones.
+	effectText: %Character% feels more defensive.
 	buy: 250
 	sell: 125
 	location: Elmour ; Tarping Town ; Diblethia ; Christo ; Talofofo
@@ -185,9 +193,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: VEG3
-	category: Food
+	category: Consumables
 	name: Cauliflower
 	summary: Like broccoli* but tastes better. Also has a lot of vitamin C.
+	effectText: %Character% feels like they can protect everyone.
 	buy: 500
 	sell: 250
 	location: Elmour ; Shnarfulapogus ; Diblethia ; Talofofo
@@ -208,9 +217,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: VEG4
-	category: Food
+	category: Consumables
 	name: Carrots
 	summary: Not only does this vegetable increase defence* but it also improves the consumer's eyesight.
+	effectText: %Character% feels enlightened about the enemy.
 	buy: 1000
 	sell: 500
 	location: Elmour ; Christo ; Talofofo
@@ -235,9 +245,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: SUGAR1
-	category: Food
+	category: Consumables
 	name: White Sugar
 	summary: Consuming often gives the consumer a sugar rush.
+	effectText: %Character% has a mild sugar rush.
 	buy: 40
 	sell: 20
 	turns: 3
@@ -256,9 +267,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: SUGAR2
-	category: Food
+	category: Consumables
 	name: Brown Sugar
 	summary: Like white sugar* but has a little bit of molasses in it. Whether or not it tastes better is purely subjective.
+	effectText: %Character% has a major sugar rush.
 	buy: 250
 	sell: 125
 	location: Elmour ; Tarping Town ; Diblethia ; Christo ; Talofofo
@@ -279,9 +291,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: SUGAR3
-	category: Food
+	category: Consumables
 	name: Honey
-	summary: A sweet* viscous food typically produced by bees. Bears love it.
+	summary: A sweet* viscous Consumables typically produced by bees. Bears love it.
+	effectText: %Character% feels fast on their feet.
 	buy: 500
 	sell: 250
 	location: Elmour ; Shnarfulapogus ; Diblethia ; Talofofo
@@ -302,9 +315,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: FRUIT1
-	category: Food
+	category: Consumables
 	name: Apple
 	summary: Comparing the amount of bonus exp that apples and oranges give is like comparing apples to oranges.
+	effectText: %Character% feels slightly enlightened.
 	buy: 40
 	sell: 20
 	turns: 3
@@ -323,9 +337,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: FRUIT2
-	category: Food
+	category: Consumables
 	name: Banana
 	summary: The wonderfull taste of a banana a peels many.
+	effectText: %Character% feels enlightened.
 	buy: 250
 	sell: 125
 	location: Elmour ; Jerbadia ; Diblethia ; Christo ; Talofofo
@@ -346,9 +361,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: FRUIT3
-	category: Food
+	category: Consumables
 	name: Orange
 	summary: Has many terrible puns based off of it. Making a true pun takes experience.
+	effectText: %Character% learns a lot about the enemy.
 	buy: 500
 	sell: 250
 	location: Elmour ; Diblethia ; Christo ; Talofofo
@@ -369,9 +385,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE1
-	category: Food
+	category: Consumables
 	name: Mozzarella
 	summary: Most cheese puns are often too cheesy.
+	effectText: %Character% thinks about Dibs.
 	buy: 40
 	sell: 20
 	turns: 3
@@ -390,9 +407,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE2
-	category: Food
+	category: Consumables
 	name: Feta
 	summary: I'm feta up with writing all of these summaries.
+	effectText: %Character% wants more Dibs.
 	buy: 250
 	sell: 125
 	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
@@ -413,9 +431,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE3
-	category: Food
+	category: Consumables
 	name: Swiss Cheese
 	summary: Consuming this cheese gives a hole lot of bonus coins.
+	effectText: %Character% needs more Dibs.
 	buy: 500
 	sell: 250
 	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
@@ -436,9 +455,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: CHEESE4
-	category: Food
+	category: Consumables
 	name: Sharp Cheddar
 	summary: It's so sharp* it hurts to consume it.
+	effectText: %Character% NEEDS more Dibs.
 	buy: 500
 	sell: 250
 	location: Elmour ; Shnarfulapogus ; Diblethia ; Christo ; Talofofo
@@ -462,6 +482,7 @@
 	id: LCK1
 	name: Lucky Horseshoe
 	summary: Although not edible* just looking at this horseshoe makes anyone's day better. Unfortunately* it is introverted and doesn't like people staring at it* terminating itself to avoid such a terrible fate.
+	effectText: %Character% feels sorry for the horseshoe.
 	buy: 100
 	sell: 50
 	turns: 3
@@ -479,6 +500,7 @@
 	id: LCK2
 	name: Maneki-neko
 	summary: This lucky statue is just that: lucky. Much like the lucky horseshoe* it is not edible.
+	effectText: %Character% feels lucky.
 	buy: 250
 	sell: 125
 	location: Elmour ;  Diblethia
@@ -495,9 +517,10 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: LCK3
-	category: Food
+	category: Consumables
 	name: Rabbit's Foot
 	summary: Upon consuming* luck will be on their side.
+	effectText: %Character% doesn't know why they ate that.
 	buy: 1000
 	sell: 500
 	location: Elmour ; Shnarfulapogus
@@ -723,7 +746,7 @@
 	category: Potion
 	name: Whiskey
 	summary: Improves power and supplies Mana* but with a price.
-	effectText: %CHARACTER% is feeling tipsy.
+	effectText: %Character% is feeling tipsy.
 	buy: 10000
 	sell: 5000
 	turns: 3
@@ -761,7 +784,7 @@
 	category: Potion
 	name: Potion of Strength
 	summary: For those who need extra strength immediately. Gives a lot of strength at first* then wanes away.
-	effectText: %CHARACTER is gaining extra strength
+	effectText: %Character% starts building up strength.
 	buy: 10000
 	sell: 5000
 	turns: 5
@@ -799,7 +822,7 @@
 	category: Potion
 	name: Reverse Potion of Strength
 	summary: For those who like the Potion of strength* but are patient. Basically the reverse of a potion of strength: starts off with a little bit of extra strength* and ends with a lot.
-	effectText: %CHARACTER got a surge of strength.
+	effectText: %Character% feels a surge of strength.
 	buy: 7500
 	sell: 3600
 	turns: 5

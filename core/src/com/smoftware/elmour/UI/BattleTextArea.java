@@ -23,7 +23,7 @@ public class BattleTextArea extends Window {
     private boolean interactReceived = false;
     private boolean isReady = false;
     private boolean waitingForFinalInteraction = false;
-    public Object signalObject;
+    private boolean hideOnFinalInteraction = true;
 
     public BattleTextArea() {
         //Notes:
@@ -32,9 +32,7 @@ public class BattleTextArea extends Window {
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "battle");
 
-
         lineStrings = new Array<>();
-        signalObject = new Object();
         hide();
     }
 
@@ -53,13 +51,10 @@ public class BattleTextArea extends Window {
         switch (state) {
             case HIDDEN:
                 isReady = false;
-                this.setVisible(true);
                 state = State.VISIBLE;
                 break;
             case VISIBLE:
                 if (fullText != "") {
-                    Gdx.app.log(TAG, "setting isReady to false in interact");
-                    //isReady = false;
                     this.setVisible(true);
                     state = State.LISTENING;
                     startInteractionThread();
@@ -74,7 +69,9 @@ public class BattleTextArea extends Window {
         return false;
     }
 
-    public void cleanupTextArea() {
+    public void setHideOnFinalInteraction(boolean hideOnFinalInteraction) { this.hideOnFinalInteraction = hideOnFinalInteraction; }
+
+    private void cleanupTextArea() {
         lineStrings.clear();
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battletext");
@@ -93,8 +90,11 @@ public class BattleTextArea extends Window {
     }
 
     private void hide() {
-        cleanupTextArea();
-        this.setVisible(false);
+        if (hideOnFinalInteraction) {
+            cleanupTextArea();
+            this.setVisible(false);
+        }
+
         state = State.HIDDEN;
         //Gdx.app.debug(TAG, "battle text interact new state = " + state.toString());
     }
@@ -128,8 +128,6 @@ public class BattleTextArea extends Window {
     private void startInteractionThread() {
         Runnable r = new Runnable() {
             public void run() {
-                synchronized (signalObject) {
-
                 Gdx.app.log(TAG, "Starting InteractionThread...");
                 char currentChar = ' ';
                 String currentVisibleText = "";
@@ -243,8 +241,6 @@ public class BattleTextArea extends Window {
                 interactReceived = false;
                 Gdx.app.log(TAG, "Exiting InteractionThread");
                 waitingForFinalInteraction = false;
-                signalObject.notify();
-                }
             }
         };
 

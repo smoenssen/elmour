@@ -1049,7 +1049,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     playerIsInBattle = true;
                     game.battleState.setCurrentEnemyList();
                     game.battleState.setCurrentPartyList();
-                    game.battleState.getNextTurnCharacter(0, null);
+                    game.battleState.getNextTurnCharacter(1.5f); // slight delay so BattleScreen has a chance to set up
                     _mapMgr.disableCurrentmapMusic();
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
 

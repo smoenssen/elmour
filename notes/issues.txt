@@ -1,3 +1,5 @@
 need to use old monsters.json for now
 
-when applying inventory, turn doesn't change (can't reproduce though)
+when applying inventory, turn doesn't change - this is because the turn list isn't getting reset for the party members
+
+don't allow character stats to go negative
