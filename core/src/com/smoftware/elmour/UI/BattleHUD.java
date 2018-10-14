@@ -1320,7 +1320,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                }
                                            }
 
-                                           turnInProgress = true;
+                                           //turnInProgress = true;
                                            game.battleState.getNextTurnCharacter(0);
                                        }
                                    }
@@ -2473,6 +2473,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 resetControls();
                 selectedCharacter = null;
                 break;
+            case PLAYER_FAILED_TO_ESCAPE:
+                displayBanner("Failed to run!", 2);
+                game.battleState.getNextTurnCharacter(2);
+                // todo: couple issues still here:
+                // 1) next battle text is not updated to correct text
+                // 2) battleTextArea touch stops working (probably issue with  turnInProgress flag)
+                break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();
                 if (type == Entity.BattleEntityType.ENEMY)  {
@@ -2725,6 +2732,21 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 Actions.delay(2),
                 Actions.parallel(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2),
                         Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
+    }
+
+    private void displayBanner(String text, float duration) {
+        // this function sets text and position of banner, lowers banner, delays for specified duration, and raises banner again
+        float bannerWidth = calculateBannerWidth(text);
+        selectedItemBanner.setText(text, true);
+        selectedItemBanner.setWidth(bannerWidth);
+        selectedItemBanner.setX((_stage.getWidth() - bannerWidth)/2);
+
+        selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime/2));
+        selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime/2));
+
+        selectedItemBanner.addAction(Actions.sequence(Actions.delay(duration),
+                                     Actions.parallel(Actions.sizeBy(0, -selectedItemBannerHeight, fadeTime/2),
+                                                      Actions.moveBy(0, selectedItemBannerHeight, fadeTime/2))));
     }
 
     private String getInventoryDescription(String name, int quantity) {

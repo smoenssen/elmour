@@ -181,7 +181,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void setCurrentPartyList() {
-        //todo: figure out how/when characters need to be added
+        //todo: this is temporary code: need to figure out how/when characters are added to party list
+        currentPartyList.clear();
+
         int battlePosition = 1;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
         entity1.setAlive(true);
@@ -506,7 +508,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
 
-                String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
                 String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
@@ -543,7 +545,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "player takes " + hitPoints + " hit points");
 
-                String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
                 String playerHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
@@ -665,13 +667,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
         else {
             Gdx.app.log(TAG, "Player failed to escape!");
-            //todo: notify
-            getNextTurnCharacter(3);
+            notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_FAILED_TO_ESCAPE);
         }
     }
 
     void resetBattleState() {
         characterTurnList.clear();
+        Gdx.app.log(TAG, "clearing characterTurnList");
     }
 
     @Override
