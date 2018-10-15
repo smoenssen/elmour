@@ -1299,7 +1299,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            }
                                            else {
                                                // enemy
-                                               battleTextArea.setHideOnFinalInteraction(false);
                                                battleTextArea.interact();
 
                                                if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
@@ -1308,9 +1307,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                                    //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
                                                    while (!battleTextArea.isVisible())
-
-                                                       battleTextArea.setHideOnFinalInteraction(false);
-
                                                        battleTextArea.interact();
                                                        try {
                                                            Thread.sleep(100);

@@ -23,7 +23,6 @@ public class BattleTextArea extends Window {
     private boolean interactReceived = false;
     private boolean isReady = false;
     private boolean waitingForFinalInteraction = false;
-    private boolean hideOnFinalInteraction = true;
 
     public BattleTextArea() {
         //Notes:
@@ -69,8 +68,6 @@ public class BattleTextArea extends Window {
         return false;
     }
 
-    public void setHideOnFinalInteraction(boolean hideOnFinalInteraction) { this.hideOnFinalInteraction = hideOnFinalInteraction; }
-
     private void cleanupTextArea() {
         lineStrings.clear();
         this.reset();
@@ -90,10 +87,8 @@ public class BattleTextArea extends Window {
     }
 
     private void hide() {
-        if (hideOnFinalInteraction) {
-            cleanupTextArea();
-            this.setVisible(false);
-        }
+        cleanupTextArea();
+        this.setVisible(false);
 
         state = State.HIDDEN;
         //Gdx.app.debug(TAG, "battle text interact new state = " + state.toString());

@@ -449,8 +449,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                         String entityProperty = effectItem.effect.toString();
                         entityProperty = entityProperty.substring(0, entityProperty.indexOf("_"));
                         sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(entityProperty);
-                        currVal = Integer.parseInt(sVal);
-                        newVal = currVal + effectItem.value;
+                        if (!sVal.equals("")) {
+                            currVal = Integer.parseInt(sVal);
+                            newVal = currVal + effectItem.value;
+                        }
+                        else {
+                            Gdx.app.log(TAG,">>>>>>>>>>>>>>>>> TODO: getApplyInventoryTimer needs to handle " + entityProperty + " <<<<<<<<<<<<<<<<<<<<<");
+                        }
                     }
 
                     if (!selectedInventoryElement.effectText.equals("")) {
