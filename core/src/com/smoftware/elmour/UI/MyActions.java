@@ -78,6 +78,22 @@ public class MyActions {
         }
     }
 
+    public class setButtonVisible extends Action {
+        TextButton button = null;
+        boolean visible = false;
+
+        public setButtonVisible(TextButton button, boolean visible) {
+            this.button = button;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            button.setVisible(visible);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class setLabelText extends Action {
         Label label = null;
         String text = "";

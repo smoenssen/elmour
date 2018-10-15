@@ -1413,8 +1413,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         runButton.setTouchable(Touchable.enabled);
         statusButton.setTouchable(Touchable.enabled);
         backButton.setTouchable(Touchable.enabled);
-
-        battleTextArea.setTouchable(Touchable.enabled);
     }
 
     private void disableButtons() {
@@ -1430,7 +1428,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         statusButton.setTouchable(Touchable.disabled);
         backButton.setTouchable(Touchable.disabled);
 
-        battleTextArea.setTouchable(Touchable.disabled);
+        //todo can't do this here, but need to disable battleTextArea until text has completed
+        //battleTextArea.setTouchable(Touchable.disabled);
     }
 
     private void setHUDNewState(ScreenState newState) {
@@ -2255,6 +2254,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
+        Gdx.app.log(TAG, String.format("BattleEvent received without message: %s", event.toString()));
         switch(event){
             case PLAYER_TURN_START:
                 /*
@@ -2476,9 +2476,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case PLAYER_FAILED_TO_ESCAPE:
                 displayBanner("Failed to run!", 2);
                 game.battleState.getNextTurnCharacter(2);
-                // todo: couple issues still here:
-                // 1) next battle text is not updated to correct text
-                // 2) battleTextArea touch stops working (probably issue with  turnInProgress flag)
+                // todo: issue still here:
+                // 1) next battle text is not updated to correct text (shows previous text)
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();
@@ -2503,6 +2502,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         initialMainScreenDisplayed = true;
                     }
                 }
+                turnInProgress = false;
                 selectedCharacter = null;
                 break;
             default:
@@ -2512,7 +2512,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
-        Gdx.app.log(TAG, event.toString() + " notification received, message = " + message);
+        Gdx.app.log(TAG, event.toString() + " BattleEventWithMessage received, message = " + message);
 
         switch(event){
             case OPPONENT_ATTACKS:
