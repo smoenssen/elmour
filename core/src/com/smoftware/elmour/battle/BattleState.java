@@ -198,7 +198,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-
+/*
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         entity3.setAlive(true);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -218,7 +218,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
-        currentPartyList.add(entity5);
+        currentPartyList.add(entity5);*/
     }
 
     public void getNextTurnCharacter(float delay){
@@ -400,6 +400,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 // Also modify message text for HP and MP
                 boolean gotHPorMP = false;
                 boolean addedPeriod = false;
+                boolean addedEffectText = false;
                 for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
                     String sVal;
 
@@ -441,8 +442,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                     }
                     else {
                         if (gotHPorMP && !addedPeriod) {
-                            message += ".";
-                            addedPeriod = true;
+                            String tmp = message.substring(message.length() - 1, message.length());
+                            if (!tmp.equals(".")) {
+                                message += ".";
+                                addedPeriod = true;
+                            }
                         }
 
                         // all other entity properties are the effect item's name left of the underscore
@@ -458,8 +462,21 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                         }
                     }
 
-                    if (!selectedInventoryElement.effectText.equals("")) {
-                        message += " " + selectedInventoryElement.effectText;
+                    if (!selectedInventoryElement.effectText.equals("") && !addedEffectText) {
+                        // set character name(s) if placeholders are in effect text
+                        String tmp = selectedInventoryElement.effectText;
+                        String finalEffectText = tmp;
+                        int leftPercentIndex = tmp.indexOf('%', 0);
+                        while (leftPercentIndex >= 0) {
+                            int rightPercentIndex = tmp.indexOf('%', leftPercentIndex + 1);
+                            String placeholder = tmp.substring(leftPercentIndex + 1, rightPercentIndex);
+                            String characterName = currentSelectedCharacter.getEntityConfig().getDisplayName();
+                            finalEffectText = finalEffectText.replace("%" + placeholder + "%", characterName);
+                            leftPercentIndex = tmp.indexOf('%', rightPercentIndex + 1);
+                        }
+
+                        message += ". " + finalEffectText;
+                        addedEffectText = true;
                     }
 
                     currentSelectedCharacter.getEntityConfig().setPropertyValue(effectItem.effect.toString(), newVal.toString());

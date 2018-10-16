@@ -2,5 +2,4 @@ need to use old monsters.json for now
 
 don't allow character stats to go negative
 
-handle %CHARACTER% in inventory
-effectText issue with period in wrong place
+when battle turn changes after one round, if enemy is first then the battleTextArea goes away
