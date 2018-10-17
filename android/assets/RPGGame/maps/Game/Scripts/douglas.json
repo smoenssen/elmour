@@ -42,7 +42,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 170
+		value: 10
 	}
 	ACC: {
 		class: java.lang.String

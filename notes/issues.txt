@@ -1,4 +1,3 @@
-need to use old monsters.json for now
 
 don't allow character stats to go negative
 

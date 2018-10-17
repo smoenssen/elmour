@@ -1292,7 +1292,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            if (turnInProgress) return;
 
                                            if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                                               if (battleTextArea.interact()) {
+                                               if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                   // show dummyTextArea briefly to fix blip before battleTextArea
+                                                   dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                               }
+                                               else if (battleTextArea.interact()) {
                                                    // this is necessary!
                                                    showMainScreen(true);
                                                }
@@ -1302,17 +1306,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleTextArea.interact();
 
                                                if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-                                                   // show dummyTextArea briefly to fix blip before battleTextArea
+                                                   // show dummyTextArea briefly to fix blip before next
+                                                   // battleTextArea when there are enemy turns back to back
                                                    dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
 
                                                    //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
-                                                   while (!battleTextArea.isVisible())
+                                                   while (!battleTextArea.isVisible()) {
                                                        battleTextArea.interact();
                                                        try {
-                                                           Thread.sleep(100);
+                                                           Thread.sleep(10);
                                                        } catch (InterruptedException e) {
                                                            e.printStackTrace();
                                                        }
+                                                   }
+                                               }
+                                               else if (battleTextArea.interact()) {
+                                                   showMainScreen(true);
                                                }
                                            }
 
@@ -2472,8 +2481,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case PLAYER_FAILED_TO_ESCAPE:
                 displayBanner("Failed to run!", 2);
                 game.battleState.getNextTurnCharacter(2);
-                // todo: issue still here:
-                // 1) next battle text is not updated to correct text (shows previous text)
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();
@@ -2487,10 +2494,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     statusButton.addAction(Actions.fadeOut(0));
 
                     battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
                     battleTextArea.interact(); // first interact sets battleTextArea visible
 
                     // delay for one frame here to fix issue with blip when battleTextArea is set to visible
-                    dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
+                    //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
                 }
                 else {
                     if (!initialMainScreenDisplayed) {
@@ -2515,18 +2523,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
                 break;
             case PLAYER_HIT_DAMAGE:
-                battleTextArea.populateText(message);
-                selectedCharacter = null;
+                // currently this isn't called
+                //battleTextArea.populateText(message);
+                //selectedCharacter = null;
                 break;
             case OPPONENT_TURN_DONE:
                 UpdateStats(destinationEntity);
 
                 battleTextArea.populateText(message);
+
+                battleTextArea.interact();
+                dummyTextArea.addAction(Actions.sequence(Actions.delay(0), Actions.fadeOut(0)));
+
                 if (battleTextArea.interact()) {
-                    //if (!transitionToMainScreen.isScheduled()) {
-                    //    Timer.schedule(transitionToMainScreen, 4);
-                    //}
-                    showMainScreen(true);
+                    if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                        showMainScreen(true);
+                    }
                 }
                 turnInProgress = false;
                 selectedCharacter = null;

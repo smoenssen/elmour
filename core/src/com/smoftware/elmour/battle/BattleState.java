@@ -191,14 +191,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity1);
-
+/*
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
         entity2.setAlive(true);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-/*
+
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         entity3.setAlive(true);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -229,12 +229,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public Entity peekNextTurnCharacter() {
-        Entity character = null;
-        if (characterTurnList.size() > 0) {
-            // get character at top of list and return it
-            character = characterTurnList.get(0);
+        if (characterTurnList.size() == 0) {
+            populateCharacterTurnList();
         }
-        return character;
+
+        // return character at top of list but don't remove it
+        return characterTurnList.get(0);
     }
 
     public Entity getCurrentTurnCharacter() { return currentTurnCharacter; }
@@ -575,7 +575,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newPlayerHP));
 
                 if (hitPoints > 0) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
                 }
 
                 Gdx.app.log(TAG, "new player HP = " + newPlayerHP);
@@ -620,22 +620,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             @Override
             public void run() {
                 if (characterTurnList.size() == 0) {
-                    // get list of all characters
-                    for (Entity entity : currentPartyList) {
-                        characterTurnList.add(entity);
-                    }
-
-                    for (Entity entity : currentEnemyList) {
-                        characterTurnList.add(entity);
-                    }
-
-                    // sort list in descending order by SPD
-                    Collections.sort(characterTurnList, new EntitySpeedComparator());
-
-                    Gdx.app.log(TAG, "Battle turn order:");
-                    for (Entity entity : characterTurnList) {
-                        Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + " " + entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD)));
-                    }
+                    populateCharacterTurnList();
                 }
 
                 if (characterTurnList.size() > 0) {
@@ -645,6 +630,27 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 }
             }
         };
+    }
+
+    private void populateCharacterTurnList() {
+        characterTurnList.clear();
+
+        // get list of all characters
+        for (Entity entity : currentPartyList) {
+            characterTurnList.add(entity);
+        }
+
+        for (Entity entity : currentEnemyList) {
+            characterTurnList.add(entity);
+        }
+
+        // sort list in descending order by SPD
+        Collections.sort(characterTurnList, new EntitySpeedComparator());
+
+        Gdx.app.log(TAG, "Battle turn order:");
+        for (Entity entity : characterTurnList) {
+            Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + " " + entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD)));
+        }
     }
 
     public void playerRuns(){
