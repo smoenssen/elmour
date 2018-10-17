@@ -131,7 +131,6 @@ public class BattleTextArea extends Window {
                     // set full text so that the total number of lines can be figured out
                     setTextForUIThread(fullText, false);
                     isReady = true;
-                    textAreaClean = false;
 
                     // wait up to 5 sec to make sure lines are populated
                     int numLines = textArea.getLines();
