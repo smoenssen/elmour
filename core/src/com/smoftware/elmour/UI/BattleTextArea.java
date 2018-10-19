@@ -68,6 +68,12 @@ public class BattleTextArea extends Window {
         return false;
     }
 
+    public void show() {
+        this.setVisible(true);
+        state = State.VISIBLE;
+        startTextScrollThread();
+    }
+
     private void cleanupTextArea() {
         lineStrings.clear();
         this.reset();
@@ -86,23 +92,12 @@ public class BattleTextArea extends Window {
         this.add(textArea);
     }
 
-    private void hide() {
+    public void hide() {
         cleanupTextArea();
         this.setVisible(false);
 
         state = State.HIDDEN;
         //Gdx.app.debug(TAG, "battle text interact new state = " + state.toString());
-    }
-
-    public boolean isListening() {
-        if (state == State.LISTENING) {
-            Gdx.app.log(TAG, "IS LISTENING");
-            return true;
-        }
-        else {
-            Gdx.app.log(TAG, "IS NOT LISTENING");
-            return false;
-        }
     }
 
     private void setTextForUIThread(String text, boolean displayText) {
@@ -118,6 +113,84 @@ public class BattleTextArea extends Window {
             textArea.setText(currentText, displayText);
             //Gdx.app.log(TAG, "currentText = " + currentText);
         }
+    }
+
+    private void startTextScrollThread() {
+        Runnable r = new Runnable() {
+            public void run() {
+                Gdx.app.log(TAG, "Starting TextScrollThread...");
+                char currentChar = ' ';
+                String currentVisibleText = "";
+
+                if (lineStrings == null || lineStrings.size == 0) {
+                    // set full text so that the total number of lines can be figured out
+                    setTextForUIThread(fullText, false);
+                    isReady = true;
+
+                    // wait up to 5 sec to make sure lines are populated
+                    int numLines = textArea.getLines();
+                    for (int q = 0; q < 100 && numLines == 0; q++) {
+                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        numLines = textArea.getLines();
+                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                        //Gdx.app.log(TAG, "fulltext = " + fullText);
+                    }
+
+                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+
+                    lineStrings = textArea.getLineStrings();
+                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
+                }
+
+                Gdx.app.log(TAG, "fulltext = " + fullText);
+
+                // loop through lines
+                for (int lineIdx = 0; lineIdx < lineStrings.size; lineIdx++) {
+                    String line = lineStrings.get(lineIdx);
+                    int len = line.length();
+                    Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
+
+                    // display line char by char
+                    for (int i = 0; i < line.length(); i++) {
+                        currentChar = line.charAt(i);
+                        //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
+
+                        currentVisibleText += currentChar;
+                        setTextForUIThread(currentVisibleText, true);
+
+                        // add EOL char to text so that pending text isn't displayed as chars are added
+                        if (i == line.length() - 1) {
+                            currentVisibleText += '\n';
+                            setTextForUIThread(currentVisibleText, true);
+                        }
+
+                        // delay for each character
+                        try {
+                            Thread.sleep(20);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    if (state == State.HIDDEN)
+                        // break out of loop and exit thread if we were hidden
+                        break;
+                }
+
+                // reset
+                currentText = "";
+                displayText = false;
+                Gdx.app.log(TAG, "Exiting TextScrollThread");
+            }
+        };
+
+        new Thread(r).start();
     }
 
     private void startInteractionThread() {

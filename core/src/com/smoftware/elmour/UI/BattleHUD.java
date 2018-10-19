@@ -794,9 +794,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
 
-        //if (ElmourGame.DEV_MODE)
-        //  _stage.addActor(statusButton);
-
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
 
@@ -1078,19 +1075,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                      }
                                  }
         );
-
-        /*
-        _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
-                                                           @Override
-                                                           public void clicked(InputEvent event, float x, float y) {
-                                                               _storeInventoryUI.savePlayerInventory();
-                                                               _storeInventoryUI.cleanupStoreInventory();
-                                                               _storeInventoryUI.setVisible(false);
-                                                               _mapMgr.clearCurrentSelectedMapEntity();
-                                                           }
-                                                       }
-        );
-        */
 
         spellsPowerListView.addListener(new ClickListener() {
                                     @Override
@@ -2086,23 +2070,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         */
 
         //_stage.setDebugAll(true);
-        battleTextArea.update();
+
+        if (battleTextArea.isReady())
+            battleTextArea.update();
+
         _stage.act(delta);
         _stage.draw();
-    }
-
-    // NOTE: there is an issue using this to fade out. When coming back into this screen, the HUD is not displayed
-    public void switchScreen(final ElmourGame game, final Screen newScreen){
-        _stage.getRoot().getColor().a = 1;
-        SequenceAction sequenceAction = new SequenceAction();
-        sequenceAction.addAction(Actions.fadeOut(0.25f));
-        sequenceAction.addAction(Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(newScreen);
-            }
-        }));
-        _stage.getRoot().addAction(sequenceAction);
     }
 
     private void setLabelFontColor(Label label, Color color) {
@@ -2553,6 +2526,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 UpdateStats(destinationEntity);
 
+                //todo: remove cases if they are all going to be the same
                 switch (previousScreenState) {
                     case FIGHT:
                         //fullMsg = String.format("%s attacked %s%s", sourceEntity.getEntityConfig().getDisplayName(),
