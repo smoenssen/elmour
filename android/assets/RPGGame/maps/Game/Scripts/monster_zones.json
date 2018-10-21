@@ -10,6 +10,12 @@ groups: [
 	{
 		value: GROUP001
 	}
+	{
+		value: GROUP002
+	}
+	{
+		value: GROUP003
+	}
 ]
 },
 {

@@ -52,6 +52,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
+    private final float CAMERA_POS_X = 40;
+    private final float CAMERA_POS_Y = 6;
+    private float cameraRunningOffset = 0;
 
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> carmenBattleAnimations;
     protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
@@ -69,7 +72,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
     protected OrthographicCamera _hudCamera = null;
-    //protected OrthographicCamera controllersCam = null;
 
     private Json _json;
     private ElmourGame _game;
@@ -90,6 +92,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Action _switchScreenAction;
     private Action setupBattleScene;
     private Action attackCutSceneAction;
+    private Action playerEscapeScreenAction;
+    private Action playerFailedEscapeScreenAction;
 
     private float characterWidth = 1.0f;
     private float characterHeight = 1.0f;
@@ -215,7 +219,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             public void run() {
                 _mapMgr.loadMap(MapFactory.MapType.GRASS_BATTLE);
                 _mapMgr.disableCurrentmapMusic();
-                _camera.position.set(10, 6, 0f);
+                _camera.position.set(CAMERA_POS_X, CAMERA_POS_Y, 0f);
 
                 party1.setSize(characterWidth, characterHeight);
                 party1.setVisible(true);
@@ -489,7 +493,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         @Override
         public boolean act (float delta) {
-            character.setCurrentAnimationType(direction);
+            if (character != null)
+                character.setCurrentAnimationType(direction);
             return true; // An action returns true when it's completed
         }
     }
@@ -575,6 +580,57 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 new animationComplete()
+        );
+    }
+
+    private Action getPlayerEscapeScreenAction() {
+        _isCameraFixed = false;
+        Entity.AnimationType runDirection;
+        runDirection = Entity.AnimationType.RUN_RIGHT;
+
+        cameraRunningOffset = party1.getX() - CAMERA_POS_X;
+
+        float duration = 3;
+        float partyDestinationX_1_3_5 = party1.getX() + (7.5f * duration);
+        float partyDestinationX__2_4_ = party2.getX() + (7.5f * duration);
+
+        float enemyDestinationX__2_4_ = enemy2.getX() + (7.5f * duration);
+        float enemyDestinationX_1_3_5 = enemy1.getX() + (7.5f * duration);
+
+        party1.setCurrentAnimationType(runDirection);
+        party2.setCurrentAnimationType(runDirection);
+        party3.setCurrentAnimationType(runDirection);
+        party4.setCurrentAnimationType(runDirection);
+        party5.setCurrentAnimationType(runDirection);
+
+        enemy1.setCurrentAnimationType(runDirection);
+        enemy2.setCurrentAnimationType(runDirection);
+        enemy3.setCurrentAnimationType(runDirection);
+        enemy4.setCurrentAnimationType(runDirection);
+        enemy5.setCurrentAnimationType(runDirection);
+
+        return Actions.sequence(
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
+                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
+                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration, Interpolation.linear), enemy1),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration, Interpolation.linear), enemy2),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration, Interpolation.linear), enemy3),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration, Interpolation.linear), enemy4),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration, Interpolation.linear), enemy5),
+
+                Actions.delay(duration),
+
+                new animationComplete()
+        );
+    }
+
+    private Action getPlayerFailedEscapeScreenAction() {
+        return Actions.sequence(
+                // todo: fade out, reset camera, fade back in to battle
         );
     }
 
@@ -694,6 +750,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
         else {
             isFirstTime = false;
+        }
+
+        if( !_isCameraFixed ){
+            _camera.position.set(party1.getX() - cameraRunningOffset, _camera.position.y, 0f);
         }
 
         _camera.update();
@@ -1071,7 +1131,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case OPPONENT_BLOCKED:
                 selectedEntity = null;
                 break;
-            case PLAYER_RUNNING:
+            case PLAYER_ESCAPED:
+                playerEscapeScreenAction = getPlayerEscapeScreenAction();
+                _stage.addAction(playerEscapeScreenAction);
+                selectedEntity = null;
+                break;
+            case PLAYER_FAILED_TO_ESCAPE:
+                playerFailedEscapeScreenAction = getPlayerFailedEscapeScreenAction();
+                _stage.addAction(playerFailedEscapeScreenAction);
                 selectedEntity = null;
                 break;
             case OPPONENT_DEFEATED:

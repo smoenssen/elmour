@@ -59,7 +59,7 @@ entityProperties: {
 }
 animationConfig: [
 	{
-	    frameDuration: 0.25
+	    frameDuration: 0.15
 		animationType: IDLE
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Character_2/Character_2.png
@@ -69,7 +69,6 @@ animationConfig: [
 				x: 25
 				y: 0
 			}
-
 			{
 				x: 25
 				y: 1
@@ -85,7 +84,7 @@ animationConfig: [
 		]
 	}
 	{
-	    frameDuration: 0.25
+	    frameDuration: 0.15
 		animationType: WALK_DOWN
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Character_2/Character_2.png
@@ -95,7 +94,6 @@ animationConfig: [
 				x: 25
 				y: 0
 			}
-
 			{
 				x: 25
 				y: 1
@@ -111,7 +109,7 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.25
+		frameDuration: 0.15
 		animationType: WALK_LEFT
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Character_2/Character_2.png
@@ -121,7 +119,6 @@ animationConfig: [
 				x: 25
 				y: 3
 			}
-
 			{
 				x: 25
 				y: 4
@@ -137,7 +134,7 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.25
+		frameDuration: 0.15
 		animationType: WALK_RIGHT
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Character_2/Character_2.png
@@ -147,7 +144,6 @@ animationConfig: [
 				x: 25
 				y: 6
 			}
-
 			{
 				x: 25
 				y: 7
@@ -163,7 +159,7 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.25
+		frameDuration: 0.15
 		animationType: WALK_UP
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Character_2/Character_2.png
@@ -173,7 +169,6 @@ animationConfig: [
 				x: 25
 				y: 9
 			}
-
 			{
 				x: 25
 				y: 10
@@ -184,6 +179,106 @@ animationConfig: [
 			}
 			{
 		    x: 25
+				y: 11
+			}
+		]
+	}
+	{
+			frameDuration: 0.10
+		animationType: RUN_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
+		]
+		gridPoints: [
+			{
+				x: 25
+				y: 0
+			}
+			{
+				x: 25
+				y: 1
+			}
+			{
+				x: 25
+				y: 0
+			}
+			{
+				x: 25
+				y: 2
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
+		]
+		gridPoints: [
+			{
+				x: 25
+				y: 3
+			}
+			{
+				x: 25
+				y: 4
+			}
+			{
+				x: 25
+				y: 3
+			}
+			{
+				x: 25
+				y: 5
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
+		]
+		gridPoints: [
+			{
+				x: 25
+				y: 6
+			}
+			{
+				x: 25
+				y: 7
+			}
+			{
+				x: 25
+				y: 6
+			}
+			{
+				x: 25
+				y: 8
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Character_2/Character_2.png
+		]
+		gridPoints: [
+			{
+				x: 25
+				y: 9
+			}
+			{
+				x: 25
+				y: 10
+			}
+			{
+				x: 25
+				y: 9
+			}
+			{
+				x: 25
 				y: 11
 			}
 		]

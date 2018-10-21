@@ -1,4 +1,6 @@
 
 don't allow character stats to go negative
 
-when battle turn changes after one round, if enemy is first then the battleTextArea goes away
+dummy text area can be moved
+
+blue arrow should disappear when running

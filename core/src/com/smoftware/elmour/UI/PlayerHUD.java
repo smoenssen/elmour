@@ -1643,7 +1643,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                 //_battleUI.setVisible(false);
                 break;
                 */
-            case PLAYER_RUNNING:
+            case ANNIMATION_COMPLETE:
+                break;
+            case PLAYER_ESCAPED:
+                /*
                 playerComingFromBattle = true;
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
@@ -1674,7 +1677,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
 
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-
+*/
                 break;
                 /*
             case PLAYER_HIT_DAMAGE:

@@ -64,6 +64,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, POWER, SPELL_TYPE, SPELLS_WHITE, SPELLS_BLACK, STATS, UNKNOWN }
     private Stack<ScreenState> screenStack;
 
+    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE }
+
     // for keeping track of node's expanded state
     // and .equals comparison for .contains function
     Array<rootNode> rootNodeArray = new Array<>();
@@ -274,8 +276,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     String selectedCharacter = null;
 
-    private boolean firstTime = true;
     private boolean turnInProgress = false;
+    private AnimationState animationState = AnimationState.BATTLE;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -2148,8 +2150,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupMp4.setVisible(false);
         groupHp5.setVisible(false);
         groupMp5.setVisible(false);
-
-        firstTime = true;
     }
 
     @Override
@@ -2454,14 +2454,24 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case ANNIMATION_COMPLETE:
                 turnInProgress = false;
+
+                if (animationState == AnimationState.ESCAPED) {
+                    resetControls();
+
+                    // todo: need to have PlayerHUD transition back to game screen
+                }
+                else if (animationState == AnimationState.FAILED_ESCAPE) {
+                    battleTextArea.populateText("Failed to run!");
+                }
+
                 break;
-            case PLAYER_RUNNING:
-                resetControls();
+            case PLAYER_ESCAPED:
+                animationState = AnimationState.ESCAPED;
                 selectedCharacter = null;
                 break;
             case PLAYER_FAILED_TO_ESCAPE:
+                animationState = AnimationState.FAILED_ESCAPE;
                 turnInProgress = false;
-                battleTextArea.populateText("Failed to run!");
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();

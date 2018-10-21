@@ -57,13 +57,15 @@ public class AnimatedImage extends Image {
     }
 
     public void setCurrentAnimationType(Entity.AnimationType animationType){
-        Animation<TextureRegion> animation = _entity.getAnimation(animationType);
-        if( animation == null ){
-            Gdx.app.debug(TAG, "Animation type " + animationType.toString() + " does not exist!");
-            return;
-        }
+        if (_entity != null) {
+            Animation<TextureRegion> animation = _entity.getAnimation(animationType);
+            if (animation == null) {
+                Gdx.app.debug(TAG, "Animation type " + animationType.toString() + " does not exist!");
+                return;
+            }
 
-        this._currentAnimationType = animationType;
+            this._currentAnimationType = animationType;
+        }
     }
 
     @Override

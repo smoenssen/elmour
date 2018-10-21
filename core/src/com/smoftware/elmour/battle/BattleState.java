@@ -198,7 +198,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-/*
+
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         entity3.setAlive(true);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -212,7 +212,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity4.setBattlePosition(battlePosition++);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity4);
-
+/*
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1);
         entity5.setAlive(true);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -691,7 +691,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         if (chanceOfEscape > randomVal) {
             Gdx.app.log(TAG, "Player escaped!");
             resetBattleState();
-            notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_RUNNING);
+            notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_ESCAPED);
         }
         else {
             Gdx.app.log(TAG, "Player failed to escape!");
