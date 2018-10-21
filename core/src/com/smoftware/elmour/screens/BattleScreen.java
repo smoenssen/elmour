@@ -494,6 +494,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
+    public class animationComplete extends Action {
+        public animationComplete() {
+        }
+
+        @Override
+        public boolean act (float delta) {
+            _game.battleState.animationComplete();
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class showMainCharacterAnimation extends Action {
         AnimatedImage character;
         boolean show;
@@ -561,7 +572,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 // turn to face victim
                 new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE)
+                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+
+                new animationComplete()
         );
     }
 

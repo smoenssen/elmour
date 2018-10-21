@@ -191,14 +191,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity1);
-/*
+
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
         entity2.setAlive(true);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-
+/*
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         entity3.setAlive(true);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -223,8 +223,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void getNextTurnCharacter(float delay){
         // NOTE: When the battle starts for the first time, this is called from PlayerHUD, not BattleHUD
+        if (characterTurnList.size() == 0) {
+            populateCharacterTurnList();
+        }
+
         if( !chooseNextCharacterTurn.isScheduled() ){
-            Timer.schedule(chooseNextCharacterTurn, delay);//srm delay
+            Timer.schedule(chooseNextCharacterTurn, delay);
         }
     }
 
@@ -619,10 +623,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                if (characterTurnList.size() == 0) {
-                    populateCharacterTurnList();
-                }
-
                 if (characterTurnList.size() > 0) {
                     // get character at top of list and remove it
                     setCurrentTurnCharacter(characterTurnList.get(0));
@@ -699,9 +699,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
     }
 
-    void resetBattleState() {
+    private void resetBattleState() {
         characterTurnList.clear();
         Gdx.app.log(TAG, "clearing characterTurnList");
+    }
+
+    public void animationComplete() {
+        notify(currentSelectedCharacter, BattleObserver.BattleEvent.ANNIMATION_COMPLETE);
     }
 
     @Override

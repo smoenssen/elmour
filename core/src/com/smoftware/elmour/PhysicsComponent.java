@@ -427,6 +427,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         float velocityFactor;
 
         if (ElmourGame.isAndroid()) {
+            // for Android, the velocityFactor is tiles per frame times the joystick position
             velocityFactor = 0.075f;
             if (isRunning)
                 velocityFactor = 0.125f;

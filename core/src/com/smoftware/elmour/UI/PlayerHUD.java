@@ -1625,7 +1625,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
-            case OPPONENT_HIT_DAMAGE:
+            /*
+          case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
                 break;
@@ -1641,6 +1642,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 //todo
                 //_battleUI.setVisible(false);
                 break;
+                */
             case PLAYER_RUNNING:
                 playerComingFromBattle = true;
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
@@ -1674,6 +1676,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
 
                 break;
+                /*
             case PLAYER_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);
                 int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
@@ -1696,6 +1699,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
             default:
                 break;
+                */
         }
     }
 

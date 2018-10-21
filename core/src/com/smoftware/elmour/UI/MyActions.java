@@ -172,7 +172,7 @@ public class MyActions {
         @Override
         public boolean act (float delta) {
             if (battleTextArea.isVisible()) {
-                battleTextArea.interact();
+                battleTextArea.hide();
             }
             return true; // An action returns true when it's completed
         }

@@ -12,7 +12,7 @@ import com.smoftware.elmour.Utility;
 public class BattleTextArea extends Window {
     private static final String TAG = BattleTextArea.class.getSimpleName();
 
-    private enum State {HIDDEN, VISIBLE, LISTENING}
+    private enum State {HIDDEN, VISIBLE}
 
     public Array<String> lineStrings;
     private String fullText;
@@ -20,14 +20,11 @@ public class BattleTextArea extends Window {
     private String currentText;
     private MyTextArea textArea;
     private State state = State.HIDDEN;
-    private boolean interactReceived = false;
     private boolean isReady = false;
-    private boolean waitingForFinalInteraction = false;
 
     public BattleTextArea() {
         //Notes:
         //font is set in the Utility class
-        //popup is created in PlayerHUD class
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "battle");
 
@@ -41,40 +38,16 @@ public class BattleTextArea extends Window {
 
     public void populateText(String text) {
         fullText = text;
-    }
-
-    public boolean interact() {
-
-        Gdx.app.log(TAG, "battle text interact cur state = " + state.toString());
-
-        switch (state) {
-            case HIDDEN:
-                isReady = false;
-                state = State.VISIBLE;
-                break;
-            case VISIBLE:
-                if (fullText != "") {
-                    this.setVisible(true);
-                    state = State.LISTENING;
-                    startInteractionThread();
-                }
-                break;
-            case LISTENING:
-                interactReceived = true;
-                return waitingForFinalInteraction;
-        }
-
-        Gdx.app.log(TAG, "battle text interact new state = " + state.toString());
-        return false;
+        startTextScrollThread();
     }
 
     public void show() {
         this.setVisible(true);
         state = State.VISIBLE;
-        startTextScrollThread();
+        //startTextScrollThread();
     }
 
-    private void cleanupTextArea() {
+    public void cleanupTextArea() {
         lineStrings.clear();
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battletext");
@@ -179,136 +152,11 @@ public class BattleTextArea extends Window {
                     }
 
                     if (state == State.HIDDEN)
-                        // break out of loop and exit thread if we were hidden
+                        // break out of loop and exit thread if we are hidden
                         break;
                 }
 
-                // reset
-                currentText = "";
-                displayText = false;
                 Gdx.app.log(TAG, "Exiting TextScrollThread");
-            }
-        };
-
-        new Thread(r).start();
-    }
-
-    private void startInteractionThread() {
-        Runnable r = new Runnable() {
-            public void run() {
-                Gdx.app.log(TAG, "Starting InteractionThread...");
-                char currentChar = ' ';
-                String currentVisibleText = "";
-
-                if (lineStrings == null || lineStrings.size == 0) {
-                    // set full text so that the total number of lines can be figured out
-                    setTextForUIThread(fullText, false);
-                    isReady = true;
-
-                    // wait up to 5 sec to make sure lines are populated
-                    int numLines = textArea.getLines();
-                    for (int q = 0; q < 100 && numLines == 0; q++) {
-                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        numLines = textArea.getLines();
-                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
-                        //Gdx.app.log(TAG, "fulltext = " + fullText);
-                    }
-
-                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
-
-                    lineStrings = textArea.getLineStrings();
-                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
-                }
-
-                boolean delay = true;
-                Gdx.app.log(TAG, "fulltext = " + fullText);
-
-                // loop through lines
-                for (int lineIdx = 0; lineIdx < lineStrings.size; lineIdx++) {
-                    String line = lineStrings.get(lineIdx);
-                    int len = line.length();
-                    Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
-
-                    // display line char by char for next two lines
-                    String currentTextBeforeNextLine = currentVisibleText;
-                    for (int i = 0; i < line.length(); i++) {
-
-                        if (interactReceived || delay == false) {
-                            Gdx.app.log(TAG, "interactReceived || delay == false");
-                            interactReceived = false;
-                            delay = false;
-                            currentVisibleText = currentTextBeforeNextLine + line;
-                            setTextForUIThread(currentVisibleText, true);
-                            break;
-                        }
-                        else {
-                            currentChar = line.charAt(i);
-                            //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
-
-                            currentVisibleText += currentChar;
-                            setTextForUIThread(currentVisibleText, true);
-
-                            // add EOL char to text so that pending text isn't displayed as chars are added
-                            if (i == line.length() - 1) {
-                                currentVisibleText += '\n';
-                                setTextForUIThread(currentVisibleText, true);
-                            }
-
-                            // delay for each character
-                            try {
-                                Thread.sleep(20);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
-                    if (state == State.HIDDEN)
-                        // break out of loop and exit thread if we were hidden
-                        break;
-                    else
-                        // go into listening mode
-                        state = State.LISTENING;
-
-                    if (lineIdx == lineStrings.size - 1) {
-                        // done populating current box so need to pause for next interaction
-                        while (!interactReceived && state == State.LISTENING) {
-                            waitingForFinalInteraction = true;
-
-                            try {
-                                Thread.sleep(100);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        if (lineIdx == lineStrings.size - 1) {
-                            hide();
-                            state = State.HIDDEN;
-                            break;
-                        }
-
-                        // reset for next iteration
-                        interactReceived = false;
-                        delay = true;
-
-                        if (state == State.HIDDEN)
-                            break;
-                    }
-                }
-
-                // total reset
-                currentText = "";
-                displayText = false;
-                interactReceived = false;
-                Gdx.app.log(TAG, "Exiting InteractionThread");
-                waitingForFinalInteraction = false;
             }
         };
 

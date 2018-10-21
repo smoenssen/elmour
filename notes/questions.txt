@@ -24,4 +24,4 @@ Chapter = what chapter it is accessible during and after. Greater than or equal 
 If location does not exist, it defaults to everywhere.
 If chapter does not exist, it defaults to always being available.
 
-When opponent attacks, can they be blocked by the party character?
+When opponent attacks, can they be blocked by the party character? Yes

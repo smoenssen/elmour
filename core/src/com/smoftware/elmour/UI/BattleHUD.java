@@ -271,11 +271,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private BattleScreen battleScreen;
     private BattleTextArea battleTextArea;
     private TextButton dummyTextArea;
-    private Timer.Task transitionToMainScreen;
 
     String selectedCharacter = null;
 
-    private boolean initialMainScreenDisplayed = false;
+    private boolean firstTime = true;
     private boolean turnInProgress = false;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
@@ -303,8 +302,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         _battleShakeCam = new ShakeCamera(0,0, 30.0f);
         _currentImagePosition = new Vector2(0,0);
-
-        transitionToMainScreen = getTransitionToMainScreenTimer();
 
         myActions = new MyActions();
 
@@ -992,6 +989,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                game.battleState.playerRuns();
                                                // see note below why this isn't being used
                                                //switchScreen(game, game.getScreenType(ElmourGame.ScreenType.MainGame));
+
+                                               hideMainScreen();
+
+                                               battleTextArea.show();
+                                               battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
+                                               // delay for one frame here to fix issue with blip when battleTextArea is set to visible
+                                               dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
                                            }
                                        }
                                    }
@@ -1038,7 +1043,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                        }
 
                                                        battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                                                       battleTextArea.interact(); // first interact sets battleTextArea visible
+                                                       battleTextArea.show();
 
                                                        switch (previousScreenState) {
                                                            case FIGHT:
@@ -1274,42 +1279,36 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (turnInProgress) return;
+                                           Gdx.app.log(TAG, "CLICKING BATTLE TEXT AREA");
+
+                                           turnInProgress = true;
 
                                            if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
                                                if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                   battleTextArea.cleanupTextArea();
+
                                                    // show dummyTextArea briefly to fix blip before battleTextArea
                                                    dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                                                }
-                                               else if (battleTextArea.interact()) {
-                                                   // this is necessary!
+                                               else {
+                                                   battleTextArea.hide();
                                                    showMainScreen(true);
                                                }
                                            }
                                            else {
                                                // enemy
-                                               battleTextArea.interact();
-
                                                if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                   battleTextArea.cleanupTextArea();
+
                                                    // show dummyTextArea briefly to fix blip before next
                                                    // battleTextArea when there are enemy turns back to back
                                                    dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-
-                                                   //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
-                                                   while (!battleTextArea.isVisible()) {
-                                                       battleTextArea.interact();
-                                                       try {
-                                                           Thread.sleep(10);
-                                                       } catch (InterruptedException e) {
-                                                           e.printStackTrace();
-                                                       }
-                                                   }
                                                }
-                                               else if (battleTextArea.interact()) {
+                                               else {
                                                    showMainScreen(true);
                                                }
                                            }
 
-                                           //turnInProgress = true;
                                            game.battleState.getNextTurnCharacter(0);
                                        }
                                    }
@@ -2150,13 +2149,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupHp5.setVisible(false);
         groupMp5.setVisible(false);
 
-        initialMainScreenDisplayed = false;
+        firstTime = true;
     }
 
     @Override
     public void resize(int width, int height) {
         // This is the function that is called when the battle screen is opened.
         _stage.getViewport().update(width, height, true);
+
+        if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            showMainScreen(true);
+        }
+        else {
+            // enemy
+            hideMainScreen();
+            dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+            turnInProgress = true;
+        }
 
         // make controls rise from the bottom of the screen when it is first displayed
         leftTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
@@ -2182,8 +2191,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         monster3Name.setVisible(true);
         monster4Name.setVisible(true);
         monster5Name.setVisible(true);
-
-        turnInProgress = true;
     }
 
     @Override
@@ -2363,9 +2370,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case OPPONENT_BLOCKED:
                 battleTextArea.populateText("Melee attack on " + entity.getEntityConfig().getDisplayName() + " has been blocked!");
-                if (battleTextArea.interact()) {
-                    showMainScreen(true);
-                }
+                battleTextArea.show();
 
                 // reset screen stack
                 screenStack.clear();
@@ -2447,39 +2452,32 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 _effects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK, x,y));
                 */
                 break;
+            case ANNIMATION_COMPLETE:
+                turnInProgress = false;
+                break;
             case PLAYER_RUNNING:
                 resetControls();
                 selectedCharacter = null;
                 break;
             case PLAYER_FAILED_TO_ESCAPE:
-                displayBanner("Failed to run!", 2);
-                game.battleState.getNextTurnCharacter(2);
+                turnInProgress = false;
+                battleTextArea.populateText("Failed to run!");
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();
                 if (type == Entity.BattleEntityType.ENEMY)  {
                     // disable player input and kick off enemy turn
                     disableButtons();
+                    turnInProgress = true;
 
-                    topLeftButton.addAction(Actions.fadeOut(0));
-                    topRightButton.addAction(Actions.fadeOut(0));
-                    runButton.addAction(Actions.fadeOut(0));
-                    statusButton.addAction(Actions.fadeOut(0));
+                    hideMainScreen();
 
+                    battleTextArea.show();
                     battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
 
-                    battleTextArea.interact(); // first interact sets battleTextArea visible
-
                     // delay for one frame here to fix issue with blip when battleTextArea is set to visible
-                    //dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
+                    dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
                 }
-                else {
-                    if (!initialMainScreenDisplayed) {
-                        showMainScreen(false);
-                        initialMainScreenDisplayed = true;
-                    }
-                }
-                turnInProgress = false;
                 selectedCharacter = null;
                 break;
             default:
@@ -2504,18 +2502,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 UpdateStats(destinationEntity);
 
                 battleTextArea.populateText(message);
-
-                battleTextArea.interact();
                 dummyTextArea.addAction(Actions.sequence(Actions.delay(0), Actions.fadeOut(0)));
-
-                if (battleTextArea.interact()) {
-                    if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                        showMainScreen(true);
-                    }
-                }
-                turnInProgress = false;
                 selectedCharacter = null;
-                enableButtons();
+
+                if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                    enableButtons();
+                }
+
+                //turnInProgress = false;
                 break;
             case PLAYER_TURN_DONE:
                 // go back to Main screen and enable buttons
@@ -2534,9 +2528,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         //        message);
                         Gdx.app.log(TAG, message);
                         battleTextArea.populateText(message);
-                        if (battleTextArea.interact()) {
-                            showMainScreen(true);
-                        }
+                        battleTextArea.show();
                         break;
                     case INVENTORY:
                         //fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
@@ -2545,9 +2537,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                          //                                                    message);
                         Gdx.app.log(TAG, message);
                         battleTextArea.populateText(message);
-                        if (battleTextArea.interact()) {
-                            showMainScreen(true);
-                        }
+                        battleTextArea.show();
                         break;
                     case SPELLS_BLACK:
                     case SPELLS_WHITE:
@@ -2558,13 +2548,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                          //                                                   message);
                         Gdx.app.log(TAG, message);
                         battleTextArea.populateText(message);
-                        if (battleTextArea.interact()) {
-                            showMainScreen(true);
-                        }
+                        battleTextArea.show();
                         break;
                 }
 
-                turnInProgress = false;
+                //turnInProgress = false;
                 selectedCharacter = null;
                 break;
         }
@@ -2624,9 +2612,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    private void hideMainScreen() {
+        topLeftButton.addAction(Actions.fadeOut(0));
+        topRightButton.addAction(Actions.fadeOut(0));
+        runButton.addAction(Actions.fadeOut(0));
+        statusButton.addAction(Actions.fadeOut(0));
+    }
+
     private void showMainScreen(boolean immediate) {
-        // cancel any pending transitions
-        transitionToMainScreen.cancel();
+        Gdx.app.log(TAG, "showMainScreen");
         float delay = fadeTime;
 
         if (immediate) {
@@ -2655,6 +2649,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         dummyTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
 
+        // closeBattleTextAction calls battleTextArea.hide()
         battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
         battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
                 myActions.new closeBattleTextAction(battleTextArea)));
@@ -2682,17 +2677,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         backButton.addAction(Actions.sizeBy(0, -backButtonHeight - 3, delay)); // need -3 or else back button height wrong on final screen
 
         leftSummaryText.setText("");
-    }
-
-    private Timer.Task getTransitionToMainScreenTimer(){
-        return new Timer.Task() {
-            @Override
-            public void run() {
-                if (battleTextArea.isVisible()) {
-                    showMainScreen(false);
-                }
-            }
-        };
     }
 
     private void updateBanner(String text) {

@@ -4,6 +4,7 @@ import com.smoftware.elmour.Entity;
 
 public interface BattleObserver {
     public static enum BattleEvent{
+        ANNIMATION_COMPLETE,
         OPPONENT_ADDED,
         PARTY_MEMBER_ADDED,
         //OPPONENT_ATTACKS,
