@@ -45,6 +45,7 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
@@ -245,8 +246,8 @@ public class PlayerHUD implements Screen, AudioSubject,
             conversationPopUp.setHeight(80);
         }
         conversationPopUp.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, 12);
-
         conversationPopUp.setVisible(false);
+        conversationPopUp.setMovable(false);
 
         conversationLabel = new ConversationLabel();
         if (ElmourGame.isAndroid()) {
@@ -258,8 +259,8 @@ public class PlayerHUD implements Screen, AudioSubject,
             conversationLabel.setHeight(24);
         }
         conversationLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
-
         conversationLabel.setVisible(false);
+        conversationLabel.setMovable(false);
 
         choicePopUp1 = new ChoicePopUp();
         choicePopUp2 = new ChoicePopUp();
@@ -270,6 +271,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         choicePopUp2.hide();
         choicePopUp3.hide();
         choicePopUp4.hide();
+
+        choicePopUp1.setMovable(false);
+        choicePopUp2.setMovable(false);
+        choicePopUp3.setMovable(false);
+        choicePopUp4.setMovable(false);
 
         isDelayedPopUp = false;
         conversationPopUpDelay = 0;
@@ -777,8 +783,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                 ProfileManager.getInstance().saveProfile();
                 dialog.cancel();
                 dialog.hide();
-                //todo: is this necessary?
-                //dialog.remove();
                 return true;
             }
         });
@@ -1644,9 +1648,48 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
                 */
             case ANNIMATION_COMPLETE:
+                switch (BattleScreen.getAnimationState()) {
+                    case BATTLE:
+                        break;
+                    case ESCAPED:
+                        playerComingFromBattle = true;
+                        MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
+                        notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
+
+                        // transition animation - note: screen transition to main screen cannot occur in render() because render is called from main screen
+                        // battle screen is faded out from battle HUD
+                        float transitionTime = 1f;
+                        screenSwipe1.setVisible(true);
+                        screenSwipe2.setVisible(true);
+                        screenSwipe3.setVisible(true);
+                        screenSwipe4.setVisible(true);
+                        screenSwipe5.setVisible(true);
+                        screenSwipe6.setVisible(true);
+                        screenSwipe7.setVisible(true);
+                        screenSwipe8.setVisible(true);
+                        screenSwipe9.setVisible(true);
+                        screenSwipe10.setVisible(true);
+
+                        screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                        screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+                        screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                        screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+                        screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                        screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+                        screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                        screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+                        screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
+                        screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+
+                        game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                        break;
+                    case FAILED_ESCAPE:
+                        break;
+                }
+
                 break;
-            case PLAYER_ESCAPED:
-                /*
+            /*case PLAYER_ESCAPED:
+
                 playerComingFromBattle = true;
                 MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
                 notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
@@ -1677,8 +1720,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
 
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-*/
-                break;
+
+                break;*/
                 /*
             case PLAYER_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);

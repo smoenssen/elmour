@@ -29,6 +29,7 @@ import com.smoftware.elmour.GraphicsComponent;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
+import com.smoftware.elmour.UI.MyActions;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.BattleObserver;
@@ -50,19 +51,23 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private static final String TAG = BattleScreen.class.getSimpleName();
 
+    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, NONE }
+
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
     private final float CAMERA_POS_X = 40;
     private final float CAMERA_POS_Y = 6;
     private float cameraRunningOffset = 0;
 
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> carmenBattleAnimations;
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> char2BattleAnimations;
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> justinBattleAnimations;
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> jaxonBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> carmenBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> char2BattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> justinBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> jaxonBattleAnimations;
 
-    protected Hashtable<Entity.AnimationType, Animation<TextureRegion>> douglasBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> douglasBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> royalGuardBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> steveBattleAnimations;
 
     protected TextureRegion _currentFrame = null;
     private float _frameTime = 0;
@@ -87,6 +92,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Viewport _viewport;
     private Stage _stage;
     private boolean _isCameraFixed = true;
+    private MyActions myActions;
     private ScreenTransitionActor _transitionActor;
     private Action openBattleSceneAction;
     private Action _switchScreenAction;
@@ -115,6 +121,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
+
+    private static AnimationState animationState = AnimationState.NONE;
 
     public BattleScreen(ElmourGame game) {
         super(game);
@@ -198,6 +206,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         jaxonBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.JAXON_1));
 
         douglasBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.DOUGLAS));
+        royalGuardBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.ROYAL_GUARD));
+        steveBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.STEVE));
 
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         currentTurnIndicator = new Texture("graphics/down_arrow_blue.png");
@@ -207,6 +217,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _stage.addActor(_transitionActor);
 
         //Actions
+        myActions = new MyActions();
+
         _switchScreenAction = new RunnableAction(){
             @Override
             public void run() {
@@ -506,6 +518,54 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         @Override
         public boolean act (float delta) {
             _game.battleState.animationComplete();
+            _isCameraFixed = true;
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class fadeOutCharactersAndHUD extends Action {
+        float duration;
+        public fadeOutCharactersAndHUD(float duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            party1.addAction(Actions.fadeOut(duration));
+            party2.addAction(Actions.fadeOut(duration));
+            party3.addAction(Actions.fadeOut(duration));
+            party4.addAction(Actions.fadeOut(duration));
+            party5.addAction(Actions.fadeOut(duration));
+            enemy1.addAction(Actions.fadeOut(duration));
+            enemy2.addAction(Actions.fadeOut(duration));
+            enemy3.addAction(Actions.fadeOut(duration));
+            enemy4.addAction(Actions.fadeOut(duration));
+            enemy5.addAction(Actions.fadeOut(duration));
+            battleHUD.fadeOutRunning(duration);
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class fadeInCharactersAndHUD extends Action {
+        float duration;
+        public fadeInCharactersAndHUD(float duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            _isCameraFixed = true;
+            party1.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            party2.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            party3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            party4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            party5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            enemy1.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            enemy2.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            enemy3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            enemy4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            enemy5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+            battleHUD.fadeOutRunning(duration);
             return true; // An action returns true when it's completed
         }
     }
@@ -529,25 +589,43 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
+    private void completeAllActions() {
+        float delta = 1;
+
+        // need to loop multiple times in case there is an embedded sequence
+        // shouldn't ever need anymore than 5
+        for (int i = 0; i < 5; i++) {
+            if (party1 != null) party1.act(delta);
+            if (party2 != null) party2.act(delta);
+            if (party3 != null) party3.act(delta);
+            if (party4 != null) party4.act(delta);
+            if (party5 != null) party5.act(delta);
+            if (enemy1 != null) enemy1.act(delta);
+            if (enemy2 != null) enemy2.act(delta);
+            if (enemy3 != null) enemy3.act(delta);
+            if (enemy4 != null) enemy4.act(delta);
+            if (enemy5 != null) enemy5.act(delta);
+        }
+    }
+
+    public static AnimationState getAnimationState() { return animationState; }
+
     private Action getAttackCutScreenAction(Entity entity) {
+        animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkTowardsVictim;
         Entity.AnimationType walkAwayFromVictim;
         float destinationX;
 
-        EntityFactory.EntityName entityName;
+        EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
 
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-            entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
             walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
             destinationX = selectedEntity.getCurrentPosition().x + 1;
         }
         else {
             // Entity.BattleEntityType.ENEMY
-            // todo
-            entityName = EntityFactory.EntityName.DOUGLAS;
-            MonsterFactory.MonsterEntityType type;
             walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
             walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
             destinationX = selectedEntity.getCurrentPosition().x - 1;
@@ -584,18 +662,28 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     private Action getPlayerEscapeScreenAction() {
+        animationState = AnimationState.ESCAPED;
         _isCameraFixed = false;
+
+        float duration = 3;
+        float tilesPerSec = 7.5f;
         Entity.AnimationType runDirection;
-        runDirection = Entity.AnimationType.RUN_RIGHT;
+
+        // direction and destinations change if it's a back battle
+        if (_game.battleState.isBackBattle()) {
+            runDirection = Entity.AnimationType.RUN_LEFT;
+            tilesPerSec *= -1;
+        }
+        else {
+            runDirection = Entity.AnimationType.RUN_RIGHT;
+        }
 
         cameraRunningOffset = party1.getX() - CAMERA_POS_X;
 
-        float duration = 3;
-        float partyDestinationX_1_3_5 = party1.getX() + (7.5f * duration);
-        float partyDestinationX__2_4_ = party2.getX() + (7.5f * duration);
-
-        float enemyDestinationX__2_4_ = enemy2.getX() + (7.5f * duration);
-        float enemyDestinationX_1_3_5 = enemy1.getX() + (7.5f * duration);
+        float partyDestinationX_1_3_5 = party1.getX() + (tilesPerSec * duration);
+        float partyDestinationX__2_4_ = party2.getX() + (tilesPerSec * duration);
+        float enemyDestinationX__2_4_ = enemy2.getX() + (tilesPerSec * duration);
+        float enemyDestinationX_1_3_5 = enemy1.getX() + (tilesPerSec * duration);
 
         party1.setCurrentAnimationType(runDirection);
         party2.setCurrentAnimationType(runDirection);
@@ -622,15 +710,79 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration, Interpolation.linear), enemy4),
                 Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration, Interpolation.linear), enemy5),
 
-                Actions.delay(duration),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
+                new fadeOutCharactersAndHUD(duration),
+
+                Actions.delay(duration * 0.9f),
 
                 new animationComplete()
         );
     }
 
     private Action getPlayerFailedEscapeScreenAction() {
+        animationState = AnimationState.FAILED_ESCAPE;
+        _isCameraFixed = false;
+
+        float duration = 3;
+        float tilesPerSec = 7.5f;
+        Entity.AnimationType runDirection;
+
+        // direction and destinations change if it's a back battle
+        if (_game.battleState.isBackBattle()) {
+            runDirection = Entity.AnimationType.RUN_LEFT;
+            tilesPerSec *= -1;
+        }
+        else {
+            runDirection = Entity.AnimationType.RUN_RIGHT;
+        }
+
+        cameraRunningOffset = party1.getX() - CAMERA_POS_X;
+
+        float partyDestinationX_1_3_5 = party1.getX() + (tilesPerSec * duration);
+        float partyDestinationX__2_4_ = party2.getX() + (tilesPerSec * duration);
+        float enemyDestinationX__2_4_ = party1.getX() + (tilesPerSec * duration);
+        float enemyDestinationX_1_3_5 = party2.getX() + (tilesPerSec * duration);
+
+        party1.setCurrentAnimationType(runDirection);
+        party2.setCurrentAnimationType(runDirection);
+        party3.setCurrentAnimationType(runDirection);
+        party4.setCurrentAnimationType(runDirection);
+        party5.setCurrentAnimationType(runDirection);
+
+        enemy1.setCurrentAnimationType(runDirection);
+        enemy2.setCurrentAnimationType(runDirection);
+        enemy3.setCurrentAnimationType(runDirection);
+        enemy4.setCurrentAnimationType(runDirection);
+        enemy5.setCurrentAnimationType(runDirection);
+
         return Actions.sequence(
-                // todo: fade out, reset camera, fade back in to battle
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
+                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
+                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
+                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration, Interpolation.linear), enemy1),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration, Interpolation.linear), enemy2),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration, Interpolation.linear), enemy3),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration, Interpolation.linear), enemy4),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration, Interpolation.linear), enemy5),
+
+                // fade out
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
+                new fadeOutCharactersAndHUD(duration),
+                Actions.delay(duration),
+
+                // fade back in to battle
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration), _transitionActor),
+                new fadeInCharactersAndHUD(duration),
+
+                // reset camera and characters
+                myActions.new setCameraPosition(_camera, CAMERA_POS_X, CAMERA_POS_Y),
+
+                Actions.delay(duration),
+
+                new animationComplete()
         );
     }
 
@@ -651,6 +803,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             //Enemies
             case DOUGLAS:
                 return douglasBattleAnimations;
+            case ROYAL_GUARD:
+                return royalGuardBattleAnimations;
+            case STEVE:
+                return  steveBattleAnimations;
         }
 
         return null;
@@ -671,6 +827,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     @Override
     public void show() {
+        completeAllActions();
+
         openBattleSceneAction = getBattleSceneAction();
         _stage.addAction(openBattleSceneAction);
 
@@ -767,26 +925,28 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         currentTurnFlashTimer += delta;
 
-        ////////////////////////////
-        // Flashing turn indicator
-        if (currentTurnFlashTimer < 0.5f) {
-            _mapRenderer.getBatch().begin();
+        //////////////////////////////////////////////////////
+        // Flashing turn indicator (only when camera is fixed)
+        if (_isCameraFixed) {
+            if (currentTurnFlashTimer < 0.5f) {
+                _mapRenderer.getBatch().begin();
 
-            if (currentTurnEntity != null) {
-                _mapRenderer.getBatch().draw(currentTurnIndicator, currentTurnEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, currentTurnEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+                if (currentTurnEntity != null) {
+                    _mapRenderer.getBatch().draw(currentTurnIndicator, currentTurnEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, currentTurnEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+                }
+
+                if (selectedEntity != null) {
+                    _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+                }
+
+                _mapRenderer.getBatch().end();
             }
-
-            if (selectedEntity != null) {
-                _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
+            else if (currentTurnFlashTimer > 0.75f) {
+                currentTurnFlashTimer = 0;
             }
-
-            _mapRenderer.getBatch().end();
-        }
-        else if (currentTurnFlashTimer > 0.75f) {
-            currentTurnFlashTimer = 0;
         }
 
-        ////////////////////////////
+        //////////////////////////////////////////////////////
         // Battle animation
         if (currentCharacterAnimation != null && currentTurnCharacter != null) {
             _frameTime = (_frameTime + delta) % 5;

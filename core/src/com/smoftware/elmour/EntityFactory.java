@@ -26,6 +26,8 @@ public class EntityFactory {
         DOUGLAS,
         JUSTIN,
         JAXON_1,
+        ROYAL_GUARD,
+        STEVE,
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -41,9 +43,12 @@ public class EntityFactory {
     public static String CARMEN_CONFIG = "RPGGame/maps/Game/Scripts/carmen.json";
     public static String CHARACTER_1_CONFIG = "RPGGame/maps/Game/Scripts/character_1.json";
     public static String CHARACTER_2_CONFIG = "RPGGame/maps/Game/Scripts/character_2.json";
-    public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
     public static String JUSTIN_CONFIG = "RPGGame/maps/Game/Scripts/justin.json";
     public static String JAXON_1_CONFIG = "RPGGame/maps/Game/Scripts/jaxon_1.json";
+
+    public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
+    public static String ROYAL_GUARD_CONFIG = "RPGGame/maps/Game/Scripts/royal_guard.json";
+    public static String STEVE_CONFIG = "RPGGame/maps/Game/Scripts/steve.json";
 
     public static String PLAYER_CONFIG = "scripts/player.json";
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
@@ -70,9 +75,13 @@ public class EntityFactory {
         entities.put(EntityName.CARMEN.toString(), Entity.loadEntityConfigByPath(CARMEN_CONFIG));
         entities.put(EntityName.CHARACTER_1.toString(), Entity.loadEntityConfigByPath(CHARACTER_1_CONFIG));
         entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
-        entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.JUSTIN.toString(), Entity.loadEntityConfigByPath(JUSTIN_CONFIG));
         entities.put(EntityName.JAXON_1.toString(), Entity.loadEntityConfigByPath(JAXON_1_CONFIG));
+
+        entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
+        entities.put(EntityName.ROYAL_GUARD.toString(), Entity.loadEntityConfigByPath(ROYAL_GUARD_CONFIG));
+        entities.put(EntityName.STEVE.toString(), Entity.loadEntityConfigByPath(STEVE_CONFIG));
+
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
         entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
         entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));

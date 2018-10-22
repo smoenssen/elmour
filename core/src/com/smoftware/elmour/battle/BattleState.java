@@ -41,6 +41,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private MonsterZone currentMonsterZone;
 
     private boolean inBattle = false;
+    private boolean isBackBattle = false; //todo
 
     private float battleCountDown = 0;
 
@@ -103,6 +104,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         _opponentAttackCalculations.cancel();
         _checkPlayerMagicUse.cancel();
         inBattle = false;
+        isBackBattle = false;
     }
 
     public void setCurrentZone(int zoneLevel){
@@ -116,6 +118,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     public int getCurrentZoneLevel(){
         return _currentZoneLevel;
     }
+
+    public boolean isBackBattle() { return isBackBattle; }
 
     public void battleZoneTriggered(int battleZoneValue){
         Gdx.app.debug(TAG, String.format("battleZoneTriggered: zone = %d", battleZoneValue));

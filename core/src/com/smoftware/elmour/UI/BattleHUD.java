@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -28,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
@@ -63,8 +61,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, POWER, SPELL_TYPE, SPELLS_WHITE, SPELLS_BLACK, STATS, UNKNOWN }
     private Stack<ScreenState> screenStack;
-
-    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE }
 
     // for keeping track of node's expanded state
     // and .equals comparison for .contains function
@@ -277,7 +273,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     String selectedCharacter = null;
 
     private boolean turnInProgress = false;
-    private AnimationState animationState = AnimationState.BATTLE;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -467,6 +462,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleTextArea.setHeight((menuItemHeight * 2) - 2);
         battleTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, 2);
         battleTextArea.setVisible(false);
+        battleTextArea.setMovable(false);
 
         dummyTextArea = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
         dummyTextArea.setWidth(middleAreaWidth);
@@ -987,6 +983,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (currentScreenState == ScreenState.MAIN) {
                                                Gdx.app.log(TAG, "run button up");
+                                               turnInProgress = true;
 
                                                game.battleState.playerRuns();
                                                // see note below why this isn't being used
@@ -2152,6 +2149,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         groupMp5.setVisible(false);
     }
 
+    public void fadeOutRunning(float duration) {
+        leftTextArea.addAction(Actions.fadeOut(duration));
+        leftNameTable.addAction(Actions.fadeOut(duration));
+        battleTextArea.addAction(Actions.fadeOut(duration));
+        rightTextArea.addAction(Actions.fadeOut(duration));
+        rightTable.addAction(Actions.fadeOut(duration));
+    }
+
+    public void fadeInRunning(float duration) {
+        leftTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        leftNameTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        rightTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        rightTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+    }
+
     @Override
     public void resize(int width, int height) {
         // This is the function that is called when the battle screen is opened.
@@ -2167,6 +2180,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             turnInProgress = true;
         }
 
+        leftTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        leftNameTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        rightTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+        rightTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
+        // need to complete above actions here, otherwise they don't show up
+        completeAllActions();
+
         // make controls rise from the bottom of the screen when it is first displayed
         leftTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
         leftNameTable.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
@@ -2180,7 +2201,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyTextArea.addAction(Actions.moveBy(0, menuItemHeight, fadeTime));
 
         // Set names visible in case they were set invisible during last battle.
-        // It's okay to do for all since if they shouldn't be shown, they will be faded out.
+        // It's okay to do for all since if they shouldn't be shown, they will be set to "".
         party1Name.setVisible(true);
         party2Name.setVisible(true);
         party3Name.setVisible(true);
@@ -2455,22 +2476,22 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case ANNIMATION_COMPLETE:
                 turnInProgress = false;
 
-                if (animationState == AnimationState.ESCAPED) {
-                    resetControls();
-
-                    // todo: need to have PlayerHUD transition back to game screen
-                }
-                else if (animationState == AnimationState.FAILED_ESCAPE) {
-                    battleTextArea.populateText("Failed to run!");
+                switch (BattleScreen.getAnimationState()) {
+                    case BATTLE:
+                        break;
+                    case ESCAPED:
+                        resetControls();
+                        break;
+                    case FAILED_ESCAPE:
+                        battleTextArea.populateText("Failed to run!");
+                        break;
                 }
 
                 break;
             case PLAYER_ESCAPED:
-                animationState = AnimationState.ESCAPED;
                 selectedCharacter = null;
                 break;
             case PLAYER_FAILED_TO_ESCAPE:
-                animationState = AnimationState.FAILED_ESCAPE;
                 turnInProgress = false;
                 break;
             case CHARACTER_TURN_CHANGED:

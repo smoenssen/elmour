@@ -1,5 +1,6 @@
 package com.smoftware.elmour.UI;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -199,6 +200,24 @@ public class MyActions {
             textField.setY(y);
             textField.setWidth(width);
             textField.setHeight(height);
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class setCameraPosition extends Action {
+        OrthographicCamera camera;
+        float x;
+        float y;
+
+        public setCameraPosition(OrthographicCamera camera, float x, float y) {
+            this.camera = camera;
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            this.camera.position.set(x, y, 0f);
             return true; // An action returns true when it's completed
         }
     }
