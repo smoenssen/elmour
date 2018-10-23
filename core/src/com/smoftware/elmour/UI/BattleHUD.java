@@ -1278,8 +1278,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (turnInProgress) return;
-                                           Gdx.app.log(TAG, "CLICKING BATTLE TEXT AREA");
-
                                            turnInProgress = true;
 
                                            if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
@@ -2474,16 +2472,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 */
                 break;
             case ANNIMATION_COMPLETE:
-                turnInProgress = false;
-
                 switch (BattleScreen.getAnimationState()) {
                     case BATTLE:
+                        turnInProgress = false;
                         break;
                     case ESCAPED:
                         resetControls();
+                        turnInProgress = false;
                         break;
                     case FAILED_ESCAPE:
                         battleTextArea.populateText("Failed to run!");
+                        turnInProgress = false;
                         break;
                 }
 
@@ -2492,7 +2491,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 selectedCharacter = null;
                 break;
             case PLAYER_FAILED_TO_ESCAPE:
-                turnInProgress = false;
+                turnInProgress = true;
                 break;
             case CHARACTER_TURN_CHANGED:
                 Entity.BattleEntityType type = entity.getBattleEntityType();

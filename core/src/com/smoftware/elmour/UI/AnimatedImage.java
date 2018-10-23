@@ -78,8 +78,10 @@ public class AnimatedImage extends Image {
         _frameTime = (_frameTime + delta)%5;
 
         if (_currentAnimationType != Entity.AnimationType.IDLE) {
-            TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
-            ((TextureRegionDrawable) drawable).setRegion(region);
+            if (_entity != null) {
+                TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
+                ((TextureRegionDrawable) drawable).setRegion(region);
+            }
         }
         else {
             switch (currentDirection) {

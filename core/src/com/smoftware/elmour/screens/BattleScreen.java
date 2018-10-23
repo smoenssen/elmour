@@ -565,7 +565,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             enemy3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
             enemy4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
             enemy5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
-            battleHUD.fadeOutRunning(duration);
+            battleHUD.fadeInRunning(duration);
             return true; // An action returns true when it's completed
         }
     }
@@ -725,7 +725,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         float duration = 3;
         float tilesPerSec = 7.5f;
+        float enemyDurationFactor = 1f;
         Entity.AnimationType runDirection;
+        Entity.AnimationType battlePositionParty = Entity.AnimationType.WALK_LEFT;
+        Entity.AnimationType battlePosotionEnemy = Entity.AnimationType.WALK_RIGHT;
 
         // direction and destinations change if it's a back battle
         if (_game.battleState.isBackBattle()) {
@@ -762,11 +765,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
                 Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
 
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration, Interpolation.linear), enemy1),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration, Interpolation.linear), enemy2),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration, Interpolation.linear), enemy3),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration, Interpolation.linear), enemy4),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration, Interpolation.linear), enemy5),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy1),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy2),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy3),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy4),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy5),
 
                 // fade out
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
@@ -777,11 +780,33 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration), _transitionActor),
                 new fadeInCharactersAndHUD(duration),
 
-                // reset camera and characters
+                // reset characters
+                setupBattleScene,
+                new setWalkDirection(party1, battlePositionParty),
+                new setWalkDirection(party1, Entity.AnimationType.IDLE),
+                new setWalkDirection(party2, battlePositionParty),
+                new setWalkDirection(party2, Entity.AnimationType.IDLE),
+                new setWalkDirection(party3, battlePositionParty),
+                new setWalkDirection(party3, Entity.AnimationType.IDLE),
+                new setWalkDirection(party4, battlePositionParty),
+                new setWalkDirection(party4, Entity.AnimationType.IDLE),
+                new setWalkDirection(party5, battlePositionParty),
+                new setWalkDirection(party5, Entity.AnimationType.IDLE),
+                new setWalkDirection(enemy1, battlePosotionEnemy),
+                new setWalkDirection(enemy1, Entity.AnimationType.IDLE),
+                new setWalkDirection(enemy2, battlePosotionEnemy),
+                new setWalkDirection(enemy2, Entity.AnimationType.IDLE),
+                new setWalkDirection(enemy3, battlePosotionEnemy),
+                new setWalkDirection(enemy3, Entity.AnimationType.IDLE),
+                new setWalkDirection(enemy4, battlePosotionEnemy),
+                new setWalkDirection(enemy4, Entity.AnimationType.IDLE),
+                new setWalkDirection(enemy5, battlePosotionEnemy),
+                new setWalkDirection(enemy5, Entity.AnimationType.IDLE),
+
+                // reset camera
                 myActions.new setCameraPosition(_camera, CAMERA_POS_X, CAMERA_POS_Y),
 
-                Actions.delay(duration),
-
+                Actions.delay(0.5f),
                 new animationComplete()
         );
     }
