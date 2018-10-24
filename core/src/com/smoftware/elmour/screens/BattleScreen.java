@@ -494,23 +494,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
-    public class setWalkDirection extends Action {
-        AnimatedImage character;
-        Entity.AnimationType direction;
-
-        public setWalkDirection(AnimatedImage character, Entity.AnimationType direction) {
-            this.character = character;
-            this.direction = direction;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            if (character != null)
-                character.setCurrentAnimationType(direction);
-            return true; // An action returns true when it's completed
-        }
-    }
-
     public class animationComplete extends Action {
         public animationComplete() {
         }
@@ -635,11 +618,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         return Actions.sequence(
 
-                new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.75f),
-                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.75f),
                 //new setCurrentCharacterAnimation(char1BattleAnimations.get(Entity.AnimationType.SWORD_LEFT)),
                 new setCurrentCharacterAnimation(currentCharacterBattleAnimation.get(Entity.AnimationType.SWORD_LEFT)),
@@ -649,13 +632,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 new setCurrentCharacterAnimation(null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
+                myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.75f),
 
                 // turn to face victim
-                new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 new animationComplete()
         );
@@ -782,26 +765,26 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 // reset characters
                 setupBattleScene,
-                new setWalkDirection(party1, battlePositionParty),
-                new setWalkDirection(party1, Entity.AnimationType.IDLE),
-                new setWalkDirection(party2, battlePositionParty),
-                new setWalkDirection(party2, Entity.AnimationType.IDLE),
-                new setWalkDirection(party3, battlePositionParty),
-                new setWalkDirection(party3, Entity.AnimationType.IDLE),
-                new setWalkDirection(party4, battlePositionParty),
-                new setWalkDirection(party4, Entity.AnimationType.IDLE),
-                new setWalkDirection(party5, battlePositionParty),
-                new setWalkDirection(party5, Entity.AnimationType.IDLE),
-                new setWalkDirection(enemy1, battlePosotionEnemy),
-                new setWalkDirection(enemy1, Entity.AnimationType.IDLE),
-                new setWalkDirection(enemy2, battlePosotionEnemy),
-                new setWalkDirection(enemy2, Entity.AnimationType.IDLE),
-                new setWalkDirection(enemy3, battlePosotionEnemy),
-                new setWalkDirection(enemy3, Entity.AnimationType.IDLE),
-                new setWalkDirection(enemy4, battlePosotionEnemy),
-                new setWalkDirection(enemy4, Entity.AnimationType.IDLE),
-                new setWalkDirection(enemy5, battlePosotionEnemy),
-                new setWalkDirection(enemy5, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(party1, battlePositionParty),
+                myActions.new setWalkDirection(party1, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(party2, battlePositionParty),
+                myActions.new setWalkDirection(party2, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(party3, battlePositionParty),
+                myActions.new setWalkDirection(party3, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(party4, battlePositionParty),
+                myActions.new setWalkDirection(party4, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(party5, battlePositionParty),
+                myActions.new setWalkDirection(party5, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(enemy1, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy1, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(enemy2, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy2, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(enemy3, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy3, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(enemy4, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy4, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(enemy5, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy5, Entity.AnimationType.IDLE),
 
                 // reset camera
                 myActions.new setCameraPosition(_camera, CAMERA_POS_X, CAMERA_POS_Y),

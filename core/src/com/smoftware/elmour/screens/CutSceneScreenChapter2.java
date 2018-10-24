@@ -22,6 +22,7 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
+import com.smoftware.elmour.UI.MyActions;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -76,6 +77,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     private PlayerHUD _playerHUD;
 
     private Actor _followingActor;
+    private MyActions myActions;
 
     private boolean isInConversation = false;
 
@@ -164,6 +166,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         _followingActor.setPosition(0, 0);
 
         followActor(character2);
+
+        myActions = new MyActions();
 
         _stage.addActor(character1);
         _stage.addActor(character2);
@@ -259,27 +263,27 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                 character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
 
                 _stage.addAction(Actions.sequence(
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
                         Actions.addAction(Actions.moveTo(character2.getX(), character2.getY() + 1, oneBlockTime, Interpolation.linear), character2),
                         Actions.delay(oneBlockTime),
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
                         Actions.addAction(Actions.moveTo(character2.getX() - char2BlocksToArmoryX, character2.getY() + 1, oneBlockTime * char2BlocksToArmoryX, Interpolation.linear), character2),
                         Actions.delay(oneBlockTime * 2f),
 
-                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
                         Actions.addAction(Actions.moveTo(character1.getX(), character1.getY() + 1, oneBlockTime, Interpolation.linear), character1),
                         Actions.delay(oneBlockTime),
-                        new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
                         Actions.addAction(Actions.moveTo(character1.getX() - char1BlocksToArmoryX, character1.getY() + 1, oneBlockTime * char1BlocksToArmoryX, Interpolation.linear), character1),
                         Actions.delay(oneBlockTime * 7.25f),
 
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2f), _transitionActor),
 
-                        new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
                         Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character2.getY() + char2BlocksToArmoryY, oneBlockTime * char2BlocksToArmoryY, Interpolation.linear), character2),
                         Actions.delay(oneBlockTime * 2.25f),
 
-                        new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
                         Actions.addAction(Actions.moveTo(rect.getX() * Map.UNIT_SCALE, character1.getY() + char1BlocksToArmoryY, oneBlockTime * char1BlocksToArmoryY, Interpolation.linear), character1),
 
                         Actions.delay(2.5f),
@@ -334,11 +338,11 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         return Actions.sequence(
                 Actions.addAction(setupSceneArmory),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
-                new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
-                new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
                 Actions.addAction(Actions.moveTo(3.5f, 5.5f, 2.25f, Interpolation.linear), character2),
                 Actions.delay(1.0f),
-                new setCharacterVisible(character1, true),
+                myActions.new setCharacterVisible(character1, true),
                 Actions.addAction(Actions.moveTo(4.5f, 5.5f, 2f, Interpolation.linear), character1),
                 Actions.delay(1.0f),
                 Actions.run(
@@ -353,8 +357,8 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
                             }
                         }),
                 Actions.delay(1.0f),
-                new setWalkDirection(character2, Entity.AnimationType.IDLE),
-                new setWalkDirection(character1, Entity.AnimationType.IDLE)
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE)
                 //Actions.delay(3f),
                 //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor)
 
@@ -493,38 +497,6 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
         }
 
         return rectangle;
-    }
-
-    public class setCharacterVisible extends Action {
-        AnimatedImage character = null;
-        boolean visible = true;
-
-        public setCharacterVisible(AnimatedImage character, boolean visible) {
-            this.character = character;
-            this.visible = visible;
-        }
-
-        @Override
-        public boolean act(float delta) {
-            this.character.setVisible(visible);
-            return true;
-        }
-    }
-
-    public class setWalkDirection extends Action {
-        AnimatedImage character = null;
-        Entity.AnimationType direction = Entity.AnimationType.IDLE;
-
-        public setWalkDirection(AnimatedImage character, Entity.AnimationType direction) {
-            this.character = character;
-            this.direction = direction;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            character.setCurrentAnimationType(direction);
-            return true; // An action returns true when it's completed
-        }
     }
 
     @Override

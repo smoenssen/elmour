@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.smoftware.elmour.Entity;
 
 /**
  * Created by steve on 10/7/18.
@@ -219,6 +220,39 @@ public class MyActions {
         public boolean act (float delta) {
             this.camera.position.set(x, y, 0f);
             return true; // An action returns true when it's completed
+        }
+    }
+
+    public class setWalkDirection extends Action {
+        AnimatedImage character;
+        Entity.AnimationType direction;
+
+        public setWalkDirection(AnimatedImage character, Entity.AnimationType direction) {
+            this.character = character;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            if (character != null)
+                character.setCurrentAnimationType(direction);
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class setCharacterVisible extends Action {
+        AnimatedImage character = null;
+        boolean visible = true;
+
+        public setCharacterVisible(AnimatedImage character, boolean visible) {
+            this.character = character;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.character.setVisible(visible);
+            return true;
         }
     }
 }
