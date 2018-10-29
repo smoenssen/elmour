@@ -649,6 +649,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _isCameraFixed = false;
 
         float duration = 3;
+        float enemyDuration = duration * 1.15f;
         float tilesPerSec = 7.5f;
         Entity.AnimationType runDirection;
 
@@ -687,16 +688,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
                 Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
 
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration, Interpolation.linear), enemy1),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration, Interpolation.linear), enemy2),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration, Interpolation.linear), enemy3),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration, Interpolation.linear), enemy4),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration, Interpolation.linear), enemy5),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  enemyDuration, Interpolation.linear), enemy1),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  enemyDuration, Interpolation.linear), enemy2),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  enemyDuration, Interpolation.linear), enemy3),
+                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  enemyDuration, Interpolation.linear), enemy4),
+                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  enemyDuration, Interpolation.linear), enemy5),
 
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
-                new fadeOutCharactersAndHUD(duration),
+                Actions.delay(duration * 0.5f),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
+                new fadeOutCharactersAndHUD(duration * 0.5f),
 
-                Actions.delay(duration * 0.9f),
+                Actions.delay(duration * 0.5f),
 
                 new animationComplete()
         );
@@ -726,8 +728,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         float partyDestinationX_1_3_5 = party1.getX() + (tilesPerSec * duration);
         float partyDestinationX__2_4_ = party2.getX() + (tilesPerSec * duration);
-        float enemyDestinationX__2_4_ = party1.getX() + (tilesPerSec * duration);
-        float enemyDestinationX_1_3_5 = party2.getX() + (tilesPerSec * duration);
+        float enemyDestinationX__2_4_ = party1.getX() + (tilesPerSec * duration) - party1.getWidth() / 2;
+        float enemyDestinationX_1_3_5 = party2.getX() + (tilesPerSec * duration) - party2.getWidth() / 2;
 
         party1.setCurrentAnimationType(runDirection);
         party2.setCurrentAnimationType(runDirection);
@@ -754,14 +756,16 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy4),
                 Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy5),
 
+                Actions.delay(duration * 0.5f),
+
                 // fade out
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
-                new fadeOutCharactersAndHUD(duration),
-                Actions.delay(duration),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
+                new fadeOutCharactersAndHUD(duration * 0.5f),
+                Actions.delay(duration * 0.5f),
 
                 // fade back in to battle
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration), _transitionActor),
-                new fadeInCharactersAndHUD(duration),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration * 0.5f), _transitionActor),
+                new fadeInCharactersAndHUD(duration * 0.5f),
 
                 // reset characters
                 setupBattleScene,

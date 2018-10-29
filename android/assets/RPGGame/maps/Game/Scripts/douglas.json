@@ -34,7 +34,7 @@ entityProperties: {
 	}
 	DEF: {
 		class: java.lang.String
-		value: 15
+		value: 1
 	}
 	MagicDEF: {
 		class: java.lang.String
@@ -42,7 +42,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 1
+		value: 1700
 	}
 	ACC: {
 		class: java.lang.String
