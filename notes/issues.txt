@@ -1,10 +1,3 @@
 
-don't allow character stats to go negative
+BLOCK_RIGHT in hit.json crashes
 
-Royal_Guard display name in .json
-
-Running fail to escape - there are no animations for wielding weapons while running
-
-After running, selecting Inventory: middleStatsTextArea is too high
-
-justin and jaxon .json's don't have RUN frames

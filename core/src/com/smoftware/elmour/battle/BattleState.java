@@ -189,36 +189,42 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.clear();
 
         int battlePosition = 1;
+        String sHPVal;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
-        entity1.setAlive(true);
+        sHPVal = entity1.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+        entity1.setAlive(Integer.parseInt(sHPVal) > 0);
         entity1.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
-        entity2.setAlive(true);
+        sHPVal = entity2.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+        entity2.setAlive(Integer.parseInt(sHPVal) > 0);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-
+/*
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
-        entity3.setAlive(true);
+        sHPVal = entity3.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+        entity3.setAlive(Integer.parseInt(sHPVal) > 0);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity3.setBattlePosition(battlePosition++);
         notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
-        entity4.setAlive(true);
+        sHPVal = entity4.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+        entity4.setAlive(Integer.parseInt(sHPVal) > 0);
         entity4.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity4.setBattlePosition(battlePosition++);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity4);
-/*
+
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1);
-        entity5.setAlive(true);
+        sHPVal = entity5.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
+        entity5.setAlive(Integer.parseInt(sHPVal) > 0);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
@@ -252,12 +258,26 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentTurnCharacter = entity;
         notify(entity, BattleObserver.BattleEvent.CHARACTER_TURN_CHANGED);
 
+        // see if current turn character is an enemy
         if (currentTurnCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-            // select character for battle, right now just totally random (easy mode)
-            currentSelectedCharacter = currentPartyList.get(MathUtils.random(0, currentPartyList.size - 1));
+            // select an alive party character for battle, right now just totally random (easy mode)
+            boolean isAnAliveMember = false;
+            for (Entity partyMember : currentPartyList) {
+                if (partyMember.isAlive()) {
+                    isAnAliveMember = true;
+                    break;
+                }
+            }
 
-            setCurrentSelectedCharacter(currentSelectedCharacter);
-            opponentAttacks();
+            if (isAnAliveMember) {
+                do {
+                    currentSelectedCharacter = currentPartyList.get(MathUtils.random(0, currentPartyList.size - 1));
+                }
+                while (!currentSelectedCharacter.isAlive());
+
+                setCurrentSelectedCharacter(currentSelectedCharacter);
+                opponentAttacks();
+            }
         }
     }
 
@@ -286,6 +306,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
             return;
         }
 
+        String message = "";
+
         if (currentSelectedCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
             // Melee attack against enemy 1, 3 or 5 can be blocked by enemies 2 or 4 if they are alive
             // i.e.,
@@ -301,7 +323,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                     if (currentEnemyList.size > 1) {
                         enemy = currentEnemyList.get(1);
                         if (enemy.isAlive()) {
-                            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                            message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
+                            BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
                             return;
                         }
                     }
@@ -309,12 +332,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 case 3:
                     enemy = currentEnemyList.get(1);
                     if (enemy.isAlive()) {
-                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                        message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
+                        BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
                         return;
                     } else if (currentEnemyList.size > 3) {
                         enemy = currentEnemyList.get(3);
                         if (enemy.isAlive()) {
-                            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                            message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
+                            BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
                             return;
                         }
                     }
@@ -322,7 +347,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 case 5:
                     enemy = currentEnemyList.get(3);
                     if (enemy.isAlive()) {
-                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_BLOCKED);
+                        message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
+                        BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
                         return;
                     }
                     break;
@@ -538,12 +564,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
 
-                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                        currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
-
                 String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-                int newEnemyHP = Integer.parseInt(enemyHP) - hitPoints;
+                int newEnemyHP = MathUtils.clamp(Integer.parseInt(enemyHP) - hitPoints, 0, Integer.parseInt(enemyHP));
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
+
+                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                        currentSelectedCharacter.getEntityConfig().getDisplayName(), Integer.parseInt(enemyHP) - newEnemyHP);
 
                 if (hitPoints > 0) {
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
@@ -551,9 +577,22 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
 
-                if (newEnemyHP <= 0) {
+                if (newEnemyHP == 0) {
                     currentSelectedCharacter.setAlive(false);
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
+
+                    // see if all enemies are dead
+                    boolean allDead = true;
+                    for (Entity enemy : currentEnemyList) {
+                        if (enemy.isAlive()) {
+                            allDead = false;
+                            break;
+                        }
+                    }
+
+                    if (allDead) {
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_WON);
+                    }
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
@@ -575,22 +614,48 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "player takes " + hitPoints + " hit points");
 
-                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                        currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
-
                 String playerHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-                int newPlayerHP = Integer.parseInt(playerHP) - hitPoints;
+                int newPlayerHP = MathUtils.clamp(Integer.parseInt(playerHP) - hitPoints, 0, Integer.parseInt(playerHP));
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newPlayerHP));
-
-                if (hitPoints > 0) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
-                }
 
                 Gdx.app.log(TAG, "new player HP = " + newPlayerHP);
 
-                if (newPlayerHP <= 0) {
+                String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                        currentSelectedCharacter.getEntityConfig().getDisplayName(), Integer.parseInt(playerHP) - newPlayerHP);
+
+                if (hitPoints > 0) {
+                    // update current entity config in factory
+                    EntityFactory.getInstance().setEntityByName(currentSelectedCharacter.getEntityConfig().getEntityID(),
+                            currentSelectedCharacter.getEntityConfig());
+
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
+                }
+
+                if (newPlayerHP == 0) {
                     currentSelectedCharacter.setAlive(false);
+
+                    // remove character from turn list if it's there
+                    for (int i = 0; i < characterTurnList.size(); i++) {
+                        Entity character = characterTurnList.get(i);
+                        if (character.getEntityConfig().getEntityID().equals(currentSelectedCharacter.getEntityConfig().getEntityID())) {
+                            characterTurnList.remove(i);
+                            break;
+                        }
+                    }
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_DEFEATED);
+
+                    // see if all party members are dead
+                    boolean allDead = true;
+                    for (Entity partyMember : currentPartyList) {
+                        if (partyMember.isAlive()) {
+                            allDead = false;
+                            break;
+                        }
+                    }
+
+                    if (allDead) {
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
+                    }
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_TURN_DONE, message);
@@ -641,11 +706,13 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         // get list of all characters
         for (Entity entity : currentPartyList) {
-            characterTurnList.add(entity);
+            if (entity.isAlive())
+                characterTurnList.add(entity);
         }
 
         for (Entity entity : currentEnemyList) {
-            characterTurnList.add(entity);
+            if (entity.isAlive())
+                characterTurnList.add(entity);
         }
 
         // sort list in descending order by SPD

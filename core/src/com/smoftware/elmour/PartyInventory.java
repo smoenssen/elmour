@@ -31,6 +31,8 @@ public class PartyInventory extends PartyInventorySubject {
         return partyInventory;
     }
 
+    public int getSize() { return _list.size(); }
+
     public void setInventoryList(String profileString) {
         if (profileString == null) return;
 

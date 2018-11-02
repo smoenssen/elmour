@@ -132,6 +132,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
     rootNode throwingRootNode = new rootNode(THROWING, false);
 
+    private final String INVENTORY_EMPTY = "No inventory items";
     private final String SELECT_AN_ITEM = "Select an item";
     private final String SELECT_A_SPELL = "Select a spell";
     private final String SELECT_A_POWER = "Select a power";
@@ -273,6 +274,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     String selectedCharacter = null;
 
     private boolean turnInProgress = false;
+    private boolean battleLost = false;
+    private boolean battleWon = false;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -1278,35 +1281,43 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (turnInProgress) return;
-                                           turnInProgress = true;
 
-                                           if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                                               if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-                                                   battleTextArea.cleanupTextArea();
-
-                                                   // show dummyTextArea briefly to fix blip before battleTextArea
-                                                   dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-                                               }
-                                               else {
-                                                   battleTextArea.hide();
-                                                   showMainScreen(true);
-                                               }
+                                           if (battleWon) {
+                                               battleTextArea.cleanupTextArea();
+                                               battleTextArea.populateText("Battle WON!");
+                                           }
+                                           else if (battleLost) {
+                                               battleTextArea.cleanupTextArea();
+                                               battleTextArea.populateText("Battle LOST!");
                                            }
                                            else {
-                                               // enemy
-                                               if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-                                                   battleTextArea.cleanupTextArea();
+                                               turnInProgress = true;
 
-                                                   // show dummyTextArea briefly to fix blip before next
-                                                   // battleTextArea when there are enemy turns back to back
-                                                   dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                               if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                                                   if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                       battleTextArea.cleanupTextArea();
+
+                                                       // show dummyTextArea briefly to fix blip before battleTextArea
+                                                       dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                   } else {
+                                                       battleTextArea.hide();
+                                                       showMainScreen(true);
+                                                   }
+                                               } else {
+                                                   // enemy
+                                                   if (game.battleState.peekNextTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                                                       battleTextArea.cleanupTextArea();
+
+                                                       // show dummyTextArea briefly to fix blip before next
+                                                       // battleTextArea when there are enemy turns back to back
+                                                       dummyTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                                                   } else {
+                                                       showMainScreen(true);
+                                                   }
                                                }
-                                               else {
-                                                   showMainScreen(true);
-                                               }
+
+                                               game.battleState.getNextTurnCharacter(0);
                                            }
-
-                                           game.battleState.getNextTurnCharacter(0);
                                        }
                                    }
         );
@@ -1568,9 +1579,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 middleTree.setTouchable(Touchable.enabled);
 
+                middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
                 middleStatsTextArea.setVisible(true);
                 middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
-                middleStatsTextArea.setText(SELECT_AN_ITEM, true);
+                if (PartyInventory.getInstance().getSize() == 0)
+                    middleStatsTextArea.setText(INVENTORY_EMPTY, true);
+                else
+                    middleStatsTextArea.setText(SELECT_AN_ITEM, true);
 
                 middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * 0.2f)));
                 middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
@@ -1936,7 +1951,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case POWER:
                     case SPELLS_BLACK:
                     case SPELLS_WHITE:
-                        if (!middleStatsTextArea.getText().equals(SELECT_AN_ITEM) &&
+                        if (!middleStatsTextArea.getText().equals(INVENTORY_EMPTY) &&
+                                !middleStatsTextArea.getText().equals(SELECT_AN_ITEM) &&
                                 !middleStatsTextArea.getText().equals(SELECT_A_POWER) &&
                                 !middleStatsTextArea.getText().equals(SELECT_A_SPELL)) {
                             setHUDNewState(ScreenState.FINAL);
@@ -2210,6 +2226,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         monster3Name.setVisible(true);
         monster4Name.setVisible(true);
         monster5Name.setVisible(true);
+
+        battleWon = false;
+        battleWon = false;
     }
 
     @Override
@@ -2387,16 +2406,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
 
                 break;
-            case OPPONENT_BLOCKED:
-                battleTextArea.populateText("Melee attack on " + entity.getEntityConfig().getDisplayName() + " has been blocked!");
-                battleTextArea.show();
-
-                // reset screen stack
-                screenStack.clear();
-                screenStack.push(ScreenState.MAIN);
-
-                selectedCharacter = null;
-                break;
             case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
@@ -2463,6 +2472,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
 
                 selectedCharacter = null;
+                break;
+            case BATTLE_WON:
+                battleWon = true;
+                break;
+            case BATTLE_LOST:
+                battleLost = true;
                 break;
             case PLAYER_USED_MAGIC:
                 /*
@@ -2584,6 +2599,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 //turnInProgress = false;
                 selectedCharacter = null;
+                break;
+            case ATTACK_BLOCKED:
+                battleTextArea.populateText(message);
+                battleTextArea.show();
+
+                // reset screen stack
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
+                selectedCharacter = null;
+                turnInProgress = false;
                 break;
         }
     }

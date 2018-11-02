@@ -8,7 +8,7 @@ public interface BattleObserver {
         OPPONENT_ADDED,
         PARTY_MEMBER_ADDED,
         //OPPONENT_ATTACKS,
-        OPPONENT_BLOCKED,
+        //OPPONENT_BLOCKED,
         OPPONENT_HIT_DAMAGE,
         OPPONENT_DEFEATED,
         //OPPONENT_TURN_DONE,
@@ -22,6 +22,8 @@ public interface BattleObserver {
         PLAYER_USED_MAGIC,
         CHARACTER_SELECTED,
         CHARACTER_TURN_CHANGED,
+        BATTLE_WON,
+        BATTLE_LOST,
         NONE
     }
 
@@ -29,7 +31,6 @@ public interface BattleObserver {
         OPPONENT_ADDED,
         PARTY_MEMBER_ADDED,
         OPPONENT_ATTACKS,
-        OPPONENT_BLOCKED,
         OPPONENT_HIT_DAMAGE,
         OPPONENT_DEFEATED,
         OPPONENT_TURN_DONE,
@@ -42,6 +43,7 @@ public interface BattleObserver {
         PLAYER_USED_MAGIC,
         CHARACTER_SELECTED,
         CHARACTER_TURN_CHANGED,
+        ATTACK_BLOCKED,
         NONE
     }
 

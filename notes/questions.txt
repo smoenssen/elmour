@@ -25,3 +25,7 @@ If location does not exist, it defaults to everywhere.
 If chapter does not exist, it defaults to always being available.
 
 When opponent attacks, can they be blocked by the party character? Yes
+
+The equation in the doc for melee attacks says it's for attacks from the back. What about from the front?
+
+Timing of hit animation in battle?

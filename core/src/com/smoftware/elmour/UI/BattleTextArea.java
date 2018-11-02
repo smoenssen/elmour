@@ -117,8 +117,13 @@ public class BattleTextArea extends Window {
 
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
-                    lineStrings = textArea.getLineStrings();
-                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
+                    try {
+                        lineStrings = textArea.getLineStrings();
+                        Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
+                    }
+                    catch (StringIndexOutOfBoundsException e) {
+                        Gdx.app.log(TAG, "StringIndexOutOfBoundsException caught!!!");
+                    }
                 }
 
                 Gdx.app.log(TAG, "fulltext = " + fullText);

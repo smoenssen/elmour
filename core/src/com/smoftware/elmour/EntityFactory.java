@@ -28,6 +28,7 @@ public class EntityFactory {
         JAXON_1,
         ROYAL_GUARD,
         STEVE,
+        HIT,
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -49,6 +50,8 @@ public class EntityFactory {
     public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
     public static String ROYAL_GUARD_CONFIG = "RPGGame/maps/Game/Scripts/royal_guard.json";
     public static String STEVE_CONFIG = "RPGGame/maps/Game/Scripts/steve.json";
+
+    public static String HIT_CONFIG = "RPGGame/maps/Game/Scripts/hit.json";
 
     public static String PLAYER_CONFIG = "scripts/player.json";
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
@@ -81,6 +84,8 @@ public class EntityFactory {
         entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.ROYAL_GUARD.toString(), Entity.loadEntityConfigByPath(ROYAL_GUARD_CONFIG));
         entities.put(EntityName.STEVE.toString(), Entity.loadEntityConfigByPath(STEVE_CONFIG));
+
+        entities.put(EntityName.HIT.toString(), Entity.loadEntityConfigByPath(HIT_CONFIG));
 
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
         entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
@@ -128,4 +133,7 @@ public class EntityFactory {
         return entity;
     }
 
+    public void setEntityByName(String entityName, EntityConfig config) {
+        entities.put(entityName.toUpperCase(), config);
+    }
 }
