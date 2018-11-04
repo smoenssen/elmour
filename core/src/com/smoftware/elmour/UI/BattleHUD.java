@@ -1049,7 +1049,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                                        switch (previousScreenState) {
                                                            case FIGHT:
-                                                               game.battleState.playerMeleeAttack();
+                                                               game.battleState.frontMeleeAttack();
                                                                break;
                                                            case INVENTORY:
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
@@ -2557,6 +2557,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 //turnInProgress = false;
                 break;
             case PLAYER_TURN_DONE:
+                /*
                 // go back to Main screen and enable buttons
                 ScreenState currentScreenState = screenStack.pop();
                 ScreenState previousScreenState = screenStack.peek();
@@ -2595,7 +2596,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         battleTextArea.populateText(message);
                         battleTextArea.show();
                         break;
-                }
+                }*/
+
+                // go back to Main screen and enable buttons
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
+                UpdateStats(destinationEntity);
+
+                Gdx.app.log(TAG, message);
+                battleTextArea.populateText(message);
+                battleTextArea.show();
 
                 //turnInProgress = false;
                 selectedCharacter = null;

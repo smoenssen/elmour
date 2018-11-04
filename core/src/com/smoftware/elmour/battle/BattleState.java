@@ -205,7 +205,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-/*
+
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         sHPVal = entity3.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity3.setAlive(Integer.parseInt(sHPVal) > 0);
@@ -228,7 +228,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
-        currentPartyList.add(entity5);*/
+        currentPartyList.add(entity5);
     }
 
     public void getNextTurnCharacter(float delay){
@@ -301,99 +301,136 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
     }
 
-    public void playerMeleeAttack(){
-        if( currentSelectedCharacter == null ){
-            return;
-        }
+    private Entity getCharacterAtBattlePosition(Array<Entity> list, int position) {
+        Entity character = null;
 
-        String message = "";
-
-        if (currentSelectedCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-            // Melee attack against enemy 1, 3 or 5 can be blocked by enemies 2 or 4 if they are alive
-            // i.e.,
-            // 1
-            //    2
-            // 3
-            //    4
-            // 5
-            // check for block
-            Entity enemy;
-            switch (currentSelectedCharacter.getBattlePosition()) {
-                case 1:
-                    if (currentEnemyList.size > 1) {
-                        enemy = currentEnemyList.get(1);
-                        if (enemy.isAlive()) {
-                            message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
-                            BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
-                            return;
-                        }
-                    }
-                    break;
-                case 3:
-                    enemy = currentEnemyList.get(1);
-                    if (enemy.isAlive()) {
-                        message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
-                        BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
-                        return;
-                    } else if (currentEnemyList.size > 3) {
-                        enemy = currentEnemyList.get(3);
-                        if (enemy.isAlive()) {
-                            message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
-                            BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
-                            return;
-                        }
-                    }
-                    break;
-                case 5:
-                    enemy = currentEnemyList.get(3);
-                    if (enemy.isAlive()) {
-                        message = "Melee attack on " + enemy.getEntityConfig().getDisplayName() + " has been blocked!";
-                        BattleState.this.notify(enemy, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
-                        return;
-                    }
-                    break;
+        for (Entity entity : list) {
+            if (entity.getBattlePosition() == position) {
+                character = entity;
+                break;
             }
         }
-        // else Melee attack against party members can be made as long as they are alive; no blocking
-
-
-        // if got this far, then kick off animation for player attacking
-        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_ATTACKS, "");
-
-        if( !_playerAttackCalculations.isScheduled() ){
-            Timer.schedule(_playerAttackCalculations, 1.75f);
-        }
-
-        /*
-        //Check for magic if used in attack; If we don't have enough MP, then return
-        int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
-        notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_START);
-
-        if( _currentPlayerWandAPPoints == 0 ){
-            if( !_playerAttackCalculations.isScheduled() ){
-                Timer.schedule(_playerAttackCalculations, 1);
-            }
-        }
-        else if(_currentPlayerWandAPPoints > mpVal ){
-            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_TURN_DONE);
-            return;
-        }
-        else {
-            if( !_checkPlayerMagicUse.isScheduled() && !_playerAttackCalculations.isScheduled() ){
-                Timer.schedule(_checkPlayerMagicUse, .5f);
-                Timer.schedule(_playerAttackCalculations, 1);
-            }
-        }
-        */
+        return character;
     }
 
-    public void opponentAttacks(){
+    private boolean isBlocked(Entity attacker, Entity defender) {
+        // There is a % chance based on speed whether or not the attack will be blocked. This follows this equation:
+        //      % = 50A / D
+        // Where A is the Attacker’s SPD and D is the Defender’s SPD
+        if (defender != null) {
+            if (defender.isAlive()) {
+                String SPD = attacker.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+                int attackerSPD = Integer.parseInt(SPD);
+
+                SPD = defender.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
+                int defenderSPD = Integer.parseInt(SPD);
+
+                if (defenderSPD != 0) {
+                    float chanceOfBlock = (50 * (float) attackerSPD) / (float) defenderSPD;
+                    int randomVal = MathUtils.random(1, 100);
+
+                    Gdx.app.log(TAG, "Chance of block = " + chanceOfBlock + ", randVal = " + randomVal);
+
+                    if (chanceOfBlock > randomVal) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void frontMeleeAttack(){
+        if (currentSelectedCharacter == null || currentTurnCharacter == null) { return; }
+
+        Entity attacker = currentTurnCharacter;
+        Array<Entity> defenderList = null;
+        String message;
+        boolean isEnemyBeingAttacked = false;
+
+        if (currentSelectedCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+            defenderList = currentEnemyList;
+            isEnemyBeingAttacked = true;
+        }
+        else {
+            defenderList = currentPartyList;
+        }
+
+        // Melee attack against defender 1, 3 or 5 can be blocked by defender 2 or 4 if they are alive
+        // i.e.,
+        // 1
+        //    2
+        // 3
+        //    4
+        // 5
+        // check for block
+        Entity defender2 = getCharacterAtBattlePosition(defenderList, 2);
+        Entity defender4 = getCharacterAtBattlePosition(defenderList, 4);
+        boolean blockedBy2 = false;
+        boolean blockedBy4 = false;
+
+        switch (currentSelectedCharacter.getBattlePosition()) {
+            case 1:
+                blockedBy2 = isBlocked(attacker, defender2);
+                break;
+            case 3:
+                blockedBy2 = isBlocked(attacker, defender2);
+                blockedBy4 = isBlocked(attacker, defender4);
+                break;
+            case 5:
+                blockedBy4 = isBlocked(attacker, defender4);
+                break;
+        }
+
+        if (blockedBy2 && !blockedBy4) {
+            message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " has been blocked by " + defender2.getEntityConfig().getDisplayName() + "!";
+            BattleState.this.notify(attacker, defender2, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
+        }
+        else if (!blockedBy2 && blockedBy4) {
+            message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " has been blocked by " + defender4.getEntityConfig().getDisplayName() + "!";
+            BattleState.this.notify(attacker, defender4, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
+        }
+        else if (blockedBy2 && blockedBy4) {
+            // blocked by both, so randomly pick one as the blocker
+            int randomNum = MathUtils.random(1, 2);
+            if (randomNum == 1) {
+                message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " has been blocked by " + defender2.getEntityConfig().getDisplayName() + "!";
+                BattleState.this.notify(attacker, defender2, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
+            }
+            else {
+                message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " has been blocked by " + defender4.getEntityConfig().getDisplayName() + "!";
+                BattleState.this.notify(attacker, defender4, BattleObserver.BattleEventWithMessage.ATTACK_BLOCKED, message);
+            }
+        }
+        else {
+            // if got this far, then kick off animation for successful attack
+            if (isEnemyBeingAttacked) {
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_ATTACKS, "");
+
+                if (!_playerAttackCalculations.isScheduled()) {
+                    Timer.schedule(_playerAttackCalculations, 1.75f);
+                }
+            }
+            else {
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_ATTACKS, "");
+
+                if( !_opponentAttackCalculations.isScheduled() ){
+                    Timer.schedule(_opponentAttackCalculations, 1.75f);
+                }
+            }
+        }
+    }
+
+    public void opponentAttacks() {
         // kick off animation for opponent attacking
+        frontMeleeAttack();
+/*
         BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_ATTACKS, "");
 
         if( !_opponentAttackCalculations.isScheduled() ){
             Timer.schedule(_opponentAttackCalculations, 1.75f);
-        }
+        }*/
     }
 
     private String getEffectPhrase(Integer value, String type, boolean useAnd) {
@@ -546,19 +583,55 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         };
     }
 
+    private void removeSelectedCharacterFromTurnList() {
+        for (int i = 0; i < characterTurnList.size(); i++) {
+            Entity character = characterTurnList.get(i);
+            if (character.getEntityConfig().getEntityID().equals(currentSelectedCharacter.getEntityConfig().getEntityID())) {
+                characterTurnList.remove(i);
+                break;
+            }
+        }
+    }
+
+    private int calculateHitPointDamage() {
+        /*
+        HPD = MV(A^2) / 5D
+        POW = M(A^2) / 5F
+
+        Where M = 10% of DMG when casting spell, else = 1
+        Where A = Attacker's ATK or MATK
+        Where D = Defender's DEF or MDEF
+        Where F = Attacker's DEF
+        Where V = Deviation of 0.9 and 1.1
+
+        Where HPD = amount of damage the defendant takes.
+                Always round up.
+        Where POW = expected HPD, used for Hard Mode, when deciding who to attack
+        */
+
+        int HPD = 0;
+
+        String attackerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
+        String defenderDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
+
+        int A = Integer.parseInt(attackerATK);
+        int D = Integer.parseInt(defenderDEF);
+        float V = MathUtils.random(0.9f, 1.1f);
+        float M = 1.0f;
+        float fHPD = (M * V * (float)Math.pow(A, 2)) / (5 * D);
+        HPD = (int)fHPD + 1;    //round up
+
+        Gdx.app.log(TAG, "attackerATK = " + attackerATK + ", defenderDEF = " + defenderDEF + ", deviation = " + V);
+
+        return HPD;
+    }
+
     private Timer.Task getPlayerAttackCalculationTimer() {
         return new Timer.Task() {
             @Override
             public void run() {
-                String playerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
-                String enemyDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
+                int hitPoints = calculateHitPointDamage();
 
-                // If Character attacks enemy with a normal attack of 10 ATK, then there is 10 POW going at enemy.
-                // Every 2 DEF blocks one ATK, meaning that because enemy has 15 DEF, it blocks 7 POW (rounding down).
-                // This means that they take 3 HP
-                // DEF blocks ATK 2:1
-                Gdx.app.log(TAG, "playerATK = " + playerATK + ", enemyDEF = " + enemyDEF);
-                int hitPoints = Integer.parseInt(playerATK) - Integer.parseInt(enemyDEF) / 2;
                 if (hitPoints < 0)
                     hitPoints = 0;
 
@@ -579,6 +652,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 if (newEnemyHP == 0) {
                     currentSelectedCharacter.setAlive(false);
+
+                    // remove enemy from turn list if it's there
+                    removeSelectedCharacterFromTurnList();
+
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
 
                     // see if all enemies are dead
@@ -604,11 +681,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         return new Timer.Task() {
             @Override
             public void run() {
-                String enemyATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
-                String playerDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
+                int hitPoints = calculateHitPointDamage();
 
-                Gdx.app.log(TAG, "enemyATK = " + enemyATK + ", playerDEF = " + playerDEF);
-                int hitPoints = Integer.parseInt(enemyATK) - Integer.parseInt(playerDEF) / 2;
                 if (hitPoints < 0)
                     hitPoints = 0;
 
@@ -634,14 +708,9 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 if (newPlayerHP == 0) {
                     currentSelectedCharacter.setAlive(false);
 
-                    // remove character from turn list if it's there
-                    for (int i = 0; i < characterTurnList.size(); i++) {
-                        Entity character = characterTurnList.get(i);
-                        if (character.getEntityConfig().getEntityID().equals(currentSelectedCharacter.getEntityConfig().getEntityID())) {
-                            characterTurnList.remove(i);
-                            break;
-                        }
-                    }
+                    // remove player from turn list if it's there
+                    removeSelectedCharacterFromTurnList();
+
                     BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_DEFEATED);
 
                     // see if all party members are dead
@@ -659,31 +728,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_TURN_DONE, message);
-                /*
-                int currentOpponentHP = Integer.parseInt(currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()));
-
-                if (currentOpponentHP <= 0) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_TURN_DONE);
-                    return;
-                }
-
-                int currentOpponentAP = Integer.parseInt(currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ATK.toString()));
-                int damage = MathUtils.clamp(currentOpponentAP - _currentPlayerDP, 0, currentOpponentAP);
-                int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
-                hpVal = MathUtils.clamp( hpVal - damage, 0, hpVal);
-                ProfileManager.getInstance().setProperty("currentPlayerHP", hpVal);
-
-                if( damage > 0 ) {
-                    String message = String.format("%s attacked %s, causing %s HP damage.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                            currentSelectedCharacter.getEntityConfig().getDisplayName(), damage);
-
-                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE, message);
-                }
-
-                Gdx.app.log(TAG, "Player HIT for " + damage + " HP BY " + currentSelectedCharacter.getEntityConfig().getEntityID() + " leaving player with HP: " + hpVal);
-
-                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_TURN_DONE);
-                */
             }
         };
     }

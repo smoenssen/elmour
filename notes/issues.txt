@@ -1,3 +1,4 @@
 
 BLOCK_RIGHT in hit.json crashes
 
+Can't block daggers or punching

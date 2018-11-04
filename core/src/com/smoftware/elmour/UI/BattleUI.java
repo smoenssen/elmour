@@ -83,7 +83,7 @@ public class BattleUI extends Window implements BattleObserver {
                 new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        _battleState.playerMeleeAttack();
+                        _battleState.frontMeleeAttack();
                     }
                 }
         );
