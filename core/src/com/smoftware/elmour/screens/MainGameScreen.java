@@ -65,6 +65,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
     protected OrthographicCamera _hudCamera = null;
     protected OrthographicCamera controllersCam = null;
 
+    private Stage stage;
+    private Viewport viewport;
+
     private Json _json;
     private ElmourGame _game;
     private InputMultiplexer _multiplexer;
@@ -88,6 +91,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         //get the current size
         _camera = new OrthographicCamera();
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+        viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
+        stage = new Stage(viewport);
 
         if (ElmourGame.isAndroid()) {
             // capture Android back key so it is not passed on to the OS
@@ -142,6 +148,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         if( _mapRenderer == null ){
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
+
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(Actions.fadeIn(2.0f));
     }
 
     @Override
@@ -318,6 +327,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
                 shakeCam.reset();
             }
         }
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

@@ -118,12 +118,12 @@ public class BattleUI extends Window implements BattleObserver {
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch(event){
-            case PLAYER_TURN_START:
+            /*case PLAYER_TURN_START:
                 _runButton.setDisabled(true);
                 _runButton.setTouchable(Touchable.disabled);
                 _attackButton.setDisabled(true);
                 _attackButton.setTouchable(Touchable.disabled);
-                break;
+                break;*/
             case OPPONENT_ADDED:
                 _image.setEntity(entity);
                 _image.setCurrentAnimation(Entity.AnimationType.IMMOBILE);

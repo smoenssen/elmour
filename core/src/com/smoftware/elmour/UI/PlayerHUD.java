@@ -1685,6 +1685,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                         break;
                     case FAILED_ESCAPE:
                         break;
+                    case GAME_OVER:
+                        game.setScreen(game.getScreenType(ElmourGame.ScreenType.GameOver));
+                        break;
                 }
 
                 break;

@@ -1,80 +1,53 @@
 package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
-import com.smoftware.elmour.audio.AudioObserver;
+
+/**
+ * Created by moenssr on 11/5/2018.
+ */
 
 public class GameOverScreen extends GameScreen {
-    private Stage _stage;
-    private ElmourGame _game;
-    private static final String DEATH_MESSAGE = "You have fought bravely, but alas, you have fallen during your epic struggle.";
-    private static final String GAMEOVER = "Game Over";
 
-    public GameOverScreen(ElmourGame game){
-        _game = game;
+    private Stage stage;
+    private ElmourGame game;
+    private OrthographicCamera camera;
+    private Viewport viewport;
+    private float delayTime = 0;
+    private boolean splashShowing = true;
+    ProgressBar bar;
 
-        //create
-        _stage = new Stage();
-        TextButton continueButton = new TextButton("Continue", Utility.STATUSUI_SKIN);
-        TextButton mainMenuButton = new TextButton("Main Menu", Utility.STATUSUI_SKIN);
-        Label messageLabel = new Label(DEATH_MESSAGE, Utility.STATUSUI_SKIN);
-        messageLabel.setWrap(true);
+    public GameOverScreen(ElmourGame game) {
+        this.game = game;
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
+        stage = new Stage(viewport);
 
-        Label gameOverLabel = new Label(GAMEOVER, Utility.STATUSUI_SKIN);
-        gameOverLabel.setAlignment(Align.center);
+        Image title = new Image(new Texture("graphics/GameOver.png"));
+        title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
-        Table table = new Table();
+        Image smoftware = new Image(new Texture("graphics/smoftware.png"));
+        smoftware.setPosition((stage.getWidth() - smoftware.getWidth()) / 2, 50);
 
-        //Layout
-        table.setFillParent(true);
-        table.add(messageLabel).pad(50, 50,50,50).expandX().fillX().row();
-        table.add(gameOverLabel);
-        table.row();
-        table.add(continueButton).pad(50,50,10,50);
-        table.row();
-        table.add(mainMenuButton).pad(10,50,50,50);
-
-        _stage.addActor(table);
-
-        //Listeners
-        continueButton.addListener(new ClickListener() {
-                                       @Override
-                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                           return true;
-                                       }
-
-                                       @Override
-                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                           _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.LoadGame));
-                                       }
-
-                               }
-        );
-
-        mainMenuButton.addListener(new ClickListener() {
-
-                                       @Override
-                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                           return true;
-                                       }
-
-                                       @Override
-                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                           _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainMenu));
-                                       }
-                                   }
-        );
-
-        notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
+        stage.addActor(title);
+        stage.addActor(smoftware);
     }
 
     @Override
@@ -83,21 +56,31 @@ public class GameOverScreen extends GameScreen {
             return;
         }
 
+        // delay used for amount of time to show splash screen
+        delayTime += delta;
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        _stage.act(delta);
-        _stage.draw();
+
+        stage.act(delta);
+        stage.draw();
+
+        if (splashShowing && (Gdx.input.justTouched() || delayTime > 4f)) {
+            game.setScreen(game.getScreenType(ElmourGame.ScreenType.StartScreen));
+            splashShowing = false;
+        }
     }
 
     @Override
     public void resize(int width, int height) {
-        _stage.getViewport().setScreenSize(width, height);
+        stage.getViewport().setScreenSize(width, height);
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(_stage);
-        notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
+        Gdx.input.setInputProcessor(stage);
+        stage.getRoot().getColor().a = 0;
+        stage.getRoot().addAction(Actions.fadeIn(2.0f));
     }
 
     @Override
@@ -115,7 +98,7 @@ public class GameOverScreen extends GameScreen {
 
     @Override
     public void dispose() {
-        _stage.clear();
-        _stage.dispose();
+        stage.clear();
+        stage.dispose();
     }
 }

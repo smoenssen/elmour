@@ -123,6 +123,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     final String POTIONS = "Potions";
     final String CONSUMABLES = "Consumables";
     final String THROWING = "Throwing Items";
+    final String BATTLE_WON = "Battle WON!";
+    final String BATTLE_LOST = "Battle LOST!";
 
     Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
     Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
@@ -1284,11 +1286,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (battleWon) {
                                                battleTextArea.cleanupTextArea();
-                                               battleTextArea.populateText("Battle WON!");
+                                               battleTextArea.populateText(BATTLE_WON);
                                            }
                                            else if (battleLost) {
                                                battleTextArea.cleanupTextArea();
-                                               battleTextArea.populateText("Battle LOST!");
+                                               battleTextArea.populateText(BATTLE_LOST);
+                                           }
+                                           else if (battleTextArea.getText().equals(BATTLE_WON)) {
+
+                                           }
+                                           else if (battleTextArea.getText().equals(BATTLE_LOST)) {
+                                                // fade out HUD?
                                            }
                                            else {
                                                turnInProgress = true;
@@ -2279,14 +2287,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public void onNotify(Entity entity, BattleEvent event) {
         Gdx.app.log(TAG, String.format("BattleEvent received without message: %s", event.toString()));
         switch(event){
-            case PLAYER_TURN_START:
-                /*
-                runButton.setDisabled(true);
-                runButton.setTouchable(Touchable.disabled);
-                attackButton.setDisabled(true);
-                attackButton.setTouchable(Touchable.disabled);
-                */
-                break;
             case PARTY_MEMBER_ADDED:
                 Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
                 numberOfPartyMembers++;
@@ -2537,11 +2537,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         switch(event){
             case OPPONENT_ATTACKS:
                 middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
-                break;
-            case PLAYER_HIT_DAMAGE:
-                // currently this isn't called
-                //battleTextArea.populateText(message);
-                //selectedCharacter = null;
                 break;
             case OPPONENT_TURN_DONE:
                 UpdateStats(destinationEntity);

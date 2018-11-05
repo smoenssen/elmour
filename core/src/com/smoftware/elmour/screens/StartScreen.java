@@ -79,9 +79,6 @@ public class StartScreen  extends GameScreen {
 
                   @Override
                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                      // use for debugging if I want to use a different profile
-                      //game.setScreen(game.getScreenType(ElmourGame.ScreenType.LoadGame));
-
                       ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
                       game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
                   }

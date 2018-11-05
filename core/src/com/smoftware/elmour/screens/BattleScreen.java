@@ -32,6 +32,7 @@ import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.UI.MyActions;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
@@ -51,7 +52,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private static final String TAG = BattleScreen.class.getSimpleName();
 
-    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, NONE }
+    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, GAME_OVER, NONE }
 
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
@@ -125,6 +126,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
+
+    private boolean battleLost = false;
+    private boolean battleWon = false;
 
     private static AnimationState animationState = AnimationState.NONE;
 
@@ -875,6 +879,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
+    private Action getGameOverAction() {
+        animationState = AnimationState.GAME_OVER;
+
+        float duration = 2.0f;
+        return Actions.sequence(
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
+                new fadeOutCharactersAndHUD(duration),
+                new animationComplete()
+        );
+    }
+
     private Action getPlayerFailedEscapeAction() {
         animationState = AnimationState.FAILED_ESCAPE;
         _isCameraFixed = false;
@@ -884,7 +899,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         float enemyDurationFactor = 1f;
         Entity.AnimationType runDirection;
         Entity.AnimationType battlePositionParty = Entity.AnimationType.WALK_LEFT;
-        Entity.AnimationType battlePosotionEnemy = Entity.AnimationType.WALK_RIGHT;
+        Entity.AnimationType battlePositionEnemy = Entity.AnimationType.WALK_RIGHT;
 
         // direction and destinations change if it's a back battle
         if (_game.battleState.isBackBattle()) {
@@ -950,15 +965,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setWalkDirection(party4, Entity.AnimationType.IDLE),
                 myActions.new setWalkDirection(party5, battlePositionParty),
                 myActions.new setWalkDirection(party5, Entity.AnimationType.IDLE),
-                myActions.new setWalkDirection(enemy1, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy1, battlePositionEnemy),
                 myActions.new setWalkDirection(enemy1, Entity.AnimationType.IDLE),
-                myActions.new setWalkDirection(enemy2, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy2, battlePositionEnemy),
                 myActions.new setWalkDirection(enemy2, Entity.AnimationType.IDLE),
-                myActions.new setWalkDirection(enemy3, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy3, battlePositionEnemy),
                 myActions.new setWalkDirection(enemy3, Entity.AnimationType.IDLE),
-                myActions.new setWalkDirection(enemy4, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy4, battlePositionEnemy),
                 myActions.new setWalkDirection(enemy4, Entity.AnimationType.IDLE),
-                myActions.new setWalkDirection(enemy5, battlePosotionEnemy),
+                myActions.new setWalkDirection(enemy5, battlePositionEnemy),
                 myActions.new setWalkDirection(enemy5, Entity.AnimationType.IDLE),
 
                 // reset camera
@@ -1536,6 +1551,26 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                     if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
                     }
+                }
+            case BATTLE_WON:
+                battleWon = true;
+                break;
+            case BATTLE_LOST:
+                battleLost = true;
+                break;
+            case ANNIMATION_COMPLETE:
+                switch (BattleScreen.getAnimationState()) {
+                    case BATTLE:
+                        if (battleLost) {
+                            _stage.addAction(getGameOverAction());
+                        }
+                        break;
+                    case ESCAPED:
+                        break;
+                    case FAILED_ESCAPE:
+                        break;
+                    case GAME_OVER:
+                        break;
                 }
         }
     }

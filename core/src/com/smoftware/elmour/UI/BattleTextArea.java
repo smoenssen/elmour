@@ -41,6 +41,8 @@ public class BattleTextArea extends Window {
         startTextScrollThread();
     }
 
+    public String getText() { return fullText; }
+
     public void show() {
         this.setVisible(true);
         state = State.VISIBLE;

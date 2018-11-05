@@ -84,19 +84,21 @@ public class AnimatedImage extends Image {
             }
         }
         else {
-            switch (currentDirection) {
-                case UP:
-                    ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_UP).getKeyFrame(0, false));
-                    break;
-                case DOWN:
-                    ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_DOWN).getKeyFrame(0, false));
-                    break;
-                case LEFT:
-                    ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_LEFT).getKeyFrame(0, false));
-                    break;
-                case RIGHT:
-                    ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_RIGHT).getKeyFrame(0, false));
-                    break;
+            if (_entity != null) {
+                switch (currentDirection) {
+                    case UP:
+                        ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_UP).getKeyFrame(0, false));
+                        break;
+                    case DOWN:
+                        ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_DOWN).getKeyFrame(0, false));
+                        break;
+                    case LEFT:
+                        ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_LEFT).getKeyFrame(0, false));
+                        break;
+                    case RIGHT:
+                        ((TextureRegionDrawable) drawable).setRegion(_entity.getAnimation(Entity.AnimationType.WALK_RIGHT).getKeyFrame(0, false));
+                        break;
+                }
             }
         }
 
