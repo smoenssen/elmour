@@ -882,8 +882,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Action getGameOverAction() {
         animationState = AnimationState.GAME_OVER;
 
-        float duration = 2.0f;
+        float duration = 3.0f;
         return Actions.sequence(
+                //Actions.delay(50),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
                 new fadeOutCharactersAndHUD(duration),
                 new animationComplete()
@@ -1553,17 +1554,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                     }
                 }
             case BATTLE_WON:
+                //todo: might not need these variables
                 battleWon = true;
                 break;
             case BATTLE_LOST:
                 battleLost = true;
+                _stage.addAction(getGameOverAction());
                 break;
             case ANNIMATION_COMPLETE:
                 switch (BattleScreen.getAnimationState()) {
                     case BATTLE:
-                        if (battleLost) {
-                            _stage.addAction(getGameOverAction());
-                        }
+                        //if (battleLost) {
+                        //    _stage.addAction(getGameOverAction());
+                        //}
                         break;
                     case ESCAPED:
                         break;
