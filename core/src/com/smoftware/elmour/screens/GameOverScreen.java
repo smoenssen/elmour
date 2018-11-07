@@ -80,7 +80,7 @@ public class GameOverScreen extends GameScreen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(3.0f));
+        stage.getRoot().addAction(Actions.fadeIn(1.5f));
     }
 
     @Override

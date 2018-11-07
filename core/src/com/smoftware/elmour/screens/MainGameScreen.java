@@ -138,8 +138,7 @@ public class MainGameScreen extends GameScreen implements MapObserver {
     @Override
     public void show() {
         ProfileManager.getInstance().addObserver(_mapMgr);
-        if (_playerHUD != null)
-            ProfileManager.getInstance().addObserver(_playerHUD);
+        ProfileManager.getInstance().addObserver(_playerHUD);
 
         setGameState(GameState.LOADING);
 
@@ -149,6 +148,8 @@ public class MainGameScreen extends GameScreen implements MapObserver {
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
 
+        _mapMgr.setMapChanged(true);
+
         stage.getRoot().getColor().a = 0;
         stage.getRoot().addAction(Actions.fadeIn(2.0f));
     }
@@ -156,6 +157,8 @@ public class MainGameScreen extends GameScreen implements MapObserver {
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
+        ProfileManager.getInstance().removeObserver(_mapMgr);
+        ProfileManager.getInstance().removeObserver(_playerHUD);
     }
 
     @Override
@@ -201,8 +204,7 @@ public class MainGameScreen extends GameScreen implements MapObserver {
 
             _mapMgr.setMapChanged(false);
 
-            if (_playerHUD != null)
-                _playerHUD.addTransitionToScreen();
+            _playerHUD.addTransitionToScreen();
         }
 
         if (_playerHUD != null)

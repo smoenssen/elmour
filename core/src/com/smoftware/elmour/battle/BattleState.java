@@ -37,7 +37,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     private Timer.Task applyInventory;
     private Timer.Task applySpellPower;
     private Timer.Task chooseNextCharacterTurn;
-    private Timer.Task sendGameOverNotification;
 
     private MonsterZone currentMonsterZone;
 
@@ -86,7 +85,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         applyInventory = getApplyInventoryTimer();
         applySpellPower = getApplySpellPowerTimer();
         chooseNextCharacterTurn = getChooseNextCharacterTurnTimer();
-        sendGameOverNotification = getSendGameOverNotificationTimer();
 
         currentPartyList = new Array<>();
         currentEnemyList = new Array<>();
@@ -725,9 +723,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                     }
 
                     if (allDead) {
-                        if (!sendGameOverNotification.isScheduled()) {
-                            Timer.schedule(sendGameOverNotification, 1);
-                        }
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
                     }
                 }
 
@@ -736,13 +732,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         };
     }
 
-    private Timer.Task getSendGameOverNotificationTimer() {
-        return new Timer.Task() {
-            @Override
-            public void run() {
-                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
-            }
-        };
+    public void gameOver() {
+        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.GAME_OVER);
     }
 
     private Timer.Task getChooseNextCharacterTurnTimer() {

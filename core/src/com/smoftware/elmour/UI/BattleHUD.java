@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
@@ -1284,19 +1285,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (turnInProgress) return;
 
-                                           if (battleWon) {
+                                           if (battleTextArea.getText().equals(BATTLE_WON)) {
+
+                                           }
+                                           else if (battleTextArea.getText().equals(BATTLE_LOST)) {
+                                               battleTextArea.cleanupTextArea();
+                                               game.battleState.gameOver();
+                                               if( !resetControlsTimer().isScheduled() ){
+                                                   Timer.schedule(resetControlsTimer(), 2);
+                                               }
+                                           }
+                                           else if (battleWon) {
                                                battleTextArea.cleanupTextArea();
                                                battleTextArea.populateText(BATTLE_WON);
                                            }
                                            else if (battleLost) {
                                                battleTextArea.cleanupTextArea();
                                                battleTextArea.populateText(BATTLE_LOST);
-                                           }
-                                           else if (battleTextArea.getText().equals(BATTLE_WON)) {
-
-                                           }
-                                           else if (battleTextArea.getText().equals(BATTLE_LOST)) {
-                                                // fade out HUD?
                                            }
                                            else {
                                                turnInProgress = true;
@@ -2111,64 +2116,68 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         label.setStyle(ls);
     }
 
-    public void resetControls() {
+    Timer.Task resetControlsTimer() {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                float fadeTime = 0f;
+                // reset controls so they rise from the correct location at bottom of the screen
+                leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                runButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                dummyTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
+                // middleStatsTextArea is handled elsewhere
+                //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
+                //middleStatsTextArea.setPosition(middleStatsTextArea.getX(),2 - menuItemHeight);
 
-        float fadeTime = 0f;
-        // reset controls so they rise from the correct location at bottom of the screen
-        leftTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        leftNameTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        topLeftButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        topRightButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        runButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        statusButton.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        rightTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        rightTable.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        dummyTextArea.addAction(Actions.moveBy(0, -menuItemHeight, fadeTime));
-        // middleStatsTextArea is handled elsewhere
-        //middleStatsTextArea.setHeight(menuItemHeight * 2 - 2);
-        //middleStatsTextArea.setPosition(middleStatsTextArea.getX(),2 - menuItemHeight);
+                // reset other variables
+                party1Name.setText("");
+                party2Name.setText("");
+                party3Name.setText("");
+                party4Name.setText("");
+                party5Name.setText("");
 
-        // reset other variables
-        party1Name.setText("");
-        party2Name.setText("");
-        party3Name.setText("");
-        party4Name.setText("");
-        party5Name.setText("");
+                monster1Name.setText("");
+                monster2Name.setText("");
+                monster3Name.setText("");
+                monster4Name.setText("");
+                monster5Name.setText("");
 
-        monster1Name.setText("");
-        monster2Name.setText("");
-        monster3Name.setText("");
-        monster4Name.setText("");
-        monster5Name.setText("");
+                // reset color of monster names
+                setLabelFontColor(monster1Name, Color.DARK_GRAY);
+                setLabelFontColor(monster2Name, Color.DARK_GRAY);
+                setLabelFontColor(monster3Name, Color.DARK_GRAY);
+                setLabelFontColor(monster4Name, Color.DARK_GRAY);
+                setLabelFontColor(monster5Name, Color.DARK_GRAY);
 
-        // reset color of monster names
-        setLabelFontColor(monster1Name, Color.DARK_GRAY);
-        setLabelFontColor(monster2Name, Color.DARK_GRAY);
-        setLabelFontColor(monster3Name, Color.DARK_GRAY);
-        setLabelFontColor(monster4Name, Color.DARK_GRAY);
-        setLabelFontColor(monster5Name, Color.DARK_GRAY);
+                for (int i = 1; i <= numberOfPartyMembers; i++) {
+                    battleScreen.removePartyMember(i);
+                }
 
-        for (int i = 1; i <= numberOfPartyMembers; i++) {
-            battleScreen.removePartyMember(i);
-        }
+                for (int i = 1; i <= numberOfOpponents; i++) {
+                    battleScreen.removeOpponent(i);
+                }
 
-        for (int i = 1; i <= numberOfOpponents; i++) {
-            battleScreen.removeOpponent(i);
-        }
+                numberOfPartyMembers = 0;
+                numberOfOpponents = 0;
 
-        numberOfPartyMembers = 0;
-        numberOfOpponents = 0;
-
-        groupHp1.setVisible(false);
-        groupMp1.setVisible(false);
-        groupHp2.setVisible(false);
-        groupMp2.setVisible(false);
-        groupHp3.setVisible(false);
-        groupMp3.setVisible(false);
-        groupHp4.setVisible(false);
-        groupMp4.setVisible(false);
-        groupHp5.setVisible(false);
-        groupMp5.setVisible(false);
+                groupHp1.setVisible(false);
+                groupMp1.setVisible(false);
+                groupHp2.setVisible(false);
+                groupMp2.setVisible(false);
+                groupHp3.setVisible(false);
+                groupMp3.setVisible(false);
+                groupHp4.setVisible(false);
+                groupMp4.setVisible(false);
+                groupHp5.setVisible(false);
+                groupMp5.setVisible(false);
+            }
+        };
     }
 
     public void fadeOutRunning(float duration) {
@@ -2492,7 +2501,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         turnInProgress = false;
                         break;
                     case ESCAPED:
-                        resetControls();
+                        if( !resetControlsTimer().isScheduled() ){
+                            Timer.schedule(resetControlsTimer(), 0);
+                        }
                         turnInProgress = false;
                         break;
                     case FAILED_ESCAPE:

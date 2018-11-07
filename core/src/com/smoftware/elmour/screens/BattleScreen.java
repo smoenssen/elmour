@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
@@ -34,6 +35,7 @@ import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.battle.BattleObserver;
+import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -52,7 +54,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private static final String TAG = BattleScreen.class.getSimpleName();
 
-    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, GAME_OVER, NONE }
+    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, NONE }
 
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
@@ -126,9 +128,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
-
-    private boolean battleLost = false;
-    private boolean battleWon = false;
 
     private static AnimationState animationState = AnimationState.NONE;
 
@@ -857,17 +856,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5.setCurrentAnimationType(runDirection);
 
         return Actions.sequence(
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
-                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
-                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+                Actions.parallel(
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
+                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
+                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
 
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  enemyDuration, Interpolation.linear), enemy1),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  enemyDuration, Interpolation.linear), enemy2),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  enemyDuration, Interpolation.linear), enemy3),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  enemyDuration, Interpolation.linear), enemy4),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  enemyDuration, Interpolation.linear), enemy5),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  enemyDuration, Interpolation.linear), enemy1),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  enemyDuration, Interpolation.linear), enemy2),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  enemyDuration, Interpolation.linear), enemy3),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  enemyDuration, Interpolation.linear), enemy4),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  enemyDuration, Interpolation.linear), enemy5)
+                ),
 
                 Actions.delay(duration * 0.5f),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
@@ -879,15 +880,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
-    private Action getGameOverAction() {
-        animationState = AnimationState.GAME_OVER;
-
-        float duration = 3.0f;
+    private Action fadeOutAction() {
+        float duration = 1.0f;
         return Actions.sequence(
-                //Actions.delay(50),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
-                new fadeOutCharactersAndHUD(duration),
-                new animationComplete()
+                new fadeOutCharactersAndHUD(duration)
         );
     }
 
@@ -931,17 +928,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5.setCurrentAnimationType(runDirection);
 
         return Actions.sequence(
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
-                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
-                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
-                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+                Actions.parallel(
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
+                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
+                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
+                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
 
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy1),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy2),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy3),
-                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy4),
-                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy5),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy1),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy2),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy3),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy4),
+                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy5)
+                ),
 
                 Actions.delay(duration * 0.5f),
 
@@ -1054,8 +1053,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     @Override
     public void hide() {
-
         Gdx.input.setInputProcessor(null);
+        ProfileManager.getInstance().removeObserver(_mapMgr);
 
         party1.addAction(Actions.fadeOut(0));
         party2.addAction(Actions.fadeOut(0));
@@ -1276,10 +1275,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(setupBattleScene),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)
         );
-    }
-
-    public void fadeOut() {
-        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor);
     }
 
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
@@ -1553,28 +1548,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
                     }
                 }
-            case BATTLE_WON:
-                //todo: might not need these variables
-                battleWon = true;
+            case GAME_OVER:
+                currentTurnCharacter = null;
+                currentTurnEntity = null;
+                selectedEntity = null;
+                _stage.addAction(fadeOutAction());
                 break;
-            case BATTLE_LOST:
-                battleLost = true;
-                _stage.addAction(getGameOverAction());
-                break;
-            case ANNIMATION_COMPLETE:
-                switch (BattleScreen.getAnimationState()) {
-                    case BATTLE:
-                        //if (battleLost) {
-                        //    _stage.addAction(getGameOverAction());
-                        //}
-                        break;
-                    case ESCAPED:
-                        break;
-                    case FAILED_ESCAPE:
-                        break;
-                    case GAME_OVER:
-                        break;
-                }
         }
     }
 

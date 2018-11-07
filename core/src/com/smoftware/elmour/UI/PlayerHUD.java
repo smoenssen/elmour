@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
@@ -1626,6 +1627,15 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.dispose();
     }
 
+    private Timer.Task getSetGameOverScreenTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.GameOver));
+            }
+        };
+    }
+
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
@@ -1685,9 +1695,28 @@ public class PlayerHUD implements Screen, AudioSubject,
                         break;
                     case FAILED_ESCAPE:
                         break;
-                    case GAME_OVER:
-                        game.setScreen(game.getScreenType(ElmourGame.ScreenType.GameOver));
-                        break;
+                }
+                break;
+            case GAME_OVER:
+                // hide screen swipes for when game play goes back to main screen
+                screenSwipe1.setVisible(false);
+                screenSwipe2.setVisible(false);
+                screenSwipe3.setVisible(false);
+                screenSwipe4.setVisible(false);
+                screenSwipe5.setVisible(false);
+                screenSwipe6.setVisible(false);
+                screenSwipe7.setVisible(false);
+                screenSwipe8.setVisible(false);
+                screenSwipe9.setVisible(false);
+                screenSwipe10.setVisible(false);
+
+                resetPlayerComingFromBattle();
+
+                ProfileManager.getInstance().setIsLoaded(false);
+                //ProfileManager.getInstance().removeAllObservers();
+
+                if (!getSetGameOverScreenTimer().isScheduled()) {
+                    Timer.schedule(getSetGameOverScreenTimer(), 1.0f);
                 }
 
                 break;

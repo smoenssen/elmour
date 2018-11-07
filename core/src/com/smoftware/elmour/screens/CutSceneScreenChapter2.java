@@ -520,9 +520,9 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
 
     @Override
     public void hide() {
-        if( _gameState != GameState.GAME_OVER ){
-            setGameState(GameState.SAVING);
-        }
+        //if( _gameState != GameState.GAME_OVER ){
+        //    setGameState(GameState.SAVING);
+        //}
 
         Gdx.input.setInputProcessor(null);
     }

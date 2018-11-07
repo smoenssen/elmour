@@ -18,6 +18,7 @@ public interface BattleObserver {
         CHARACTER_TURN_CHANGED,
         BATTLE_WON,
         BATTLE_LOST,
+        GAME_OVER,
         NONE
     }
 

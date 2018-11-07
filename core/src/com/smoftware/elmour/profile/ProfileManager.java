@@ -108,6 +108,8 @@ public class ProfileManager extends ProfileSubject {
         _profileProperties.put(key, object);
     }
 
+    public void setIsLoaded(boolean isLoaded) { this.isLoaded = isLoaded; }
+
     public <T extends Object> T getProperty(String key, Class<T> type){
         T property = null;
         if( !_profileProperties.containsKey(key) ){
