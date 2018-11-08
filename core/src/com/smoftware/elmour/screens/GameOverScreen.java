@@ -78,6 +78,7 @@ public class GameOverScreen extends GameScreen {
 
     @Override
     public void show() {
+        delayTime = 0;
         Gdx.input.setInputProcessor(stage);
         stage.getRoot().getColor().a = 0;
         stage.getRoot().addAction(Actions.fadeIn(1.5f));

@@ -181,11 +181,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private MyTextArea leftTextArea;
     private int numberOfOpponents = 0;
     private int numberOfPartyMembers = 0;
-    private Label monster1Name;
-    private Label monster2Name;
-    private Label monster3Name;
-    private Label monster4Name;
-    private Label monster5Name;
+    private Label enemy1Name;
+    private Label enemy2Name;
+    private Label enemy3Name;
+    private Label enemy4Name;
+    private Label enemy5Name;
 
     private Table leftSummaryTable;
     private ScrollPane leftScrollPanel;
@@ -383,20 +383,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftTextArea.setPosition(2, 2 - menuItemHeight);
         leftTextArea.setVisible(true);
 
-        monster1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster1Name.setText("");
+        enemy1Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        enemy1Name.setText("");
 
-        monster2Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster2Name.setText("");
+        enemy2Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        enemy2Name.setText("");
 
-        monster3Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster3Name.setText("");
+        enemy3Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        enemy3Name.setText("");
 
-        monster4Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster4Name.setText("");
+        enemy4Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        enemy4Name.setText("");
 
-        monster5Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-        monster5Name.setText("");
+        enemy5Name = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+        enemy5Name.setText("");
 
         leftNameTable = new Table();
 
@@ -419,15 +419,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
 
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
-        leftNameTable.add(monster1Name).size(nameWidth, nameHeight);
+        leftNameTable.add(enemy1Name).size(nameWidth, nameHeight);
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
-        leftNameTable.add(monster2Name).size(nameWidth, nameHeight);
+        leftNameTable.add(enemy2Name).size(nameWidth, nameHeight);
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
-        leftNameTable.add(monster3Name).size(nameWidth, nameHeight);
+        leftNameTable.add(enemy3Name).size(nameWidth, nameHeight);
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
-        leftNameTable.add(monster4Name).size(nameWidth, nameHeight);
+        leftNameTable.add(enemy4Name).size(nameWidth, nameHeight);
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
-        leftNameTable.add(monster5Name).size(nameWidth, nameHeight);
+        leftNameTable.add(enemy5Name).size(nameWidth, nameHeight);
 
         leftNameTable.pack();
 
@@ -1486,11 +1486,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case FINAL:
                 if (currentScreenState == ScreenState.INVENTORY) {
-                    monster1Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster2Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster3Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster4Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy1Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy2Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy3Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy4Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
                     leftSummaryText.addAction(Actions.fadeOut(fadeTime/2));
                     leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setLabelText(leftSummaryText, "")));
@@ -1537,11 +1537,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                          currentScreenState == ScreenState.SPELLS_WHITE ||
                          currentScreenState == ScreenState.POWER)
                 {
-                    monster1Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster2Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster3Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster4Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
-                    monster5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy1Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy2Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy3Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy4Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+                    enemy5Name.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
                     leftSummaryText.addAction(Actions.fadeOut(fadeTime/2));
                     leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setLabelText(leftSummaryText, "")));
@@ -1579,11 +1579,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 break;
             case INVENTORY:
-                monster1Name.addAction(Actions.fadeOut(fadeTime));
-                monster2Name.addAction(Actions.fadeOut(fadeTime));
-                monster3Name.addAction(Actions.fadeOut(fadeTime));
-                monster4Name.addAction(Actions.fadeOut(fadeTime));
-                monster5Name.addAction(Actions.fadeOut(fadeTime));
+                enemy1Name.addAction(Actions.fadeOut(fadeTime));
+                enemy2Name.addAction(Actions.fadeOut(fadeTime));
+                enemy3Name.addAction(Actions.fadeOut(fadeTime));
+                enemy4Name.addAction(Actions.fadeOut(fadeTime));
+                enemy5Name.addAction(Actions.fadeOut(fadeTime));
 
                 topLeftButton.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
                 runButton.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
@@ -1633,11 +1633,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case POWER:
             case SPELLS_BLACK:
             case SPELLS_WHITE:
-                monster1Name.addAction(Actions.fadeOut(fadeTime));
-                monster2Name.addAction(Actions.fadeOut(fadeTime));
-                monster3Name.addAction(Actions.fadeOut(fadeTime));
-                monster4Name.addAction(Actions.fadeOut(fadeTime));
-                monster5Name.addAction(Actions.fadeOut(fadeTime));
+                enemy1Name.addAction(Actions.fadeOut(fadeTime));
+                enemy2Name.addAction(Actions.fadeOut(fadeTime));
+                enemy3Name.addAction(Actions.fadeOut(fadeTime));
+                enemy4Name.addAction(Actions.fadeOut(fadeTime));
+                enemy5Name.addAction(Actions.fadeOut(fadeTime));
 
                 topLeftButton.addAction(Actions.fadeOut(fadeTime/2));
                 runButton.addAction(Actions.fadeOut(fadeTime/2));
@@ -1764,11 +1764,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
                         statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime * crossFadeInFactor)));
 
-                        monster1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
                         middleTree.setTouchable(Touchable.disabled);
 
@@ -1828,11 +1828,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         dummyButtonRight.setHeight(backButtonHeight + 2);
                         dummyButtonRight.setPosition(topLeftButton.getX() + dummyButtonLeft.getWidth() - 2, 0);
 
-                        monster1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                        monster5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                        enemy5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
                         middleTreeTextArea.setHeight(0);
                         middleTreeTextArea.addAction(Actions.fadeOut(fadeTime));
@@ -1871,11 +1871,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     leftSummaryText.setText("");
 
-                    monster1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                    monster2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                    monster3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                    monster4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
-                    monster5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    enemy1Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    enemy2Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    enemy3Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    enemy4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                    enemy5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
                     middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                     middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
@@ -1908,11 +1908,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     private void setCommonTransitionBackFromFinal() {
-        monster1Name.addAction(Actions.fadeOut(fadeTime/2));
-        monster2Name.addAction(Actions.fadeOut(fadeTime/2));
-        monster3Name.addAction(Actions.fadeOut(fadeTime/2));
-        monster4Name.addAction(Actions.fadeOut(fadeTime/2));
-        monster5Name.addAction(Actions.fadeOut(fadeTime/2));
+        enemy1Name.addAction(Actions.fadeOut(fadeTime/2));
+        enemy2Name.addAction(Actions.fadeOut(fadeTime/2));
+        enemy3Name.addAction(Actions.fadeOut(fadeTime/2));
+        enemy4Name.addAction(Actions.fadeOut(fadeTime/2));
+        enemy5Name.addAction(Actions.fadeOut(fadeTime/2));
 
         middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
         middleStatsTextArea.setText("", true);
@@ -2142,18 +2142,18 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 party4Name.setText("");
                 party5Name.setText("");
 
-                monster1Name.setText("");
-                monster2Name.setText("");
-                monster3Name.setText("");
-                monster4Name.setText("");
-                monster5Name.setText("");
+                enemy1Name.setText("");
+                enemy2Name.setText("");
+                enemy3Name.setText("");
+                enemy4Name.setText("");
+                enemy5Name.setText("");
 
                 // reset color of monster names
-                setLabelFontColor(monster1Name, Color.DARK_GRAY);
-                setLabelFontColor(monster2Name, Color.DARK_GRAY);
-                setLabelFontColor(monster3Name, Color.DARK_GRAY);
-                setLabelFontColor(monster4Name, Color.DARK_GRAY);
-                setLabelFontColor(monster5Name, Color.DARK_GRAY);
+                setLabelFontColor(enemy1Name, Color.DARK_GRAY);
+                setLabelFontColor(enemy2Name, Color.DARK_GRAY);
+                setLabelFontColor(enemy3Name, Color.DARK_GRAY);
+                setLabelFontColor(enemy4Name, Color.DARK_GRAY);
+                setLabelFontColor(enemy5Name, Color.DARK_GRAY);
 
                 for (int i = 1; i <= numberOfPartyMembers; i++) {
                     battleScreen.removePartyMember(i);
@@ -2238,14 +2238,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         party3Name.setVisible(true);
         party4Name.setVisible(true);
         party5Name.setVisible(true);
-        monster1Name.setVisible(true);
-        monster2Name.setVisible(true);
-        monster3Name.setVisible(true);
-        monster4Name.setVisible(true);
-        monster5Name.setVisible(true);
+        enemy1Name.setVisible(true);
+        enemy2Name.setVisible(true);
+        enemy3Name.setVisible(true);
+        enemy4Name.setVisible(true);
+        enemy5Name.setVisible(true);
 
         battleWon = false;
-        battleWon = false;
+        battleLost = false;
     }
 
     @Override
@@ -2294,7 +2294,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
-        Gdx.app.log(TAG, String.format("BattleEvent received without message: %s", event.toString()));
+        Gdx.app.log(TAG, String.format("BattleEvent received: %s", event.toString()));
         switch(event){
             case PARTY_MEMBER_ADDED:
                 Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
@@ -2368,19 +2368,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 switch (numberOfOpponents) {
                     case 1:
-                        monster1Name.setText(entity.getEntityConfig().getDisplayName());
+                        enemy1Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 2:
-                        monster2Name.setText(entity.getEntityConfig().getDisplayName());
+                        enemy2Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 3:
-                        monster3Name.setText(entity.getEntityConfig().getDisplayName());
+                        enemy3Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 4:
-                        monster4Name.setText(entity.getEntityConfig().getDisplayName());
+                        enemy4Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                     case 5:
-                        monster5Name.setText(entity.getEntityConfig().getDisplayName());
+                        enemy5Name.setText(entity.getEntityConfig().getDisplayName());
                         break;
                 }
 
@@ -2441,16 +2441,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     color = Color.DARK_GRAY;
                 }
 
-                if (monster1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(monster1Name, color);
-                else if (monster2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(monster2Name, color);
-                else if (monster3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(monster3Name, color);
-                else if (monster4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(monster4Name, color);
-                else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(monster5Name, color);
+                if (enemy1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy1Name, color);
+                else if (enemy2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy2Name, color);
+                else if (enemy3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy3Name, color);
+                else if (enemy4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy4Name, color);
+                else if (enemy5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy5Name, color);
                 /*
                 int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString()));
                 _damageValLabel.setText(String.valueOf(damage));
@@ -2464,20 +2464,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case OPPONENT_DEFEATED:
                 Gdx.app.log(TAG, "entity " + entity.getEntityConfig().getDisplayName() + " defeated!!");
 
-                if (monster1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
-                    monster1Name.setVisible(false);
+                if (enemy1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    enemy1Name.setVisible(false);
                 }
-                else if (monster2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
-                    monster2Name.setVisible(false);
+                else if (enemy2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    enemy2Name.setVisible(false);
                 }
-                else if (monster3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
-                    monster3Name.setVisible(false);
+                else if (enemy3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    enemy3Name.setVisible(false);
                 }
-                else if (monster4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
-                    monster4Name.setVisible(false);
+                else if (enemy4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())) {
+                    enemy4Name.setVisible(false);
                 }
-                else if (monster5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())){
-                    monster5Name.setVisible(false);
+                else if (enemy5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName())){
+                    enemy5Name.setVisible(false);
                 }
 
                 selectedCharacter = null;
