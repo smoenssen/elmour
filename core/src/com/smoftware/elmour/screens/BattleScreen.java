@@ -34,7 +34,6 @@ import com.smoftware.elmour.UI.MyActions;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.BattleObserver;
-import com.smoftware.elmour.battle.MonsterFactory;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -101,7 +100,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private boolean _isCameraFixed = true;
     private MyActions myActions;
     private ScreenTransitionActor _transitionActor;
-    private Action openBattleSceneAction;
     private Action _switchScreenAction;
     private Action setupBattleScene;
 
@@ -565,6 +563,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
+    public class fadeOutCharacters extends Action {
+        float duration;
+        public fadeOutCharacters(float duration) {
+            this.duration = duration;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            fadeOutCharacters(duration);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class fadeOutScreen extends Action {
         float duration;
         public fadeOutScreen(float duration) {
@@ -574,7 +585,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         @Override
         public boolean act (float delta) {
             blackScreen.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
-            battleHUD.fadeOutRunning(duration);
+            battleHUD.fadeOutHUD(duration);
             return true; // An action returns true when it's completed
         }
     }
@@ -589,7 +600,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         public boolean act (float delta) {
             _isCameraFixed = true;
             blackScreen.addAction(Actions.fadeOut(duration));
-            battleHUD.fadeInRunning(duration);
+            battleHUD.fadeInHUD(duration);
             return true; // An action returns true when it's completed
         }
     }
@@ -877,20 +888,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 ),
 
                 Actions.delay(duration * 0.5f),
-                //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
+                new fadeOutCharacters(duration * 0.5f),
                 new fadeOutScreen(duration * 0.5f),
 
                 Actions.delay(duration * 0.5f),
-
+                myActions.new setImageVisible(blackScreen, false),
                 new animationComplete()
         );
     }
 
     private Action fadeOutAction() {
+        // delay here should match PlayerHUD getSetGameOverScreenTimer() and GameOverScreen fadeIn()
         float duration = 1.0f;
         return Actions.sequence(
-                //Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
-                new fadeOutScreen(duration)
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration), _transitionActor),
+                new fadeOutScreen(duration),
+                Actions.delay(duration),
+                myActions.new setImageVisible(blackScreen, false)
         );
     }
 
@@ -954,11 +969,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 // Note: need ScreenTransitionActions here in addition to fadeOutScreen and fadeInScreen calls,
                 // otherwise the screen flashes between fading out and fading back in
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, duration * 0.5f), _transitionActor),
+                new fadeOutCharacters(duration * 0.5f),
                 new fadeOutScreen(duration * 0.5f),
                 Actions.delay(duration * 0.5f),
+                myActions.new setImageVisible(blackScreen, false),
 
                 // fade back in to battle
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration * 0.5f), _transitionActor),
+                myActions.new setImageVisible(blackScreen, true),
                 new fadeInScreen(duration * 0.5f),
 
                 // reset characters
@@ -1045,12 +1063,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
     }
 
+    private void fadeOutCharacters(float fadeTime) {
+        party1.addAction(Actions.fadeOut(fadeTime));
+        party2.addAction(Actions.fadeOut(fadeTime));
+        party3.addAction(Actions.fadeOut(fadeTime));
+        party4.addAction(Actions.fadeOut(fadeTime));
+        party5.addAction(Actions.fadeOut(fadeTime));
+        enemy1.addAction(Actions.fadeOut(fadeTime));
+        enemy2.addAction(Actions.fadeOut(fadeTime));
+        enemy3.addAction(Actions.fadeOut(fadeTime));
+        enemy4.addAction(Actions.fadeOut(fadeTime));
+        enemy5.addAction(Actions.fadeOut(fadeTime));
+    }
+
     @Override
     public void show() {
         completeAllActions();
 
-        openBattleSceneAction = getBattleSceneAction();
-        _stage.addAction(openBattleSceneAction);
+        _stage.addAction(getBattleSceneAction());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
 
@@ -1067,18 +1097,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     public void hide() {
         Gdx.input.setInputProcessor(null);
         ProfileManager.getInstance().removeObserver(_mapMgr);
-/*
-        party1.addAction(Actions.fadeOut(0));
-        party2.addAction(Actions.fadeOut(0));
-        party3.addAction(Actions.fadeOut(0));
-        party4.addAction(Actions.fadeOut(0));
-        party5.addAction(Actions.fadeOut(0));
-        enemy1.addAction(Actions.fadeOut(0));
-        enemy2.addAction(Actions.fadeOut(0));
-        enemy3.addAction(Actions.fadeOut(0));
-        enemy4.addAction(Actions.fadeOut(0));
-        enemy5.addAction(Actions.fadeOut(0));
-*/
+
         party1.setEntity(null);
         party2.setEntity(null);
         party3.setEntity(null);
@@ -1280,22 +1299,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     private Action getBattleSceneAction() {
+        float duration = 1;
         setupBattleScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupBattleScene),
-                //new fadeInScreen(1)
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration), _transitionActor),
+                Actions.delay(duration),
+                myActions.new setImageVisible(blackScreen, false)
+                //new fadeInScreen(0) //was causing flash
         );
-    }
-
-    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
-        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
-        return setEntityAnimation(entity);
-    }
-
-    private AnimatedImage getAnimatedImage(MonsterFactory.MonsterEntityType entityName){
-        Entity entity = MonsterFactory.getInstance().getMonster(entityName);
-        return setEntityAnimation(entity);
     }
 
     private AnimatedImage setEntityAnimation(Entity entity){
@@ -1568,10 +1580,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
                     }
                 }
+                break;
             case GAME_OVER:
                 currentTurnCharacter = null;
                 currentTurnEntity = null;
                 selectedEntity = null;
+                blackScreen.setVisible(true);
                 _stage.addAction(fadeOutAction());
                 break;
         }

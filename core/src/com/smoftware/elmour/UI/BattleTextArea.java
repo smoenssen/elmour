@@ -102,29 +102,36 @@ public class BattleTextArea extends Window {
                     setTextForUIThread(fullText, false);
                     isReady = true;
 
-                    // wait up to 5 sec to make sure lines are populated
-                    int numLines = textArea.getLines();
-                    for (int q = 0; q < 100 && numLines == 0; q++) {
-                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    try {
+                        // wait up to 5 sec to make sure lines are populated
+                        int numLines = textArea.getLines();
+                        for (int q = 0; q < 100 && numLines == 0; q++) {
+                            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            numLines = textArea.getLines();
+                            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                            //Gdx.app.log(TAG, "fulltext = " + fullText);
                         }
 
-                        numLines = textArea.getLines();
-                        //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
-                        //Gdx.app.log(TAG, "fulltext = " + fullText);
+                        Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
                     }
-
-                    Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+                    catch (StringIndexOutOfBoundsException e) {
+                        Gdx.app.error(TAG, "StringIndexOutOfBoundsException caught when calling textArea.getLines()!!!");
+                        e.printStackTrace();
+                    }
 
                     try {
                         lineStrings = textArea.getLineStrings();
                         Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
                     }
                     catch (StringIndexOutOfBoundsException e) {
-                        Gdx.app.log(TAG, "StringIndexOutOfBoundsException caught!!!");
+                        Gdx.app.error(TAG, "StringIndexOutOfBoundsException caught when calling textArea.getLineStrings()!!!");
+                        e.printStackTrace();
                     }
                 }
 

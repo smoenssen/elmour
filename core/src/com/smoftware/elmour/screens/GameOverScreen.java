@@ -78,10 +78,12 @@ public class GameOverScreen extends GameScreen {
 
     @Override
     public void show() {
+        splashShowing = true;
         delayTime = 0;
         Gdx.input.setInputProcessor(stage);
         stage.getRoot().getColor().a = 0;
-        stage.getRoot().addAction(Actions.fadeIn(1.5f));
+        // delay here should match BattleScreen fadeOut time
+        stage.getRoot().addAction(Actions.fadeIn(1.0f));
     }
 
     @Override

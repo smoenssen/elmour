@@ -26,6 +26,8 @@ If chapter does not exist, it defaults to always being available.
 
 When opponent attacks, can they be blocked by the party character? Yes
 
-The equation in the doc for melee attacks says it's for attacks from the back. What about from the front?
+The equation in the doc for melee attacks says it's for attacks from the back. What about from the front? Same equation.
 
 Timing of hit animation in battle?
+
+Are ACC/AVO/LCK only for ranged attacks?

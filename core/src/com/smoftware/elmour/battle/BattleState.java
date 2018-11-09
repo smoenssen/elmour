@@ -198,7 +198,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity1);
-/*
+
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
         ProfileManager.getInstance().getStatProperties(entity2);
         sHPVal = entity2.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
@@ -233,7 +233,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
-        currentPartyList.add(entity5);*/
+        currentPartyList.add(entity5);
     }
 
     public void getNextTurnCharacter(float delay){
@@ -739,6 +739,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void gameOver() {
         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.GAME_OVER);
+        characterTurnList.clear();
     }
 
     private Timer.Task getChooseNextCharacterTurnTimer() {

@@ -3,6 +3,7 @@ package com.smoftware.elmour.UI;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -140,6 +141,22 @@ public class MyActions {
         @Override
         public boolean act (float delta) {
             table.setVisible(visible);
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class setImageVisible extends Action {
+        Image image;
+        boolean visible;
+
+        public setImageVisible(Image image, boolean visible) {
+            this.image = image;
+            this.visible = visible;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            image.setVisible(visible);
             return true; // An action returns true when it's completed
         }
     }

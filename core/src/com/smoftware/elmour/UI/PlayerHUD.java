@@ -1716,6 +1716,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 //ProfileManager.getInstance().removeAllObservers();
 
                 if (!getSetGameOverScreenTimer().isScheduled()) {
+                    // delay here should match BattleScreen fadeOut time
                     Timer.schedule(getSetGameOverScreenTimer(), 1.0f);
                 }
 

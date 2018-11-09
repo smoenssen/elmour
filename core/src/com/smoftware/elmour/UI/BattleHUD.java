@@ -1286,7 +1286,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            if (turnInProgress) return;
 
                                            if (battleTextArea.getText().equals(BATTLE_WON)) {
-
+                                               battleTextArea.cleanupTextArea();
                                            }
                                            else if (battleTextArea.getText().equals(BATTLE_LOST)) {
                                                battleTextArea.cleanupTextArea();
@@ -2180,7 +2180,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         };
     }
 
-    public void fadeOutRunning(float duration) {
+    public void fadeOutHUD(float duration) {
         leftTextArea.addAction(Actions.fadeOut(duration));
         leftNameTable.addAction(Actions.fadeOut(duration));
         battleTextArea.addAction(Actions.fadeOut(duration));
@@ -2188,7 +2188,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.addAction(Actions.fadeOut(duration));
     }
 
-    public void fadeInRunning(float duration) {
+    public void fadeInHUD(float duration) {
         leftTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
         leftNameTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
         battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
@@ -2563,47 +2563,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 //turnInProgress = false;
                 break;
             case PLAYER_TURN_DONE:
-                /*
-                // go back to Main screen and enable buttons
-                ScreenState currentScreenState = screenStack.pop();
-                ScreenState previousScreenState = screenStack.peek();
-                screenStack.clear();
-                screenStack.push(ScreenState.MAIN);
-
-                UpdateStats(destinationEntity);
-
-                //todo: remove cases if they are all going to be the same
-                switch (previousScreenState) {
-                    case FIGHT:
-                        //fullMsg = String.format("%s attacked %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                        //        destinationEntity.getEntityConfig().getDisplayName(),
-                        //        message);
-                        Gdx.app.log(TAG, message);
-                        battleTextArea.populateText(message);
-                        battleTextArea.show();
-                        break;
-                    case INVENTORY:
-                        //fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                        //                                                    selectedInventoryElement.name,
-                        //                                                    destinationEntity.getEntityConfig().getDisplayName(),
-                         //                                                    message);
-                        Gdx.app.log(TAG, message);
-                        battleTextArea.populateText(message);
-                        battleTextArea.show();
-                        break;
-                    case SPELLS_BLACK:
-                    case SPELLS_WHITE:
-                    case POWER:
-                        //fullMsg = String.format("%s used %s on %s%s", sourceEntity.getEntityConfig().getDisplayName(),
-                         //                                                   selectedSpellsPowerElement.name,
-                         //                                                   destinationEntity.getEntityConfig().getDisplayName(),
-                         //                                                   message);
-                        Gdx.app.log(TAG, message);
-                        battleTextArea.populateText(message);
-                        battleTextArea.show();
-                        break;
-                }*/
-
                 // go back to Main screen and enable buttons
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);

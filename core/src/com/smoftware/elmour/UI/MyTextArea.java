@@ -274,7 +274,8 @@ public class MyTextArea extends MyTextField {
                 offsetY -= font.getLineHeight();
             }
             catch (StringIndexOutOfBoundsException e){
-                Gdx.app.log("MyTextArea", "StringIndexOutOfBoundsException EXCEPTION CAUGHT!!!");
+                Gdx.app.error("MyTextArea", "StringIndexOutOfBoundsException EXCEPTION CAUGHT!!!");
+                e.printStackTrace();
             }
         }
     }
