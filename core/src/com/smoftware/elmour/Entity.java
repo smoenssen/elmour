@@ -122,6 +122,47 @@ public class Entity {
 			@Override
 			public String toString() { return "INN"; }
 		},
+		LFASIGN1 {
+			@Override
+			public String toString() { return "LFASIGN1"; }
+		},
+		LFASIGN2 {
+			@Override
+			public String toString() { return "LFASIGN2"; }
+		},
+		LFBSIGN1 {
+			@Override
+			public String toString() { return "LFBSIGN1"; }
+		},
+		LFCSIGN1 {
+			@Override
+			public String toString() { return "LFCSIGN1"; }
+		},
+		LFCSIGN2 {
+			@Override
+			public String toString() { return "LFCSIGN2"; }
+		},
+		LFSIGN1 {
+			@Override
+			public String toString() { return "LFSIGN1"; }
+		},
+		LFSIGN2 {
+			@Override
+			public String toString() { return "LFSIGN2"; }
+		},
+		LFSIGN3 {
+			@Override
+			public String toString() { return "LFSIGN3"; }
+		},
+		LFSIGN4 {
+			@Override
+			public String toString() { return "LFSIGN4"; }
+		},
+		LFSIGN5 {
+			@Override
+			public String toString() { return "LFSIGN5"; }
+		},
+
 		M1SIGN1 {
 			@Override
 			public String toString() { return "M1SIGN1"; }

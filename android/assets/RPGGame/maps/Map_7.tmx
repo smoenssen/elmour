@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="160" tilewidth="16" tileheight="16" nextobjectid="653">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="160" tilewidth="16" tileheight="16" nextobjectid="657">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -2762,7 +2762,7 @@
   <object id="169" x="32" y="656" width="112" height="16"/>
   <object id="170" x="80" y="640" width="16" height="16"/>
   <object id="171" x="112" y="688" width="16" height="32"/>
-  <object id="172" x="160" y="704" width="16" height="39"/>
+  <object id="172" x="160" y="704" width="16" height="48"/>
   <object id="173" x="192" y="752" width="16" height="16"/>
   <object id="174" x="208" y="736" width="16" height="16"/>
   <object id="175" x="240" y="752" width="16" height="16"/>
@@ -3065,6 +3065,10 @@
   <object id="581" x="96" y="335" width="32" height="21"/>
   <object id="597" x="128" y="288" width="16" height="64"/>
   <object id="598" x="0" y="288" width="16" height="64"/>
+  <object id="653" x="352" y="91" width="128" height="1"/>
+  <object id="654" x="352" y="64" width="128" height="1"/>
+  <object id="655" x="400" y="1755" width="112" height="1"/>
+  <object id="656" x="400" y="1728" width="112" height="1"/>
  </objectgroup>
  <objectgroup name="UNDERBRIDGE_OBSTACLE">
   <object id="53" x="208" y="240" width="32" height="28"/>
@@ -3207,16 +3211,8 @@
   <object id="564" x="352" y="64" width="32" height="28"/>
   <object id="565" x="448" y="64" width="32" height="28"/>
  </objectgroup>
- <objectgroup name="0_OPACITY_ON_1">
-  <object id="562" x="352" y="64" width="128" height="1"/>
-  <object id="563" x="352" y="91" width="128" height="1"/>
- </objectgroup>
  <objectgroup name="0_OPACITY_OFF_2">
   <object id="566" x="400" y="1728" width="32" height="28"/>
   <object id="567" x="480" y="1728" width="32" height="28"/>
- </objectgroup>
- <objectgroup name="0_OPACITY_ON_2">
-  <object id="568" x="400" y="1728" width="112" height="1"/>
-  <object id="570" x="400" y="1755" width="112" height="1"/>
  </objectgroup>
 </map>

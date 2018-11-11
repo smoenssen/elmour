@@ -1,5 +1,5 @@
 {
-entityID : Stat_Arrows
+entityID : HIT
 state : IDLE
 animationConfig: [
 	{
