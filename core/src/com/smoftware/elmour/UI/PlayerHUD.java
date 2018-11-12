@@ -1636,6 +1636,39 @@ public class PlayerHUD implements Screen, AudioSubject,
         };
     }
 
+    private Timer.Task getSetMainGameScreenTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+            }
+        };
+    }
+
+    private void swipeBackToMainGameScreen(float transitionTime) {
+        screenSwipe1.setVisible(true);
+        screenSwipe2.setVisible(true);
+        screenSwipe3.setVisible(true);
+        screenSwipe4.setVisible(true);
+        screenSwipe5.setVisible(true);
+        screenSwipe6.setVisible(true);
+        screenSwipe7.setVisible(true);
+        screenSwipe8.setVisible(true);
+        screenSwipe9.setVisible(true);
+        screenSwipe10.setVisible(true);
+
+        screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
+        screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
+        screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
+        screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
+        screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
+        screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
+        screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
+        screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
+        screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
+        screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+    }
+
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
@@ -1668,28 +1701,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                         // transition animation - note: screen transition to main screen cannot occur in render() because render is called from main screen
                         // battle screen is faded out from battle HUD
-                        float transitionTime = 1f;
-                        screenSwipe1.setVisible(true);
-                        screenSwipe2.setVisible(true);
-                        screenSwipe3.setVisible(true);
-                        screenSwipe4.setVisible(true);
-                        screenSwipe5.setVisible(true);
-                        screenSwipe6.setVisible(true);
-                        screenSwipe7.setVisible(true);
-                        screenSwipe8.setVisible(true);
-                        screenSwipe9.setVisible(true);
-                        screenSwipe10.setVisible(true);
-
-                        screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                        screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
-                        screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                        screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
-                        screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                        screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
-                        screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                        screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
-                        screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                        screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
+                        swipeBackToMainGameScreen(1.0f);
 
                         game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
                         break;
@@ -1713,11 +1725,20 @@ public class PlayerHUD implements Screen, AudioSubject,
                 resetPlayerComingFromBattle();
 
                 ProfileManager.getInstance().setIsLoaded(false);
-                //ProfileManager.getInstance().removeAllObservers();
 
                 if (!getSetGameOverScreenTimer().isScheduled()) {
                     // delay here should match BattleScreen fadeOut time
                     Timer.schedule(getSetGameOverScreenTimer(), 1.0f);
+                }
+
+                break;
+            case BATTLE_OVER:
+                playerComingFromBattle = true;
+                swipeBackToMainGameScreen(1.0f);
+
+                if (!getSetGameOverScreenTimer().isScheduled()) {
+                    // delay here should match BattleScreen fadeOut time
+                    Timer.schedule(getSetMainGameScreenTimer(), 1.0f);
                 }
 
                 break;

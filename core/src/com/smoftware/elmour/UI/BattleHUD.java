@@ -261,6 +261,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     float menuItemHeight = 0;
 
+    private MyTextField hitPointFloater;
+
     private Json _json;
     private MapManager _mapMgr;
 
@@ -273,6 +275,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private BattleScreen battleScreen;
     private BattleTextArea battleTextArea;
     private TextButton dummyTextArea;
+
+    private TextButton battleWonButton;
+    private MyTextField battleWonTextField;
+    private Table battleWonTable;
+    private float battleWonRowHeight = 24;
+    private Image dimmedScreen;
 
     String selectedCharacter = null;
 
@@ -773,6 +781,38 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4 - menuItemHeight);
 
+        hitPointFloater = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleHitpoints");
+        hitPointFloater.setWidth(40);
+        hitPointFloater.setHeight(32);
+        hitPointFloater.setAlignment(Align.center);
+        hitPointFloater.setPosition(_stage.getWidth()/2, _stage.getHeight()/2);
+        hitPointFloater.setVisible(false);
+
+        // height and position of battleWonTextField and battleWonButton will be set dynamically
+        battleWonTextField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+        battleWonTextField.setAlignment(Align.center);
+        battleWonTextField.setWidth(middleAreaWidth);
+        battleWonTextField.setVisible(false);
+
+        // need transparent button because table is not clickable
+        battleWonButton = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
+        battleWonButton.setWidth(middleAreaWidth);
+        battleWonButton.addAction(Actions.fadeOut(0));
+        battleWonButton.setVisible(false);
+
+        battleWonTable = new Table();
+        battleWonTable.setWidth(battleWonTextField.getWidth() - (2 * tablePadding));
+        battleWonTable.setHeight(battleWonTextField.getHeight() - (2 * tablePadding));
+        battleWonTable.setPosition(battleWonTextField.getX() + tablePadding, battleWonTextField.getY() + battleWonRowHeight/1.45f);
+        battleWonTable.align(Align.top);
+        battleWonTable.setVisible(false);
+
+        dimmedScreen = new Image(new Texture("graphics/black_rectangle_opacity66.png"));
+        dimmedScreen.setWidth(_stage.getWidth());
+        dimmedScreen.setHeight(_stage.getHeight());
+        dimmedScreen.setPosition(0, 0);
+        dimmedScreen.setVisible(false);
+
         _stage.addActor(selectedItemBanner);
         _stage.addActor(dummyTextArea);
         _stage.addActor(middleStatsTextArea);
@@ -794,6 +834,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(battleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
+        _stage.addActor(hitPointFloater);
+        _stage.addActor(dimmedScreen);
+        _stage.addActor(battleWonTextField);
+        _stage.addActor(battleWonTable);
+        _stage.addActor(battleWonButton);
 
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
@@ -1287,6 +1332,42 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                            if (battleTextArea.getText().equals(BATTLE_WON)) {
                                                battleTextArea.cleanupTextArea();
+
+                                               int numRows = 2;
+                                               setBattleWonControlSize(numRows);
+
+                                               showMainScreen(true);
+                                               dimmedScreen.addAction(Actions.fadeOut(0));
+                                               dimmedScreen.setVisible(true);
+                                               dimmedScreen.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
+                                               battleWonTextField.addAction(Actions.fadeOut(0));
+                                               battleWonTextField.setVisible(true);
+                                               battleWonTextField.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
+                                               battleWonButton.setVisible(true);
+                                               battleWonTable.clear();
+                                               battleWonTable.setVisible(true);
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat.setText("XP Gained");
+                                               stat.setAlignment(Align.left);
+                                               Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value.setText(String.format("%d", 10));
+                                               value.setAlignment(Align.right);
+                                               battleWonTable.add(stat).align(Align.left);
+                                               battleWonTable.add(value).align(Align.right);
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat2.setText("Dibs Gained");
+                                               stat2.setAlignment(Align.left);
+                                               Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value2.setText(String.format("%d", 10));
+                                               value2.setAlignment(Align.right);
+                                               battleWonTable.add(stat2).align(Align.left);
+                                               battleWonTable.add(value2).align(Align.right);
                                            }
                                            else if (battleTextArea.getText().equals(BATTLE_LOST)) {
                                                battleTextArea.cleanupTextArea();
@@ -1335,6 +1416,78 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                    }
         );
 
+        battleWonButton.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                           if (battleWon) {
+                                               battleWon = false;
+
+                                               int numRows = 4;
+                                               setBattleWonControlSize(numRows);
+
+                                               battleWonTable.clear();
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat.setText("Items Gained:");
+                                               stat.setAlignment(Align.left);
+                                               Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value.setText("");
+                                               value.setAlignment(Align.right);
+                                               battleWonTable.add(stat).align(Align.left);
+                                               battleWonTable.add(value).align(Align.right);
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat2.setText("Blah blah blah");
+                                               stat2.setAlignment(Align.left);
+                                               Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value2.setText(String.format("%d", 1));
+                                               value2.setAlignment(Align.right);
+                                               battleWonTable.add(stat2).align(Align.left);
+                                               battleWonTable.add(value2).align(Align.right);
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat3.setText("Boobala");
+                                               stat3.setAlignment(Align.left);
+                                               Label value3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value3.setText(String.format("%d", 1));
+                                               value3.setAlignment(Align.right);
+                                               battleWonTable.add(stat3).align(Align.left);
+                                               battleWonTable.add(value3).align(Align.right);
+
+                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               Label stat4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               stat4.setText("Blech blech");
+                                               stat4.setAlignment(Align.left);
+                                               Label value4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                               value4.setText(String.format("%d", 1));
+                                               value4.setAlignment(Align.right);
+                                               battleWonTable.add(stat4).align(Align.left);
+                                               battleWonTable.add(value4).align(Align.right);
+                                           }
+                                           else {
+                                               dimmedScreen.addAction(Actions.fadeOut(1));
+                                               battleWonTextField.setVisible(false);
+                                               battleWonButton.setVisible(false);
+                                               battleWonTable.setVisible(false);
+
+                                               game.battleState.battleOver();
+
+                                               if( !resetControlsTimer().isScheduled() ){
+                                                   Timer.schedule(resetControlsTimer(), 2);
+                                               }
+                                           }
+                                       }
+                                   }
+        );
+
         //Music/Sound loading
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -1345,6 +1498,25 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_EATING);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
+    }
+
+    private void setBattleWonControlSize(int numRows) {
+        // height should be number of rows plus one to allow for top and bottom padding
+        numRows++;
+
+        float height = battleWonRowHeight * numRows;
+        battleWonTextField.setHeight(height);
+
+        float x = _stage.getWidth()/2 - battleWonTextField.getWidth()/2;
+        float y = (menuItemHeight * 2) + (_stage.getHeight() - (menuItemHeight * 2))/2 - battleWonTextField.getHeight()/2;
+
+        battleWonTextField.setPosition(x, y);
+
+        battleWonButton.setHeight(height);
+        battleWonButton.setPosition(x, y);
+
+        battleWonTable.setHeight(battleWonTextField.getHeight() - (2 * tablePadding));
+        battleWonTable.setPosition(battleWonTextField.getX() + tablePadding, battleWonTextField.getY() + battleWonRowHeight/1.45f);
     }
 
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
@@ -2160,7 +2332,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
 
                 for (int i = 1; i <= numberOfOpponents; i++) {
-                    battleScreen.removeOpponent(i);
+                    battleScreen.removeOpponentByIndex(i);
                 }
 
                 numberOfPartyMembers = 0;
@@ -2176,6 +2348,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 groupMp4.setVisible(false);
                 groupHp5.setVisible(false);
                 groupMp5.setVisible(false);
+
+                dimmedScreen.setVisible(false);
             }
         };
     }
@@ -2186,6 +2360,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleTextArea.addAction(Actions.fadeOut(duration));
         rightTextArea.addAction(Actions.fadeOut(duration));
         rightTable.addAction(Actions.fadeOut(duration));
+
+        topLeftButton.addAction(Actions.fadeOut(duration));
+        topRightButton.addAction(Actions.fadeOut(duration));
+        runButton.addAction(Actions.fadeOut(duration));
+        statusButton.addAction(Actions.fadeOut(duration));
     }
 
     public void fadeInHUD(float duration) {
@@ -2194,6 +2373,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
         rightTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
         rightTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+/*
+        topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        runButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
+        statusButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));*/
     }
 
     @Override
@@ -2451,14 +2635,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     setLabelFontColor(enemy4Name, color);
                 else if (enemy5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
                     setLabelFontColor(enemy5Name, color);
-                /*
-                int damage = Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HIT_DAMAGE_TOTAL.toString()));
-                _damageValLabel.setText(String.valueOf(damage));
-                _damageValLabel.setY(_origDamageValLabelY);
-                _battleShakeCam.startShaking();
-                _damageValLabel.setVisible(true);
-                */
-                _battleShakeCam.startShaking();
+
+                Vector2 entityPosition = battleScreen.getEntityCoordinates(entity);
+
+                hitPointFloater.setPosition(entityPosition.x + 16/2, entityPosition.y + 16 + 5);
+                hitPointFloater.setText(String.format("%d", HP), true);
+                hitPointFloater.setVisible(true);
+
+                //_battleShakeCam.startShaking();
                 selectedCharacter = null;
                 break;
             case OPPONENT_DEFEATED:

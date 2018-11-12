@@ -2,11 +2,13 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -20,19 +22,24 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.GraphicsComponent;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.UI.MyActions;
+import com.smoftware.elmour.UI.MyTextField;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -1007,6 +1014,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setCameraPosition(_camera, CAMERA_POS_X, CAMERA_POS_Y),
 
                 Actions.delay(0.5f),
+                myActions.new setImageVisible(blackScreen, false),
                 new animationComplete()
         );
     }
@@ -1196,7 +1204,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 float adjustHeight = (regionHeight - characterHeight) / 2;
                 _mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - adjustWidth, currentTurnCharacter.getY() - adjustHeight, regionWidth, regionHeight);
 
-                if (currentHitFrame != null) {
+                if (currentHitFrame != null && selectedEntity != null) {
                     //draw hit animation
                     _mapRenderer.getBatch().draw(currentHitFrame, selectedEntity.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, hitRegionWidth, hitRegionHeight);
                 }
@@ -1479,26 +1487,82 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _stage.addActor(blackScreen);
     }
 
-    public void removeOpponent(int index) {
+    public void removeOpponentByIndex(int index) {
 
         // remove actor from the stage
         switch (index) {
             case 1:
-                enemy1.remove();
+                removeOpponent(enemy1);
                 break;
             case 2:
-                enemy2.remove();
+                removeOpponent(enemy2);
                 break;
             case 3:
-                enemy3.remove();
+                removeOpponent(enemy3);
                 break;
             case 4:
-                enemy4.remove();
+                removeOpponent(enemy4);
                 break;
             case 5:
-                enemy5.remove();
+                removeOpponent(enemy5);
                 break;
         }
+    }
+
+    private Timer.Task removeOpponent(final AnimatedImage enemy) {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                enemy.remove();
+            }
+        };
+    }
+
+    public Vector2 getEntityCoordinates(Entity entity) {
+        Vector2 coordinates = null;
+        int position = entity.getBattlePosition();
+        Entity.BattleEntityType entityType = entity.getBattleEntityType();
+
+        if (entityType == Entity.BattleEntityType.ENEMY) {
+            switch (position) {
+                case 1:
+                    coordinates = new Vector2(enemy1.getX(), enemy1.getY());
+                    break;
+                case 2:
+                    coordinates = new Vector2(enemy2.getX(), enemy2.getY());
+                    break;
+                case 3:
+                    coordinates = new Vector2(enemy3.getX(), enemy3.getY());
+                    break;
+                case 4:
+                    coordinates = new Vector2(enemy4.getX(), enemy4.getY());
+                    break;
+                case 5:
+                    coordinates = new Vector2(enemy5.getX(), enemy5.getY());
+                    break;
+            }
+        }
+        else {
+            // PARTY
+            switch (position) {
+                case 1:
+                    coordinates = new Vector2(party1.getX(), party1.getY());
+                    break;
+                case 2:
+                    coordinates = new Vector2(party2.getX(), party2.getY());
+                    break;
+                case 3:
+                    coordinates = new Vector2(party3.getX(), party3.getY());
+                    break;
+                case 4:
+                    coordinates = new Vector2(party4.getX(), party4.getY());
+                    break;
+                case 5:
+                    coordinates = new Vector2(party5.getX(), party5.getY());
+                    break;
+            }
+        }
+        return coordinates;
     }
 
     @Override
@@ -1551,6 +1615,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 _stage.addAction(getPlayerFailedEscapeAction());
                 selectedEntity = null;
                 break;
+            case OPPONENT_HIT_DAMAGE:
+                /*String HP = entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP));
+
+                if (enemy1.getEntity() != null) {
+                    if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        hitPointFloater.setPosition(enemy1.getX() + enemy1.getWidth()/2 - 10, enemy1.getY() + enemy1.getHeight() + 5 - 10);
+                        hitPointFloater.setText(HP, true);
+                        hitPointFloater.setVisible(true);
+                    }
+                }*/
+                break;
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;
                 selectedEntity = null;
@@ -1558,35 +1633,54 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 if (enemy1.getEntity() != null) {
                     if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy1.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy1).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy1), fadeOutTime);
+                        }
                     }
                 }
                 if (enemy2.getEntity() != null) {
                     if (enemy2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy2.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy2).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy2), fadeOutTime);
+                        }
                     }
                 }
                 if (enemy3.getEntity() != null) {
                     if (enemy3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy3.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy3).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy3), fadeOutTime);
+                        }
                     }
                 }
                 if (enemy4.getEntity() != null) {
                     if (enemy4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy4.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy4).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy4), fadeOutTime);
+                        }
                     }
                 }
                 if (enemy5.getEntity() != null) {
                     if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy5).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy5), fadeOutTime);
+                        }
                     }
                 }
                 break;
             case GAME_OVER:
+            case BATTLE_OVER:
                 currentTurnCharacter = null;
                 currentTurnEntity = null;
                 selectedEntity = null;
                 blackScreen.setVisible(true);
                 _stage.addAction(fadeOutAction());
+                break;
+            case BATTLE_WON:
+                currentTurnEntity = null;
                 break;
         }
     }

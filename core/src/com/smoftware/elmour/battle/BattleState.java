@@ -742,6 +742,11 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         characterTurnList.clear();
     }
 
+    public void battleOver() {
+        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_OVER);
+        characterTurnList.clear();
+    }
+
     private Timer.Task getChooseNextCharacterTurnTimer() {
         return new Timer.Task() {
             @Override

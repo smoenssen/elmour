@@ -19,6 +19,7 @@ public interface BattleObserver {
         BATTLE_WON,
         BATTLE_LOST,
         GAME_OVER,
+        BATTLE_OVER,
         NONE
     }
 

@@ -80,6 +80,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	battleLarge: {
+		font: myFont
+		fontColor: white
+		background: transparent
+	}
 	stats: {
 		font: myFontSuperSmall
 		fontColor: white
@@ -199,6 +204,16 @@ com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 	}
 	battletext: {
 		font: myFontVerySmall
+		fontColor: white
+		background: transparent
+	}
+	battleLarge: {
+		font: myFont
+		fontColor: white
+		background: textbutton
+	}
+	battleHitpoints: {
+		font: myFontRed
 		fontColor: white
 		background: transparent
 	}
