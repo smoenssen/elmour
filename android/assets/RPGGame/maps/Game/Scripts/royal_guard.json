@@ -34,11 +34,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-<<<<<<< Updated upstream
 		value: 15
-=======
-		value: 100
->>>>>>> Stashed changes
 	}
 	ACC: {
 		class: java.lang.String
