@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -120,6 +121,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             return this.elementID.equals(other.elementID);
         }*/
     }
+
+    private StatusUI statusUI;
 
     final String POTIONS = "Potions";
     final String CONSUMABLES = "Consumables";
@@ -261,8 +264,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     float menuItemHeight = 0;
 
-    private MyTextField hitPointFloater;
-
     private Json _json;
     private MapManager _mapMgr;
 
@@ -288,12 +289,16 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private boolean battleLost = false;
     private boolean battleWon = false;
 
+    private int xpReward = 0;
+    private int dibsReward = 0;
+
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
         battleScreen = screen;
         this.game = game;
+        statusUI = new StatusUI();
 
         game.battleState.addObserver(this);
         ProfileManager.getInstance().addObserver(this);
@@ -781,13 +786,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4 - menuItemHeight);
 
-        hitPointFloater = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleHitpoints");
-        hitPointFloater.setWidth(40);
-        hitPointFloater.setHeight(32);
-        hitPointFloater.setAlignment(Align.center);
-        hitPointFloater.setPosition(_stage.getWidth()/2, _stage.getHeight()/2);
-        hitPointFloater.setVisible(false);
-
         // height and position of battleWonTextField and battleWonButton will be set dynamically
         battleWonTextField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
         battleWonTextField.setAlignment(Align.center);
@@ -834,7 +832,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(battleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
-        _stage.addActor(hitPointFloater);
         _stage.addActor(dimmedScreen);
         _stage.addActor(battleWonTextField);
         _stage.addActor(battleWonTable);
@@ -1354,7 +1351,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                stat.setText("XP Gained");
                                                stat.setAlignment(Align.left);
                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               value.setText(String.format("%d", 10));
+                                               value.setText(String.format("%d", xpReward));
                                                value.setAlignment(Align.right);
                                                battleWonTable.add(stat).align(Align.left);
                                                battleWonTable.add(value).align(Align.right);
@@ -1364,10 +1361,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                stat2.setText("Dibs Gained");
                                                stat2.setAlignment(Align.left);
                                                Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               value2.setText(String.format("%d", 10));
+                                               value2.setText(String.format("%d", dibsReward));
                                                value2.setAlignment(Align.right);
                                                battleWonTable.add(stat2).align(Align.left);
                                                battleWonTable.add(value2).align(Align.right);
+
+                                               //todo: distribute rewards
+                                               // reset for next battle
+                                               xpReward = 0;
+                                               dibsReward = 0;
                                            }
                                            else if (battleTextArea.getText().equals(BATTLE_LOST)) {
                                                battleTextArea.cleanupTextArea();
@@ -2487,57 +2489,46 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 switch (entity.getBattlePosition()) {
                     case 1:
-                        String s = entity.getEntityConfig().getDisplayName();
                         party1Name.setText(entity.getEntityConfig().getDisplayName());
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar1, hp1Stats);
 
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar1, mp1Stats);
+                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar1, hp1Stats);
+                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar1, mp1Stats);
 
                         groupHp1.setVisible(true);
                         groupMp1.setVisible(true);
                         break;
                     case 2:
                         party2Name.setText(entity.getEntityConfig().getDisplayName());
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar2, hp2Stats);
 
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar2, mp2Stats);
+                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar2, hp2Stats);
+                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar2, mp2Stats);
 
                         groupHp2.setVisible(true);
                         groupMp2.setVisible(true);
                         break;
                     case 3:
                         party3Name.setText(entity.getEntityConfig().getDisplayName());
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar3, hp3Stats);
 
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar3, mp3Stats);
+                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar3, hp3Stats);
+                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar3, mp3Stats);
 
                         groupHp3.setVisible(true);
                         groupMp3.setVisible(true);
                         break;
                     case 4:
                         party4Name.setText(entity.getEntityConfig().getDisplayName());
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar4, hp4Stats);
 
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar4, mp4Stats);
+                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar4, hp4Stats);
+                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar4, mp4Stats);
 
                         groupHp4.setVisible(true);
                         groupMp4.setVisible(true);
                         break;
                     case 5:
                         party5Name.setText(entity.getEntityConfig().getDisplayName());
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar5, hp5Stats);
 
-                        updateStatusBar(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                                entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar5, mp5Stats);
+                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar5, hp5Stats);
+                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar5, mp5Stats);
 
                         groupHp5.setVisible(true);
                         groupMp5.setVisible(true);
@@ -2599,52 +2590,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
 
                 break;
-            case OPPONENT_HIT_DAMAGE:
-                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
-                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
-
-                FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
-                FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-                parameter.size = Utility.myFontVerySmallSize;
-                parameter.shadowColor = Color.LIGHT_GRAY;
-
-                int HP = Integer.parseInt(entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP)));
-                int HP_MAX = Integer.parseInt(entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP_MAX)));
-
-                Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
-
-                // set color of monster name based on current HP
-                Color color;
-                if (HP < 0.3f * (float)HP_MAX) {
-                    color = new Color (1, 0, 0, 1); // red
-                }
-                else if (HP < 0.6f * (float)HP_MAX) {
-                    color = new Color(1, 0.7f, 0, 1); // orange
-                }
-                else {
-                    color = Color.DARK_GRAY;
-                }
-
-                if (enemy1Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(enemy1Name, color);
-                else if (enemy2Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(enemy2Name, color);
-                else if (enemy3Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(enemy3Name, color);
-                else if (enemy4Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(enemy4Name, color);
-                else if (enemy5Name.getText().toString().equals(entity.getEntityConfig().getDisplayName()))
-                    setLabelFontColor(enemy5Name, color);
-
-                Vector2 entityPosition = battleScreen.getEntityCoordinates(entity);
-
-                hitPointFloater.setPosition(entityPosition.x + 16/2, entityPosition.y + 16 + 5);
-                hitPointFloater.setText(String.format("%d", HP), true);
-                hitPointFloater.setVisible(true);
-
-                //_battleShakeCam.startShaking();
-                selectedCharacter = null;
-                break;
             case OPPONENT_DEFEATED:
                 Gdx.app.log(TAG, "entity " + entity.getEntityConfig().getDisplayName() + " defeated!!");
 
@@ -2664,6 +2609,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     enemy5Name.setVisible(false);
                 }
 
+                String xp = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.XP_REWARD));
+                xpReward += Integer.parseInt(xp);
+
+                String dibs = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DIBS_REWARD));
+                dibsReward += Integer.parseInt(dibs);
+
                 selectedCharacter = null;
                 break;
             case BATTLE_WON:
@@ -2671,6 +2622,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case BATTLE_LOST:
                 battleLost = true;
+                xpReward = 0;
+                dibsReward = 0;
                 break;
             case PLAYER_USED_MAGIC:
                 /*
@@ -2689,6 +2642,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                             Timer.schedule(resetControlsTimer(), 0);
                         }
                         turnInProgress = false;
+                        xpReward = 0;
+                        dibsReward = 0;
                         break;
                     case FAILED_ESCAPE:
                         battleTextArea.populateText("Failed to run!");
@@ -2746,6 +2701,41 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 //turnInProgress = false;
                 break;
+            case OPPONENT_HIT_DAMAGE:
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
+
+                int HP = Integer.parseInt(destinationEntity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP)));
+                int HP_MAX = Integer.parseInt(destinationEntity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP_MAX)));
+
+                Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
+
+                // set color of enemy name based on current HP
+                Color color;
+                if (HP < 0.3f * (float)HP_MAX) {
+                    color = new Color (1, 0, 0, 1); // red
+                }
+                else if (HP < 0.6f * (float)HP_MAX) {
+                    color = new Color(1, 0.7f, 0, 1); // orange
+                }
+                else {
+                    color = Color.DARK_GRAY;
+                }
+
+                if (enemy1Name.getText().toString().equals(destinationEntity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy1Name, color);
+                else if (enemy2Name.getText().toString().equals(destinationEntity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy2Name, color);
+                else if (enemy3Name.getText().toString().equals(destinationEntity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy3Name, color);
+                else if (enemy4Name.getText().toString().equals(destinationEntity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy4Name, color);
+                else if (enemy5Name.getText().toString().equals(destinationEntity.getEntityConfig().getDisplayName()))
+                    setLabelFontColor(enemy5Name, color);
+
+                //_battleShakeCam.startShaking();
+                selectedCharacter = null;
+                break;
             case PLAYER_TURN_DONE:
                 // go back to Main screen and enable buttons
                 screenStack.clear();
@@ -2776,7 +2766,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private void UpdateStats(Entity destinationEntity) {
         // store any updated stats
-        ProfileManager.getInstance().setStatProperties(destinationEntity, true);
+        statusUI.setAllStatProperties(destinationEntity, true);
 
         // update HUD graphic stats for destination entity
         Image hpBar = null;
@@ -2820,11 +2810,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
 
         if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
-            updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString()),
-                    destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString()), hpBar, hpStats);
-
-            updateStatusBar(destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString()),
-                    destinationEntity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString()), mpBar, mpStats);
+            updateStatusBar(statusUI.getHPValue(destinationEntity), statusUI.getHPMaxValue(destinationEntity), hpBar, hpStats);
+            updateStatusBar(statusUI.getMPValue(destinationEntity), statusUI.getMPMaxValue(destinationEntity), mpBar, mpStats);
         }
     }
 

@@ -7,9 +7,7 @@ public interface BattleObserver {
         ANNIMATION_COMPLETE,
         OPPONENT_ADDED,
         PARTY_MEMBER_ADDED,
-        OPPONENT_HIT_DAMAGE,
         OPPONENT_DEFEATED,
-        PLAYER_HIT_DAMAGE,
         PLAYER_DEFEATED,
         PLAYER_ESCAPED,
         PLAYER_FAILED_TO_ESCAPE,
@@ -26,8 +24,10 @@ public interface BattleObserver {
     public static enum BattleEventWithMessage{
         OPPONENT_ATTACKS,
         OPPONENT_TURN_DONE,
+        OPPONENT_HIT_DAMAGE,
         PLAYER_ATTACKS,
         PLAYER_TURN_DONE,
+        PLAYER_HIT_DAMAGE,
         ATTACK_BLOCKED,
         NONE
     }

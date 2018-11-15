@@ -31,3 +31,5 @@ The equation in the doc for melee attacks says it's for attacks from the back. W
 Timing of hit animation in battle?
 
 Are ACC/AVO/LCK only for ranged attacks?
+
+Are XP and Dibs rewards forfeited if player runs?

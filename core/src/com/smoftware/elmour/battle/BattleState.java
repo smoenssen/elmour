@@ -647,10 +647,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
 
                 String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                        currentSelectedCharacter.getEntityConfig().getDisplayName(), Integer.parseInt(enemyHP) - newEnemyHP);
+                        currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
                 if (hitPoints > 0) {
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_HIT_DAMAGE);
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
@@ -707,7 +707,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                     EntityFactory.getInstance().setEntityByName(currentSelectedCharacter.getEntityConfig().getEntityID(),
                             currentSelectedCharacter.getEntityConfig());
 
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_HIT_DAMAGE);
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 if (newPlayerHP == 0) {

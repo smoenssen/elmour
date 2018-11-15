@@ -2,13 +2,11 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -21,8 +19,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -36,10 +35,8 @@ import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.UI.MyActions;
-import com.smoftware.elmour.UI.MyTextField;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
-import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -132,6 +129,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
+
+    private Table hitPointFloaterTable;
 
     private Image blackScreen;
 
@@ -227,6 +226,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         currentTurnIndicator = new Texture("graphics/down_arrow_blue.png");
 
+        hitPointFloaterTable = new Table();
+
         blackScreen = new Image(new Texture("graphics/black_rectangle.png"));
         blackScreen.setWidth(_stage.getWidth());
         blackScreen.setHeight(_stage.getHeight());
@@ -237,6 +238,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         _stage.addActor(_transitionActor);
         _stage.addActor(blackScreen);
+        _stage.addActor(hitPointFloaterTable);
 
         //Actions
         myActions = new MyActions();
@@ -1232,11 +1234,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     @Override
     public void resize(int width, int height) {
-        setupViewport(V_WIDTH, V_HEIGHT);
-        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+        if (isFirstTime) {
+            setupViewport(V_WIDTH, V_HEIGHT);
+            _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-        if (battleHUD != null && isFirstTime)
-            battleHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+            if (battleHUD != null)
+                battleHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+        }
     }
 
     @Override
@@ -1565,6 +1569,131 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return coordinates;
     }
 
+    private Image getDigitImage(char c) {
+        Image digitImage;
+
+        if (c == '1')
+            digitImage = new Image(new Texture("graphics/1.png"));
+        else if (c == '2')
+            digitImage = new Image(new Texture("graphics/2.png"));
+        else if (c == '3')
+            digitImage = new Image(new Texture("graphics/3.png"));
+        else if (c == '4')
+            digitImage = new Image(new Texture("graphics/4.png"));
+        else if (c == '5')
+            digitImage = new Image(new Texture("graphics/5.png"));
+        else if (c == '6')
+            digitImage = new Image(new Texture("graphics/6.png"));
+        else if (c == '7')
+            digitImage = new Image(new Texture("graphics/7.png"));
+        else if (c == '8')
+            digitImage = new Image(new Texture("graphics/8.png"));
+        else if (c == '9')
+            digitImage = new Image(new Texture("graphics/9.png"));
+        else if (c == '0')
+            digitImage = new Image(new Texture("graphics/0.png"));
+        else
+            digitImage = new Image(new Texture("graphics/0.png"));
+
+        return digitImage;
+    }
+
+    private AnimatedImage getAnimatedImageFromEntity(Entity entity) {
+        if (enemy1.getEntity() != null) {
+            if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy1;
+            }
+        }
+        if (enemy2.getEntity() != null) {
+            if (enemy2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy2;
+            }
+        }
+        if (enemy3.getEntity() != null) {
+            if (enemy3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy3;
+            }
+        }
+        if (enemy4.getEntity() != null) {
+            if (enemy4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy4;
+            }
+        }
+        if (enemy5.getEntity() != null) {
+            if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy5;
+            }
+        }
+        if (party1.getEntity() != null) {
+            if (party1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party1;
+            }
+        }
+        if (party2.getEntity() != null) {
+            if (party2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party2;
+            }
+        }
+        if (party3.getEntity() != null) {
+            if (party3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party3;
+            }
+        }
+        if (party4.getEntity() != null) {
+            if (party4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party4;
+            }
+        }
+        if (party5.getEntity() != null) {
+            if (party5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party5;
+            }
+        }
+
+        return null;
+    }
+
+    private void hitPointAnimation(Entity entity, String hitPoints) {
+        AnimatedImage character = getAnimatedImageFromEntity(entity);
+
+        if (character != null) {
+            float xOffset1 = 2.0f;
+            float xOffset2 = 3.75f;
+            if (character.getEntity().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                xOffset1 *= -1;
+                xOffset2 *= -1;
+            }
+
+            hitPointFloaterTable.clear();
+            hitPointFloaterTable.setSize(hitPoints.length(), 1);
+
+            for (int i = 0; i < hitPoints.length(); i++) {
+                hitPointFloaterTable.add(getDigitImage(hitPoints.charAt(i)));
+            }
+
+            hitPointFloaterTable.setPosition(character.getX() + character.getWidth() / 2 - hitPointFloaterTable.getWidth() / 2,
+                    character.getY() + character.getHeight() * 1.2f);
+
+            hitPointFloaterTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+
+            // Interpolation: https://github.com/libgdx/libgdx/wiki/Interpolation
+            hitPointFloaterTable.addAction(Actions.sequence(
+                    /*
+                    Actions.moveTo(hitPointFloaterTable.getX() + xOffset1, hitPointFloaterTable.getY() + 0.75f, 0.5f, Interpolation.circle),
+                    Actions.parallel(
+                            Actions.moveTo(hitPointFloaterTable.getX() + xOffset2, 4.45f, 1f, Interpolation.bounceOut),
+                            Actions.fadeOut(2.5f)
+                    )
+                    */
+                    Actions.moveTo(hitPointFloaterTable.getX() + xOffset1, hitPointFloaterTable.getY() + 0.75f, 0.5f, Interpolation.circleOut),
+                    Actions.parallel(
+                            Actions.moveTo(hitPointFloaterTable.getX() + xOffset2, 4.45f, 1f, Interpolation.bounceOut),
+                            Actions.fadeOut(2.5f)
+                    )
+            ));
+        }
+    }
+
     @Override
     public void onNotify(Entity entity, BattleEvent event) {
         switch (event) {
@@ -1614,17 +1743,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case PLAYER_FAILED_TO_ESCAPE:
                 _stage.addAction(getPlayerFailedEscapeAction());
                 selectedEntity = null;
-                break;
-            case OPPONENT_HIT_DAMAGE:
-                /*String HP = entity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP));
-
-                if (enemy1.getEntity() != null) {
-                    if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
-                        hitPointFloater.setPosition(enemy1.getX() + enemy1.getWidth()/2 - 10, enemy1.getY() + enemy1.getHeight() + 5 - 10);
-                        hitPointFloater.setText(HP, true);
-                        hitPointFloater.setVisible(true);
-                    }
-                }*/
                 break;
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;
@@ -1694,12 +1812,18 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case PLAYER_TURN_DONE:
                 selectedEntity = null;
                 break;
+            case PLAYER_HIT_DAMAGE:
+                hitPointAnimation(destinationEntity, message);
+                break;
             case OPPONENT_ATTACKS:
                 selectedEntity = destinationEntity;
                 _stage.addAction(getAttackAction(sourceEntity));
                 break;
             case OPPONENT_TURN_DONE:
                 selectedEntity = null;
+                break;
+            case OPPONENT_HIT_DAMAGE:
+                hitPointAnimation(destinationEntity, message);
                 break;
             case ATTACK_BLOCKED:
                 // sourceEntity is the attacker
