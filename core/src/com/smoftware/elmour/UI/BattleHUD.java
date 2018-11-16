@@ -122,8 +122,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }*/
     }
 
-    private StatusUI statusUI;
-
     final String POTIONS = "Potions";
     final String CONSUMABLES = "Consumables";
     final String THROWING = "Throwing Items";
@@ -298,7 +296,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _mapMgr = mapMgr;
         battleScreen = screen;
         this.game = game;
-        statusUI = new StatusUI();
 
         game.battleState.addObserver(this);
         ProfileManager.getInstance().addObserver(this);
@@ -2254,6 +2251,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     @Override
+    public void onNotify(Entity entity, String value, StatusEvent event) {
+
+    }
+
+    @Override
     public void show() {
         _battleShakeCam.reset();
     }
@@ -2491,8 +2493,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case 1:
                         party1Name.setText(entity.getEntityConfig().getDisplayName());
 
-                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar1, hp1Stats);
-                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar1, mp1Stats);
+                        updateStatusBar(game.statusUI.getHPValue(entity), game.statusUI.getHPMaxValue(entity), hpBar1, hp1Stats);
+                        updateStatusBar(game.statusUI.getMPValue(entity), game.statusUI.getMPMaxValue(entity), mpBar1, mp1Stats);
 
                         groupHp1.setVisible(true);
                         groupMp1.setVisible(true);
@@ -2500,8 +2502,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case 2:
                         party2Name.setText(entity.getEntityConfig().getDisplayName());
 
-                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar2, hp2Stats);
-                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar2, mp2Stats);
+                        updateStatusBar(game.statusUI.getHPValue(entity), game.statusUI.getHPMaxValue(entity), hpBar2, hp2Stats);
+                        updateStatusBar(game.statusUI.getMPValue(entity), game.statusUI.getMPMaxValue(entity), mpBar2, mp2Stats);
 
                         groupHp2.setVisible(true);
                         groupMp2.setVisible(true);
@@ -2509,8 +2511,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case 3:
                         party3Name.setText(entity.getEntityConfig().getDisplayName());
 
-                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar3, hp3Stats);
-                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar3, mp3Stats);
+                        updateStatusBar(game.statusUI.getHPValue(entity), game.statusUI.getHPMaxValue(entity), hpBar3, hp3Stats);
+                        updateStatusBar(game.statusUI.getMPValue(entity), game.statusUI.getMPMaxValue(entity), mpBar3, mp3Stats);
 
                         groupHp3.setVisible(true);
                         groupMp3.setVisible(true);
@@ -2518,8 +2520,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case 4:
                         party4Name.setText(entity.getEntityConfig().getDisplayName());
 
-                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar4, hp4Stats);
-                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar4, mp4Stats);
+                        updateStatusBar(game.statusUI.getHPValue(entity), game.statusUI.getHPMaxValue(entity), hpBar4, hp4Stats);
+                        updateStatusBar(game.statusUI.getMPValue(entity), game.statusUI.getMPMaxValue(entity), mpBar4, mp4Stats);
 
                         groupHp4.setVisible(true);
                         groupMp4.setVisible(true);
@@ -2527,8 +2529,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     case 5:
                         party5Name.setText(entity.getEntityConfig().getDisplayName());
 
-                        updateStatusBar(statusUI.getHPValue(entity), statusUI.getHPMaxValue(entity), hpBar5, hp5Stats);
-                        updateStatusBar(statusUI.getMPValue(entity), statusUI.getMPMaxValue(entity), mpBar5, mp5Stats);
+                        updateStatusBar(game.statusUI.getHPValue(entity), game.statusUI.getHPMaxValue(entity), hpBar5, hp5Stats);
+                        updateStatusBar(game.statusUI.getMPValue(entity), game.statusUI.getMPMaxValue(entity), mpBar5, mp5Stats);
 
                         groupHp5.setVisible(true);
                         groupMp5.setVisible(true);
@@ -2766,7 +2768,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private void UpdateStats(Entity destinationEntity) {
         // store any updated stats
-        statusUI.setAllStatProperties(destinationEntity, true);
+        game.statusUI.setAllStatProperties(destinationEntity, true);
 
         // update HUD graphic stats for destination entity
         Image hpBar = null;
@@ -2810,8 +2812,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
 
         if (hpBar != null && hpStats != null && mpBar != null & mpStats != null) {
-            updateStatusBar(statusUI.getHPValue(destinationEntity), statusUI.getHPMaxValue(destinationEntity), hpBar, hpStats);
-            updateStatusBar(statusUI.getMPValue(destinationEntity), statusUI.getMPMaxValue(destinationEntity), mpBar, mpStats);
+            updateStatusBar(game.statusUI.getHPValue(destinationEntity), game.statusUI.getHPMaxValue(destinationEntity), hpBar, hpStats);
+            updateStatusBar(game.statusUI.getMPValue(destinationEntity), game.statusUI.getMPMaxValue(destinationEntity), mpBar, mpStats);
         }
     }
 

@@ -1,6 +1,8 @@
 package com.smoftware.elmour.UI;
 
 
+import com.smoftware.elmour.Entity;
+
 public interface StatusObserver {
     public static enum StatusEvent {
         UPDATED_GP,
@@ -13,4 +15,5 @@ public interface StatusObserver {
     }
 
     void onNotify(final int value, StatusEvent event);
+    void onNotify(final Entity entity, final String value, StatusEvent event);
 }

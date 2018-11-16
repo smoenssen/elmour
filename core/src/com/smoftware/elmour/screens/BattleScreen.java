@@ -1387,7 +1387,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     public void addPartyMember(Entity partyEntity, int index) {
-        ProfileManager.getInstance().getStatProperties(partyEntity);
+        _game.statusUI.getAllStatProperties(partyEntity);
 
         // make sure fade in image is on top of z order
         blackScreen.remove();

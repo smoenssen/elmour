@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
@@ -38,6 +39,7 @@ public class ElmourGame extends Game {
 	public static boolean DEV_MODE = true;
 
 	public BattleState battleState = null;
+	public StatusUI statusUI;
 
 	private static SplashScreen splashScreen;
 	private static StartScreen startScreen;
@@ -113,7 +115,8 @@ public class ElmourGame extends Game {
 
 		Gdx.app.log("tag", String.format("screen width = %d, height = %d", V_WIDTH, V_HEIGHT));
 
-		battleState = new BattleState();
+		battleState = new BattleState(this);
+		statusUI = new StatusUI();
 
 		splashScreen = new SplashScreen(this);
 		startScreen = new StartScreen(this);

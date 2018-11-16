@@ -883,8 +883,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                     profileManager.setProperty("playerInventory", InventoryUI.getInventory(_inventoryUI.getInventorySlotTable()));
 
                     //start the player with some money
-                    _statusUI.setGoldValue(20);
-                    _statusUI.setStatusForLevel(1);
+                    //_statusUI.setGoldValue(20);
+                    //_statusUI.setStatusForLevel(1);
 
                     _clock.setTotalTime(60 * 60 * 12); //start at noon
                     profileManager.setProperty("currentTime", _clock.getTotalTime());
@@ -915,17 +915,17 @@ public class PlayerHUD implements Screen, AudioSubject,
                     int levelVal = profileManager.getProperty("currentPlayerLevel", Integer.class);
 
                     //set the current max values first
-                    _statusUI.setXPValueMax(xpMaxVal);
-                    _statusUI.setHPValueMax(hpMaxVal);
-                    _statusUI.setMPValueMax(mpMaxVal);
+                    //_statusUI.setXPValueMax(xpMaxVal);
+                    //_statusUI.setHPValueMax(hpMaxVal);
+                    //_statusUI.setMPValueMax(mpMaxVal);
 
-                    _statusUI.setXPValue(xpVal);
-                    _statusUI.setHPValue(hpVal);
-                    _statusUI.setMPValue(mpVal);
+                    //_statusUI.setXPValue(xpVal);
+                    //_statusUI.setHPValue(hpVal);
+                    //_statusUI.setMPValue(mpVal);
 
                     //then add in current values
-                    _statusUI.setGoldValue(goldVal);
-                    _statusUI.setLevelValue(levelVal);
+                    //_statusUI.setGoldValue(goldVal);
+                    //_statusUI.setLevelValue(levelVal);
 
                     float totalTime = profileManager.getProperty("currentTime", Float.class);
                     _clock.setTotalTime(totalTime);
@@ -933,6 +933,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 break;
             case SAVING_PROFILE:
+                /*
                 profileManager.setProperty("playerQuests", _questUI.getQuests());
                 profileManager.setProperty("playerInventory", InventoryUI.getInventory(_inventoryUI.getInventorySlotTable()));
                 profileManager.setProperty("playerEquipInventory", InventoryUI.getInventory(_inventoryUI.getEquipSlotTable()));
@@ -944,7 +945,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 profileManager.setProperty("currentPlayerHPMax", _statusUI.getHPValueMax() );
                 profileManager.setProperty("currentPlayerMP", _statusUI.getMPValue() );
                 profileManager.setProperty("currentPlayerMPMax", _statusUI.getMPValueMax() );
-                profileManager.setProperty("currentTime", _clock.getTotalTime());
+                profileManager.setProperty("currentTime", _clock.getTotalTime());*/
                 break;
             case CLEAR_CURRENT_PROFILE:
                 // set default profile
@@ -1253,8 +1254,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if( _questUI.isQuestReadyForReturn(questID) ){
                     notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
                     QuestGraph quest = _questUI.getQuestByID(questID);
-                    _statusUI.addXPValue(quest.getXpReward());
-                    _statusUI.addGoldValue(quest.getGoldReward());
+                    //_statusUI.addXPValue(quest.getXpReward());
+                    //_statusUI.addGoldValue(quest.getGoldReward());
                     notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
                     _inventoryUI.removeQuestItemFromInventory(questID);
                     configReturnProperty.setConversationConfigPath(QuestUI.FINISHED_QUEST);
@@ -1445,7 +1446,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         switch (event) {
             case PLAYER_GP_TOTAL_UPDATED:
                 int val = Integer.valueOf(value);
-                _statusUI.setGoldValue(val);
+                //_statusUI.setGoldValue(val);
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
                 break;
             case PLAYER_INVENTORY_UPDATED:
@@ -1462,19 +1463,19 @@ public class PlayerHUD implements Screen, AudioSubject,
         switch(event) {
             case UPDATED_GP:
                 _storeInventoryUI.setPlayerGP(value);
-                ProfileManager.getInstance().setProperty("currentPlayerGP", _statusUI.getGoldValue());
+                //ProfileManager.getInstance().setProperty("currentPlayerGP", _statusUI.getGoldValue());
                 break;
             case UPDATED_HP:
-                ProfileManager.getInstance().setProperty("currentPlayerHP", _statusUI.getHPValue());
+                //ProfileManager.getInstance().setProperty("currentPlayerHP", _statusUI.getHPValue());
                 break;
             case UPDATED_LEVEL:
-                ProfileManager.getInstance().setProperty("currentPlayerLevel", _statusUI.getLevelValue());
+                //ProfileManager.getInstance().setProperty("currentPlayerLevel", _statusUI.getLevelValue());
                 break;
             case UPDATED_MP:
-                ProfileManager.getInstance().setProperty("currentPlayerMP", _statusUI.getMPValue());
+                //ProfileManager.getInstance().setProperty("currentPlayerMP", _statusUI.getMPValue());
                 break;
             case UPDATED_XP:
-                ProfileManager.getInstance().setProperty("currentPlayerXP", _statusUI.getXPValue());
+                //ProfileManager.getInstance().setProperty("currentPlayerXP", _statusUI.getXPValue());
                 break;
             case LEVELED_UP:
                 notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -1482,6 +1483,11 @@ public class PlayerHUD implements Screen, AudioSubject,
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onNotify(Entity entity, String value, StatusEvent event) {
+
     }
 
     @Override
@@ -1820,10 +1826,10 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 if( InventoryItem.doesRestoreHP(type) ){
                     notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_EATING);
-                    _statusUI.addHPValue(typeValue);
+                    //_statusUI.addHPValue(typeValue);
                 }else if( InventoryItem.doesRestoreMP(type) ){
                     notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
-                    _statusUI.addMPValue(typeValue);
+                    //_statusUI.addMPValue(typeValue);
                 }
                 break;
             default:

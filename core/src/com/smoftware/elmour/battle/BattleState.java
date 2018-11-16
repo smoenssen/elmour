@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
@@ -18,6 +19,8 @@ import java.util.Comparator;
 
 public class BattleState extends BattleSubject implements InventoryObserver {
     private static final String TAG = BattleState.class.getSimpleName();
+
+    ElmourGame game;
 
     //private Entity _currentOpponent = null;
     private Entity currentTurnCharacter = null;
@@ -78,7 +81,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         }
     }
 
-    public BattleState(){
+    public BattleState(ElmourGame game){
+        this.game = game;
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
@@ -191,7 +195,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         int battlePosition = 1;
         String sHPVal;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
-        ProfileManager.getInstance().getStatProperties(entity1);
+        game.statusUI.getAllStatProperties(entity1);
         sHPVal = entity1.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity1.setAlive(Integer.parseInt(sHPVal) > 0);
         entity1.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -200,7 +204,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
-        ProfileManager.getInstance().getStatProperties(entity2);
+        game.statusUI.getAllStatProperties(entity2);
         sHPVal = entity2.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity2.setAlive(Integer.parseInt(sHPVal) > 0);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -209,7 +213,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity2);
 
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
-        ProfileManager.getInstance().getStatProperties(entity3);
+        game.statusUI.getAllStatProperties(entity3);
         sHPVal = entity3.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity3.setAlive(Integer.parseInt(sHPVal) > 0);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -218,7 +222,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
-        ProfileManager.getInstance().getStatProperties(entity4);
+        game.statusUI.getAllStatProperties(entity4);
         sHPVal = entity4.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity4.setAlive(Integer.parseInt(sHPVal) > 0);
         entity4.setBattleEntityType(Entity.BattleEntityType.PARTY);
@@ -227,7 +231,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.add(entity4);
 
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1);
-        ProfileManager.getInstance().getStatProperties(entity5);
+        game.statusUI.getAllStatProperties(entity5);
         sHPVal = entity5.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
         entity5.setAlive(Integer.parseInt(sHPVal) > 0);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
