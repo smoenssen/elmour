@@ -5,15 +5,25 @@ import com.smoftware.elmour.Entity;
 
 public interface StatusObserver {
     public static enum StatusEvent {
-        UPDATED_GP,
+        UPDATED_DIBS,
         UPDATED_LEVEL,
-        UPDATED_HP,
-        UPDATED_MP,
-        UPDATED_XP,
         LEVELED_UP,
+        UPDATED_XP,
+        UPDATED_HP,
+        UPDATED_HP_MAX,
+        UPDATED_MP,
+        UPDATED_MP_MAX,
+        UPDATED_ATK,
+        UPDATED_MagicATK,
+        UPDATED_DEF,
+        UPDATED_MagicDEF,
+        UPDATED_SPD,
+        UPDATED_ACC,
+        UPDATED_LCK,
+        UPDATED_AVO,
         SHAKE_CAM
     }
 
     void onNotify(final int value, StatusEvent event);
-    void onNotify(final Entity entity, final String value, StatusEvent event);
+    void onNotify(final Entity entity, final int value, StatusEvent event);
 }

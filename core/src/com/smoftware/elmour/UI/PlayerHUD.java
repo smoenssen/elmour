@@ -1461,10 +1461,10 @@ public class PlayerHUD implements Screen, AudioSubject,
     @Override
     public void onNotify(int value, StatusEvent event) {
         switch(event) {
-            case UPDATED_GP:
-                _storeInventoryUI.setPlayerGP(value);
+            //case UPDATED_GP:
+            //    _storeInventoryUI.setPlayerGP(value);
                 //ProfileManager.getInstance().setProperty("currentPlayerGP", _statusUI.getGoldValue());
-                break;
+            //    break;
             case UPDATED_HP:
                 //ProfileManager.getInstance().setProperty("currentPlayerHP", _statusUI.getHPValue());
                 break;
@@ -1486,7 +1486,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(Entity entity, String value, StatusEvent event) {
+    public void onNotify(Entity entity, int value, StatusEvent event) {
 
     }
 

@@ -580,4 +580,12 @@ public final class Utility {
 
 		return len;
 	}
+
+	public static int applyPercentageAndRoundUp(int baseVal, int percentage) {
+		float fVal = (float)percentage/100 * (float)baseVal;
+		int iVal = (int)fVal;
+		if (fVal > iVal)
+			iVal += 1;
+		return baseVal + iVal;
+	}
 }

@@ -2251,7 +2251,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     @Override
-    public void onNotify(Entity entity, String value, StatusEvent event) {
+    public void onNotify(Entity entity, int value, StatusEvent event) {
 
     }
 
@@ -2475,9 +2475,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
-    private void updateStatusBar(String power, String power_max, Image statusBar, Label stats) {
+    private void updateStatusBar(int power, int power_max, Image statusBar, Label stats) {
         stats.setText(power + "/" + power_max);
-        statusBar.setWidth(Float.parseFloat(power)/Float.parseFloat(power_max) * barWidth);
+        statusBar.setWidth((float)power/(float)power_max * barWidth);
     }
 
     @Override
@@ -2611,11 +2611,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     enemy5Name.setVisible(false);
                 }
 
-                String xp = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.XP_REWARD));
-                xpReward += Integer.parseInt(xp);
-
-                String dibs = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DIBS_REWARD));
-                dibsReward += Integer.parseInt(dibs);
+                xpReward += game.statusUI.getXPRewardValue(entity);
+                dibsReward += game.statusUI.getDibsRewardValue(entity);
 
                 selectedCharacter = null;
                 break;
@@ -2707,8 +2704,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_CREATURE_PAIN);
 
-                int HP = Integer.parseInt(destinationEntity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP)));
-                int HP_MAX = Integer.parseInt(destinationEntity.getEntityConfig().getPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP_MAX)));
+                int HP = game.statusUI.getHPValue(destinationEntity);
+                int HP_MAX = game.statusUI.getHPMaxValue(destinationEntity);
 
                 Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
 
@@ -2767,9 +2764,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     private void UpdateStats(Entity destinationEntity) {
-        // store any updated stats
-        game.statusUI.setAllStatProperties(destinationEntity, true);
-
         // update HUD graphic stats for destination entity
         Image hpBar = null;
         Label hpStats = null;

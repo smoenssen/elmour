@@ -89,7 +89,7 @@ public class InventoryElement{
         public EffectItem() {
             // default values
             effect = Effect.NONE;
-            turns = 0x7FFFFFFF;
+            turns = 0;//0x7FFFFFFF;
         }
     }
 
@@ -102,7 +102,7 @@ public class InventoryElement{
         effectText = "";
         location = "";
         chapter = 0;
-        turns = 0x7FFFFFFF;
+        turns = 0;//0x7FFFFFFF;
         revive = false;
     }
 

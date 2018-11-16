@@ -26,9 +26,9 @@ public class EntityConfig {
     private String entityBoundsName;
     private String displayName;
     private Array<EntityAbility> entityAbilities;
+    private Array<InventoryElement.EffectItem> turnEffectList;
 
     public enum EntityProperties{
-        HIT_DAMAGE_TOTAL,//todo: remove
         HP,
         HP_MAX,
         MP,         //characters only
@@ -72,6 +72,9 @@ public class EntityConfig {
         entityProperties = new ObjectMap<String, String>();
         rewardItems = new Array<ItemReward>();
         entityAbilities = new Array<EntityAbility>();
+
+        if (turnEffectList == null)
+            turnEffectList = new Array<InventoryElement.EffectItem>();
 
         /* Test code to write to Json file
         EntityAbility ability = new EntityAbility();
@@ -120,7 +123,20 @@ public class EntityConfig {
 
         entityProperties = new ObjectMap<String, String>();
         entityProperties.putAll(config.entityProperties);
+
+        if (turnEffectList == null)
+            turnEffectList = new Array<InventoryElement.EffectItem>();
     }
+
+    public int getTurnEffectListSize() { return turnEffectList.size; }
+
+    public InventoryElement.EffectItem getTurnEffectListItem(int index) { return turnEffectList.get(index); }
+
+    public void setTurnEffectListItem(int index, InventoryElement.EffectItem item) { turnEffectList.set(index, item); }
+
+    public void addTurnEffectItem(InventoryElement.EffectItem item) { turnEffectList.add(item); }
+
+    public void removeTurnEffectItem(int index) { turnEffectList.removeIndex(index); }
 
     public ObjectMap<String, String> getEntityProperties() {
         return entityProperties;

@@ -8,5 +8,5 @@ public interface StatusSubject {
     public void removeObserver(StatusObserver statusObserver);
     public void removeAllObservers();
     public void notify(final int value, StatusObserver.StatusEvent event);
-    public void notify(final Entity entity, final String value, StatusObserver.StatusEvent event);
+    public void notify(final Entity entity, final int value, StatusObserver.StatusEvent event);
 }

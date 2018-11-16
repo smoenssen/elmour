@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.battle.LevelTable;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -33,44 +34,151 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
 
     public String getStat(String key) {
         String value = "0";
-        if (!ProfileManager.getInstance().getProperty(key, String.class).equals(null))
+        if (!(ProfileManager.getInstance().getProperty(key, String.class) == null))
             value = ProfileManager.getInstance().getProperty(key, String.class);
 
         return value;
     }
 
-    public String getHPValue(Entity entity) {
-        return getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString());
+    public int getDibsValue() {
+        return Integer.parseInt(getStat("Dibs"));
     }
 
-    public void setHPValue(Entity entity, String value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString(), value);
+    public void setDibsValue(int value) {
+        setStat("Dibs", Integer.toString(value));
+    }
+
+    public int getHPValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString()));
+    }
+
+    public void setHPValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString(), Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
-    public String getHPMaxValue(Entity entity) {
-        return getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString());
+    public int getHPMaxValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString()));
     }
 
-    public void setHPMaxValue(Entity entity, String value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString(), value);
+    public void setHPMaxValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_HP_MAX);
     }
 
-    public String getMPValue(Entity entity) {
-        return getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString());
+    public int getMPValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString()));
     }
 
-    public void setMPValue(Entity entity, String value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString(), value);
+    public void setMPValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString(), Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    public String getMPMaxValue(Entity entity) {
-        return getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString());
+    public int getMPMaxValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString()));
     }
 
-    public void setMPMaxValue(Entity entity, String value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString(), value);
+    public void setMPMaxValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MP_MAX);
+    }
+
+    public int getATKValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ATK.toString()));
+    }
+
+    public void setATKValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ATK.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_ATK);
+    }
+
+    public int getMagicATKValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicATK.toString()));
+    }
+
+    public void setMagicATKValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicATK.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicATK);
+    }
+
+    public int getDEFValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.DEF.toString()));
+    }
+
+    public void setDEFValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.DEF.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_DEF);
+    }
+
+    public int getMagicDEFValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicDEF.toString()));
+    }
+
+    public void setMagicDEFValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicDEF.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicDEF);
+    }
+
+    public int getSPDValue(Entity entity) {
+        int baseSPD = Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.SPD.toString()));
+        return applyTurnEffects(entity, baseSPD, InventoryElement.Effect.SPD_UP, InventoryElement.Effect.SPD_DOWN);
+    }
+
+    public void setSPDValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.SPD.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_SPD);
+    }
+
+    public int getACCValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ACC.toString()));
+    }
+
+    public void setACCValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ACC.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_ACC);
+    }
+
+    public int getLCKValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.LCK.toString()));
+    }
+
+    public void setLCKValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.LCK.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_LCK);
+    }
+
+    public int getAVOValue(Entity entity) {
+        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.AVO.toString()));
+    }
+
+    public void setAVOValue(Entity entity, int value) {
+        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.AVO.toString(), Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_AVO);
+    }
+
+    public int getXPRewardValue(Entity entity) {
+        // XP_REWARD comes from entity properties, not profile
+        return Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString().toString()));
+    }
+
+    public int getDibsRewardValue(Entity entity) {
+        // DIBS_REWARD comes from entity properties, not profile
+        return Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString().toString()));
+    }
+
+    private int applyTurnEffects(Entity entity, int baseVal, InventoryElement.Effect effectUP, InventoryElement.Effect effectDOWN) {
+        // apply any effect items to base value
+        int changePercent = 0;
+        for (int i = 0; i < entity.getEntityConfig().getTurnEffectListSize(); i++) {
+            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+
+            if (effectItem.effect.equals(effectUP))
+                changePercent += effectItem.value;
+            else if (effectItem.effect.equals(effectDOWN))
+                changePercent -= effectItem.value;
+        }
+        return Utility.applyPercentageAndRoundUp(baseVal, changePercent);
     }
 
     @Override
@@ -98,7 +206,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
     }
 
     @Override
-    public void notify(Entity entity, String value, StatusObserver.StatusEvent event) {
+    public void notify(Entity entity, int value, StatusObserver.StatusEvent event) {
         for(StatusObserver observer: _observers){
             observer.onNotify(entity, value, event);
         }
@@ -112,12 +220,15 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
 
                 if (firstTime) {
                     // load default stats
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN), false);
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1), false);
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2), false);
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.DOUGLAS), false);
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN), false);
-                    setAllStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1), false);
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN));
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1));
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2));
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.DOUGLAS));
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN));
+                    setDefaultStatProperties(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1));
+
+                    // start with some dibs
+                    setDibsValue(20);
                 }
                 else {
                     /*
@@ -204,7 +315,9 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         }
     }
 
-    public void setAllStatProperties(Entity entity, boolean update) {
+    private void setDefaultStatProperties(Entity entity) {
+        // this function gets the stats from the entity properties and sets them in the profile
+        // this should only be used to set default values
         String entityID = entity.getEntityConfig().getEntityID();
         String key;
         String property;
@@ -213,7 +326,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         key = entityID + EntityConfig.EntityProperties.HP.toString();
         property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString().toString());
 
-        if (ProfileManager.getInstance().getProperty(key, String.class) == null || update) {
+        if (ProfileManager.getInstance().getProperty(key, String.class) == null) {
             ProfileManager.getInstance().setProperty(key, property);
 
             // we can assume all other status values need to be set since they are always done in a batch here
@@ -262,7 +375,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
             ProfileManager.getInstance().setProperty(key, property);
         }
     }
-
+/*
     public void getAllStatProperties(Entity entity) {
         String entityID = entity.getEntityConfig().getEntityID();
         String key;
@@ -317,5 +430,5 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
             property = ProfileManager.getInstance().getProperty(key, String.class);
             entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.AVO.toString(), property);
         }
-    }
+    }*/
 }

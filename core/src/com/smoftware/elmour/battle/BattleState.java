@@ -11,11 +11,14 @@ import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.InventoryObserver;
+import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import javax.rmi.CORBA.Util;
 
 public class BattleState extends BattleSubject implements InventoryObserver {
     private static final String TAG = BattleState.class.getSimpleName();
@@ -51,12 +54,12 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     public class EntitySpeedComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity arg0, Entity arg1) {
-            String SPD0 = arg0.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-            String SPD1 = arg1.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-            if (Integer.parseInt(SPD0) > Integer.parseInt(SPD1)) {
+            int SPD0 = game.statusUI.getSPDValue(arg0);
+            int SPD1 = game.statusUI.getSPDValue(arg1);
+            if (SPD0 > SPD1) {
                 return -1;
             }
-            else if (Integer.parseInt(SPD0) == Integer.parseInt(SPD1)) {
+            else if (SPD0 == SPD1) {
                 switch (arg0.getBattleEntityType()) {
                     case PARTY:
                         if (arg1.getBattleEntityType() == Entity.BattleEntityType.ENEMY)
@@ -193,51 +196,46 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentPartyList.clear();
 
         int battlePosition = 1;
-        String sHPVal;
+        int HPVal;
         Entity entity1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
-        game.statusUI.getAllStatProperties(entity1);
-        sHPVal = entity1.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-        entity1.setAlive(Integer.parseInt(sHPVal) > 0);
+        HPVal = game.statusUI.getHPValue(entity1);
+        entity1.setAlive(HPVal > 0);
         entity1.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity1.setBattlePosition(battlePosition++);
         notify(entity1, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity1);
 
         Entity entity2 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
-        game.statusUI.getAllStatProperties(entity2);
-        sHPVal = entity2.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-        entity2.setAlive(Integer.parseInt(sHPVal) > 0);
+        HPVal = game.statusUI.getHPValue(entity2);
+        entity2.setAlive(HPVal > 0);
         entity2.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-
+/*
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
-        game.statusUI.getAllStatProperties(entity3);
-        sHPVal = entity3.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-        entity3.setAlive(Integer.parseInt(sHPVal) > 0);
+        HPVal = game.statusUI.getHPValue(entity3);
+        entity3.setAlive(HPVal > 0);
         entity3.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity3.setBattlePosition(battlePosition++);
         notify(entity3, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity3);
 
         Entity entity4 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
-        game.statusUI.getAllStatProperties(entity4);
-        sHPVal = entity4.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-        entity4.setAlive(Integer.parseInt(sHPVal) > 0);
+        HPVal = game.statusUI.getHPValue(entity4);
+        entity4.setAlive(HPVal > 0);
         entity4.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity4.setBattlePosition(battlePosition++);
         notify(entity4, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity4);
 
         Entity entity5 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JAXON_1);
-        game.statusUI.getAllStatProperties(entity5);
-        sHPVal = entity5.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-        entity5.setAlive(Integer.parseInt(sHPVal) > 0);
+        HPVal = game.statusUI.getHPValue(entity5);
+        entity5.setAlive(HPVal > 0);
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
-        currentPartyList.add(entity5);
+        currentPartyList.add(entity5);*/
     }
 
     public void getNextTurnCharacter(float delay){
@@ -288,6 +286,21 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 opponentAttacks();
             }
         }
+        else {
+            // PARTY
+            // remove any effect items from the turn effect list that are zero
+            // or decrement the ones that are not (loop backwards since removing by index)
+            for (int i = currentTurnCharacter.getEntityConfig().getTurnEffectListSize() - 1; i >= 0; i--) {
+                InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+                if (effectItem.turns == 0) {
+                    entity.getEntityConfig().removeTurnEffectItem(i);
+                }
+                else {
+                    effectItem.turns--;
+                    entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
+                }
+            }
+        }
     }
 
     public void setCurrentSelectedCharacter(Entity entity) {
@@ -328,11 +341,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         // Where A is the Attacker’s SPD and D is the Defender’s SPD
         if (defender != null) {
             if (defender.isAlive()) {
-                String SPD = attacker.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-                int attackerSPD = Integer.parseInt(SPD);
-
-                SPD = defender.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-                int defenderSPD = Integer.parseInt(SPD);
+                int attackerSPD = game.statusUI.getSPDValue(attacker);
+                int defenderSPD = game.statusUI.getSPDValue(defender);
 
                 if (defenderSPD != 0) {
                     float chanceOfBlock = (50 * (float) attackerSPD) / (float) defenderSPD;
@@ -481,43 +491,38 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 boolean gotHPorMP = false;
                 boolean addedPeriod = false;
                 boolean addedEffectText = false;
+                int hpMax = game.statusUI.getHPMaxValue(currentSelectedCharacter);
+                int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                 for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
-                    String sVal;
 
-                    Integer currVal = 0;
-                    Integer newVal = 0;
+                    int currVal = 0;
+                    int newVal = 0;
                     if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP)) {
-                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-                        String hpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString());
-                        currVal = Integer.parseInt(sVal);
-                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, Integer.parseInt(hpMax));
+                        currVal = game.statusUI.getHPValue(currentSelectedCharacter);
+                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, hpMax);
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                        game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
-                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP.toString());
-                        String hpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.HP_MAX.toString());
-                        currVal = Integer.parseInt(sVal);
-                        float fVal = (float)currVal * (float)effectItem.value * 0.01f;
-                        newVal = MathUtils.clamp(currVal + (int)fVal, 0, Integer.parseInt(hpMax));
+                        currVal = game.statusUI.getHPValue(currentSelectedCharacter);
+                        newVal = MathUtils.clamp(Utility.applyPercentageAndRoundUp(currVal, effectItem.value), 0, hpMax);
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                        game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP)) {
-                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString());
-                        String mpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString());
-                        currVal = Integer.parseInt(sVal);
-                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, Integer.parseInt(mpMax));
+                        currVal = game.statusUI.getMPValue(currentSelectedCharacter);
+                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, mpMax);
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
+                        game.statusUI.setMPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT)) {
-                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP.toString());
-                        String mpMax = currentSelectedCharacter.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MP_MAX.toString());
-                        currVal = Integer.parseInt(sVal);
-                        float fVal = (float)currVal * (float)effectItem.value * 0.01f;
-                        newVal = MathUtils.clamp(currVal + (int)fVal, 0, Integer.parseInt(mpMax));
+                        currVal = game.statusUI.getMPValue(currentSelectedCharacter);
+                        newVal = MathUtils.clamp(Utility.applyPercentageAndRoundUp(currVal, effectItem.value), 0, mpMax);
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
+                        game.statusUI.setMPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
                     else {
@@ -529,17 +534,25 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                             }
                         }
 
+                        // all other entity effect items get added to the entity's turn list
+                        if (effectItem.turns == 0)
+                            effectItem.turns = selectedInventoryElement.turns;
+
+                        currentSelectedCharacter.getEntityConfig().addTurnEffectItem(effectItem);
+                        /*
+                        //todo: not sure what to do with all of these stat changes. are they all only temporary?
                         // all other entity properties are the effect item's name left of the underscore
                         String entityProperty = effectItem.effect.toString();
                         entityProperty = entityProperty.substring(0, entityProperty.indexOf("_"));
-                        sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(entityProperty);
+                        String sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(entityProperty);
                         if (!sVal.equals("")) {
                             currVal = Integer.parseInt(sVal);
                             newVal = currVal + effectItem.value;
                         }
                         else {
-                            Gdx.app.log(TAG,">>>>>>>>>>>>>>>>> TODO: getApplyInventoryTimer needs to handle " + entityProperty + " <<<<<<<<<<<<<<<<<<<<<");
+                            Gdx.app.error(TAG,">>>>>>>>>>>>>>>>> TODO: getApplyInventoryTimer needs to handle " + entityProperty + " <<<<<<<<<<<<<<<<<<<<<");
                         }
+                        */
                     }
 
                     if (!selectedInventoryElement.effectText.equals("") && !addedEffectText) {
@@ -559,7 +572,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                         addedEffectText = true;
                     }
 
-                    currentSelectedCharacter.getEntityConfig().setPropertyValue(effectItem.effect.toString(), newVal.toString());
+                    // I don't think I need this
+                    //currentSelectedCharacter.getEntityConfig().setPropertyValue(effectItem.effect.toString(), Integer.toString(newVal));
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
@@ -619,18 +633,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         */
 
         int HPD = 0;
-
-        String attackerATK = currentTurnCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.ATK));
-        String defenderDEF = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.DEF));
-
-        int A = Integer.parseInt(attackerATK);
-        int D = Integer.parseInt(defenderDEF);
+        int A = game.statusUI.getATKValue(currentTurnCharacter);
+        int D = game.statusUI.getDEFValue(currentSelectedCharacter);
         float V = MathUtils.random(0.9f, 1.1f);
         float M = 1.0f;
         float fHPD = (M * V * (float)Math.pow(A, 2)) / (5 * D);
         HPD = (int)fHPD + 1;    //round up
 
-        Gdx.app.log(TAG, "attackerATK = " + attackerATK + ", defenderDEF = " + defenderDEF + ", deviation = " + V);
+        Gdx.app.log(TAG, "attacker ATK = " + A + ", defender DEF = " + D + ", deviation = " + V);
 
         return HPD;
     }
@@ -646,8 +656,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "enemy takes " + hitPoints + " hit points");
 
-                String enemyHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-                int newEnemyHP = MathUtils.clamp(Integer.parseInt(enemyHP) - hitPoints, 0, Integer.parseInt(enemyHP));
+                int enemyHP = game.statusUI.getHPValue(currentSelectedCharacter);
+                int newEnemyHP = MathUtils.clamp(enemyHP - hitPoints, 0, enemyHP);
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
 
                 String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
@@ -697,14 +707,14 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 Gdx.app.log(TAG, "player takes " + hitPoints + " hit points");
 
-                String playerHP = currentSelectedCharacter.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-                int newPlayerHP = MathUtils.clamp(Integer.parseInt(playerHP) - hitPoints, 0, Integer.parseInt(playerHP));
+                int playerHP = game.statusUI.getHPValue(currentSelectedCharacter);
+                int newPlayerHP = MathUtils.clamp(playerHP - hitPoints, 0, playerHP);
                 currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newPlayerHP));
 
                 Gdx.app.log(TAG, "new player HP = " + newPlayerHP);
 
                 String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
-                        currentSelectedCharacter.getEntityConfig().getDisplayName(), Integer.parseInt(playerHP) - newPlayerHP);
+                        currentSelectedCharacter.getEntityConfig().getDisplayName(), playerHP - newPlayerHP);
 
                 if (hitPoints > 0) {
                     // update current entity config in factory
@@ -798,18 +808,18 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         int factorial = 0;
 
         for (Entity entity : currentPartyList) {
-            String SPD = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-            totalSPD += Integer.parseInt(SPD);
-            String HP = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.HP));
-            if (Integer.parseInt(HP) <= 0)
+            int SPD = game.statusUI.getSPDValue(entity);
+            totalSPD += SPD;
+            int HP = game.statusUI.getHPValue(entity);
+            if (HP <= 0)
                 numCharactersFainted++;
         }
         avgPartySpd = totalSPD / (float)currentPartyList.size;
 
         totalSPD = 0;
         for (Entity entity : currentEnemyList) {
-            String SPD = entity.getEntityConfig().getEntityProperties().get(String.valueOf(EntityConfig.EntityProperties.SPD));
-            totalSPD += Integer.parseInt(SPD);
+            int SPD = game.statusUI.getSPDValue(entity);
+            totalSPD += SPD;
         }
         avgEnemySpd = totalSPD / (float)currentEnemyList.size;
 
