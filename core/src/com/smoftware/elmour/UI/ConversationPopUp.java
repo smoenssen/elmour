@@ -99,7 +99,7 @@ public class ConversationPopUp extends Window {
 		//fullText = "";
 
 		// set isReady to false so that full text doesn't flash on popup at first
-		Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
+		//Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
 		isReady = false;
 
 		//layout
@@ -266,8 +266,8 @@ public class ConversationPopUp extends Window {
 
 						pause(100);
 						dialog.lineStrings = textArea.getLineStrings();
-						Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
-						Gdx.app.log(TAG, "setting isReady to true");
+						//Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
+						//Gdx.app.log(TAG, "setting isReady to true");
 						isReady = true;
 					}
 

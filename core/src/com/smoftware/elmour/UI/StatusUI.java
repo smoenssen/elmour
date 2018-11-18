@@ -1,5 +1,6 @@
 package com.smoftware.elmour.UI;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -18,7 +19,7 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 
 public class StatusUI extends Window implements StatusSubject, ProfileObserver {
-
+    private static final String TAG = StatusUI.class.getSimpleName();
 
     private Array<StatusObserver> _observers;
 
@@ -26,134 +27,151 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         super("", Utility.STATUSUI_SKIN);
 
         _observers = new Array<StatusObserver>();
+        ProfileManager.getInstance().addObserver(this);
     }
 
-    public void setStat(String key, String value) {
-        ProfileManager.getInstance().setProperty(key, value);
+    public void setStat(Entity entity, EntityConfig.EntityProperties property, String value) {
+        if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + property.toString(), value);
+        }
+        else {
+            entity.getEntityConfig().setPropertyValue(property.toString(), value);
+        }
     }
 
-    public String getStat(String key) {
+    public String getStat(Entity entity, EntityConfig.EntityProperties property) {
         String value = "0";
-        if (!(ProfileManager.getInstance().getProperty(key, String.class) == null))
-            value = ProfileManager.getInstance().getProperty(key, String.class);
+
+        if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            String key = entity.getEntityConfig().getEntityID() + property.toString();
+            if (!(ProfileManager.getInstance().getProperty(key, String.class) == null))
+                value = ProfileManager.getInstance().getProperty(key, String.class);
+        }
+        else {
+            value = entity.getEntityConfig().getPropertyValue(String.valueOf(property));
+        }
 
         return value;
     }
 
-    public int getDibsValue() {
-        return Integer.parseInt(getStat("Dibs"));
-    }
-
-    public void setDibsValue(int value) {
-        setStat("Dibs", Integer.toString(value));
-    }
-
     public int getHPValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString()));
+        int baseHP = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.HP));
+        return baseHP;
     }
 
     public void setHPValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.HP, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public int getHPMaxValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString()));
+        int baseHP_MAX = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.HP_MAX));
+        return baseHP_MAX;
     }
 
     public void setHPMaxValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.HP_MAX.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.HP_MAX, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_HP_MAX);
     }
 
     public int getMPValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString()));
+        int baseMP = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MP));
+
+        return baseMP;
     }
 
     public void setMPValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.MP, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
     public int getMPMaxValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString()));
+        int baseMP_MAX = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MP_MAX));
+        return baseMP_MAX;
     }
 
     public void setMPMaxValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MP_MAX.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.MP_MAX, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_MP_MAX);
     }
 
     public int getATKValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ATK.toString()));
+        int baseATK = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.ATK));
+        return applyTurnEffects(entity, baseATK, InventoryElement.Effect.ATK_UP, InventoryElement.Effect.ATK_DOWN);
     }
 
     public void setATKValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ATK.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.ATK, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_ATK);
     }
 
     public int getMagicATKValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicATK.toString()));
+        int baseMagicATK = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MagicATK));
+        return applyTurnEffects(entity, baseMagicATK, InventoryElement.Effect.MATK_UP, InventoryElement.Effect.MATK_DOWN);
     }
 
     public void setMagicATKValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicATK.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.MagicATK, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicATK);
     }
 
     public int getDEFValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.DEF.toString()));
+        int baseDEF = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.DEF));
+        return applyTurnEffects(entity, baseDEF, InventoryElement.Effect.DEF_UP, InventoryElement.Effect.DEF_DOWN);
     }
 
     public void setDEFValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.DEF.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.DEF, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_DEF);
     }
 
     public int getMagicDEFValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicDEF.toString()));
+        int baseMagicDEF = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MagicDEF));
+        return applyTurnEffects(entity, baseMagicDEF, InventoryElement.Effect.MDEF_UP, InventoryElement.Effect.MDEF_DOWN);
     }
 
     public void setMagicDEFValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.MagicDEF.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.MagicDEF, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicDEF);
     }
 
     public int getSPDValue(Entity entity) {
-        int baseSPD = Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.SPD.toString()));
+        int baseSPD = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.SPD));
         return applyTurnEffects(entity, baseSPD, InventoryElement.Effect.SPD_UP, InventoryElement.Effect.SPD_DOWN);
     }
 
     public void setSPDValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.SPD.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.SPD, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_SPD);
     }
 
     public int getACCValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ACC.toString()));
+        int baseACC = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.ACC));
+        return applyTurnEffects(entity, baseACC, InventoryElement.Effect.ACC_UP, InventoryElement.Effect.ACC_DOWN);
     }
 
     public void setACCValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.ACC.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.ACC, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_ACC);
     }
 
     public int getLCKValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.LCK.toString()));
+        int baseLCK = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.LCK));
+        return applyTurnEffects(entity, baseLCK, InventoryElement.Effect.LCK_UP, InventoryElement.Effect.LCK_DOWN);
     }
 
     public void setLCKValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.LCK.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.LCK, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_LCK);
     }
 
     public int getAVOValue(Entity entity) {
-        return Integer.parseInt(getStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.AVO.toString()));
+        int baseAVO = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.AVO));
+        return applyTurnEffects(entity, baseAVO, InventoryElement.Effect.AVO_UP, InventoryElement.Effect.AVO_DOWN);
     }
 
     public void setAVOValue(Entity entity, int value) {
-        setStat(entity.getEntityConfig().getEntityID() + EntityConfig.EntityProperties.AVO.toString(), Integer.toString(value));
+        setStat(entity, EntityConfig.EntityProperties.AVO, Integer.toString(value));
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_AVO);
     }
 
@@ -167,8 +185,22 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         return Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString().toString()));
     }
 
+    public int getDibsValue() {
+        // Dibs is only in profile properties
+        String value = ProfileManager.getInstance().getProperty("Dibs", String.class);
+        if (value != null) {
+            return Integer.parseInt(value);
+        }
+        return 0;
+    }
+
+    public void setDibsValue(int value) {
+        ProfileManager.getInstance().setProperty("Dibs", value);
+    }
+
     private int applyTurnEffects(Entity entity, int baseVal, InventoryElement.Effect effectUP, InventoryElement.Effect effectDOWN) {
         // apply any effect items to base value
+        // effect changes are cumulative so need to loop through entire list
         int changePercent = 0;
         for (int i = 0; i < entity.getEntityConfig().getTurnEffectListSize(); i++) {
             InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
@@ -178,6 +210,15 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
             else if (effectItem.effect.equals(effectDOWN))
                 changePercent -= effectItem.value;
         }
+
+        int retVal = Utility.applyPercentageAndRoundUp(baseVal, changePercent);
+
+        if (baseVal != retVal) {
+            String units = effectUP.toString().substring(0, effectUP.toString().indexOf("_"));
+            Gdx.app.log(TAG, "Applied change percent of " + changePercent + " for " + effectUP.toString() + "/" + effectDOWN.toString() +
+                    " turn effects to base value of " + baseVal + " " + units + ", resulting in " + retVal + " " + units);
+        }
+
         return Utility.applyPercentageAndRoundUp(baseVal, changePercent);
     }
 

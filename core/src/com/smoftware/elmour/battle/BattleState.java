@@ -54,6 +54,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     public class EntitySpeedComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity arg0, Entity arg1) {
+            Gdx.app.log(TAG, "Getting SPD values for sort comparison");
             int SPD0 = game.statusUI.getSPDValue(arg0);
             int SPD1 = game.statusUI.getSPDValue(arg1);
             if (SPD0 > SPD1) {
@@ -172,6 +173,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     public void setCurrentEnemyList(){
+        for (Entity entity : currentEnemyList) {
+            entity.getEntityConfig().clearTurnEffectList();
+        }
+
         currentEnemyList.clear();
         MonsterGroup monsterGroup = MonsterFactory.getInstance().getRandomMonsterGroup(_currentZoneLevel);
         Array<MonsterFactory.MonsterEntityType> monsterEntityTypes = monsterGroup.getMonsters();
@@ -193,6 +198,10 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public void setCurrentPartyList() {
         //todo: this is temporary code: need to figure out how/when characters are added to party list
+        for (Entity entity : currentPartyList) {
+            entity.getEntityConfig().clearTurnEffectList();
+        }
+
         currentPartyList.clear();
 
         int battlePosition = 1;
@@ -286,21 +295,25 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 opponentAttacks();
             }
         }
-        else {
-            // PARTY
-            // remove any effect items from the turn effect list that are zero
-            // or decrement the ones that are not (loop backwards since removing by index)
-            for (int i = currentTurnCharacter.getEntityConfig().getTurnEffectListSize() - 1; i >= 0; i--) {
-                InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
-                if (effectItem.turns == 0) {
-                    entity.getEntityConfig().removeTurnEffectItem(i);
-                }
-                else {
-                    effectItem.turns--;
-                    entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
-                }
+
+        // Previous turn cycle is considered over here:
+        // Remove any effect items from the turn effect list that are zero,
+        // or decrement the ones that are not zero (loop backwards since removing by index)
+        //todo: if need to debug empty battleTextArea put breakpoint here at beginning of for loop
+        for (int i = currentTurnCharacter.getEntityConfig().getTurnEffectListSize() - 1; i >= 0; i--) {
+            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+            if (effectItem.turns == 0) {
+                entity.getEntityConfig().removeTurnEffectItem(i);
+                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Turns for " + effectItem.effect.toString() + " are complete.");
+            }
+            else {
+                effectItem.turns--;
+                entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
+                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Decrementing turns for " +
+                        effectItem.effect.toString() + " to " + effectItem.turns);
             }
         }
+
     }
 
     public void setCurrentSelectedCharacter(Entity entity) {
@@ -539,20 +552,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                             effectItem.turns = selectedInventoryElement.turns;
 
                         currentSelectedCharacter.getEntityConfig().addTurnEffectItem(effectItem);
-                        /*
-                        //todo: not sure what to do with all of these stat changes. are they all only temporary?
-                        // all other entity properties are the effect item's name left of the underscore
-                        String entityProperty = effectItem.effect.toString();
-                        entityProperty = entityProperty.substring(0, entityProperty.indexOf("_"));
-                        String sVal = currentSelectedCharacter.getEntityConfig().getPropertyValue(entityProperty);
-                        if (!sVal.equals("")) {
-                            currVal = Integer.parseInt(sVal);
-                            newVal = currVal + effectItem.value;
-                        }
-                        else {
-                            Gdx.app.error(TAG,">>>>>>>>>>>>>>>>> TODO: getApplyInventoryTimer needs to handle " + entityProperty + " <<<<<<<<<<<<<<<<<<<<<");
-                        }
-                        */
+                        Gdx.app.log(TAG, currentSelectedCharacter.getEntityConfig().getEntityID() + ": Adding " + effectItem.turns + " turns for " + effectItem.effect);
                     }
 
                     if (!selectedInventoryElement.effectText.equals("") && !addedEffectText) {
@@ -658,7 +658,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 int enemyHP = game.statusUI.getHPValue(currentSelectedCharacter);
                 int newEnemyHP = MathUtils.clamp(enemyHP - hitPoints, 0, enemyHP);
-                currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newEnemyHP));
+                game.statusUI.setHPValue(currentSelectedCharacter, newEnemyHP);
 
                 String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
@@ -709,7 +709,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                 int playerHP = game.statusUI.getHPValue(currentSelectedCharacter);
                 int newPlayerHP = MathUtils.clamp(playerHP - hitPoints, 0, playerHP);
-                currentSelectedCharacter.getEntityConfig().setPropertyValue(String.valueOf(EntityConfig.EntityProperties.HP), String.format("%d" , newPlayerHP));
+                game.statusUI.setHPValue(currentSelectedCharacter, newPlayerHP);
+
 
                 Gdx.app.log(TAG, "new player HP = " + newPlayerHP);
 

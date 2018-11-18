@@ -193,7 +193,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
                     currentSignPost.lineStrings = textArea.getLineStrings();
-                    Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", currentSignPost.lineStrings.size));
+                    //Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", currentSignPost.lineStrings.size));
 
                     // add this sign post to the ones we've seen
                     signPostArray.add(currentSignPost);

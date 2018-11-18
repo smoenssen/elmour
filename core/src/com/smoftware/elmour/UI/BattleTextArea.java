@@ -58,7 +58,7 @@ public class BattleTextArea extends Window {
         //fullText = "";
 
         // set isReady to false so that full text doesn't flash on battle text at first
-        Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
+        //Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
         isReady = false;
 
         //layout
@@ -93,7 +93,7 @@ public class BattleTextArea extends Window {
     private void startTextScrollThread() {
         Runnable r = new Runnable() {
             public void run() {
-                Gdx.app.log(TAG, "Starting TextScrollThread...");
+                //Gdx.app.log(TAG, "Starting TextScrollThread...");
                 char currentChar = ' ';
                 String currentVisibleText = "";
 
@@ -127,7 +127,7 @@ public class BattleTextArea extends Window {
 
                     try {
                         lineStrings = textArea.getLineStrings();
-                        Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
+                        //Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", lineStrings.size));
                     }
                     catch (StringIndexOutOfBoundsException e) {
                         Gdx.app.error(TAG, "StringIndexOutOfBoundsException caught when calling textArea.getLineStrings()!!!");
@@ -141,7 +141,7 @@ public class BattleTextArea extends Window {
                 for (int lineIdx = 0; lineIdx < lineStrings.size; lineIdx++) {
                     String line = lineStrings.get(lineIdx);
                     int len = line.length();
-                    Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
+                    //Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
 
                     // display line char by char
                     for (int i = 0; i < line.length(); i++) {
@@ -170,7 +170,7 @@ public class BattleTextArea extends Window {
                         break;
                 }
 
-                Gdx.app.log(TAG, "Exiting TextScrollThread");
+                //Gdx.app.log(TAG, "Exiting TextScrollThread");
             }
         };
 

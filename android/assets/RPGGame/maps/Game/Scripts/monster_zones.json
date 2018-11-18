@@ -8,13 +8,7 @@ maxLevel: 5
 deviance: 1
 groups: [
 	{
-		value: GROUP001
-	}
-	{
 		value: GROUP003
-	}
-	{
-		value: GROUP002
 	}
 ]
 },

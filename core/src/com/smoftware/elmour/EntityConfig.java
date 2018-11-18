@@ -138,6 +138,8 @@ public class EntityConfig {
 
     public void removeTurnEffectItem(int index) { turnEffectList.removeIndex(index); }
 
+    public void clearTurnEffectList() { turnEffectList.clear(); }
+
     public ObjectMap<String, String> getEntityProperties() {
         return entityProperties;
     }
@@ -146,9 +148,7 @@ public class EntityConfig {
         this.entityProperties = entityProperties;
     }
 
-    public void setPropertyValue(String key, String value){
-        entityProperties.put(key, value);
-    }
+    public void setPropertyValue(String key, String value){ entityProperties.put(key, value); }
 
     public String getPropertyValue(String key){
         Object propertyVal = entityProperties.get(key);

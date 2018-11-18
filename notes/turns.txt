@@ -3,7 +3,7 @@
 
 turnEffectList is per character
 
-When Inventory or Spell/Power is applied add effectItems to turnEffectList
+When Inventory or Spell/Power is applied, add effectItems to turnEffectList
 Set the turns to the item's turns value, and if there is none use the InventoryElement turns value
 
 Special cases:
@@ -15,4 +15,4 @@ HP and MP are the actual values
 All other values are a percentage (round up)
 
 When turn is done, loop through turnEffectList and decrement turns for each EffectItem
-If turns == 0, then remove EffectItem from turnEffectList 
+If turns == 0, then remove EffectItem from turnEffectList

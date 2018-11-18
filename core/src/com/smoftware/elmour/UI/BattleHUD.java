@@ -2252,7 +2252,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(Entity entity, int value, StatusEvent event) {
-
+        switch (event) {
+            case UPDATED_HP:
+                UpdateStats(entity);
+                break;
+            case UPDATED_MP:
+                UpdateStats(entity);
+                break;
+        }
     }
 
     @Override
@@ -2698,7 +2705,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     enableButtons();
                 }
 
-                //turnInProgress = false;
+                turnInProgress = false;
                 break;
             case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
@@ -2746,7 +2753,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 battleTextArea.populateText(message);
                 battleTextArea.show();
 
-                //turnInProgress = false;
+                turnInProgress = false;
                 selectedCharacter = null;
                 break;
             case ATTACK_BLOCKED:
