@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -35,6 +36,7 @@ import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
 import com.smoftware.elmour.UI.MyActions;
+import com.smoftware.elmour.UI.StatusArrows;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.BattleObserver;
@@ -120,6 +122,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private AnimatedImage enemy3;
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
+
+    private StatusArrows party1StatArrows;
+    private StatusArrows party2StatArrows;
+    private StatusArrows party3StatArrows;
+    private StatusArrows party4StatArrows;
+    private StatusArrows party5StatArrows;
+    private StatusArrows enemy1StatArrows;
+    private StatusArrows enemy2StatArrows;
+    private StatusArrows enemy3StatArrows;
+    private StatusArrows enemy4StatArrows;
+    private StatusArrows enemy5StatArrows;
 
     private float currentTurnFlashTimer = 0;
     private Texture currentTurnIndicator;
@@ -211,6 +224,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
+        party1StatArrows = new StatusArrows(_stage);
+        party2StatArrows = new StatusArrows(_stage);
+        party3StatArrows = new StatusArrows(_stage);
+        party4StatArrows = new StatusArrows(_stage);
+        party5StatArrows = new StatusArrows(_stage);
+        enemy1StatArrows = new StatusArrows(_stage);
+        enemy2StatArrows = new StatusArrows(_stage);
+        enemy3StatArrows = new StatusArrows(_stage);
+        enemy4StatArrows = new StatusArrows(_stage);
+        enemy5StatArrows = new StatusArrows(_stage);
+
         carmenBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CARMEN));
         char1BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_1));
         char2BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.CHARACTER_2));
@@ -267,12 +291,34 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 if (party1.getEntity() != null)
                     party1.getEntity().setCurrentPosition(new Vector2(party1.getX(), party1.getY()));
 
+                party1StatArrows.setPosition(party1.getX() - 1, party1.getY());
+                party1StatArrows.add(EntityFactory.EntityName.ATK_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.MATK_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.DEF_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.MDEF_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.SPD_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.ACC_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.DIBS_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.EXP_DOWN_RIGHT);
+                party1StatArrows.add(EntityFactory.EntityName.DROPS_DOWN_RIGHT);
+
                 party2.setSize(characterWidth, characterHeight);
                 party2.addAction(Actions.fadeOut(0));
                 party2.setVisible(true);
                 party2.setPosition(getStartPosition("P2").x, getStartPosition("P2").y);
                 if (party2.getEntity() != null)
                     party2.getEntity().setCurrentPosition(new Vector2(party2.getX(), party2.getY()));
+
+                party2StatArrows.setPosition(party2.getX() - 1, party2.getY());
+                party2StatArrows.add(EntityFactory.EntityName.ATK_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.MATK_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.DEF_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.MDEF_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.SPD_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.ACC_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.DIBS_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.EXP_UP_RIGHT);
+                party2StatArrows.add(EntityFactory.EntityName.DROPS_UP_RIGHT);
 
                 party3.setSize(characterWidth, characterHeight);
                 party3.addAction(Actions.fadeOut(0));
@@ -1230,6 +1276,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             }
             _mapRenderer.getBatch().end();
         }
+
+        party1StatArrows.render(delta, _mapRenderer);
+        party2StatArrows.render(delta, _mapRenderer);
     }
 
     @Override

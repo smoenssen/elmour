@@ -76,6 +76,7 @@ public class Entity {
 		RUN_UP,
 		RUN_DOWN,
 		IDLE,
+		STAT_ARROW,
 		IMMOBILE,
 		SWORD_LEFT,
 		SWORD_RIGHT,

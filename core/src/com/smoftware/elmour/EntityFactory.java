@@ -38,7 +38,16 @@ public class EntityFactory {
         TOWN_FOLK6, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10,
         TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
         FIRE,
-        SWORD_SWIPE
+        ATK_UP_LEFT,    ATK_UP_RIGHT,   ATK_DOWN_LEFT,  ATK_DOWN_RIGHT,
+        MATK_UP_LEFT,   MATK_UP_RIGHT,  MATK_DOWN_LEFT, MATK_DOWN_RIGHT,
+        DEF_UP_LEFT,    DEF_UP_RIGHT,   DEF_DOWN_LEFT,  DEF_DOWN_RIGHT,
+        MDEF_UP_LEFT,   MDEF_UP_RIGHT,  MDEF_DOWN_LEFT, MDEF_DOWN_RIGHT,
+        SPD_UP_LEFT,    SPD_UP_RIGHT,   SPD_DOWN_LEFT,  SPD_DOWN_RIGHT,
+        ACC_UP_LEFT,    ACC_UP_RIGHT,   ACC_DOWN_LEFT,  ACC_DOWN_RIGHT,
+        AVO_UP_LEFT,    AVO_UP_RIGHT,   AVO_DOWN_LEFT,  AVO_DOWN_RIGHT,
+        DIBS_UP_LEFT,   DIBS_UP_RIGHT,  DIBS_DOWN_LEFT, DIBS_DOWN_RIGHT,
+        EXP_UP_LEFT,    EXP_UP_RIGHT,   EXP_DOWN_LEFT,  EXP_DOWN_RIGHT,
+        DROPS_UP_LEFT,  DROPS_UP_RIGHT, DROPS_DOWN_LEFT,DROPS_DOWN_RIGHT
     }
 
     public static String CARMEN_CONFIG = "RPGGame/maps/Game/Scripts/carmen.json";
@@ -60,6 +69,7 @@ public class EntityFactory {
     public static String TOWN_INNKEEPER_CONFIG = "scripts/town_innkeeper.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
+    public static String STATUS_ARROW_CONFIGS = "RPGGame/maps/Game/Scripts/stat_arrows.json";
 
 
     private EntityFactory(){
@@ -72,6 +82,11 @@ public class EntityFactory {
 
         Array<EntityConfig> environmentalEntityConfigs = Entity.getEntityConfigs(ENVIRONMENTAL_ENTITY_CONFIGS);
         for( EntityConfig config: environmentalEntityConfigs){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> statArrowConfigs = Entity.getEntityConfigs(STATUS_ARROW_CONFIGS);
+        for( EntityConfig config: statArrowConfigs){
             entities.put(config.getEntityID(), config);
         }
 
