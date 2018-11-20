@@ -2,6 +2,7 @@ package com.smoftware.elmour.battle;
 
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.InventoryElement;
 
 public class BattleSubject {
     private Array<BattleObserver> _observers;
@@ -24,9 +25,15 @@ public class BattleSubject {
         }
     }
 
-    protected void notify(final Entity sourceEntity, final Entity destinationEntity, BattleObserver.BattleEventWithMessage event, String message){
+    protected void notify(final Entity sourceEntity, final Entity destinationEntity, final BattleObserver.BattleEventWithMessage event, final String message){
         for(BattleObserver observer: _observers){
             observer.onNotify(sourceEntity, destinationEntity, event, message);
+        }
+    }
+
+    protected void notify(final Entity entity, final InventoryElement.Effect effect){
+        for(BattleObserver observer: _observers){
+            observer.onNotify(entity, effect);
         }
     }
 }

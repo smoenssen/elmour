@@ -1,6 +1,7 @@
 package com.smoftware.elmour.battle;
 
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.InventoryElement;
 
 public interface BattleObserver {
     public static enum BattleEvent{
@@ -33,5 +34,6 @@ public interface BattleObserver {
     }
 
     void onNotify(final Entity entity, BattleEvent event);
-    void onNotify(final Entity sourceEntity, final Entity destinationEntity, BattleEventWithMessage event, String message);
+    void onNotify(final Entity sourceEntity, final Entity destinationEntity, final BattleEventWithMessage event, final String message);
+    void onNotify(final Entity entity, final InventoryElement.Effect effect);
 }

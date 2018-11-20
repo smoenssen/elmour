@@ -76,7 +76,6 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
 
     public int getMPValue(Entity entity) {
         int baseMP = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MP));
-
         return baseMP;
     }
 
@@ -198,7 +197,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         ProfileManager.getInstance().setProperty("Dibs", value);
     }
 
-    private int applyTurnEffects(Entity entity, int baseVal, InventoryElement.Effect effectUP, InventoryElement.Effect effectDOWN) {
+    public int applyTurnEffects(Entity entity, int baseVal, InventoryElement.Effect effectUP, InventoryElement.Effect effectDOWN) {
         // apply any effect items to base value
         // effect changes are cumulative so need to loop through entire list
         int changePercent = 0;
@@ -219,7 +218,61 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
                     " turn effects to base value of " + baseVal + " " + units + ", resulting in " + retVal + " " + units);
         }
 
-        return Utility.applyPercentageAndRoundUp(baseVal, changePercent);
+        return retVal;
+    }
+
+    public Array<InventoryElement.Effect> getCurrentStatusArrayForEntity(Entity entity) {
+        Array<InventoryElement.Effect> statusArray = new Array<>();
+
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.ACC));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.ATK));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.AVO));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DEF));
+        //statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MagicATK));//todo
+        //statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MagicDEF));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.LCK));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.SPD));
+
+        // todo: need to handle DIBS and EXP and DROPS differently
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DIBS));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DROPS));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.EXP));
+
+        return statusArray;
+    }
+
+    public InventoryElement.Effect getEffectStatusByProperty(Entity entity, EntityConfig.EntityProperties property) {
+        InventoryElement.Effect effect = InventoryElement.Effect.NONE;
+        int currentValue = 0;
+        InventoryElement.Effect effectUP = InventoryElement.Effect.valueOf(property.name() + "_UP");
+        InventoryElement.Effect effectDOWN = InventoryElement.Effect.valueOf(property.name() + "_DOWN");
+
+        for (int i = 0; i < entity.getEntityConfig().getTurnEffectListSize(); i++) {
+            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+
+            if (effectItem.effect.equals(effectUP))
+                currentValue += effectItem.value;
+            else if (effectItem.effect.equals(effectDOWN))
+                currentValue -= effectItem.value;
+        }
+
+        if (currentValue > 0)
+            return InventoryElement.Effect.valueOf(property.name() + "_UP");
+        else if (currentValue < 0)
+            return InventoryElement.Effect.valueOf(property.name() + "_DOWN");
+        else
+            return InventoryElement.Effect.valueOf(property.name() + "_NORMAL");
+    }
+
+    public void printCurrentStatusForEntity(Entity entity) {
+        Gdx.app.log(TAG, "-->");
+        Gdx.app.log(TAG, "Current status for " + entity.getEntityConfig().getEntityID() + ":");
+
+        for (int i = 0; i < entity.getEntityConfig().getTurnEffectListSize(); i++) {
+            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+            Gdx.app.log(TAG, effectItem.effect.toString() + " : " + effectItem.value + " : (" + effectItem.turns + ") turns remaining");
+        }
+        Gdx.app.log(TAG, "---------------------------------");
     }
 
     @Override

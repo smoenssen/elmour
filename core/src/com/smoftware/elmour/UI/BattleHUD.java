@@ -2770,6 +2770,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
+    @Override
+    public void onNotify(Entity entity, InventoryElement.Effect effect) {
+
+    }
+
     private void UpdateStats(Entity destinationEntity) {
         // update HUD graphic stats for destination entity
         Image hpBar = null;

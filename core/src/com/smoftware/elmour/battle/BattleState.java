@@ -274,6 +274,33 @@ public class BattleState extends BattleSubject implements InventoryObserver {
         currentTurnCharacter = entity;
         notify(entity, BattleObserver.BattleEvent.CHARACTER_TURN_CHANGED);
 
+        // Previous turn cycle is considered over here:
+        // Remove any effect items from the turn effect list that are zero,
+        // or decrement the ones that are not zero (loop backwards since removing by index)
+        //todo: if need to debug empty battleTextArea put breakpoint here at beginning of for loop
+        for (int i = currentTurnCharacter.getEntityConfig().getTurnEffectListSize() - 1; i >= 0; i--) {
+            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
+            if (effectItem.turns == 0) {
+                entity.getEntityConfig().removeTurnEffectItem(i);
+                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Turns for " + effectItem.effect.toString() + " are complete.");
+            }
+            else {
+                effectItem.turns--;
+                entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
+                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Decrementing turns for " +
+                        effectItem.effect.toString() + " to " + effectItem.turns);
+            }
+        }
+
+        // For debugging
+        game.statusUI.printCurrentStatusForEntity(currentTurnCharacter);
+
+        // Now see what statuses still have turns. Send appropriate notifications for ALL statuses of the current character whose turn it is.
+        Array<InventoryElement.Effect> statusArray = game.statusUI.getCurrentStatusArrayForEntity(currentTurnCharacter);
+        for (InventoryElement.Effect effectStatus : statusArray) {
+            BattleState.this.notify(currentTurnCharacter, effectStatus);
+        }
+
         // see if current turn character is an enemy
         if (currentTurnCharacter.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
             // select an alive party character for battle, right now just totally random (easy mode)
@@ -295,25 +322,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 opponentAttacks();
             }
         }
-
-        // Previous turn cycle is considered over here:
-        // Remove any effect items from the turn effect list that are zero,
-        // or decrement the ones that are not zero (loop backwards since removing by index)
-        //todo: if need to debug empty battleTextArea put breakpoint here at beginning of for loop
-        for (int i = currentTurnCharacter.getEntityConfig().getTurnEffectListSize() - 1; i >= 0; i--) {
-            InventoryElement.EffectItem effectItem = entity.getEntityConfig().getTurnEffectListItem(i);
-            if (effectItem.turns == 0) {
-                entity.getEntityConfig().removeTurnEffectItem(i);
-                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Turns for " + effectItem.effect.toString() + " are complete.");
-            }
-            else {
-                effectItem.turns--;
-                entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
-                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Decrementing turns for " +
-                        effectItem.effect.toString() + " to " + effectItem.turns);
-            }
-        }
-
     }
 
     public void setCurrentSelectedCharacter(Entity entity) {
@@ -574,6 +582,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                     // I don't think I need this
                     //currentSelectedCharacter.getEntityConfig().setPropertyValue(effectItem.effect.toString(), Integer.toString(newVal));
+                }
+
+                // for debugging
+                game.statusUI.printCurrentStatusForEntity(currentSelectedCharacter);
+
+                // Send appropriate notifications for ALL statuses of the selected character.
+                Array<InventoryElement.Effect> statusArray = game.statusUI.getCurrentStatusArrayForEntity(currentSelectedCharacter);
+                for (InventoryElement.Effect effectStatus : statusArray) {
+                    BattleState.this.notify(currentSelectedCharacter, effectStatus);
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);

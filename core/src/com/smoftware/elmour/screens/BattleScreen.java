@@ -32,6 +32,7 @@ import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.GraphicsComponent;
+import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.UI.AnimatedImage;
 import com.smoftware.elmour.UI.BattleControls;
 import com.smoftware.elmour.UI.BattleHUD;
@@ -123,6 +124,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
 
+    private boolean showStatusArrows = true;
     private StatusArrows party1StatArrows;
     private StatusArrows party2StatArrows;
     private StatusArrows party3StatArrows;
@@ -290,17 +292,18 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 party1.setPosition(getStartPosition("P1").x, getStartPosition("P1").y);
                 if (party1.getEntity() != null)
                     party1.getEntity().setCurrentPosition(new Vector2(party1.getX(), party1.getY()));
-
                 party1StatArrows.setPosition(party1.getX() - 1, party1.getY());
-                party1StatArrows.add(EntityFactory.EntityName.ATK_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.MATK_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.DEF_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.MDEF_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.SPD_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.ACC_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.DIBS_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.EXP_DOWN_RIGHT);
-                party1StatArrows.add(EntityFactory.EntityName.DROPS_DOWN_RIGHT);
+                /*
+                party1StatArrows.add(EntityFactory.EntityName.ATK_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.MATK_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.DEF_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.MDEF_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.SPD_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.ACC_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.DIBS_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.EXP_DOWN_LEFT);
+                party1StatArrows.add(EntityFactory.EntityName.DROPS_DOWN_LEFT);
+                */
 
                 party2.setSize(characterWidth, characterHeight);
                 party2.addAction(Actions.fadeOut(0));
@@ -308,17 +311,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 party2.setPosition(getStartPosition("P2").x, getStartPosition("P2").y);
                 if (party2.getEntity() != null)
                     party2.getEntity().setCurrentPosition(new Vector2(party2.getX(), party2.getY()));
-
                 party2StatArrows.setPosition(party2.getX() - 1, party2.getY());
-                party2StatArrows.add(EntityFactory.EntityName.ATK_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.MATK_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.DEF_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.MDEF_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.SPD_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.ACC_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.DIBS_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.EXP_UP_RIGHT);
-                party2StatArrows.add(EntityFactory.EntityName.DROPS_UP_RIGHT);
 
                 party3.setSize(characterWidth, characterHeight);
                 party3.addAction(Actions.fadeOut(0));
@@ -326,6 +319,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 party3.setPosition(getStartPosition("P3").x, getStartPosition("P3").y);
                 if (party3.getEntity() != null)
                     party3.getEntity().setCurrentPosition(new Vector2(party3.getX(), party3.getY()));
+                party3StatArrows.setPosition(party3.getX() - 1, party3.getY());
 
                 party4.setSize(characterWidth, characterHeight);
                 party4.addAction(Actions.fadeOut(0));
@@ -333,6 +327,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 party4.setPosition(getStartPosition("P4").x, getStartPosition("P4").y);
                 if (party4.getEntity() != null)
                     party4.getEntity().setCurrentPosition(new Vector2(party4.getX(), party4.getY()));
+                party4StatArrows.setPosition(party4.getX() - 1, party4.getY());
 
                 party5.setSize(characterWidth, characterHeight);
                 party5.addAction(Actions.fadeOut(0));
@@ -340,6 +335,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 party5.setPosition(getStartPosition("P5").x, getStartPosition("P5").y);
                 if (party5.getEntity() != null)
                     party5.getEntity().setCurrentPosition(new Vector2(party5.getX(), party5.getY()));
+                party5StatArrows.setPosition(party5.getX() - 1, party5.getY());
 
                 enemy1.setSize(characterWidth, characterHeight);
                 enemy1.addAction(Actions.fadeOut(0));
@@ -347,6 +343,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy1.setPosition(getStartPosition("E1").x, getStartPosition("E1").y);
                 if (enemy1.getEntity() != null)
                     enemy1.getEntity().setCurrentPosition(new Vector2(enemy1.getX(), enemy1.getY()));
+                enemy1StatArrows.setPosition(enemy1.getX() + 1, enemy1.getY());
 
                 enemy2.setSize(characterWidth, characterHeight);
                 enemy2.addAction(Actions.fadeOut(0));
@@ -354,6 +351,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy2.setPosition(getStartPosition("E2").x, getStartPosition("E2").y);
                 if (enemy2.getEntity() != null)
                     enemy2.getEntity().setCurrentPosition(new Vector2(enemy2.getX(), enemy2.getY()));
+                enemy2StatArrows.setPosition(enemy2.getX() + 1, enemy2.getY());
 
                 enemy3.setSize(characterWidth, characterHeight);
                 enemy3.addAction(Actions.fadeOut(0));
@@ -361,6 +359,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy3.setPosition(getStartPosition("E3").x, getStartPosition("E3").y);
                 if (enemy3.getEntity() != null)
                     enemy3.getEntity().setCurrentPosition(new Vector2(enemy3.getX(), enemy3.getY()));
+                enemy3StatArrows.setPosition(enemy3.getX() + 1, enemy3.getY());
 
                 enemy4.setSize(characterWidth, characterHeight);
                 enemy4.addAction(Actions.fadeOut(0));
@@ -368,6 +367,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy4.setPosition(getStartPosition("E4").x, getStartPosition("E4").y);
                 if (enemy4.getEntity() != null)
                     enemy4.getEntity().setCurrentPosition(new Vector2(enemy4.getX(), enemy4.getY()));
+                enemy4StatArrows.setPosition(enemy4.getX() + 1, enemy4.getY());
 
                 enemy5.setSize(characterWidth, characterHeight);
                 enemy5.addAction(Actions.fadeOut(0));
@@ -375,6 +375,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 enemy5.setPosition(getStartPosition("E5").x, getStartPosition("E5").y);
                 if (enemy5.getEntity() != null)
                     enemy5.getEntity().setCurrentPosition(new Vector2(enemy5.getX(), enemy5.getY()));
+                enemy5StatArrows.setPosition(enemy5.getX() + 1, enemy5.getY());
             }
         };
 
@@ -679,6 +680,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
+    public class showStatArrows extends Action {
+        boolean show;
+
+        public showStatArrows(boolean show) {
+            this.show = show;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            showStatusArrows = show;
+            return true; // An action returns true when it's completed
+        }
+    }
+
     private void completeAllActions() {
         float delta = 1;
 
@@ -773,6 +788,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         return Actions.sequence(
 
+                new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
 
@@ -795,7 +811,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
-                new animationComplete()
+                new animationComplete(),
+                new showStatArrows(true)
         );
     }
 
@@ -842,7 +859,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         currentDefenderBattleAnimation = getBattleAnimations(defenderEntityName);
 
         return Actions.sequence(
-
+                new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
 
@@ -886,7 +903,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
-                new animationComplete()
+                new animationComplete(),
+                new showStatArrows(true)
         );
     }
 
@@ -928,6 +946,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5.setCurrentAnimationType(runDirection);
 
         return Actions.sequence(
+                new showStatArrows(false),
                 Actions.parallel(
                     Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
                     Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
@@ -1004,6 +1023,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5.setCurrentAnimationType(runDirection);
 
         return Actions.sequence(
+                new showStatArrows(false),
                 Actions.parallel(
                     Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
                     Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
@@ -1063,7 +1083,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 Actions.delay(0.5f),
                 myActions.new setImageVisible(blackScreen, false),
-                new animationComplete()
+                new animationComplete(),
+                new showStatArrows(true)
         );
     }
 
@@ -1277,8 +1298,18 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             _mapRenderer.getBatch().end();
         }
 
-        party1StatArrows.render(delta, _mapRenderer);
-        party2StatArrows.render(delta, _mapRenderer);
+        if (showStatusArrows) {
+            party1StatArrows.render(delta, _mapRenderer);
+            party2StatArrows.render(delta, _mapRenderer);
+            party3StatArrows.render(delta, _mapRenderer);
+            party4StatArrows.render(delta, _mapRenderer);
+            party5StatArrows.render(delta, _mapRenderer);
+            enemy1StatArrows.render(delta, _mapRenderer);
+            enemy2StatArrows.render(delta, _mapRenderer);
+            enemy3StatArrows.render(delta, _mapRenderer);
+            enemy4StatArrows.render(delta, _mapRenderer);
+            enemy5StatArrows.render(delta, _mapRenderer);
+        }
     }
 
     @Override
@@ -1910,5 +1941,92 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 _stage.addAction(getBlockedAttackAction(sourceEntity, destinationEntity));
                 break;
         }
+    }
+
+    @Override
+    public void onNotify(Entity entity, InventoryElement.Effect effect) {
+        StatusArrows statusArrows = getStatArrows(entity);
+        String effectString = effect.toString();
+        String property = effectString.substring(0, effectString.indexOf("_"));
+        String name;
+
+        if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+            name = property + "_UP_LEFT";
+            statusArrows.remove(EntityFactory.EntityName.valueOf(name));
+            name = property + "_DOWN_LEFT";
+            statusArrows.remove(EntityFactory.EntityName.valueOf(name));
+
+            if (!effectString.contains("NORMAL")) {
+                name = effectString + "_LEFT";
+                statusArrows.add(EntityFactory.EntityName.valueOf(name));
+            }
+        }
+        else {
+            // ENEMY
+            name = property + "_UP_RIGHT";
+            statusArrows.remove(EntityFactory.EntityName.valueOf(name));
+            name = property + "_DOWN_RIGHT";
+            statusArrows.remove(EntityFactory.EntityName.valueOf(name));
+
+            if (!effectString.contains("NORMAL")) {
+                name = effectString + "_RIGHT";
+                statusArrows.add(EntityFactory.EntityName.valueOf(name));
+            }
+        }
+    }
+
+    private StatusArrows getStatArrows(Entity entity) {
+        if (enemy1.getEntity() != null) {
+            if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy1StatArrows;
+            }
+        }
+        if (enemy2.getEntity() != null) {
+            if (enemy2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy2StatArrows;
+            }
+        }
+        if (enemy3.getEntity() != null) {
+            if (enemy3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy3StatArrows;
+            }
+        }
+        if (enemy4.getEntity() != null) {
+            if (enemy4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy4StatArrows;
+            }
+        }
+        if (enemy5.getEntity() != null) {
+            if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return enemy5StatArrows;
+            }
+        }
+        if (party1.getEntity() != null) {
+            if (party1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party1StatArrows;
+            }
+        }
+        if (party2.getEntity() != null) {
+            if (party2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party2StatArrows;
+            }
+        }
+        if (party3.getEntity() != null) {
+            if (party3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party3StatArrows;
+            }
+        }
+        if (party4.getEntity() != null) {
+            if (party4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party4StatArrows;
+            }
+        }
+        if (party5.getEntity() != null) {
+            if (party5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                return party5StatArrows;
+            }
+        }
+
+        return null;
     }
 }

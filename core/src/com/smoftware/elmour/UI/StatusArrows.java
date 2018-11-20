@@ -118,12 +118,12 @@ public class StatusArrows {
     }
 
     public void render(float delta, OrthogonalTiledMapRenderer renderer) {
-        frameTime = (frameTime + delta) % 2;
+        frameTime = (frameTime + delta) % 5;
 
         renderer.getBatch().begin();
 
         for (ArrowItem arrow : currentList) {
-            arrow.currentFrame = arrow.animation.getKeyFrame(frameTime);
+            arrow.currentFrame = arrow.animation.getKeyFrame(frameTime, true);
 
             if (arrow.currentFrame != null) {
                 //draw animation

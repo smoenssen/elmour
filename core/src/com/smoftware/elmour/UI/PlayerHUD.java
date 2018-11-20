@@ -32,6 +32,7 @@ import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryItem;
 import com.smoftware.elmour.InventoryItem.ItemTypeID;
 import com.smoftware.elmour.Utility;
@@ -1811,6 +1812,11 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     @Override
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
+
+    }
+
+    @Override
+    public void onNotify(Entity entity, InventoryElement.Effect effect) {
 
     }
 

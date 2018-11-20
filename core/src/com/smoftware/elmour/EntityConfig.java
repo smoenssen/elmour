@@ -43,6 +43,12 @@ public class EntityConfig {
         AVO,
         XP_REWARD,  //monsters only
         DIBS_REWARD,//monsters only
+        /////////////
+        // needed for status arrow handling
+        DIBS,
+        DROPS,
+        EXP,
+        /////////////
         NONE
     }
 
