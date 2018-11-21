@@ -28,7 +28,7 @@ entityProperties: {
 		class: java.lang.String
 		value: 10
 	}
-	MagicATK: {
+	MATK: {
 		class: java.lang.String
 		value: 45
 	}
@@ -36,7 +36,7 @@ entityProperties: {
 		class: java.lang.String
 		value: 15
 	}
-	MagicDEF: {
+	MDEF: {
 		class: java.lang.String
 		value: 35
 	}

@@ -1,0 +1,12 @@
+Red: ATK
+Orange: MATK
+Green: DEF
+Light Blue: MDEF
+Turquoise: SPD
+Purple: ACC
+Pink: AVO
+Black: LCK
+
+Yellow: DIBS
+Blue: EXP
+White: Drops

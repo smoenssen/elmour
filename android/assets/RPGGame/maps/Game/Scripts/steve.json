@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 20
+		value: 25
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -28,7 +28,7 @@ entityProperties: {
 		class: java.lang.String
 		value: 12
 	}
-	MagicATK: {
+	MATK: {
 		class: java.lang.String
 		value: 45
 	}
@@ -36,7 +36,7 @@ entityProperties: {
 		class: java.lang.String
 		value: 15
 	}
-	MagicDEF: {
+	MDEF: {
 		class: java.lang.String
 		value: 35
 	}

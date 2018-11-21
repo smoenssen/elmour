@@ -34,9 +34,9 @@ public class EntityConfig {
         MP,         //characters only
         MP_MAX,     //characters only
         ATK,
-        MagicATK,
+        MATK,
         DEF,
-        MagicDEF,
+        MDEF,
         SPD,
         ACC,
         LCK,

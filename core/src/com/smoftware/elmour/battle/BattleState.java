@@ -11,6 +11,7 @@ import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.UI.InventoryObserver;
+import com.smoftware.elmour.UI.StatusObserver;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -20,7 +21,7 @@ import java.util.Comparator;
 
 import javax.rmi.CORBA.Util;
 
-public class BattleState extends BattleSubject implements InventoryObserver {
+public class BattleState extends BattleSubject implements StatusObserver {
     private static final String TAG = BattleState.class.getSimpleName();
 
     ElmourGame game;
@@ -54,7 +55,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     public class EntitySpeedComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity arg0, Entity arg1) {
-            Gdx.app.log(TAG, "Getting SPD values for sort comparison");
             int SPD0 = game.statusUI.getSPDValue(arg0);
             int SPD1 = game.statusUI.getSPDValue(arg1);
             if (SPD0 > SPD1) {
@@ -87,6 +87,8 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     public BattleState(ElmourGame game){
         this.game = game;
+        this.game.statusUI.addObserver(this);
+
         _playerAttackCalculations = getPlayerAttackCalculationTimer();
         _opponentAttackCalculations = getOpponentAttackCalculationTimer();
         _checkPlayerMagicUse = getPlayerMagicUseCheckTimer();
@@ -100,19 +102,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
         // for EntitySpeedComparator that was throwing an exception
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-    }
-
-    public void resetDefaults(){
-        Gdx.app.log(TAG, "Resetting defaults...");
-        _currentZoneLevel = 0;
-        _currentPlayerAP = 0;
-        _currentPlayerDP = 0;
-        _currentPlayerWandAPPoints = 0;
-        _playerAttackCalculations.cancel();
-        _opponentAttackCalculations.cancel();
-        _checkPlayerMagicUse.cancel();
-        inBattle = false;
-        isBackBattle = false;
     }
 
     public void setCurrentZone(int zoneLevel){
@@ -513,7 +502,6 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                 boolean addedPeriod = false;
                 boolean addedEffectText = false;
                 int hpMax = game.statusUI.getHPMaxValue(currentSelectedCharacter);
-                int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                 for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
 
                     int currVal = 0;
@@ -532,14 +520,18 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                         game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
-                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP)) {
+                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP) &&
+                            currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+                        int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                         currVal = game.statusUI.getMPValue(currentSelectedCharacter);
                         newVal = MathUtils.clamp(currVal + effectItem.value, 0, mpMax);
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
                         game.statusUI.setMPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
                     }
-                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT)) {
+                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT) &&
+                            currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+                        int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                         currVal = game.statusUI.getMPValue(currentSelectedCharacter);
                         newVal = MathUtils.clamp(Utility.applyPercentageAndRoundUp(currVal, effectItem.value), 0, mpMax);
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
@@ -556,11 +548,16 @@ public class BattleState extends BattleSubject implements InventoryObserver {
                         }
 
                         // all other entity effect items get added to the entity's turn list
-                        if (effectItem.turns == 0)
-                            effectItem.turns = selectedInventoryElement.turns;
+                        InventoryElement.EffectItem itemToAdd = new InventoryElement.EffectItem();
+                        itemToAdd.effect = effectItem.effect;
+                        itemToAdd.value = effectItem.value;
+                        itemToAdd.turns = effectItem.turns;
 
-                        currentSelectedCharacter.getEntityConfig().addTurnEffectItem(effectItem);
-                        Gdx.app.log(TAG, currentSelectedCharacter.getEntityConfig().getEntityID() + ": Adding " + effectItem.turns + " turns for " + effectItem.effect);
+                        if (itemToAdd.turns == 0)
+                            itemToAdd.turns = selectedInventoryElement.turns;
+
+                        currentSelectedCharacter.getEntityConfig().addTurnEffectItem(itemToAdd);
+                        Gdx.app.log(TAG, currentSelectedCharacter.getEntityConfig().getEntityID() + ": Adding " + itemToAdd.turns + " turns for " + itemToAdd.effect);
                     }
 
                     if (!selectedInventoryElement.effectText.equals("") && !addedEffectText) {
@@ -705,6 +702,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                     if (allDead) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_WON);
+                        resetBattleState();
                     }
                 }
 
@@ -761,6 +759,7 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
                     if (allDead) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
+                        resetBattleState();
                     }
                 }
 
@@ -863,7 +862,17 @@ public class BattleState extends BattleSubject implements InventoryObserver {
 
     private void resetBattleState() {
         characterTurnList.clear();
-        Gdx.app.log(TAG, "clearing characterTurnList");
+
+        for (Entity entity : currentPartyList) {
+            entity.getEntityConfig().clearTurnEffectList();
+        }
+
+        for (Entity entity : currentEnemyList) {
+            entity.getEntityConfig().clearTurnEffectList();
+        }
+
+        inBattle = false;
+        isBackBattle = false;
     }
 
     public void animationComplete() {
@@ -871,29 +880,15 @@ public class BattleState extends BattleSubject implements InventoryObserver {
     }
 
     @Override
-    public void onNotify(String value, InventoryEvent event) {
+    public void onNotify(int value, StatusEvent event) {
+
+    }
+
+    @Override
+    public void onNotify(Entity entity, int value, StatusEvent event) {
         switch(event) {
-            case UPDATED_AP:
-                int apVal = Integer.valueOf(value);
-                _currentPlayerAP = apVal;
-                Gdx.app.log(TAG, "APVAL: " + _currentPlayerAP);
-                break;
-            case UPDATED_DP:
-                int dpVal = Integer.valueOf(value);
-                _currentPlayerDP = dpVal;
-                Gdx.app.log(TAG, "DPVAL: " + _currentPlayerDP);
-                break;
-            case ADD_WAND_AP:
-                int wandAP = Integer.valueOf(value);
-                _currentPlayerWandAPPoints += wandAP;
-                Gdx.app.log(TAG, "WandAP: " + _currentPlayerWandAPPoints);
-                break;
-            case REMOVE_WAND_AP:
-                int removeWandAP = Integer.valueOf(value);
-                _currentPlayerWandAPPoints -= removeWandAP;
-                Gdx.app.log(TAG, "WandAP: " + _currentPlayerWandAPPoints);
-                break;
-            default:
+            case IS_REVIVED:
+                entity.setAlive(true);
                 break;
         }
     }

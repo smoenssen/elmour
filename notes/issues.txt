@@ -5,12 +5,11 @@ Can't block daggers or punching
 
 when exiting battle and re-entering immediately, character locations are messed up
 
-can't select a dead character to apply inventory or spells
-issue applying inventory to enemy (getMPMaxValue crashes)
+inventory.json and equipment.json
+EVO->AVO
 
-entity properties don't match inventory element effect
-MagicDEF -> MDEF
-MagicATK -> MATK
+
+make sure number of turns executed is correct
 
 
 

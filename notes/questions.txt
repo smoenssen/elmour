@@ -30,6 +30,9 @@ The equation in the doc for melee attacks says it's for attacks from the back. W
 
 Timing of hit animation in battle?
 
-Are ACC/AVO/LCK only for ranged attacks?
+Are ACC/AVO/LCK only for ranged attacks? Yes
 
-Are XP and Dibs rewards forfeited if player runs?
+Are XP and Dibs rewards forfeited if player runs? Yes
+
+When character 1 applies an inventory item to character 2, does the turn counting start the next time it is character 2's turn? 
+I.e., what happens between the end of character 1's turn and the beginning of character 2's turn?

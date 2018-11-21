@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
@@ -109,17 +110,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
             return Objects.hash(elementID);
         }
-/*
-        @Override
-        public boolean equals(Object object) {
-            if (object == null || !(object instanceof InventoryNode)) {
-                return false;
-            }
-
-            InventoryNode other = (InventoryNode) object;
-
-            return this.elementID.equals(other.elementID);
-        }*/
     }
 
     final String POTIONS = "Potions";
