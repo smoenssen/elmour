@@ -60,7 +60,14 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
     }
 
     public void setHPValue(Entity entity, int value) {
+        int oldHP = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.HP));
         setStat(entity, EntityConfig.EntityProperties.HP, Integer.toString(value));
+
+        if (oldHP == 0) {
+            int newHP = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.HP));
+            if (newHP > 0)
+                notify(entity, value, StatusObserver.StatusEvent.IS_REVIVED);
+        }
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
@@ -104,14 +111,14 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_ATK);
     }
 
-    public int getMagicATKValue(Entity entity) {
-        int baseMagicATK = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MagicATK));
-        return applyTurnEffects(entity, baseMagicATK, InventoryElement.Effect.MATK_UP, InventoryElement.Effect.MATK_DOWN);
+    public int getMATKValue(Entity entity) {
+        int baseMATK = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MATK));
+        return applyTurnEffects(entity, baseMATK, InventoryElement.Effect.MATK_UP, InventoryElement.Effect.MATK_DOWN);
     }
 
-    public void setMagicATKValue(Entity entity, int value) {
-        setStat(entity, EntityConfig.EntityProperties.MagicATK, Integer.toString(value));
-        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicATK);
+    public void setMATKValue(Entity entity, int value) {
+        setStat(entity, EntityConfig.EntityProperties.MATK, Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MATK);
     }
 
     public int getDEFValue(Entity entity) {
@@ -124,14 +131,14 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_DEF);
     }
 
-    public int getMagicDEFValue(Entity entity) {
-        int baseMagicDEF = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MagicDEF));
-        return applyTurnEffects(entity, baseMagicDEF, InventoryElement.Effect.MDEF_UP, InventoryElement.Effect.MDEF_DOWN);
+    public int getMDEFValue(Entity entity) {
+        int baseMDEF = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.MDEF));
+        return applyTurnEffects(entity, baseMDEF, InventoryElement.Effect.MDEF_UP, InventoryElement.Effect.MDEF_DOWN);
     }
 
-    public void setMagicDEFValue(Entity entity, int value) {
-        setStat(entity, EntityConfig.EntityProperties.MagicDEF, Integer.toString(value));
-        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MagicDEF);
+    public void setMDEFValue(Entity entity, int value) {
+        setStat(entity, EntityConfig.EntityProperties.MDEF, Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_MDEF);
     }
 
     public int getSPDValue(Entity entity) {
@@ -228,8 +235,8 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.ATK));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.AVO));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DEF));
-        //statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MagicATK));//todo
-        //statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MagicDEF));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MATK));
+        statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.MDEF));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.LCK));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.SPD));
 
@@ -440,16 +447,16 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
             property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.ATK.toString().toString());
             ProfileManager.getInstance().setProperty(key, property);
 
-            key = entityID + EntityConfig.EntityProperties.MagicATK.toString();
-            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MagicATK.toString().toString());
+            key = entityID + EntityConfig.EntityProperties.MATK.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MATK.toString().toString());
             ProfileManager.getInstance().setProperty(key, property);
 
             key = entityID + EntityConfig.EntityProperties.DEF.toString();
             property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DEF.toString().toString());
             ProfileManager.getInstance().setProperty(key, property);
 
-            key = entityID + EntityConfig.EntityProperties.MagicDEF.toString();
-            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MagicDEF.toString().toString());
+            key = entityID + EntityConfig.EntityProperties.MDEF.toString();
+            property = entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.MDEF.toString().toString());
             ProfileManager.getInstance().setProperty(key, property);
 
             key = entityID + EntityConfig.EntityProperties.SPD.toString();
@@ -496,17 +503,17 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
             property = ProfileManager.getInstance().getProperty(key, String.class);
             entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.ATK.toString(), property);
 
-            key = entityID + EntityConfig.EntityProperties.MagicATK.toString();
+            key = entityID + EntityConfig.EntityProperties.MATK.toString();
             property = ProfileManager.getInstance().getProperty(key, String.class);
-            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MagicATK.toString(), property);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MATK.toString(), property);
 
             key = entityID + EntityConfig.EntityProperties.DEF.toString();
             property = ProfileManager.getInstance().getProperty(key, String.class);
             entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.DEF.toString(), property);
 
-            key = entityID + EntityConfig.EntityProperties.MagicDEF.toString();
+            key = entityID + EntityConfig.EntityProperties.MDEF.toString();
             property = ProfileManager.getInstance().getProperty(key, String.class);
-            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MagicDEF.toString(), property);
+            entity.getEntityConfig().setPropertyValue(EntityConfig.EntityProperties.MDEF.toString(), property);
 
             key = entityID + EntityConfig.EntityProperties.SPD.toString();
             property = ProfileManager.getInstance().getProperty(key, String.class);

@@ -115,8 +115,8 @@ public class ElmourGame extends Game {
 
 		Gdx.app.log("tag", String.format("screen width = %d, height = %d", V_WIDTH, V_HEIGHT));
 
-		battleState = new BattleState(this);
 		statusUI = new StatusUI();
+		battleState = new BattleState(this);
 
 		splashScreen = new SplashScreen(this);
 		startScreen = new StartScreen(this);

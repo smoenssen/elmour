@@ -14,13 +14,14 @@ public interface StatusObserver {
         UPDATED_MP,
         UPDATED_MP_MAX,
         UPDATED_ATK,
-        UPDATED_MagicATK,
+        UPDATED_MATK,
         UPDATED_DEF,
-        UPDATED_MagicDEF,
+        UPDATED_MDEF,
         UPDATED_SPD,
         UPDATED_ACC,
         UPDATED_LCK,
         UPDATED_AVO,
+        IS_REVIVED,
         SHAKE_CAM
     }
 

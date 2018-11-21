@@ -20,16 +20,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.GraphicsComponent;
 import com.smoftware.elmour.InventoryElement;
@@ -146,6 +144,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Entity selectedEntity;
 
     private Table hitPointFloaterTable;
+    boolean showHitPointFloater = false;
+    float hpFloaterPositionX;
+    float hpFloaterPositionY;
+    float hpFloaterVelocityX;
+    float hpFloaterVelocityY;
+    float gravity;
+    float battleHUDHeight;
+    float hpFloaterBounceVelocityY;
 
     private Image blackScreen;
 
@@ -166,7 +172,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _camera = new OrthographicCamera();
         _camera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
-        _viewport = new ScreenViewport(_camera);
+        //_viewport = new ScreenViewport(_camera);
+        _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
         _stage = new Stage(_viewport);
 
         _game.battleState.addObserver(this);
@@ -389,10 +396,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                   // make sure touch point is still on this image
                                   if (touchPointIsInImage(party1)) {
-                                      if (party1.getEntity().isAlive()) {
-                                          _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
-                                          selectedEntity = party1.getEntity();
-                                      }
+                                      _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
+                                      selectedEntity = party1.getEntity();
                                   }
                               }
                           }
@@ -408,10 +413,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party2)) {
-                                       if (party2.getEntity().isAlive()) {
-                                           _game.battleState.setCurrentSelectedCharacter(party2.getEntity());
-                                           selectedEntity = party2.getEntity();
-                                       }
+                                       _game.battleState.setCurrentSelectedCharacter(party2.getEntity());
+                                       selectedEntity = party2.getEntity();
                                    }
                                }
                            }
@@ -427,10 +430,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party3)) {
-                                       if (party3.getEntity().isAlive()) {
-                                           _game.battleState.setCurrentSelectedCharacter(party3.getEntity());
-                                           selectedEntity = party3.getEntity();
-                                       }
+                                       _game.battleState.setCurrentSelectedCharacter(party3.getEntity());
+                                       selectedEntity = party3.getEntity();
                                    }
                                }
                            }
@@ -446,10 +447,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party4)) {
-                                       if (party4.getEntity().isAlive()) {
-                                           _game.battleState.setCurrentSelectedCharacter(party4.getEntity());
-                                           selectedEntity = party4.getEntity();
-                                       }
+                                       _game.battleState.setCurrentSelectedCharacter(party4.getEntity());
+                                       selectedEntity = party4.getEntity();
                                    }
                                }
                            }
@@ -465,10 +464,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party5)) {
-                                       if (party5.getEntity().isAlive()) {
-                                           _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
-                                           selectedEntity = party5.getEntity();
-                                       }
+                                       _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
+                                       selectedEntity = party5.getEntity();
                                    }
                                }
                            }
@@ -690,6 +687,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         @Override
         public boolean act (float delta) {
             showStatusArrows = show;
+            return true; // An action returns true when it's completed
+        }
+    }
+
+    public class showHPFloater extends Action {
+        boolean show;
+
+        public showHPFloater(boolean show) {
+            this.show = show;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            showHitPointFloater = show;
             return true; // An action returns true when it's completed
         }
     }
@@ -1168,6 +1179,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
 
         fadeInCharacters(0.5f);
+        showStatusArrows = true;
     }
 
     @Override
@@ -1296,6 +1308,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
             }
             _mapRenderer.getBatch().end();
+        }
+
+        if (showHitPointFloater) {
+            updateHitFloater(delta);
         }
 
         if (showStatusArrows) {
@@ -1731,17 +1747,50 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return null;
     }
 
+    private void resetBattleStats() {
+        currentTurnCharacter = null;
+        currentTurnEntity = null;
+        selectedEntity = null;
+        party1StatArrows.clear();
+        party2StatArrows.clear();
+        party3StatArrows.clear();
+        party4StatArrows.clear();
+        party5StatArrows.clear();
+        enemy1StatArrows.clear();
+        enemy2StatArrows.clear();
+        enemy3StatArrows.clear();
+        enemy4StatArrows.clear();
+        enemy5StatArrows.clear();
+    }
+
+    private void updateHitFloater(float delta) {
+
+        hpFloaterPositionX += hpFloaterVelocityX * delta;   // Apply horizontal velocity to X position
+        hpFloaterPositionY += hpFloaterVelocityY * delta;   // Apply vertical velocity to X position
+        hpFloaterVelocityY += gravity * delta;              // Apply gravity to vertical velocity
+
+        if (hpFloaterPositionY < battleHUDHeight) {
+            hpFloaterVelocityY = hpFloaterBounceVelocityY;
+            hpFloaterBounceVelocityY *= 0.75f;
+            hpFloaterVelocityX *= 0.85f;
+
+            if (hpFloaterBounceVelocityY < 0.125f) {
+                hpFloaterVelocityY = 0;
+                hitPointFloaterTable.addAction(Actions.sequence(
+                        Actions.fadeOut(0.5f),
+                        Actions.delay(0.5f),
+                        new showHPFloater(false)
+                ));
+            }
+        }
+
+        hitPointFloaterTable.setPosition(hpFloaterPositionX, hpFloaterPositionY);
+    }
+
     private void hitPointAnimation(Entity entity, String hitPoints) {
         AnimatedImage character = getAnimatedImageFromEntity(entity);
 
         if (character != null) {
-            float xOffset1 = 2.0f;
-            float xOffset2 = 3.75f;
-            if (character.getEntity().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                xOffset1 *= -1;
-                xOffset2 *= -1;
-            }
-
             hitPointFloaterTable.clear();
             hitPointFloaterTable.setSize(hitPoints.length(), 1);
 
@@ -1753,22 +1802,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                     character.getY() + character.getHeight() * 1.2f);
 
             hitPointFloaterTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+            hpFloaterVelocityY = 3.5f;
+            hpFloaterVelocityX = 4f;
+            gravity = -25f;
+            hpFloaterBounceVelocityY = 8f;
+            battleHUDHeight = 4.45f;
 
-            // Interpolation: https://github.com/libgdx/libgdx/wiki/Interpolation
-            hitPointFloaterTable.addAction(Actions.sequence(
-                    /*
-                    Actions.moveTo(hitPointFloaterTable.getX() + xOffset1, hitPointFloaterTable.getY() + 0.75f, 0.5f, Interpolation.circle),
-                    Actions.parallel(
-                            Actions.moveTo(hitPointFloaterTable.getX() + xOffset2, 4.45f, 1f, Interpolation.bounceOut),
-                            Actions.fadeOut(2.5f)
-                    )
-                    */
-                    Actions.moveTo(hitPointFloaterTable.getX() + xOffset1, hitPointFloaterTable.getY() + 0.75f, 0.5f, Interpolation.circleOut),
-                    Actions.parallel(
-                            Actions.moveTo(hitPointFloaterTable.getX() + xOffset2, 4.45f, 1f, Interpolation.bounceOut),
-                            Actions.fadeOut(2.5f)
-                    )
-            ));
+            if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                hpFloaterVelocityX *= -1;
+
+            hpFloaterPositionX = hitPointFloaterTable.getX();
+            hpFloaterPositionY = hitPointFloaterTable.getY();
+
+            showHitPointFloater = true;
         }
     }
 
@@ -1816,7 +1862,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 break;
             case PLAYER_ESCAPED:
                 _stage.addAction(getPlayerEscapeAction());
-                selectedEntity = null;
+                resetBattleStats();
                 break;
             case PLAYER_FAILED_TO_ESCAPE:
                 _stage.addAction(getPlayerFailedEscapeAction());
@@ -1825,9 +1871,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case OPPONENT_DEFEATED:
                 float fadeOutTime = 1;
                 selectedEntity = null;
+                StatusArrows statusArrows;
 
                 if (enemy1.getEntity() != null) {
                     if (enemy1.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        statusArrows = getStatArrows(enemy1.getEntity());
+                        statusArrows.clear();
                         enemy1.addAction(Actions.fadeOut(fadeOutTime));
                         if (!removeOpponent(enemy1).isScheduled()) {
                             Timer.schedule(removeOpponent(enemy1), fadeOutTime);
@@ -1836,6 +1885,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
                 if (enemy2.getEntity() != null) {
                     if (enemy2.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        statusArrows = getStatArrows(enemy2.getEntity());
+                        statusArrows.clear();
                         enemy2.addAction(Actions.fadeOut(fadeOutTime));
                         if (!removeOpponent(enemy2).isScheduled()) {
                             Timer.schedule(removeOpponent(enemy2), fadeOutTime);
@@ -1844,6 +1895,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
                 if (enemy3.getEntity() != null) {
                     if (enemy3.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        statusArrows = getStatArrows(enemy3.getEntity());
+                        statusArrows.clear();
                         enemy3.addAction(Actions.fadeOut(fadeOutTime));
                         if (!removeOpponent(enemy3).isScheduled()) {
                             Timer.schedule(removeOpponent(enemy3), fadeOutTime);
@@ -1852,6 +1905,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
                 if (enemy4.getEntity() != null) {
                     if (enemy4.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        statusArrows = getStatArrows(enemy4.getEntity());
+                        statusArrows.clear();
                         enemy4.addAction(Actions.fadeOut(fadeOutTime));
                         if (!removeOpponent(enemy4).isScheduled()) {
                             Timer.schedule(removeOpponent(enemy4), fadeOutTime);
@@ -1860,6 +1915,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
                 if (enemy5.getEntity() != null) {
                     if (enemy5.getEntity().getEntityConfig().getDisplayName().equals(entity.getEntityConfig().getDisplayName())) {
+                        statusArrows = getStatArrows(enemy5.getEntity());
+                        statusArrows.clear();
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
                         if (!removeOpponent(enemy5).isScheduled()) {
                             Timer.schedule(removeOpponent(enemy5), fadeOutTime);
@@ -1869,14 +1926,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 break;
             case GAME_OVER:
             case BATTLE_OVER:
-                currentTurnCharacter = null;
-                currentTurnEntity = null;
-                selectedEntity = null;
                 blackScreen.setVisible(true);
                 _stage.addAction(fadeOutAction());
+                resetBattleStats();
                 break;
             case BATTLE_WON:
-                currentTurnEntity = null;
+                resetBattleStats();
                 break;
         }
     }
