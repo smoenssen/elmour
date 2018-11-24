@@ -241,7 +241,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
     public static Hashtable<Entity.AnimationType, Animation<TextureRegion>> loadAnimationsByName(EntityFactory.EntityName entityName) {
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations = new Hashtable<>();
-        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        Entity entity = EntityFactory.getInstance().getEntityByNameNoLoadAnimations(entityName);
         Array<EntityConfig.AnimationConfig> animationConfigs = entity.getEntityConfig().getAnimationConfig();
 
         for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){

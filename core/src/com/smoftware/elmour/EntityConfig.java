@@ -68,8 +68,8 @@ public class EntityConfig {
     }
 
     public static class ItemReward {
-        ItemTypeID item;
-        int probability;
+        public InventoryElement.ElementID itemID;
+        public int probability;
     }
 
     EntityConfig(){
@@ -129,6 +129,9 @@ public class EntityConfig {
 
         entityProperties = new ObjectMap<String, String>();
         entityProperties.putAll(config.entityProperties);
+
+        rewardItems = new Array<ItemReward>();
+        rewardItems.addAll(config.getRewardItems());
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
@@ -221,6 +224,8 @@ public class EntityConfig {
     public Array<ItemTypeID> getInventory() { return inventory; }
 
     public void setInventory(Array<ItemTypeID> inventory) { this.inventory = inventory; }
+
+    public Array<ItemReward> getRewardItems() { return rewardItems; }
 
     static public class AnimationConfig{
         private float frameDuration = 1.0f;

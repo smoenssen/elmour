@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 15
+		value: 1
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -67,11 +67,11 @@ entityProperties: {
 }
 rewardItems: [
 	{
-		item: ARMOR01
+		itemID: DAGGER1
 		probability: 4
 	}
 	{
-		item: ARMOR02
+		itemID: THROW5
 		probability: 3
 	}
 ]

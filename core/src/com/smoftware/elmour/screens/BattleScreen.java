@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -18,9 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -39,6 +43,7 @@ import com.smoftware.elmour.UI.StatusArrows;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.BattleObserver;
+import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -143,7 +148,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
 
-    private Table hitPointFloaterTable;
+    private Array<Image> hitPointFloaterArray;
     boolean showHitPointFloater = false;
     float hpFloaterPositionX;
     float hpFloaterPositionY;
@@ -259,7 +264,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         currentTurnIndicator = new Texture("graphics/down_arrow_blue.png");
 
-        hitPointFloaterTable = new Table();
+        hitPointFloaterArray = new Array<>();
 
         blackScreen = new Image(new Texture("graphics/black_rectangle.png"));
         blackScreen.setWidth(_stage.getWidth());
@@ -271,7 +276,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         _stage.addActor(_transitionActor);
         _stage.addActor(blackScreen);
-        _stage.addActor(hitPointFloaterTable);
 
         //Actions
         myActions = new MyActions();
@@ -687,20 +691,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         @Override
         public boolean act (float delta) {
             showStatusArrows = show;
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class showHPFloater extends Action {
-        boolean show;
-
-        public showHPFloater(boolean show) {
-            this.show = show;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            showHitPointFloater = show;
             return true; // An action returns true when it's completed
         }
     }
@@ -1665,30 +1655,36 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     private Image getDigitImage(char c) {
         Image digitImage;
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations;
 
         if (c == '1')
-            digitImage = new Image(new Texture("graphics/1.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.ONE);
         else if (c == '2')
-            digitImage = new Image(new Texture("graphics/2.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.TWO);
         else if (c == '3')
-            digitImage = new Image(new Texture("graphics/3.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.THREE);
         else if (c == '4')
-            digitImage = new Image(new Texture("graphics/4.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.FOUR);
         else if (c == '5')
-            digitImage = new Image(new Texture("graphics/5.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.FIVE);
         else if (c == '6')
-            digitImage = new Image(new Texture("graphics/6.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.SIX);
         else if (c == '7')
-            digitImage = new Image(new Texture("graphics/7.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.SEVEN);
         else if (c == '8')
-            digitImage = new Image(new Texture("graphics/8.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.EIGHT);
         else if (c == '9')
-            digitImage = new Image(new Texture("graphics/9.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.NINE);
         else if (c == '0')
-            digitImage = new Image(new Texture("graphics/0.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.ZERO);
         else
-            digitImage = new Image(new Texture("graphics/0.png"));
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.ZERO);
 
+        Animation<TextureRegion> animation = animations.get(Entity.AnimationType.BATTLE_BURST);
+        TextureRegion frame = animation.getKeyFrame(0);
+        digitImage = new Image(new TextureRegion(frame));
+
+        digitImage.setScale(0.5f);
         return digitImage;
     }
 
@@ -1776,43 +1772,71 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
             if (hpFloaterBounceVelocityY < 0.125f) {
                 hpFloaterVelocityY = 0;
-                hitPointFloaterTable.addAction(Actions.sequence(
-                        Actions.fadeOut(0.5f),
-                        Actions.delay(0.5f),
-                        new showHPFloater(false)
-                ));
+                for (Image image : hitPointFloaterArray) {
+                    image.addAction(Actions.fadeOut(0.5f));
+                }
+                showHitPointFloater = false;
             }
         }
 
-        hitPointFloaterTable.setPosition(hpFloaterPositionX, hpFloaterPositionY);
+        float lastPositionX = hpFloaterPositionX;
+
+        for (Image image : hitPointFloaterArray) {
+            image.setPosition(lastPositionX, hpFloaterPositionY);
+            lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+        }
     }
 
     private void hitPointAnimation(Entity entity, String hitPoints) {
         AnimatedImage character = getAnimatedImageFromEntity(entity);
 
         if (character != null) {
-            hitPointFloaterTable.clear();
-            hitPointFloaterTable.setSize(hitPoints.length(), 1);
-
-            for (int i = 0; i < hitPoints.length(); i++) {
-                hitPointFloaterTable.add(getDigitImage(hitPoints.charAt(i)));
+            for (Image image : hitPointFloaterArray) {
+                image.remove();
             }
 
-            hitPointFloaterTable.setPosition(character.getX() + character.getWidth() / 2 - hitPointFloaterTable.getWidth() / 2,
-                    character.getY() + character.getHeight() * 1.2f);
+            hitPointFloaterArray.clear();
 
-            hitPointFloaterTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
-            hpFloaterVelocityY = 3.5f;
-            hpFloaterVelocityX = 4f;
+            float hitPointsImageWidth = 0;
+
+            for (int i = 0; i < hitPoints.length(); i++) {
+                Image image = getDigitImage(hitPoints.charAt(i));
+                hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
+                hitPointFloaterArray.add(image);
+            }
+
+            float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
+            float lastPositionY = character.getY() + character.getHeight() * 1.2f;
+            for (Image image : hitPointFloaterArray) {
+                image.setScale(Map.UNIT_SCALE);
+                image.setPosition(lastPositionX, lastPositionY);
+                lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+                _stage.addActor(image);
+            }
+
+            float minVelocityX = 2f;
+            float maxVelocityX = 5;
+            float minVelocityY = 0.5f;
+            float maxVelocityY = 5;
+
+            float velocityX = MathUtils.random(minVelocityX, maxVelocityX);
+            float velocityY = MathUtils.random(minVelocityY, maxVelocityY);
+
+            hpFloaterVelocityY = velocityX;
+            hpFloaterVelocityX = velocityY;
             gravity = -25f;
             hpFloaterBounceVelocityY = 8f;
-            battleHUDHeight = 4.45f;
+
+            if (ElmourGame.isAndroid())
+                battleHUDHeight = 4.45f;
+            else
+                battleHUDHeight = 3.9f;
 
             if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
                 hpFloaterVelocityX *= -1;
 
-            hpFloaterPositionX = hitPointFloaterTable.getX();
-            hpFloaterPositionY = hitPointFloaterTable.getY();
+            hpFloaterPositionX = hitPointFloaterArray.get(0).getX();
+            hpFloaterPositionY = hitPointFloaterArray.get(0).getY();
 
             showHitPointFloater = true;
         }
@@ -1943,6 +1967,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 _stage.addAction(getAttackAction(sourceEntity));
                 break;
             case PLAYER_TURN_DONE:
+            case PLAYER_APPLIED_INVENTORY:
                 selectedEntity = null;
                 break;
             case PLAYER_HIT_DAMAGE:

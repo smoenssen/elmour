@@ -1,5 +1,6 @@
 package com.smoftware.elmour;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -48,7 +49,9 @@ public class EntityFactory {
         LCK_UP_LEFT,    LCK_UP_RIGHT,   LCK_DOWN_LEFT,  LCK_DOWN_RIGHT,
         DIBS_UP_LEFT,   DIBS_UP_RIGHT,  DIBS_DOWN_LEFT, DIBS_DOWN_RIGHT,
         EXP_UP_LEFT,    EXP_UP_RIGHT,   EXP_DOWN_LEFT,  EXP_DOWN_RIGHT,
-        DROPS_UP_LEFT,  DROPS_UP_RIGHT, DROPS_DOWN_LEFT,DROPS_DOWN_RIGHT
+        DROPS_UP_LEFT,  DROPS_UP_RIGHT, DROPS_DOWN_LEFT,DROPS_DOWN_RIGHT,
+
+        ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, ZERO, MISS, CRIT, WEAK
     }
 
     public static String CARMEN_CONFIG = "RPGGame/maps/Game/Scripts/carmen.json";
@@ -71,6 +74,7 @@ public class EntityFactory {
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
     public static String STATUS_ARROW_CONFIGS = "RPGGame/maps/Game/Scripts/stat_arrows.json";
+    public static String BATTLE_BURST_CONFIGS = "RPGGame/maps/Game/Scripts/battle_burst.json";
 
 
     private EntityFactory(){
@@ -88,6 +92,11 @@ public class EntityFactory {
 
         Array<EntityConfig> statArrowConfigs = Entity.getEntityConfigs(STATUS_ARROW_CONFIGS);
         for( EntityConfig config: statArrowConfigs){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> battleBurstConfigs = Entity.getEntityConfigs(BATTLE_BURST_CONFIGS);
+        for( EntityConfig config: battleBurstConfigs){
             entities.put(config.getEntityID(), config);
         }
 
@@ -139,13 +148,19 @@ public class EntityFactory {
 
     public Entity getEntityByName(EntityName entityName){
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
-        Entity entity = Entity.initEntity(config);
+        Entity entity = Entity.initEntity(config, true);
         return entity;
     }
 
     public Entity getEntityByName(String entityName){
         EntityConfig config = new EntityConfig(entities.get(entityName));
-        Entity entity = Entity.initEntity(config);
+        Entity entity = Entity.initEntity(config, true);
+        return entity;
+    }
+
+    public Entity getEntityByNameNoLoadAnimations(EntityName entityName){
+        EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
+        Entity entity = Entity.initEntity(config, false);
         return entity;
     }
 

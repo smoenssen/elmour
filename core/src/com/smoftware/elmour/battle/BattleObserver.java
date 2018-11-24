@@ -29,6 +29,7 @@ public interface BattleObserver {
         PLAYER_ATTACKS,
         PLAYER_TURN_DONE,
         PLAYER_HIT_DAMAGE,
+        PLAYER_APPLIED_INVENTORY,
         ATTACK_BLOCKED,
         NONE
     }
