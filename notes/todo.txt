@@ -1,0 +1,5 @@
+Reward items- skip screen if none picked up
+preparing for spells
+using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
+LCK and AVO for ranged and melee attacks.
+show MISS or CRIT! animation with number

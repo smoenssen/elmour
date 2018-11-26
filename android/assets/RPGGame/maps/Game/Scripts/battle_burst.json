@@ -1,0 +1,275 @@
+[
+{
+entityID : ONE
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 5
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+]
+},
+{
+entityID : FOUR
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 5
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 1
+			}
+		]
+	}
+]
+},
+{
+entityID : TWO
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 2
+			}
+		]
+	}
+]
+},
+{
+entityID : THREE
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 3
+			}
+		]
+	}
+]
+},
+{
+entityID : FIVE
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 4
+			}
+		]
+	}
+]
+},
+{
+entityID : SIX
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 5
+			}
+		]
+	}
+]
+},
+{
+entityID : SEVEN
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 6
+			}
+		]
+	}
+]
+},
+{
+entityID : EIGHT
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 7
+			}
+		]
+	}
+]
+},
+{
+entityID : NINE
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 8
+			}
+		]
+	}
+]
+},
+{
+entityID : ZERO
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 8
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 9
+			}
+		]
+	}
+]
+},
+{
+entityID : MISS
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 19
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+]
+},
+{
+entityID : CRIT
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 20
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 1
+			}
+		]
+	}
+]
+},
+{
+entityID : WEAK
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0
+			frameWidth : 6
+			frameHeight : 20
+		animationType: BATTLE_BURST
+		texturePaths: [
+				RPGGame/maps/Game/Text/Battle_Bursts.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 2
+			}
+		]
+	}
+]
+}
+]

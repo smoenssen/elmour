@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,6 +36,8 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.InventoryElementFactory;
+import com.smoftware.elmour.InventoryItem;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
@@ -58,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
+
+import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY;
 
 public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver, PartyInventoryObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
@@ -265,10 +269,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private BattleTextArea battleTextArea;
     private TextButton dummyTextArea;
 
-    private TextButton battleWonButton;
-    private MyTextField battleWonTextField;
-    private Table battleWonTable;
-    private float battleWonRowHeight = 24;
+    private TextButton battleWonStatsButton;
+    private MyTextField battleWonStatsTextField;
+    private ScrollPane battleWonScrollPanel;
+    private Table battleWonStatsTable;
+    private float battleWonStatsRowHeight = 24;
     private Image dimmedScreen;
 
     String selectedCharacter = null;
@@ -279,6 +284,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private int xpReward = 0;
     private int dibsReward = 0;
+
+    public class RewardItem {
+        public InventoryElement.ElementID itemID;
+        public int quantity;
+        public RewardItem() {
+            quantity = 0;
+        }
+    }
+    private Array<RewardItem> rewardItems;
 
     public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
@@ -307,6 +321,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _currentImagePosition = new Vector2(0,0);
 
         myActions = new MyActions();
+
+        rewardItems = new Array<>();
 
         _json = new Json();
 
@@ -773,24 +789,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4 - menuItemHeight);
 
-        // height and position of battleWonTextField and battleWonButton will be set dynamically
-        battleWonTextField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-        battleWonTextField.setAlignment(Align.center);
-        battleWonTextField.setWidth(middleAreaWidth);
-        battleWonTextField.setVisible(false);
+        // height and position of battleWonStatsTextField and battleWonStatsButton will be set dynamically
+        // battleWonStatsTextField is only used as background for the battleWonStatsTable because
+        // battleWonStatsTable background is transparent
+        battleWonStatsTextField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+        battleWonStatsTextField.setAlignment(Align.center);
+        battleWonStatsTextField.setWidth(middleAreaWidth);
+        battleWonStatsTextField.setVisible(false);
 
         // need transparent button because table is not clickable
-        battleWonButton = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
-        battleWonButton.setWidth(middleAreaWidth);
-        battleWonButton.addAction(Actions.fadeOut(0));
-        battleWonButton.setVisible(false);
+        battleWonStatsButton = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
+        battleWonStatsButton.setWidth(middleAreaWidth);
+        battleWonStatsButton.addAction(Actions.fadeOut(0));
+        battleWonStatsButton.setVisible(false);
 
-        battleWonTable = new Table();
-        battleWonTable.setWidth(battleWonTextField.getWidth() - (2 * tablePadding));
-        battleWonTable.setHeight(battleWonTextField.getHeight() - (2 * tablePadding));
-        battleWonTable.setPosition(battleWonTextField.getX() + tablePadding, battleWonTextField.getY() + battleWonRowHeight/1.45f);
-        battleWonTable.align(Align.top);
-        battleWonTable.setVisible(false);
+        battleWonStatsTable = new Table();
+        battleWonStatsTable.setWidth(battleWonStatsTextField.getWidth() - (2 * tablePadding));
+        battleWonStatsTable.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
+        battleWonStatsTable.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
+        battleWonStatsTable.align(Align.top);
+        battleWonStatsTable.setVisible(false);
 
         dimmedScreen = new Image(new Texture("graphics/black_rectangle_opacity66.png"));
         dimmedScreen.setWidth(_stage.getWidth());
@@ -820,9 +838,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
         _stage.addActor(dimmedScreen);
-        _stage.addActor(battleWonTextField);
-        _stage.addActor(battleWonTable);
-        _stage.addActor(battleWonButton);
+        _stage.addActor(battleWonStatsTextField);
+        _stage.addActor(battleWonStatsTable);
+        _stage.addActor(battleWonStatsButton);
 
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
@@ -1250,6 +1268,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                middleTextAreaTable.clear();
                                                middleStatsTextArea.setText("", true);
                                                middleTextAreaTable.setVisible(true);
+                                               middleTextAreaTable.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
                                                String effectList = "";
                                                for (InventoryElement.EffectItem effect : selectedInventoryElement.effectList) {
@@ -1318,40 +1337,40 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleTextArea.cleanupTextArea();
 
                                                int numRows = 2;
-                                               setBattleWonControlSize(numRows);
+                                               setBattleWonStatsControlSize(numRows);
 
                                                showMainScreen(true);
                                                dimmedScreen.addAction(Actions.fadeOut(0));
                                                dimmedScreen.setVisible(true);
                                                dimmedScreen.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
-                                               battleWonTextField.addAction(Actions.fadeOut(0));
-                                               battleWonTextField.setVisible(true);
-                                               battleWonTextField.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+                                               battleWonStatsTextField.addAction(Actions.fadeOut(0));
+                                               battleWonStatsTextField.setVisible(true);
+                                               battleWonStatsTextField.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
-                                               battleWonButton.setVisible(true);
-                                               battleWonTable.clear();
-                                               battleWonTable.setVisible(true);
+                                               battleWonStatsButton.setVisible(true);
+                                               battleWonStatsTable.clear();
+                                               battleWonStatsTable.setVisible(true);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat.setText("XP Gained");
                                                stat.setAlignment(Align.left);
                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value.setText(String.format("%d", xpReward));
                                                value.setAlignment(Align.right);
-                                               battleWonTable.add(stat).align(Align.left);
-                                               battleWonTable.add(value).align(Align.right);
+                                               battleWonStatsTable.add(stat).align(Align.left);
+                                               battleWonStatsTable.add(value).align(Align.right);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat2.setText("Dibs Gained");
                                                stat2.setAlignment(Align.left);
                                                Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value2.setText(String.format("%d", dibsReward));
                                                value2.setAlignment(Align.right);
-                                               battleWonTable.add(stat2).align(Align.left);
-                                               battleWonTable.add(value2).align(Align.right);
+                                               battleWonStatsTable.add(stat2).align(Align.left);
+                                               battleWonStatsTable.add(value2).align(Align.right);
 
                                                //todo: distribute rewards
                                                // reset for next battle
@@ -1405,7 +1424,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                    }
         );
 
-        battleWonButton.addListener(new ClickListener() {
+        battleWonStatsButton.addListener(new ClickListener() {
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                            return true;
@@ -1416,56 +1435,108 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            if (battleWon) {
                                                battleWon = false;
 
-                                               int numRows = 4;
-                                               setBattleWonControlSize(numRows);
+                                               /*////////////////////////////////////////////
+                                               rewardItems.clear();
+                                               RewardItem item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE1;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
 
-                                               battleWonTable.clear();
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE1;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE2;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
+
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE2;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
+
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE3;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
+
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.CHEESE3;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
+
+                                               item1 = new RewardItem();
+                                               item1.itemID = InventoryElement.ElementID.BOTTLE1;
+                                               item1.quantity = 2;
+                                               rewardItems.add(item1);
+                                               *//////////////////////////////////////
+                                               int numRows = rewardItems.size + 1;
+                                               setBattleWonStatsControlSize(numRows);
+
+                                               battleWonStatsTable.clear();
+
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat.setText("Items Gained:");
                                                stat.setAlignment(Align.left);
                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value.setText("");
                                                value.setAlignment(Align.right);
-                                               battleWonTable.add(stat).align(Align.left);
-                                               battleWonTable.add(value).align(Align.right);
+                                               battleWonStatsTable.add(stat).align(Align.left);
+                                               battleWonStatsTable.add(value).align(Align.right);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               for (RewardItem item : rewardItems) {
+                                                   battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
+                                                   Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+
+                                                   InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(item.itemID);
+
+                                                   stat2.setText(element.name);
+                                                   stat2.setAlignment(Align.left);
+                                                   Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+                                                   value2.setText(String.format("%d", item.quantity));
+                                                   value2.setAlignment(Align.right);
+                                                   battleWonStatsTable.add(stat2).align(Align.left);
+                                                   battleWonStatsTable.add(value2).align(Align.right);
+                                               }
+/*
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat2.setText("Blah blah blah");
                                                stat2.setAlignment(Align.left);
                                                Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value2.setText(String.format("%d", 1));
                                                value2.setAlignment(Align.right);
-                                               battleWonTable.add(stat2).align(Align.left);
-                                               battleWonTable.add(value2).align(Align.right);
+                                               battleWonStatsTable.add(stat2).align(Align.left);
+                                               battleWonStatsTable.add(value2).align(Align.right);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat3.setText("Boobala");
                                                stat3.setAlignment(Align.left);
                                                Label value3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value3.setText(String.format("%d", 1));
                                                value3.setAlignment(Align.right);
-                                               battleWonTable.add(stat3).align(Align.left);
-                                               battleWonTable.add(value3).align(Align.right);
+                                               battleWonStatsTable.add(stat3).align(Align.left);
+                                               battleWonStatsTable.add(value3).align(Align.right);
 
-                                               battleWonTable.row().width(battleWonTable.getWidth()/2).height(battleWonRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat4.setText("Blech blech");
                                                stat4.setAlignment(Align.left);
                                                Label value4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value4.setText(String.format("%d", 1));
                                                value4.setAlignment(Align.right);
-                                               battleWonTable.add(stat4).align(Align.left);
-                                               battleWonTable.add(value4).align(Align.right);
+                                               battleWonStatsTable.add(stat4).align(Align.left);
+                                               battleWonStatsTable.add(value4).align(Align.right);*/
                                            }
                                            else {
                                                dimmedScreen.addAction(Actions.fadeOut(1));
-                                               battleWonTextField.setVisible(false);
-                                               battleWonButton.setVisible(false);
-                                               battleWonTable.setVisible(false);
+                                               battleWonStatsTextField.setVisible(false);
+                                               battleWonStatsButton.setVisible(false);
+                                               battleWonStatsTable.setVisible(false);
 
                                                game.battleState.battleOver();
 
@@ -1489,23 +1560,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
     }
 
-    private void setBattleWonControlSize(int numRows) {
+    private void setBattleWonStatsControlSize(int numRows) {
         // height should be number of rows plus one to allow for top and bottom padding
         numRows++;
 
-        float height = battleWonRowHeight * numRows;
-        battleWonTextField.setHeight(height);
+        float height = MathUtils.clamp(battleWonStatsRowHeight * numRows, 0, battleWonStatsRowHeight * 6);
+        battleWonStatsTextField.setHeight(height);
 
-        float x = _stage.getWidth()/2 - battleWonTextField.getWidth()/2;
-        float y = (menuItemHeight * 2) + (_stage.getHeight() - (menuItemHeight * 2))/2 - battleWonTextField.getHeight()/2;
+        float x = _stage.getWidth()/2 - battleWonStatsTextField.getWidth()/2;
+        float y = (menuItemHeight * 2) + (_stage.getHeight() - (menuItemHeight * 2))/2 - battleWonStatsTextField.getHeight()/2;
 
-        battleWonTextField.setPosition(x, y);
+        battleWonStatsTextField.setPosition(x, y);
 
-        battleWonButton.setHeight(height);
-        battleWonButton.setPosition(x, y);
+        battleWonStatsButton.setHeight(height);
+        battleWonStatsButton.setPosition(x, y);
 
-        battleWonTable.setHeight(battleWonTextField.getHeight() - (2 * tablePadding));
-        battleWonTable.setPosition(battleWonTextField.getX() + tablePadding, battleWonTextField.getY() + battleWonRowHeight/1.45f);
+        battleWonStatsTable.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
+        battleWonStatsTable.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
     }
 
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
@@ -2608,8 +2679,34 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     enemy5Name.setVisible(false);
                 }
 
-                xpReward += game.statusUI.getXPRewardValue(entity);
-                dibsReward += game.statusUI.getDibsRewardValue(entity);
+                xpReward += Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString().toString()));
+                dibsReward += Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString().toString()));
+
+                Array<EntityConfig.ItemReward> items = entity.getEntityConfig().getRewardItems();
+
+                if (items != null) {
+                    for (EntityConfig.ItemReward item : items) {
+                        // check probability of getting reward item
+                        int randomVal = MathUtils.random(1, 100);
+                        //if (item.probability > randomVal) {
+                            boolean inList = false;
+                            for (RewardItem rewardItem : rewardItems) {
+                                if (rewardItem.itemID.equals(item.itemID)) {
+                                    rewardItem.quantity++;
+                                    inList = true;
+                                    break;
+                                }
+                            }
+
+                            if (!inList) {
+                                RewardItem newItem = new RewardItem();
+                                newItem.itemID = item.itemID;
+                                newItem.quantity = 1;
+                                rewardItems.add(newItem);
+                            }
+                        //}
+                    }
+                }
 
                 selectedCharacter = null;
                 break;
@@ -2695,7 +2792,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     enableButtons();
                 }
 
-                turnInProgress = false;
+                //turnInProgress = false;
                 break;
             case OPPONENT_HIT_DAMAGE:
                 notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_ATTACK);
@@ -2733,6 +2830,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 selectedCharacter = null;
                 break;
             case PLAYER_TURN_DONE:
+            case PLAYER_APPLIED_INVENTORY:
                 // go back to Main screen and enable buttons
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);
@@ -2743,8 +2841,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 battleTextArea.populateText(message);
                 battleTextArea.show();
 
-                turnInProgress = false;
                 selectedCharacter = null;
+
+                if (event.equals(PLAYER_APPLIED_INVENTORY))
+                    turnInProgress = false;
+
                 break;
             case ATTACK_BLOCKED:
                 battleTextArea.populateText(message);
@@ -2755,7 +2856,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 screenStack.push(ScreenState.MAIN);
 
                 selectedCharacter = null;
-                turnInProgress = false;
+                //turnInProgress = false;
                 break;
         }
     }

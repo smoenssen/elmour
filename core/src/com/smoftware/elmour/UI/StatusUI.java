@@ -181,16 +181,6 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         notify(entity, value, StatusObserver.StatusEvent.UPDATED_AVO);
     }
 
-    public int getXPRewardValue(Entity entity) {
-        // XP_REWARD comes from entity properties, not profile
-        return Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.XP_REWARD.toString().toString()));
-    }
-
-    public int getDibsRewardValue(Entity entity) {
-        // DIBS_REWARD comes from entity properties, not profile
-        return Integer.parseInt(entity.getEntityConfig().getPropertyValue(EntityConfig.EntityProperties.DIBS_REWARD.toString().toString()));
-    }
-
     public int getDibsValue() {
         // Dibs is only in profile properties
         String value = ProfileManager.getInstance().getProperty("Dibs", String.class);

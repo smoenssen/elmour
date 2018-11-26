@@ -30,9 +30,13 @@ The equation in the doc for melee attacks says it's for attacks from the back. W
 
 Timing of hit animation in battle?
 
-Are ACC/AVO/LCK only for ranged attacks? Yes
+Are ACC/AVO/LCK only for ranged attacks? No
 
 Are XP and Dibs rewards forfeited if player runs? Yes
 
-When character 1 applies an inventory item to character 2, does the turn counting start the next time it is character 2's turn? 
+When character 1 applies an inventory item to character 2, does the turn counting start the next time it is character 2's turn?
 I.e., what happens between the end of character 1's turn and the beginning of character 2's turn?
+SPD at the end of the cycle
+ATK, MATK, ACC, XP, DIBS, DROPS, LCK happen at character 2's turns
+DEF, MDEF, AVO happen immediately, and the turn starts with character 1's place in the turn order (e.g., 3rd place).
+Turn ends at the next character in the same place in the turn order (e'g', no matter who has the 3rd place in the turn order)

@@ -590,7 +590,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                     BattleState.this.notify(currentSelectedCharacter, effectStatus);
                 }
 
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY, message);
             }
         };
     }

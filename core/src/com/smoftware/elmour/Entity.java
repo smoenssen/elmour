@@ -77,6 +77,7 @@ public class Entity {
 		RUN_DOWN,
 		IDLE,
 		STAT_ARROW,
+		BATTLE_BURST,
 		IMMOBILE,
 		SWORD_LEFT,
 		SWORD_RIGHT,
@@ -495,12 +496,14 @@ public class Entity {
 		return entities;
 	}
 
-	public static Entity initEntity(EntityConfig entityConfig){
+	public static Entity initEntity(EntityConfig entityConfig, boolean loadAnimations){
 		Json json = new Json();
 		Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);
 		entity.setEntityConfig(entityConfig);
 
-		entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+		if (loadAnimations)
+			entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+
 		entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(0,0)));
 		entity.sendMessage(Component.MESSAGE.INIT_STATE, json.toJson(entity.getEntityConfig().getState()));
 		entity.sendMessage(Component.MESSAGE.INIT_DIRECTION, json.toJson(entity.getEntityConfig().getDirection()));
