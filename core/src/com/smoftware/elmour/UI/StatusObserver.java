@@ -9,6 +9,7 @@ public interface StatusObserver {
         UPDATED_LEVEL,
         LEVELED_UP,
         UPDATED_XP,
+        UPDATED_PARTY_XP,
         UPDATED_HP,
         UPDATED_HP_MAX,
         UPDATED_MP,

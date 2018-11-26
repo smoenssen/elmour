@@ -10,7 +10,6 @@ import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.SpellsPowerElement;
-import com.smoftware.elmour.UI.InventoryObserver;
 import com.smoftware.elmour.UI.StatusObserver;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -18,8 +17,6 @@ import com.smoftware.elmour.profile.ProfileManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import javax.rmi.CORBA.Util;
 
 public class BattleState extends BattleSubject implements StatusObserver {
     private static final String TAG = BattleState.class.getSimpleName();
@@ -484,6 +481,21 @@ public class BattleState extends BattleSubject implements StatusObserver {
         return phrase;
     }
 
+    private void checkForDamage (int oldValue, int newValue) {
+        int hitPoints = oldValue - newValue;
+        if (hitPoints > 0) {
+            if (currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.ENEMY)) {
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
+            } else {
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
+            }
+        }
+
+        if (newValue == 0) {
+            setCurrentSelectedCharacterDead();
+        }
+    }
+
     private Timer.Task getApplyInventoryTimer(){
         return new Timer.Task() {
             @Override
@@ -512,6 +524,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
                         game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
+                        checkForDamage(currVal, newVal);
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
                         currVal = game.statusUI.getHPValue(currentSelectedCharacter);
@@ -519,6 +532,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
                         game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
+                        checkForDamage(currVal, newVal);
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP) &&
                             currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
@@ -652,7 +666,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
         float V = MathUtils.random(0.9f, 1.1f);
         float M = 1.0f;
         float fHPD = (M * V * (float)Math.pow(A, 2)) / (5 * D);
-        HPD = (int)fHPD + 1;    //round up
+        HPD = Utility.rountUpToNextInt(fHPD);
 
         Gdx.app.log(TAG, "attacker ATK = " + A + ", defender DEF = " + D + ", deviation = " + V);
 
@@ -674,6 +688,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 int newEnemyHP = MathUtils.clamp(enemyHP - hitPoints, 0, enemyHP);
                 game.statusUI.setHPValue(currentSelectedCharacter, newEnemyHP);
 
+                hitPoints = enemyHP - newEnemyHP;
+
                 String message = String.format("%s attacked %s, dealing %s HP.", currentTurnCharacter.getEntityConfig().getDisplayName(),
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
@@ -684,26 +700,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
 
                 if (newEnemyHP == 0) {
-                    currentSelectedCharacter.setAlive(false);
-
-                    // remove enemy from turn list if it's there
-                    removeSelectedCharacterFromTurnList();
-
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
-
-                    // see if all enemies are dead
-                    boolean allDead = true;
-                    for (Entity enemy : currentEnemyList) {
-                        if (enemy.isAlive()) {
-                            allDead = false;
-                            break;
-                        }
-                    }
-
-                    if (allDead) {
-                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_WON);
-                        resetBattleState();
-                    }
+                    setCurrentSelectedCharacterDead();
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
@@ -726,6 +723,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 int newPlayerHP = MathUtils.clamp(playerHP - hitPoints, 0, playerHP);
                 game.statusUI.setHPValue(currentSelectedCharacter, newPlayerHP);
 
+                hitPoints = playerHP - newPlayerHP;
 
                 Gdx.app.log(TAG, "new player HP = " + newPlayerHP);
 
@@ -741,31 +739,49 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 }
 
                 if (newPlayerHP == 0) {
-                    currentSelectedCharacter.setAlive(false);
-
-                    // remove player from turn list if it's there
-                    removeSelectedCharacterFromTurnList();
-
-                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_DEFEATED);
-
-                    // see if all party members are dead
-                    boolean allDead = true;
-                    for (Entity partyMember : currentPartyList) {
-                        if (partyMember.isAlive()) {
-                            allDead = false;
-                            break;
-                        }
-                    }
-
-                    if (allDead) {
-                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
-                        resetBattleState();
-                    }
+                    setCurrentSelectedCharacterDead();
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_TURN_DONE, message);
             }
         };
+    }
+
+    private boolean areAllDead(Array<Entity> list) {
+        boolean allDead = true;
+        for (Entity enemy : list) {
+            if (enemy.isAlive()) {
+                allDead = false;
+                break;
+            }
+        }
+        return allDead;
+    }
+
+    private void setCurrentSelectedCharacterDead() {
+        currentSelectedCharacter.setAlive(false);
+
+        // remove character from turn list if it's there
+        removeSelectedCharacterFromTurnList();
+
+        if (currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.ENEMY)) {
+            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.OPPONENT_DEFEATED);
+
+            // see if all enemies are dead
+            if (areAllDead(currentEnemyList)) {
+                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_WON);
+                resetBattleState();
+            }
+        }
+        else {
+            BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.PLAYER_DEFEATED);
+
+            // see if all party members are dead
+            if (areAllDead(currentPartyList)) {
+                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.BATTLE_LOST);
+                resetBattleState();
+            }
+        }
     }
 
     public void gameOver() {
@@ -881,12 +897,29 @@ public class BattleState extends BattleSubject implements StatusObserver {
 
     @Override
     public void onNotify(int value, StatusEvent event) {
+        switch (event) {
+            case UPDATED_XP:
+                // distribute EXP among all living party members
+                int numLivingMembers = 0;
+                for (Entity entity : currentPartyList) {
+                    if (entity.isAlive())
+                        numLivingMembers++;
+                }
+                float fVal = (float)value / (float)numLivingMembers;
+                int memberCut = Utility.rountUpToNextInt(fVal);
 
+                for (Entity entity : currentPartyList) {
+                    if (entity.isAlive()) {
+                        game.statusUI.setXPValue(entity, game.statusUI.getXPValue(entity) + memberCut);
+                    }
+                }
+                break;
+        }
     }
 
     @Override
     public void onNotify(Entity entity, int value, StatusEvent event) {
-        switch(event) {
+        switch (event) {
             case IS_REVIVED:
                 entity.setAlive(true);
                 break;

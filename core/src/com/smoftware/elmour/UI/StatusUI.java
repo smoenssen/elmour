@@ -183,15 +183,33 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
 
     public int getDibsValue() {
         // Dibs is only in profile properties
-        String value = ProfileManager.getInstance().getProperty("Dibs", String.class);
-        if (value != null) {
-            return Integer.parseInt(value);
-        }
-        return 0;
+        return ProfileManager.getInstance().getProperty("Dibs", Integer.class);
+    }
+
+    public int getXPValue(Entity entity) {
+        int baseMP_MAX = Integer.parseInt(getStat(entity, EntityConfig.EntityProperties.EXP));
+        return baseMP_MAX;
+    }
+
+    public void setXPValue(Entity entity, int value) {
+        setStat(entity, EntityConfig.EntityProperties.EXP, Integer.toString(value));
+        notify(entity, value, StatusObserver.StatusEvent.UPDATED_XP);
+    }
+
+    public void updatePartyXP(int value) {
+        notify(value, StatusObserver.StatusEvent.UPDATED_PARTY_XP);
     }
 
     public void setDibsValue(int value) {
         ProfileManager.getInstance().setProperty("Dibs", value);
+        notify(value, StatusObserver.StatusEvent.UPDATED_DIBS);
+    }
+
+    public void updatePartyDibs(int value) {
+        int dibs = getDibsValue();
+        dibs += value;
+        if (dibs < 0) dibs = 0;
+        setDibsValue(dibs);
     }
 
     public int applyTurnEffects(Entity entity, int baseVal, InventoryElement.Effect effectUP, InventoryElement.Effect effectDOWN) {
@@ -230,7 +248,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.LCK));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.SPD));
 
-        // todo: need to handle DIBS and EXP and DROPS differently
+        // todo: need to handle DIBS and XP and DROPS differently
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DIBS));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.DROPS));
         statusArray.add(getEffectStatusByProperty(entity, EntityConfig.EntityProperties.EXP));

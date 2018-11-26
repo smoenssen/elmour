@@ -12,8 +12,4 @@ EVO->AVO
 make sure number of turns executed is correct
 
 Re-entering battle too fast results in extra characters being displayed (but not in left hand HUD list)
-If battle lost, next time in battle inventory items are doubled
-If you kill enemy with throwing item it doesn't die.
-If HP is past max, wrong floater number is displayed
-If battle is lost, and continue clicking battle text area, HUD disappears on next battle.
 If used 2 potions of strength, crashes when attacking.

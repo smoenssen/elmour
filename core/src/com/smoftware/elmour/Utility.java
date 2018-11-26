@@ -585,7 +585,14 @@ public final class Utility {
 		float fVal = (float)percentage/100 * (float)baseVal;
 		int iVal = (int)fVal;
 		if (fVal > iVal)
-			iVal += 1;
+			iVal++;
 		return baseVal + iVal;
+	}
+
+	public static int rountUpToNextInt(float value) {
+		int iVal = (int)value;
+		if (value > iVal)
+			iVal++;
+		return iVal;
 	}
 }

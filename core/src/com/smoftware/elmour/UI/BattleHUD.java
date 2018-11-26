@@ -30,14 +30,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
-import com.smoftware.elmour.InventoryItem;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
@@ -269,9 +267,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private BattleTextArea battleTextArea;
     private TextButton dummyTextArea;
 
-    private TextButton battleWonStatsButton;
+    private Image battleWonStatsCloseButton;
     private MyTextField battleWonStatsTextField;
-    private ScrollPane battleWonScrollPanel;
+    private ScrollPane battleWonStatsScrollPanel;
     private Table battleWonStatsTable;
     private float battleWonStatsRowHeight = 24;
     private Image dimmedScreen;
@@ -789,7 +787,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         rightTable.setX(rightTextArea.getX());
         rightTable.setY(4 - menuItemHeight);
 
-        // height and position of battleWonStatsTextField and battleWonStatsButton will be set dynamically
+        // height and position of battleWonStatsTextField and battleWonStatsScrollPanel will be set dynamically
         // battleWonStatsTextField is only used as background for the battleWonStatsTable because
         // battleWonStatsTable background is transparent
         battleWonStatsTextField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
@@ -797,11 +795,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleWonStatsTextField.setWidth(middleAreaWidth);
         battleWonStatsTextField.setVisible(false);
 
-        // need transparent button because table is not clickable
-        battleWonStatsButton = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
-        battleWonStatsButton.setWidth(middleAreaWidth);
-        battleWonStatsButton.addAction(Actions.fadeOut(0));
-        battleWonStatsButton.setVisible(false);
+        // need close button so table can be scrolled
+        battleWonStatsCloseButton = new Image(new Texture("controllers/touchpadKnob.png"));
+        battleWonStatsCloseButton.setWidth(24);
+        battleWonStatsCloseButton.setHeight(24);
+        battleWonStatsCloseButton.setVisible(false);
 
         battleWonStatsTable = new Table();
         battleWonStatsTable.setWidth(battleWonStatsTextField.getWidth() - (2 * tablePadding));
@@ -809,6 +807,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleWonStatsTable.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
         battleWonStatsTable.align(Align.top);
         battleWonStatsTable.setVisible(false);
+
+        battleWonStatsScrollPanel = new ScrollPane(battleWonStatsTable);
+        battleWonStatsScrollPanel.setWidth(battleWonStatsTextField.getWidth() - (2 * tablePadding));
+        battleWonStatsScrollPanel.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
+        battleWonStatsScrollPanel.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
 
         dimmedScreen = new Image(new Texture("graphics/black_rectangle_opacity66.png"));
         dimmedScreen.setWidth(_stage.getWidth());
@@ -839,8 +842,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(rightTable);
         _stage.addActor(dimmedScreen);
         _stage.addActor(battleWonStatsTextField);
-        _stage.addActor(battleWonStatsTable);
-        _stage.addActor(battleWonStatsButton);
+        _stage.addActor(battleWonStatsScrollPanel);
+        _stage.addActor(battleWonStatsCloseButton);
 
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
@@ -1348,13 +1351,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTextField.setVisible(true);
                                                battleWonStatsTextField.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
-                                               battleWonStatsButton.setVisible(true);
+                                               battleWonStatsCloseButton.setVisible(true);
                                                battleWonStatsTable.clear();
                                                battleWonStatsTable.setVisible(true);
 
                                                battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               stat.setText("XP Gained");
+                                               stat.setText("EXP Gained");
                                                stat.setAlignment(Align.left);
                                                Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                value.setText(String.format("%d", xpReward));
@@ -1372,12 +1375,19 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTable.add(stat2).align(Align.left);
                                                battleWonStatsTable.add(value2).align(Align.right);
 
-                                               //todo: distribute rewards
+                                               // distribute rewards
+                                               // XP is split among living party members
+                                               game.statusUI.updatePartyXP(xpReward);
+
+                                               // DIBS go to the party
+                                               game.statusUI.updatePartyDibs(dibsReward);
+
                                                // reset for next battle
                                                xpReward = 0;
                                                dibsReward = 0;
                                            }
                                            else if (battleTextArea.getText().equals(BATTLE_LOST)) {
+                                               battleTextArea.setTouchable(Touchable.disabled);
                                                battleTextArea.cleanupTextArea();
                                                game.battleState.gameOver();
                                                if( !resetControlsTimer().isScheduled() ){
@@ -1424,7 +1434,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                    }
         );
 
-        battleWonStatsButton.addListener(new ClickListener() {
+        battleWonStatsCloseButton.addListener(new ClickListener() {
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                            return true;
@@ -1432,46 +1442,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           if (battleWon) {
+                                           if (battleWon && rewardItems.size > 0) {
                                                battleWon = false;
 
-                                               /*////////////////////////////////////////////
-                                               rewardItems.clear();
-                                               RewardItem item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE1;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE1;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE2;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE2;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE3;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.CHEESE3;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-
-                                               item1 = new RewardItem();
-                                               item1.itemID = InventoryElement.ElementID.BOTTLE1;
-                                               item1.quantity = 2;
-                                               rewardItems.add(item1);
-                                               *//////////////////////////////////////
                                                int numRows = rewardItems.size + 1;
                                                setBattleWonStatsControlSize(numRows);
 
@@ -1492,6 +1465,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                    Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
 
                                                    InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(item.itemID);
+                                                   PartyInventory.getInstance().addItem(element, item.quantity, true);
 
                                                    stat2.setText(element.name);
                                                    stat2.setAlignment(Align.left);
@@ -1501,44 +1475,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                    battleWonStatsTable.add(stat2).align(Align.left);
                                                    battleWonStatsTable.add(value2).align(Align.right);
                                                }
-/*
-                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
-                                               Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               stat2.setText("Blah blah blah");
-                                               stat2.setAlignment(Align.left);
-                                               Label value2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               value2.setText(String.format("%d", 1));
-                                               value2.setAlignment(Align.right);
-                                               battleWonStatsTable.add(stat2).align(Align.left);
-                                               battleWonStatsTable.add(value2).align(Align.right);
-
-                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
-                                               Label stat3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               stat3.setText("Boobala");
-                                               stat3.setAlignment(Align.left);
-                                               Label value3 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               value3.setText(String.format("%d", 1));
-                                               value3.setAlignment(Align.right);
-                                               battleWonStatsTable.add(stat3).align(Align.left);
-                                               battleWonStatsTable.add(value3).align(Align.right);
-
-                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
-                                               Label stat4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               stat4.setText("Blech blech");
-                                               stat4.setAlignment(Align.left);
-                                               Label value4 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
-                                               value4.setText(String.format("%d", 1));
-                                               value4.setAlignment(Align.right);
-                                               battleWonStatsTable.add(stat4).align(Align.left);
-                                               battleWonStatsTable.add(value4).align(Align.right);*/
                                            }
                                            else {
                                                dimmedScreen.addAction(Actions.fadeOut(1));
                                                battleWonStatsTextField.setVisible(false);
-                                               battleWonStatsButton.setVisible(false);
+                                               battleWonStatsCloseButton.setVisible(false);
                                                battleWonStatsTable.setVisible(false);
 
                                                game.battleState.battleOver();
+
+                                               // reset for next battle
+                                               rewardItems.clear();
 
                                                if( !resetControlsTimer().isScheduled() ){
                                                    Timer.schedule(resetControlsTimer(), 2);
@@ -1561,22 +1508,23 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     private void setBattleWonStatsControlSize(int numRows) {
-        // height should be number of rows plus one to allow for top and bottom padding
-        numRows++;
+        // height should be number of rows plus a little to allow for top and bottom padding
+        float padding = numRows + 1.125f;
 
-        float height = MathUtils.clamp(battleWonStatsRowHeight * numRows, 0, battleWonStatsRowHeight * 6);
+        float height = MathUtils.clamp(battleWonStatsRowHeight * padding, 0, battleWonStatsRowHeight * 6);
         battleWonStatsTextField.setHeight(height);
 
         float x = _stage.getWidth()/2 - battleWonStatsTextField.getWidth()/2;
         float y = (menuItemHeight * 2) + (_stage.getHeight() - (menuItemHeight * 2))/2 - battleWonStatsTextField.getHeight()/2;
 
         battleWonStatsTextField.setPosition(x, y);
-
-        battleWonStatsButton.setHeight(height);
-        battleWonStatsButton.setPosition(x, y);
+        battleWonStatsCloseButton.setPosition(x + battleWonStatsTextField.getWidth() - battleWonStatsCloseButton.getWidth()/2,
+                y + battleWonStatsTextField.getHeight() - battleWonStatsCloseButton.getHeight()/2);
 
         battleWonStatsTable.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
         battleWonStatsTable.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
+        battleWonStatsScrollPanel.setHeight(battleWonStatsTable.getHeight());
+        battleWonStatsScrollPanel.setPosition(battleWonStatsTable.getX(), battleWonStatsTable.getY());
     }
 
     private void initStatusBars(Image blackbar, Image whitebar, Image statusBar, Label stats) {
@@ -2299,7 +2247,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case UPDATED_MP:
                 ProfileManager.getInstance().setProperty("currentPlayerMP", _statusUI.getMPValue());
                 break;
-            case UPDATED_XP:
+            case UPDATED_EXP:
                 ProfileManager.getInstance().setProperty("currentPlayerXP", _statusUI.getXPValue());
                 break;
             case LEVELED_UP:
@@ -2422,6 +2370,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 groupMp5.setVisible(false);
 
                 dimmedScreen.setVisible(false);
+
+                battleTextArea.setTouchable(Touchable.enabled);
             }
         };
     }
