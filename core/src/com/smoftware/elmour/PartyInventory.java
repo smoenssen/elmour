@@ -35,6 +35,7 @@ public class PartyInventory extends PartyInventorySubject {
 
     public void setInventoryList(String profileString) {
         if (profileString == null) return;
+        if (profileString.length() == 0) return;
         _list.clear();
 
         // create list based on delimited string of inventory element ids and quantities

@@ -14,6 +14,7 @@ import com.smoftware.elmour.InventoryItem.ItemTypeID;
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;
     private Array<ItemReward> rewardItems;
+    private Array<SpellsPowerElement.ElementID> spellPowerElementIDs;
     private Array<ItemTypeID> inventory;
     private Entity.State state = Entity.State.IDLE;
     private Entity.Direction direction = Entity.Direction.DOWN;
@@ -49,6 +50,7 @@ public class EntityConfig {
         DROPS,
         EXP,
         /////////////
+        SPELL_LIST,
         NONE
     }
 
@@ -78,6 +80,7 @@ public class EntityConfig {
         entityProperties = new ObjectMap<String, String>();
         rewardItems = new Array<ItemReward>();
         entityAbilities = new Array<EntityAbility>();
+        spellPowerElementIDs = new Array<>();
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
@@ -101,6 +104,19 @@ public class EntityConfig {
 
         Json _json = new Json();
         String fileData = _json.prettyPrint(_json.toJson(entityAbilities));
+
+        if( Gdx.files.isLocalStorageAvailable() ) {
+            FileHandle file = Gdx.files.local("test.json");
+            String encodedString = fileData;//Base64Coder.encodeString(fileData);
+            file.writeString(encodedString, false);
+        }
+        */
+/*
+        spellPowerElementIDs.add(SpellsPowerElement.ElementID.EARTH);
+        spellPowerElementIDs.add(SpellsPowerElement.ElementID.WATER);
+        spellPowerElementIDs.add(SpellsPowerElement.ElementID.FIRE);
+        Json _json = new Json();
+        String fileData = _json.prettyPrint(_json.toJson(spellPowerElementIDs));
 
         if( Gdx.files.isLocalStorageAvailable() ) {
             FileHandle file = Gdx.files.local("test.json");
@@ -132,6 +148,9 @@ public class EntityConfig {
 
         rewardItems = new Array<ItemReward>();
         rewardItems.addAll(config.getRewardItems());
+
+        spellPowerElementIDs = new Array<SpellsPowerElement.ElementID>();
+        spellPowerElementIDs.addAll(config.getSpellPowerElementIDs());
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
@@ -226,6 +245,12 @@ public class EntityConfig {
     public void setInventory(Array<ItemTypeID> inventory) { this.inventory = inventory; }
 
     public Array<ItemReward> getRewardItems() { return rewardItems; }
+
+    public Array<SpellsPowerElement.ElementID> getSpellPowerElementIDs() { return spellPowerElementIDs; }
+
+    public void setSpellPowerElementIDs(Array<SpellsPowerElement.ElementID> ids) { this.spellPowerElementIDs = ids; }
+
+    public void addSpellsPowerElementID(SpellsPowerElement.ElementID id) { spellPowerElementIDs.add(id); }
 
     static public class AnimationConfig{
         private float frameDuration = 1.0f;

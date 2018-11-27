@@ -40,3 +40,7 @@ SPD at the end of the cycle
 ATK, MATK, ACC, XP, DIBS, DROPS, LCK happen at character 2's turns
 DEF, MDEF, AVO happen immediately, and the turn starts with character 1's place in the turn order (e.g., 3rd place).
 Turn ends at the next character in the same place in the turn order (e'g', no matter who has the 3rd place in the turn order)
+
+What is the equation for AVO/ACC when not using spells/powers?
+
+when to show Powers button vs. Spells button

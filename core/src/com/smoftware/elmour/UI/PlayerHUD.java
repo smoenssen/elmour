@@ -127,6 +127,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton utilityButton;
     private TextButton noClipModeButton;
     private TextButton adjustInventoryButton;
+    private TextButton adjustSpellsPowersButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -312,6 +313,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         utilityButton = new TextButton("Utility", Utility.ELMOUR_UI_SKIN);
         noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
         adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
+        adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -356,6 +358,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         saveButton.setHeight(menuItemHeight);
         saveButton.setPosition(menuItemX, menuItemY);
         saveButton.setVisible(false);
+
+        adjustSpellsPowersButton.setWidth(menuItemWidth);
+        adjustSpellsPowersButton.setHeight(menuItemHeight);
+        adjustSpellsPowersButton.setPosition(menuItemX, menuItemY);
+        adjustSpellsPowersButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         debugButton.setWidth(menuItemWidth);
@@ -461,6 +468,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(utilityButton);
             _stage.addActor(noClipModeButton);
             _stage.addActor(adjustInventoryButton);
+            _stage.addActor(adjustSpellsPowersButton);
         }
 
         //_battleUI.validate();
@@ -601,6 +609,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        utilityButton.setVisible(true);
                                        noClipModeButton.setVisible(true);
                                        adjustInventoryButton.setVisible(true);
+                                       adjustSpellsPowersButton.setVisible(true);
                                        debugMenuIsVisible = true;
                                    }
                                }
@@ -676,6 +685,26 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           }
         );
 
+        adjustSpellsPowersButton.addListener(new ClickListener() {
+                                              @Override
+                                              public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                                  return true;
+                                              }
+
+                                              @Override
+                                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                                  // make sure touch point is still on this button
+                                                  if (touchPointIsInButton(adjustSpellsPowersButton)) {
+                                                      hideDebugMenu();
+                                                      Gdx.app.log(TAG, "adjustSpellsPowersButton clicked");
+
+                                                      AdjustSpellsPowersInputListener listener = new AdjustSpellsPowersInputListener(_stage);
+                                                      Gdx.input.getTextInput(listener, "Enter Character", "", "");
+                                                  }
+                                              }
+                                          }
+        );
+
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
                                                            @Override
                                                            public void clicked(InputEvent event, float x, float y) {
@@ -729,6 +758,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         utilityButton.setVisible(false);
         noClipModeButton.setVisible(false);
         adjustInventoryButton.setVisible(false);
+        adjustSpellsPowersButton.setVisible(false);
         debugMenuIsVisible = false;
     }
 

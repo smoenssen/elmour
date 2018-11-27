@@ -10,7 +10,8 @@ public class SpellsPowerElement {
     public enum SpellPowerCategory {
         Black,
         White,
-        Power
+        Power,
+        None
     }
 
     public enum Effect {
@@ -22,6 +23,21 @@ public class SpellsPowerElement {
         Stun
     }
 
+    public enum ElementID {
+        FIRE,
+        THUNDER,
+        EARTH,
+        WATER,
+        POWER_WORD_KILL,
+        LIFE,
+        HEAL,
+        POWER_WORD_HEAL,
+        SLASH,
+        KICK,
+        NONE
+    }
+
+    public ElementID id;
     public SpellPowerCategory category;
     public String name;
     public String summary;
@@ -40,4 +56,29 @@ public class SpellsPowerElement {
 
     public Array<EffectItem> effectList;
 
+    public SpellsPowerElement() {
+        // default values
+        id = ElementID.NONE;
+        turns = 0;//0x7FFFFFFF;
+    }
+
+    public SpellsPowerElement(SpellsPowerElement element) {
+        // copy constructor
+        this.category = element.category;
+        this.name = element.name;
+        this.id = element.id;
+        this.summary = element.summary;
+        this.MP = element.MP;
+        this.DMG = element.DMG;
+        this.ACC = element.ACC;
+        this.turns = element.turns;
+        this.Revive = element.Revive;
+        this.turns = element.turns;
+        this.Kill = element.Kill;
+
+        if (element.effectList != null) {
+            this.effectList = new Array<>();
+            this.effectList.addAll(element.effectList);
+        }
+    }
 }

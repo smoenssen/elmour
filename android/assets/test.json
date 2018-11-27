@@ -1,18 +1,14 @@
 [
 {
-	class: com.smoftware.elmour.EntityConfig$EntityAbility
-	name: Fire
-	numTurnsTilReset: 5
-	level: 3
-	maxHP: 15
-	priority: 1
+	class: com.smoftware.elmour.SpellsPowerElement$ElementID
+	value: EARTH
 }
 {
-	class: com.smoftware.elmour.EntityConfig$EntityAbility
-	name: Thunder
-	numTurnsTilReset: 43
-	level: 1
-	maxHP: 10
-	priority: 2
+	class: com.smoftware.elmour.SpellsPowerElement$ElementID
+	value: WATER
+}
+{
+	class: com.smoftware.elmour.SpellsPowerElement$ElementID
+	value: FIRE
 }
 ]

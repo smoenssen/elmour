@@ -673,11 +673,22 @@ public class BattleState extends BattleSubject implements StatusObserver {
         return HPD;
     }
 
+    private boolean checkForCriticalHit() {
+        int LCK = game.statusUI.getLCKValue(currentTurnCharacter);
+        float chanceOfCrit = (float)LCK / 5f;
+        float random = MathUtils.random(0f, 100f);
+        return chanceOfCrit > random;
+    }
+
     private Timer.Task getPlayerAttackCalculationTimer() {
         return new Timer.Task() {
             @Override
             public void run() {
                 int hitPoints = calculateHitPointDamage();
+                boolean criticalHit = checkForCriticalHit();
+                if (criticalHit) {
+                    hitPoints *= 2;
+                }
 
                 if (hitPoints < 0)
                     hitPoints = 0;
@@ -694,7 +705,10 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
                 if (hitPoints > 0) {
-                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
+                    if (criticalHit)
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.CRITICAL_HIT);
+                    else
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
@@ -713,6 +727,10 @@ public class BattleState extends BattleSubject implements StatusObserver {
             @Override
             public void run() {
                 int hitPoints = calculateHitPointDamage();
+                boolean criticalHit = checkForCriticalHit();
+                if (criticalHit) {
+                    hitPoints *= 2;
+                }
 
                 if (hitPoints < 0)
                     hitPoints = 0;
@@ -735,7 +753,10 @@ public class BattleState extends BattleSubject implements StatusObserver {
                     EntityFactory.getInstance().setEntityByName(currentSelectedCharacter.getEntityConfig().getEntityID(),
                             currentSelectedCharacter.getEntityConfig());
 
-                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
+                    if (criticalHit)
+                        BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.CRITICAL_HIT);
+                    else
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 if (newPlayerHP == 0) {

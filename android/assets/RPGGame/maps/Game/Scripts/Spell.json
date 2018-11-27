@@ -1,6 +1,7 @@
 [
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: FIRE
 	category: Black
 	name: Fire
 	summary: Launches a stream of fire towards the enemy.
@@ -22,6 +23,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: THUNDER
 	category: Black
 	name: Thunder
 	summary: Strikes the enemy with a massive bolt of energy.
@@ -43,6 +45,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: EARTH
 	category: Black
 	name: Earth
 	summary: Crushes the enemy with a pile of rocks.
@@ -65,6 +68,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: WATER
 	category: Black
 	name: Water
 	summary: Casts a powerful stream of water at the enemy that has a possibility of confusing them.
@@ -82,6 +86,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: POWER_WORD_KILL
 	category: Black
 	name: Power Word Kill
 	summary: Kills the enemy Instantaneously.
@@ -92,6 +97,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: LIFE
 	category: White
 	name: Life
 	summary: Reanimates an ally with half their max HP.
@@ -108,6 +114,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: HEAL
 	category: White
 	name: Heal
 	ACC: 100
@@ -118,6 +125,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: POWER_WORD_HEAL
 	category: White
 	name: Power Word Heal
 	summary: Reanimates an ally with all of their HP.
@@ -134,6 +142,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: SLASH
 	category: Power
 	name: Slash
 	summary: Cuts the enemy by swiping across their chest.
@@ -155,6 +164,7 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
+	id: KICK
 	category: Power
 	name: Kick
 	summary: The user thrusts their feet against the enemy.

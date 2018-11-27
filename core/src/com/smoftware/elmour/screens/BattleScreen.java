@@ -19,16 +19,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
@@ -43,7 +39,6 @@ import com.smoftware.elmour.UI.StatusArrows;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.battle.BattleObserver;
-import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -68,6 +63,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private final float CAMERA_POS_X = 40;
     private final float CAMERA_POS_Y = 6;
     private float cameraRunningOffset = 0;
+
+    private final String CRIT_HIT = "CRIT";
+    private final String MISS_HIT = "MISS";
+    private final String WEAK_HIT = "WEAK";
 
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> carmenBattleAnimations;
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> char1BattleAnimations;
@@ -1813,7 +1812,27 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
-    private void hitPointAnimation(Entity entity, String hitPoints) {
+    private Image getSpecialImage(String name) {
+        Image image = null;
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> animations = null;
+
+        if (name.equals(CRIT_HIT))
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.CRIT);
+        else if (name.equals(MISS_HIT))
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.MISS);
+        else if (name.equals(WEAK_HIT))
+            animations = GraphicsComponent.loadAnimationsByName(EntityFactory.EntityName.WEAK);
+
+        if (animations != null) {
+            Animation<TextureRegion> animation = animations.get(Entity.AnimationType.BATTLE_BURST);
+            TextureRegion frame = animation.getKeyFrame(0);
+            image = new Image(new TextureRegion(frame));
+            image.setScale(0.5f);
+        }
+        return image;
+    }
+
+    private void hitPointAnimation(Entity entity, String hitValue) {
         AnimatedImage character = getAnimatedImageFromEntity(entity);
 
         if (character != null) {
@@ -1823,21 +1842,34 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
             hitPointFloaterArray.clear();
 
-            float hitPointsImageWidth = 0;
-
-            for (int i = 0; i < hitPoints.length(); i++) {
-                Image image = getDigitImage(hitPoints.charAt(i));
-                hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
-                hitPointFloaterArray.add(image);
-            }
-
-            float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
-            float lastPositionY = character.getY() + character.getHeight() * 1.2f;
-            for (Image image : hitPointFloaterArray) {
+            if (hitValue.equals(CRIT_HIT) || hitValue.equals(MISS_HIT) || hitValue.equals(WEAK_HIT)) {
+                Image image = getSpecialImage(hitValue);
                 image.setScale(Map.UNIT_SCALE);
-                image.setPosition(lastPositionX, lastPositionY);
-                lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+
+                float positionX = character.getX() + character.getWidth() / 2 - (image.getWidth() * Map.UNIT_SCALE) / 2;
+                float positionY = character.getY() + character.getHeight() * 1.2f;
+                image.setPosition(positionX, positionY);
+
+                hitPointFloaterArray.add(image);
                 _stage.addActor(image);
+            }
+            else {
+                float hitPointsImageWidth = 0;
+
+                for (int i = 0; i < hitValue.length(); i++) {
+                    Image image = getDigitImage(hitValue.charAt(i));
+                    hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
+                    hitPointFloaterArray.add(image);
+                }
+
+                float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
+                float lastPositionY = character.getY() + character.getHeight() * 1.2f;
+                for (Image image : hitPointFloaterArray) {
+                    image.setScale(Map.UNIT_SCALE);
+                    image.setPosition(lastPositionX, lastPositionY);
+                    lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+                    _stage.addActor(image);
+                }
             }
 
             float minVelocityX = 2f;
@@ -1973,6 +2005,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                         }
                     }
                 }
+                break;
+            case CRITICAL_HIT:
+                hitPointAnimation(entity, CRIT_HIT);
+                break;
+            case MISS_HIT:
+                hitPointAnimation(entity, MISS_HIT);
+                break;
+            case WEAK_HIT:
+                hitPointAnimation(entity, WEAK_HIT);
                 break;
             case GAME_OVER:
             case BATTLE_OVER:

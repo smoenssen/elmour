@@ -3,13 +3,16 @@ BLOCK_RIGHT in hit.json crashes
 
 Can't block daggers or punching
 
-when exiting battle and re-entering immediately, character locations are messed up
 
 inventory.json and equipment.json
 EVO->AVO
 
 
 make sure number of turns executed is correct
-
-Re-entering battle too fast results in extra characters being displayed (but not in left hand HUD list)
 If used 2 potions of strength, crashes when attacking.
+fix empty battle text area for one frame
+if party member atacks another party member, the first party member shouldn't be able to block
+
+
+frame width and height wrong for CRIT, MISS, WEAK in json
+add element id to all spells and powers in json

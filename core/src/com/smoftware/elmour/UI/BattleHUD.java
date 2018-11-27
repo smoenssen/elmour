@@ -39,6 +39,7 @@ import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
+import com.smoftware.elmour.SpellPowerFactory;
 import com.smoftware.elmour.SpellsPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -129,6 +130,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     rootNode throwingRootNode = new rootNode(THROWING, false);
 
     private final String INVENTORY_EMPTY = "No inventory items";
+    private final String BLACK_SPELLS_EMPTY = "No black spells";
+    private final String WHITE_SPELLS_EMPTY = "No white spells";
+    private final String POWERS_EMPTY = "No powers";
     private final String SELECT_AN_ITEM = "Select an item";
     private final String SELECT_A_SPELL = "Select a spell";
     private final String SELECT_A_POWER = "Select a power";
@@ -519,6 +523,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         };
 
         middleTree.setIconSpacing(4, 4);
+
+        spellsPowerList = new ArrayList<>();
 
         spellsPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
         middleScrollPaneList = new ScrollPane(spellsPowerListView);
@@ -1617,6 +1623,29 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         //battleTextArea.setTouchable(Touchable.disabled);
     }
 
+    private boolean spellPowerAvailable(ScreenState screenState) {
+        SpellsPowerElement.SpellPowerCategory category = SpellsPowerElement.SpellPowerCategory.None;
+
+        switch (screenState) {
+            case SPELLS_BLACK:
+                category = SpellsPowerElement.SpellPowerCategory.Black;
+                break;
+            case SPELLS_WHITE:
+                category = SpellsPowerElement.SpellPowerCategory.White;
+                break;
+            case POWER:
+                category = SpellsPowerElement.SpellPowerCategory.Power;
+                break;
+        }
+
+        for (SpellsPowerElement element : spellsPowerList) {
+            if (element.category.equals(category))
+                return true;
+        }
+
+        return false;
+    }
+
     private void setHUDNewState(ScreenState newState) {
 
         Gdx.app.log(TAG, "setting new HUD state " + newState.toString());
@@ -1820,16 +1849,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 topRightButton.addAction(Actions.fadeOut(fadeTime/2));
                 statusButton.addAction(Actions.fadeOut(fadeTime/2));
 
-                //middleTree.setVisible(false);
-
                 middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
 
                 middleStatsTextArea.setVisible(true);
                 if (newState == ScreenState.POWER) {
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_POWER)));
+                    if (spellPowerAvailable(ScreenState.POWER))
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_POWER)));
+                    else
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, POWERS_EMPTY)));
                 }
-                else if (newState == ScreenState.SPELLS_BLACK || newState == ScreenState.SPELLS_WHITE) {
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
+                else if (newState == ScreenState.SPELLS_BLACK) {
+                    if (spellPowerAvailable(ScreenState.SPELLS_BLACK))
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
+                    else
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, BLACK_SPELLS_EMPTY)));
+                }
+                else if (newState == ScreenState.SPELLS_WHITE) {
+                    if (spellPowerAvailable(ScreenState.SPELLS_WHITE))
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
+                    else
+                        middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, WHITE_SPELLS_EMPTY)));
                 }
 
                 float startingHeight = topLeftButton.getHeight() + runButton.getHeight();
@@ -2143,7 +2182,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         if (!middleStatsTextArea.getText().equals(INVENTORY_EMPTY) &&
                                 !middleStatsTextArea.getText().equals(SELECT_AN_ITEM) &&
                                 !middleStatsTextArea.getText().equals(SELECT_A_POWER) &&
-                                !middleStatsTextArea.getText().equals(SELECT_A_SPELL)) {
+                                !middleStatsTextArea.getText().equals(SELECT_A_SPELL) &&
+                                !middleStatsTextArea.getText().equals(BLACK_SPELLS_EMPTY) &&
+                                !middleStatsTextArea.getText().equals(WHITE_SPELLS_EMPTY) &&
+                                !middleStatsTextArea.getText().equals(POWERS_EMPTY)) {
                             setHUDNewState(ScreenState.FINAL);
                         }
                         break;
@@ -2208,10 +2250,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     // load inventory from profile manager
                     String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
                     PartyInventory.getInstance().setInventoryList(partyInventoryString);
-
-                    // load spells/powers from json file
-                    Json json = new Json();
-                    spellsPowerList = json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal("RPGGame/maps/Game/Scripts/Spell.json"));
                 }
 
                 break;
@@ -2502,6 +2540,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public void onNotify(Entity entity, BattleEvent event) {
         Gdx.app.log(TAG, String.format("BattleEvent received: %s", event.toString()));
         switch(event){
+            //todo: special audio for battle events
             case PARTY_MEMBER_ADDED:
                 Gdx.app.log(TAG, "Party member added: " + entity.getEntityConfig().getDisplayName());
                 numberOfPartyMembers++;
@@ -2660,6 +2699,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 selectedCharacter = null;
                 break;
+            case CRITICAL_HIT:
+                break;
+            case MISS_HIT:
+                break;
+            case WEAK_HIT:
+                break;
             case BATTLE_WON:
                 battleWon = true;
                 break;
@@ -2715,6 +2760,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     // delay for one frame here to fix issue with blip when battleTextArea is set to visible
                     dummyTextArea.addAction(Actions.sequence(Actions.delay(currentDelta), Actions.fadeOut(currentDelta)));
+                }
+                else {
+                    // load character's spells/powers
+                    spellsPowerList.clear();
+
+                    String propertyKey = entity.getEntityConfig().getEntityID().toString().toUpperCase() + EntityConfig.EntityProperties.SPELL_LIST.toString();
+                    Array<SpellsPowerElement.ElementID> elementArray = ProfileManager.getInstance().getProperty(propertyKey, Array.class);
+
+                    if (elementArray != null) {
+                        for (SpellsPowerElement.ElementID id : elementArray) {
+                            SpellsPowerElement element = SpellPowerFactory.getInstance().getSpellPowerElement(id);
+                            spellsPowerList.add(element);
+                        }
+                    }
                 }
                 selectedCharacter = null;
                 break;

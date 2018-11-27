@@ -215,8 +215,8 @@ state : IDLE
 animationConfig: [
 	{
 			frameDuration: 0
-			frameWidth : 6
-			frameHeight : 19
+			frameWidth : 19
+			frameHeight : 8
 		animationType: BATTLE_BURST
 		texturePaths: [
 				RPGGame/maps/Game/Text/Battle_Bursts.png
@@ -236,8 +236,8 @@ state : IDLE
 animationConfig: [
 	{
 			frameDuration: 0
-			frameWidth : 6
-			frameHeight : 20
+			frameWidth : 20
+			frameHeight : 8
 		animationType: BATTLE_BURST
 		texturePaths: [
 				RPGGame/maps/Game/Text/Battle_Bursts.png
@@ -257,8 +257,8 @@ state : IDLE
 animationConfig: [
 	{
 			frameDuration: 0
-			frameWidth : 6
-			frameHeight : 20
+			frameWidth : 20
+			frameHeight : 8
 		animationType: BATTLE_BURST
 		texturePaths: [
 				RPGGame/maps/Game/Text/Battle_Bursts.png
