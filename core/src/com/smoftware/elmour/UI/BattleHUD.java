@@ -267,7 +267,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private BattleTextArea battleTextArea;
     private TextButton dummyTextArea;
 
-    private Image battleWonStatsCloseButton;
     private MyTextField battleWonStatsTextField;
     private ScrollPane battleWonStatsScrollPanel;
     private Table battleWonStatsTable;
@@ -282,6 +281,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private int xpReward = 0;
     private int dibsReward = 0;
+    private int rewardItemsShown = 0;
 
     public class RewardItem {
         public InventoryElement.ElementID itemID;
@@ -795,12 +795,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         battleWonStatsTextField.setWidth(middleAreaWidth);
         battleWonStatsTextField.setVisible(false);
 
-        // need close button so table can be scrolled
-        battleWonStatsCloseButton = new Image(new Texture("controllers/touchpadKnob.png"));
-        battleWonStatsCloseButton.setWidth(24);
-        battleWonStatsCloseButton.setHeight(24);
-        battleWonStatsCloseButton.setVisible(false);
-
         battleWonStatsTable = new Table();
         battleWonStatsTable.setWidth(battleWonStatsTextField.getWidth() - (2 * tablePadding));
         battleWonStatsTable.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
@@ -843,7 +837,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(dimmedScreen);
         _stage.addActor(battleWonStatsTextField);
         _stage.addActor(battleWonStatsScrollPanel);
-        _stage.addActor(battleWonStatsCloseButton);
 
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
@@ -1351,7 +1344,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTextField.setVisible(true);
                                                battleWonStatsTextField.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
-                                               battleWonStatsCloseButton.setVisible(true);
                                                battleWonStatsTable.clear();
                                                battleWonStatsTable.setVisible(true);
 
@@ -1434,7 +1426,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                    }
         );
 
-        battleWonStatsCloseButton.addListener(new ClickListener() {
+        battleWonStatsScrollPanel.addListener(new ClickListener() {
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                            return true;
@@ -1442,11 +1434,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           if (battleWon && rewardItems.size > 0) {
-                                               battleWon = false;
+                                           int maxRowsToShow = 10;
 
-                                               int numRows = rewardItems.size + 1;
-                                               setBattleWonStatsControlSize(numRows);
+                                           if (ElmourGame.isAndroid())
+                                               maxRowsToShow = 6;
+
+                                           if (battleWon && rewardItems.size > 0 && rewardItemsShown < rewardItems.size) {
+
+                                               int numRowsToShow = MathUtils.clamp(rewardItems.size - rewardItemsShown, 0, maxRowsToShow);
+                                               setBattleWonStatsControlSize(numRowsToShow + 1);
 
                                                battleWonStatsTable.clear();
 
@@ -1460,8 +1456,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTable.add(stat).align(Align.left);
                                                battleWonStatsTable.add(value).align(Align.right);
 
-                                               for (RewardItem item : rewardItems) {
-                                                   battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
+                                               for (int i = rewardItemsShown, j = 0; i < rewardItems.size && j < numRowsToShow; i++, j++) {
+                                                   RewardItem item = rewardItems.get(i);
+                                                   battleWonStatsTable.row().width(battleWonStatsTable.getWidth() / 2).height(battleWonStatsRowHeight);
                                                    Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
 
                                                    InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(item.itemID);
@@ -1474,18 +1471,21 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                    value2.setAlignment(Align.right);
                                                    battleWonStatsTable.add(stat2).align(Align.left);
                                                    battleWonStatsTable.add(value2).align(Align.right);
+
+                                                   rewardItemsShown++;
                                                }
                                            }
                                            else {
                                                dimmedScreen.addAction(Actions.fadeOut(1));
                                                battleWonStatsTextField.setVisible(false);
-                                               battleWonStatsCloseButton.setVisible(false);
                                                battleWonStatsTable.setVisible(false);
 
                                                game.battleState.battleOver();
 
                                                // reset for next battle
                                                rewardItems.clear();
+                                               rewardItemsShown = 0;
+                                               battleWon = false;
 
                                                if( !resetControlsTimer().isScheduled() ){
                                                    Timer.schedule(resetControlsTimer(), 2);
@@ -1509,17 +1509,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private void setBattleWonStatsControlSize(int numRows) {
         // height should be number of rows plus a little to allow for top and bottom padding
-        float padding = numRows + 1.125f;
-
-        float height = MathUtils.clamp(battleWonStatsRowHeight * padding, 0, battleWonStatsRowHeight * 6);
-        battleWonStatsTextField.setHeight(height);
+        float rowHeight = numRows + 1.125f;
+        battleWonStatsTextField.setHeight(battleWonStatsRowHeight * rowHeight);
 
         float x = _stage.getWidth()/2 - battleWonStatsTextField.getWidth()/2;
         float y = (menuItemHeight * 2) + (_stage.getHeight() - (menuItemHeight * 2))/2 - battleWonStatsTextField.getHeight()/2;
 
         battleWonStatsTextField.setPosition(x, y);
-        battleWonStatsCloseButton.setPosition(x + battleWonStatsTextField.getWidth() - battleWonStatsCloseButton.getWidth()/2,
-                y + battleWonStatsTextField.getHeight() - battleWonStatsCloseButton.getHeight()/2);
 
         battleWonStatsTable.setHeight(battleWonStatsTextField.getHeight() - (2 * tablePadding));
         battleWonStatsTable.setPosition(battleWonStatsTextField.getX() + tablePadding, battleWonStatsTextField.getY() + battleWonStatsRowHeight/1.45f);
@@ -2347,13 +2343,17 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 setLabelFontColor(enemy4Name, Color.DARK_GRAY);
                 setLabelFontColor(enemy5Name, Color.DARK_GRAY);
 
-                for (int i = 1; i <= numberOfPartyMembers; i++) {
-                    battleScreen.removePartyMember(i);
-                }
+                //for (int i = 1; i <= numberOfPartyMembers; i++) {
+                //    battleScreen.removePartyMemberByIndex(i);
+                //}
 
-                for (int i = 1; i <= numberOfOpponents; i++) {
-                    battleScreen.removeOpponentByIndex(i);
-                }
+                battleScreen.removeAllPartyMembers();
+
+                //for (int i = 1; i <= numberOfOpponents; i++) {
+                //    battleScreen.removeOpponentByIndex(i);
+                //}
+
+                battleScreen.removeAllOpponents();
 
                 numberOfPartyMembers = 0;
                 numberOfOpponents = 0;
@@ -2638,7 +2638,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     for (EntityConfig.ItemReward item : items) {
                         // check probability of getting reward item
                         int randomVal = MathUtils.random(1, 100);
-                        //if (item.probability > randomVal) {
+                        if (item.probability > randomVal) {
                             boolean inList = false;
                             for (RewardItem rewardItem : rewardItems) {
                                 if (rewardItem.itemID.equals(item.itemID)) {
@@ -2654,7 +2654,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                 newItem.quantity = 1;
                                 rewardItems.add(newItem);
                             }
-                        //}
+                        }
                     }
                 }
 

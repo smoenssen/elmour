@@ -1526,7 +1526,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _stage.addActor(blackScreen);
     }
 
-    public void removePartyMember(int index) {
+    public void removeAllPartyMembers() {
+        for (int i = 0; i < 5; i++)
+            removePartyMemberByIndex(i);
+    }
+
+    public void removePartyMemberByIndex(int index) {
 
         // remove actor from the stage
         switch (index) {
@@ -1549,6 +1554,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     public void addOpponent(Entity enemyEntity, int index) {
+
+        Gdx.app.log(TAG, "Adding enemy " + enemyEntity.getEntityConfig().getDisplayName());
 
         // make sure fade in image is on top of z order
         blackScreen.remove();
@@ -1589,24 +1596,29 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _stage.addActor(blackScreen);
     }
 
+    public void removeAllOpponents() {
+        for (int i = 0; i < 5; i++)
+            removeOpponentByIndex(i);
+    }
+
     public void removeOpponentByIndex(int index) {
 
         // remove actor from the stage
         switch (index) {
             case 1:
-                removeOpponent(enemy1);
+                enemy1.remove();
                 break;
             case 2:
-                removeOpponent(enemy2);
+                enemy2.remove();
                 break;
             case 3:
-                removeOpponent(enemy3);
+                enemy3.remove();
                 break;
             case 4:
-                removeOpponent(enemy4);
+                enemy4.remove();
                 break;
             case 5:
-                removeOpponent(enemy5);
+                enemy5.remove();
                 break;
         }
     }
