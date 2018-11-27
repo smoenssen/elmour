@@ -1391,16 +1391,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case MENU:
                 battleControls.hideABButtons();
                 break;
-            case SPELL_TYPE:
-                battleControls.hideABButtons();
-                break;
-            case SPELLS_BLACK:
-                battleControls.showABButtons();
-                break;
-            case SPELLS_WHITE:
-                battleControls.showABButtons();
-                break;
-            case POWER:
+            case SPELLS_POWER:
                 battleControls.showABButtons();
                 break;
             case STATS:
