@@ -70,7 +70,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     // for keeping track of node's expanded state
     // and .equals comparison for .contains function
-    Array<rootNode> rootNodeArray = new Array<>();
+    Array<rootNode> inventoryRootNodeArray = new Array<>();
+    Array<rootNode> spellPowerRootNodeArray = new Array<>();
+
     class rootNode {
         String name = "";
         boolean isExpanded = false;
@@ -104,7 +106,29 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             InventoryNode that = (InventoryNode) o;
-            boolean test = elementID.equals(that.elementID);
+            return elementID.equals(that.elementID);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(elementID);
+        }
+    }
+
+    class SpellPowerNode extends Tree.Node {
+        SpellsPowerElement.ElementID elementID;
+
+        public SpellPowerNode(TextButton textButton, SpellsPowerElement.ElementID elementID) {
+            super(textButton);
+            this.elementID = elementID;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SpellPowerNode that = (SpellPowerNode) o;
             return elementID.equals(that.elementID);
         }
 
@@ -118,9 +142,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     final String POTIONS = "Potions";
     final String CONSUMABLES = "Consumables";
     final String THROWING = "Throwing Items";
+    final String BLACK_MAGIC = "Black Magic";
+    final String WHITE_MAGIC = "White Magic";
+    final String POWERS = "Powers";
     final String BATTLE_WON = "Battle WON!";
     final String BATTLE_LOST = "Battle LOST!";
 
+    // Inventory tree
     Tree.Node PotionsNode = new Tree.Node(new TextButton(POTIONS, Utility.ELMOUR_UI_SKIN, "tree_node"));
     Tree.Node ConsumablesNode = new Tree.Node(new TextButton(CONSUMABLES, Utility.ELMOUR_UI_SKIN, "tree_node"));
     Tree.Node ThrowingNode = new Tree.Node(new TextButton(THROWING, Utility.ELMOUR_UI_SKIN, "tree_node"));
@@ -129,10 +157,18 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     rootNode consumablesRootNode = new rootNode(CONSUMABLES, false);
     rootNode throwingRootNode = new rootNode(THROWING, false);
 
+    // Spells/Power tree
+    Tree.Node BlackMagicNode = new Tree.Node(new TextButton(BLACK_MAGIC, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node WhiteMagicNode = new Tree.Node(new TextButton(WHITE_MAGIC, Utility.ELMOUR_UI_SKIN, "tree_node"));
+    Tree.Node PowersNode = new Tree.Node(new TextButton(POWERS, Utility.ELMOUR_UI_SKIN, "tree_node"));
+
+    rootNode blackMagicRootNode = new rootNode(BLACK_MAGIC, false);
+    rootNode whiteMagicRootNode = new rootNode(WHITE_MAGIC, false);
+    rootNode powersRootNode = new rootNode(POWERS, false);
+
     private final String INVENTORY_EMPTY = "No inventory items";
     private final String ABILITIES_EMPTY = "No abilities";
     private final String SELECT_AN_ITEM = "Select an item";
-    private final String SELECT_A_SPELL = "Select a spell";
     private final String SELECT_AN_ABILITY = "Select an ability";
     private final String CHOOSE_A_CHARACTER = "Choose a character";
     private final String CHOOSE_AN_ENEMY = "Choose an enemy";
@@ -185,17 +221,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     private float middleAreaWidth;
 
-    // scrolling list
-    private List<String> spellsPowerListView;
-    private ScrollPane middleScrollPaneList;
+    // scrolling spells/powers tree
+    private Tree spellPowerTree;
+    private ScrollPane spellPowerScrollPaneTree;
+
+    //private List<String> spellsPowerListView;
+    //private ScrollPane middleScrollPaneList;
     private ArrayList<SpellsPowerElement> spellsPowerList;
     private SpellsPowerElement selectedSpellsPowerElement;
 
-    // scrolling tree
+    // scrolling inventory tree
     private MyTextArea middleTreeTextArea;
-    private Tree middleTree;
+    private Tree inventoryTree;
     private float middleTreeHeight;
-    private ScrollPane middleScrollPaneTree;
+    private ScrollPane inventoryScrollPaneTree;
     private InventoryElement selectedInventoryElement;
 
     // area under scrolling tree
@@ -495,7 +534,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleTreeTextArea.setPosition(_stage.getWidth() - rightTextAreaWidth - middleAreaWidth, menuItemHeight * 2 - 2);
         middleTreeTextArea.setVisible(false);
 
-        middleTree = new Tree(Utility.ELMOUR_UI_SKIN) {
+        inventoryTree = new Tree(Utility.ELMOUR_UI_SKIN) {
             @Override
             public void setStyle(TreeStyle style) {
                 super.setStyle(style);
@@ -515,25 +554,53 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             }
         };
 
-        middleTree.setIconSpacing(4, 4);
+        inventoryTree.setIconSpacing(4, 4);
+
+        spellPowerTree = new Tree(Utility.ELMOUR_UI_SKIN) {
+            @Override
+            public void setStyle(TreeStyle style) {
+                super.setStyle(style);
+
+                // After having called the base class's setStyle,
+                // use reflection to find and alter the indentSpacing field.
+                try {
+                    Field field = Tree.class.getDeclaredField("indentSpacing");
+                    field.setAccessible(true);
+                    field.set(this, 8); // This is how much you want each plus and minus indented.
+                    System.out.println(field);
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        spellPowerTree.setIconSpacing(4, 4);
 
         spellsPowerList = new ArrayList<>();
-
+/*
         spellsPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
         middleScrollPaneList = new ScrollPane(spellsPowerListView);
         middleScrollPaneList.setWidth(middleTreeTextArea.getWidth() - 4);
         middleScrollPaneList.setHeight(0);
         middleScrollPaneList.setTouchable(Touchable.disabled);
         middleScrollPaneList.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
-
+*/
         // set padding on left side of list elements
         Utility.ELMOUR_UI_SKIN.get(List.ListStyle.class).selection.setLeftWidth(15);
 
-        middleScrollPaneTree = new ScrollPane(middleTree);
-        middleScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
-        middleScrollPaneTree.setHeight(0);
-        middleScrollPaneTree.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
-        middleTree.setVisible(false);
+        inventoryScrollPaneTree = new ScrollPane(inventoryTree);
+        inventoryScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
+        inventoryScrollPaneTree.setHeight(0);
+        inventoryScrollPaneTree.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
+        inventoryTree.setVisible(false);
+
+        spellPowerScrollPaneTree = new ScrollPane(spellPowerTree);
+        spellPowerScrollPaneTree.setWidth(middleTreeTextArea.getWidth() - 4);
+        spellPowerScrollPaneTree.setHeight(0);
+        spellPowerScrollPaneTree.setPosition(middleTreeTextArea.getX() + 2, menuItemHeight * 2);
+        spellPowerTree.setVisible(false);
 
         middleTextAreaTable = new Table();
         middleTextAreaTable.setWidth(middleAreaWidth - (2 * tablePadding));
@@ -828,8 +895,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         _stage.addActor(dummyButtonLeft);
         _stage.addActor(dummyButtonRight);
         _stage.addActor(middleTreeTextArea);
-        _stage.addActor(middleScrollPaneTree);
-        _stage.addActor(middleScrollPaneList);
+        _stage.addActor(inventoryScrollPaneTree);
+        _stage.addActor(spellPowerScrollPaneTree);
+        //_stage.addActor(middleScrollPaneList);
         _stage.addActor(battleTextArea);
         _stage.addActor(rightTextArea);
         _stage.addActor(rightTable);
@@ -865,23 +933,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                 }
                                                 else if (topLeftButton.getText().toString().equals(BTN_NAME_ABILITIES) && currentScreenState == ScreenState.FIGHT) {
                                                     // load white spells
-                                                    int numElements = 0;
-                                                    for (SpellsPowerElement element : spellsPowerList) {
-                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.White) {
-                                                            numElements++;
-                                                        }
-                                                    }
+                                                    populateSpellPowerTree();
 
-                                                    String[] strings = new String[numElements];
-                                                    int index = 0;
-                                                    for (SpellsPowerElement element : spellsPowerList) {
-                                                        if (element.category == SpellsPowerElement.SpellPowerCategory.White) {
-                                                            strings[index++] = element.name;
-                                                        }
-                                                    }
-
-                                                    spellsPowerListView.setItems(strings);
-                                                    spellsPowerListView.setSelectedIndex(-1);
+                                                    //spellsPowerListView.setItems(strings);
+                                                    //spellsPowerListView.setSelectedIndex(-1);
                                                     setHUDNewState(ScreenState.SPELLS_POWER);
                                                 }
                                             }
@@ -1081,7 +1136,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                  }
         );
 
-        spellsPowerListView.addListener(new ClickListener() {
+        /*spellPowerTree.addListener(new ClickListener() {
                                     @Override
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                         return true;
@@ -1175,9 +1230,139 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                         }
                                     }
                                 }
+        );*/
+
+        spellPowerTree.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+                                           // don't process touchUp if switched screens
+                                           ScreenState currentScreenState = ScreenState.MAIN;
+
+                                           if (screenStack.size() > 0) {
+                                               currentScreenState = screenStack.peek();
+                                           }
+
+                                           // get associated element from spells/power list based on name
+                                           /*SpellsPowerElement element = null;
+                                           for (SpellsPowerElement item : spellsPowerList) {
+                                               if (item.name.equals(spellsPowerListView.getSelected())) {
+                                                   element = item;
+                                                   break;
+                                               }
+                                           }*/
+
+                                           Selection<Tree.Node> selection = spellPowerTree.getSelection();
+                                           for (Tree.Node node : selection) {
+                                               // get selected tree item
+                                               SpellsPowerElement element = (SpellsPowerElement) node.getObject();
+
+                                               if (element != null) {
+                                                   selectedSpellsPowerElement = element;
+
+                                                   // replace asterisks in summary with a comma
+                                                   String summary = selectedSpellsPowerElement.summary.replace('*', ',');
+                                                   leftSummaryText.setText(summary);
+
+                                                   middleTextAreaTable.clear();
+                                                   middleStatsTextArea.setText("", true);
+                                                   middleTextAreaTable.setVisible(true);
+
+                                                   if (selectedSpellsPowerElement.MP != 0) {
+                                                       middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
+
+                                                       Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       stat.setText("MP");
+                                                       stat.setAlignment(Align.left);
+                                                       Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       value.setText(String.format("%d", selectedSpellsPowerElement.MP));
+                                                       value.setAlignment(Align.right);
+
+                                                       middleTextAreaTable.add(stat).align(Align.left);
+                                                       middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                                   }
+                                                   if (selectedSpellsPowerElement.DMG != 0) {
+                                                       middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
+
+                                                       Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       stat.setText("DMG");
+                                                       stat.setAlignment(Align.left);
+                                                       Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       value.setText(String.format("%d", selectedSpellsPowerElement.DMG));
+                                                       value.setAlignment(Align.right);
+
+                                                       middleTextAreaTable.add(stat).align(Align.left);
+                                                       middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                                   }
+                                                   if (selectedSpellsPowerElement.ACC != 0) {
+                                                       middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
+
+                                                       Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       stat.setText("ACC");
+                                                       stat.setAlignment(Align.left);
+                                                       Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                       value.setText(String.format("%d", selectedSpellsPowerElement.ACC));
+                                                       value.setAlignment(Align.right);
+
+                                                       middleTextAreaTable.add(stat).align(Align.left);
+                                                       middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
+                                                   }
+                                                   if (selectedSpellsPowerElement.effectList != null) {
+                                                       for (SpellsPowerElement.EffectItem effect : selectedSpellsPowerElement.effectList) {
+                                                           middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
+
+                                                           Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                           stat.setText(effect.effect.toString());
+                                                           stat.setAlignment(Align.left);
+                                                           Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
+                                                           value.setText(effect.value.toString());
+                                                           value.setAlignment(Align.right);
+
+                                                           middleTextAreaTable.add(stat).align(Align.left);
+                                                           middleTextAreaTable.add(value).align(Align.right);
+                                                       }
+                                                   }
+                                               }
+                                               else {
+                                                   leftSummaryText.setText("");
+                                                   middleStatsTextArea.setText("", true);
+                                                   middleTextAreaTable.clear();
+                                                   middleStatsTextArea.setText(SELECT_AN_ABILITY, true);
+
+                                                   // expand or collapse if root node selected
+                                                   TextButton btn = (TextButton)node.getActor();
+                                                   if (btn != null) {
+                                                       for (rootNode r : spellPowerRootNodeArray) {
+                                                           if (r.name.equals(btn.getLabel().getText().toString())) {
+                                                               if (r.isExpanded) {
+                                                                   r.isExpanded = false;
+                                                                   node.collapseAll();
+                                                               }
+                                                               else {
+                                                                   r.isExpanded = true;
+                                                                   node.expandAll();
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+
+                                                   // clear selection so next root node selection is not unselected
+                                                   spellPowerTree.getSelection().clear();
+                                               }
+
+                                               // should only be one node selected
+                                               break;
+                                           }
+                                       }
+                                   }
         );
 
-        middleTree.addListener(new ClickListener() {
+        inventoryTree.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                        return true;
@@ -1197,7 +1382,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            return;
                                        }
 
-                                       Selection<Tree.Node> selection = middleTree.getSelection();
+                                       Selection<Tree.Node> selection = inventoryTree.getSelection();
                                        for (Tree.Node node : selection) {
                                            // get selected tree item
                                            InventoryElement element = (InventoryElement) node.getObject();
@@ -1238,7 +1423,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                // expand or collapse if root node selected
                                                TextButton btn = (TextButton)node.getActor();
                                                if (btn != null) {
-                                                   for (rootNode r : rootNodeArray) {
+                                                   for (rootNode r : inventoryRootNodeArray) {
                                                        if (r.name.equals(btn.getLabel().getText().toString())) {
                                                            if (r.isExpanded) {
                                                                r.isExpanded = false;
@@ -1253,7 +1438,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                }
 
                                                // clear selection so next root node selection is not unselected
-                                               middleTree.getSelection().clear();
+                                               inventoryTree.getSelection().clear();
 
                                                // DON"T DO THIS!! It actually clears out the element's info
                                                //selectedInventoryElement.summary = "";
@@ -1525,10 +1710,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             dummyButtonRight.act(delta);
             dummyTextArea.act(delta);
             battleTextArea.act(delta);
-            middleTree.act(delta);
+            inventoryTree.act(delta);
             middleTreeTextArea.act(delta);
-            middleScrollPaneTree.act(delta);
-            middleScrollPaneList.act(delta);
+            inventoryScrollPaneTree.act(delta);
+            spellPowerScrollPaneTree.act(delta);
+            //middleScrollPaneList.act(delta);
             rightTextArea.act(delta);
             rightTable.act(delta);
         }
@@ -1619,12 +1805,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     leftSummaryText.addAction(Actions.fadeOut(fadeTime/2));
                     leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), myActions.new setLabelText(leftSummaryText, "")));
 
-                    middleTree.setTouchable(Touchable.disabled);
+                    inventoryTree.setTouchable(Touchable.disabled);
 
                     middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                     middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
 
-                    middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                    inventoryScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                     backButton.setHeight(2);
                     backButton.setVisible(true);
@@ -1671,8 +1857,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                     middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
 
-                    middleScrollPaneList.setTouchable(Touchable.disabled);
-                    middleScrollPaneList.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                    spellPowerTree.setTouchable(Touchable.disabled);
+                    spellPowerScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                     backButton.setHeight(2);
                     backButton.setVisible(true);
@@ -1712,7 +1898,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 topRightButton.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
                 statusButton.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
 
-                middleTree.setTouchable(Touchable.enabled);
+                inventoryTree.setTouchable(Touchable.enabled);
 
                 middleStatsTextArea.setPosition(middleStatsTextArea.getX(), 2);
                 middleStatsTextArea.setVisible(true);
@@ -1727,14 +1913,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 middleTreeTextArea.setVisible(true);
 
                 // reset tree selection
-                middleTree.setVisible(true);
-                middleTree.collapseAll();
-                Selection<Tree.Node> selection = middleTree.getSelection();
+                inventoryTree.setVisible(true);
+                inventoryTree.collapseAll();
+                Selection<Tree.Node> selection = inventoryTree.getSelection();
                 if (selection != null) {
                     selection.clear();
                 }
 
-                middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+                inventoryScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
                 leftSummaryText.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
 
@@ -1758,12 +1944,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 topRightButton.addAction(Actions.fadeOut(fadeTime/2));
                 statusButton.addAction(Actions.fadeOut(fadeTime/2));
 
-                middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
+                spellPowerTree.setTouchable(Touchable.enabled);
+
+                //middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
 
                 middleStatsTextArea.setVisible(true);
 
                 if (spellsPowerList.size() > 0)
-                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_A_SPELL)));
+                    middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_AN_ABILITY)));
                 else
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, ABILITIES_EMPTY)));
 
@@ -1781,7 +1969,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 middleTreeTextArea.addAction(Actions.sizeBy(0, middleTreeHeight, fadeTime));
                 middleTreeTextArea.setVisible(true);
 
-                middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+                // reset tree selection
+                spellPowerTree.setVisible(true);
+                spellPowerTree.collapseAll();
+                Selection<Tree.Node> spellPowerTreeSelection = spellPowerTree.getSelection();
+                if (spellPowerTreeSelection != null) {
+                    spellPowerTreeSelection.clear();
+                }
+
+                spellPowerScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
                 leftSummaryText.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
 
@@ -1839,8 +2035,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                         middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
 
-                        middleScrollPaneList.setTouchable(Touchable.disabled);
-                        middleScrollPaneList.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                        spellPowerTree.setTouchable(Touchable.disabled);
+                        spellPowerScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                         middleStatsTextArea.setText("", true);
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
@@ -1865,7 +2061,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                         middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
 
-                        middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                        inventoryScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                         backButton.setVisible(true);
                         backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.25f), myActions.new setButtonText(backButton, BTN_NAME_BACK)));
@@ -1880,14 +2076,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     break;
                 case INVENTORY:
                     if (currentScreenState == ScreenState.FINAL) {
-                        middleTree.setTouchable(Touchable.enabled);
-                        middleTree.setVisible(true);
+                        inventoryTree.setTouchable(Touchable.enabled);
+                        inventoryTree.setVisible(true);
 
                         middleTextAreaTable.addAction(Actions.fadeOut(0));
                         middleTextAreaTable.setVisible(true);
                         middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
-                        middleScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+                        inventoryScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
                         setCommonTransitionBackFromFinal();
                     }
@@ -1907,12 +2103,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         enemy4Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
                         enemy5Name.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
 
-                        middleTree.setTouchable(Touchable.disabled);
+                        inventoryTree.setTouchable(Touchable.disabled);
 
                         middleTreeTextArea.addAction(Actions.sizeBy(0, -middleTreeHeight, fadeTime));
                         middleTreeTextArea.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), Actions.fadeOut(fadeTime * 0.2f)));
 
-                        middleScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
+                        inventoryScrollPaneTree.addAction(Actions.sizeBy(0, (middleTreeHeight - 4) * -1, fadeTime));
 
                         middleStatsTextArea.setText("", true);
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime * crossFadeOutFactor));
@@ -1920,7 +2116,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         leftSummaryText.setText("");
 
                         // reset root node array
-                        for (rootNode r : rootNodeArray) {
+                        for (rootNode r : inventoryRootNodeArray) {
                             r.isExpanded = false;
                         }
                     }
@@ -1974,10 +2170,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleTreeTextArea.setHeight(0);
                         middleTreeTextArea.addAction(Actions.fadeOut(fadeTime));
 
-                        middleTree.setVisible(false);
+                        inventoryTree.setVisible(false);
 
-                        middleScrollPaneTree.setHeight(0);
-                        middleScrollPaneList.setHeight(0);
+                        inventoryScrollPaneTree.setHeight(0);
+                        spellPowerScrollPaneTree.setHeight(0);
+                        //middleScrollPaneList.setHeight(0);
 
                         middleStatsTextArea.setText("", true);
                         middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
@@ -1990,12 +2187,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 case MENU:
                     break;
                 case SPELLS_POWER:
+                    /*
                     middleTextAreaTable.setVisible(true);
 
                     middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
                     middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
                     setCommonTransitionBackFromFinal();
+                    */
+                    if (currentScreenState == ScreenState.FINAL) {
+                        spellPowerTree.setTouchable(Touchable.enabled);
+                        spellPowerTree.setVisible(true);
+
+                        middleTextAreaTable.addAction(Actions.fadeOut(0));
+                        middleTextAreaTable.setVisible(true);
+                        middleTextAreaTable.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
+
+                        spellPowerScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
+
+                        setCommonTransitionBackFromFinal();
+                    }
 
                     break;
                 case STATS:
@@ -2073,7 +2284,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         if (!middleStatsTextArea.getText().equals(INVENTORY_EMPTY) &&
                                 !middleStatsTextArea.getText().equals(SELECT_AN_ITEM) &&
                                 !middleStatsTextArea.getText().equals(SELECT_AN_ABILITY) &&
-                                !middleStatsTextArea.getText().equals(SELECT_A_SPELL) &&
                                 !middleStatsTextArea.getText().equals(ABILITIES_EMPTY)) {
                             setHUDNewState(ScreenState.FINAL);
                         }
@@ -2917,6 +3127,83 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         return String.format("%s (%d)", name, quantity);
     }
 
+    private void clearSpellPowerTree() {
+        Array<Tree.Node> nodeArray = null;
+        rootNode rNode = whiteMagicRootNode;
+        Tree.Node categoryNode = WhiteMagicNode;
+
+        categoryNode.getChildren().clear();
+/*
+        if (nodeArray != null && nodeArray.size != 0) {
+            // find node in tree
+            for (Tree.Node nodeIterator : nodeArray) {
+                SpellPowerNode n = (SpellPowerNode) nodeIterator;
+                categoryNode.remove(n);
+            }
+        }
+*/
+        categoryNode.remove();  // remove from tree
+        //spellPowerRootNodeArray.removeValue(rNode, false); // remove from rootNode array
+    }
+
+    private void populateSpellPowerTree() {
+        //clearSpellPowerTree();
+
+        int numElements = 0;
+        for (SpellsPowerElement element : spellsPowerList) {
+            Array<Tree.Node> nodeArray = null;
+            rootNode rNode = null;
+            SpellPowerNode spellPowerNode = null;
+            Tree.Node categoryNode = null;
+            String categoryName = "";
+
+            switch (element.category) {
+                case White:
+                    categoryNode = WhiteMagicNode;
+                    categoryName = WHITE_MAGIC;
+                    rNode = whiteMagicRootNode;
+                    break;
+                case Black:
+                    categoryNode = BlackMagicNode;
+                    categoryName = BLACK_MAGIC;
+                    rNode = blackMagicRootNode;
+                    break;
+                case Power:
+                    categoryNode = PowersNode;
+                    categoryName = POWERS;
+                    rNode = powersRootNode;
+                    break;
+            }
+
+            if (categoryNode == null) {
+                continue;
+            }
+
+            nodeArray = categoryNode.getChildren();
+
+            if (nodeArray != null && nodeArray.size != 0) {
+                // find node in tree
+                for (Tree.Node nodeIterator : nodeArray) {
+                    SpellPowerNode n = (SpellPowerNode) nodeIterator;
+                    if (element.id.equals(n.elementID)) {
+                        spellPowerNode = n;
+                        break;
+                    }
+                }
+            }
+            else {
+                // add root node
+                spellPowerRootNodeArray.add(new rootNode(categoryName, false));
+                spellPowerTree.add(categoryNode);
+            }
+
+            // add node
+            SpellPowerNode node = new SpellPowerNode(new TextButton(element.name, Utility.ELMOUR_UI_SKIN, "tree_node"), element.id);
+            node.setObject(element);
+            categoryNode.add(node);
+        }
+    }
+
     @Override
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
         InventoryElement element = partyInventoryItem.getElement();
@@ -2963,8 +3250,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
         else {
             // add root node
-            rootNodeArray.add(new rootNode(categoryName, false));
-            middleTree.add(categoryNode);
+            inventoryRootNodeArray.add(new rootNode(categoryName, false));
+            inventoryTree.add(categoryNode);
         }
 
         PartyInventoryItem item = PartyInventory.getInstance().getItem(element);
@@ -2998,7 +3285,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                     nodeArray = categoryNode.getChildren();
                     if (nodeArray.size == 0) {
                         categoryNode.remove();  // remove from tree
-                        rootNodeArray.removeValue(rNode, false); // remove from rootNode array
+                        inventoryRootNodeArray.removeValue(rNode, false); // remove from rootNode array
                     }
                 }
                 break;
