@@ -2085,7 +2085,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                         inventoryScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
-                        setCommonTransitionBackFromFinal();
+                        setCommonTransitionBackFromFinal(ScreenState.INVENTORY);
                     }
 
                     break;
@@ -2187,14 +2187,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 case MENU:
                     break;
                 case SPELLS_POWER:
-                    /*
-                    middleTextAreaTable.setVisible(true);
-
-                    middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
-                    middleScrollPaneList.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
-
-                    setCommonTransitionBackFromFinal();
-                    */
                     if (currentScreenState == ScreenState.FINAL) {
                         spellPowerTree.setTouchable(Touchable.enabled);
                         spellPowerTree.setVisible(true);
@@ -2205,9 +2197,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                         spellPowerScrollPaneTree.addAction(Actions.sizeBy(0, middleTreeHeight - 4, fadeTime));
 
-                        setCommonTransitionBackFromFinal();
+                        setCommonTransitionBackFromFinal(ScreenState.SPELLS_POWER);
                     }
-
                     break;
                 case STATS:
                     break;
@@ -2226,7 +2217,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         }
     }
 
-    private void setCommonTransitionBackFromFinal() {
+    private void setCommonTransitionBackFromFinal(ScreenState state) {
         enemy1Name.addAction(Actions.fadeOut(fadeTime/2));
         enemy2Name.addAction(Actions.fadeOut(fadeTime/2));
         enemy3Name.addAction(Actions.fadeOut(fadeTime/2));
@@ -2246,7 +2237,12 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         middleStatsTextArea.setVisible(true);
 
         leftSummaryText.addAction(Actions.fadeOut(0));
-        leftSummaryText.setText(selectedInventoryElement.summary);
+
+        if (state == ScreenState.INVENTORY)
+            leftSummaryText.setText(selectedInventoryElement.summary);
+        else if (state == ScreenState.SPELLS_POWER)
+            leftSummaryText.setText(selectedSpellsPowerElement.summary);
+
         leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
         backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
@@ -3127,33 +3123,27 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         return String.format("%s (%d)", name, quantity);
     }
 
-    private void clearSpellPowerTree() {
-        Array<Tree.Node> nodeArray = null;
-        rootNode rNode = whiteMagicRootNode;
-        Tree.Node categoryNode = WhiteMagicNode;
+    private void clearSpellPowerTreeCategory(Tree.Node categoryNode, rootNode rNode) {
+        Array<Tree.Node> nodeArray = categoryNode.getChildren();
 
-        categoryNode.getChildren().clear();
-/*
         if (nodeArray != null && nodeArray.size != 0) {
-            // find node in tree
-            for (Tree.Node nodeIterator : nodeArray) {
-                SpellPowerNode n = (SpellPowerNode) nodeIterator;
-                categoryNode.remove(n);
+            for (int i = nodeArray.size - 1; i >= 0; i--) {
+                Tree.Node node = nodeArray.get(i);
+                categoryNode.remove(node);
             }
         }
-*/
-        categoryNode.remove();  // remove from tree
-        //spellPowerRootNodeArray.removeValue(rNode, false); // remove from rootNode array
+
+        spellPowerTree.remove(categoryNode); // remove from tree
+        spellPowerRootNodeArray.removeValue(rNode, false); // remove from rootNode array
     }
 
     private void populateSpellPowerTree() {
-        //clearSpellPowerTree();
+        clearSpellPowerTreeCategory(WhiteMagicNode, whiteMagicRootNode);
+        clearSpellPowerTreeCategory(BlackMagicNode, blackMagicRootNode);
+        clearSpellPowerTreeCategory(PowersNode, powersRootNode);
 
-        int numElements = 0;
         for (SpellsPowerElement element : spellsPowerList) {
             Array<Tree.Node> nodeArray = null;
-            rootNode rNode = null;
-            SpellPowerNode spellPowerNode = null;
             Tree.Node categoryNode = null;
             String categoryName = "";
 
@@ -3161,17 +3151,14 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 case White:
                     categoryNode = WhiteMagicNode;
                     categoryName = WHITE_MAGIC;
-                    rNode = whiteMagicRootNode;
                     break;
                 case Black:
                     categoryNode = BlackMagicNode;
                     categoryName = BLACK_MAGIC;
-                    rNode = blackMagicRootNode;
                     break;
                 case Power:
                     categoryNode = PowersNode;
                     categoryName = POWERS;
-                    rNode = powersRootNode;
                     break;
             }
 
@@ -3181,17 +3168,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
             nodeArray = categoryNode.getChildren();
 
-            if (nodeArray != null && nodeArray.size != 0) {
-                // find node in tree
-                for (Tree.Node nodeIterator : nodeArray) {
-                    SpellPowerNode n = (SpellPowerNode) nodeIterator;
-                    if (element.id.equals(n.elementID)) {
-                        spellPowerNode = n;
-                        break;
-                    }
-                }
-            }
-            else {
+            if (nodeArray == null || nodeArray.size == 0) {
                 // add root node
                 spellPowerRootNodeArray.add(new rootNode(categoryName, false));
                 spellPowerTree.add(categoryNode);
