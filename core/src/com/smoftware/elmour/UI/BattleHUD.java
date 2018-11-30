@@ -1515,7 +1515,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleTextArea.cleanupTextArea();
                                                game.battleState.gameOver();
                                                if (!resetControlsTimer().isScheduled()) {
-                                                   Timer.schedule(resetControlsTimer(), 2);
+                                                   Timer.schedule(resetControlsTimer(), 1);
                                                }
                                            } else if (battleWon) {
                                                battleTextArea.cleanupTextArea();
@@ -1617,7 +1617,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWon = false;
 
                                                if( !resetControlsTimer().isScheduled() ){
-                                                   Timer.schedule(resetControlsTimer(), 2);
+                                                   Timer.schedule(resetControlsTimer(), 1);
                                                }
                                            }
                                        }
