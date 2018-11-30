@@ -58,6 +58,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, NONE }
 
+    class BattleBurst {
+        public Array<Image> imageArray;
+        public boolean show;
+        public float positionX;
+        public float positionY;
+        public float velocityX;
+        public float velocityY;
+
+        public BattleBurst() {
+            show = false;
+            imageArray = new Array<>();
+        }
+    }
+
     private final float V_WIDTH = 11;
     private final float V_HEIGHT = 11;
     private final float CAMERA_POS_X = 40;
@@ -147,15 +161,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
 
-    private Array<Image> hitPointFloaterArray;
-    boolean showHitPointFloater = false;
-    float hpFloaterPositionX;
-    float hpFloaterPositionY;
-    float hpFloaterVelocityX;
-    float hpFloaterVelocityY;
     float gravity;
     float battleHUDHeight;
-    float hpFloaterBounceVelocityY;
+    float bounceVelocityY;
+    private BattleBurst hpBattleBurst;
+    private BattleBurst specialBattleBurst;
 
     private Image blackScreen;
 
@@ -263,8 +273,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         selectedEntityIndicator = new Texture("graphics/down_arrow_red.png");
         currentTurnIndicator = new Texture("graphics/down_arrow_blue.png");
 
-        hitPointFloaterArray = new Array<>();
-
         blackScreen = new Image(new Texture("graphics/black_rectangle.png"));
         blackScreen.setWidth(_stage.getWidth());
         blackScreen.setHeight(_stage.getHeight());
@@ -272,6 +280,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         blackScreen.setVisible(true);
 
         _transitionActor = new ScreenTransitionActor();
+
+        hpBattleBurst = new BattleBurst();
+        specialBattleBurst = new BattleBurst();
 
         _stage.addActor(_transitionActor);
         _stage.addActor(blackScreen);
@@ -693,7 +704,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             return true; // An action returns true when it's completed
         }
     }
-
+/*
     public class showHPFloater extends Action {
         boolean show;
 
@@ -707,9 +718,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             return true; // An action returns true when it's completed
         }
     }
-
+*/
     private void completeAllActions() {
         float delta = 1;
+
+        for (Image image : hpBattleBurst.imageArray) {
+            image.addAction(Actions.fadeOut(0));
+        }
+
+        for (Image image : specialBattleBurst.imageArray) {
+            image.addAction(Actions.fadeOut(0));
+        }
 
         // need to loop multiple times in case there is an embedded sequence
         // shouldn't ever need anymore than 5
@@ -1313,8 +1332,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             _mapRenderer.getBatch().end();
         }
 
-        if (showHitPointFloater) {
-            updateHitFloater(delta);
+        if (hpBattleBurst.show) {
+            updateBattleBurst(delta, hpBattleBurst);
+        }
+
+        if (specialBattleBurst.show) {
+            updateBattleBurst(delta, specialBattleBurst);
         }
 
         if (showStatusArrows) {
@@ -1775,30 +1798,31 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         enemy5StatArrows.clear();
     }
 
-    private void updateHitFloater(float delta) {
+    private void updateBattleBurst(float delta, BattleBurst bb) {
 
-        hpFloaterPositionX += hpFloaterVelocityX * delta;   // Apply horizontal velocity to X position
-        hpFloaterPositionY += hpFloaterVelocityY * delta;   // Apply vertical velocity to X position
-        hpFloaterVelocityY += gravity * delta;              // Apply gravity to vertical velocity
+        bb.positionX += bb.velocityX * delta;   // Apply horizontal velocity to X position
+        bb.positionY += bb.velocityY * delta;   // Apply vertical velocity to X position
+        bb.velocityY += gravity * delta;        // Apply gravity to vertical velocity
 
-        if (hpFloaterPositionY < battleHUDHeight) {
-            hpFloaterVelocityY = hpFloaterBounceVelocityY;
-            hpFloaterBounceVelocityY *= 0.75f;
-            hpFloaterVelocityX *= 0.85f;
+        if (bb.positionY < battleHUDHeight) {
+            bb.positionY = battleHUDHeight;
+            bb.velocityY = bounceVelocityY;
+            bounceVelocityY *= 0.75f;
+            bb.velocityX *= 0.85f;
 
-            if (hpFloaterBounceVelocityY < 0.125f) {
-                hpFloaterVelocityY = 0;
-                for (Image image : hitPointFloaterArray) {
+            if (bounceVelocityY < 0.125f) {
+                bb.velocityY = 0;
+                for (Image image : bb.imageArray) {
                     image.addAction(Actions.fadeOut(0.5f));
                 }
-                showHitPointFloater = false;
+                bb.show = false;
             }
         }
 
-        float lastPositionX = hpFloaterPositionX;
+        float lastPositionX = bb.positionX;
 
-        for (Image image : hitPointFloaterArray) {
-            image.setPosition(lastPositionX, hpFloaterPositionY);
+        for (Image image : bb.imageArray) {
+            image.setPosition(lastPositionX, bb.positionY);
             lastPositionX += image.getWidth() * Map.UNIT_SCALE;
         }
     }
@@ -1823,71 +1847,90 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return image;
     }
 
+    private void initBattleBurst(BattleBurst bb, AnimatedImage character, String hitValue, Entity.BattleEntityType battleType) {
+        // hide any lingering battle bursts
+        for (int i = 0; i < 5; i++) {
+            for (Image image : bb.imageArray) {
+                image.addAction(Actions.fadeOut(0));
+            }
+        }
+
+        bb.imageArray.clear();
+
+        if (hitValue.equals(CRIT_HIT) || hitValue.equals(MISS_HIT) || hitValue.equals(WEAK_HIT)) {
+            Image image = getSpecialImage(hitValue);
+            image.setScale(Map.UNIT_SCALE);
+
+            float positionX = character.getX() + character.getWidth() / 2 - (image.getWidth() * Map.UNIT_SCALE) / 2;
+            float positionY = character.getY() + character.getHeight() * 1.2f;
+            image.setPosition(positionX, positionY);
+
+            bb.imageArray.add(image);
+            _stage.addActor(image);
+        }
+        else {
+            float hitPointsImageWidth = 0;
+
+            for (int i = 0; i < hitValue.length(); i++) {
+                Image image = getDigitImage(hitValue.charAt(i));
+                hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
+                bb.imageArray.add(image);
+            }
+
+            float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
+            float lastPositionY = character.getY() + character.getHeight() * 1.2f;
+            for (Image image : bb.imageArray) {
+                image.setScale(Map.UNIT_SCALE);
+                image.setPosition(lastPositionX, lastPositionY);
+                lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+                _stage.addActor(image);
+            }
+        }
+
+        float minVelocityX = 2f;
+        float maxVelocityX = 5;
+        float minVelocityY = 0.5f;
+        float maxVelocityY = 5;
+
+        if (ElmourGame.isAndroid()) {
+            minVelocityX = 2f;
+            maxVelocityX = 6.5f;
+            minVelocityY = 0.5f;
+            maxVelocityY = 6.5f;
+        }
+
+        float velocityX = MathUtils.random(minVelocityX, maxVelocityX);
+        float velocityY = MathUtils.random(minVelocityY, maxVelocityY);
+
+        bb.velocityY = velocityX;
+        bb.velocityX = velocityY;
+        gravity = -25f;
+        bounceVelocityY = 8f;
+
+        if (ElmourGame.isAndroid())
+            battleHUDHeight = 4.45f;
+        else
+            battleHUDHeight = 3.9f;
+
+        if (battleType.equals(Entity.BattleEntityType.PARTY))
+            bb.velocityX *= -1;
+
+        bb.positionX = bb.imageArray.get(0).getX();
+        bb.positionY = bb.imageArray.get(0).getY();
+
+        bb.show = true;
+    }
+
     private void hitPointAnimation(Entity entity, String hitValue) {
         AnimatedImage character = getAnimatedImageFromEntity(entity);
 
         if (character != null) {
-            for (Image image : hitPointFloaterArray) {
-                image.remove();
-            }
-
-            hitPointFloaterArray.clear();
-
             if (hitValue.equals(CRIT_HIT) || hitValue.equals(MISS_HIT) || hitValue.equals(WEAK_HIT)) {
-                Image image = getSpecialImage(hitValue);
-                image.setScale(Map.UNIT_SCALE);
-
-                float positionX = character.getX() + character.getWidth() / 2 - (image.getWidth() * Map.UNIT_SCALE) / 2;
-                float positionY = character.getY() + character.getHeight() * 1.2f;
-                image.setPosition(positionX, positionY);
-
-                hitPointFloaterArray.add(image);
-                _stage.addActor(image);
+                initBattleBurst(specialBattleBurst, character, hitValue, entity.getBattleEntityType());
             }
             else {
-                float hitPointsImageWidth = 0;
-
-                for (int i = 0; i < hitValue.length(); i++) {
-                    Image image = getDigitImage(hitValue.charAt(i));
-                    hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
-                    hitPointFloaterArray.add(image);
-                }
-
-                float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
-                float lastPositionY = character.getY() + character.getHeight() * 1.2f;
-                for (Image image : hitPointFloaterArray) {
-                    image.setScale(Map.UNIT_SCALE);
-                    image.setPosition(lastPositionX, lastPositionY);
-                    lastPositionX += image.getWidth() * Map.UNIT_SCALE;
-                    _stage.addActor(image);
-                }
+                initBattleBurst(hpBattleBurst, character, hitValue, entity.getBattleEntityType());
             }
-
-            float minVelocityX = 2f;
-            float maxVelocityX = 5;
-            float minVelocityY = 0.5f;
-            float maxVelocityY = 5;
-
-            float velocityX = MathUtils.random(minVelocityX, maxVelocityX);
-            float velocityY = MathUtils.random(minVelocityY, maxVelocityY);
-
-            hpFloaterVelocityY = velocityX;
-            hpFloaterVelocityX = velocityY;
-            gravity = -25f;
-            hpFloaterBounceVelocityY = 8f;
-
-            if (ElmourGame.isAndroid())
-                battleHUDHeight = 4.45f;
-            else
-                battleHUDHeight = 3.9f;
-
-            if (entity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                hpFloaterVelocityX *= -1;
-
-            hpFloaterPositionX = hitPointFloaterArray.get(0).getX();
-            hpFloaterPositionY = hitPointFloaterArray.get(0).getY();
-
-            showHitPointFloater = true;
         }
     }
 

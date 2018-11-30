@@ -2,6 +2,7 @@ package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
@@ -133,6 +135,32 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         _mapMgr.setCamera(_camera);
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
+    }
+
+    private Timer.Task enablePlayerInputProcessorTimer(final InputProcessor inputProcessor){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                _multiplexer.addProcessor(inputProcessor);
+            }
+        };
+    }
+
+    private void pausePlayerInputProcessor(float delay) {
+        if (ElmourGame.isAndroid()) {
+            _multiplexer.removeProcessor(mobileControls.getStage());
+
+            if (!enablePlayerInputProcessorTimer(mobileControls.getStage()).isScheduled()) {
+                Timer.schedule(enablePlayerInputProcessorTimer(mobileControls.getStage()), delay);
+            }
+        }
+        else {
+            _multiplexer.removeProcessor(_player.getInputProcessor());
+
+            if (!enablePlayerInputProcessorTimer(_player.getInputProcessor()).isScheduled()) {
+                Timer.schedule(enablePlayerInputProcessorTimer(_player.getInputProcessor()), delay);
+            }
+        }
     }
 
     @Override

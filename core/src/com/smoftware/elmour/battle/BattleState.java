@@ -34,6 +34,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
     private InventoryElement selectedInventoryElement = null;
+    private SpellsPowerElement selectedSpellPowerElement = null;
 
     private Timer.Task _playerAttackCalculations;
     private Timer.Task _opponentAttackCalculations;
@@ -325,7 +326,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
 
     public void applySpellPowerToCharacter(SpellsPowerElement selectedElement) {
         if (!applySpellPower.isScheduled()) {
-            Gdx.app.log(TAG, "TODO: " + selectedElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
+            selectedSpellPowerElement = selectedElement;
+            Gdx.app.log(TAG, selectedSpellPowerElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
             Timer.schedule(applySpellPower, 1);
         }
     }
@@ -347,6 +349,12 @@ public class BattleState extends BattleSubject implements StatusObserver {
         //      % = 50A / D
         // Where A is the Attacker’s SPD and D is the Defender’s SPD
         if (defender != null) {
+            if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY) &&
+                    attacker.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+                // don't let a party member block another party member
+                return false;
+            }
+
             if (defender.isAlive()) {
                 int attackerSPD = game.statusUI.getSPDValue(attacker);
                 int defenderSPD = game.statusUI.getSPDValue(defender);
@@ -451,12 +459,6 @@ public class BattleState extends BattleSubject implements StatusObserver {
     public void opponentAttacks() {
         // kick off animation for opponent attacking
         frontMeleeAttack();
-/*
-        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_ATTACKS, "");
-
-        if( !_opponentAttackCalculations.isScheduled() ){
-            Timer.schedule(_opponentAttackCalculations, 1.75f);
-        }*/
     }
 
     private String getEffectPhrase(Integer value, String type, boolean useAnd) {
@@ -609,10 +611,24 @@ public class BattleState extends BattleSubject implements StatusObserver {
         };
     }
 
+    private float getChanceOfHit(int ACC) {
+        /* % chance = ((A - E) / 2 + 90) * B
+         Where A = ACC of turn character and E = AVO of the selected character.
+         B = Spell / Power ACC, or 1 for standard attacks
+        */
+
+        int A = game.statusUI.getACCValue(currentTurnCharacter);
+        int E = game.statusUI.getAVOValue(currentSelectedCharacter);
+        float B = (float)ACC / 100;
+        float chance = ((float)(A - E) / 2f + 90) * B;
+        return chance;
+    }
+
     private Timer.Task getApplySpellPowerTimer(){
         return new Timer.Task() {
             @Override
             public void run() {
+                float chanceOfHit = getChanceOfHit(selectedSpellPowerElement.ACC);
                 String spell = "TODO";
                 String message = String.format("%s used %s on %s.", currentTurnCharacter.getEntityConfig().getDisplayName(), spell,
                                         currentSelectedCharacter.getEntityConfig().getDisplayName());
@@ -705,10 +721,11 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         currentSelectedCharacter.getEntityConfig().getDisplayName(), hitPoints);
 
                 if (hitPoints > 0) {
-                    if (criticalHit)
+                    if (criticalHit) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.CRITICAL_HIT);
-                    else
-                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
+                    }
+
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 Gdx.app.log(TAG, "new enemy HP = " + newEnemyHP);
@@ -753,10 +770,11 @@ public class BattleState extends BattleSubject implements StatusObserver {
                     EntityFactory.getInstance().setEntityByName(currentSelectedCharacter.getEntityConfig().getEntityID(),
                             currentSelectedCharacter.getEntityConfig());
 
-                    if (criticalHit)
+                    if (criticalHit) {
                         BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.CRITICAL_HIT);
-                    else
-                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
+                    }
+
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
                 }
 
                 if (newPlayerHP == 0) {

@@ -1779,64 +1779,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
 
                 break;
-            /*case PLAYER_ESCAPED:
-
-                playerComingFromBattle = true;
-                MainGameScreen.setGameState(MainGameScreen.GameState.RUNNING);
-                notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
-
-                // transition animation - note: screen transition to main screen cannot occur in render() because render is called from main screen
-                // battle screen is faded out from battle HUD
-                float transitionTime = 1f;
-                screenSwipe1.setVisible(true);
-                screenSwipe2.setVisible(true);
-                screenSwipe3.setVisible(true);
-                screenSwipe4.setVisible(true);
-                screenSwipe5.setVisible(true);
-                screenSwipe6.setVisible(true);
-                screenSwipe7.setVisible(true);
-                screenSwipe8.setVisible(true);
-                screenSwipe9.setVisible(true);
-                screenSwipe10.setVisible(true);
-
-                screenSwipe1.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                screenSwipe2.addAction(Actions.moveBy(1000, 0, transitionTime));
-                screenSwipe3.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                screenSwipe4.addAction(Actions.moveBy(1000, 0, transitionTime));
-                screenSwipe5.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                screenSwipe6.addAction(Actions.moveBy(1000, 0, transitionTime));
-                screenSwipe7.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                screenSwipe8.addAction(Actions.moveBy(1000, 0, transitionTime));
-                screenSwipe9.addAction(Actions.moveBy(-1000, 0, transitionTime));
-                screenSwipe10.addAction(Actions.moveBy(1000, 0, transitionTime));
-
-                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-
-                break;*/
-                /*
-            case PLAYER_HIT_DAMAGE:
-                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_PAIN);
-                int hpVal = ProfileManager.getInstance().getProperty("currentPlayerHP", Integer.class);
-                _statusUI.setHPValue(hpVal);
-                _shakeCam.startShaking();
-
-                if( hpVal <= 0 ){
-                    _shakeCam.reset();
-                    notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
-                    addTransitionToScreen();
-                    //todo
-                    //_battleUI.setVisible(false);
-                    MainGameScreen.setGameState(MainGameScreen.GameState.GAME_OVER);
-                }
-                break;
-            case PLAYER_USED_MAGIC:
-                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
-                int mpVal = ProfileManager.getInstance().getProperty("currentPlayerMP", Integer.class);
-                _statusUI.setMPValue(mpVal);
-                break;
-            default:
-                break;
-                */
         }
     }
 

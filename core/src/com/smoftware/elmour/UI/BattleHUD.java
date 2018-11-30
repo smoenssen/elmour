@@ -1480,7 +1480,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTable.clear();
                                                battleWonStatsTable.setVisible(true);
 
-                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth() / 2).height(battleWonStatsRowHeight);
                                                Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat.setText("EXP Gained");
                                                stat.setAlignment(Align.left);
@@ -1490,7 +1490,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                battleWonStatsTable.add(stat).align(Align.left);
                                                battleWonStatsTable.add(value).align(Align.right);
 
-                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth()/2).height(battleWonStatsRowHeight);
+                                               battleWonStatsTable.row().width(battleWonStatsTable.getWidth() / 2).height(battleWonStatsRowHeight);
                                                Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
                                                stat2.setText("Dibs Gained");
                                                stat2.setAlignment(Align.left);
@@ -1510,24 +1510,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                // reset for next battle
                                                xpReward = 0;
                                                dibsReward = 0;
-                                           }
-                                           else if (battleTextArea.getText().equals(BATTLE_LOST)) {
+                                           } else if (battleTextArea.getText().equals(BATTLE_LOST)) {
                                                battleTextArea.setTouchable(Touchable.disabled);
                                                battleTextArea.cleanupTextArea();
                                                game.battleState.gameOver();
-                                               if( !resetControlsTimer().isScheduled() ){
+                                               if (!resetControlsTimer().isScheduled()) {
                                                    Timer.schedule(resetControlsTimer(), 2);
                                                }
-                                           }
-                                           else if (battleWon) {
+                                           } else if (battleWon) {
                                                battleTextArea.cleanupTextArea();
                                                battleTextArea.populateText(BATTLE_WON);
-                                           }
-                                           else if (battleLost) {
+                                           } else if (battleLost) {
                                                battleTextArea.cleanupTextArea();
                                                battleTextArea.populateText(BATTLE_LOST);
-                                           }
-                                           else {
+                                           } else {
                                                turnInProgress = true;
 
                                                if (game.battleState.getCurrentTurnCharacter().getBattleEntityType() == Entity.BattleEntityType.PARTY) {
@@ -2884,6 +2880,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 middleStatsTextArea.addAction(Actions.fadeOut(fadeTime / 2));
                 break;
             case OPPONENT_TURN_DONE:
+                // go back to Main screen
+                screenStack.clear();
+                screenStack.push(ScreenState.MAIN);
+
                 UpdateStats(destinationEntity);
 
                 battleTextArea.populateText(message);
@@ -3054,8 +3054,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
 
         // closeBattleTextAction calls battleTextArea.hide()
-        battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor));
-        battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor),
+        // Add a little extra delay here to help with flashing issue
+        float extraDelay = 0.125f;
+        battleTextArea.addAction(Actions.fadeOut(delay * crossFadeOutFactor + extraDelay));
+        battleTextArea.addAction(Actions.sequence(Actions.delay(delay * crossFadeOutFactor + extraDelay),
                 myActions.new closeBattleTextAction(battleTextArea)));
 
         dummyButtonLeft.setVisible(false);

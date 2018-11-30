@@ -1,5 +1,6 @@
 
-preparing for spells
+
+apply spell and don't lock up
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
 LCK and AVO for ranged and melee attacks.
 show MISS or CRIT! animation with number

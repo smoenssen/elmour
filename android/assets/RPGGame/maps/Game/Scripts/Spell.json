@@ -170,5 +170,6 @@
 	summary: The user thrusts their feet against the enemy.
 	MP: 20
 	DMG: 60
+	ACC: 90
 }
 ]

@@ -15,7 +15,7 @@ public class BattleTextArea extends Window {
     private enum State {HIDDEN, VISIBLE}
 
     public Array<String> lineStrings;
-    private String fullText;
+    private String fullText = "";
     private boolean displayText = true;
     private String currentText;
     private MyTextArea textArea;
