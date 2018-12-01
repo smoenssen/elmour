@@ -1,20 +1,20 @@
 
-BLOCK_RIGHT in hit.json crashes
+
 
 Can't block daggers or punching
 
+make sure number of turns executed is correct
+If used 2 potions of strength, crashes when attacking.
+If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 
+
+Ben
+---------------
 inventory.json and equipment.json
 EVO->AVO
 
 KICK power has no ACC
-
-
-make sure number of turns executed is correct
-If used 2 potions of strength, crashes when attacking.
-Fight->Attack->Choose Enemy->Back->Abilities->Select ability->A button-> results in half Back button
-After above steps->Back->A button-> results in not being able to select character
-If starting new game, save, then go to battle and lose, the Continue button is missing
-
 frame width and height wrong for CRIT, MISS, WEAK in json
 add element id to all spells and powers in json
+
+BLOCK_RIGHT in hit.json crashes

@@ -44,3 +44,5 @@ Turn ends at the next character in the same place in the turn order (e'g', no ma
 What is the equation for AVO/ACC when not using spells/powers?
 
 When is a WEAK hit used?
+
+Animation for missed melee attack? Same question for ranged attack.

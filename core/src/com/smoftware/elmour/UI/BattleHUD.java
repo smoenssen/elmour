@@ -61,6 +61,7 @@ import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
 import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY;
+import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_SPELL_POWER;
 
 public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver, PartyInventoryObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
@@ -309,7 +310,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private float battleWonStatsRowHeight = 24;
     private Image dimmedScreen;
 
-    String selectedCharacter = null;
+    private String selectedCharacter = null;
 
     private boolean turnInProgress = false;
     private boolean battleLost = false;
@@ -1938,11 +1939,20 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 topLeftButton.addAction(Actions.fadeOut(fadeTime/2));
                 runButton.addAction(Actions.fadeOut(fadeTime/2));
                 topRightButton.addAction(Actions.fadeOut(fadeTime/2));
-                statusButton.addAction(Actions.fadeOut(fadeTime/2));
+                statusButton.addAction(Actions.fadeOut(0));
+
+                float widthToMove = statusButton.getWidth();
+
+                dummyButtonRight.setWidth(widthToMove);
+                dummyButtonRight.setHeight(menuItemHeight);
+                dummyButtonRight.setPosition(statusButton.getX(), statusButton.getY());
+                dummyButtonRight.setVisible(true);
+                dummyButtonRight.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                dummyButtonRight.addAction(Actions.sizeBy(-widthToMove, -menuItemHeight, fadeTime));
+                dummyButtonRight.addAction(Actions.moveBy(widthToMove, 0, fadeTime));
+                dummyButtonRight.addAction(Actions.sequence(Actions.delay(fadeTime), Actions.fadeOut(0)));
 
                 spellPowerTree.setTouchable(Touchable.enabled);
-
-                //middleScrollPaneList.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new enabledScrollPane(middleScrollPaneList, true)));
 
                 middleStatsTextArea.setVisible(true);
 
@@ -1951,14 +1961,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 else
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, ABILITIES_EMPTY)));
 
-                float startingHeight = topLeftButton.getHeight() + runButton.getHeight();
                 middleStatsTextArea.setHeight(topLeftButton.getHeight());
                 middleStatsTextArea.setPosition(middleStatsTextArea.getX(), topLeftButton.getY());
                 middleStatsTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
                 middleStatsTextArea.addAction(Actions.sizeBy(0, backButtonHeight - 2, fadeTime));
                 middleStatsTextArea.addAction(Actions.moveBy(0, -backButtonHeight + 2, fadeTime));
 
-                backButton.addAction(Actions.sequence(Actions.sizeBy(0, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
+                backButton.addAction(Actions.sequence(Actions.sizeBy(widthToMove, -backButtonHeight + 2, fadeTime), Actions.fadeOut(0)));
                 backButton.addAction(Actions.sequence(Actions.delay(fadeTime * 0.8f), myActions.new setButtonText(backButton, "")));
 
                 middleTreeTextArea.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0.2f)));
@@ -2042,6 +2051,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         backButton.setText(BTN_NAME_BACK);
                     }
                     else if (currentScreenState == ScreenState.FINAL) {
+                        selectedCharacter = null;
+
                         topLeftButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
                         topRightButton.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime/4)));
 
@@ -2933,6 +2944,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 break;
             case PLAYER_TURN_DONE:
             case PLAYER_APPLIED_INVENTORY:
+            case PLAYER_APPLIED_SPELL_POWER:
                 // go back to Main screen and enable buttons
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);
@@ -2945,7 +2957,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 selectedCharacter = null;
 
-                if (event.equals(PLAYER_APPLIED_INVENTORY))
+                if (event.equals(PLAYER_APPLIED_INVENTORY) || event.equals(PLAYER_APPLIED_SPELL_POWER))
                     turnInProgress = false;
 
                 break;

@@ -33,6 +33,7 @@ public interface BattleObserver {
         PLAYER_TURN_DONE,
         PLAYER_HIT_DAMAGE,
         PLAYER_APPLIED_INVENTORY,
+        PLAYER_APPLIED_SPELL_POWER,
         ATTACK_BLOCKED,
         NONE
     }

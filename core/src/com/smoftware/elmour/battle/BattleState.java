@@ -438,20 +438,33 @@ public class BattleState extends BattleSubject implements StatusObserver {
             }
         }
         else {
-            // if got this far, then kick off animation for successful attack
-            if (isEnemyBeingAttacked) {
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_ATTACKS, "");
+            float chanceOfHit = getChanceOfHit(1);
+            int randomVal = MathUtils.random(1, 100);
 
-                if (!_playerAttackCalculations.isScheduled()) {
-                    Timer.schedule(_playerAttackCalculations, 1.75f);
+            Gdx.app.log(TAG, "Chance of hit with melee attack = " + chanceOfHit + ", randVal = " + randomVal);
+
+            if (chanceOfHit > randomVal) {
+                // if got this far, then kick off animation for successful attack
+                if (isEnemyBeingAttacked) {
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_ATTACKS, "");
+
+                    if (!_playerAttackCalculations.isScheduled()) {
+                        Timer.schedule(_playerAttackCalculations, 1.75f);
+                    }
+                }
+                else {
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_ATTACKS, "");
+
+                    if( !_opponentAttackCalculations.isScheduled() ){
+                        Timer.schedule(_opponentAttackCalculations, 1.75f);
+                    }
                 }
             }
             else {
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_ATTACKS, "");
-
-                if( !_opponentAttackCalculations.isScheduled() ){
-                    Timer.schedule(_opponentAttackCalculations, 1.75f);
-                }
+                // this is a MISS
+                message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " missed!";
+                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.MISS_HIT);
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
             }
         }
     }
@@ -621,7 +634,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
         int E = game.statusUI.getAVOValue(currentSelectedCharacter);
         float B = (float)ACC / 100;
         float chance = ((float)(A - E) / 2f + 90) * B;
-        return chance;
+        return chance * 100;
     }
 
     private Timer.Task getApplySpellPowerTimer(){
@@ -629,11 +642,24 @@ public class BattleState extends BattleSubject implements StatusObserver {
             @Override
             public void run() {
                 float chanceOfHit = getChanceOfHit(selectedSpellPowerElement.ACC);
-                String spell = "TODO";
-                String message = String.format("%s used %s on %s.", currentTurnCharacter.getEntityConfig().getDisplayName(), spell,
-                                        currentSelectedCharacter.getEntityConfig().getDisplayName());
+                int randomVal = MathUtils.random(1, 100);
 
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
+                Gdx.app.log(TAG, "Chance of hit with spell/power = " + chanceOfHit + ", randVal = " + randomVal);
+                String message;
+
+                if (chanceOfHit > randomVal) {
+                    //todo: effect list
+                    message = String.format("%s used %s on %s and it did something....", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                            selectedSpellPowerElement.name,
+                            currentSelectedCharacter.getEntityConfig().getDisplayName());
+                }
+                else {
+                    message = String.format("%s tried to use %s on %s but it had no effect.", currentTurnCharacter.getEntityConfig().getDisplayName(),
+                            selectedSpellPowerElement.name,
+                            currentSelectedCharacter.getEntityConfig().getDisplayName());
+                }
+
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_SPELL_POWER, message);
             }
         };
     }
