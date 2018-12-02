@@ -208,7 +208,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
         entity2.setBattlePosition(battlePosition++);
         notify(entity2, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
         currentPartyList.add(entity2);
-/*
+
         Entity entity3 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_2);
         HPVal = game.statusUI.getHPValue(entity3);
         entity3.setAlive(HPVal > 0);
@@ -231,7 +231,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
         entity5.setBattleEntityType(Entity.BattleEntityType.PARTY);
         entity5.setBattlePosition(battlePosition++);
         notify(entity5, BattleObserver.BattleEvent.PARTY_MEMBER_ADDED);
-        currentPartyList.add(entity5);*/
+        currentPartyList.add(entity5);
     }
 
     public void getNextTurnCharacter(float delay){

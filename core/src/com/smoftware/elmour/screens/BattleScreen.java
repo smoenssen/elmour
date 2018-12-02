@@ -748,15 +748,23 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public static AnimationState getAnimationState() { return animationState; }
 
-    private Entity.AnimationType getWeaponAnimationType(Entity entity) {
+    private Entity.AnimationType getWeaponAnimationType(Entity entity, boolean attackingEnemy) {
+        // if attackingEnemy is false, then the attack is against an ally
+
         Entity.AnimationType animationType;
 
         // todo: need to get correct weapon from somewhere
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-            animationType = Entity.AnimationType.SWORD_LEFT;
+            if (attackingEnemy)
+                animationType = Entity.AnimationType.SWORD_LEFT;
+            else
+                animationType = Entity.AnimationType.SWORD_RIGHT;
         }
         else {
-            animationType = Entity.AnimationType.SWORD_RIGHT;
+            if (attackingEnemy)
+                animationType = Entity.AnimationType.SWORD_RIGHT;
+            else
+                animationType = Entity.AnimationType.SWORD_LEFT;
         }
 
         return animationType;
@@ -793,7 +801,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return hitType;
     }
 
-    private Action getAttackAction(Entity entity) {
+    private Action getAttackOpponentAction(Entity entity) {
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkTowardsVictim;
@@ -801,20 +809,30 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         Entity.AnimationType weaponAnimationType;
         float destinationX;
 
-        weaponAnimationType = getWeaponAnimationType(entity);
+        weaponAnimationType = getWeaponAnimationType(entity, true);
 
         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
 
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-            walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
-            walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
-            destinationX = selectedEntity.getCurrentPosition().x + 1;
+            if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
+                walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
+                destinationX = selectedEntity.getCurrentPosition().x + 1;
+            }
+            else {
+                return getAttackAllyAction(entity);
+            }
         }
         else {
-            // Entity.BattleEntityType.ENEMY
-            walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
-            walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
-            destinationX = selectedEntity.getCurrentPosition().x - 1;
+            // entity == Entity.BattleEntityType.ENEMY
+            if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
+                walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
+                destinationX = selectedEntity.getCurrentPosition().x - 1;
+            }
+            else {
+                return getAttackAllyAction(entity);
+            }
         }
 
         currentCharacterBattleAnimation = getBattleAnimations(entityName);
@@ -849,6 +867,115 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
+    private Action getAttackAllyAction(Entity entity) {
+        animationState = AnimationState.BATTLE;
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
+        Entity.AnimationType walkOut;
+        Entity.AnimationType walkBackIntoPlace;
+        Entity.AnimationType walkDirectionToAttack;
+        Entity.AnimationType walkDirectionFromAttack;
+        Entity.AnimationType walkTowardsVictim;
+        Entity.AnimationType weaponAnimationType;
+        float walkOutDestinationX;
+        float attackDestinationX;
+
+        weaponAnimationType = getWeaponAnimationType(entity, false);
+
+        EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
+
+        if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            walkOut = Entity.AnimationType.WALK_LEFT;
+            walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
+            attackDestinationX = selectedEntity.getCurrentPosition().x - 1;
+
+            if ((entity.getBattlePosition() == 1 || entity.getBattlePosition() == 3 || entity.getBattlePosition() == 5) &&
+                    (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
+            }
+            else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
+                    (Math.abs(entity.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
+            }
+            else {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x - 1;
+            }
+        }
+        else {
+            walkOut = Entity.AnimationType.WALK_RIGHT;
+            walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
+            attackDestinationX = selectedEntity.getCurrentPosition().x + 1;
+
+            if ((entity.getBattlePosition() == 1 || entity.getBattlePosition() == 3 || entity.getBattlePosition() == 5) &&
+                    (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
+            }
+            else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
+                    (Math.abs(entity.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
+            }
+            else {
+                walkOutDestinationX = selectedEntity.getCurrentPosition().x + 1;
+            }
+        }
+
+        walkBackIntoPlace = walkTowardsVictim;
+
+        if (entity.getBattlePosition() < selectedEntity.getBattlePosition()) {
+            walkDirectionToAttack = Entity.AnimationType.WALK_DOWN;
+            walkDirectionFromAttack = Entity.AnimationType.WALK_UP;
+        }
+        else {
+            walkDirectionToAttack = Entity.AnimationType.WALK_UP;
+            walkDirectionFromAttack = Entity.AnimationType.WALK_DOWN;
+        }
+
+        currentCharacterBattleAnimation = getBattleAnimations(entityName);
+
+        return Actions.sequence(
+
+                new showStatArrows(false),
+                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionToAttack),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
+                Actions.delay(0.25f),
+                new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
+                        battleHitAnimations.get(getHitType(weaponAnimationType)), null),
+                new showMainCharacterAnimation(currentTurnCharacter, false),
+                // Framerate * # of Frames
+                Actions.delay(0.4f),
+                new setCurrentBattleAnimations(null, null, null),
+                new showMainCharacterAnimation(currentTurnCharacter, true),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkBackIntoPlace),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                // turn to face victim
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+
+                new animationComplete(),
+                new showStatArrows(true)
+        );
+    }
+
     private Action getBlockedAttackAction(Entity attacker, Entity defender) {
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentAttackerBattleAnimation;
@@ -861,8 +988,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         Entity.AnimationType defenderWeaponAnimationType;
         float destinationX;
 
-        attackerWeaponAnimationType = getWeaponAnimationType(attacker);
-        defenderWeaponAnimationType = getWeaponAnimationType(defender);
+        attackerWeaponAnimationType = getWeaponAnimationType(attacker, true);
+        defenderWeaponAnimationType = getWeaponAnimationType(defender, true);
 
         EntityFactory.EntityName attackerEntityName = EntityFactory.EntityName.valueOf(attacker.getEntityConfig().getEntityID().toUpperCase());
         EntityFactory.EntityName defenderEntityName = EntityFactory.EntityName.valueOf(defender.getEntityConfig().getEntityID().toUpperCase());
@@ -1273,7 +1400,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                     _mapRenderer.getBatch().draw(currentTurnIndicator, currentTurnEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, currentTurnEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
                 }
 
-                if (selectedEntity != null) {
+                if (selectedEntity != null && battleHUD.selectedCharacter != null) {
                     _mapRenderer.getBatch().draw(selectedEntityIndicator, selectedEntity.getCurrentPosition().x + characterWidth / 2 * 0.5f, selectedEntity.getCurrentPosition().y + characterHeight * 1.1f, 0.5f, 0.5f);
                 }
 
@@ -2065,7 +2192,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     public void onNotify(Entity sourceEntity, Entity destinationEntity, BattleEventWithMessage event, String message) {
         switch (event) {
             case PLAYER_ATTACKS:
-                _stage.addAction(getAttackAction(sourceEntity));
+                _stage.addAction(getAttackOpponentAction(sourceEntity));
                 break;
             case PLAYER_TURN_DONE:
             case PLAYER_APPLIED_INVENTORY:
@@ -2076,7 +2203,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 break;
             case OPPONENT_ATTACKS:
                 selectedEntity = destinationEntity;
-                _stage.addAction(getAttackAction(sourceEntity));
+                _stage.addAction(getAttackOpponentAction(sourceEntity));
                 break;
             case OPPONENT_TURN_DONE:
                 selectedEntity = null;
