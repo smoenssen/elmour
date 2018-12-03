@@ -1068,6 +1068,92 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
+    private Action getMissedAttackAction(Entity attacker, Entity defender) {
+        animationState = AnimationState.BATTLE;
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentAttackerBattleAnimation;
+        Entity.AnimationType walkTowardsVictim;
+        Entity.AnimationType walkAwayFromVictim;
+        Entity.AnimationType walkDirectionDefender;
+        Entity.AnimationType attackerWeaponAnimationType;
+        float destinationX;
+        int evasionOffset = 1;
+
+        attackerWeaponAnimationType = getWeaponAnimationType(attacker, true);
+
+        EntityFactory.EntityName attackerEntityName = EntityFactory.EntityName.valueOf(attacker.getEntityConfig().getEntityID().toUpperCase());
+        EntityFactory.EntityName defenderEntityName = EntityFactory.EntityName.valueOf(defender.getEntityConfig().getEntityID().toUpperCase());
+
+        if (attacker.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
+            walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
+            destinationX = defender.getCurrentPosition().x + 1;
+            evasionOffset = -1;
+        }
+        else {
+            // Entity.BattleEntityType.ENEMY
+            walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
+            walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
+            destinationX = defender.getCurrentPosition().x - 1;
+            evasionOffset = 1;
+        }
+
+        walkDirectionDefender = walkAwayFromVictim;
+
+        currentAttackerBattleAnimation = getBattleAnimations(attackerEntityName);
+
+        return Actions.sequence(
+              new showStatArrows(false),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
+
+                Actions.delay(0.50f),
+
+                // defender walk back to miss attack
+                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
+
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y,  0.25f, Interpolation.linear), defendingCharacter),
+
+                Actions.delay(0.25f),
+
+                // defender turn to face attacker
+                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
+                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                Actions.delay(0.25f),
+
+                new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(attackerWeaponAnimationType),
+                        battleHitAnimations.get(getHitType(attackerWeaponAnimationType)), null),
+
+                new showMainCharacterAnimation(currentTurnCharacter, false),
+                // Framerate * # of Frames
+                Actions.delay(0.4f),
+                new setCurrentBattleAnimations(null, null, null),
+                new showMainCharacterAnimation(currentTurnCharacter, true),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(),0.75f, Interpolation.linear), currentTurnCharacter),
+
+                // defender walk back into place
+                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y,0.75f, Interpolation.linear), defendingCharacter),
+
+                Actions.delay(0.75f),
+
+                // defender turn to face attacker
+                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
+                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+
+                // attacker turn to face victim
+                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+
+                new animationComplete(),
+                new showStatArrows(true)
+        );
+    }
+
     private Action getPlayerEscapeAction() {
         animationState = AnimationState.ESCAPED;
         _isCameraFixed = false;
@@ -2170,9 +2256,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case CRITICAL_HIT:
                 hitPointAnimation(entity, CRIT_HIT);
                 break;
-            case MISS_HIT:
-                hitPointAnimation(entity, MISS_HIT);
-                break;
             case WEAK_HIT:
                 hitPointAnimation(entity, WEAK_HIT);
                 break;
@@ -2184,6 +2267,41 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 break;
             case BATTLE_WON:
                 resetBattleStats();
+                break;
+        }
+    }
+
+    private void setDefendingCharacter(Entity defender) {
+        switch (defender.getBattlePosition()) {
+            case 1:
+                if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                    defendingCharacter = party1;
+                else
+                    defendingCharacter = enemy1;
+                break;
+            case 2:
+                if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                    defendingCharacter = party2;
+                else
+                    defendingCharacter = enemy2;
+                break;
+            case 3:
+                if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                    defendingCharacter = party3;
+                else
+                    defendingCharacter = enemy3;
+                break;
+            case 4:
+                if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                    defendingCharacter = party4;
+                else
+                    defendingCharacter = enemy4;
+                break;
+            case 5:
+                if (defender.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
+                    defendingCharacter = party5;
+                else
+                    defendingCharacter = enemy5;
                 break;
         }
     }
@@ -2214,39 +2332,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case ATTACK_BLOCKED:
                 // sourceEntity is the attacker
                 // destinationEntity is the defender
-                switch (destinationEntity.getBattlePosition()) {
-                    case 1:
-                        if (destinationEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                            defendingCharacter = party1;
-                        else
-                            defendingCharacter = enemy1;
-                        break;
-                    case 2:
-                        if (destinationEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                            defendingCharacter = party2;
-                        else
-                            defendingCharacter = enemy2;
-                        break;
-                    case 3:
-                        if (destinationEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                            defendingCharacter = party3;
-                        else
-                            defendingCharacter = enemy3;
-                        break;
-                    case 4:
-                        if (destinationEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                            defendingCharacter = party4;
-                        else
-                            defendingCharacter = enemy4;
-                        break;
-                    case 5:
-                        if (destinationEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY))
-                            defendingCharacter = party5;
-                        else
-                            defendingCharacter = enemy5;
-                        break;
-                }
+                setDefendingCharacter(destinationEntity);
                 _stage.addAction(getBlockedAttackAction(sourceEntity, destinationEntity));
+                break;
+            case MISS_HIT:
+                hitPointAnimation(destinationEntity, MISS_HIT);
+                setDefendingCharacter(destinationEntity);
+                selectedEntity = null;
+
+                //selectedEntity = destinationEntity;
+                _stage.addAction(getMissedAttackAction(sourceEntity, destinationEntity));
+
                 break;
         }
     }

@@ -14,7 +14,6 @@ public interface BattleObserver {
         PLAYER_FAILED_TO_ESCAPE,
         PLAYER_USED_MAGIC,
         CRITICAL_HIT,
-        MISS_HIT,
         WEAK_HIT,
         CHARACTER_SELECTED,
         CHARACTER_TURN_CHANGED,
@@ -35,6 +34,7 @@ public interface BattleObserver {
         PLAYER_APPLIED_INVENTORY,
         PLAYER_APPLIED_SPELL_POWER,
         ATTACK_BLOCKED,
+        MISS_HIT,
         NONE
     }
 

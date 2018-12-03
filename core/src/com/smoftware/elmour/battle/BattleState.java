@@ -443,6 +443,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
 
             Gdx.app.log(TAG, "Chance of hit with melee attack = " + chanceOfHit + ", randVal = " + randomVal);
 
+            chanceOfHit = 0;
             if (chanceOfHit > randomVal) {
                 // if got this far, then kick off animation for successful attack
                 if (isEnemyBeingAttacked) {
@@ -463,10 +464,23 @@ public class BattleState extends BattleSubject implements StatusObserver {
             else {
                 // this is a MISS
                 message = "Melee attack on " + currentSelectedCharacter.getEntityConfig().getDisplayName() + " missed!";
-                BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.MISS_HIT);
-                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
+
+                if( !getAttackMissTimer(message).isScheduled() ){
+                    Timer.schedule(getAttackMissTimer(message), 1.75f);
+                }
+
+                //BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_TURN_DONE, message);
             }
         }
+    }
+
+    private Timer.Task getAttackMissTimer(final String message) {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.MISS_HIT, message);
+            }
+        };
     }
 
     public void opponentAttacks() {

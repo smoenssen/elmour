@@ -1,0 +1,70 @@
+[
+{
+  class: com.smoftware.elmour.Effect
+  name: Burn
+  effectList: [
+    {
+      type: Turn
+      effect: HEAL_HP_PERCENT
+      value: -5
+    }
+    ]
+    animationConfig: [
+  	{
+  			frameDuration: 0.125
+  			frameWidth : 16
+  			frameHeight : 16
+    	animationType: Effect
+    	texturePaths: [
+  				RPGGame/maps/Game/Characters/Effects/Burn.png
+  		]
+  		gridPoints: [
+  			{
+  				x: 0
+  				y: 0
+  			}
+  		]
+  	}
+  ]
+}
+
+{
+  class: com.smoftware.elmour.Effect
+  name: Armor_Pierce
+  effectList: [
+    {
+      type: Instantaneous
+      effect: MDEF_DOWN
+      value: -5
+    }
+  ]
+}
+
+{
+  class: com.smoftware.elmour.Effect
+  name: Stun
+  effectList: [
+    {
+      type: Turn
+      effect: Stun
+    }
+    ]
+    animationConfig: [
+    {
+        frameDuration: 0.5
+        frameWidth : 16
+        frameHeight : 16
+      animationType: Effect
+      texturePaths: [
+          RPGGame/maps/Game/Characters/Effects/Stun.png
+      ]
+      gridPoints: [
+        {
+          x: 0
+          y: 0
+        }
+      ]
+    }
+  ]
+}
+]

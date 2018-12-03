@@ -60,6 +60,7 @@ import java.util.Objects;
 import java.util.Stack;
 import java.util.concurrent.Semaphore;
 
+import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.MISS_HIT;
 import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY;
 import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_SPELL_POWER;
 
@@ -2820,9 +2821,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case CRITICAL_HIT:
                 turnInProgress = false;
                 break;
-            case MISS_HIT:
-                turnInProgress = false;
-                break;
             case WEAK_HIT:
                 turnInProgress = false;
                 break;
@@ -2966,6 +2964,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
             case PLAYER_TURN_DONE:
             case PLAYER_APPLIED_INVENTORY:
             case PLAYER_APPLIED_SPELL_POWER:
+            case MISS_HIT:
                 // go back to Main screen and enable buttons
                 screenStack.clear();
                 screenStack.push(ScreenState.MAIN);
@@ -2978,7 +2977,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 selectedCharacter = null;
 
-                if (event.equals(PLAYER_APPLIED_INVENTORY) || event.equals(PLAYER_APPLIED_SPELL_POWER))
+                if (event.equals(PLAYER_APPLIED_INVENTORY) || event.equals(PLAYER_APPLIED_SPELL_POWER) || event.equals(MISS_HIT))
                     turnInProgress = false;
 
                 break;
