@@ -23,3 +23,4 @@ BLOCK_RIGHT in hit.json crashes
 
 DONE:
 updates for animation when attacking an ally, and fixed issues with battleHUD back button transitions
+timing of MISS hit animation
