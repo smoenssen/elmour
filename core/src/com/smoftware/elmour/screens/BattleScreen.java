@@ -1096,9 +1096,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 evasionOffset = -1;
             }
             else {
+<<<<<<< HEAD
                 evasionOffset = 1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
                 return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
+=======
+                return getMissedAttackAllyAction(attacker, defender);
+>>>>>>> master
             }
         }
         else {
@@ -1110,9 +1114,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 evasionOffset = 1;
             }
             else {
+<<<<<<< HEAD
                 evasionOffset = -1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
                 return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
+=======
+                return getMissedAttackAllyAction(attacker, defender);
+>>>>>>> master
             }
         }
 
@@ -1173,7 +1181,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
+<<<<<<< HEAD
     private Action getMissedAttackAllyAction(Entity attacker, Entity defender, int evasionOffset, Entity.AnimationType walkDirectionDefender) {
+=======
+    private Action getMissedAttackAllyAction(Entity attacker, Entity defender) {
+>>>>>>> master
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkOut;
@@ -1258,6 +1270,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
 
+<<<<<<< HEAD
                 // defender walk back to miss attack
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
 
@@ -1269,6 +1282,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 //myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
                 myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
 
+=======
+>>>>>>> master
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
@@ -1283,6 +1298,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
+<<<<<<< HEAD
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 // defender walk back into place
@@ -1291,6 +1307,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.delay(0.15f),
                 myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
 
+=======
+>>>>>>> master
                 myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
                 Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
@@ -2485,6 +2503,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 selectedEntity = null;
                 break;
             case PLAYER_HIT_DAMAGE:
+<<<<<<< HEAD
                 ////////////////////////////////////////////////////////////////////////////////
                 // This condition here is only to clear out the hit value in case there
                 // are consecutive hits so that the hit value disappears. getHitPointAnimation
@@ -2493,6 +2512,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                    Timer.schedule(getHitPointAnimation(destinationEntity, ""), 4f);
                 }
                 ////////////////////////////////////////////////////////////////////////////////
+=======
+                if (!getHitPointAnimation(destinationEntity, "").isScheduled()) {
+                    Timer.schedule(getHitPointAnimation(destinationEntity, ""), 1.5f);
+                }
+>>>>>>> master
                 hitPointAnimation(destinationEntity, message);
                 break;
             case OPPONENT_ATTACKS:
