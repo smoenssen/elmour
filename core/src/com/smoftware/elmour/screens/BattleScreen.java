@@ -52,11 +52,11 @@ import java.util.Hashtable;
  * Created by moenssr on 3/1/2018.
  */
 
-public class BattleScreen extends MainGameScreen implements BattleObserver{
+public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     private static final String TAG = BattleScreen.class.getSimpleName();
 
-    public enum AnimationState { BATTLE, ESCAPED, FAILED_ESCAPE, NONE }
+    public enum AnimationState {BATTLE, ESCAPED, FAILED_ESCAPE, NONE}
 
     class BattleBurst {
         public Array<Image> imageArray;
@@ -101,7 +101,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     private Animation<TextureRegion> currentCharacterAnimation;
     private Animation<TextureRegion> currentHitAnimation;
     private Animation<TextureRegion> currentDefenderAnimation;
-    
+
     protected OrthogonalTiledMapRenderer _mapRenderer = null;
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
@@ -213,8 +213,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             _multiplexer.addProcessor(battleHUD.getStage());
             _multiplexer.addProcessor(_stage);
             Gdx.input.setInputProcessor(_multiplexer);
-        }
-        else {
+        } else {
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
@@ -290,7 +289,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         //Actions
         myActions = new MyActions();
 
-        _switchScreenAction = new RunnableAction(){
+        _switchScreenAction = new RunnableAction() {
             @Override
             public void run() {
                 _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
@@ -401,20 +400,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         };
 
         party1.addListener(new ClickListener() {
-                              @Override
-                              public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                  return true;
-                              }
+                               @Override
+                               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                   return true;
+                               }
 
-                              @Override
-                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                  // make sure touch point is still on this image
-                                  if (touchPointIsInImage(party1)) {
-                                      _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
-                                      selectedEntity = party1.getEntity();
-                                  }
-                              }
-                          }
+                               @Override
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                   // make sure touch point is still on this image
+                                   if (touchPointIsInImage(party1)) {
+                                       _game.battleState.setCurrentSelectedCharacter(party1.getEntity());
+                                       selectedEntity = party1.getEntity();
+                                   }
+                               }
+                           }
         );
 
         party2.addListener(new ClickListener() {
@@ -424,7 +423,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party2)) {
                                        _game.battleState.setCurrentSelectedCharacter(party2.getEntity());
@@ -441,7 +440,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party3)) {
                                        _game.battleState.setCurrentSelectedCharacter(party3.getEntity());
@@ -458,7 +457,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party4)) {
                                        _game.battleState.setCurrentSelectedCharacter(party4.getEntity());
@@ -475,7 +474,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(party5)) {
                                        _game.battleState.setCurrentSelectedCharacter(party5.getEntity());
@@ -492,7 +491,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy1)) {
                                        if (enemy1.getEntity().isAlive()) {
@@ -511,7 +510,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy2)) {
                                        if (enemy2.getEntity().isAlive()) {
@@ -530,7 +529,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy3)) {
                                        if (enemy3.getEntity().isAlive()) {
@@ -549,7 +548,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy4)) {
                                        if (enemy4.getEntity().isAlive()) {
@@ -568,7 +567,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                                }
 
                                @Override
-                               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                    // make sure touch point is still on this image
                                    if (touchPointIsInImage(enemy5)) {
                                        if (enemy5.getEntity().isAlive()) {
@@ -610,7 +609,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             _game.battleState.animationComplete();
             _isCameraFixed = true;
             return true; // An action returns true when it's completed
@@ -619,12 +618,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public class fadeInCharacters extends Action {
         float duration;
+
         public fadeInCharacters(float duration) {
             this.duration = duration;
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             fadeInCharacters(duration);
             return true; // An action returns true when it's completed
         }
@@ -632,12 +632,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public class fadeOutCharacters extends Action {
         float duration;
+
         public fadeOutCharacters(float duration) {
             this.duration = duration;
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             fadeOutCharacters(duration);
             return true; // An action returns true when it's completed
         }
@@ -645,12 +646,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public class fadeOutScreen extends Action {
         float duration;
+
         public fadeOutScreen(float duration) {
             this.duration = duration;
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             blackScreen.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(duration)));
             battleHUD.fadeOutHUD(duration);
             return true; // An action returns true when it's completed
@@ -659,12 +661,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
     public class fadeInScreen extends Action {
         float duration;
+
         public fadeInScreen(float duration) {
             this.duration = duration;
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             _isCameraFixed = true;
             blackScreen.addAction(Actions.fadeOut(duration));
             battleHUD.fadeInHUD(duration);
@@ -682,7 +685,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             if (show)
                 character.setVisible(true);
             else
@@ -699,26 +702,27 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
 
         @Override
-        public boolean act (float delta) {
+        public boolean act(float delta) {
             showStatusArrows = show;
             return true; // An action returns true when it's completed
         }
     }
-/*
-    public class showHPFloater extends Action {
-        boolean show;
 
-        public showHPFloater(boolean show) {
-            this.show = show;
-        }
+    /*
+        public class showHPFloater extends Action {
+            boolean show;
 
-        @Override
-        public boolean act (float delta) {
-            showHitPointFloater = show;
-            return true; // An action returns true when it's completed
+            public showHPFloater(boolean show) {
+                this.show = show;
+            }
+
+            @Override
+            public boolean act (float delta) {
+                showHitPointFloater = show;
+                return true; // An action returns true when it's completed
+            }
         }
-    }
-*/
+    */
     private void completeAllActions() {
         float delta = 1;
 
@@ -746,7 +750,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         }
     }
 
-    public static AnimationState getAnimationState() { return animationState; }
+    public static AnimationState getAnimationState() {
+        return animationState;
+    }
 
     private Entity.AnimationType getWeaponAnimationType(Entity entity, boolean attackingEnemy) {
         // if attackingEnemy is false, then the attack is against an ally
@@ -759,8 +765,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 animationType = Entity.AnimationType.SWORD_LEFT;
             else
                 animationType = Entity.AnimationType.SWORD_RIGHT;
-        }
-        else {
+        } else {
             if (attackingEnemy)
                 animationType = Entity.AnimationType.SWORD_RIGHT;
             else
@@ -818,19 +823,16 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
                 destinationX = selectedEntity.getCurrentPosition().x + 1;
-            }
-            else {
+            } else {
                 return getAttackAllyAction(entity);
             }
-        }
-        else {
+        } else {
             // entity == Entity.BattleEntityType.ENEMY
             if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
                 walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
                 destinationX = selectedEntity.getCurrentPosition().x - 1;
-            }
-            else {
+            } else {
                 return getAttackAllyAction(entity);
             }
         }
@@ -841,13 +843,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.75f),
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
-                                                battleHitAnimations.get(getHitType(weaponAnimationType)), null),
+                        battleHitAnimations.get(getHitType(weaponAnimationType)), null),
                 new showMainCharacterAnimation(currentTurnCharacter, false),
                 // Framerate * # of Frames
                 Actions.delay(0.4f),
@@ -891,16 +893,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             if ((entity.getBattlePosition() == 1 || entity.getBattlePosition() == 3 || entity.getBattlePosition() == 5) &&
                     (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
-            }
-            else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
+            } else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
                     (Math.abs(entity.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
-            }
-            else {
+            } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 1;
             }
-        }
-        else {
+        } else {
             walkOut = Entity.AnimationType.WALK_RIGHT;
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
             attackDestinationX = selectedEntity.getCurrentPosition().x + 1;
@@ -908,12 +907,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             if ((entity.getBattlePosition() == 1 || entity.getBattlePosition() == 3 || entity.getBattlePosition() == 5) &&
                     (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
-            }
-            else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
+            } else if ((entity.getBattlePosition() == 2 || entity.getBattlePosition() == 4) &&
                     (Math.abs(entity.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
-            }
-            else {
+            } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 1;
             }
         }
@@ -923,8 +920,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (entity.getBattlePosition() < selectedEntity.getBattlePosition()) {
             walkDirectionToAttack = Entity.AnimationType.WALK_DOWN;
             walkDirectionFromAttack = Entity.AnimationType.WALK_UP;
-        }
-        else {
+        } else {
             walkDirectionToAttack = Entity.AnimationType.WALK_UP;
             walkDirectionFromAttack = Entity.AnimationType.WALK_DOWN;
         }
@@ -940,15 +936,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkDirectionToAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
 
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
                 Actions.delay(0.25f),
@@ -1003,8 +999,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
             walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
             destinationX = defender.getCurrentPosition().x + 1;
-        }
-        else {
+        } else {
             // Entity.BattleEntityType.ENEMY
             walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
             walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
@@ -1014,8 +1009,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (defender.getCurrentPosition().y < selectedEntity.getCurrentPosition().y) {
             walkDirectionToBlock = Entity.AnimationType.WALK_UP;
             walkDirectionFromBlock = Entity.AnimationType.WALK_DOWN;
-        }
-        else {
+        } else {
             walkDirectionToBlock = Entity.AnimationType.WALK_DOWN;
             walkDirectionFromBlock = Entity.AnimationType.WALK_UP;
         }
@@ -1026,13 +1020,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return Actions.sequence(
                 new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.50f),
 
                 // defender walk to block
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionToBlock),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
 
                 Actions.delay(0.25f),
 
@@ -1043,8 +1037,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(attackerWeaponAnimationType),
-                                                battleHitAnimations.get(Entity.AnimationType.BLOCK_LEFT),
-                                                currentDefenderBattleAnimation.get(defenderWeaponAnimationType)),
+                        battleHitAnimations.get(Entity.AnimationType.BLOCK_LEFT),
+                        currentDefenderBattleAnimation.get(defenderWeaponAnimationType)),
                 new showMainCharacterAnimation(currentTurnCharacter, false),
                 // Framerate * # of Frames
                 Actions.delay(0.4f),
@@ -1052,11 +1046,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(),0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
 
                 // defender walk back into place
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionFromBlock),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y,0.75f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
 
                 Actions.delay(0.75f),
 
@@ -1094,33 +1088,22 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
                 destinationX = defender.getCurrentPosition().x + 1;
                 evasionOffset = -1;
-            }
-            else {
-<<<<<<< HEAD
+            } else {
                 evasionOffset = 1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
                 return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
-=======
-                return getMissedAttackAllyAction(attacker, defender);
->>>>>>> master
             }
-        }
-        else {
+        } else {
             if (defender.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
                 // Entity.BattleEntityType.ENEMY
                 walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
                 destinationX = defender.getCurrentPosition().x - 1;
                 evasionOffset = 1;
-            }
-            else {
-<<<<<<< HEAD
+            } else {
                 evasionOffset = -1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
                 return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
-=======
-                return getMissedAttackAllyAction(attacker, defender);
->>>>>>> master
             }
         }
 
@@ -1129,17 +1112,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         currentAttackerBattleAnimation = getBattleAnimations(attackerEntityName);
 
         return Actions.sequence(
-              new showStatArrows(false),
+                new showStatArrows(false),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y,  0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.50f),
 
                 // defender walk back to miss attack
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
 
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y,  0.25f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
 
                 Actions.delay(0.25f),
 
@@ -1160,11 +1143,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(),0.75f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
 
                 // defender walk back into place
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y,0.75f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
 
                 Actions.delay(0.75f),
 
@@ -1181,11 +1164,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         );
     }
 
-<<<<<<< HEAD
     private Action getMissedAttackAllyAction(Entity attacker, Entity defender, int evasionOffset, Entity.AnimationType walkDirectionDefender) {
-=======
-    private Action getMissedAttackAllyAction(Entity attacker, Entity defender) {
->>>>>>> master
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkOut;
@@ -1211,16 +1190,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             if ((attacker.getBattlePosition() == 1 || attacker.getBattlePosition() == 3 || attacker.getBattlePosition() == 5) &&
                     (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
-            }
-            else if ((attacker.getBattlePosition() == 2 || attacker.getBattlePosition() == 4) &&
+            } else if ((attacker.getBattlePosition() == 2 || attacker.getBattlePosition() == 4) &&
                     (Math.abs(attacker.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 2;
-            }
-            else {
+            } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 1;
             }
-        }
-        else {
+        } else {
             walkOut = Entity.AnimationType.WALK_RIGHT;
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
             attackDestinationX = selectedEntity.getCurrentPosition().x + 1;
@@ -1228,12 +1204,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             if ((attacker.getBattlePosition() == 1 || attacker.getBattlePosition() == 3 || attacker.getBattlePosition() == 5) &&
                     (selectedEntity.getBattlePosition() == 1 || selectedEntity.getBattlePosition() == 3 || selectedEntity.getBattlePosition() == 5)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
-            }
-            else if ((attacker.getBattlePosition() == 2 || attacker.getBattlePosition() == 4) &&
+            } else if ((attacker.getBattlePosition() == 2 || attacker.getBattlePosition() == 4) &&
                     (Math.abs(attacker.getBattlePosition() - selectedEntity.getBattlePosition()) > 2)) {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
-            }
-            else {
+            } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 1;
             }
         }
@@ -1243,8 +1217,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (attacker.getBattlePosition() < selectedEntity.getBattlePosition()) {
             walkDirectionToAttack = Entity.AnimationType.WALK_DOWN;
             walkDirectionFromAttack = Entity.AnimationType.WALK_UP;
-        }
-        else {
+        } else {
             walkDirectionToAttack = Entity.AnimationType.WALK_UP;
             walkDirectionFromAttack = Entity.AnimationType.WALK_DOWN;
         }
@@ -1260,21 +1233,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
                 new showStatArrows(false),
                 myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, attacker.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, attacker.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkDirectionToAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y,  0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
 
-<<<<<<< HEAD
                 // defender walk back to miss attack
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
 
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y,  0.25f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
 
                 Actions.delay(0.25f),
 
@@ -1282,8 +1254,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 //myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
                 myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
 
-=======
->>>>>>> master
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
@@ -1298,17 +1268,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
-<<<<<<< HEAD
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 // defender walk back into place
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y,0.25f, Interpolation.linear), defendingCharacter),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
                 Actions.delay(0.15f),
                 myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
 
-=======
->>>>>>> master
                 myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
                 Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
@@ -1339,8 +1306,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (_game.battleState.isBackBattle()) {
             runDirection = Entity.AnimationType.RUN_LEFT;
             tilesPerSec *= -1;
-        }
-        else {
+        } else {
             runDirection = Entity.AnimationType.RUN_RIGHT;
         }
 
@@ -1366,17 +1332,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return Actions.sequence(
                 new showStatArrows(false),
                 Actions.parallel(
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
-                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
-                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
+                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
+                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
 
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  enemyDuration, Interpolation.linear), enemy1),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  enemyDuration, Interpolation.linear), enemy2),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  enemyDuration, Interpolation.linear), enemy3),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  enemyDuration, Interpolation.linear), enemy4),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  enemyDuration, Interpolation.linear), enemy5)
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), enemyDuration, Interpolation.linear), enemy1),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), enemyDuration, Interpolation.linear), enemy2),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), enemyDuration, Interpolation.linear), enemy3),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), enemyDuration, Interpolation.linear), enemy4),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), enemyDuration, Interpolation.linear), enemy5)
                 ),
 
                 Actions.delay(duration * 0.5f),
@@ -1416,8 +1382,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         if (_game.battleState.isBackBattle()) {
             runDirection = Entity.AnimationType.RUN_LEFT;
             tilesPerSec *= -1;
-        }
-        else {
+        } else {
             runDirection = Entity.AnimationType.RUN_RIGHT;
         }
 
@@ -1443,17 +1408,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         return Actions.sequence(
                 new showStatArrows(false),
                 Actions.parallel(
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(),  duration, Interpolation.linear), party1),
-                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(),  duration, Interpolation.linear), party2),
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(),  duration, Interpolation.linear), party3),
-                    Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(),  duration, Interpolation.linear), party4),
-                    Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(),  duration, Interpolation.linear), party5),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
+                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
+                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
+                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
 
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy1),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy2),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy3),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy4),
-                    Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(),  duration * enemyDurationFactor, Interpolation.linear), enemy5)
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy1),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy2),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy3),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy4),
+                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy5)
                 ),
 
                 Actions.delay(duration * 0.5f),
@@ -1507,7 +1472,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
     }
 
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> getBattleAnimations(EntityFactory.EntityName entityName) {
-        switch(entityName) {
+        switch (entityName) {
             // Party
             case CARMEN:
                 return carmenBattleAnimations;
@@ -1526,7 +1491,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             case ROYAL_GUARD:
                 return royalGuardBattleAnimations;
             case STEVE:
-                return  steveBattleAnimations;
+                return steveBattleAnimations;
         }
 
         return null;
@@ -1581,7 +1546,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
 
         Gdx.input.setInputProcessor(_multiplexer);
 
-        if( _mapRenderer == null ){
+        if (_mapRenderer == null) {
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
 
@@ -1620,7 +1585,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         _mapRenderer.getBatch().enableBlending();
         _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        if( _mapMgr.hasMapChanged() ){
+        if (_mapMgr.hasMapChanged()) {
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
             _mapMgr.setMapChanged(false);
         }
@@ -1628,19 +1593,22 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
         // this is to fix an issue with the wrong map being flashed for the first frame
         if (!isFirstTime) {
             _mapRenderer.render();
-        }
-        else {
+        } else {
             isFirstTime = false;
         }
 
-        if( !_isCameraFixed ){
+        if (!_isCameraFixed) {
             _camera.position.set(party1.getX() - cameraRunningOffset, _camera.position.y, 0f);
         }
 
         _camera.update();
 
+        // correct character z layer based on selected character
+        //(this is needed for walking animation)
+        correctCharacterZLayer();
+
         _stage.act(delta);
-       // _stage.draw();
+        _stage.draw();
 
         battleHUD.render(delta);
 
@@ -1663,8 +1631,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 }
 
                 _mapRenderer.getBatch().end();
-            }
-            else if (currentTurnFlashTimer > 0.75f) {
+            } else if (currentTurnFlashTimer > 0.75f) {
                 currentTurnFlashTimer = 0;
             }
         }
@@ -1695,6 +1662,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 if (currentHitFrame != null && selectedEntity != null) {
                     //draw hit animation
                     _mapRenderer.getBatch().draw(currentHitFrame, selectedEntity.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, hitRegionWidth, hitRegionHeight);
+
+                    //draw any character that should be in a z layer above the current turn character hit animation
+                    //(this has to be done here because the hit animation is drawn after the stage draw)
+                    redrawPostHitAnimation();
                 }
 
                 if (currentDefenderAnimation != null) {
@@ -1717,7 +1688,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             _mapRenderer.getBatch().end();
         }
 
-        _stage.draw();
+        //_stage.draw();
 
         if (hpBattleBurst.show) {
             updateBattleBurst(delta, hpBattleBurst);
@@ -1738,6 +1709,36 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
             enemy3StatArrows.render(delta, _mapRenderer);
             enemy4StatArrows.render(delta, _mapRenderer);
             enemy5StatArrows.render(delta, _mapRenderer);
+        }
+    }
+
+    private void correctCharacterZLayer() {
+        //todo
+        party5.setZIndex(0);
+    }
+
+    private void redrawPostHitAnimation() {
+        // only care about re-drawing character 2 or 4 if selected character is in position 1 or 3
+
+        if (selectedEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+            switch (selectedEntity.getBattlePosition()) {
+                case 1:
+                    party2.draw(_mapRenderer.getBatch(),1);
+                    break;
+                case 3:
+                    party4.draw(_mapRenderer.getBatch(),1);
+                    break;
+            }
+        }
+        else {
+            switch (selectedEntity.getBattlePosition()) {
+                case 1:
+                    enemy2.draw(_mapRenderer.getBatch(),1);
+                    break;
+                case 3:
+                    enemy4.draw(_mapRenderer.getBatch(),1);
+                    break;
+            }
         }
     }
 
@@ -2503,7 +2504,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                 selectedEntity = null;
                 break;
             case PLAYER_HIT_DAMAGE:
-<<<<<<< HEAD
                 ////////////////////////////////////////////////////////////////////////////////
                 // This condition here is only to clear out the hit value in case there
                 // are consecutive hits so that the hit value disappears. getHitPointAnimation
@@ -2512,11 +2512,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver{
                    Timer.schedule(getHitPointAnimation(destinationEntity, ""), 4f);
                 }
                 ////////////////////////////////////////////////////////////////////////////////
-=======
-                if (!getHitPointAnimation(destinationEntity, "").isScheduled()) {
-                    Timer.schedule(getHitPointAnimation(destinationEntity, ""), 1.5f);
-                }
->>>>>>> master
                 hitPointAnimation(destinationEntity, message);
                 break;
             case OPPONENT_ATTACKS:
