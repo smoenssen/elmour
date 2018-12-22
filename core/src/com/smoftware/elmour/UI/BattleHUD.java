@@ -2350,6 +2350,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         return _stage;
     }
 
+    public InventoryElement getSelectedInventoryElement() { return selectedInventoryElement; }
+
     public void addTransitionToScreen(){
         _transitionActor.setVisible(true);
         _stage.addAction(

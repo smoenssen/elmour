@@ -6,9 +6,6 @@ Can't block daggers or punching
 make sure number of turns executed is correct
 If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
-when attacking ally, battle burst fades out too fast
-z-order needs to be tweaked when attacking enemy in back row and there is an enemy below
-z-order of characters are in front of battle HUD
 
 
 Ben
@@ -21,4 +18,3 @@ frame width and height wrong for CRIT, MISS, WEAK in json
 add element id to all spells and powers in json
 
 BLOCK_RIGHT in hit.json crashes
-

@@ -46,6 +46,9 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 
 /**
@@ -58,6 +61,23 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     public enum AnimationState {BATTLE, ESCAPED, FAILED_ESCAPE, NONE}
 
+    public class CharacterLayerComparator implements Comparator<AnimatedImage> {
+        @Override
+        public int compare(AnimatedImage arg0, AnimatedImage arg1) {
+            float y0 = arg0.getY();
+            float y1 = arg1.getY();
+            if (y0 > y1) {
+                return -1;
+            }
+            else if (y0 == y1) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
+        }
+    }
+
     class BattleBurst {
         public Array<Image> imageArray;
         public boolean show;
@@ -69,6 +89,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         public BattleBurst() {
             show = false;
             imageArray = new Array<>();
+        }
+    }
+
+    class ThrowingItem {
+        public Animation<TextureRegion> throwingAnimation;
+        public boolean show;
+        public float positionX;
+        public float positionY;
+        public float velocityX;
+        public float velocityY;
+
+        public ThrowingItem() {
+            show = false;
         }
     }
 
@@ -140,6 +173,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
 
+    private ArrayList<AnimatedImage> charLayerSortList;
+
     private boolean showStatusArrows = true;
     private StatusArrows party1StatArrows;
     private StatusArrows party2StatArrows;
@@ -161,11 +196,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
 
-    float gravity;
-    float battleHUDHeight;
+    private float gravity;
+    private float battleHUDHeight;
     float bounceVelocityY;
     private BattleBurst hpBattleBurst;
     private BattleBurst specialBattleBurst;
+
+    private ThrowingItem throwingItem;
 
     private Image blackScreen;
 
@@ -246,6 +283,18 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
+        charLayerSortList = new ArrayList<>();
+        charLayerSortList.add(party1);
+        charLayerSortList.add(party2);
+        charLayerSortList.add(party3);
+        charLayerSortList.add(party4);
+        charLayerSortList.add(party5);
+        charLayerSortList.add(enemy1);
+        charLayerSortList.add(enemy2);
+        charLayerSortList.add(enemy3);
+        charLayerSortList.add(enemy4);
+        charLayerSortList.add(enemy5);
+
         party1StatArrows = new StatusArrows(_stage);
         party2StatArrows = new StatusArrows(_stage);
         party3StatArrows = new StatusArrows(_stage);
@@ -313,6 +362,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party1.getEntity() != null)
                     party1.getEntity().setCurrentPosition(new Vector2(party1.getX(), party1.getY()));
                 party1StatArrows.setPosition(party1.getX() - 1, party1.getY());
+
                 /*
                 party1StatArrows.add(EntityFactory.EntityName.ATK_DOWN_LEFT);
                 party1StatArrows.add(EntityFactory.EntityName.MATK_DOWN_LEFT);
@@ -977,6 +1027,71 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         );
     }
 
+    private Action getThrowAction(Entity entity) {
+        animationState = AnimationState.BATTLE;
+        Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
+        Entity.AnimationType walkOut;
+        Entity.AnimationType walkBack;
+        Entity.AnimationType weaponAnimationType;
+        float destinationX;
+        float walkOutDistance = 1.5f;
+
+        weaponAnimationType = getWeaponAnimationType(entity, true);
+
+        EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
+
+        if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+                walkOut = Entity.AnimationType.WALK_LEFT;
+                walkBack = Entity.AnimationType.WALK_RIGHT;
+                destinationX = entity.getCurrentPosition().x - walkOutDistance;
+            } else {
+                return getAttackAllyAction(entity);
+            }
+        } else {
+            // entity == Entity.BattleEntityType.ENEMY
+            if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+                walkOut = Entity.AnimationType.WALK_RIGHT;
+                walkBack = Entity.AnimationType.WALK_LEFT;
+                destinationX = entity.getCurrentPosition().x + walkOutDistance;
+            } else {
+                return getAttackAllyAction(entity);
+            }
+        }
+
+        currentCharacterBattleAnimation = getBattleAnimations(entityName);
+
+        return Actions.sequence(
+
+                new showStatArrows(false),
+                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
+                Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+
+                Actions.delay(0.25f),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                Actions.delay(0.25f),
+                new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
+                        battleHitAnimations.get(getHitType(weaponAnimationType)), null),
+                new showMainCharacterAnimation(currentTurnCharacter, false),
+                // Framerate * # of Frames
+                Actions.delay(0.4f),
+
+                new setCurrentBattleAnimations(null, null, null),
+                new showMainCharacterAnimation(currentTurnCharacter, true),
+
+                myActions.new setWalkDirection(currentTurnCharacter, walkBack),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.25f),
+
+                // turn to face victim
+                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+
+                new animationComplete(),
+                new showStatArrows(true)
+        );
+    }
+
     private Action getBlockedAttackAction(Entity attacker, Entity defender) {
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentAttackerBattleAnimation;
@@ -1223,11 +1338,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
 
         currentCharacterBattleAnimation = getBattleAnimations(entityName);
-
-        // if need to do something for the frame that z-order is a little off
-        //setDefendingCharacter(selectedEntity);
-        //int index = defendingCharacter.getZIndex();
-        //currentTurnCharacter.setZIndex(defendingCharacter.getZIndex());
 
         return Actions.sequence(
 
@@ -1603,11 +1713,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         _camera.update();
 
-        // correct character z layer based on selected character
-        //(this is needed for walking animation)
-        correctCharacterZLayer();
-
         _stage.act(delta);
+
+        // correct characters' z layer based on selected character
+        //(this is needed for walking animation)
+        correctCharactersZLayer();
+
         _stage.draw();
 
         battleHUD.render(delta);
@@ -1688,8 +1799,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             _mapRenderer.getBatch().end();
         }
 
-        //_stage.draw();
-
         if (hpBattleBurst.show) {
             updateBattleBurst(delta, hpBattleBurst);
         }
@@ -1712,9 +1821,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
     }
 
-    private void correctCharacterZLayer() {
-        //todo
-        party5.setZIndex(0);
+    private void correctCharactersZLayer() {
+        // sort list in descending order by Y position
+        Collections.sort(charLayerSortList, new CharacterLayerComparator());
+
+        // now set the z order of each character based on layer
+        for (int i = 0; i < charLayerSortList.size(); i++) {
+            AnimatedImage character = charLayerSortList.get(i);
+            character.setZIndex(i);
+        }
     }
 
     private void redrawPostHitAnimation() {
@@ -2501,7 +2616,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 break;
             case PLAYER_TURN_DONE:
             case PLAYER_APPLIED_INVENTORY:
-                selectedEntity = null;
+                if (battleHUD.getSelectedInventoryElement().category.equals(InventoryElement.InventoryCategory.Throwing)) {
+                    selectedEntity = destinationEntity;
+                    _stage.addAction(getThrowAction(sourceEntity));
+                }
+                else {
+                    selectedEntity = null;
+                }
+
                 break;
             case PLAYER_HIT_DAMAGE:
                 ////////////////////////////////////////////////////////////////////////////////
