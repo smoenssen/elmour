@@ -196,11 +196,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private Texture selectedEntityIndicator;
     private Entity selectedEntity;
 
+    Entity.AnimationType weaponAnimationType;
+
     private float gravity;
     private float battleHUDHeight;
     float bounceVelocityY;
     private BattleBurst hpBattleBurst;
     private BattleBurst specialBattleBurst;
+    private boolean isMissHit = false;
 
     private ThrowingItem throwingItem;
 
@@ -810,6 +813,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType animationType;
 
         // todo: need to get correct weapon from somewhere
+        /*
+        if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            if (attackingEnemy)
+                animationType = Entity.AnimationType.DAGGER_LEFT;
+            else
+                animationType = Entity.AnimationType.DAGGER_RIGHT;
+        } else {
+            if (attackingEnemy)
+                animationType = Entity.AnimationType.DAGGER_RIGHT;
+            else
+                animationType = Entity.AnimationType.DAGGER_LEFT;
+        }
+*/
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
             if (attackingEnemy)
                 animationType = Entity.AnimationType.SWORD_LEFT;
@@ -861,10 +877,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkTowardsVictim;
         Entity.AnimationType walkAwayFromVictim;
-        Entity.AnimationType weaponAnimationType;
         float destinationX;
+        boolean isDagger = false;
 
         weaponAnimationType = getWeaponAnimationType(entity, true);
+
+        if (weaponAnimationType.equals(Entity.AnimationType.DAGGER_LEFT) || weaponAnimationType.equals(Entity.AnimationType.DAGGER_RIGHT))
+            isDagger = true;
 
         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
 
@@ -873,8 +892,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
                 destinationX = selectedEntity.getCurrentPosition().x + 1;
-            } else {
-                return getAttackAllyAction(entity);
+                if (isDagger)
+                    destinationX += 1;
+            }
+            else {
+                return getAttackAllyAction(entity, isDagger);
             }
         } else {
             // entity == Entity.BattleEntityType.ENEMY
@@ -882,8 +904,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
                 destinationX = selectedEntity.getCurrentPosition().x - 1;
+                if (isDagger)
+                    destinationX -= 1;
             } else {
-                return getAttackAllyAction(entity);
+                return getAttackAllyAction(entity, isDagger);
             }
         }
 
@@ -919,7 +943,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         );
     }
 
-    private Action getAttackAllyAction(Entity entity) {
+    private Action getAttackAllyAction(Entity entity, boolean isDagger) {
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkOut;
@@ -927,7 +951,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType walkDirectionToAttack;
         Entity.AnimationType walkDirectionFromAttack;
         Entity.AnimationType walkTowardsVictim;
-        Entity.AnimationType weaponAnimationType;
         float walkOutDestinationX;
         float attackDestinationX;
 
@@ -949,6 +972,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 1;
             }
+
+            if (isDagger) {
+                walkOutDestinationX -= 1;
+                attackDestinationX -= 1;
+            }
         } else {
             walkOut = Entity.AnimationType.WALK_RIGHT;
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
@@ -962,6 +990,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
             } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 1;
+            }
+
+            if (isDagger) {
+                walkOutDestinationX += 1;
+                attackDestinationX += 1;
             }
         }
 
@@ -1032,30 +1065,35 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkOut;
         Entity.AnimationType walkBack;
-        Entity.AnimationType weaponAnimationType;
+        Entity.AnimationType faceVictim;
         float destinationX;
         float walkOutDistance = 1.5f;
-
-        weaponAnimationType = getWeaponAnimationType(entity, true);
 
         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
 
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
+            walkOut = Entity.AnimationType.WALK_LEFT;
+            walkBack = Entity.AnimationType.WALK_RIGHT;
+            destinationX = entity.getCurrentPosition().x - walkOutDistance;
+
             if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-                walkOut = Entity.AnimationType.WALK_LEFT;
-                walkBack = Entity.AnimationType.WALK_RIGHT;
-                destinationX = entity.getCurrentPosition().x - walkOutDistance;
+                weaponAnimationType = getWeaponAnimationType(selectedEntity, true);
+                faceVictim = Entity.AnimationType.WALK_LEFT;
             } else {
-                return getAttackAllyAction(entity);
+                weaponAnimationType = getWeaponAnimationType(selectedEntity, false);
+                faceVictim = Entity.AnimationType.WALK_RIGHT;
             }
         } else {
             // entity == Entity.BattleEntityType.ENEMY
+            walkOut = Entity.AnimationType.WALK_RIGHT;
+            walkBack = Entity.AnimationType.WALK_LEFT;
+            destinationX = entity.getCurrentPosition().x + walkOutDistance;
             if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                walkOut = Entity.AnimationType.WALK_RIGHT;
-                walkBack = Entity.AnimationType.WALK_LEFT;
-                destinationX = entity.getCurrentPosition().x + walkOutDistance;
+                weaponAnimationType = getWeaponAnimationType(selectedEntity, true);
+                faceVictim = Entity.AnimationType.WALK_RIGHT;
             } else {
-                return getAttackAllyAction(entity);
+                weaponAnimationType = getWeaponAnimationType(selectedEntity, false);
+                faceVictim = Entity.AnimationType.WALK_LEFT;
             }
         }
 
@@ -1068,6 +1106,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.25f),
+
+                // turn to face victim
+                myActions.new setWalkDirection(currentTurnCharacter, faceVictim),
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
@@ -1079,11 +1120,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
+                Actions.delay(0.25f),
+
                 myActions.new setWalkDirection(currentTurnCharacter, walkBack),
                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.25f),
 
-                // turn to face victim
+                // turn to face back out
                 myActions.new setWalkDirection(currentTurnCharacter, walkOut),
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
@@ -1100,11 +1143,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType walkAwayFromVictim;
         Entity.AnimationType walkDirectionToBlock;
         Entity.AnimationType walkDirectionFromBlock;
-        Entity.AnimationType attackerWeaponAnimationType;
         Entity.AnimationType defenderWeaponAnimationType;
         float destinationX;
 
-        attackerWeaponAnimationType = getWeaponAnimationType(attacker, true);
+        weaponAnimationType = getWeaponAnimationType(attacker, true);
         defenderWeaponAnimationType = getWeaponAnimationType(defender, true);
 
         EntityFactory.EntityName attackerEntityName = EntityFactory.EntityName.valueOf(attacker.getEntityConfig().getEntityID().toUpperCase());
@@ -1151,7 +1193,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
-                new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(attackerWeaponAnimationType),
+                new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(weaponAnimationType),
                         battleHitAnimations.get(Entity.AnimationType.BLOCK_LEFT),
                         currentDefenderBattleAnimation.get(defenderWeaponAnimationType)),
                 new showMainCharacterAnimation(currentTurnCharacter, false),
@@ -1188,11 +1230,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType walkTowardsVictim;
         Entity.AnimationType walkAwayFromVictim;
         Entity.AnimationType walkDirectionDefender;
-        Entity.AnimationType attackerWeaponAnimationType;
         float destinationX;
         int evasionOffset = 1;
+        boolean isDagger = false;
 
-        attackerWeaponAnimationType = getWeaponAnimationType(attacker, true);
+        weaponAnimationType = getWeaponAnimationType(attacker, true);
+
+        if (weaponAnimationType.equals(Entity.AnimationType.DAGGER_LEFT) || weaponAnimationType.equals(Entity.AnimationType.DAGGER_RIGHT))
+            isDagger = true;
 
         EntityFactory.EntityName attackerEntityName = EntityFactory.EntityName.valueOf(attacker.getEntityConfig().getEntityID().toUpperCase());
         EntityFactory.EntityName defenderEntityName = EntityFactory.EntityName.valueOf(defender.getEntityConfig().getEntityID().toUpperCase());
@@ -1201,24 +1246,30 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             if (defender.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
                 walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
-                destinationX = defender.getCurrentPosition().x + 1;
+                if (isDagger)
+                    destinationX = defender.getCurrentPosition().x + 2;
+                else
+                    destinationX = defender.getCurrentPosition().x + 1;
                 evasionOffset = -1;
             } else {
                 evasionOffset = 1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
-                return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
+                return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim, isDagger);
             }
         } else {
             if (defender.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
                 // Entity.BattleEntityType.ENEMY
                 walkTowardsVictim = Entity.AnimationType.WALK_RIGHT;
                 walkAwayFromVictim = Entity.AnimationType.WALK_LEFT;
-                destinationX = defender.getCurrentPosition().x - 1;
+                if (isDagger)
+                    destinationX = defender.getCurrentPosition().x - 2;
+                else
+                    destinationX = defender.getCurrentPosition().x - 1;
                 evasionOffset = 1;
             } else {
                 evasionOffset = -1;
                 walkAwayFromVictim = Entity.AnimationType.WALK_RIGHT;
-                return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim);
+                return getMissedAttackAllyAction(attacker, defender, evasionOffset, walkAwayFromVictim, isDagger);
             }
         }
 
@@ -1232,14 +1283,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
 
-                Actions.delay(0.50f),
-
-                // defender walk back to miss attack
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
-
-                Actions.delay(0.25f),
+                Actions.delay(0.65f),
 
                 // defender turn to face attacker
                 myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
@@ -1248,10 +1292,15 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
 
-                new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(attackerWeaponAnimationType),
-                        battleHitAnimations.get(getHitType(attackerWeaponAnimationType)), null),
+                new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(weaponAnimationType),
+                        battleHitAnimations.get(getHitType(weaponAnimationType)), null),
 
                 new showMainCharacterAnimation(currentTurnCharacter, false),
+
+                // defender walk back to miss attack
+                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+
                 // Framerate * # of Frames
                 Actions.delay(0.4f),
                 new setCurrentBattleAnimations(null, null, null),
@@ -1279,7 +1328,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         );
     }
 
-    private Action getMissedAttackAllyAction(Entity attacker, Entity defender, int evasionOffset, Entity.AnimationType walkDirectionDefender) {
+    private Action getMissedAttackAllyAction(Entity attacker, Entity defender, int evasionOffset, Entity.AnimationType walkDirectionDefender, boolean isDagger) {
         animationState = AnimationState.BATTLE;
         Hashtable<Entity.AnimationType, Animation<TextureRegion>> currentCharacterBattleAnimation;
         Entity.AnimationType walkOut;
@@ -1287,7 +1336,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType walkDirectionToAttack;
         Entity.AnimationType walkDirectionFromAttack;
         Entity.AnimationType walkTowardsVictim;
-        Entity.AnimationType weaponAnimationType;
         float walkOutDestinationX;
         float attackDestinationX;
 
@@ -1311,6 +1359,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x - 1;
             }
+
+            if (isDagger) {
+                walkOutDestinationX -= 1;
+                attackDestinationX -= 1;
+            }
         } else {
             walkOut = Entity.AnimationType.WALK_RIGHT;
             walkTowardsVictim = Entity.AnimationType.WALK_LEFT;
@@ -1324,6 +1377,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 2;
             } else {
                 walkOutDestinationX = selectedEntity.getCurrentPosition().x + 1;
+            }
+
+            if (isDagger) {
+                walkOutDestinationX += 1;
+                attackDestinationX += 1;
             }
         }
 
@@ -1353,22 +1411,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
                 Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
 
-                // defender walk back to miss attack
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
-
-                Actions.delay(0.25f),
-
-                // defender turn to face attacker
-                //myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setIdleDirection(currentTurnCharacter, Entity.Direction.RIGHT),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponAnimationType),
                         battleHitAnimations.get(getHitType(weaponAnimationType)), null),
                 new showMainCharacterAnimation(currentTurnCharacter, false),
+
+                // defender walk back to miss attack
+                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
+                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+
                 // Framerate * # of Frames
                 Actions.delay(0.4f),
                 new setCurrentBattleAnimations(null, null, null),
@@ -1381,18 +1436,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 // defender walk back into place
+                myActions.new setIdleDirection(currentTurnCharacter, Entity.Direction.LEFT),
                 myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
                 Actions.delay(0.15f),
                 myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
-                Actions.delay(0.25f),
+                Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.15f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.1f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkBackIntoPlace),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
-                Actions.delay(0.25f),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.45f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.45f),
 
                 // turn to face victim
                 myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
@@ -1766,11 +1822,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 float hitRegionHeight = currentHitFrame.getRegionHeight() * Map.UNIT_SCALE;
 
                 //adjust for character width/height vs. animation region width/height
-                float adjustWidth = (regionWidth - characterWidth) / 2;
+                //(special case for dagger right for some reason)
+                float adjustWidth;
+                if (weaponAnimationType != null && weaponAnimationType.equals(Entity.AnimationType.DAGGER_RIGHT))
+                    adjustWidth = (regionWidth - characterWidth) / 3;
+                else
+                    adjustWidth = (regionWidth - characterWidth) / 2;
+
                 float adjustHeight = (regionHeight - characterHeight) / 2;
                 _mapRenderer.getBatch().draw(_currentFrame, currentTurnCharacter.getX() - adjustWidth, currentTurnCharacter.getY() - adjustHeight, regionWidth, regionHeight);
 
-                if (currentHitFrame != null && selectedEntity != null) {
+                if (currentHitFrame != null && selectedEntity != null && !isMissHit) {
                     //draw hit animation
                     _mapRenderer.getBatch().draw(currentHitFrame, selectedEntity.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, hitRegionWidth, hitRegionHeight);
 
@@ -2438,6 +2500,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 initBattleBurst(hpBattleBurst, character, hitValue, entity.getBattleEntityType());
             }
         }
+
+        isMissHit = false;
     }
 
     private Timer.Task getHitPointAnimation(final Entity entity, final String hitValue) {
@@ -2616,9 +2680,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 break;
             case PLAYER_TURN_DONE:
             case PLAYER_APPLIED_INVENTORY:
-                if (battleHUD.getSelectedInventoryElement().category.equals(InventoryElement.InventoryCategory.Throwing)) {
-                    selectedEntity = destinationEntity;
-                    _stage.addAction(getThrowAction(sourceEntity));
+                if (event == BattleEventWithMessage.PLAYER_APPLIED_INVENTORY) {
+                    if (battleHUD.getSelectedInventoryElement().category.equals(InventoryElement.InventoryCategory.Throwing)) {
+                        selectedEntity = destinationEntity;
+                        _stage.addAction(getThrowAction(sourceEntity));
+                    } else {
+                        selectedEntity = null;
+                    }
                 }
                 else {
                     selectedEntity = null;
@@ -2654,6 +2722,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 break;
             case MISS_HIT:
                 selectedEntity = destinationEntity;
+                isMissHit = true;
                 if (!getHitPointAnimation(destinationEntity, MISS_HIT).isScheduled()) {
                     Timer.schedule(getHitPointAnimation(destinationEntity, MISS_HIT), 1.5f);
                 }

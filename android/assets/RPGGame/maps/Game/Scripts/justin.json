@@ -62,7 +62,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -87,7 +87,7 @@ animationConfig: [
 	    frameDuration: 0.25
 		animationType: WALK_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -112,7 +112,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -137,7 +137,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -162,7 +162,7 @@ animationConfig: [
 		frameDuration: 0.25
 		animationType: WALK_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -187,7 +187,7 @@ animationConfig: [
 			frameDuration: 0.10
 		animationType: RUN_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -212,7 +212,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -237,7 +237,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -262,7 +262,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+			RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -289,7 +289,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -316,7 +316,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: SWORD_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -343,7 +343,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -370,7 +370,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: MACE_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -397,7 +397,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -424,7 +424,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: STAFF_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -447,11 +447,11 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 80
+			frameWidth : 96
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -482,11 +482,11 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 80
+			frameWidth : 96
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -521,7 +521,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -540,7 +540,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: PUNCH_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -559,7 +559,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
@@ -578,7 +578,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Jaxon/Jaxon_1.png
+				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{

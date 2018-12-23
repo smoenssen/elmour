@@ -475,7 +475,7 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 80
+			frameWidth : 96
 			frameHeight : 16
 		animationType: DAGGER_LEFT
 		texturePaths: [
@@ -510,7 +510,7 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 80
+			frameWidth : 96
 			frameHeight : 16
 		animationType: DAGGER_RIGHT
 		texturePaths: [

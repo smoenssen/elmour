@@ -257,6 +257,23 @@ public class MyActions {
         }
     }
 
+    public class setIdleDirection extends Action {
+        AnimatedImage character;
+        Entity.Direction direction;
+
+        public setIdleDirection(AnimatedImage character, Entity.Direction direction) {
+            this.character = character;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            if (character != null)
+                character.setCurrentDirection(direction);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class setCharacterVisible extends Action {
         AnimatedImage character = null;
         boolean visible = true;
