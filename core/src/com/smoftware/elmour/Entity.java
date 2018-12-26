@@ -79,16 +79,6 @@ public class Entity {
 		STAT_ARROW,
 		BATTLE_BURST,
 		IMMOBILE,
-		SWORD_LEFT,
-		SWORD_RIGHT,
-		MACE_LEFT,
-		MACE_RIGHT,
-		STAFF_LEFT,
-		STAFF_RIGHT,
-		DAGGER_LEFT,
-		DAGGER_RIGHT,
-		PUNCH_LEFT,
-		PUNCH_RIGHT,
 		SPELL_LEFT,
 		SPELL_RIGHT,
 		BLUNT_LEFT,
@@ -98,7 +88,14 @@ public class Entity {
 		KNUCKLE_LEFT,
 		KNUCKLE_RIGHT,
 		BLOCK_LEFT,
-		BLOCK_RIGHT
+		BLOCK_RIGHT,
+
+		SWORD1_LEFT, SWORD1_RIGHT, SWORD2_LEFT, SWORD2_RIGHT, SWORD3_LEFT, SWORD3_RIGHT, SWORD4_LEFT, SWORD4_RIGHT, SWORD5_LEFT, SWORD5_RIGHT,
+		MACE1_LEFT, MACE1_RIGHT, MACE2_LEFT, MACE2_RIGHT, MACE3_LEFT, MACE3_RIGHT, MACE4_LEFT, MACE4_RIGHT, MACE5_LEFT, MACE5_RIGHT,
+		STAFF1_LEFT, STAFF1_RIGHT, STAFF2_LEFT, STAFF2_RIGHT, STAFF3_LEFT, STAFF3_RIGHT, STAFF4_LEFT, STAFF4_RIGHT, STAFF15LEFT, STAFF5_RIGHT,
+		DAGGER1_LEFT, DAGGER1_RIGHT, DAGGER2_LEFT, DAGGER2_RIGHT, DAGGER3_LEFT, DAGGER3_RIGHT, DAGGER4_LEFT, DAGGER4_RIGHT, DAGGER5_LEFT, DAGGER5_RIGHT,
+		KNUCKLE1_LEFT,
+		THROW1_LEFT, THROW1_RIGHT, THROW2_LEFT, THROW2_RIGHT, THROW3_LEFT, THROW3_RIGHT, THROW4_LEFT, THROW4_RIGHT, THROW5_LEFT, THROW5_RIGHT
 	}
 
 	public enum BattleEntityType { PARTY, ENEMY, UNKNOWN }
@@ -284,6 +281,7 @@ public class Entity {
 	private BattleEntityType battleEntityType;
 	private int battlePosition;
 	private boolean isAlive;
+	private InventoryElement weapon;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -308,6 +306,7 @@ public class Entity {
 		battleEntityType = entity.battleEntityType;
 		battlePosition = entity.battlePosition;
 		isAlive = entity.isAlive;
+		weapon = new InventoryElement();
 		return this;
 	}
 
@@ -328,6 +327,7 @@ public class Entity {
 		battleEntityType = BattleEntityType.UNKNOWN;
 		battlePosition = 0;
 		isAlive = false;
+		weapon = new InventoryElement();
 	}
 
 	public EntityConfig getEntityConfig() {
@@ -344,7 +344,11 @@ public class Entity {
 
 	public void setAlive(boolean isAlive) { this.isAlive = isAlive; }
 
-	public boolean isAlive() { return  isAlive; }
+	public boolean isAlive() { return isAlive; }
+
+	public void setWeapon(InventoryElement weapon) { this.weapon = weapon; }
+
+	public InventoryElement getWeapon() { return this.weapon; }
 
 	public void sendMessage(Component.MESSAGE messageType, String ... args){
 		String fullMessage = messageType.toString();

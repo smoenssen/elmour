@@ -10,7 +10,7 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 2
+		value: 25
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -67,11 +67,11 @@ entityProperties: {
 }
 rewardItems: [
 	{
-		itemID: FRUIT2
+		itemID: CHEESE3
 		probability: 4
 	}
 	{
-		itemID: MEAT1
+		itemID: CHEESE4
 		probability: 3
 	}
 ]
@@ -102,19 +102,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 0
 			}
 			{
-				x: 25
+				x: 13
 				y: 1
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 0
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 2
 			}
 		]
@@ -127,19 +127,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 0
 			}
 			{
-				x: 25
+				x: 13
 				y: 1
 			}
 			{
-			  x: 25
+			  x: 13
 				y: 0
 			}
 			{
-			  x: 25
+			  x: 13
 				y: 2
 			}
 		]
@@ -152,19 +152,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 3
 			}
 			{
-				x: 25
+				x: 13
 				y: 4
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 3
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 5
 			}
 		]
@@ -177,19 +177,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 6
 			}
 			{
-				x: 25
+				x: 13
 				y: 7
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 6
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 8
 			}
 		]
@@ -202,19 +202,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 9
 			}
 			{
-				x: 25
+				x: 13
 				y: 10
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 9
 			}
 			{
-		    x: 25
+		    x: 13
 				y: 11
 			}
 		]
@@ -227,19 +227,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 0
 			}
 			{
-				x: 25
+				x: 13
 				y: 1
 			}
 			{
-				x: 25
+				x: 13
 				y: 0
 			}
 			{
-				x: 25
+				x: 13
 				y: 2
 			}
 		]
@@ -252,19 +252,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 3
 			}
 			{
-				x: 25
+				x: 13
 				y: 4
 			}
 			{
-				x: 25
+				x: 13
 				y: 3
 			}
 			{
-				x: 25
+				x: 13
 				y: 5
 			}
 		]
@@ -277,19 +277,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 6
 			}
 			{
-				x: 25
+				x: 13
 				y: 7
 			}
 			{
-				x: 25
+				x: 13
 				y: 6
 			}
 			{
-				x: 25
+				x: 13
 				y: 8
 			}
 		]
@@ -302,19 +302,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 25
+				x: 13
 				y: 9
 			}
 			{
-				x: 25
+				x: 13
 				y: 10
 			}
 			{
-				x: 25
+				x: 13
 				y: 9
 			}
 			{
-				x: 25
+				x: 13
 				y: 11
 			}
 		]
@@ -323,7 +323,7 @@ animationConfig: [
 			frameDuration: 0.125
 			frameWidth : 48
 			frameHeight : 48
-		animationType: SWORD_LEFT
+		animationType: BLUNT_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
@@ -350,7 +350,7 @@ animationConfig: [
 			frameDuration: 0.125
 			frameWidth : 48
 			frameHeight : 48
-		animationType: SWORD_RIGHT
+		animationType: BLUNT_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
@@ -369,114 +369,6 @@ animationConfig: [
 			}
 			{
 				x: 1
-				y: 3
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 48
-			frameHeight : 48
-		animationType: MACE_LEFT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Steve/Steve.png
-		]
-		gridPoints: [
-			{
-				x: 2
-				y: 0
-			}
-			{
-				x: 2
-				y: 1
-			}
-			{
-				x: 2
-				y: 2
-			}
-			{
-				x: 2
-				y: 3
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 48
-			frameHeight : 48
-		animationType: MACE_RIGHT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Steve/Steve.png
-		]
-		gridPoints: [
-			{
-				x: 3
-				y: 0
-			}
-			{
-				x: 3
-				y: 1
-			}
-			{
-				x: 3
-				y: 2
-			}
-			{
-				x: 3
-				y: 3
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 48
-			frameHeight : 48
-		animationType: STAFF_LEFT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Steve/Steve.png
-		]
-		gridPoints: [
-			{
-				x: 4
-				y: 0
-			}
-			{
-				x: 4
-				y: 1
-			}
-			{
-				x: 4
-				y: 2
-			}
-			{
-				x: 4
-				y: 3
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 48
-			frameHeight : 48
-		animationType: STAFF_RIGHT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Steve/Steve.png
-		]
-		gridPoints: [
-			{
-				x: 5
-				y: 0
-			}
-			{
-				x: 5
-				y: 1
-			}
-			{
-				x: 5
-				y: 2
-			}
-			{
-				x: 5
 				y: 3
 			}
 		]
@@ -485,33 +377,33 @@ animationConfig: [
 			frameDuration: 0.0667
 			frameWidth : 96
 			frameHeight : 16
-		animationType: DAGGER_LEFT
+		animationType: STAB_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 18
+				x: 6
 				y: 0
 			}
 			{
-				x: 18
+				x: 6
 				y: 1
 			}
 			{
-				x: 19
+				x: 7
 				y: 0
 			}
 			{
-				x: 19
+				x: 7
 				y: 1
 			}
 			{
-				x: 20
+				x: 8
 				y: 0
 			}
 			{
-				x: 20
+				x: 8
 				y: 1
 			}
 		]
@@ -520,33 +412,33 @@ animationConfig: [
 			frameDuration: 0.0667
 			frameWidth : 96
 			frameHeight : 16
-		animationType: DAGGER_RIGHT
+		animationType: STAB_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 21
+				x: 9
 				y: 0
 			}
 			{
-				x: 21
+				x: 9
 				y: 1
 			}
 			{
-				x: 22
+				x: 10
 				y: 0
 			}
 			{
-				x: 22
+				x: 10
 				y: 1
 			}
 			{
-				x: 23
+				x: 11
 				y: 0
 			}
 			{
-				x: 23
+				x: 11
 				y: 1
 			}
 		]
@@ -555,17 +447,17 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
-		animationType: PUNCH_LEFT
+		animationType: KNUCKLE_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 24
+				x: 12
 				y: 0
 			}
 			{
-				x: 24
+				x: 12
 				y: 1
 			}
 		]
@@ -574,17 +466,17 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
-		animationType: PUNCH_RIGHT
+		animationType: KNUCKLE_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 24
+				x: 12
 				y: 2
 			}
 			{
-				x: 24
+				x: 12
 				y: 3
 			}
 		]
@@ -599,11 +491,11 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 24
+				x: 12
 				y: 4
 			}
 			{
-				x: 24
+				x: 12
 				y: 5
 			}
 		]
@@ -618,11 +510,11 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 24
+				x: 12
 				y: 6
 			}
 			{
-				x: 24
+				x: 12
 				y: 7
 			}
 		]

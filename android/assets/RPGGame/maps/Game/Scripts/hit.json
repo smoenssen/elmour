@@ -222,19 +222,19 @@ animationConfig: [
 		]
 		gridPoints: [
 			{
-				x: 4
+				x: 3
 				y: 0
 			}
       {
-        x: 4
+        x: 3
         y: 1
       }
       {
-        x: 4
+        x: 3
         y: 2
       }
 			{
-				x: 4
+				x: 3
 				y: 3
 			}
 		]

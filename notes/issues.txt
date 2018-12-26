@@ -7,7 +7,9 @@ make sure number of turns executed is correct
 If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 
-
+jaxon_1.json refers to Jaxon_1 folder
+equipment.json has 2 LEGGINGS1
+dagger hit animation should be removed
 Ben
 ---------------
 inventory.json and equipment.json

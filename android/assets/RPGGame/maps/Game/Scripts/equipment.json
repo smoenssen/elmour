@@ -1,10 +1,256 @@
 [
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: SWORD1
+	category: BLUNT
+	name: Practice Sword
+	summary: A sword made of wood* typically used for practice.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 2
+		}
+		{
+			effect: DEF_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: SWORD2
+	category: BLUNT
+	name: Bone Sword
+	summary: A sword made out of bones. Be careful of dogs.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 13
+		}
+		{
+			effect: DEF_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: SWORD3
+	category: BLUNT
+	name: Iron Sword
+	summary: A sword made of iron* good for slashing things.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 20
+		}
+		{
+			effect: DEF_UP
+			value: 25
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: SWORD4
+	category: BLUNT
+	name: Blood Sword
+	summary: A sword that uses blood to attack.
+	buy: 1000
+	sell: 500
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 40
+		}
+		{
+			effect: DEF_UP
+			value: 50
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MACE1
+	category: BLUNT
+	name: Club
+	summary: A club that the cavemen used to use.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 10
+		}
+		{
+			effect: SPD_DOWN
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MACE2
+	category: BLUNT
+	name: Bone Mace
+	summary: A mace made out of bones. Rich in calcium.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 20
+		}
+		{
+			effect: SPD_DOWN
+			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MACE3
+	category: BLUNT
+	name: Iron Mace
+	summary: A mace made out of iron. Smashing things is its specialty.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 40
+		}
+		{
+			effect: SPD_DOWN
+			value: 40
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: MACE4
+	category: BLUNT
+	name: Blood Sword
+	summary: A mace that uses blood to smash things.
+	buy: 1000
+	sell: 500
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 80
+		}
+		{
+			effect: SPD_DOWN
+			value: 80
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: STAFF1
+	category: BLUNT
+	name: Club
+	summary: A club that the cavemen used to use.
+	buy: 30
+	sell: 15
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 5
+		}
+		{
+			effect: MDEF_UP
+			value: 5
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: STAFF2
+	category: BLUNT
+	name: Bone Mace
+	summary: A mace made out of bones. Rich in calcium.
+	buy: 100
+	sell: 50
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 10
+		}
+		{
+			effect: MDEF_UP
+			value: 10
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: STAFF3
+	category: BLUNT
+	name: Iron Mace
+	summary: A mace made out of iron. Smashing things is its specialty.
+	buy: 300
+	sell: 150
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 20
+		}
+		{
+			effect: MDEF_UP
+			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: STAFF4
+	category: BLUNT
+	name: Blood Sword
+	summary: A mace that uses blood to smash things.
+	buy: 1000
+	sell: 500
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 40
+		}
+		{
+			effect: MDEF_UP
+			value: 40
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: STAFF5
+	category: BLUNT
+	name: Blood Sword
+	summary: A mace that uses blood to smash things.
+	buy: 1000
+	sell: 500
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 80
+		}
+		{
+			effect: MDEF_UP
+			value: 80
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
 	id: DAGGER1
-	category: Weapon
+	category: STAB
 	name: Wooden Dagger
-	type: Dagger
 	summary: A dagger made of wood* typically used for practice.
 	buy: 30
 	sell: 15
@@ -22,9 +268,8 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: DAGGER2
-	category: Weapon
+	category: STAB
 	name: Bone Dagger
-	type: Dagger
 	summary: A dagger made of bones. How spooky!
 	buy: 100
 	sell: 50
@@ -42,9 +287,8 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: DAGGER3
-	category: Weapon
+	category: STAB
 	name: Iron Dagger
-	type: Dagger
 	summary: A dagger made of iron* often used for stabbing things.
 	buy: 300
 	sell: 150
@@ -61,8 +305,27 @@
 }
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: DAGGER4
+	category: STAB
+	name: Iron Dagger
+	summary: A dagger that uses blood to stab.
+	buy: 1000
+	sell: 500
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 50
+		}
+		{
+			effect: AVO_UP
+			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
 	id: KNUCKLES1
-	category: Weapon
+	category: KNUCKLES
 	name: Rings
 	summary: A set of five rings to beat up your opponent with.
 	buy: 30
@@ -85,7 +348,7 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: KNUCKLES2
-	category: Weapon
+	category: KNUCKLES
 	name: Bone Knuckles
 	summary: They say that brass knuckles break bones... but what if they're made of bones?
 	buy: 100
@@ -108,7 +371,7 @@
 {
 	class: com.smoftware.elmour.InventoryElement
 	id: KNUCKLES3
-	category: Weapon
+	category: KNUCKLES
 	name: Brass Knuckles
 	summary: For those who want to take a more aggressive approach.
 	buy: 225

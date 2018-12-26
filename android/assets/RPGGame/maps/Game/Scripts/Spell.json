@@ -1,9 +1,9 @@
 [
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: FIRE
 	category: Black
 	name: Fire
+	entityID: FIRE
 	summary: Launches a stream of fire towards the enemy.
 	MP: 20
 	DMG: 40
@@ -23,9 +23,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: THUNDER
 	category: Black
 	name: Thunder
+	entityID: THUNDER
 	summary: Strikes the enemy with a massive bolt of energy.
 	MP: 25
 	DMG: 50
@@ -45,9 +45,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: EARTH
 	category: Black
 	name: Earth
+	entityID: EARTH
 	summary: Crushes the enemy with a pile of rocks.
 	MP: 50
 	DMG: 75
@@ -68,9 +68,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: WATER
 	category: Black
 	name: Water
+	entityID: WATER
 	summary: Casts a powerful stream of water at the enemy that has a possibility of confusing them.
 	MP: 10
 	DMG: 25
@@ -86,9 +86,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: POWER_WORD_KILL
 	category: Black
 	name: Power Word Kill
+	entityID: POWER_WORD_KILL
 	summary: Kills the enemy Instantaneously.
 	MP: 100
 	ACC: 10
@@ -97,9 +97,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: LIFE
 	category: White
 	name: Life
+	entityID: LIFE
 	summary: Reanimates an ally with half their max HP.
 	MP: 200
 	ACC: 100
@@ -114,9 +114,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: HEAL
 	category: White
 	name: Heal
+	entityID: HEAL
 	ACC: 100
 	summary: Heals an ally's wounds.
 	MP: 120
@@ -125,9 +125,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: POWER_WORD_HEAL
 	category: White
 	name: Power Word Heal
+	entityID: POWER_WORD_HEAL
 	summary: Reanimates an ally with all of their HP.
 	MP: 300
 	ACC: 100
@@ -142,9 +142,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: SLASH
 	category: Power
 	name: Slash
+	entityID: SLASH
 	summary: Cuts the enemy by swiping across their chest.
 	MP: 20
 	DMG: 40
@@ -164,9 +164,9 @@
 
 {
 	class: com.smoftware.elmour.SpellsPowerElement
-	id: KICK
 	category: Power
 	name: Kick
+	entityID: KICK
 	summary: The user thrusts their feet against the enemy.
 	MP: 20
 	DMG: 60

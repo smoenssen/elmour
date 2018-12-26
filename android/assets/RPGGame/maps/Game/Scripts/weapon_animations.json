@@ -3,12 +3,12 @@ entityID : WEAPON_ANIMATIONS
 state : IDLE
 animationConfig: [
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: BLUNT_LEFT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD3_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
@@ -26,24 +26,16 @@ animationConfig: [
 			{
 				x: 0
 				y: 3
-			}
-      {
-        x: 0
-        y: 4
-      }
-      {
-				x: 0
-				y: 5
 			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: BLUNT_RIGHT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD3_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
@@ -61,24 +53,70 @@ animationConfig: [
 			{
 				x: 1
 				y: 3
-			}
-      {
-        x: 1
-        y: 4
-      }
-      {
-				x: 1
-				y: 5
 			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: STAB_LEFT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD4_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 4
+			}
+			{
+				x: 0
+				y: 5
+			}
+			{
+				x: 0
+				y: 6
+			}
+			{
+				x: 0
+				y: 7
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: SWORD4_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 4
+			}
+			{
+				x: 1
+				y: 5
+			}
+			{
+				x: 1
+				y: 6
+			}
+			{
+				x: 1
+				y: 7
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE3_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
@@ -97,6 +135,44 @@ animationConfig: [
 				x: 2
 				y: 3
 			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE3_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 1
+			}
+			{
+				x: 3
+				y: 2
+			}
+			{
+				x: 3
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE4_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
 			{
 				x: 2
 				y: 4
@@ -105,37 +181,25 @@ animationConfig: [
 				x: 2
 				y: 5
 			}
-      {
-        x: 0
-        y: 6
-      }
+			{
+				x: 2
+				y: 6
+			}
+			{
+				x: 2
+				y: 7
+			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: STAB_RIGHT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: MACE4_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
-			{
-				x: 3
-				y: 0
-			}
-			{
-				x: 3
-				y: 1
-			}
-			{
-				x: 3
-				y: 2
-			}
-			{
-				x: 3
-				y: 3
-			}
 			{
 				x: 3
 				y: 4
@@ -144,19 +208,23 @@ animationConfig: [
 				x: 3
 				y: 5
 			}
-      {
-        x: 0
-        y: 6
-      }
+			{
+				x: 3
+				y: 6
+			}
+			{
+				x: 3
+				y: 7
+			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: KNUCKLE_LEFT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF3_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
@@ -167,27 +235,23 @@ animationConfig: [
 				x: 4
 				y: 1
 			}
-      {
-        x: 4
-        y: 2
-      }
-      {
-        x: 4
-        y: 3
-      }
-      {
-        x: 4
-        y: 4
-      }
+			{
+				x: 4
+				y: 2
+			}
+			{
+				x: 4
+				y: 3
+			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 16
-			frameHeight : 16
-		animationType: KNUCKLE_RIGHT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF3_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
@@ -198,72 +262,335 @@ animationConfig: [
 				x: 5
 				y: 1
 			}
-      {
-        x: 5
-        y: 2
-      }
-      {
-        x: 5
-        y: 3
-      }
-      {
-        x: 5
-        y: 4
-      }
+			{
+				x: 5
+				y: 2
+			}
+			{
+				x: 5
+				y: 3
+			}
 		]
 	}
 	{
-			frameDuration: 0.0667
-			frameWidth : 32
-			frameHeight : 32
-		animationType: BLOCK_LEFT
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF4_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
 				x: 4
-				y: 0
+				y: 4
 			}
-      {
-        x: 4
-        y: 1
-      }
-      {
-        x: 4
-        y: 2
-      }
 			{
 				x: 4
+				y: 5
+			}
+			{
+				x: 4
+				y: 6
+			}
+			{
+				x: 4
+				y: 7
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF4_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 5
+				y: 4
+			}
+			{
+				x: 5
+				y: 5
+			}
+			{
+				x: 5
+				y: 6
+			}
+			{
+				x: 5
+				y: 7
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF4_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 4
+				y: 8
+			}
+			{
+				x: 4
+				y: 9
+			}
+			{
+				x: 4
+				y: 10
+			}
+			{
+				x: 4
+				y: 11
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 48
+			frameHeight : 48
+		animationType: STAFF5_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 5
+				y: 8
+			}
+			{
+				x: 5
+				y: 9
+			}
+			{
+				x: 5
+				y: 10
+			}
+			{
+				x: 5
+				y: 11
+			}
+		]
+	}
+	{
+			frameDuration: 0.0667
+			frameWidth : 96
+			frameHeight : 16
+		animationType: DAGGER3_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 18
+				y: 0
+			}
+			{
+				x: 18
+				y: 1
+			}
+			{
+				x: 19
+				y: 0
+			}
+			{
+				x: 19
+				y: 1
+			}
+			{
+				x: 20
+				y: 0
+			}
+			{
+				x: 20
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0667
+			frameWidth : 96
+			frameHeight : 16
+		animationType: DAGGER3_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 21
+				y: 0
+			}
+			{
+				x: 21
+				y: 1
+			}
+			{
+				x: 22
+				y: 0
+			}
+			{
+				x: 22
+				y: 1
+			}
+			{
+				x: 23
+				y: 0
+			}
+			{
+				x: 23
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0667
+			frameWidth : 96
+			frameHeight : 16
+		animationType: DAGGER4_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 18
+				y: 2
+			}
+			{
+				x: 18
+				y: 3
+			}
+			{
+				x: 19
+				y: 2
+			}
+			{
+				x: 19
+				y: 3
+			}
+			{
+				x: 20
+				y: 2
+			}
+			{
+				x: 20
 				y: 3
 			}
 		]
 	}
 	{
 			frameDuration: 0.0667
-			frameWidth : 32
-			frameHeight : 32
-		animationType: BLOCK_RIGHT
+			frameWidth : 96
+			frameHeight : 16
+		animationType: DAGGER4_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Hit/Hit.png
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]
 		gridPoints: [
 			{
-				x: 4
+				x: 21
+				y: 2
+			}
+			{
+				x: 21
+				y: 3
+			}
+			{
+				x: 22
+				y: 2
+			}
+			{
+				x: 22
+				y: 3
+			}
+			{
+				x: 23
+				y: 2
+			}
+			{
+				x: 23
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.0333
+			frameWidth : 16
+			frameHeight : 16
+		animationType: KNUCKLE1_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 24
 				y: 0
 			}
 			{
-				x: 4
+				x: 24
 				y: 1
 			}
-      {
-        x: 4
-        y: 2
-      }
-      {
-        x: 4
-        y: 3
-      }
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 16
+			frameHeight : 16
+		animationType: THROW1_LEFT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Throwing_Items.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.125
+			frameWidth : 16
+			frameHeight : 16
+		animationType: THROW1_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Throwing_Items.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+			{
+				x: 1
+				y: 2
+			}
+			{
+				x: 1
+				y: 3
+			}
 		]
 	}
 ]
