@@ -128,6 +128,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton noClipModeButton;
     private TextButton adjustInventoryButton;
     private TextButton adjustSpellsPowersButton;
+    private TextButton parseXMLButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -314,6 +315,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
         adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
         adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
+        parseXMLButton = new TextButton("Parse XML", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -369,6 +371,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         debugButton.setHeight(menuItemHeight);
         debugButton.setPosition(menuItemX, menuItemY);
         debugButton.setVisible(false);
+
+        parseXMLButton.setWidth(menuItemWidth);
+        parseXMLButton.setHeight(menuItemHeight);
+        parseXMLButton.setPosition(menuItemX, menuItemY);
+        parseXMLButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -469,6 +476,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(noClipModeButton);
             _stage.addActor(adjustInventoryButton);
             _stage.addActor(adjustSpellsPowersButton);
+            _stage.addActor(parseXMLButton);
         }
 
         //_battleUI.validate();
@@ -610,6 +618,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        noClipModeButton.setVisible(true);
                                        adjustInventoryButton.setVisible(true);
                                        adjustSpellsPowersButton.setVisible(true);
+                                       parseXMLButton.setVisible(true);
                                        debugMenuIsVisible = true;
                                    }
                                }
@@ -703,6 +712,20 @@ public class PlayerHUD implements Screen, AudioSubject,
                                                   }
                                               }
                                           }
+        );
+
+        parseXMLButton.addListener(new ClickListener() {
+
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                           Utility.parseConversationXMLFiles();
+                                       }
+                                   }
         );
 
         _storeInventoryUI.getCloseButton().addListener(new ClickListener() {

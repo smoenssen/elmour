@@ -317,10 +317,14 @@ public class BattleState extends BattleSubject implements StatusObserver {
     }
 
     public void applyInventoryItemToCharacter(InventoryElement selectedElement) {
+        float delay = 1;
+        if (selectedElement.category.equals(InventoryElement.InventoryCategory.Throwing))
+            delay = 0;
+
         if (!applyInventory.isScheduled()) {
             selectedInventoryElement = selectedElement;
             Gdx.app.log(TAG, selectedInventoryElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());
-            Timer.schedule(applyInventory, 1);
+            Timer.schedule(applyInventory, delay);
         }
     }
 

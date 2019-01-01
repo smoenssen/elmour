@@ -77,6 +77,25 @@
 }
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: SWORD5
+	category: BLUNT
+	name: Lightning Sword
+	summary: A magical sword that uses electricity to slash the opponent.
+	buy: 3000
+	sell: 1500
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 80
+		}
+		{
+			effect: DEF_UP
+			value: 100
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
 	id: MACE1
 	category: BLUNT
 	name: Club
@@ -136,7 +155,7 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: MACE4
 	category: BLUNT
-	name: Blood Sword
+	name: Blood Mace
 	summary: A mace that uses blood to smash things.
 	buy: 1000
 	sell: 500
@@ -153,10 +172,29 @@
 }
 {
 	class: com.smoftware.elmour.InventoryElement
+	id: MACE5
+	category: BLUNT
+	name: Lightning Mace
+	summary: A magical mace that uses electricity to smash opponents.
+	buy: 3000
+	sell: 1500
+	effectList: [
+		{
+			effect: ATK_UP
+			value: 160
+		}
+		{
+			effect: SPD_DOWN
+			value: 160
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
 	id: STAFF1
 	category: BLUNT
-	name: Club
-	summary: A club that the cavemen used to use.
+	name: Wooden Staff
+	summary: A staff that can barely conjure magic.
 	buy: 30
 	sell: 15
 	effectList: [
@@ -174,8 +212,8 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: STAFF2
 	category: BLUNT
-	name: Bone Mace
-	summary: A mace made out of bones. Rich in calcium.
+	name: Bone Staff
+	summary: A staff made out of bones. Sturdier than wood.
 	buy: 100
 	sell: 50
 	effectList: [
@@ -193,8 +231,8 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: STAFF3
 	category: BLUNT
-	name: Iron Mace
-	summary: A mace made out of iron. Smashing things is its specialty.
+	name: Iron Staff
+	summary: A staff made out of iron. Can easily conjure magic.
 	buy: 300
 	sell: 150
 	effectList: [
@@ -212,8 +250,8 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: STAFF4
 	category: BLUNT
-	name: Blood Sword
-	summary: A mace that uses blood to smash things.
+	name: Blood Staff
+	summary: A staff that uses blood to conjure spells.
 	buy: 1000
 	sell: 500
 	effectList: [
@@ -231,10 +269,10 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: STAFF5
 	category: BLUNT
-	name: Blood Sword
-	summary: A mace that uses blood to smash things.
-	buy: 1000
-	sell: 500
+	name: Bo Staff
+	summary: A magical staff that uses electricity to attack.
+	buy: 3000
+	sell: 1500
 	effectList: [
 		{
 			effect: MATK_UP
@@ -307,7 +345,7 @@
 	class: com.smoftware.elmour.InventoryElement
 	id: DAGGER4
 	category: STAB
-	name: Iron Dagger
+	name: Blood Dagger
 	summary: A dagger that uses blood to stab.
 	buy: 1000
 	sell: 500
@@ -319,6 +357,25 @@
 		{
 			effect: AVO_UP
 			value: 20
+		}
+	]
+}
+{
+	class: com.smoftware.elmour.InventoryElement
+	id: DAGGER5
+	category: STAB
+	name: Lightning Dagger
+	summary: A magical dagger that uses electricity to stab.
+	buy: 3000
+	sell: 1500
+	effectList: [
+		{
+			effect: MATK_UP
+			value: 100
+		}
+		{
+			effect: AVO_UP
+			value: 40
 		}
 	]
 }
@@ -525,7 +582,7 @@
 }
 {
 	class: com.smoftware.elmour.InventoryElement
-	id: LEGGINGS1
+	id: LEGGINGS3
 	category: Leggings
 	name: Cloth Leggings
 	summary: Helps keep people warm in the winter.
