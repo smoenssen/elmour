@@ -4,3 +4,4 @@ apply spell effect list
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
 LCK and AVO for ranged and melee attacks.
 when using an item or attack on another party member, animation direction needs to change
+slow down attack ally animation based on distance
