@@ -11,6 +11,7 @@ import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneScreen;
 import com.smoftware.elmour.screens.CutSceneScreen2;
 import com.smoftware.elmour.screens.CutSceneScreenChapter2;
+import com.smoftware.elmour.screens.CutSceneChapter1;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.LoadGameScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
@@ -54,6 +55,7 @@ public class ElmourGame extends Game {
 	private static BattleScreen battleScreen;
 
 	private static CutSceneScreenChapter2 cutSceneScreenChapter2;
+	private static CutSceneChapter1 cutSceneChapter1;
 
 	public static enum ScreenType{
 		BattleScreen,
@@ -130,10 +132,14 @@ public class ElmourGame extends Game {
 		battleScreen = new BattleScreen(this);
 		cutSceneScreen2 = new CutSceneScreen2(this);
 		cutSceneScreenChapter2 = new CutSceneScreenChapter2(this);
+		cutSceneChapter1 = new CutSceneChapter1(this);
+
+		Utility.parseConversationXMLFiles();
 
 		//setScreen(_mainMenuScreen);
-		setScreen(splashScreen);
+		//setScreen(splashScreen);
 		//setScreen(cutSceneScreenChapter2);
+		setScreen(cutSceneChapter1);
 
 		//setScreen(battleScreen);
 
@@ -163,6 +169,7 @@ public class ElmourGame extends Game {
 
 		_cutSceneScreen.dispose();
 		cutSceneScreenChapter2.dispose();
+		cutSceneChapter1.dispose();
 	}
 
 }

@@ -1,0 +1,1097 @@
+{
+conversations: {
+	n32: {
+		id: n32
+		dialog: "{OPEN_TEXT}"
+		character: null
+		type: NPC
+	}
+	n31: {
+		id: n31
+		dialog: I think I know you from somewhere…
+		character: Me
+		type: NPC
+	}
+	n30: {
+		id: n30
+		dialog: What is it?
+		character: Girl
+		type: NPC
+	}
+	n29: {
+		id: n29
+		dialog: "My name is {CHARACTER_1}.\r Mind telling me your’s… wait… hold on a \r second."
+		character: Me
+		type: NPC
+	}
+	n28: {
+		id: n28
+		dialog: "You know, I never asked for your name, not \r that I had the chance.\r Mind telling me?"
+		character: Girl
+		type: NPC
+	}
+	n27: {
+		id: n27
+		dialog: Dismissed
+		character: Girl
+		type: NPC
+	}
+	n26: {
+		id: n26
+		dialog: Don't get anywhere near that maniac! I forbid \r you!
+		character: Guard
+		type: NPC
+	}
+	n25: {
+		id: n25
+		dialog: What is going on?
+		character: Girl
+		type: NPC
+	}
+	n24: {
+		id: n24
+		dialog: That girl… who was she?
+		character: My Thoughts
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: I must've passed out. That's the only \r explanation I can think of.
+		character: My Thoughts
+		type: NPC
+	}
+	n22: {
+		id: n22
+		dialog: What just happened?
+		character: My Thoughts
+		type: NPC
+	}
+	n21: {
+		id: n21
+		dialog: Ugh!
+		character: Me
+		type: NPC
+	}
+	n20: {
+		id: n20
+		dialog: That girl… I feel as though I know her…
+		character: My Thoughts
+		type: NPC
+	}
+	n80: {
+		id: n80
+		dialog: Who am I!?
+		character: My Thoughts
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: We're in… China…
+		character: Me
+		type: NPC
+	}
+	n18: {
+		id: n18
+		dialog: "{NO_CHOICE}"
+		character: null
+		type: NPC
+	}
+	n17: {
+		id: n17
+		dialog: "OK, let me rephrase that: which country are \r we in right now?"
+		character: Girl
+		type: NPC
+	}
+	n14: {
+		id: n14
+		dialog: Answer me this: where are we right now?
+		character: Girl
+		type: NPC
+	}
+	n79: {
+		id: n79
+		dialog: CHASE_SEQUENCE
+		character: null
+		type: ACTION
+	}
+	n13: {
+		id: n13
+		dialog: "I know you're not here to raid my castle!\r No idiot would go throught the front gates to \r exit the castles.\r Not to mention, you obviously aren't from \r around here."
+		character: Girl
+		type: NPC
+	}
+	n78: {
+		id: n78
+		dialog: JUMP_BACK
+		character: null
+		type: ACTION
+	}
+	n77: {
+		id: n77
+		dialog: WALK_TO_MIRROR
+		character: null
+		type: ACTION
+	}
+	n11: {
+		id: n11
+		dialog: Maybe if you looked around you would know \r where you are.
+		character: Girl
+		type: NPC
+	}
+	n76: {
+		id: n76
+		dialog: EXIT_CONVERSATION
+		character: null
+		type: ACTION
+	}
+	n10: {
+		id: n10
+		dialog: "I’m not here to raid your castle… frankly, I \r don’t even know why I’m here.\r I don’t even know where ‘here’ is."
+		character: Me
+		type: NPC
+	}
+	n75: {
+		id: n75
+		dialog: LOOK_AROUND
+		character: null
+		type: ACTION
+	}
+	n74: {
+		id: n74
+		dialog: What? You’ve only just arrived!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n73: {
+		id: n73
+		dialog: What was that?
+		character: Me
+		type: NPC
+	}
+	n72: {
+		id: n72
+		dialog: "Well, I suppose just in case a giant goblin with \r big tusks happens to be raiding Shnarfulapogus"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n71: {
+		id: n71
+		dialog: Just in case?
+		character: Me
+		type: NPC
+	}
+	n70: {
+		id: n70
+		dialog: We shouldn’t need them: the lands are pretty \r safe.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n69: {
+		id: n69
+		dialog: "Well, let's go!"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n68: {
+		id: n68
+		dialog: Shouldn’t we get weapons?
+		character: Me
+		type: NPC
+	}
+	n67: {
+		id: n67
+		dialog: What could possibly go wrong?
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n66: {
+		id: n66
+		dialog: "There are guards protecting The Gems, but \r they can't leave the Temples."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n65: {
+		id: n65
+		dialog: They’ve started on a bad note for me.
+		character: Me
+		type: NPC
+	}
+	n64: {
+		id: n64
+		dialog: The Royal Guard.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n63: {
+		id: n63
+		dialog: So whose going to run the country while \r you're away?
+		character: Me
+		type: NPC
+	}
+	n62: {
+		id: n62
+		dialog: The Royal Guard can run it themselves.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n61: {
+		id: n61
+		dialog: That was the plan.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n60: {
+		id: n60
+		dialog: Why? Who else is - NO! You’re not coming! \r You have a country to run!
+		character: Me
+		type: NPC
+	}
+	n59: {
+		id: n59
+		dialog: "Oh, you’re not going alone."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n55: {
+		id: n55
+		dialog: "Yeah, did you really expect it to be that easy?\r We just have to get The Gems: Emerald, \r Topaz, Diamond, Sapphire, and Ruby."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n54: {
+		id: n54
+		dialog: "Hold on, it looks like something is missing."
+		character: Me
+		type: NPC
+	}
+	n51: {
+		id: n51
+		dialog: You really are strange. It’s the town that we’re \r in right now.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n50: {
+		id: n50
+		dialog: "By the way, what’s Elmour?"
+		character: Me
+		type: NPC
+	}
+	n49: {
+		id: n49
+		dialog: Well then it's a deal!
+		character: Me
+		type: NPC
+	}
+	n48: {
+		id: n48
+		dialog: Just imagine this world and then you'll return.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n47: {
+		id: n47
+		dialog: I have one question though: how do I return?
+		character: Me
+		type: NPC
+	}
+	n46: {
+		id: n46
+		dialog: Uh… that's mean!\r I'll help you anyways. maybe you'll decide \r otherwise later.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n43: {
+		id: n43
+		dialog: "There is, but I’ll only tell you if you promise me \r one thing - you’ll visit Elmour again."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n42: {
+		id: n42
+		dialog: "{NO_CHOICE}"
+		character: null
+		type: NPC
+	}
+	n9: {
+		id: n9
+		dialog: "I am not here to harm you, I just want to ask \r what your intentions for raiding my castle are."
+		character: Girl
+		type: NPC
+	}
+	n41: {
+		id: n41
+		dialog: "I don’t know why, but they’ve been acting \r strange recently."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n6: {
+		id: n6
+		dialog: What is the meaning of this?
+		character: Girl
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: Stop!
+		character: Girl
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: Guards!
+		character: Girl
+		type: NPC
+	}
+	n3: {
+		id: n3
+		dialog: Oh crap...
+		character: My Thoughts
+		type: NPC
+	}
+	n2: {
+		id: n2
+		dialog: W-what's going on!?
+		character: My Thoughts
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: Huh... a mirror...
+		character: My Thoughts
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: Where am I?
+		character: My Thoughts
+		type: NPC
+	}
+	n38: {
+		id: n38
+		dialog: What? You’ve only just arrived!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n35: {
+		id: n35
+		dialog: "Yep, that’s my name.\r Princess {CHARACTER_2}, but you can just \r call me {CHARACTER_2}. I am in charge of these lands."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n34: {
+		id: n34
+		dialog: "Is your name {CHARACTER_2}?"
+		character: Me
+		type: NPC
+	}
+	n33: {
+		id: n33
+		dialog: "{OPEN_TEXT}"
+		character: null
+		type: NPC
+	}
+}
+associatedChoices: {
+	n32: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n32
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n31: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n31
+			destinationId: n33
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n30: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n30
+			destinationId: n31
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n29: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n29
+			destinationId: n30
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n32
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n27: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n27
+			destinationId: n28
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n26: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n26
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n26
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n24
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n23
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n80: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n80
+			destinationId: n78
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n11
+			choicePhrase: I don't know…
+		}
+	]
+	n17: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n17
+			choicePhrase: On the street in front of the castle gates.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n11
+			choicePhrase: I don't know…
+		}
+	]
+	n79: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n79
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n14
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n78: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n78
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n77: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n77
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n75: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n75
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n74: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n74
+			destinationId: n43
+			choicePhrase: So is there anyway out?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n74
+			destinationId: n41
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked \r by your guards twice."
+		}
+	]
+	n73: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n73
+			destinationId: n76
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n72: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n72
+			destinationId: n73
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n71: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n71
+			destinationId: n72
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n70: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n70
+			destinationId: n71
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n69: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n69
+			destinationId: n68
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n68: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n68
+			destinationId: n70
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n67: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n67
+			destinationId: n69
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n66: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n66
+			destinationId: n59
+			choicePhrase: "OK, so where can I get them?"
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n66
+			destinationId: n61
+			choicePhrase: Can you show me where to get them?
+		}
+	]
+	n65: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n65
+			destinationId: n67
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n64: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n64
+			destinationId: n65
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n63: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n63
+			destinationId: n64
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n62: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n62
+			destinationId: n65
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n61: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n61
+			destinationId: n63
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n60: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n60
+			destinationId: n62
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n59: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n59
+			destinationId: n60
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n58: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n58
+			destinationId: n66
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n57: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n57
+			destinationId: n61
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n56: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n56
+			destinationId: n59
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n55: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n55
+			destinationId: n66
+			choicePhrase: Can you ask people to bring them to you?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n55
+			destinationId: n59
+			choicePhrase: "OK, so where can I get them?"
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n55
+			destinationId: n61
+			choicePhrase: Can you show me where to get them?
+		}
+	]
+	n54: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n54
+			destinationId: n55
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n53: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n53
+			destinationId: n54
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n52: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n52
+			destinationId: n54
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n51: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n51
+			destinationId: n54
+			choicePhrase: Is this a portal?
+		}
+	]
+	n50: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n50
+			destinationId: n51
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n49: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n49
+			destinationId: n50
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n48: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n48
+			destinationId: n49
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n47: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n47
+			destinationId: n48
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n46: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n46
+			destinationId: n50
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n45: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n45
+			destinationId: n46
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n44: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n44
+			destinationId: n47
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n43: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n43
+			destinationId: n47
+			choicePhrase: OK
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n43
+			destinationId: n46
+			choicePhrase: No
+		}
+	]
+	n42: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n42
+			destinationId: n43
+			choicePhrase: So is there anyway out?
+		}
+	]
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n41: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n41
+			destinationId: n42
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n40: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n40
+			destinationId: n43
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n11
+			choicePhrase: Where am I?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n9
+			choicePhrase: What are you going to do with me?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n13
+			choicePhrase: "I'm raiding this castle, what else?"
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n79
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n80
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n77
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n75
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n39: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n39
+			destinationId: n41
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n38: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n38
+			destinationId: n43
+			choicePhrase: So is there anyway out?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n38
+			destinationId: n41
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked \r by your guards twice."
+		}
+	]
+	n37: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n37
+			destinationId: n74
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n36: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n36
+			destinationId: n38
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n35: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n35
+			destinationId: n38
+			choicePhrase: "Speaking of which, is there anyway that I can \r get off these lands?"
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n35
+			destinationId: n74
+			choicePhrase: Is there anyway for me to leave?
+		}
+	]
+	n34: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n34
+			destinationId: n35
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n33: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n33
+			destinationId: n34
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

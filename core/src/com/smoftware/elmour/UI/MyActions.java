@@ -289,4 +289,17 @@ public class MyActions {
             return true;
         }
     }
+    public class continueConversation extends Action {
+        PlayerHUD HUD;
+
+        public continueConversation(PlayerHUD HUD) {
+            this.HUD = HUD;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.HUD.doConversation();
+            return true;
+        }
+    }
 }

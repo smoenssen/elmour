@@ -981,8 +981,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                     //_statusUI.setGoldValue(goldVal);
                     //_statusUI.setLevelValue(levelVal);
 
-                    float totalTime = profileManager.getProperty("currentTime", Float.class);
-                    _clock.setTotalTime(totalTime);
+                    //float totalTime = profileManager.getProperty("currentTime", Float.class);
+                    //_clock.setTotalTime(totalTime);
                 }
 
                 break;

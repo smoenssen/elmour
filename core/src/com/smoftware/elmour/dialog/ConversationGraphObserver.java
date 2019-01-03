@@ -13,8 +13,14 @@ public interface ConversationGraphObserver {
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
         NO_CHOICE,
-
+        //Chapter 1
+        LOOK_AROUND,
+        WALK_TO_MIRROR,
+        JUMP_BACK,
+        CHASE_SEQUENCE,
+        //Chapter 2
         WALK_TO_ARMORY,
+        WALK_AROUND_TOWN,
 
         WAIT_15000,
         WAIT_10000,
