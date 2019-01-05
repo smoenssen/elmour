@@ -111,6 +111,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private boolean didSendConversationBeginMsg;
     private boolean didSendConversationDoneMsg;
     private boolean isCutScene;
+    private boolean isEnabled;
 
     private Image menuButton;
     private Image menuButtonDown;
@@ -157,6 +158,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         game.battleState.addObserver(this);
 
         isCutScene = false;
+        isEnabled = true;
 
         _observers = new Array<AudioObserver>();
         _transitionActor = new ScreenTransitionActor();
@@ -1607,7 +1609,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         // hide menu if screen is touched anywhere but the menu area or menu button
-        if(Gdx.input.justTouched() && (menuIsVisible || debugMenuIsVisible)) {
+        if(Gdx.input.justTouched() && isEnabled && (menuIsVisible || debugMenuIsVisible)) {
             // Get the touch point in screen coordinates.
             Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 
@@ -1636,7 +1638,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
             }
         }
-        else if (Gdx.input.justTouched() && isCutScene && !isDelayedPopUp) {
+        else if (Gdx.input.justTouched() && isEnabled && isCutScene && !isDelayedPopUp) {
             Vector3 touchPoint = new Vector3();
 
             _camera.unproject(touchPoint.set(Gdx.input.getX(),Gdx.input.getY(), 0));
@@ -1863,6 +1865,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     public boolean isCutScene() {
         return isCutScene;
     }
+
+    public void setEnabled(boolean enable) { isEnabled = enable; }
 
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
