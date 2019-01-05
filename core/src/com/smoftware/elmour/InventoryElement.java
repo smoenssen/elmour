@@ -22,7 +22,8 @@ public class InventoryElement{
         Throwing,
         BLUNT,
         STAB,
-        KNUCKLES
+        KNUCKLES,
+        NONE
     }
 
     public enum WeaponType {
@@ -127,6 +128,7 @@ public class InventoryElement{
         chapter = 0;
         turns = 0;//0x7FFFFFFF;
         revive = false;
+        category = InventoryCategory.NONE;
     }
 
     public InventoryElement(InventoryElement element) {

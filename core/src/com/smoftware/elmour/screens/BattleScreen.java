@@ -210,10 +210,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     private float gravity;
     private float battleHUDHeight;
-    float bounceVelocityY;
+    private float bounceVelocityY;
     private BattleBurst hpBattleBurst;
     private BattleBurst specialBattleBurst;
     private boolean isMissHit = false;
+    private boolean battleWon = false;
 
     private ThrowingItem throwingItem;
 
@@ -2451,6 +2452,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy3StatArrows.clear();
         enemy4StatArrows.clear();
         enemy5StatArrows.clear();
+        battleWon = false;
     }
 
     private void updateBattleBurst(float delta, BattleBurst bb) {
@@ -2710,6 +2712,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                     }
                 }
                 break;
+            case ANNIMATION_COMPLETE:
+                switch (BattleScreen.getAnimationState()) {
+                    case BATTLE:
+                        if (battleWon)
+                            resetBattleStats();
+                        break;
+                }
+                break;
             case CRITICAL_HIT:
                 hitPointAnimation(entity, CRIT_HIT);
                 break;
@@ -2723,7 +2733,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 resetBattleStats();
                 break;
             case BATTLE_WON:
-                resetBattleStats();
+                battleWon = true;
                 break;
         }
     }

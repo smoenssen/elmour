@@ -1574,6 +1574,11 @@ public class PlayerHUD implements Screen, AudioSubject,
             elapsedTransitionTime = 0;
         }
 
+        if (isCutScene) {
+            menuButtonDown.setVisible(false);
+            menuButton.setVisible(false);
+        }
+
         if (signPopUp.isReady())
             signPopUp.update();
 
@@ -1870,6 +1875,8 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     public void setCutScene(boolean cutScene) {
         isCutScene = cutScene;
+        if (!isCutScene)
+            menuButton.setVisible(true);
     }
 
     @Override

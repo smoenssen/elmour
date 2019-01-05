@@ -89,11 +89,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Stage _stage;
     private boolean _isCameraFixed = true;
     private ScreenTransitionActor _transitionActor;
-    private Action openingCutScene;
     private Action _switchScreenAction;
-    private Action castleChaseScene;
-    private Action courtyardChaseScene;
-    private Action guardsSurroundScene;
     private Action setupScene01;
     private Action setupCastleChaseScene;
     private Action setupCourtyardChaseScene;
@@ -265,6 +261,17 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(5, 4.25f);
 
+                camactor.setVisible(false);
+                guard1.setVisible(false);
+                guard2.setVisible(false);
+                guard3.setVisible(false);
+                guard4.setVisible(false);
+                guard5.setVisible(false);
+                guard6.setVisible(false);
+                guard7.setVisible(false);
+                guard8.setVisible(false);
+
+
                 character1.setVisible(true);
                 character1.setPosition(5.5f, 1.5f);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
@@ -295,7 +302,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.RIGHT);
 
-                followActor(camactor);
+                followActor(character1);
             }
         };
 
@@ -621,7 +628,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 myActions.new setCharacterVisible(character2, false),
                 Actions.delay(oneBlockTime),
 
-                Actions.addAction(castleChaseScene)
+                Actions.addAction(getCastleChaseScene())
         );
     }
 
@@ -683,7 +690,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 new setFading(true),
                 Actions.delay(0.5f),
 
-                Actions.addAction(courtyardChaseScene)
+                Actions.addAction(getCourtyardChaseScene())
         );
     }
 
@@ -747,7 +754,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 new setFading(true),
                 Actions.delay(oneBlockTime),
 
-                Actions.addAction(guardsSurroundScene)
+                Actions.addAction(getGuardsSurroundScene())
 
         );
     }
@@ -979,7 +986,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(Actions.moveTo(37.5f, 27, oneBlockTime * 13), character1),
 
                 myActions.new setEnabledHUD(_playerHUD, false),
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n4
+                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+
                 myActions.new continueConversation(_playerHUD),
                 Actions.delay(oneBlockTime * 13),
                 myActions.new continueConversation(_playerHUD),
@@ -1029,13 +1040,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
     @Override
     public void show() {
-        openingCutScene = getOpeningCutSceneAction();
-        castleChaseScene = getCastleChaseScene();
-        courtyardChaseScene = getCourtyardChaseScene();
-        guardsSurroundScene = getGuardsSurroundScene();
-
-
-        _stage.addAction(guardsSurroundScene);
+        _stage.addAction(getOpeningCutSceneAction());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

@@ -141,8 +141,6 @@ public class ElmourGame extends Game {
 		//setScreen(cutSceneScreenChapter2);
 		setScreen(cutSceneChapter1);
 
-		//setScreen(battleScreen);
-
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm
 		FileHandle file = ProfileManager.getInstance().getProfileFile("steve");
