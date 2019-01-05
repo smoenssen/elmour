@@ -18,6 +18,7 @@ public interface ConversationGraphObserver {
         WALK_TO_MIRROR,
         JUMP_BACK,
         CHASE_SEQUENCE,
+        GUARDS_SURROUND,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,

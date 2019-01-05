@@ -78,6 +78,18 @@ conversations: {
 		character: My Thoughts
 		type: NPC
 	}
+	n82: {
+		id: n82
+		dialog: GUARDS_STOP
+		character: null
+		type: ACTION
+	}
+	n81: {
+		id: n81
+		dialog: GUARDS_SURROUND
+		character: null
+		type: ACTION
+	}
 	n80: {
 		id: n80
 		dialog: Who am I!?
@@ -493,6 +505,22 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n20
 			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n82: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n82
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n81: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n81
+			destinationId: n5
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -980,7 +1008,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n5
-			destinationId: n6
+			destinationId: n82
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -988,7 +1016,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n4
-			destinationId: n5
+			destinationId: n81
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1093,5 +1121,5 @@ associatedChoices: {
 		}
 	]
 }
-currentConversationID: n0
+currentConversationID: n4
 }

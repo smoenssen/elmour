@@ -6,10 +6,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -90,13 +93,23 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Action _switchScreenAction;
     private Action castleChaseScene;
     private Action courtyardChaseScene;
+    private Action guardsSurroundScene;
     private Action setupScene01;
     private Action setupCastleChaseScene;
     private Action setupCourtyardChaseScene;
+    private Action setupGuardsSurroundScene;
     private Action waitForConversationExit;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
+    private AnimatedImage guard1;
+    private AnimatedImage guard2;
+    private AnimatedImage guard3;
+    private AnimatedImage guard4;
+    private AnimatedImage guard5;
+    private AnimatedImage guard6;
+    private AnimatedImage guard7;
+    private AnimatedImage guard8;
     private AnimatedImage camactor;
 
     float oneBlockTime = 0;
@@ -205,6 +218,14 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
+        guard1 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard2 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard3 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard4 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard5 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard6 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard7 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
+        guard8 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
 
         _transitionActor = new ScreenTransitionActor();
@@ -212,12 +233,19 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         _followingActor = new Actor();
         _followingActor.setPosition(0, 0);
 
-        followActor(character2);
-
         myActions = new MyActions();
 
         _stage.addActor(character1);
         _stage.addActor(character2);
+        _stage.addActor(guard1);
+        _stage.addActor(guard2);
+        _stage.addActor(guard3);
+        _stage.addActor(guard4);
+        _stage.addActor(guard5);
+        _stage.addActor(guard6);
+        _stage.addActor(guard7);
+        _stage.addActor(guard8);
+
         _stage.addActor(camactor);
         _stage.addActor(_transitionActor);
 
@@ -236,8 +264,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 _mapMgr.loadMap(MapFactory.MapType.PORTAL_ROOM);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(5, 4.25f);
-
-                camactor.setVisible(false);
 
                 character1.setVisible(true);
                 character1.setPosition(5.5f, 1.5f);
@@ -259,11 +285,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(10, 10.5f);
 
-                camactor.setVisible(false);
-                camactor.setPosition(10, 10.5f);
-                camactor.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                camactor.setCurrentDirection(Entity.Direction.DOWN);
-
                 character1.setVisible(true);
                 character1.setPosition(0, 10.5f);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
@@ -282,12 +303,12 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.CASTLE);
+                _mapMgr.loadMap(MapFactory.MapType.COURTYARD);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(16, 10);
+                setCameraPosition(16, 9);
 
                 camactor.setVisible(false);
-                camactor.setPosition(16, 10);
+                camactor.setPosition(16, 9);
                 camactor.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 camactor.setCurrentDirection(Entity.Direction.DOWN);
 
@@ -302,6 +323,73 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 character2.setCurrentDirection(Entity.Direction.DOWN);
 
                 followActor(camactor);
+            }
+        };
+
+        setupGuardsSurroundScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(16, 9);
+
+                camactor.setVisible(false);
+                camactor.setPosition(16, 9);
+                camactor.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                camactor.setCurrentDirection(Entity.Direction.DOWN);
+
+                character1.setVisible(true);
+                character1.setPosition(37.5f, 43);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.DOWN);
+
+                character2.setVisible(true);
+                character2.setPosition(37.5f, 43);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard1.setVisible(true);
+                guard1.setPosition(31, 22);
+                guard1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard1.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard2.setVisible(true);
+                guard2.setPosition(37.5f, 17);
+                guard2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard2.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard3.setVisible(true);
+                guard3.setPosition(44, 22);
+                guard3.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard3.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard4.setVisible(false);
+                guard4.setPosition(36.5f, 35);
+                guard4.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard4.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard5.setVisible(false);
+                guard5.setPosition(37.5f, 35);
+                guard5.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard5.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard6.setVisible(false);
+                guard6.setPosition(37.5f, 35);
+                guard6.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard6.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard7.setVisible(true);
+                guard7.setPosition(31.5f, 29);
+                guard7.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard7.setCurrentDirection(Entity.Direction.DOWN);
+
+                guard8.setVisible(true);
+                guard8.setPosition(43.5f, 29);
+                guard8.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                guard8.setCurrentDirection(Entity.Direction.DOWN);
+
+                followActor(character1);
             }
         };
 
@@ -399,7 +487,16 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                                 character1Chase(),
                                 character2Chase()
                         )
-                        );
+                );
+                break;
+            case GUARDS_SURROUND:
+                _stage.addAction(
+                        Actions.parallel(
+                                character1GuardSurround(),
+                                character2GuardSurround(),
+                                guardsSurround()
+                        )
+                );
                 break;
             case EXIT_CONVERSATION:
                 _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
@@ -453,6 +550,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(Actions.moveBy(0, -0.15f, oneBlockTime, Interpolation.exp10In), character1),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_RIGHT),
                 //RUN
+                            // todo dstfgeriushntvwoeishoahgeiohgaeoriuheoudivhfoiuqenpitjeriug
+                Actions.addAction(Actions.rotateBy(9000, oneBlockTime * 100), character1),
+                            // todo dstfgeriushntvwoeishoahgeiohgaeoriuheoudivhfoiuqenpitjeriug
+
+
                 Actions.addAction(Actions.moveTo(6, 4, oneBlockTime * 0.25f), character1),
                 Actions.delay(oneBlockTime * 0.25f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
@@ -530,25 +632,24 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(Actions.moveTo(3.5f, 10.5f, oneBlockTime * 1.75f), character1),
                 Actions.delay(oneBlockTime * 1.75f),
 
+
+
+
+                                //todo tueahfyvsdfhgoysenrg8s8ghergiurnaehrGEAiug
+                //Actions.addAction(Actions.rotateBy(90000, oneBlockTime * 100), character1),
+                                //todo weurosjfndzcvuiweodrcuerhnvouienteioshusei
+
+
+
+
                 Actions.addAction(Actions.moveTo(10, 13.5f, oneBlockTime * 1.5f), camactor),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_UP),
                 Actions.addAction(Actions.moveTo(3.5f, 13.5f, oneBlockTime * 1.5f), character1),
                 Actions.delay(oneBlockTime * 1.5f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_RIGHT),
-                Actions.addAction(Actions.moveTo(10, 13.5f, oneBlockTime * 3.25f), character1),
-                Actions.delay(oneBlockTime * 3),
-
-                Actions.run(
-                        new Runnable(){
-                            @Override
-                            public void run(){
-                                followActor(character1);
-                            }
-                        }
-                ),
-                Actions.addAction(Actions.moveTo(15, 13.5f, oneBlockTime * 2.5f), character1),
-                Actions.delay(oneBlockTime * 2.5f),
+                Actions.addAction(Actions.moveTo(15, 13.5f, oneBlockTime * 5.75f), character1),
+                Actions.delay(oneBlockTime * 5.75f),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 Actions.delay(oneBlockTime),
@@ -560,18 +661,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.delay(oneBlockTime * 2),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
-                Actions.addAction(Actions.moveTo(15, 7.5f, oneBlockTime * 2.8f), character1),
-                Actions.delay(oneBlockTime * 2.8f),
-                Actions.addAction(Actions.moveTo(15, 7.5f), camactor),
-                Actions.run(
-                        new Runnable(){
-                            @Override
-                            public void run(){
-                                followActor(camactor);
-                            }
-                        }
-                ),
-                Actions.addAction(Actions.moveTo(15, 4.5f, oneBlockTime * 1.5f), character1),
+                Actions.addAction(Actions.moveTo(15, 4.5f, oneBlockTime * 4.5f), character1),
+                Actions.delay(oneBlockTime * 4.5f),
+
                 myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 Actions.delay(oneBlockTime * 2),
@@ -590,6 +682,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.25f), _transitionActor),
                 new setFading(true),
                 Actions.delay(0.5f),
+
                 Actions.addAction(courtyardChaseScene)
         );
     }
@@ -619,90 +712,139 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         oneBlockTime = 0.2f;
         return Actions.sequence(
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
-                Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f), character1),
-                Actions.delay(oneBlockTime * 1.75f)
-
-                /*Actions.addAction(Actions.moveTo(10, 13.5f, oneBlockTime * 1.5f), camactor),
-
-                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_UP),
-                Actions.addAction(Actions.moveTo(3.5f, 13.5f, oneBlockTime * 1.5f), character1),
-                Actions.delay(oneBlockTime * 1.5f),
-                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_RIGHT),
-                Actions.addAction(Actions.moveTo(10, 13.5f, oneBlockTime * 3.25f), character1),
+                Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character1),
+                Actions.delay(oneBlockTime * 1.75f),
+                Actions.addAction(Actions.rotateBy(360, oneBlockTime), character1),
                 Actions.delay(oneBlockTime * 3),
-
-                Actions.run(
-                        new Runnable(){
-                            @Override
-                            public void run(){
-                                followActor(character1);
-                            }
-                        }
-                ),
-                Actions.addAction(Actions.moveTo(15, 13.5f, oneBlockTime * 2.5f), character1),
-                Actions.delay(oneBlockTime * 2.5f),
-
-                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.addAction(Actions.rotateBy(-360, oneBlockTime), character1),
                 Actions.delay(oneBlockTime),
+
                 myActions.new setIdleDirection(character1, Entity.Direction.UP),
-                Actions.delay(oneBlockTime),
-                myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
                 Actions.delay(oneBlockTime * 2),
-                myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
+                Actions.addAction(Actions.moveBy(0, 0.15f, oneBlockTime, Interpolation.exp10Out), character1),
+                Actions.addAction(Actions.moveBy(0, -0.15f, oneBlockTime, Interpolation.exp10In), character1),
                 Actions.delay(oneBlockTime * 2),
-
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
-                Actions.addAction(Actions.moveTo(15, 7.5f, oneBlockTime * 2.8f), character1),
-                Actions.delay(oneBlockTime * 2.8f),
-                Actions.addAction(Actions.moveTo(15, 7.5f), camactor),
-                Actions.run(
-                        new Runnable(){
-                            @Override
-                            public void run(){
-                                followActor(camactor);
-                            }
-                        }
-                ),
-                Actions.addAction(Actions.moveTo(15, 4.5f, oneBlockTime * 1.5f), character1),
-                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
-                Actions.delay(oneBlockTime * 2),
-                myActions.new setIdleDirection(character1, Entity.Direction.UP),
-                Actions.delay(oneBlockTime * 2),
-                myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
-                Actions.delay(oneBlockTime * 2),
-
-                //JUMP
-                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
-                Actions.addAction(Actions.moveTo(15, 5.5f, oneBlockTime * 2, Interpolation.exp10Out), character1),
-                Actions.delay(oneBlockTime * 2),
-
-                Actions.addAction(Actions.moveTo(15, -1.5f, oneBlockTime * 2, Interpolation.exp10In), character1),
-                Actions.delay(oneBlockTime * 2),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.25f), _transitionActor),
-                new setFading(true),
-                Actions.delay(0.5f)
-                //Actions.addAction()*/
+                Actions.addAction(Actions.moveTo(16, -2, oneBlockTime * 6), character1),
+                Actions.delay(oneBlockTime * 6)
         );
     }
 
     private Action character2Chase3() {
+        oneBlockTime = 0.2f;
+        return Actions.sequence(
+                Actions.delay(oneBlockTime * 11.75f),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character2),
+                Actions.delay(oneBlockTime * 2.75f),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_DOWN),
+                Actions.addAction(Actions.moveTo(16, -2, oneBlockTime * 6), character2),
+
+                Actions.addAction(Actions.moveTo(16, 8, oneBlockTime * 3), camactor),
+                Actions.delay(oneBlockTime * 2),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.25f), _transitionActor),
+                new setFading(true),
+                Actions.delay(oneBlockTime),
+
+                Actions.addAction(guardsSurroundScene)
+
+        );
+    }
+
+    private Action character1GuardSurround() {
         oneBlockTime = 0.3f;
         return Actions.sequence(
-                Actions.delay(oneBlockTime * 3),
-                myActions.new setCharacterVisible(character2, true),
-                myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_RIGHT),
-                Actions.addAction(Actions.moveTo(3.5f, 10.5f, oneBlockTime * 1.75f), character2),
-                Actions.delay(oneBlockTime * 1.75f),
-
-                myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_UP),
-                Actions.addAction(Actions.moveTo(3.5f, 13.5f, oneBlockTime * 1.5f), character2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 24, oneBlockTime * 1.5f), character1),
                 Actions.delay(oneBlockTime * 1.5f),
-                myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_RIGHT),
-                Actions.addAction(Actions.moveTo(15, 13.5f, oneBlockTime * 5.75f), character2),
-                Actions.delay(oneBlockTime * 5.75f),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_UP),
+                Actions.addAction(Actions.moveTo(37.5f, 30, oneBlockTime * 1.5f), character1),
+                Actions.delay(oneBlockTime * 1.5f),
+
+                myActions.new setIdleDirection(character1, Entity.Direction.UP),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                Actions.addAction(Actions.moveTo(37.5f, 29, oneBlockTime * 2), character1),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_LEFT),
+                Actions.addAction(Actions.moveTo(35, 29, oneBlockTime * 1.25f), character1),
+                Actions.delay(oneBlockTime * 1.25f),
+
+                myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                Actions.addAction(Actions.moveTo(37.5f, 29, oneBlockTime * 6), character1),
+                Actions.delay(oneBlockTime * 6),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                Actions.delay(oneBlockTime * 3),
+                myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                Actions.delay(oneBlockTime * 5),
+
+                myActions.new continueConversation(_playerHUD)
+
+
+                /*myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character1),
+                Actions.delay(oneBlockTime * 1.75f),
+                Actions.addAction(Actions.rotateBy(360, oneBlockTime), character1),
+                Actions.delay(oneBlockTime * 3),
+                Actions.addAction(Actions.rotateBy(-360, oneBlockTime), character1),
+                Actions.delay(oneBlockTime),
+
+                myActions.new setIdleDirection(character1, Entity.Direction.UP),
+                Actions.delay(oneBlockTime * 2),
+                Actions.addAction(Actions.moveBy(0, 0.15f, oneBlockTime, Interpolation.exp10Out), character1),
+                Actions.addAction(Actions.moveBy(0, -0.15f, oneBlockTime, Interpolation.exp10In), character1),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
+                Actions.addAction(Actions.moveTo(16, -2, oneBlockTime * 6), character1),
+                Actions.delay(oneBlockTime * 6)*/
+        );
+    }
+
+    private Action character2GuardSurround() {
+        oneBlockTime = 0.4f;
+        return Actions.sequence(
+                /*Actions.delay(oneBlockTime * 7.75f),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character2),
+                Actions.delay(oneBlockTime * 2.75f),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_DOWN),
-                Actions.addAction(Actions.moveTo(15, 4.5f, oneBlockTime * 9.5f), character2),
-                Actions.delay(oneBlockTime * 9.5f)
+                Actions.addAction(Actions.moveTo(16, -2, oneBlockTime * 6), character2),
+
+                Actions.addAction(Actions.moveTo(16, 8, oneBlockTime * 3), camactor),
+                Actions.delay(oneBlockTime * 2),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.25f), _transitionActor),
+                new setFading(true),
+                Actions.delay(oneBlockTime),
+
+                Actions.addAction(guardsSurroundScene)*/
+
+        );
+    }
+
+    private Action guardsSurround() {
+        oneBlockTime = 0.4f;
+        return Actions.sequence(
+                myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_RIGHT),
+                Actions.addAction(Actions.moveTo(36.5f, 22, oneBlockTime * 3), guard1),
+                myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_UP),
+                Actions.addAction(Actions.moveTo(37.5f, 22, oneBlockTime * 3), guard2),
+                myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_LEFT),
+                Actions.addAction(Actions.moveTo(38.5f, 22, oneBlockTime * 3), guard3),
+                Actions.delay(oneBlockTime * 3)
         );
     }
 
@@ -719,6 +861,35 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     @Override
     public void onNotify(String value, ConversationCommandEvent event) {
         Gdx.app.log(TAG, "onNotify 3");
+    }
+
+    private Action guardInchForward() {
+        return Actions.sequence(
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 25, oneBlockTime * 2), character1),
+                Actions.delay(oneBlockTime * 2)
+        );
     }
 
     private Action getOpeningCutSceneAction() {
@@ -791,12 +962,32 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.delay(0.5f),
                 new setFading(false),
                 Actions.parallel(
-                        //character1Chase3()
-                        //character2Chase3()
+                        character1Chase3(),
+                        character2Chase3()
                 )
         );
     }
-        private AnimatedImage setEntityAnimation(Entity entity){
+
+    private Action getGuardsSurroundScene() {
+        setupGuardsSurroundScene.reset();
+        return Actions.sequence(
+                Actions.addAction(setupGuardsSurroundScene),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
+                Actions.delay(0.5f),
+                new setFading(false),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
+                Actions.addAction(Actions.moveTo(37.5f, 27, oneBlockTime * 13), character1),
+
+                myActions.new setEnabledHUD(_playerHUD, false),
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                myActions.new continueConversation(_playerHUD),
+                Actions.delay(oneBlockTime * 13),
+                myActions.new continueConversation(_playerHUD),
+                myActions.new setEnabledHUD(_playerHUD, true)
+                );
+    }
+
+    private AnimatedImage setEntityAnimation(Entity entity){
         final AnimatedImage animEntity = new AnimatedImage();
         animEntity.setEntity(entity);
         animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
@@ -841,8 +1032,10 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         openingCutScene = getOpeningCutSceneAction();
         castleChaseScene = getCastleChaseScene();
         courtyardChaseScene = getCourtyardChaseScene();
+        guardsSurroundScene = getGuardsSurroundScene();
 
-        _stage.addAction(openingCutScene);
+
+        _stage.addAction(guardsSurroundScene);
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)
@@ -902,8 +1095,16 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         }
 
         if( !_isCameraFixed ){
-            _camera.position.set(_followingActor.getX() + _followingActor.getWidth()/2, _followingActor.getY(), 0f);
+            TiledMap map = _mapMgr.getCurrentTiledMap();
+            MapProperties prop = map.getProperties();
+            int mapWidthInTiles = prop.get("width", Integer.class);
+            int mapHeightInTiles = prop.get("height", Integer.class);
+
+            _camera.position.set(MathUtils.clamp(_followingActor.getX() + _followingActor.getWidth()/2, _camera.viewportWidth / 2f, mapWidthInTiles - (_camera.viewportWidth  / 2f)),
+                    MathUtils.clamp(_followingActor.getY(), _camera.viewportHeight / 2f, mapHeightInTiles - (_camera.viewportHeight / 2f)), 0f);
+
         }
+
         _camera.zoom += zoomRate;
         _camera.update();
 

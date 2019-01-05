@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.dialog.ConversationGraphObserver;
 
 /**
  * Created by steve on 10/7/18.
@@ -289,6 +290,7 @@ public class MyActions {
             return true;
         }
     }
+
     public class continueConversation extends Action {
         PlayerHUD HUD;
 
@@ -299,6 +301,39 @@ public class MyActions {
         @Override
         public boolean act(float delta) {
             this.HUD.doConversation();
+            return true;
+        }
+    }
+
+    public class loadConversation extends Action {
+        PlayerHUD HUD;
+        String jsonFile;
+        ConversationGraphObserver screen;
+        public loadConversation(PlayerHUD HUD, String jsonFile, ConversationGraphObserver screen) {
+            this.HUD = HUD;
+            this.jsonFile = jsonFile;
+            this.screen = screen;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.HUD.loadConversationForCutScene(jsonFile, screen);
+            return true;
+        }
+    }
+
+    public class setEnabledHUD extends Action {
+        PlayerHUD HUD;
+        boolean enable;
+
+        public setEnabledHUD(PlayerHUD HUD, boolean enable) {
+            this.HUD = HUD;
+            this.enable = enable;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.HUD.setEnabled(this.enable);
             return true;
         }
     }
