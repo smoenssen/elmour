@@ -19,6 +19,7 @@ public interface ConversationGraphObserver {
         JUMP_BACK,
         CHASE_SEQUENCE,
         GUARDS_SURROUND,
+        GUARDS_STOP,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,
