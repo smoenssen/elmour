@@ -6,6 +6,8 @@ Can't block daggers or punching
 make sure number of turns executed is correct
 If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
+If battle bursts pop out 2 times in a row too fast the second disappears
+Battle won stats don't become untouchable in next battle
 
 jaxon_1.json refers to Jaxon_1 folder
 equipment.json has 2 LEGGINGS1

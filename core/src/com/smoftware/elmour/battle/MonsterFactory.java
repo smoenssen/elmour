@@ -12,7 +12,7 @@ import java.util.Hashtable;
 
 public class MonsterFactory {
     public static enum MonsterEntityType{
-        Octomaniac, Ogre, Douglas, Steve, Royal_Guard,
+        Octomaniac, Ogre, Douglas, Steve, Royal_Guard, Steve2, Steve3,
         NONE
     }
 

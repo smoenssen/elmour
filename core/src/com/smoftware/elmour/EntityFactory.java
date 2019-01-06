@@ -27,6 +27,8 @@ public class EntityFactory {
         JAXON_1,
         ROYAL_GUARD,
         STEVE,
+        STEVE2,
+        STEVE3,
         HIT,
         WEAPON_ANIMATIONS,
         PLAYER_PUPPET,
@@ -62,6 +64,8 @@ public class EntityFactory {
     public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
     public static String ROYAL_GUARD_CONFIG = "RPGGame/maps/Game/Scripts/royal_guard.json";
     public static String STEVE_CONFIG = "RPGGame/maps/Game/Scripts/steve.json";
+    public static String STEVE2_CONFIG = "RPGGame/maps/Game/Scripts/steve2.json";
+    public static String STEVE3_CONFIG = "RPGGame/maps/Game/Scripts/steve3.json";
 
     public static String HIT_CONFIG = "RPGGame/maps/Game/Scripts/hit.json";
     public static String WEAPON_ANIMATIONS_CONFIG = "RPGGame/maps/Game/Scripts/weapon_animations.json";
@@ -109,6 +113,8 @@ public class EntityFactory {
         entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.ROYAL_GUARD.toString(), Entity.loadEntityConfigByPath(ROYAL_GUARD_CONFIG));
         entities.put(EntityName.STEVE.toString(), Entity.loadEntityConfigByPath(STEVE_CONFIG));
+        entities.put(EntityName.STEVE2.toString(), Entity.loadEntityConfigByPath(STEVE2_CONFIG));
+        entities.put(EntityName.STEVE3.toString(), Entity.loadEntityConfigByPath(STEVE3_CONFIG));
 
         entities.put(EntityName.HIT.toString(), Entity.loadEntityConfigByPath(HIT_CONFIG));
         entities.put(EntityName.WEAPON_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(WEAPON_ANIMATIONS_CONFIG));

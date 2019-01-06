@@ -637,7 +637,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           // make sure touch point is still on this button
                                           if (touchPointIsInButton(utilityButton)) {
                                               hideDebugMenu();
-                                              //Utility.parseConversationXMLFiles();
 
                                               FileHandle file = Gdx.files.local("Ben.csv");
 
@@ -725,7 +724,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           Utility.parseConversationXMLFiles();
+                                           Utility.parseConversationXMLFiles("");
                                        }
                                    }
         );

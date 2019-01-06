@@ -80,12 +80,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     }
 
     class BattleBurst {
-        public Array<Image> imageArray;
-        public boolean show;
-        public float positionX;
-        public float positionY;
-        public float velocityX;
-        public float velocityY;
+        Array<Image> imageArray;
+        boolean show;
+        float positionX;
+        float positionY;
+        float velocityX;
+        float velocityY;
 
         public BattleBurst() {
             show = false;
@@ -93,16 +93,39 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
     }
 
+    public enum ThrowingDirection { LEFT, RIGHT }
+
     class ThrowingItem {
-        public Animation<TextureRegion> throwingAnimation;
-        public boolean show;
-        public float positionX;
-        public float positionY;
-        public float velocityX;
-        public float velocityY;
+        boolean show;
+        float positionX;
+        float positionY;
+        float endPositionX;
+        float endPositionY;
+        float velocityX;
+        float velocityY;
+        ThrowingDirection throwingDirection;
+
+        float frameTime;
+        TextureRegion currentFrame;
+        Animation<TextureRegion> animation;
 
         public ThrowingItem() {
             show = false;
+            throwingDirection = ThrowingDirection.LEFT;
+        }
+    }
+
+    public class throwItem extends Action {
+        Entity.AnimationType animationType;
+
+        public throwItem(Entity.AnimationType animationType) {
+            this.animationType = animationType;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            initThrowingItem(animationType);
+            return true; // An action returns true when it's completed
         }
     }
 
@@ -125,6 +148,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> douglasBattleAnimations;
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> royalGuardBattleAnimations;
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> steveBattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> steve2BattleAnimations;
+    private Hashtable<Entity.AnimationType, Animation<TextureRegion>> steve3BattleAnimations;
 
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> battleHitAnimations;
     private Hashtable<Entity.AnimationType, Animation<TextureRegion>> weaponAnimations;
@@ -329,6 +354,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         douglasBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.DOUGLAS));
         royalGuardBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.ROYAL_GUARD));
         steveBattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.STEVE));
+        steve2BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.STEVE2));
+        steve3BattleAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.STEVE3));
 
         battleHitAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.HIT));
         weaponAnimations = GraphicsComponent.loadAnimationsByName((EntityFactory.EntityName.WEAPON_ANIMATIONS));
@@ -346,6 +373,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         hpBattleBurst = new BattleBurst();
         specialBattleBurst = new BattleBurst();
+        throwingItem = new ThrowingItem();
 
         _stage.addActor(_transitionActor);
         _stage.addActor(blackScreen);
@@ -1089,8 +1117,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         Entity.AnimationType faceVictim;
         float destinationX;
         float walkOutDistance = 1.5f;
+        Entity.AnimationType throwAnimationType;
 
         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
+
+        characterWeaponIdAnimationType = null;
+
+        // only party members can throw
+        if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
+            throwAnimationType = Entity.AnimationType.THROW1_LEFT;
+        }
+        else {
+            throwAnimationType = Entity.AnimationType.THROW1_RIGHT;
+        }
 
         if (entity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
             walkOut = Entity.AnimationType.WALK_LEFT;
@@ -1098,12 +1137,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             destinationX = entity.getCurrentPosition().x - walkOutDistance;
 
             if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.ENEMY) {
-                characterWeaponIdAnimationType = getWeaponIdAnimationType(currentTurnEntity, true);
-                weaponCategoryAnimationType = getWeaponCategoryAnimationType(currentTurnEntity, true);
+                weaponCategoryAnimationType = Entity.AnimationType.BLUNT_LEFT;
                 faceVictim = Entity.AnimationType.WALK_LEFT;
             } else {
-                characterWeaponIdAnimationType = getWeaponIdAnimationType(currentTurnEntity, false);
-                weaponCategoryAnimationType = getWeaponCategoryAnimationType(currentTurnEntity, false);
+                weaponCategoryAnimationType = Entity.AnimationType.BLUNT_RIGHT;
                 faceVictim = Entity.AnimationType.WALK_RIGHT;
             }
         } else {
@@ -1112,12 +1149,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             walkBack = Entity.AnimationType.WALK_LEFT;
             destinationX = entity.getCurrentPosition().x + walkOutDistance;
             if (selectedEntity.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-                characterWeaponIdAnimationType = getWeaponIdAnimationType(currentTurnEntity, true);
-                weaponCategoryAnimationType = getWeaponCategoryAnimationType(currentTurnEntity, true);
+                weaponCategoryAnimationType = Entity.AnimationType.BLUNT_RIGHT;
                 faceVictim = Entity.AnimationType.WALK_RIGHT;
             } else {
-                characterWeaponIdAnimationType = getWeaponIdAnimationType(currentTurnEntity, false);
-                weaponCategoryAnimationType = getWeaponCategoryAnimationType(currentTurnEntity, false);
+                weaponCategoryAnimationType = Entity.AnimationType.BLUNT_LEFT;
                 faceVictim = Entity.AnimationType.WALK_LEFT;
             }
         }
@@ -1138,6 +1173,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         null, null, null),
+
+
+                new throwItem(throwAnimationType),
 
                 new showMainCharacterAnimation(currentTurnCharacter, false),
                 // Framerate * # of Frames
@@ -1705,6 +1743,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 return royalGuardBattleAnimations;
             case STEVE:
                 return steveBattleAnimations;
+            case STEVE2:
+                return steve2BattleAnimations;
+            case STEVE3:
+                return steve3BattleAnimations;
         }
 
         return null;
@@ -1959,6 +2001,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         if (specialBattleBurst.show) {
             updateBattleBurst(delta, specialBattleBurst);
         }
+
+        if (throwingItem.show)
+            updateThrowingItem(delta);
 
         if (showStatusArrows) {
             party1StatArrows.render(delta, _mapRenderer);
@@ -2453,6 +2498,146 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy4StatArrows.clear();
         enemy5StatArrows.clear();
         battleWon = false;
+    }
+
+    private void updateThrowingItem(float delta) {
+        throwingItem.positionX += throwingItem.velocityX * delta;   // Apply horizontal velocity to X position
+        throwingItem.positionY += throwingItem.velocityY * delta;   // Apply vertical velocity to X position
+        throwingItem.velocityY += gravity * delta;                  // Apply gravity to vertical velocity
+
+        if (throwingItem.throwingDirection.equals(ThrowingDirection.RIGHT)) {
+            if (throwingItem.positionX > throwingItem.endPositionX) {
+                throwingItem.show = false;
+                return;
+            }
+        }
+        else {
+            if (throwingItem.positionX < throwingItem.endPositionX) {
+                throwingItem.show = false;
+                return;
+            }
+        }
+
+        throwingItem.frameTime = (throwingItem.frameTime + delta) % 5;
+        throwingItem.currentFrame = throwingItem.animation.getKeyFrame(throwingItem.frameTime);
+
+        _mapRenderer.getBatch().begin();
+        if (_currentFrame != null) {
+            _mapRenderer.getBatch().draw(throwingItem.currentFrame, throwingItem.positionX, throwingItem.positionY,
+                    throwingItem.currentFrame.getRegionWidth() * Map.UNIT_SCALE, throwingItem.currentFrame.getRegionHeight() * Map.UNIT_SCALE);
+        }
+        _mapRenderer.getBatch().end();
+    }
+
+    private void initThrowingItem(Entity.AnimationType animationType) {
+        float velocityX = 12f;
+        float velocityY = 7f;
+        int playerOffset = currentTurnEntity.getBattlePosition();
+
+        int selectedEntityOffset = playerOffset - selectedEntity.getBattlePosition();
+
+        switch (playerOffset) {
+            case 2:
+            case 4:
+                switch (selectedEntityOffset) {
+                    case 0:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 1:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 2:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 3:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -1:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -2:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -3:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                }
+                break;
+            case 1:
+            case 3:
+            case 5:
+                switch (selectedEntityOffset) {
+                    case 0:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 1:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 2:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 3:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case 4:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -1:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -2:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -3:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                    case -4:
+                        velocityX = 12f;
+                        velocityY = 7f;
+                        break;
+                }
+                break;
+        }
+
+        if (animationType.toString().contains("LEFT"))
+            throwingItem.throwingDirection = ThrowingDirection.LEFT;
+        else
+            throwingItem.throwingDirection = ThrowingDirection.RIGHT;
+
+        throwingItem.velocityX = velocityX;
+        throwingItem.velocityY = velocityY;
+        gravity = -25f;
+
+        if (currentTurnEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
+            throwingItem.positionX = currentTurnCharacter.getX() - currentTurnCharacter.getWidth() / 2;// - (image.getWidth() * Map.UNIT_SCALE) / 2;
+            throwingItem.velocityX *= -1;
+        }
+        else {
+            throwingItem.positionX = currentTurnCharacter.getX() + currentTurnCharacter.getWidth() / 2;// - (image.getWidth() * Map.UNIT_SCALE) / 2;
+        }
+
+        throwingItem.animation = weaponAnimations.get(animationType);
+        throwingItem.positionX = currentTurnCharacter.getX() + currentTurnCharacter.getWidth() / 2;// - (image.getWidth() * Map.UNIT_SCALE) / 2;
+        throwingItem.positionY = currentTurnCharacter.getY() + currentTurnCharacter.getHeight();
+        throwingItem.endPositionX = selectedEntity.getCurrentPosition().x;
+        throwingItem.endPositionY = selectedEntity.getCurrentPosition().y;
+
+        throwingItem.show = true;
     }
 
     private void updateBattleBurst(float delta, BattleBurst bb) {

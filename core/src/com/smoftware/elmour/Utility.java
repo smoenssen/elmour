@@ -336,7 +336,7 @@ public final class Utility {
 		return texture;
 	}
 
-	public static void parseConversationXMLFiles() {
+	public static void parseConversationXMLFiles(String currentConversationID) {
 		FileHandle outFile = Gdx.files.local("RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
 		String fullFilenamePath = "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml";
 
@@ -376,6 +376,9 @@ public final class Utility {
 		}
 
 		ConversationGraph convGraph = new ConversationGraph(conversations, associatedChoices, rootId);
+
+		if (currentConversationID != "")
+			convGraph.forceSetCurrentConversation(currentConversationID);
 		outFile.writeString(convGraph.toJson(), false);
 	}
 

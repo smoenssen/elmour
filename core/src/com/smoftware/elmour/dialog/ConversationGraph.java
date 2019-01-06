@@ -70,6 +70,10 @@ public class ConversationGraph extends ConversationGraphSubject {
         }
     }
 
+    public void forceSetCurrentConversation(String id){
+        currentConversationID  = id;
+    }
+
     public boolean isValid(String conversationID){
         Conversation conversation = conversations.get(conversationID);
         if( conversation == null ) return false;

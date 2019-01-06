@@ -215,7 +215,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         }
 
         Animation animation = new Animation(frameDuration, (Object[])animationKeyFrames);
-        animation.setPlayMode(Animation.PlayMode.NORMAL);
+        animation.setPlayMode(Animation.PlayMode.LOOP);
 
         return animation;
     }
