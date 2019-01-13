@@ -572,6 +572,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 boolean addedPeriod = false;
                 boolean addedEffectText = false;
                 int hpMax = game.statusUI.getHPMaxValue(currentSelectedCharacter);
+                int hitPoints = 0;
+                int newHP = 0;
                 for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
 
                     int currVal = 0;
@@ -582,7 +584,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
                         game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
-                        checkForDamage(currVal, newVal);
+                        newHP = newVal;
+                        hitPoints = currVal - newVal;
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
                         currVal = game.statusUI.getHPValue(currentSelectedCharacter);
@@ -590,7 +593,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
                         game.statusUI.setHPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
-                        checkForDamage(currVal, newVal);
+                        newHP = newVal;
+                        hitPoints = currVal - newVal;
                     }
                     else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP) &&
                             currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
@@ -663,6 +667,20 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY, message);
+
+                // Need to send notification for damage after notification for applied inventory so that observer
+                // knows that the damage was due to inventory item being used.
+                if (hitPoints > 0) {
+                    if (currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.ENEMY)) {
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.OPPONENT_HIT_DAMAGE, String.format("%d", hitPoints));
+                    } else {
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_HIT_DAMAGE, String.format("%d", hitPoints));
+                    }
+                }
+
+                if (newHP == 0) {
+                    setCurrentSelectedCharacterDead();
+                }
             }
         };
     }

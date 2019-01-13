@@ -82,6 +82,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     class BattleBurst {
         Array<Image> imageArray;
         boolean show;
+        boolean isDelayed;
         float positionX;
         float positionY;
         float velocityX;
@@ -89,6 +90,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         public BattleBurst() {
             show = false;
+            isDelayed = false;
             imageArray = new Array<>();
         }
     }
@@ -242,6 +244,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private boolean battleWon = false;
 
     private ThrowingItem throwingItem;
+    private boolean itemIsBeingThrown = false;
 
     private Image blackScreen;
 
@@ -1174,22 +1177,20 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         null, null, null),
 
-
                 new throwItem(throwAnimationType),
 
                 new showMainCharacterAnimation(currentTurnCharacter, false),
                 // Framerate * # of Frames
                 Actions.delay(0.5f),
                 new setCurrentHitAnimation(null),
+                new showMainCharacterAnimation(currentTurnCharacter, true),
+                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
 
                 new setCurrentBattleAnimations(null, null, null, null),
-                new showMainCharacterAnimation(currentTurnCharacter, true),
-
-                Actions.delay(0.25f),
 
                 myActions.new setWalkDirection(currentTurnCharacter, walkBack),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.25f, Interpolation.linear), currentTurnCharacter),
-                Actions.delay(0.25f),
+                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
+                Actions.delay(0.4f),
 
                 // turn to face back out
                 myActions.new setWalkDirection(currentTurnCharacter, walkOut),
@@ -2500,6 +2501,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         battleWon = false;
     }
 
+    private void endThrowingItem() {
+        throwingItem.show = false;
+        itemIsBeingThrown = false;
+        if (hpBattleBurst.isDelayed) {
+            for (Image image : hpBattleBurst.imageArray) {
+                image.setVisible(true);
+            }
+            hpBattleBurst.show = true;
+        }
+    }
+
     private void updateThrowingItem(float delta) {
         throwingItem.positionX += throwingItem.velocityX * delta;   // Apply horizontal velocity to X position
         throwingItem.positionY += throwingItem.velocityY * delta;   // Apply vertical velocity to X position
@@ -2507,13 +2519,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         if (throwingItem.throwingDirection.equals(ThrowingDirection.RIGHT)) {
             if (throwingItem.positionX > throwingItem.endPositionX) {
-                throwingItem.show = false;
+                endThrowingItem();
                 return;
             }
         }
         else {
             if (throwingItem.positionX < throwingItem.endPositionX) {
-                throwingItem.show = false;
+                endThrowingItem();
                 return;
             }
         }
@@ -2530,98 +2542,60 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     }
 
     private void initThrowingItem(Entity.AnimationType animationType) {
-        float velocityX = 12f;
-        float velocityY = 7f;
-        int playerOffset = currentTurnEntity.getBattlePosition();
+        /*
+        Parabolic trajectory function is defined as:
 
-        int selectedEntityOffset = playerOffset - selectedEntity.getBattlePosition();
+        Fx = Vox*t + Ox;
+        Fy = -0.5 * g * t * t + Voy*t + Oy;
 
-        switch (playerOffset) {
-            case 2:
-            case 4:
-                switch (selectedEntityOffset) {
-                    case 0:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 1:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 2:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 3:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -1:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -2:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -3:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                }
-                break;
-            case 1:
-            case 3:
-            case 5:
-                switch (selectedEntityOffset) {
-                    case 0:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 1:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 2:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 3:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case 4:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -1:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -2:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -3:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                    case -4:
-                        velocityX = 12f;
-                        velocityY = 7f;
-                        break;
-                }
-                break;
-        }
+        Known values:
+            P: the target point.
+            O: the origin point.
+            g: gravity.
+            t: time needed to impact.
+
+        Unknown values:
+        Vo: Initial Velocity
+
+        To calculate 'Vo', we can give values to F function:
+
+        't' = flight time  'duration'
+        'F' = target point 'P'
+
+              (Px - Ox)       // if throwing left, then (Ox - Px)
+        Vox = ---------
+              duration
+
+               Py + 0.5 * g * duration * duration - Oy
+        Voy = ----------------------------------------
+                           duration
+
+        You can now get all the values to reach the target from the origin giving values to t into the F equation:
+
+        When t = 0         => F == O (Origin)
+        When t = duration  => F == P (Target)
+        */
+
+        Vector2 P = new Vector2(selectedEntity.getCurrentPosition().x,
+                                selectedEntity.getCurrentPosition().y);
+        Vector2 O = new Vector2(currentTurnCharacter.getX() + characterWidth / 2,
+                                currentTurnCharacter.getY() + characterHeight);
+
+        float duration = 0.75f;
+        gravity = 25;
+
+        Vector2 Vo = new Vector2();
+        Vo.x = (O.x - P.x) / duration;
+        Vo.y = (P.y + 0.5f * gravity * duration * duration - O.y) / duration;
 
         if (animationType.toString().contains("LEFT"))
             throwingItem.throwingDirection = ThrowingDirection.LEFT;
         else
             throwingItem.throwingDirection = ThrowingDirection.RIGHT;
 
-        throwingItem.velocityX = velocityX;
-        throwingItem.velocityY = velocityY;
-        gravity = -25f;
+        throwingItem.velocityX = Vo.x;
+        throwingItem.velocityY = Vo.y;
+        gravity *= -1;
 
         if (currentTurnEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
             throwingItem.positionX = currentTurnCharacter.getX() - currentTurnCharacter.getWidth() / 2;// - (image.getWidth() * Map.UNIT_SCALE) / 2;
@@ -2632,10 +2606,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
 
         throwingItem.animation = weaponAnimations.get(animationType);
-        throwingItem.positionX = currentTurnCharacter.getX() + currentTurnCharacter.getWidth() / 2;// - (image.getWidth() * Map.UNIT_SCALE) / 2;
-        throwingItem.positionY = currentTurnCharacter.getY() + currentTurnCharacter.getHeight();
-        throwingItem.endPositionX = selectedEntity.getCurrentPosition().x;
-        throwingItem.endPositionY = selectedEntity.getCurrentPosition().y;
+        throwingItem.positionX = O.x;
+        throwingItem.positionY = O.y;
+        throwingItem.endPositionX = P.x;
+        throwingItem.endPositionY = P.y;
 
         throwingItem.show = true;
     }
@@ -2658,6 +2632,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                     image.addAction(Actions.fadeOut(0.5f));
                 }
                 bb.show = false;
+                bb.isDelayed = false;
             }
         }
 
@@ -2713,18 +2688,32 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         else {
             float hitPointsImageWidth = 0;
 
+            // populate image array of numbers
             for (int i = 0; i < hitValue.length(); i++) {
                 Image image = getDigitImage(hitValue.charAt(i));
                 hitPointsImageWidth += image.getWidth() * Map.UNIT_SCALE;
                 bb.imageArray.add(image);
             }
 
-            float lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
+            // for each number image set its position based on previous number's position
+            float lastPositionX;
+            if (itemIsBeingThrown) {
+                // make battle burst come more off front of character
+                if (battleType.equals(Entity.BattleEntityType.ENEMY))
+                    lastPositionX = character.getX() + character.getWidth();
+                else
+                    lastPositionX = character.getX();
+            }
+            else {
+                lastPositionX = character.getX() + character.getWidth() / 2 - hitPointsImageWidth / 2;
+            }
+
             float lastPositionY = character.getY() + character.getHeight() * 1.2f;
             for (Image image : bb.imageArray) {
                 image.setScale(Map.UNIT_SCALE);
                 image.setPosition(lastPositionX, lastPositionY);
                 lastPositionX += image.getWidth() * Map.UNIT_SCALE;
+                image.setVisible(false);
                 _stage.addActor(image);
             }
         }
@@ -2762,7 +2751,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             bb.positionY = bb.imageArray.get(0).getY();
         }
 
-        bb.show = true;
+        if (itemIsBeingThrown) {
+            // Don't show battle burst here if it is due to item is being thrown.
+            // Battle burst will be shown elsewhere after item has reached target.
+            bb.isDelayed = true;
+        }
+        else {
+            for (Image image : bb.imageArray) {
+                image.setVisible(true);
+            }
+            bb.show = true;
+        }
     }
 
     private void hitPointAnimation(final Entity entity, final String hitValue) {
@@ -2969,6 +2968,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (event == BattleEventWithMessage.PLAYER_APPLIED_INVENTORY) {
                     if (battleHUD.getSelectedInventoryElement().category.equals(InventoryElement.InventoryCategory.Throwing)) {
                         selectedEntity = destinationEntity;
+                        itemIsBeingThrown = true;
                         _stage.addAction(getThrowAction(sourceEntity));
                     } else {
                         selectedEntity = null;

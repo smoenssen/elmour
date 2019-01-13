@@ -783,6 +783,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton.setVisible(false);
         adjustInventoryButton.setVisible(false);
         adjustSpellsPowersButton.setVisible(false);
+        parseXMLButton.setVisible(false);
         debugMenuIsVisible = false;
     }
 
