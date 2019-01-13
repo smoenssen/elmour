@@ -11,12 +11,4 @@
 	class: java.lang.String
 	value: RPGGame/maps/Game/Scripts/steve.json
 }
-{
-	class: java.lang.String
-	value: RPGGame/maps/Game/Scripts/steve2.json
-}
-{
-	class: java.lang.String
-	value: RPGGame/maps/Game/Scripts/steve3.json
-}
 ]

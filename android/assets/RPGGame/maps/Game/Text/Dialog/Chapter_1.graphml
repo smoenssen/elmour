@@ -204,7 +204,7 @@ what your intentions for raiding my castle are.<y:LabelModel>
           <y:Geometry height="59.99999999999994" width="265.1957504000011" x="1198.558763546148" y="103.06533298091216"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="229.421875" x="17.886937700000544" y="5.948242187499972">I’m not here to raid your castle… frankly, I 
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="227.423828125" x="18.885961137500544" y="5.948242187499972">I’m not here to raid your castle... frankly, I 
 don’t even know why I’m here.
 I don’t even know where ‘here’ is.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -306,7 +306,7 @@ around here.<y:LabelModel>
           <y:Geometry height="30.0" width="90.0" x="1286.1566387461485" y="283.06533298091216"/>
           <y:Fill color="#FFFF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="79.662109375" x="5.1689453125" y="5.6494140625">I don't know…<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="77.6640625" x="6.16796875" y="5.6494140625">I don't know...<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -357,12 +357,13 @@ we in right now?<y:LabelModel>
       </data>
     </node>
     <node id="n18">
+      <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="89.99999999999977" x="1595.2110053270706" y="283.06533298091216"/>
-          <y:Fill color="#CCCCCC" transparent="false"/>
+          <y:Geometry height="30.0" width="168.35001230907096" x="1493.754513946149" y="133.0653329809121"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.359375" x="3.3203124999997726" y="5.6494140625">{NO_CHOICE}<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="166.36328125" x="0.9933655295353674" y="5.6494140625">We're in... uh... where are we?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -374,32 +375,14 @@ we in right now?<y:LabelModel>
       </data>
     </node>
     <node id="n19">
-      <data key="d5"><![CDATA[Me]]></data>
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="30.0" width="117.71723236184198" x="1493.754513946149" y="193.0653329809121"/>
-          <y:Fill color="#FFCC00" transparent="false"/>
-          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="106.322265625" x="5.69748336842099" y="5.6494140625">We're in… China…<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:Shape type="rectangle"/>
-        </y:ShapeNode>
-      </data>
-    </node>
-    <node id="n20">
       <data key="d4"/>
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="265.1957504000011" x="1641.471746307991" y="193.0653329809121"/>
+          <y:Geometry height="30.0" width="265.1957504000011" x="1788.95026434615" y="73.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="215.435546875" x="24.880101762500544" y="5.6494140625">That girl… I feel as though I know her…<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="235.052734375" x="15.071508012500544" y="5.6494140625">This is China? I can't say that it looks like it.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -410,12 +393,12 @@ we in right now?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n21">
+    <node id="n20">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="30.0" x="1936.667496707992" y="193.0653329809121"/>
+          <y:Geometry height="30.0" width="30.0" x="1906.5481395461509" y="193.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="29.34765625" x="0.326171875" y="5.6494140625">Ugh!<y:LabelModel>
@@ -429,15 +412,15 @@ we in right now?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n22">
+    <node id="n21">
       <data key="d4"/>
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="149.22485892859595" x="2056.6674967079925" y="193.0653329809121"/>
+          <y:Geometry height="30.0" width="149.22485892859595" x="1816.935710081853" y="313.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="117.4140625" x="15.905398214297747" y="5.6494140625">What just happened?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="117.4140625" x="15.905398214297975" y="5.6494140625">What just happened?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -448,11 +431,11 @@ we in right now?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n23">
+    <node id="n22">
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="265.1957504000011" x="1998.6820509722897" y="253.0653329809121"/>
+          <y:Geometry height="30.0" width="265.1957504000011" x="1998.6820509722897" y="193.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="201.349609375" x="31.923070512500544" y="-1.701171875">I must've passed out. That's the only 
@@ -467,15 +450,15 @@ explanation I can think of.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n24">
+    <node id="n23">
       <data key="d4"/>
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="149.22485892859595" x="2056.6674967079925" y="313.0653329809121"/>
+          <y:Geometry height="30.0" width="149.22485892859595" x="2056.6674967079925" y="311.319768933271"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="138.724609375" x="5.2501247767977475" y="5.6494140625">That girl… who was she?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="136.7265625" x="6.2491482142977475" y="5.6494140625">That girl... who was she?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -486,12 +469,12 @@ explanation I can think of.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n25">
+    <node id="n24">
       <data key="d4"/>
       <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="149.22485892859595" x="2056.6674967079925" y="373.0653329809121"/>
+          <y:Geometry height="30.0" width="149.22485892859595" x="2051.094391270918" y="553.0653329809122"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="100.05859375" x="24.583132589297747" y="5.6494140625">What is going on?<y:LabelModel>
@@ -505,12 +488,12 @@ explanation I can think of.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n26">
+    <node id="n25">
       <data key="d4"/>
       <data key="d5"><![CDATA[Guard]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="265.1957504000011" x="1998.6820509722897" y="433.0653329809122"/>
+          <y:Geometry height="30.0" width="265.1957504000011" x="2107.0777653788236" y="493.0653329809122"/>
           <y:Fill color="#0000FF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="246.42578125" x="9.384984575000544" y="-1.701171875">Don't get anywhere near that maniac! I forbid 
@@ -525,7 +508,7 @@ you!<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n27">
+    <node id="n26">
       <data key="d4"/>
       <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
@@ -544,7 +527,7 @@ you!<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n28">
+    <node id="n27">
       <data key="d4"/>
       <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
@@ -565,7 +548,7 @@ Mind telling me?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n29">
+    <node id="n28">
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -585,7 +568,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n30">
+    <node id="n29">
       <data key="d4"/>
       <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
@@ -604,7 +587,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n31">
+    <node id="n30">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -623,7 +606,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n32">
+    <node id="n31">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="95.33421444882015" x="2378.8085693478815" y="283.0653329809121"/>
@@ -640,7 +623,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n33">
+    <node id="n32">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="95.33421444882015" x="2674.004319747882" y="313.0653329809121"/>
@@ -657,7 +640,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n34">
+    <node id="n33">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -676,7 +659,7 @@ second.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n35">
+    <node id="n34">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -697,7 +680,7 @@ call me {CHARACTER_2}. I am in charge of these lands.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n36">
+    <node id="n35">
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -716,7 +699,7 @@ get off these lands?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n37">
+    <node id="n36">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -735,7 +718,7 @@ get off these lands?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n38">
+    <node id="n37">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -754,7 +737,7 @@ get off these lands?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n39">
+    <node id="n38">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -774,7 +757,7 @@ by your guards twice.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n40">
+    <node id="n39">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -793,7 +776,7 @@ by your guards twice.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n41">
+    <node id="n40">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -813,24 +796,7 @@ strange recently.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n42">
-      <data key="d6">
-        <y:ShapeNode>
-          <y:Geometry height="30.0" width="87.1069429997101" x="3480.6760287144825" y="163.0653329809121"/>
-          <y:Fill color="#CCCCCC" transparent="false"/>
-          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.359375" x="1.8737839998548225" y="5.6494140625">{NO_CHOICE}<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:Shape type="rectangle"/>
-        </y:ShapeNode>
-      </data>
-    </node>
-    <node id="n43">
+    <node id="n41">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -850,7 +816,7 @@ one thing - you’ll visit Elmour again.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n44">
+    <node id="n42">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -869,7 +835,7 @@ one thing - you’ll visit Elmour again.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n45">
+    <node id="n43">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -888,7 +854,7 @@ one thing - you’ll visit Elmour again.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n46">
+    <node id="n44">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -909,7 +875,7 @@ otherwise later.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n47">
+    <node id="n45">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -928,7 +894,7 @@ otherwise later.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n48">
+    <node id="n46">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -947,7 +913,7 @@ otherwise later.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n49">
+    <node id="n47">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -966,7 +932,7 @@ otherwise later.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n50">
+    <node id="n48">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -985,7 +951,7 @@ otherwise later.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n51">
+    <node id="n49">
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -1004,7 +970,7 @@ in right now.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n52">
+    <node id="n50">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1023,7 +989,7 @@ in right now.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n53">
+    <node id="n51">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1043,7 +1009,7 @@ came?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n54">
+    <node id="n52">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1062,7 +1028,7 @@ came?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n55">
+    <node id="n53">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1083,7 +1049,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n56">
+    <node id="n54">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1102,7 +1068,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n57">
+    <node id="n55">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1121,7 +1087,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n58">
+    <node id="n56">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1140,7 +1106,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n59">
+    <node id="n57">
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -1158,7 +1124,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n60">
+    <node id="n58">
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -1177,7 +1143,7 @@ You have a country to run!<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n61">
+    <node id="n59">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1196,7 +1162,7 @@ You have a country to run!<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n62">
+    <node id="n60">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1215,7 +1181,7 @@ You have a country to run!<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n63">
+    <node id="n61">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1235,7 +1201,7 @@ you're away?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n64">
+    <node id="n62">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1254,7 +1220,7 @@ you're away?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n65">
+    <node id="n63">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1273,16 +1239,17 @@ you're away?<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n66">
+    <node id="n64">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="265.19575039999927" x="5767.513206449823" y="238.0653329809121"/>
+          <y:Geometry height="60.0" width="265.19575039999927" x="5767.513206449823" y="208.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="238.1171875" x="13.53928144999918" y="-1.701171875">There are guards protecting The Gems, but 
-they can't leave the Temples.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="255.443359375" x="4.87619551249918" y="5.9482421875">There are Gem Keepers protecting The Gems, 
+but they have been told to stay at the Temples 
+until I give them the OK in person.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1293,7 +1260,7 @@ they can't leave the Temples.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n67">
+    <node id="n65">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1312,7 +1279,7 @@ they can't leave the Temples.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n68">
+    <node id="n66">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1331,7 +1298,7 @@ they can't leave the Temples.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n69">
+    <node id="n67">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1350,7 +1317,7 @@ they can't leave the Temples.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n70">
+    <node id="n68">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1370,7 +1337,7 @@ safe.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n71">
+    <node id="n69">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1389,7 +1356,7 @@ safe.<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n72">
+    <node id="n70">
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -1408,7 +1375,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n73">
+    <node id="n71">
       <data key="d4"/>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
@@ -1427,7 +1394,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n74">
+    <node id="n72">
       <data key="d4"/>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
@@ -1446,7 +1413,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n75">
+    <node id="n73">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="117.17976749192917" x="354.8685790001823" y="159.42830889380178"/>
@@ -1463,7 +1430,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n76">
+    <node id="n74">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="205.1957504000003" x="7910.081512605064" y="223.0653329809121"/>
@@ -1480,7 +1447,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n77">
+    <node id="n75">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="122.99900603130584" x="351.958959730494" y="275.79128480669135"/>
@@ -1497,7 +1464,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n78">
+    <node id="n76">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="86.11519999999996" x="370.4008627461469" y="455.79128480669135"/>
@@ -1514,7 +1481,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n79">
+    <node id="n77">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="122.99900603130584" x="511.257400346147" y="335.79128480669135"/>
@@ -1531,7 +1498,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n80">
+    <node id="n78">
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
@@ -1549,7 +1516,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n81">
+    <node id="n79">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="135.5978752000001" x="504.95796576179987" y="215.7912848066914"/>
@@ -1566,13 +1533,365 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n82">
+    <node id="n80">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="99.77279504865885" x="635.7569033618" y="155.7912848066914"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="94.685546875" x="2.543624086829368" y="5.6494140625">GUARDS_STOP<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="94.685546875" x="2.5436240868294817" y="5.6494140625">GUARDS_STOP<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n81">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="156.6152555554537" x="1493.754513946149" y="193.0653329809121"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.03515625" x="1.2900496527267933" y="5.6494140625">LOOK_AROUND_ELMOUR<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n82">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[Girl]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="265.1957504000011" x="1493.754513946149" y="73.0653329809121"/>
+          <y:Fill color="#FF99CC" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="233.74609375" x="15.724828325000544" y="5.6494140625">We're in China. How do you not know that?<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n83">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[My Thoughts]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="265.1957504000011" x="1788.9502643461503" y="133.0653329809121"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="217.439453125" x="23.878148637500544" y="5.6494140625">That girl, though. I feel as if I know her...<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="ellipse"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n84">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="74.990104593502" x="1801.558034952649" y="193.0653329809121"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="59.330078125" x="7.830013234251055" y="5.6494140625">STUTTER<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n85">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="130.72958554288664" x="1826.1833467747076" y="253.0653329809121"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="38.6640625" x="46.03276152144326" y="5.6494140625">FAINT<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n86">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="149.22485892859606" x="1816.935710081853" y="373.0653329809121"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="140.037109375" x="4.593874776797975" y="5.6494140625">LOOK_AROUND_AGAIN<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n87">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="78.39571440653333" x="2092.0820689690236" y="252.19255095709156"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.0" x="19.19785720326672" y="5.6494140625">THINK<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n88">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="149.22485892859606" x="2230.319250199514" y="553.0653329809122"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="121.369140625" x="13.927859151797975" y="5.6494140625">CHAR2_WALK_LEFT<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n89">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="179.67617705723626" x="2402.2735157788247" y="463.0653329809122"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="174.701171875" x="2.4875025911183" y="5.6494140625">CHAR2_ENTER_FORCEFIELD<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n90">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="179.67617705723626" x="2402.2735157788247" y="428.0653329809122"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="70.01171875" x="54.8322291536183" y="5.6494140625">DISSMISED<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n91">
+      <data key="d5"><![CDATA[Me]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="90.0" x="1595.2110053270706" y="283.06533298091216"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="77.6640625" x="6.16796875" y="5.6494140625">I don't know...<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n92">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[Me]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="144.2138859994193" x="3480.6760287144825" y="163.0653329809121"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="132.07421875" x="6.069833624709645" y="5.6494140625">So is there anyway out?<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n93">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="107.0826054474361" x="6730.493874002906" y="163.06533298091213"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="102.02734375" x="2.5276308487182177" y="5.6494140625">START_LEAVING<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n94">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="107.0826054474361" x="6994.415972651384" y="163.06533298091213"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="95.365234375" x="5.858685536218218" y="5.6494140625">STOP_LEAVING<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n95">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="45.85625959469405" x="1751.022134548803" y="13.065332980912103"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="40.0" x="2.928129797347083" y="5.6494140625">THINK<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n96">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="149.22485892859606" x="2056.6674967079925" y="373.0653329809121"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="102.68359375" x="23.270632589298202" y="5.6494140625">ENTER_GUARDS<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n97">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[Me]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="78.39571440653322" x="2092.082068969024" y="433.06533298091216"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="64.0234375" x="7.186138453266722" y="-1.701171875">Uhh...
+Hey guys...<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n98">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="171.9753553962115" x="1890.1067135728124" y="433.0653329809122"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="166.017578125" x="2.978888635605699" y="5.6494140625">GUARDS_MOVE_FORWARD<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="rectangle"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n99">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[My Thoughts]]></data>
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="149.22485892859595" x="1901.4819618066201" y="493.06533298091216"/>
+          <y:Fill color="#FFCC00" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="87.37890625" x="30.922976339297975" y="5.649414062500057">Not this again...<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:Shape type="ellipse"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n100">
+      <data key="d6">
+        <y:ShapeNode>
+          <y:Geometry height="30.0" width="90.00000000000011" x="1931.094391270918" y="553.0653329809122"/>
+          <y:Fill color="#99CCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="80.0078125" x="4.99609375" y="5.6494140625">FORCEFIELD<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1654,16 +1973,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e7" source="n11" target="n19">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e8" source="n12" target="n11">
+    <edge id="e7" source="n12" target="n11">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-91.34666055372054" ty="4.308259692530584">
@@ -1675,7 +1985,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e9" source="n13" target="n14">
+    <edge id="e8" source="n13" target="n14">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1684,7 +1994,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e10" source="n14" target="n16">
+    <edge id="e9" source="n14" target="n16">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1693,7 +2003,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e11" source="n14" target="n15">
+    <edge id="e10" source="n14" target="n15">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1702,7 +2012,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e12" source="n15" target="n11">
+    <edge id="e11" source="n15" target="n11">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1711,7 +2021,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e13" source="n16" target="n17">
+    <edge id="e12" source="n16" target="n17">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1720,7 +2030,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e14" source="n17" target="n18">
+    <edge id="e13" source="n27" target="n31">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1729,109 +2039,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e15" source="n18" target="n15">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e16" source="n19" target="n20">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e17" source="n20" target="n21">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e18" source="n21" target="n22">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e19" source="n22" target="n23">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e20" source="n23" target="n24">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e21" source="n24" target="n25">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e22" source="n25" target="n26">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e23" source="n26" target="n27">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e24" source="n27" target="n28">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="2426.4756765722914" y="448.0653329809122"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e25" source="n28" target="n32">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e26" source="n29" target="n30">
+    <edge id="e14" source="n28" target="n29">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-15.0" tx="0.0" ty="0.0"/>
@@ -1841,7 +2049,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e27" source="n30" target="n31">
+    <edge id="e15" source="n29" target="n30">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1850,7 +2058,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e28" source="n31" target="n33">
+    <edge id="e16" source="n30" target="n32">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1859,7 +2067,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e29" source="n32" target="n29">
+    <edge id="e17" source="n31" target="n28">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1868,7 +2076,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e30" source="n33" target="n34">
+    <edge id="e18" source="n32" target="n33">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1877,7 +2085,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e31" source="n34" target="n35">
+    <edge id="e19" source="n33" target="n34">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="15.0"/>
@@ -1887,7 +2095,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e32" source="n35" target="n36">
+    <edge id="e20" source="n34" target="n35">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1896,7 +2104,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e33" source="n35" target="n37">
+    <edge id="e21" source="n34" target="n36">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1905,7 +2113,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e34" source="n39" target="n41">
+    <edge id="e22" source="n38" target="n40">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1914,7 +2122,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e35" source="n40" target="n43">
+    <edge id="e23" source="n39" target="n41">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1923,26 +2131,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e36" source="n41" target="n42">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e37" source="n42" target="n40">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="9.267093233125706" ty="-3.8518543997889765"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e38" source="n43" target="n44">
+    <edge id="e24" source="n41" target="n42">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1954,7 +2143,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e39" source="n43" target="n45">
+    <edge id="e25" source="n41" target="n43">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1966,7 +2155,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e40" source="n44" target="n47">
+    <edge id="e26" source="n42" target="n45">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1975,7 +2164,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e41" source="n45" target="n46">
+    <edge id="e27" source="n43" target="n44">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-15.0"/>
@@ -1985,7 +2174,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e42" source="n46" target="n50">
+    <edge id="e28" source="n44" target="n48">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1997,7 +2186,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e43" source="n47" target="n48">
+    <edge id="e29" source="n45" target="n46">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="91.95935860129248" sy="0.0" tx="-85.63851659870761" ty="0.0"/>
@@ -2007,7 +2196,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e44" source="n48" target="n49">
+    <edge id="e30" source="n46" target="n47">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="58.79893759999959" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2017,7 +2206,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e45" source="n49" target="n50">
+    <edge id="e31" source="n47" target="n48">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2029,7 +2218,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e46" source="n50" target="n51">
+    <edge id="e32" source="n48" target="n49">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2038,7 +2227,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e47" source="n51" target="n52">
+    <edge id="e33" source="n49" target="n50">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2050,7 +2239,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e48" source="n51" target="n53">
+    <edge id="e34" source="n49" target="n51">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-84.20483225949283" ty="0.0">
@@ -2062,7 +2251,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e49" source="n52" target="n54">
+    <edge id="e35" source="n50" target="n52">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="-105.49545907025367" ty="0.0"/>
@@ -2071,7 +2260,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e50" source="n53" target="n54">
+    <edge id="e36" source="n51" target="n52">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="126.78608588101451" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2081,7 +2270,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e51" source="n54" target="n55">
+    <edge id="e37" source="n52" target="n53">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-14.999999999999972">
@@ -2094,7 +2283,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e52" source="n55" target="n58">
+    <edge id="e38" source="n53" target="n56">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2103,7 +2292,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e53" source="n55" target="n56">
+    <edge id="e39" source="n53" target="n54">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2115,7 +2304,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e54" source="n55" target="n57">
+    <edge id="e40" source="n53" target="n55">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2127,7 +2316,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e55" source="n56" target="n59">
+    <edge id="e41" source="n54" target="n57">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2136,7 +2325,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e56" source="n57" target="n61">
+    <edge id="e42" source="n55" target="n59">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2145,7 +2334,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e57" source="n58" target="n66">
+    <edge id="e43" source="n57" target="n58">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2154,7 +2343,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e58" source="n59" target="n60">
+    <edge id="e44" source="n58" target="n60">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2163,7 +2352,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e59" source="n60" target="n62">
+    <edge id="e45" source="n59" target="n61">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2172,16 +2361,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e60" source="n61" target="n63">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e61" source="n62" target="n65">
+    <edge id="e46" source="n60" target="n63">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2193,7 +2373,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e62" source="n63" target="n64">
+    <edge id="e47" source="n61" target="n62">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2202,7 +2382,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e63" source="n64" target="n65">
+    <edge id="e48" source="n62" target="n63">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2214,7 +2394,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e64" source="n65" target="n67">
+    <edge id="e49" source="n63" target="n65">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2223,11 +2403,10 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e65" source="n66" target="n56">
+    <edge id="e50" source="n64" target="n54">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="5900.111081649822" y="215.56533298091207"/>
+          <y:Path sx="0.0" sy="-22.50000000000003" tx="0.0" ty="0.0">
             <y:Point x="5583.730793344089" y="215.56533298091207"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
@@ -2236,7 +2415,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e66" source="n66" target="n57">
+    <edge id="e51" source="n64" target="n55">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2249,7 +2428,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e67" source="n67" target="n69">
+    <edge id="e52" source="n65" target="n67">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2258,7 +2437,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e68" source="n68" target="n70">
+    <edge id="e53" source="n68" target="n69">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2267,7 +2446,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e69" source="n69" target="n68">
+    <edge id="e54" source="n69" target="n70">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2276,7 +2455,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e70" source="n70" target="n71">
+    <edge id="e55" source="n70" target="n71">
       <data key="d10">
         <y:BezierEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2285,25 +2464,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:BezierEdge>
       </data>
     </edge>
-    <edge id="e71" source="n71" target="n72">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e72" source="n72" target="n73">
-      <data key="d10">
-        <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-        </y:BezierEdge>
-      </data>
-    </edge>
-    <edge id="e73" source="n36" target="n38">
+    <edge id="e56" source="n35" target="n37">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-21.917895237584162" ty="0.0"/>
@@ -2313,7 +2474,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e74" source="n38" target="n40">
+    <edge id="e57" source="n37" target="n39">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2327,7 +2488,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e75" source="n38" target="n39">
+    <edge id="e58" source="n37" target="n38">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-108.97561686251765" ty="0.0"/>
@@ -2337,7 +2498,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e76" source="n37" target="n74">
+    <edge id="e59" source="n36" target="n72">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2347,7 +2508,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e77" source="n74" target="n40">
+    <edge id="e60" source="n72" target="n39">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="22.67036746731037" ty="0.0"/>
@@ -2357,7 +2518,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e78" source="n74" target="n39">
+    <edge id="e61" source="n72" target="n38">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2370,7 +2531,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e79" source="n73" target="n76">
+    <edge id="e62" source="n71" target="n74">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2380,7 +2541,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e80" source="n0" target="n75">
+    <edge id="e63" source="n0" target="n73">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2390,7 +2551,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e81" source="n75" target="n1">
+    <edge id="e64" source="n73" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2400,7 +2561,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e82" source="n1" target="n77">
+    <edge id="e65" source="n1" target="n75">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2410,7 +2571,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e83" source="n77" target="n2">
+    <edge id="e66" source="n75" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2420,7 +2581,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e84" source="n3" target="n79">
+    <edge id="e67" source="n3" target="n77">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2433,7 +2594,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e85" source="n79" target="n4">
+    <edge id="e68" source="n77" target="n4">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2443,7 +2604,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e86" source="n2" target="n80">
+    <edge id="e69" source="n2" target="n78">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2453,7 +2614,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e87" source="n80" target="n78">
+    <edge id="e70" source="n78" target="n76">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2463,7 +2624,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e88" source="n78" target="n3">
+    <edge id="e71" source="n76" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2475,8 +2636,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e89" source="n81" target="n5">
-      <data key="d9"/>
+    <edge id="e72" source="n79" target="n5">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2486,8 +2646,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e90" source="n4" target="n81">
-      <data key="d9"/>
+    <edge id="e73" source="n4" target="n79">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2497,8 +2656,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e91" source="n5" target="n82">
-      <data key="d9"/>
+    <edge id="e74" source="n5" target="n80">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2508,13 +2666,402 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e92" source="n82" target="n6">
-      <data key="d9"/>
+    <edge id="e75" source="n80" target="n6">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="685.6433008861295" y="238.06533298091216"/>
           </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e76" source="n11" target="n81">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e77" source="n81" target="n18">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="-5.867378376808574" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e78" source="n18" target="n82">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="-48.42286904546518" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e79" source="n19" target="n83">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1921.5481395461507" y="118.0653329809121"/>
+            <y:Point x="1921.5481395461509" y="118.0653329809121"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e80" source="n84" target="n20">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e81" source="n20" target="n85">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="30.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e82" source="n85" target="n21">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e83" source="n21" target="n86">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e84" source="n86" target="n22">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="-107.08365617109348" ty="0.5599900328121521">
+            <y:Point x="2024.1962700011968" y="388.0653329809121"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e85" source="n22" target="n87">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e86" source="n87" target="n23">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e87" source="n25" target="n89">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="2492.111604307443" y="508.0653329809122"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e88" source="n89" target="n26">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="2333.075658575558" y="478.0653329809122"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e89" source="n26" target="n90">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="5.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e90" source="n90" target="n27">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="65.63592773515165" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e91" source="n17" target="n91">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e92" source="n91" target="n11">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="82.17867009590964" ty="2.315881762330946">
+            <y:Point x="1413.335308842058" y="298.06533298091216"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e93" source="n40" target="n92">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e94" source="n92" target="n41">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="3749.667225180922" y="178.0653329809121"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e95" source="n56" target="n64">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="-99.2652085658292" ty="14.999999999999972"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e96" source="n67" target="n93">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e97" source="n93" target="n66">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="6944.607520727701" y="178.06533298091213"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e98" source="n66" target="n94">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="7047.957275375103" y="238.06533298091213"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e99" source="n94" target="n68">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="7198.946561391436" y="178.06533298091213"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e100" source="n82" target="n95">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1626.3523891461496" y="28.065332980912103"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e101" source="n95" target="n19">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1921.5481395461507" y="28.065332980912103"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e102" source="n83" target="n84">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1921.5481395461509" y="178.0653329809121"/>
+            <y:Point x="1839.0530872494" y="178.0653329809121"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e103" source="n23" target="n96">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="2131.2799261722903" y="357.19255095709156"/>
+            <y:Point x="2131.2799261722907" y="357.19255095709156"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e104" source="n96" target="n97">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e105" source="n97" target="n98">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="77.59276745068655" ty="-5.6843418860808015E-14"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e106" source="n98" target="n99">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e107" source="n99" target="n100">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e108" source="n100" target="n24">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e109" source="n24" target="n88">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e110" source="n88" target="n25">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="65.25603908498806" ty="12.498959632866445"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

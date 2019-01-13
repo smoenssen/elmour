@@ -259,11 +259,13 @@ public class EntityConfig {
         private AnimationType animationType;
         private Array<String> texturePaths;
         private Array<GridPoint2> gridPoints;
+        private boolean looping;
 
         public AnimationConfig(){
             animationType = AnimationType.IDLE;
             texturePaths = new Array<String>();
             gridPoints = new Array<GridPoint2>();
+            looping = true;
         }
 
         public float getFrameDuration() {

@@ -31,12 +31,6 @@ monsters: [
 	{
 		value: Steve
 	}
-	{
-		value: Steve2
-	}
-	{
-		value: Steve3
-	}
 ]
 },
 ]

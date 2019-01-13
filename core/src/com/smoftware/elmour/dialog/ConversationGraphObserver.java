@@ -20,6 +20,13 @@ public interface ConversationGraphObserver {
         CHASE_SEQUENCE,
         GUARDS_SURROUND,
         GUARDS_STOP,
+        LOOK_AROUND_ELMOUR,
+        THINK,
+        STUTTER,
+        FAINT,
+        LOOK_AROUND_AGAIN,
+        ENTER_GUARDS,
+        GUARDS_MOVE_FORWARD,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,

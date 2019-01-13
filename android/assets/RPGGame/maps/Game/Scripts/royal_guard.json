@@ -10,11 +10,11 @@ itemTypeID: NONE
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 90
+		value: 9
 	}
 	HP_MAX: {
 		class: java.lang.String
-		value: 90
+		value: 9
 	}
 	ATK: {
 		class: java.lang.String
@@ -34,7 +34,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 1
+		value: 15
 	}
 	ACC: {
 		class: java.lang.String
