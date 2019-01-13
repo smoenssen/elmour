@@ -8,17 +8,5 @@ If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 If battle bursts pop out 2 times in a row too fast the second disappears
 Battle won stats don't become untouchable in next battle
-
-jaxon_1.json refers to Jaxon_1 folder
-equipment.json has 2 LEGGINGS1
-dagger hit animation should be removed
-Ben
----------------
-inventory.json and equipment.json
-EVO->AVO
-
-KICK power has no ACC
-frame width and height wrong for CRIT, MISS, WEAK in json
-add element id to all spells and powers in json
-
-BLOCK_RIGHT in hit.json crashes
+See if carriage return can be used in the stupid cut CutSceneScreen2
+See why only 2 lines are showing up in sign posts. Also, carriage return causes empty line.

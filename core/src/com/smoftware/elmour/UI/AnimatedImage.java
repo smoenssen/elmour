@@ -7,13 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Scaling;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
 
 public class AnimatedImage extends Image {
     private static final String TAG = AnimatedImage.class.getSimpleName();
     private float _frameTime = 0;
+    private boolean isLooping = true;
     protected Entity _entity;
     private Entity.AnimationType _currentAnimationType = Entity.AnimationType.IDLE;
     Entity.Direction currentDirection = Entity.Direction.DOWN;
@@ -64,6 +67,26 @@ public class AnimatedImage extends Image {
                 return;
             }
 
+            // reset frame time so animation starts from first frame
+            _frameTime = 0;
+
+            // check if this animation is looping or not
+            Array<EntityConfig.AnimationConfig> animationConfigs = _entity.getEntityConfig().getAnimationConfig();
+
+            Gdx.app.debug(TAG, "Animation type " + animationType.toString());
+            if (animationType.equals(Entity.AnimationType.THINK)) {
+                int x;
+                x=0;
+            }
+
+            for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
+                if (animationConfig.getAnimationType().equals(animationType)) {
+                    isLooping = animationConfig.getLooping();
+                    Gdx.app.log(TAG, "setting isLooping to " + isLooping + " for animation type " + animationType.toString());
+                    break;
+                }
+            }
+
             this._currentAnimationType = animationType;
         }
     }
@@ -75,11 +98,19 @@ public class AnimatedImage extends Image {
             //Gdx.app.debug(TAG, "Drawable is NULL!");
             return;
         }
-        _frameTime = (_frameTime + delta)%5;
+
+        if (!isLooping) {
+            _frameTime = (_frameTime + delta);
+        }
+        else {
+            _frameTime = (_frameTime + delta) % 5;
+        }
+
+        _entity.getAnimation(_currentAnimationType).setPlayMode(Animation.PlayMode.NORMAL);
 
         if (_currentAnimationType != Entity.AnimationType.IDLE) {
             if (_entity != null) {
-                TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, true);
+                TextureRegion region = _entity.getAnimation(_currentAnimationType).getKeyFrame(_frameTime, isLooping);
                 ((TextureRegionDrawable) drawable).setRegion(region);
             }
         }

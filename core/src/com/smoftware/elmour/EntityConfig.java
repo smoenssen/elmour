@@ -288,9 +288,7 @@ public class EntityConfig {
             return texturePaths;
         }
 
-        public void setTexturePaths(Array<String> texturePaths) {
-            this.texturePaths = texturePaths;
-        }
+        public void setTexturePaths(Array<String> texturePaths) { this.texturePaths = texturePaths; }
 
         public Array<GridPoint2> getGridPoints() {
             return gridPoints;
@@ -304,9 +302,9 @@ public class EntityConfig {
             return animationType;
         }
 
-        public void setAnimationType(AnimationType animationType) {
-            this.animationType = animationType;
-        }
+        public void setAnimationType(AnimationType animationType) { this.animationType = animationType; }
+
+        public boolean getLooping() { return looping; }
     }
 
 }
