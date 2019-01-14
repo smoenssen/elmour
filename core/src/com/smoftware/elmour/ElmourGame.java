@@ -135,10 +135,10 @@ public class ElmourGame extends Game {
 		cutSceneChapter1 = new CutSceneChapter1(this);
 
 		Utility.parseConversationXMLFiles("n21");
-		setScreen(cutSceneChapter1);
+		//setScreen(cutSceneChapter1);
 		//setScreen(cutSceneScreenChapter2);
 
-		//setScreen(splashScreen);
+		setScreen(splashScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

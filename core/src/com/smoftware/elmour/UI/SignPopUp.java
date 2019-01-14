@@ -2,8 +2,10 @@ package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.Utility;
 
@@ -32,6 +34,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
     private boolean interactReceived = false;
     private boolean isReady = false;
     private long setVisibleDelay = 0;
+    private int lineHeight;
 
     public SignPopUp() {
         //Notes:
@@ -43,6 +46,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
         observers = new Array<SignPopUpObserver>();
         signPostArray = new Array<>();
         currentSignPost = new SignPost();
+        lineHeight = 37;
     }
 
     public boolean isVisible() { return state != State.HIDDEN; }
@@ -146,6 +150,8 @@ public class SignPopUp extends Window implements SignPopUpSubject{
             fullText = file.readString();
             Gdx.app.log(TAG, "file text = " + fullText);
 
+            fullText = fullText.replace("\r\n", "\n");
+
             if (fullText.contains(";")) {
                 // need to parse out delay time from beginning of file
                 String[] sa = fullText.split(";");
@@ -169,7 +175,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
 
                 isReady = false;
                 state = State.LISTENING;
-                setVisible(true);
+                int numLinesToDisplay = 2;
 
                 if (currentSignPost.lineStrings == null || currentSignPost.lineStrings.size == 0) {
                     // set full text so that the total number of lines can be figured out
@@ -192,6 +198,11 @@ public class SignPopUp extends Window implements SignPopUpSubject{
 
                     Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 
+                    int maxLines = 8;
+                    setHeight(MathUtils.clamp(lineHeight * numLines, 2.2f * lineHeight, maxLines * lineHeight));
+                    numLinesToDisplay = MathUtils.clamp(numLines, 2, maxLines);
+                    setVisible(true);
+
                     currentSignPost.lineStrings = textArea.getLineStrings();
                     //Gdx.app.log(TAG, String.format("textArea.getLineStrings() returned %d strings", currentSignPost.lineStrings.size));
 
@@ -207,7 +218,6 @@ public class SignPopUp extends Window implements SignPopUpSubject{
                     int len = line.length();
                     Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
 
-                    // display line char by char for next two lines
                     String currentTextBeforeNextLine = currentVisibleText;
                     for (int i = 0; i < line.length(); i++) {
 
@@ -215,12 +225,22 @@ public class SignPopUp extends Window implements SignPopUpSubject{
                             Gdx.app.log(TAG, "interactReceived || delay == false");
                             interactReceived = false;
                             delay = false;
+                            if (currentTextBeforeNextLine.length() > 1 && currentTextBeforeNextLine.charAt(currentTextBeforeNextLine.length() - 1) == '\n') {
+                                // chop off last \n
+                                // this is to take care of issue where if there is a \n at end of line and
+                                // an interaction is received, then a double \n was occurring.
+                                currentTextBeforeNextLine = currentTextBeforeNextLine.substring( 0, currentTextBeforeNextLine.length() - 2);
+                            }
                             currentVisibleText = currentTextBeforeNextLine + line;
                             setTextForUIThread(currentVisibleText, true);
                             break;
                         }
                         else {
                             currentChar = line.charAt(i);
+                            if (currentChar == '\n') {
+                                continue;
+                            }
+
                             //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
 
                             currentVisibleText += currentChar;
@@ -248,7 +268,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
                         // go into listening mode
                         state = State.LISTENING;
 
-                    if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == currentSignPost.lineStrings.size - 1) {
+                    if ((lineIdx != 0 && (lineIdx + 1) % numLinesToDisplay == 0) || lineIdx == currentSignPost.lineStrings.size - 1) {
                         // done populating current box so need to pause for next interaction
                         while (!interactReceived && state == State.LISTENING) {
                             try {
