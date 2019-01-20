@@ -232,13 +232,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         signPopUp = new SignPopUp();
         if (ElmourGame.isAndroid()) {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
-            // height is set dynamically in SignPopUp
-            //signPopUp.setHeight(_stage.getHeight() / 3.1f);
+            signPopUp.setHeight(80);
         }
         else {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
-            // height is set dynamically in SignPopUp
-            //signPopUp.setHeight(_stage.getHeight() / 4f);
+            signPopUp.setHeight(84);
         }
         signPopUp.setPosition(_stage.getWidth() / 2 - signPopUp.getWidth() / 2, 25);
 
@@ -251,7 +249,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
         else {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
-            conversationPopUp.setHeight(80);
+            conversationPopUp.setHeight(84);
         }
         conversationPopUp.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, 12);
         conversationPopUp.setVisible(false);
@@ -1655,7 +1653,9 @@ public class PlayerHUD implements Screen, AudioSubject,
             if (numVisibleChoices == 0 && conversationPopUp.isListening() && Utility.pointInRectangle(popupRect, touchPoint.x, touchPoint.y))
             {
                 conversationPopUp.interact(false);
-                doConversation();
+
+                if (conversationPopUp.isDoneWithCurrentNode())
+                    doConversation();
             }
         }
         else if (isDelayedPopUp) {

@@ -404,7 +404,8 @@ public final class Utility {
 				else if (key.equals("d6")) {
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
-					node.data = label.getText().replace('\n', ' ').replace("  ", " ");
+					//node.data = label.getText().replace('\n', ' ').replace("  ", " ");
+					node.data = label.getText();
 
 					// type
 					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");

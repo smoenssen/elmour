@@ -275,6 +275,7 @@ public class MyTextArea extends MyTextField {
             }
             catch (StringIndexOutOfBoundsException e){
                 Gdx.app.error("MyTextArea", "StringIndexOutOfBoundsException EXCEPTION CAUGHT!!!");
+                Gdx.app.error("MyTextArea", "displayText = \"" + displayText + "\", length = " + displayText.length());
                 e.printStackTrace();
             }
         }
