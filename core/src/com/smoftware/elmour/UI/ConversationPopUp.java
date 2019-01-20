@@ -1,9 +1,11 @@
 package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.dialog.Conversation;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  * Created by steve on 12/8/17.
  */
 
-public class ConversationPopUp extends Window {
+public class ConversationPopUp extends Window implements SignPopUpSubject{
 	private static final String TAG = ConversationPopUp.class.getSimpleName();
 
 	private enum State {HIDDEN, LISTENING}
@@ -29,6 +31,7 @@ public class ConversationPopUp extends Window {
 		public Array<String> lineStrings;
 	}
 
+	private Array<SignPopUpObserver> observers;
 	private ConversationGraph graph;
 	private String currentEntityID;
 	private Json json;
@@ -45,6 +48,8 @@ public class ConversationPopUp extends Window {
 	private boolean isEcho = false;
 	private boolean conversationIsActive = false;
 	private boolean doneWithCurrentNode = true;
+	private long setVisibleDelay = 0;
+	private boolean isSignPopUp = false;
 
 	public ConversationPopUp() {
 		//Notes:
@@ -56,8 +61,32 @@ public class ConversationPopUp extends Window {
 		dialog = new Dialog();
 
 		json = new Json();
-		graph = new ConversationGraph();
+		observers = new Array<SignPopUpObserver>();
 		hide();
+	}
+
+	@Override
+	public void addObserver(SignPopUpObserver popUpObserver) {
+		observers.add(popUpObserver);
+	}
+
+	@Override
+	public void removeObserver(SignPopUpObserver popUpObserver) {
+		observers.removeValue(popUpObserver, true);
+	}
+
+	@Override
+	public void removeAllObservers() {
+		for(SignPopUpObserver observer: observers){
+			observers.removeValue(observer, true);
+		}
+	}
+
+	@Override
+	public void notify(int value, SignPopUpObserver.SignPopUpEvent event) {
+		for(SignPopUpObserver observer: observers){
+			observer.onNotify(value, event);
+		}
 	}
 
 	public boolean isVisible() { return state != State.HIDDEN; }
@@ -159,6 +188,7 @@ public class ConversationPopUp extends Window {
 		String fullFilenamePath = entityConfig.getConversationConfigPath();
 		currentEntityID = entityConfig.getEntityID();
 		loadConversationFromJson(fullFilenamePath);
+		isSignPopUp = false;
 	}
 
 	public void loadConversationFromJson(String jsonFilePath) {
@@ -171,6 +201,7 @@ public class ConversationPopUp extends Window {
 
 		ConversationGraph graph = json.fromJson(ConversationGraph.class, Gdx.files.internal(jsonFilePath));
 		setConversationGraph(graph);
+		isSignPopUp = false;
 	}
 
 	public void setConversationGraph(ConversationGraph graph){
@@ -242,6 +273,30 @@ public class ConversationPopUp extends Window {
 		currentCharacter = character;
 	}
 
+	public void setTextForSignInteraction(final Entity.Interaction interaction) {
+		FileHandle file = Gdx.files.internal("RPGGame/maps/Game/Text/Signs/" + interaction.toString() + ".txt");
+		fullText = file.readString();
+		Gdx.app.log(TAG, "file text = " + fullText);
+
+		if (fullText.contains(";")) {
+			// need to parse out delay time from beginning of file
+			String[] sa = fullText.split(";");
+			setVisibleDelay = Integer.parseInt(sa[0]);
+			fullText = sa[1];
+		}
+		else {
+			setVisibleDelay = 0;
+		}
+
+		// Replace new line characters with spaces to fix issue with yEd formatting.
+		// Instead, ¶ is being used to indicate actual new lines.
+		fullText = fullText.replace('\n', ' ');
+
+		// Split the fulltext into the separate sections to display
+		fullTextSections = fullText.split("§");
+		isSignPopUp = true;
+	}
+
 	public void endConversation() {
 		conversationIsActive = false;
 	}
@@ -250,6 +305,8 @@ public class ConversationPopUp extends Window {
 		Runnable r = new Runnable() {
 			public void run() {
 				Gdx.app.log(TAG, "Starting InteractionThread...");
+
+				try { Thread.sleep(setVisibleDelay); } catch (InterruptedException e) { e.printStackTrace(); }
 
 				while (conversationIsActive) {
 					int sectionsProcessed = 0;
@@ -272,8 +329,11 @@ public class ConversationPopUp extends Window {
 							// set full text so that the total number of lines can be figured out
 							// send false so that text isn't displayed
 
-							// replace ¶ chars with \n so number of lines is figured out correctly
+							// remove "\r\n" and "\n" line returns
+							// then replace "¶" with "\n" so number of lines is figured out correctly
 							// later they will be removed if necessary while text is being processed
+							currFullText = currFullText.replace("\r\n", "");
+							currFullText = currFullText.replace("\r", "");
 							currFullText = currFullText.replace("¶", "\n");
 
 							Gdx.app.log(TAG, "setting text for UI thread = " + currFullText);
@@ -302,7 +362,9 @@ public class ConversationPopUp extends Window {
 
 						boolean delay = true;
 
-						graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
+						if (!isSignPopUp) {
+							graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
+						}
 
 						// loop through lines
 						for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
@@ -370,7 +432,7 @@ public class ConversationPopUp extends Window {
 
 							// show choices now if this is the last line of the dialog
 							//todo: get character name
-							if (currentCharacter != "Me" && lineIdx == dialog.lineStrings.size - 1) {
+							if (!isSignPopUp && currentCharacter != "Me" && lineIdx == dialog.lineStrings.size - 1) {
 								Gdx.app.log(TAG, "SHOWING CHOICES:");
 								ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
 								if (choices != null) {
@@ -421,6 +483,10 @@ public class ConversationPopUp extends Window {
 							pause(100);
 						}
 
+						if (doneWithCurrentNode && graph == null) {
+							conversationIsActive = false;
+						}
+
 						// total reset
 						currentText = "";
 						displayText = false;
@@ -435,10 +501,10 @@ public class ConversationPopUp extends Window {
 							}
 						});
 					}
-
 				}
 
 				Gdx.app.log(TAG, "Exiting InteractionThread");
+				ConversationPopUp.this.notify(0, SignPopUpObserver.SignPopUpEvent.INTERACTION_THREAD_EXIT);
 				hide();
 			}
 		};

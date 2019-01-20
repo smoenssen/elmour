@@ -78,7 +78,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     //private BattleUI _battleUI;
-    private SignPopUp signPopUp;
+    //private SignPopUp signPopUp;
+    private ConversationPopUp signPopUp;
 
     private boolean battleScreenTransitionTriggered = false;
     private boolean playerComingFromBattle = false;
@@ -229,7 +230,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         //_battleUI.clearListeners();
         //_battleUI.setVisible(false);
 
-        signPopUp = new SignPopUp();
+        signPopUp = new ConversationPopUp();
         if (ElmourGame.isAndroid()) {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
             signPopUp.setHeight(80);
@@ -1077,17 +1078,17 @@ public class PlayerHUD implements Screen, AudioSubject,
             case DID_INITIAL_INTERACTION:
                 Entity.Interaction interaction = _json.fromJson(Entity.Interaction.class, value);
                 if (isSignPostInteraction(interaction)) {
-                    signPopUp.setTextForInteraction(interaction);
+                    signPopUp.setTextForSignInteraction(interaction);
                 }
 
                 if (isSwitchInteraction(interaction)) {
-                    signPopUp.setTextForInteraction(interaction);
+                    signPopUp.setTextForSignInteraction(interaction);
                     isCurrentConversationDone = false;  // this starts the "conversation" and is necessary to prevent player from moving
                 }
 
                 break;
             case DID_INTERACTION:
-                signPopUp.interact();
+                signPopUp.interact(false);
                 break;
             case FINISHED_INTERACTION:
                 signPopUp.hide();
@@ -1887,6 +1888,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             case INTERACTION_THREAD_EXIT:
                 // this is necessary to allow player to move again
                 isCurrentConversationDone = true;
+                signPopUp.hide();
                 break;
         }
     }
