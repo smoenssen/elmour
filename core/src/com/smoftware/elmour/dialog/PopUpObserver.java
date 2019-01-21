@@ -1,9 +1,9 @@
-package com.smoftware.elmour.UI;
+package com.smoftware.elmour.dialog;
 
-public interface SignPopUpObserver {
-    public static enum SignPopUpEvent {
+public interface PopUpObserver {
+    public static enum PopUpEvent {
         INTERACTION_THREAD_EXIT
     }
 
-    void onNotify(final int value, SignPopUpEvent event);
+    void onNotify(final int value, PopUpEvent event);
 }

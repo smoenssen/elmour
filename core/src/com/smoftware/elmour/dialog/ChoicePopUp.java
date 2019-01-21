@@ -1,4 +1,4 @@
-package com.smoftware.elmour.UI;
+package com.smoftware.elmour.dialog;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
@@ -6,10 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.smoftware.elmour.UI.MyTextArea;
 import com.smoftware.elmour.Utility;
-import com.smoftware.elmour.dialog.ConversationChoice;
-import com.smoftware.elmour.dialog.ConversationGraph;
-import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**
@@ -38,7 +36,7 @@ public class ChoicePopUp extends Window {
         localPos = new Vector2();
 
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
-        textArea.disabled = true;
+        textArea.setDisabled(true);
         textArea.layout();
 
         //layout

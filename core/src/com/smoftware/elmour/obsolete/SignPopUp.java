@@ -1,19 +1,20 @@
-package com.smoftware.elmour.UI;
+package com.smoftware.elmour.obsolete;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.UI.MyTextArea;
+import com.smoftware.elmour.dialog.PopUpObserver;
+import com.smoftware.elmour.dialog.PopUpSubject;
 import com.smoftware.elmour.Utility;
 
 /**
  * Created by steve on 9/16/17.
  */
 
-public class SignPopUp extends Window implements SignPopUpSubject{
+public class SignPopUp extends Window implements PopUpSubject {
     private static final String TAG = SignPopUp.class.getSimpleName();
 
     private enum State {HIDDEN, LISTENING}
@@ -23,7 +24,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
         public Array<String> lineStrings;
     }
 
-    private Array<SignPopUpObserver> observers;
+    private Array<PopUpObserver> observers;
     private Array<SignPost> signPostArray;
     private SignPost currentSignPost;
     private String fullText;
@@ -42,7 +43,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
         //textArea is created in hide() function so that it is recreated each time it is shown (hack to get around issues)
         super("", Utility.ELMOUR_UI_SKIN, "default");
 
-        observers = new Array<SignPopUpObserver>();
+        observers = new Array<PopUpObserver>();
         signPostArray = new Array<>();
         currentSignPost = new SignPost();
     }
@@ -52,25 +53,25 @@ public class SignPopUp extends Window implements SignPopUpSubject{
     public boolean isReady() { return isReady; }
 
     @Override
-    public void addObserver(SignPopUpObserver popUpObserver) {
+    public void addObserver(PopUpObserver popUpObserver) {
         observers.add(popUpObserver);
     }
 
     @Override
-    public void removeObserver(SignPopUpObserver popUpObserver) {
+    public void removeObserver(PopUpObserver popUpObserver) {
         observers.removeValue(popUpObserver, true);
     }
 
     @Override
     public void removeAllObservers() {
-        for(SignPopUpObserver observer: observers){
+        for(PopUpObserver observer: observers){
             observers.removeValue(observer, true);
         }
     }
 
     @Override
-    public void notify(int value, SignPopUpObserver.SignPopUpEvent event) {
-        for(SignPopUpObserver observer: observers){
+    public void notify(int value, PopUpObserver.PopUpEvent event) {
+        for(PopUpObserver observer: observers){
             observer.onNotify(value, event);
         }
     }
@@ -96,7 +97,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
     public void hide() {
         this.reset();
         textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
-        textArea.disabled = true;
+        textArea.setDisabled(true);
         textArea.layout();
         fullText = "";
 
@@ -304,7 +305,7 @@ public class SignPopUp extends Window implements SignPopUpSubject{
                 displayText = false;
                 interactReceived = false;
                 Gdx.app.log(TAG, "Exiting InteractionThread");
-                SignPopUp.this.notify(0, SignPopUpObserver.SignPopUpEvent.INTERACTION_THREAD_EXIT);
+                SignPopUp.this.notify(0, PopUpObserver.PopUpEvent.INTERACTION_THREAD_EXIT);
             }
         };
 

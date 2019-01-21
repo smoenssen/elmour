@@ -1,8 +1,8 @@
-package com.smoftware.elmour.UI;
+package com.smoftware.elmour.dialog;
 
-public interface SignPopUpSubject {
-    public void addObserver(SignPopUpObserver popUpObserver);
-    public void removeObserver(SignPopUpObserver popUpObserver);
+public interface PopUpSubject {
+    public void addObserver(PopUpObserver popUpObserver);
+    public void removeObserver(PopUpObserver popUpObserver);
     public void removeAllObservers();
-    public void notify(final int value, SignPopUpObserver.SignPopUpEvent event);
+    public void notify(final int value, PopUpObserver.PopUpEvent event);
 }
