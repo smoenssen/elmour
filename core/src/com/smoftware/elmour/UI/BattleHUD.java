@@ -40,7 +40,7 @@ import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
 import com.smoftware.elmour.SpellPowerFactory;
-import com.smoftware.elmour.SpellsPowerElement;
+import com.smoftware.elmour.SpellPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -119,9 +119,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
 
     class SpellPowerNode extends Tree.Node {
-        SpellsPowerElement.ElementID elementID;
+        SpellPowerElement.ElementID elementID;
 
-        public SpellPowerNode(TextButton textButton, SpellsPowerElement.ElementID elementID) {
+        public SpellPowerNode(TextButton textButton, SpellPowerElement.ElementID elementID) {
             super(textButton);
             this.elementID = elementID;
         }
@@ -229,10 +229,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Tree spellPowerTree;
     private ScrollPane spellPowerScrollPaneTree;
 
-    //private List<String> spellsPowerListView;
+    //private List<String> spellPowerListView;
     //private ScrollPane middleScrollPaneList;
-    private ArrayList<SpellsPowerElement> spellsPowerList;
-    private SpellsPowerElement selectedSpellsPowerElement;
+    private ArrayList<SpellPowerElement> spellPowerList;
+    private SpellPowerElement selectedSpellPowerElement;
 
     // scrolling inventory tree
     private MyTextArea middleTreeTextArea;
@@ -582,10 +582,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         spellPowerTree.setIconSpacing(4, 4);
 
-        spellsPowerList = new ArrayList<>();
+        spellPowerList = new ArrayList<>();
 /*
-        spellsPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
-        middleScrollPaneList = new ScrollPane(spellsPowerListView);
+        spellPowerListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        middleScrollPaneList = new ScrollPane(spellPowerListView);
         middleScrollPaneList.setWidth(middleTreeTextArea.getWidth() - 4);
         middleScrollPaneList.setHeight(0);
         middleScrollPaneList.setTouchable(Touchable.disabled);
@@ -939,8 +939,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                     // load white spells
                                                     populateSpellPowerTree();
 
-                                                    //spellsPowerListView.setItems(strings);
-                                                    //spellsPowerListView.setSelectedIndex(-1);
+                                                    //spellPowerListView.setItems(strings);
+                                                    //spellPowerListView.setSelectedIndex(-1);
                                                     setHUDNewState(ScreenState.SPELLS_POWER);
                                                 }
                                             }
@@ -1114,7 +1114,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                                game.battleState.applyInventoryItemToCharacter(selectedInventoryElement);
                                                                break;
                                                            case SPELLS_POWER:
-                                                               game.battleState.applySpellPowerToCharacter(selectedSpellsPowerElement);
+                                                               game.battleState.applySpellPowerToCharacter(selectedSpellPowerElement);
                                                                break;
                                                        }
                                                    }
@@ -1149,7 +1149,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        Gdx.app.log(TAG, "list clicked " + spellsPowerListView.getSelected());
+                                        Gdx.app.log(TAG, "list clicked " + spellPowerListView.getSelected());
 
                                         // don't process touchUp if switched screens
                                         ScreenState currentScreenState = ScreenState.MAIN;
@@ -1159,66 +1159,66 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                         }
 
                                         // get associated element from spells/power list based on name
-                                        SpellsPowerElement element = null;
-                                        for (SpellsPowerElement item : spellsPowerList) {
-                                            if (item.name.equals(spellsPowerListView.getSelected())) {
+                                        SpellPowerElement element = null;
+                                        for (SpellPowerElement item : spellPowerList) {
+                                            if (item.name.equals(spellPowerListView.getSelected())) {
                                                 element = item;
                                                 break;
                                             }
                                         }
 
                                         if (element != null) {
-                                            selectedSpellsPowerElement = element;
+                                            selectedSpellPowerElement = element;
 
                                             // replace asterisks in summary with a comma
-                                            String summary = selectedSpellsPowerElement.summary.replace('*', ',');
+                                            String summary = selectedSpellPowerElement.summary.replace('*', ',');
                                             leftSummaryText.setText(summary);
 
                                             middleTextAreaTable.clear();
                                             middleStatsTextArea.setText("", true);
                                             middleTextAreaTable.setVisible(true);
 
-                                            if (selectedSpellsPowerElement.MP != 0) {
+                                            if (selectedSpellPowerElement.MP != 0) {
                                                 middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
 
                                                 Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                 stat.setText("MP");
                                                 stat.setAlignment(Align.left);
                                                 Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                value.setText(String.format("%d", selectedSpellsPowerElement.MP));
+                                                value.setText(String.format("%d", selectedSpellPowerElement.MP));
                                                 value.setAlignment(Align.right);
 
                                                 middleTextAreaTable.add(stat).align(Align.left);
                                                 middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                             }
-                                            if (selectedSpellsPowerElement.DMG != 0) {
+                                            if (selectedSpellPowerElement.DMG != 0) {
                                                 middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
 
                                                 Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                 stat.setText("DMG");
                                                 stat.setAlignment(Align.left);
                                                 Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                value.setText(String.format("%d", selectedSpellsPowerElement.DMG));
+                                                value.setText(String.format("%d", selectedSpellPowerElement.DMG));
                                                 value.setAlignment(Align.right);
 
                                                 middleTextAreaTable.add(stat).align(Align.left);
                                                 middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                             }
-                                            if (selectedSpellsPowerElement.ACC != 0) {
+                                            if (selectedSpellPowerElement.ACC != 0) {
                                                 middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
 
                                                 Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                 stat.setText("ACC");
                                                 stat.setAlignment(Align.left);
                                                 Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                value.setText(String.format("%d", selectedSpellsPowerElement.ACC));
+                                                value.setText(String.format("%d", selectedSpellPowerElement.ACC));
                                                 value.setAlignment(Align.right);
 
                                                 middleTextAreaTable.add(stat).align(Align.left);
                                                 middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                             }
-                                            if (selectedSpellsPowerElement.effectList != null) {
-                                                for (SpellsPowerElement.EffectItem effect : selectedSpellsPowerElement.effectList) {
+                                            if (selectedSpellPowerElement.effectList != null) {
+                                                for (SpellPowerElement.EffectItem effect : selectedSpellPowerElement.effectList) {
                                                     middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
 
                                                     Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
@@ -1254,9 +1254,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            }
 
                                            // get associated element from spells/power list based on name
-                                           /*SpellsPowerElement element = null;
-                                           for (SpellsPowerElement item : spellsPowerList) {
-                                               if (item.name.equals(spellsPowerListView.getSelected())) {
+                                           /*SpellPowerElement element = null;
+                                           for (SpellPowerElement item : spellPowerList) {
+                                               if (item.name.equals(spellPowerListView.getSelected())) {
                                                    element = item;
                                                    break;
                                                }
@@ -1265,60 +1265,60 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                            Selection<Tree.Node> selection = spellPowerTree.getSelection();
                                            for (Tree.Node node : selection) {
                                                // get selected tree item
-                                               SpellsPowerElement element = (SpellsPowerElement) node.getObject();
+                                               SpellPowerElement element = (SpellPowerElement) node.getObject();
 
                                                if (element != null) {
-                                                   selectedSpellsPowerElement = element;
+                                                   selectedSpellPowerElement = element;
 
                                                    // replace asterisks in summary with a comma
-                                                   String summary = selectedSpellsPowerElement.summary.replace('*', ',');
+                                                   String summary = selectedSpellPowerElement.summary.replace('*', ',');
                                                    leftSummaryText.setText(summary);
 
                                                    middleTextAreaTable.clear();
                                                    middleStatsTextArea.setText("", true);
                                                    middleTextAreaTable.setVisible(true);
 
-                                                   if (selectedSpellsPowerElement.MP != 0) {
+                                                   if (selectedSpellPowerElement.MP != 0) {
                                                        middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
 
                                                        Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                        stat.setText("MP");
                                                        stat.setAlignment(Align.left);
                                                        Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                       value.setText(String.format("%d", selectedSpellsPowerElement.MP));
+                                                       value.setText(String.format("%d", selectedSpellPowerElement.MP));
                                                        value.setAlignment(Align.right);
 
                                                        middleTextAreaTable.add(stat).align(Align.left);
                                                        middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                                    }
-                                                   if (selectedSpellsPowerElement.DMG != 0) {
+                                                   if (selectedSpellPowerElement.DMG != 0) {
                                                        middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
 
                                                        Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                        stat.setText("DMG");
                                                        stat.setAlignment(Align.left);
                                                        Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                       value.setText(String.format("%d", selectedSpellsPowerElement.DMG));
+                                                       value.setText(String.format("%d", selectedSpellPowerElement.DMG));
                                                        value.setAlignment(Align.right);
 
                                                        middleTextAreaTable.add(stat).align(Align.left);
                                                        middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                                    }
-                                                   if (selectedSpellsPowerElement.ACC != 0) {
+                                                   if (selectedSpellPowerElement.ACC != 0) {
                                                        middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
 
                                                        Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
                                                        stat.setText("ACC");
                                                        stat.setAlignment(Align.left);
                                                        Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                       value.setText(String.format("%d", selectedSpellsPowerElement.ACC));
+                                                       value.setText(String.format("%d", selectedSpellPowerElement.ACC));
                                                        value.setAlignment(Align.right);
 
                                                        middleTextAreaTable.add(stat).align(Align.left);
                                                        middleTextAreaTable.add(value).align(Align.right);//.padLeft(0);
                                                    }
-                                                   if (selectedSpellsPowerElement.effectList != null) {
-                                                       for (SpellsPowerElement.EffectItem effect : selectedSpellsPowerElement.effectList) {
+                                                   if (selectedSpellPowerElement.effectList != null) {
+                                                       for (SpellPowerElement.EffectItem effect : selectedSpellPowerElement.effectList) {
                                                            middleTextAreaTable.row().width(middleAreaWidth / 2 - tablePadding);
 
                                                            Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
@@ -1880,11 +1880,11 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, CHOOSE_AN_ENEMY)));
                     }
 
-                    selectedItemBanner.setWidth(calculateBannerWidth(selectedSpellsPowerElement.name));
+                    selectedItemBanner.setWidth(calculateBannerWidth(selectedSpellPowerElement.name));
                     selectedItemBanner.setPosition((_stage.getWidth() - selectedItemBanner.getWidth())/2 , _stage.getHeight() + 8);
                     selectedItemBanner.addAction(Actions.sizeBy(0, selectedItemBannerHeight, fadeTime));
                     selectedItemBanner.addAction(Actions.moveBy(0, -selectedItemBannerHeight, fadeTime));
-                    selectedItemBanner.setText(selectedSpellsPowerElement.name, true);
+                    selectedItemBanner.setText(selectedSpellPowerElement.name, true);
                 }
                 break;
             case INVENTORY:
@@ -1949,7 +1949,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 middleStatsTextArea.setVisible(true);
 
-                if (spellsPowerList.size() > 0)
+                if (spellPowerList.size() > 0)
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, SELECT_AN_ABILITY)));
                 else
                     middleStatsTextArea.addAction(Actions.sequence(Actions.delay(fadeTime), myActions.new setTextAreaText(middleStatsTextArea, ABILITIES_EMPTY)));
@@ -2269,7 +2269,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         if (state == ScreenState.INVENTORY)
             leftSummaryText.setText(selectedInventoryElement.summary);
         else if (state == ScreenState.SPELLS_POWER)
-            leftSummaryText.setText(selectedSpellsPowerElement.summary);
+            leftSummaryText.setText(selectedSpellPowerElement.summary);
 
         leftSummaryText.addAction(Actions.sequence(Actions.delay(fadeTime/2), Actions.alpha(0), Actions.fadeIn(fadeTime/2)));
 
@@ -2884,15 +2884,15 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 }
                 else {
                     // load character's spells/powers
-                    spellsPowerList.clear();
+                    spellPowerList.clear();
 
                     String propertyKey = entity.getEntityConfig().getEntityID().toString().toUpperCase() + EntityConfig.EntityProperties.SPELL_LIST.toString();
-                    Array<SpellsPowerElement.ElementID> elementArray = ProfileManager.getInstance().getProperty(propertyKey, Array.class);
+                    Array<SpellPowerElement.ElementID> elementArray = ProfileManager.getInstance().getProperty(propertyKey, Array.class);
 
                     if (elementArray != null) {
-                        for (SpellsPowerElement.ElementID id : elementArray) {
-                            SpellsPowerElement element = SpellPowerFactory.getInstance().getSpellPowerElement(id);
-                            spellsPowerList.add(element);
+                        for (SpellPowerElement.ElementID id : elementArray) {
+                            SpellPowerElement element = SpellPowerFactory.getInstance().getSpellPowerElement(id);
+                            spellPowerList.add(element);
                         }
                     }
                 }
@@ -3178,7 +3178,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         clearSpellPowerTreeCategory(BlackMagicNode, blackMagicRootNode);
         clearSpellPowerTreeCategory(PowersNode, powersRootNode);
 
-        for (SpellsPowerElement element : spellsPowerList) {
+        for (SpellPowerElement element : spellPowerList) {
             Array<Tree.Node> nodeArray = null;
             Tree.Node categoryNode = null;
             String categoryName = "";

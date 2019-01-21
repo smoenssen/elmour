@@ -8,9 +8,7 @@ import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
-import com.smoftware.elmour.screens.CutSceneScreen;
-import com.smoftware.elmour.screens.CutSceneScreen2;
-import com.smoftware.elmour.screens.CutSceneScreenChapter2;
+import com.smoftware.elmour.screens.CutSceneChapter2;
 import com.smoftware.elmour.screens.CutSceneChapter1;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.LoadGameScreen;
@@ -49,13 +47,10 @@ public class ElmourGame extends Game {
 	private static LoadGameScreen _loadGameScreen;
 	private static NewGameScreen _newGameScreen;
 	private static GameOverScreen _gameOverScreen;
-	private static CutSceneScreen _cutSceneScreen;
 	private static CreditScreen _creditScreen;
-	private static CutSceneScreen2 cutSceneScreen2;
 	private static BattleScreen battleScreen;
-
-	private static CutSceneScreenChapter2 cutSceneScreenChapter2;
 	private static CutSceneChapter1 cutSceneChapter1;
+	private static CutSceneChapter2 cutSceneChapter2;
 
 	public static enum ScreenType{
 		BattleScreen,
@@ -88,8 +83,6 @@ public class ElmourGame extends Game {
 				return _newGameScreen;
 			case GameOver:
 				return _gameOverScreen;
-			case WatchIntro:
-				return _cutSceneScreen;
 			case Credits:
 				return _creditScreen;
 			default:
@@ -127,16 +120,13 @@ public class ElmourGame extends Game {
 		_loadGameScreen = new LoadGameScreen(this);
 		_newGameScreen = new NewGameScreen(this);
 		_gameOverScreen = new GameOverScreen(this);
-		_cutSceneScreen = new CutSceneScreen(this);
 		_creditScreen = new CreditScreen(this);
 		battleScreen = new BattleScreen(this);
-		cutSceneScreen2 = new CutSceneScreen2(this);
-		cutSceneScreenChapter2 = new CutSceneScreenChapter2(this);
 		cutSceneChapter1 = new CutSceneChapter1(this);
 
 		Utility.parseConversationXMLFiles("n21");
 		//setScreen(cutSceneChapter1);
-		//setScreen(cutSceneScreenChapter2);
+		//setScreen(cutSceneChapter2);
 
 		setScreen(splashScreen);
 
@@ -161,12 +151,10 @@ public class ElmourGame extends Game {
 		_newGameScreen.dispose();
 		_gameOverScreen.dispose();
 		_creditScreen.dispose();
-		cutSceneScreen2.dispose();
 		battleScreen.dispose();
-
-		_cutSceneScreen.dispose();
-		cutSceneScreenChapter2.dispose();
+		splashScreen.dispose();
 		cutSceneChapter1.dispose();
+		cutSceneChapter2.dispose();
 	}
 
 }

@@ -40,9 +40,13 @@ import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.battle.BattleObserver;
+import com.smoftware.elmour.dialog.ChoicePopUp;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.PopUpLabel;
+import com.smoftware.elmour.dialog.PopUp;
+import com.smoftware.elmour.dialog.PopUpObserver;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
@@ -64,7 +68,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 BattleObserver,
                                 InventoryObserver,
                                 StatusObserver,
-                                SignPopUpObserver{
+        PopUpObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -79,7 +83,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private QuestUI _questUI;
     //private BattleUI _battleUI;
     //private SignPopUp signPopUp;
-    private ConversationPopUp signPopUp;
+    private PopUp signPopUp;
 
     private boolean battleScreenTransitionTriggered = false;
     private boolean playerComingFromBattle = false;
@@ -96,8 +100,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     Image screenSwipe9;
     Image screenSwipe10;
 
-    private ConversationPopUp conversationPopUp;
-    private ConversationLabel conversationLabel;
+    private PopUp conversationPopUp;
+    private PopUpLabel popUpLabel;
     private ChoicePopUp choicePopUp1;
     private ChoicePopUp choicePopUp2;
     private ChoicePopUp choicePopUp3;
@@ -230,7 +234,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         //_battleUI.clearListeners();
         //_battleUI.setVisible(false);
 
-        signPopUp = new ConversationPopUp();
+        signPopUp = new PopUp(PopUp.PopUpType.SIGN);
         if (ElmourGame.isAndroid()) {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
             signPopUp.setHeight(80);
@@ -243,7 +247,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         signPopUp.setVisible(false);
 
-        conversationPopUp = new ConversationPopUp();
+        conversationPopUp = new PopUp(PopUp.PopUpType.CONVERSATION);
         if (ElmourGame.isAndroid()) {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
             conversationPopUp.setHeight(80);
@@ -256,18 +260,18 @@ public class PlayerHUD implements Screen, AudioSubject,
         conversationPopUp.setVisible(false);
         conversationPopUp.setMovable(false);
 
-        conversationLabel = new ConversationLabel();
+        popUpLabel = new PopUpLabel();
         if (ElmourGame.isAndroid()) {
-            conversationLabel.setWidth(140);
-            conversationLabel.setHeight(24);
+            popUpLabel.setWidth(140);
+            popUpLabel.setHeight(24);
         }
         else {
-            conversationLabel.setWidth(140);
-            conversationLabel.setHeight(24);
+            popUpLabel.setWidth(140);
+            popUpLabel.setHeight(24);
         }
-        conversationLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
-        conversationLabel.setVisible(false);
-        conversationLabel.setMovable(false);
+        popUpLabel.setPosition(conversationPopUp.getX() + 10, conversationPopUp.getY() + conversationPopUp.getHeight());
+        popUpLabel.setVisible(false);
+        popUpLabel.setMovable(false);
 
         choicePopUp1 = new ChoicePopUp();
         choicePopUp2 = new ChoicePopUp();
@@ -461,7 +465,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         //_stage.addActor(_clock);
         _stage.addActor(signPopUp);
         _stage.addActor(conversationPopUp);
-        _stage.addActor(conversationLabel);
+        _stage.addActor(popUpLabel);
         _stage.addActor(choicePopUp1);
         _stage.addActor(choicePopUp2);
         _stage.addActor(choicePopUp3);
@@ -1070,7 +1074,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             case HIDE_CONVERSATION:
                 EntityConfig configHide = _json.fromJson(EntityConfig.class, value);
                 if( configHide.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
-                    conversationLabel.setVisible(false);
+                    popUpLabel.setVisible(false);
                     conversationPopUp.hide();
                     conversationPopUp.getCurrentConversationGraph().removeObserver(this);
                 }
@@ -1179,7 +1183,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public void doConversation() {
-        conversationLabel.setVisible(true);
+        popUpLabel.setVisible(true);
 
         // this is where all the magic happens
         if (nextConversationId != null) {
@@ -1190,7 +1194,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
             else {
                 conversationPopUp.hide();
-                conversationLabel.setVisible(false);
+                popUpLabel.setVisible(false);
             }
         }
 
@@ -1211,7 +1215,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
                 }
                 conversationPopUp.hide();
-                conversationLabel.setVisible(false);
+                popUpLabel.setVisible(false);
                 isThereAnActiveHiddenChoice = false;
             }
         }
@@ -1219,7 +1223,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
                 if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
                     conversationPopUp.hide();
-                    conversationLabel.setVisible(false);
+                    popUpLabel.setVisible(false);
                 }
             }
         }
@@ -1267,7 +1271,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 nextConversationId = null;
                 isCurrentConversationDone = true;
                 conversationPopUp.endConversation();
-                conversationLabel.setVisible(false);
+                popUpLabel.setVisible(false);
                 conversationPopUp.hide();
                 isThereAnActiveHiddenChoice = false;
                 choicePopUp1.clear();
@@ -1493,7 +1497,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 break;
             case CHARACTER_NAME:
-                conversationLabel.setText(value);
+                popUpLabel.setText(value);
                 break;
         }
     }
@@ -1883,7 +1887,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(int value, SignPopUpEvent event) {
+    public void onNotify(int value, PopUpEvent event) {
         switch(event) {
             case INTERACTION_THREAD_EXIT:
                 // this is necessary to allow player to move again

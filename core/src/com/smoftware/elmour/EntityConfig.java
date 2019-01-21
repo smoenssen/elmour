@@ -14,7 +14,7 @@ import com.smoftware.elmour.InventoryItem.ItemTypeID;
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;
     private Array<ItemReward> rewardItems;
-    private Array<SpellsPowerElement.ElementID> spellPowerElementIDs;
+    private Array<SpellPowerElement.ElementID> spellPowerElementIDs;
     private Array<ItemTypeID> inventory;
     private Entity.State state = Entity.State.IDLE;
     private Entity.Direction direction = Entity.Direction.DOWN;
@@ -112,9 +112,9 @@ public class EntityConfig {
         }
         */
 /*
-        spellPowerElementIDs.add(SpellsPowerElement.ElementID.EARTH);
-        spellPowerElementIDs.add(SpellsPowerElement.ElementID.WATER);
-        spellPowerElementIDs.add(SpellsPowerElement.ElementID.FIRE);
+        spellPowerElementIDs.add(SpellPowerElement.ElementID.EARTH);
+        spellPowerElementIDs.add(SpellPowerElement.ElementID.WATER);
+        spellPowerElementIDs.add(SpellPowerElement.ElementID.FIRE);
         Json _json = new Json();
         String fileData = _json.prettyPrint(_json.toJson(spellPowerElementIDs));
 
@@ -149,7 +149,7 @@ public class EntityConfig {
         rewardItems = new Array<ItemReward>();
         rewardItems.addAll(config.getRewardItems());
 
-        spellPowerElementIDs = new Array<SpellsPowerElement.ElementID>();
+        spellPowerElementIDs = new Array<SpellPowerElement.ElementID>();
         spellPowerElementIDs.addAll(config.getSpellPowerElementIDs());
 
         if (turnEffectList == null)
@@ -246,11 +246,11 @@ public class EntityConfig {
 
     public Array<ItemReward> getRewardItems() { return rewardItems; }
 
-    public Array<SpellsPowerElement.ElementID> getSpellPowerElementIDs() { return spellPowerElementIDs; }
+    public Array<SpellPowerElement.ElementID> getSpellPowerElementIDs() { return spellPowerElementIDs; }
 
-    public void setSpellPowerElementIDs(Array<SpellsPowerElement.ElementID> ids) { this.spellPowerElementIDs = ids; }
+    public void setSpellPowerElementIDs(Array<SpellPowerElement.ElementID> ids) { this.spellPowerElementIDs = ids; }
 
-    public void addSpellsPowerElementID(SpellsPowerElement.ElementID id) { spellPowerElementIDs.add(id); }
+    public void addSpellPowerElementID(SpellPowerElement.ElementID id) { spellPowerElementIDs.add(id); }
 
     static public class AnimationConfig{
         private float frameDuration = 1.0f;

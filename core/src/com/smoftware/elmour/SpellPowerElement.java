@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Array;
  * Created by moenssr on 4/2/2018.
  */
 
-public class SpellsPowerElement {
+public class SpellPowerElement {
     public enum SpellPowerCategory {
         Black,
         White,
@@ -56,13 +56,13 @@ public class SpellsPowerElement {
 
     public Array<EffectItem> effectList;
 
-    public SpellsPowerElement() {
+    public SpellPowerElement() {
         // default values
         id = ElementID.NONE;
         turns = 0;//0x7FFFFFFF;
     }
 
-    public SpellsPowerElement(SpellsPowerElement element) {
+    public SpellPowerElement(SpellPowerElement element) {
         // copy constructor
         this.category = element.category;
         this.name = element.name;

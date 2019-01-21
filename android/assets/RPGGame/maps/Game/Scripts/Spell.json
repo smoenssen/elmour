@@ -1,6 +1,6 @@
 [
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Black
 	name: Fire
 	entityID: FIRE
@@ -22,7 +22,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Black
 	name: Thunder
 	entityID: THUNDER
@@ -44,7 +44,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Black
 	name: Earth
 	entityID: EARTH
@@ -67,7 +67,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Black
 	name: Water
 	entityID: WATER
@@ -85,7 +85,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Black
 	name: Power Word Kill
 	entityID: POWER_WORD_KILL
@@ -96,7 +96,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: White
 	name: Life
 	entityID: LIFE
@@ -113,7 +113,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: White
 	name: Heal
 	entityID: HEAL
@@ -124,7 +124,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: White
 	name: Power Word Heal
 	entityID: POWER_WORD_HEAL
@@ -141,7 +141,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Power
 	name: Slash
 	entityID: SLASH
@@ -163,7 +163,7 @@
 }
 
 {
-	class: com.smoftware.elmour.SpellsPowerElement
+	class: com.smoftware.elmour.SpellPowerElement
 	category: Power
 	name: Kick
 	entityID: KICK

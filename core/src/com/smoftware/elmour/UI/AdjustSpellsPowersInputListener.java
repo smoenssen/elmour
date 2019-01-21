@@ -18,7 +18,7 @@ import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.SpellPowerFactory;
-import com.smoftware.elmour.SpellsPowerElement;
+import com.smoftware.elmour.SpellPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -77,7 +77,7 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                 break;
 
             case GET_ITEM:
-                SpellsPowerElement.ElementID elementID = null;
+                SpellPowerElement.ElementID elementID = null;
 
                 if (text.equals("")) {
                     displayErrorDialog("Item ID cannot be null!");
@@ -87,14 +87,14 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                     if (text.equals("ALL")) {
                         validInput = true;
 
-                        Hashtable<SpellsPowerElement.ElementID, SpellsPowerElement> spellList = SpellPowerFactory.getInstance().getSpellPowerList();
+                        Hashtable<SpellPowerElement.ElementID, SpellPowerElement> spellList = SpellPowerFactory.getInstance().getSpellPowerList();
 
-                        Array<SpellsPowerElement.ElementID> array = new Array<>();
+                        Array<SpellPowerElement.ElementID> array = new Array<>();
                         String propertyKey = character.toString() + EntityConfig.EntityProperties.SPELL_LIST.toString();
 
-                        Set<SpellsPowerElement.ElementID> spellKeys = spellList.keySet();
-                        for(SpellsPowerElement.ElementID key: spellKeys){
-                            SpellsPowerElement element = spellList.get(key);
+                        Set<SpellPowerElement.ElementID> spellKeys = spellList.keySet();
+                        for(SpellPowerElement.ElementID key: spellKeys){
+                            SpellPowerElement element = spellList.get(key);
                             array.add(element.id);
                         }
 
@@ -102,7 +102,7 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                     }
                     else {
                         try {
-                            elementID = SpellsPowerElement.ElementID.valueOf(text);
+                            elementID = SpellPowerElement.ElementID.valueOf(text);
                             validInput = true;
 
                             if (elementID == null) {
@@ -110,7 +110,7 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                                 displayErrorDialog("\"" + text + "\"" + " is not a valid spell/power item ID!");
                             } else {
                                 String propertyKey = character.toString().toUpperCase() + EntityConfig.EntityProperties.SPELL_LIST.toString();
-                                Array<SpellsPowerElement.ElementID> array = ProfileManager.getInstance().getProperty(propertyKey, Array.class);
+                                Array<SpellPowerElement.ElementID> array = ProfileManager.getInstance().getProperty(propertyKey, Array.class);
 
                                 if (array == null) {
                                     array = new Array<>();

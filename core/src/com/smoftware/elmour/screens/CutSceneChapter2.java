@@ -37,8 +37,8 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 import java.util.ArrayList;
 
-public class CutSceneScreenChapter2 extends GameScreen implements ConversationGraphObserver {
-    private static final String TAG = CutSceneScreenChapter2.class.getSimpleName();
+public class CutSceneChapter2 extends GameScreen implements ConversationGraphObserver {
+    private static final String TAG = CutSceneChapter2.class.getSimpleName();
 
     private final float V_WIDTH = 12;//2.4f;//srm
     private final float V_HEIGHT = 8;//1.6f;
@@ -62,7 +62,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     }
     private static GameState _gameState;
 
-    CutSceneScreenChapter2 thisScreen;
+    CutSceneChapter2 thisScreen;
     protected OrthogonalTiledMapRenderer _mapRenderer = null;
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
@@ -97,7 +97,7 @@ public class CutSceneScreenChapter2 extends GameScreen implements ConversationGr
     private AnimatedImage justin;
     private AnimatedImage jaxon;
 
-    public CutSceneScreenChapter2(ElmourGame game){
+    public CutSceneChapter2(ElmourGame game){
         thisScreen = this;
         _game = game;
         _mapMgr = new MapManager();

@@ -10,7 +10,7 @@ import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
-import com.smoftware.elmour.SpellsPowerElement;
+import com.smoftware.elmour.SpellPowerElement;
 import com.smoftware.elmour.UI.StatusObserver;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -35,7 +35,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
     private int _currentPlayerDP;
     private int _currentPlayerWandAPPoints = 0;
     private InventoryElement selectedInventoryElement = null;
-    private SpellsPowerElement selectedSpellPowerElement = null;
+    private SpellPowerElement selectedSpellPowerElement = null;
 
     private Timer.Task _playerAttackCalculations;
     private Timer.Task _opponentAttackCalculations;
@@ -329,7 +329,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
         }
     }
 
-    public void applySpellPowerToCharacter(SpellsPowerElement selectedElement) {
+    public void applySpellPowerToCharacter(SpellPowerElement selectedElement) {
         if (!applySpellPower.isScheduled()) {
             selectedSpellPowerElement = selectedElement;
             Gdx.app.log(TAG, selectedSpellPowerElement.name + " used on " + currentSelectedCharacter.getEntityConfig().getEntityID());

@@ -127,7 +127,7 @@ public class ConversationPopUp extends Window implements SignPopUpSubject{
 	public void cleanupTextArea() {
 		this.reset();
 		textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
-		textArea.disabled = true;
+		textArea.setDisabled(true);
 		textArea.layout();
 		//fullText = "";
 

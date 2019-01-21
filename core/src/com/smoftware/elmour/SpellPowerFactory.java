@@ -10,7 +10,7 @@ public class SpellPowerFactory {
     private Json _json = new Json();
     private final String SPELL_JSON = "RPGGame/maps/Game/Scripts/Spell.json";
     private static SpellPowerFactory _instance = null;
-    private Hashtable<SpellsPowerElement.ElementID, SpellsPowerElement> spellPowerList;
+    private Hashtable<SpellPowerElement.ElementID, SpellPowerElement> spellPowerList;
 
     public static SpellPowerFactory getInstance() {
         if (_instance == null) {
@@ -21,32 +21,32 @@ public class SpellPowerFactory {
     }
 
     private SpellPowerFactory(){
-        ArrayList<SpellsPowerElement> jsonInventoryList = _json.fromJson(ArrayList.class, SpellsPowerElement.class, Gdx.files.internal(SPELL_JSON));
+        ArrayList<SpellPowerElement> jsonInventoryList = _json.fromJson(ArrayList.class, SpellPowerElement.class, Gdx.files.internal(SPELL_JSON));
         spellPowerList = new Hashtable<>();
 
-        for (SpellsPowerElement element : jsonInventoryList) {
+        for (SpellPowerElement element : jsonInventoryList) {
             spellPowerList.put(element.id, element);
         }
     }
 
-    public SpellsPowerElement getSpellPowerElement(SpellsPowerElement.ElementID elementID){
-        SpellsPowerElement element = spellPowerList.get(elementID);
+    public SpellPowerElement getSpellPowerElement(SpellPowerElement.ElementID elementID){
+        SpellPowerElement element = spellPowerList.get(elementID);
 
         if (element != null) {
-            element = new SpellsPowerElement(element);
+            element = new SpellPowerElement(element);
         }
         else {
             element = spellPowerList.get(elementID);
 
             if (element != null) {
-                element = new SpellsPowerElement(element);
+                element = new SpellPowerElement(element);
             }
         }
 
         return element;
     }
 
-    public Hashtable<SpellsPowerElement.ElementID, SpellsPowerElement> getSpellPowerList() {
+    public Hashtable<SpellPowerElement.ElementID, SpellPowerElement> getSpellPowerList() {
         return spellPowerList;
     }
 }
