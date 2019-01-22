@@ -43,7 +43,7 @@ public class CreditScreen extends GameScreen {
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         _scrollPane.setScrollY(0);
                                         _scrollPane.updateVisualScroll();
-                                        _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainMenu));
+                                        //_game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainMenu));
                                     }
                                }
         );

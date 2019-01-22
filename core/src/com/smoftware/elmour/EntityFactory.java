@@ -73,19 +73,22 @@ public class EntityFactory {
     public static String MISC_ANIMATIONS_CONFIG = "RPGGame/maps/Game/Scripts/misc_animations.json";
 
     public static String PLAYER_CONFIG = "scripts/player.json";
+
+    /*
     public static String TOWN_GUARD_WALKING_CONFIG = "scripts/town_guard_walking.json";
     public static String TOWN_BLACKSMITH_CONFIG = "scripts/town_blacksmith.json";
     public static String TOWN_MAGE_CONFIG = "scripts/town_mage.json";
     public static String TOWN_INNKEEPER_CONFIG = "scripts/town_innkeeper.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
     public static String ENVIRONMENTAL_ENTITY_CONFIGS = "scripts/environmental_entities.json";
+    */
     public static String STATUS_ARROW_CONFIGS = "RPGGame/maps/Game/Scripts/stat_arrows.json";
     public static String BATTLE_BURST_CONFIGS = "RPGGame/maps/Game/Scripts/battle_burst.json";
 
 
     private EntityFactory(){
         entities = new Hashtable<String, EntityConfig>();
-
+/*
         Array<EntityConfig> townFolkConfigs = Entity.getEntityConfigs(TOWN_FOLK_CONFIGS);
         for( EntityConfig config: townFolkConfigs){
             entities.put(config.getEntityID(), config);
@@ -95,7 +98,7 @@ public class EntityFactory {
         for( EntityConfig config: environmentalEntityConfigs){
             entities.put(config.getEntityID(), config);
         }
-
+*/
         Array<EntityConfig> statArrowConfigs = Entity.getEntityConfigs(STATUS_ARROW_CONFIGS);
         for( EntityConfig config: statArrowConfigs){
             entities.put(config.getEntityID(), config);
@@ -121,12 +124,13 @@ public class EntityFactory {
         entities.put(EntityName.HIT.toString(), Entity.loadEntityConfigByPath(HIT_CONFIG));
         entities.put(EntityName.WEAPON_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(WEAPON_ANIMATIONS_CONFIG));
         entities.put(EntityName.MISC_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(MISC_ANIMATIONS_CONFIG));
-
+/*
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
         entities.put(EntityName.TOWN_BLACKSMITH.toString(), Entity.loadEntityConfigByPath(TOWN_BLACKSMITH_CONFIG));
         entities.put(EntityName.TOWN_MAGE.toString(), Entity.loadEntityConfigByPath(TOWN_MAGE_CONFIG));
         entities.put(EntityName.TOWN_INNKEEPER.toString(), Entity.loadEntityConfigByPath(TOWN_INNKEEPER_CONFIG));
         entities.put(EntityName.PLAYER_PUPPET.toString(), Entity.loadEntityConfigByPath(PLAYER_CONFIG));
+ */
     }
 
     public static EntityFactory getInstance() {

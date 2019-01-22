@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,8 +32,6 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.InventoryItem;
-import com.smoftware.elmour.InventoryItem.ItemTypeID;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -64,9 +61,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 ProfileObserver,
                                 ComponentObserver,
                                 ConversationGraphObserver,
-                                StoreInventoryObserver,
                                 BattleObserver,
-                                InventoryObserver,
                                 StatusObserver,
         PopUpObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
@@ -77,9 +72,6 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Camera _camera;
     private Entity _player;
 
-    private StatusUI _statusUI;
-    private InventoryUI _inventoryUI;
-    private StoreInventoryUI _storeInventoryUI;
     private QuestUI _questUI;
     //private BattleUI _battleUI;
     //private SignPopUp signPopUp;
@@ -201,24 +193,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         _messageBoxUI.setVisible(false);
         _messageBoxUI.pack();
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() / 2 - _messageBoxUI.getHeight() / 2);
-
-        _statusUI = new StatusUI();
-        _statusUI.setVisible(true);
-        _statusUI.setPosition(0, 0);
-        _statusUI.setKeepWithinStage(false);
-        _statusUI.setMovable(false);
-        _statusUI.setVisible(false);
-
-        _inventoryUI = new InventoryUI();
-        _inventoryUI.setKeepWithinStage(false);
-        _inventoryUI.setMovable(false);
-        _inventoryUI.setVisible(false);
-        _inventoryUI.setPosition(_statusUI.getWidth(), 0);
-
-        _storeInventoryUI = new StoreInventoryUI();
-        _storeInventoryUI.setMovable(false);
-        _storeInventoryUI.setVisible(false);
-        _storeInventoryUI.setPosition(0, 0);
 
         _questUI = new QuestUI();
         _questUI.setMovable(false);
@@ -458,11 +432,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(screenSwipe9);
         _stage.addActor(screenSwipe10);
         _stage.addActor(_questUI);
-        _stage.addActor(_storeInventoryUI);
         _stage.addActor(_messageBoxUI);
-        _stage.addActor(_statusUI);
-        _stage.addActor(_inventoryUI);
-        //_stage.addActor(_clock);
         _stage.addActor(signPopUp);
         _stage.addActor(conversationPopUp);
         _stage.addActor(popUpLabel);
@@ -488,32 +458,14 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         //_battleUI.validate();
         _questUI.validate();
-        _storeInventoryUI.validate();
         _messageBoxUI.validate();
-        _statusUI.validate();
-        _inventoryUI.validate();
         _clock.validate();
-
-        //add tooltips to the stage
-        Array<Actor> actors = _inventoryUI.getInventoryActors();
-        for(Actor actor : actors){
-            _stage.addActor(actor);
-        }
-
-        Array<Actor> storeActors = _storeInventoryUI.getInventoryActors();
-        for(Actor actor : storeActors ){
-            _stage.addActor(actor);
-        }
 
         _stage.addActor(_transitionActor);
         _transitionActor.setVisible(false);
 
         //Observers
         _player.registerObserver(this);
-        _statusUI.addObserver(this);
-        _storeInventoryUI.addObserver(this);
-        //_inventoryUI.addObserver(_battleUI.getCurrentState());
-        _inventoryUI.addObserver(this);
         //_battleUI.getCurrentState().addObserver(this);
         signPopUp.addObserver(this);
         this.addObserver(AudioManager.getInstance());
@@ -734,17 +686,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                                    }
         );
 
-        _storeInventoryUI.getCloseButton().addListener(new ClickListener() {
-                                                           @Override
-                                                           public void clicked(InputEvent event, float x, float y) {
-                                                               _storeInventoryUI.savePlayerInventory();
-                                                               _storeInventoryUI.cleanupStoreInventory();
-                                                               _storeInventoryUI.setVisible(false);
-                                                               _mapMgr.clearCurrentSelectedMapEntity();
-                                                           }
-                                                       }
-        );
-
         //Music/Sound loading
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -928,68 +869,11 @@ public class PlayerHUD implements Screen, AudioSubject,
                 boolean firstTime = profileManager.getIsNewProfile();
 
                 if( firstTime ){
-                    InventoryUI.clearInventoryItems(_inventoryUI.getInventorySlotTable());
-                    InventoryUI.clearInventoryItems(_inventoryUI.getEquipSlotTable());
-                    _inventoryUI.resetEquipSlots();
-
                     _questUI.setQuests(new Array<QuestGraph>());
 
-                    //add default items if first timenumVisibleChoices
-                    Array<ItemTypeID> items = _player.getEntityConfig().getInventory();
-                    Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
-                    for( int i = 0; i < items.size; i++){
-                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, InventoryUI.PLAYER_INVENTORY));
-                    }
-                    InventoryUI.populateInventory(_inventoryUI.getInventorySlotTable(), itemLocations, _inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
-                    profileManager.setProperty("playerInventory", InventoryUI.getInventory(_inventoryUI.getInventorySlotTable()));
-
-                    //start the player with some money
-                    //_statusUI.setGoldValue(20);
-                    //_statusUI.setStatusForLevel(1);
-
-                    _clock.setTotalTime(60 * 60 * 12); //start at noon
-                    profileManager.setProperty("currentTime", _clock.getTotalTime());
                 }else{
-                    int goldVal = profileManager.getProperty("currentPlayerGP", Integer.class);
-
-                    Array<InventoryItemLocation> inventory = profileManager.getProperty("playerInventory", Array.class);
-                    InventoryUI.populateInventory(_inventoryUI.getInventorySlotTable(), inventory, _inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
-
-                    Array<InventoryItemLocation> equipInventory = profileManager.getProperty("playerEquipInventory", Array.class);
-                    if( equipInventory != null && equipInventory.size > 0 ){
-                        _inventoryUI.resetEquipSlots();
-                        InventoryUI.populateInventory(_inventoryUI.getEquipSlotTable(), equipInventory, _inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
-                    }
-
                     Array<QuestGraph> quests = profileManager.getProperty("playerQuests", Array.class);
                     _questUI.setQuests(quests);
-
-                    int xpMaxVal = profileManager.getProperty("currentPlayerXPMax", Integer.class);
-                    int xpVal = profileManager.getProperty("currentPlayerXP", Integer.class);
-
-                    int hpMaxVal = profileManager.getProperty("currentPlayerHPMax", Integer.class);
-                    int hpVal = profileManager.getProperty("currentPlayerHP", Integer.class);
-
-                    int mpMaxVal = profileManager.getProperty("currentPlayerMPMax", Integer.class);
-                    int mpVal = profileManager.getProperty("currentPlayerMP", Integer.class);
-
-                    int levelVal = profileManager.getProperty("currentPlayerLevel", Integer.class);
-
-                    //set the current max values first
-                    //_statusUI.setXPValueMax(xpMaxVal);
-                    //_statusUI.setHPValueMax(hpMaxVal);
-                    //_statusUI.setMPValueMax(mpMaxVal);
-
-                    //_statusUI.setXPValue(xpVal);
-                    //_statusUI.setHPValue(hpVal);
-                    //_statusUI.setMPValue(mpVal);
-
-                    //then add in current values
-                    //_statusUI.setGoldValue(goldVal);
-                    //_statusUI.setLevelValue(levelVal);
-
-                    //float totalTime = profileManager.getProperty("currentTime", Float.class);
-                    //_clock.setTotalTime(totalTime);
                 }
 
                 break;
@@ -1011,8 +895,6 @@ public class PlayerHUD implements Screen, AudioSubject,
             case CLEAR_CURRENT_PROFILE:
                 // set default profile
                 profileManager.setProperty("playerQuests", new Array<QuestGraph>());
-                profileManager.setProperty("playerInventory", new Array<InventoryItemLocation>());
-                profileManager.setProperty("playerEquipInventory", new Array<InventoryItemLocation>());
                 profileManager.setProperty("currentPlayerGP", 0 );
                 profileManager.setProperty("currentPlayerLevel",0 );
                 profileManager.setProperty("currentPlayerXP", 0 );
@@ -1045,7 +927,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                         Gdx.app.log(TAG, "Loading conversation");
                         Entity npc = _mapMgr.getCurrentSelectedMapEntity();
                         EntityConfig config = npc.getEntityConfig();
-
+/*
                         //Check to see if there is a version loading into properties
                         if (config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString())) {
                             EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
@@ -1053,7 +935,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 config = configReturnProperty;
                             }
                         }
-
+*/
                         loadConversationFromConfig(config);
                     }
                 }
@@ -1246,26 +1128,6 @@ public class PlayerHUD implements Screen, AudioSubject,
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
-            case LOAD_STORE_INVENTORY:
-                Entity selectedEntity = _mapMgr.getCurrentSelectedMapEntity();
-                if( selectedEntity == null ){
-                    break;
-                }
-
-                Array<InventoryItemLocation> inventory =  InventoryUI.getInventory(_inventoryUI.getInventorySlotTable());
-                _storeInventoryUI.loadPlayerInventory(inventory);
-
-                Array<InventoryItem.ItemTypeID> items  = selectedEntity.getEntityConfig().getInventory();
-                Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
-                for( int i = 0; i < items.size; i++){
-                    itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, InventoryUI.STORE_INVENTORY));
-                }
-
-                _storeInventoryUI.loadStoreInventory(itemLocations);
-
-                _storeInventoryUI.toFront();
-                _storeInventoryUI.setVisible(true);
-                break;
             case EXIT_CONVERSATION:
                 //_conversationUI.setVisible(false);
                 nextConversationId = null;
@@ -1318,30 +1180,12 @@ public class PlayerHUD implements Screen, AudioSubject,
                     //_statusUI.addXPValue(quest.getXpReward());
                     //_statusUI.addGoldValue(quest.getGoldReward());
                     notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
-                    _inventoryUI.removeQuestItemFromInventory(questID);
+                    //_inventoryUI.removeQuestItemFromInventory(questID);
                     configReturnProperty.setConversationConfigPath(QuestUI.FINISHED_QUEST);
                     ProfileManager.getInstance().setProperty(configReturnProperty.getEntityID(), configReturnProperty);
                 }
 
                 _mapMgr.clearCurrentSelectedMapEntity();
-
-                break;
-            case ADD_ENTITY_TO_INVENTORY:
-                Entity entity = _mapMgr.getCurrentSelectedMapEntity();
-                if( entity == null ){
-                    break;
-                }
-
-                if( _inventoryUI.doesInventoryHaveSpace() ){
-                    _inventoryUI.addEntityToInventory(entity, entity.getEntityConfig().getCurrentQuestID());
-                    _mapMgr.clearCurrentSelectedMapEntity();
-                    entity.unregisterObservers();
-                    _mapMgr.removeMapQuestEntity(entity);
-                    _questUI.updateQuests(_mapMgr);
-                }else{
-                    _mapMgr.clearCurrentSelectedMapEntity();
-                    _messageBoxUI.setVisible(true);
-                }
 
                 break;
             case NONE:
@@ -1498,23 +1342,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
             case CHARACTER_NAME:
                 popUpLabel.setText(value);
-                break;
-        }
-    }
-
-    @Override
-    public void onNotify(String value, StoreInventoryEvent event) {
-        switch (event) {
-            case PLAYER_GP_TOTAL_UPDATED:
-                int val = Integer.valueOf(value);
-                //_statusUI.setGoldValue(val);
-                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_COIN_RUSTLE);
-                break;
-            case PLAYER_INVENTORY_UPDATED:
-                Array<InventoryItemLocation> items = _json.fromJson(Array.class, value);
-                InventoryUI.populateInventory(_inventoryUI.getInventorySlotTable(), items, _inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
-                break;
-            default:
                 break;
         }
     }
@@ -1827,29 +1654,6 @@ public class PlayerHUD implements Screen, AudioSubject,
     @Override
     public void onNotify(Entity entity, InventoryElement.Effect effect) {
 
-    }
-
-    @Override
-    public void onNotify(String value, InventoryEvent event) {
-        switch(event){
-            case ITEM_CONSUMED:
-                String[] strings = value.split(Component.MESSAGE_TOKEN);
-                if( strings.length != 2) return;
-
-                int type = Integer.parseInt(strings[0]);
-                int typeValue = Integer.parseInt(strings[1]);
-
-                if( InventoryItem.doesRestoreHP(type) ){
-                    notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_EATING);
-                    //_statusUI.addHPValue(typeValue);
-                }else if( InventoryItem.doesRestoreMP(type) ){
-                    notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
-                    //_statusUI.addMPValue(typeValue);
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     @Override

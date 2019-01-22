@@ -9,20 +9,17 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.smoftware.elmour.Entity.AnimationType;
-import com.smoftware.elmour.InventoryItem.ItemTypeID;
 
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;
     private Array<ItemReward> rewardItems;
     private Array<SpellPowerElement.ElementID> spellPowerElementIDs;
-    private Array<ItemTypeID> inventory;
     private Entity.State state = Entity.State.IDLE;
     private Entity.Direction direction = Entity.Direction.DOWN;
     private String entityID;
     private String conversationConfigPath;
     private String questConfigPath;
     private String currentQuestID;
-    private String itemTypeID;
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
     private String displayName;
@@ -76,7 +73,6 @@ public class EntityConfig {
 
     EntityConfig(){
         animationConfig = new Array<AnimationConfig>();
-        inventory = new Array<ItemTypeID>();
         entityProperties = new ObjectMap<String, String>();
         rewardItems = new Array<ItemReward>();
         entityAbilities = new Array<EntityAbility>();
@@ -135,13 +131,9 @@ public class EntityConfig {
         conversationConfigPath = config.getConversationConfigPath();
         questConfigPath = config.getQuestConfigPath();
         currentQuestID = config.getCurrentQuestID();
-        itemTypeID = config.getItemTypeID();
 
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
-
-        inventory = new Array<ItemTypeID>();
-        inventory.addAll(config.getInventory());
 
         entityProperties = new ObjectMap<String, String>();
         entityProperties.putAll(config.entityProperties);
@@ -192,14 +184,6 @@ public class EntityConfig {
         this.currentQuestID = currentQuestID;
     }
 
-    public String getItemTypeID() {
-        return itemTypeID;
-    }
-
-    public void setItemTypeID(String itemTypeID) {
-        this.itemTypeID = itemTypeID;
-    }
-
     public String getQuestConfigPath() {
         return questConfigPath;
     }
@@ -239,10 +223,6 @@ public class EntityConfig {
     public Array<AnimationConfig> getAnimationConfig() { return animationConfig; }
 
     public void addAnimationConfig(AnimationConfig animationConfig) { this.animationConfig.add(animationConfig); }
-
-    public Array<ItemTypeID> getInventory() { return inventory; }
-
-    public void setInventory(Array<ItemTypeID> inventory) { this.inventory = inventory; }
 
     public Array<ItemReward> getRewardItems() { return rewardItems; }
 

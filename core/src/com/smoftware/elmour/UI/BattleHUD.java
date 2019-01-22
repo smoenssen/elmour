@@ -2389,31 +2389,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(int value, StatusEvent event) {
-        switch(event) {
-            /*
-            case UPDATED_GP:
-                _storeInventoryUI.setPlayerGP(value);
-                ProfileManager.getInstance().setProperty("currentPlayerGP", _statusUI.getGoldValue());
-                break;
-            case UPDATED_HP:
-                ProfileManager.getInstance().setProperty("currentPlayerHP", _statusUI.getHPValue());
-                break;
-            case UPDATED_LEVEL:
-                ProfileManager.getInstance().setProperty("currentPlayerLevel", _statusUI.getLevelValue());
-                break;
-            case UPDATED_MP:
-                ProfileManager.getInstance().setProperty("currentPlayerMP", _statusUI.getMPValue());
-                break;
-            case UPDATED_EXP:
-                ProfileManager.getInstance().setProperty("currentPlayerXP", _statusUI.getXPValue());
-                break;
-            case LEVELED_UP:
-                notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
-                break;
-            */
-            default:
-                break;
-        }
     }
 
     @Override

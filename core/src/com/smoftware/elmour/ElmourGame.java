@@ -11,10 +11,7 @@ import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneChapter2;
 import com.smoftware.elmour.screens.CutSceneChapter1;
 import com.smoftware.elmour.screens.GameOverScreen;
-import com.smoftware.elmour.screens.LoadGameScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
-import com.smoftware.elmour.screens.MainMenuScreen;
-import com.smoftware.elmour.screens.NewGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
 import com.smoftware.elmour.screens.StartScreen;
 
@@ -43,9 +40,6 @@ public class ElmourGame extends Game {
 	private static SplashScreen splashScreen;
 	private static StartScreen startScreen;
 	private static MainGameScreen _mainGameScreen;
-	private static MainMenuScreen _mainMenuScreen;
-	private static LoadGameScreen _loadGameScreen;
-	private static NewGameScreen _newGameScreen;
 	private static GameOverScreen _gameOverScreen;
 	private static CreditScreen _creditScreen;
 	private static BattleScreen battleScreen;
@@ -56,10 +50,7 @@ public class ElmourGame extends Game {
 		BattleScreen,
 		SplashScreen,
 		StartScreen,
-		MainMenu,
 		MainGame,
-		LoadGame,
-		NewGame,
 		GameOver,
 		WatchIntro,
 		Credits
@@ -73,20 +64,14 @@ public class ElmourGame extends Game {
 				return splashScreen;
 			case StartScreen:
 				return startScreen;
-			case MainMenu:
-				return _mainMenuScreen;
 			case MainGame:
 				return _mainGameScreen;
-			case LoadGame:
-				return _loadGameScreen;
-			case NewGame:
-				return _newGameScreen;
 			case GameOver:
 				return _gameOverScreen;
 			case Credits:
 				return _creditScreen;
 			default:
-				return _mainMenuScreen;
+				return startScreen;
 		}
 
 	}
@@ -116,9 +101,6 @@ public class ElmourGame extends Game {
 		splashScreen = new SplashScreen(this);
 		startScreen = new StartScreen(this);
 		_mainGameScreen = new MainGameScreen(this);
-		_mainMenuScreen = new MainMenuScreen(this);
-		_loadGameScreen = new LoadGameScreen(this);
-		_newGameScreen = new NewGameScreen(this);
 		_gameOverScreen = new GameOverScreen(this);
 		_creditScreen = new CreditScreen(this);
 		battleScreen = new BattleScreen(this);
@@ -146,9 +128,6 @@ public class ElmourGame extends Game {
 		splashScreen.dispose();;
 		startScreen.dispose();
 		_mainGameScreen.dispose();
-		_mainMenuScreen.dispose();
-		_loadGameScreen.dispose();
-		_newGameScreen.dispose();
 		_gameOverScreen.dispose();
 		_creditScreen.dispose();
 		battleScreen.dispose();

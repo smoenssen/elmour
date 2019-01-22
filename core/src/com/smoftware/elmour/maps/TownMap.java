@@ -28,7 +28,7 @@ public class TownMap extends Map{
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
             mapEntities.add(entity);
         }
-
+/*
         //Special cases
         Entity blackSmith = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_BLACKSMITH);
         initSpecialEntityPosition(blackSmith);
@@ -111,6 +111,7 @@ public class TownMap extends Map{
         for( Vector2 position: lanternEffectPositions ){
             _mapParticleEffects.add(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.LANTERN_FIRE, position));
         }
+        */
     }
 
     @Override

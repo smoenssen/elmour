@@ -16,3 +16,4 @@ Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
 See if .json files generated from yEd in Windows are different than Linux - might need to handle both cases.
 
 In Spell.json, change SpellsPowerElement to SpellPowerElement
+Remove itemTypeID from every character .json file
