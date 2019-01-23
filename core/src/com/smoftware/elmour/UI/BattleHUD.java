@@ -39,7 +39,7 @@ import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
-import com.smoftware.elmour.SpellPowerFactory;
+import com.smoftware.elmour.SpellPowerElementFactory;
 import com.smoftware.elmour.SpellPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -2866,7 +2866,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                     if (elementArray != null) {
                         for (SpellPowerElement.ElementID id : elementArray) {
-                            SpellPowerElement element = SpellPowerFactory.getInstance().getSpellPowerElement(id);
+                            SpellPowerElement element = SpellPowerElementFactory.getInstance().getSpellPowerElement(id);
                             spellPowerList.add(element);
                         }
                     }

@@ -11,13 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
-import com.smoftware.elmour.SpellPowerFactory;
+import com.smoftware.elmour.SpellPowerElementFactory;
 import com.smoftware.elmour.SpellPowerElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -87,7 +84,7 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                     if (text.equals("ALL")) {
                         validInput = true;
 
-                        Hashtable<SpellPowerElement.ElementID, SpellPowerElement> spellList = SpellPowerFactory.getInstance().getSpellPowerList();
+                        Hashtable<SpellPowerElement.ElementID, SpellPowerElement> spellList = SpellPowerElementFactory.getInstance().getSpellPowerList();
 
                         Array<SpellPowerElement.ElementID> array = new Array<>();
                         String propertyKey = character.toString() + EntityConfig.EntityProperties.SPELL_LIST.toString();

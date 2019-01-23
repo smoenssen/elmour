@@ -38,6 +38,8 @@ public class PopUp extends Window implements PopUpSubject {
 	private String fullText;
 	private boolean displayText = true;
 	private String currentText;
+	private String currentVisibleText = "";
+	private boolean delay = true;
 	private MyTextArea textArea;
 	private String currentCharacter;
 	private State state = State.HIDDEN;
@@ -125,6 +127,7 @@ public class PopUp extends Window implements PopUpSubject {
 	public void cleanupTextArea() {
 		this.reset();
 		textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
+        textArea.adjustOffsetY(-3f);
 		textArea.setDisabled(true);
 		textArea.layout();
 		//fullText = "";
@@ -216,9 +219,9 @@ public class PopUp extends Window implements PopUpSubject {
 		graph.setCurrentConversation(conversationID);
 		fullText = conversation.getDialog();
 
-		// Replace new line characters with spaces to fix issue with yEd formatting.
+		// Remove new line characters to fix issue with yEd formatting.
 		// Instead, ¶ is being used to indicate actual new lines.
-		fullText = fullText.replace('\n', ' ');
+		fullText = fullText.replace("\n", "");
 
 		// Split the fulltext into the separate sections to display
 		fullTextSections = fullText.split("§");
@@ -284,9 +287,9 @@ public class PopUp extends Window implements PopUpSubject {
 			setVisibleDelay = 0;
 		}
 
-		// Replace new line characters with spaces to fix issue with yEd formatting.
+		// Remove new line characters to fix issue with yEd formatting.
 		// Instead, ¶ is being used to indicate actual new lines.
-		fullText = fullText.replace('\n', ' ');
+		fullText = fullText.replace("\n", "");
 
 		// Split the fulltext into the separate sections to display
 		fullTextSections = fullText.split("§");
@@ -310,9 +313,7 @@ public class PopUp extends Window implements PopUpSubject {
 					for (String currFullText : fullTextSections) {
 						Gdx.app.log(TAG, "interaction thread   currFullText = " + currFullText);
 						sectionsProcessed++;
-
-						char currentChar = ' ';
-						String currentVisibleText = "";
+						currentVisibleText = "";
 
 						// need slight delay here so previous dialog can cleanup
 						pause(100);
@@ -321,41 +322,16 @@ public class PopUp extends Window implements PopUpSubject {
 							Gdx.app.log(TAG, String.format("lineString = %d strings", dialog.lineStrings.size));
 
 						if (dialog.lineStrings == null || dialog.lineStrings.size == 0) {
-							// set full text so that the total number of lines can be figured out
-							// send false so that text isn't displayed
+							// calculate the line strings of the textArea with currentText
+							dialog.lineStrings = calculateLineStrings(currFullText);
 
-							// remove "\r\n" and "\n" line returns
-							// then replace "¶" with "\n" so number of lines is figured out correctly
-							// later they will be removed if necessary while text is being processed
-							currFullText = currFullText.replace("\r\n", "");
-							currFullText = currFullText.replace("\r", "");
-							currFullText = currFullText.replace("¶", "\n");
-
-							Gdx.app.log(TAG, "setting text for UI thread = " + currFullText);
-							setTextForUIThread(currFullText, false);
-							Gdx.app.log(TAG, "setting isReady to true");
-							isReady = true;
-
-							// wait up to 5 sec to make sure lines are populated
-							int numLines = textArea.getLines();
-							for (int q = 0; q < 100 && numLines == 0; q++) {
-								//Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
-								pause(50);
-
-								numLines = textArea.getLines();
-								//Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
-							}
-
-							//Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
-
-							pause(100);
-							dialog.lineStrings = textArea.getLineStrings();
 							//Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
 							//Gdx.app.log(TAG, "setting isReady to true");
 							isReady = true;
 						}
 
-						boolean delay = true;
+						// reset
+						delay = true;
 
 						if (popUpType == PopUpType.CONVERSATION) {
 							graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
@@ -369,54 +345,8 @@ public class PopUp extends Window implements PopUpSubject {
 								doneWithCurrentNode = true;
 							}
 
-							String line = dialog.lineStrings.get(lineIdx);
-
-							int len = line.length();
-							Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
-
-							// display line char by char for next two lines
-							String currentTextBeforeNextLine = currentVisibleText;
-							for (int i = 0; i < line.length(); i++) {
-
-								if (!isEcho && (interactReceived || delay == false)) {
-									Gdx.app.log(TAG, "interactReceived || delay == false");
-									if (interactReceived) {
-										Gdx.app.log(TAG, "interactReceived");
-									}
-									if (!delay)
-										Gdx.app.log(TAG, "delay == false");
-									if (!isEcho)
-										Gdx.app.log(TAG, "isEcho == false");
-
-									interactReceived = false;
-									delay = false;
-									currentVisibleText = currentTextBeforeNextLine + line;
-									currentVisibleText = currentVisibleText.trim();
-									setTextForUIThread(currentVisibleText, true);
-									Gdx.app.log(TAG, "currentVisibleText = " + currentVisibleText);
-									break;
-								} else {
-									currentChar = line.charAt(i);
-									//Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
-
-									// ignore new line chars since they are not needed here, they are only needed if
-									// interaction is received prematurely to complete the 2 line text area
-									if (currentChar != '\n') {
-										currentVisibleText += currentChar;
-
-										setTextForUIThread(currentVisibleText, true);
-
-										// add EOL char to text so that pending text isn't displayed as chars are added
-										if (i == line.length() - 1) {
-											currentVisibleText += '\n';
-											setTextForUIThread(currentVisibleText, true);
-										}
-
-										// delay for each character
-										pause(50);
-									}
-								}
-							}
+							// process the current line
+							processLine(dialog.lineStrings.get(lineIdx));
 
 							if (state == State.HIDDEN)
 								// break out of loop and exit thread if we were hidden
@@ -425,25 +355,10 @@ public class PopUp extends Window implements PopUpSubject {
 								// go into listening mode
 								state = State.LISTENING;
 
-							// show choices now if this is the last line of the dialog
-							//todo: get character name
 							if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" && lineIdx == dialog.lineStrings.size - 1) {
-								Gdx.app.log(TAG, "SHOWING CHOICES:");
-								ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
-								if (choices != null) {
-									// remove any choices that are no longer available based on profile settings
-									for (int i = choices.size() - 1; i >= 0; i--) {
-										ConversationChoice choice = choices.get(i);
-										String commandEvent = choice.getConversationCommandEvent().toString();
-										String profileSetting = ProfileManager.getInstance().getProperty(commandEvent, String.class);
-										if (profileSetting != null) {
-											choices.remove(i);
-										}
-
-										Gdx.app.log(TAG, "choice = " + choice.getChoicePhrase() + ", next id = " + choice.getDestinationId());
-									}
-									graph.notify(graph, choices);
-								}
+								// show choices now since this is the last line of the dialog
+								//todo: get character name
+								showChoices();
 							}
 
 							if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
@@ -505,6 +420,126 @@ public class PopUp extends Window implements PopUpSubject {
 		};
 
 		new Thread(r).start();
+	}
+
+	private Array<String> calculateLineStrings(String currFullText) {
+		// set full text so that the total number of lines can be figured out
+		// send displayText = false so that text isn't displayed
+
+		// remove "\r" and "\n" line returns
+		// then replace "¶" with "\n" so number of lines is figured out correctly
+		// later they will be removed if necessary while text is being processed
+		//currFullText = currFullText.replace("\r\n", "");
+		currFullText = currFullText.replace("\r", "");
+        currFullText = currFullText.replace("\n", "");
+		currFullText = currFullText.replace("¶", "\n");
+
+		Gdx.app.log(TAG, "setting text for UI thread = " + currFullText);
+		setTextForUIThread(currFullText, false);
+		Gdx.app.log(TAG, "setting isReady to true");
+		isReady = true;
+
+		// wait up to 5 sec to make sure lines are populated
+		int numLines = textArea.getLines();
+		for (int q = 0; q < 100 && numLines == 0; q++) {
+            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+            pause(50);
+
+            numLines = textArea.getLines();
+            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+
+			// reassemble lines to make sure we got everything
+			String check = "";
+			for (String str : textArea.getLineStrings()) {
+				check += str;
+			}
+
+			if (check.equals(currFullText)) {
+				Gdx.app.log(TAG, "Got all line strings");
+				break;
+			}
+        }
+
+		pause(100);
+		return textArea.getLineStrings();
+	}
+
+	private void processLine(String line) {
+		Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
+
+		char currentChar;
+
+		// display line char by char for next two lines
+		String currentTextBeforeNextLine = currentVisibleText;
+		for (int i = 0; i < line.length(); i++) {
+
+            if (!isEcho && (interactReceived || delay == false)) {
+                Gdx.app.log(TAG, "interactReceived || delay == false");
+                if (interactReceived) {
+                    Gdx.app.log(TAG, "interactReceived");
+                }
+                if (!delay)
+                    Gdx.app.log(TAG, "delay == false");
+                if (!isEcho)
+                    Gdx.app.log(TAG, "isEcho == false");
+
+                interactReceived = false;
+                delay = false;
+
+                if (currentVisibleText.charAt(currentVisibleText.length() - 1) == '\n' && line.charAt(0) == '\n') {
+                    // There is a line return at end of current visible text and also at the beginning
+                    // of the next line, so get rid of the one at the end of the current visible text.
+                    // This can happen only if an interaction is received immediately after an EOL
+                    // char was added below.
+                    currentVisibleText = currentVisibleText.substring(0, currentVisibleText.length() - 2);
+                }
+
+                currentVisibleText = currentTextBeforeNextLine + line;
+                currentVisibleText = currentVisibleText.trim();
+                setTextForUIThread(currentVisibleText, true);
+                Gdx.app.log(TAG, "currentVisibleText = " + currentVisibleText);
+                break;
+            } else {
+                currentChar = line.charAt(i);
+                //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
+
+                // ignore new line chars since they are not needed here (every line is one its own line),
+                // they are still needed above if interaction is received prematurely to complete the 2 line text area
+                if (currentChar != '\n') {
+                    currentVisibleText += currentChar;
+
+                    setTextForUIThread(currentVisibleText, true);
+
+                    // add EOL char to text so that pending text isn't displayed as chars are added
+                    if (i == line.length() - 1) {
+                        currentVisibleText += '\n';
+                        setTextForUIThread(currentVisibleText, true);
+                    }
+
+                    // delay for each character
+                    pause(50);
+                }
+            }
+        }
+	}
+
+	private void showChoices() {
+		Gdx.app.log(TAG, "SHOWING CHOICES:");
+		ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
+		if (choices != null) {
+			// remove any choices that are no longer available based on profile settings
+			for (int i = choices.size() - 1; i >= 0; i--) {
+				ConversationChoice choice = choices.get(i);
+				String commandEvent = choice.getConversationCommandEvent().toString();
+				String profileSetting = ProfileManager.getInstance().getProperty(commandEvent, String.class);
+				if (profileSetting != null) {
+					choices.remove(i);
+				}
+
+				Gdx.app.log(TAG, "choice = " + choice.getChoicePhrase() + ", next id = " + choice.getDestinationId());
+			}
+			graph.notify(graph, choices);
+		}
 	}
 
 	private void pause(int ms) {

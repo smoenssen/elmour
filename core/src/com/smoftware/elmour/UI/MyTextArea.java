@@ -263,6 +263,13 @@ public class MyTextArea extends MyTextField {
         }
     }
 
+    // srm added ability to adjust Y offset of text
+    private float adjustOffsetY = 0;
+
+    public void adjustOffsetY(float adjustOffsetY) {
+        this.adjustOffsetY = adjustOffsetY;
+    }
+
     @Override
     protected void drawText (Batch batch, BitmapFont font, float x, float y) {
         float offsetY = 0;
@@ -270,7 +277,7 @@ public class MyTextArea extends MyTextField {
             // todo: have seen StringIndexOutOfBoundsException thrown here
             try {
                 // (at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:113))
-                font.draw(batch, displayText, x, y + offsetY, linesBreak.items[i], linesBreak.items[i + 1], 0, Align.left, false);
+                font.draw(batch, displayText, x, y + offsetY + adjustOffsetY, linesBreak.items[i], linesBreak.items[i + 1], 0, Align.left, false);
                 offsetY -= font.getLineHeight();
             }
             catch (StringIndexOutOfBoundsException e){

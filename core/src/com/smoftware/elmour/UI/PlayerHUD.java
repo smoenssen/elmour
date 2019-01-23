@@ -211,7 +211,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         signPopUp = new PopUp(PopUp.PopUpType.SIGN);
         if (ElmourGame.isAndroid()) {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
-            signPopUp.setHeight(80);
+            signPopUp.setHeight(84);
         }
         else {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
@@ -224,7 +224,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         conversationPopUp = new PopUp(PopUp.PopUpType.CONVERSATION);
         if (ElmourGame.isAndroid()) {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
-            conversationPopUp.setHeight(80);
+            conversationPopUp.setHeight(84);
         }
         else {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
