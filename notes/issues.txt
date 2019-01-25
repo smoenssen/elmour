@@ -8,12 +8,8 @@ If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 If battle bursts pop out 2 times in a row too fast the second disappears
 Battle won stats don't become untouchable in next battle
-See if carriage return can be used in the stupid cut CutSceneScreen2
-See why only 2 lines are showing up in sign posts. Also, carriage return causes empty line.
 Battle screen goes black after 3rd or 4th enemy killed.
 Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
-
-See if .json files generated from yEd in Windows are different than Linux - might need to handle both cases.
 
 In Spell.json, change SpellsPowerElement to SpellPowerElement
 Remove itemTypeID from every character .json file.

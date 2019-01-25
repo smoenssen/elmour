@@ -486,12 +486,12 @@ public class PopUp extends Window implements PopUpSubject {
                 interactReceived = false;
                 delay = false;
 
-                if (currentVisibleText.charAt(currentVisibleText.length() - 1) == '\n' && line.charAt(0) == '\n') {
-                    // There is a line return at end of current visible text and also at the beginning
-                    // of the next line, so get rid of the one at the end of the current visible text.
-                    // This can happen only if an interaction is received immediately after an EOL
-                    // char was added below.
-                    currentVisibleText = currentVisibleText.substring(0, currentVisibleText.length() - 2);
+                if (currentTextBeforeNextLine.length() > 0 &&
+                        currentTextBeforeNextLine.charAt(currentTextBeforeNextLine.length() - 1) == '\n' && line.charAt(0) == '\n') {
+                    // There is a line return at end of the previous line and also at the beginning
+                    // of the next line, so get rid of the one at the end of the previous line
+                    // otherwise the 2nd line will not be visible.
+                    currentTextBeforeNextLine = currentTextBeforeNextLine.substring(0, currentTextBeforeNextLine.length() - 1);
                 }
 
                 currentVisibleText = currentTextBeforeNextLine + line;
