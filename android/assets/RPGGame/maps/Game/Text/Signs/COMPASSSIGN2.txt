@@ -1,9 +1,3 @@
-﻿Dessert Temple  ~¶
-Fire Temple     ~¶
-Snow Temple     &¶
-Dessert Temple  ~¶
-Fire Temple     ~¶
-Snow Temple     &¶
-Dessert Temple  ~¶
-Fire Temple     ~¶
-Snow Temple     &¶
+Dessert Temple     ~�
+Fire Temple        ~�
+Snow Temple        &

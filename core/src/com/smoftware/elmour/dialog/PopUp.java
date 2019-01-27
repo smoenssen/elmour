@@ -221,7 +221,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 		// Remove new line characters to fix issue with yEd formatting.
 		// Instead, ¶ is being used to indicate actual new lines.
-		fullText = fullText.replace("\n", "");
+		fullText = fullText.replace("\n", " ");
 
 		// Split the fulltext into the separate sections to display
 		fullTextSections = fullText.split("§");
@@ -229,7 +229,7 @@ public class PopUp extends Window implements PopUpSubject {
 		currentCharacter = conversation.getCharacter();
 
 		if (currentCharacter == null)
-			currentCharacter = new String("");
+			currentCharacter = new String(" ");
 
 		// set character name in placeholder for label
 		if (currentCharacter.startsWith("{")) {

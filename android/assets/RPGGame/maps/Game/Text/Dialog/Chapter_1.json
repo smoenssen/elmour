@@ -8,7 +8,7 @@ conversations: {
 	}
 	n97: {
 		id: n97
-		dialog: Uhh...\r\nHey guys...
+		dialog: Uhh... Hey guys...
 		character: Me
 		type: NPC
 	}
@@ -74,13 +74,13 @@ conversations: {
 	}
 	n28: {
 		id: n28
-		dialog: "My name is {CHARACTER_1}.\r\nMind telling me your’s… wait… hold on a \r\nsecond."
+		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your’s?"
 		character: Me
 		type: NPC
 	}
 	n27: {
 		id: n27
-		dialog: "You know, I never asked for your name, not \r\nthat I had the chance.\r\nMind telling me?"
+		dialog: "You know, I never asked for your name, not\r\nthat I had the chance.§\r\nMind telling me?"
 		character: Girl
 		type: NPC
 	}
@@ -92,7 +92,7 @@ conversations: {
 	}
 	n25: {
 		id: n25
-		dialog: Don't get anywhere near that maniac! I forbid \r\nyou!
+		dialog: Don't get anywhere near that maniac! I forbid\r\nyou!
 		character: Guard
 		type: NPC
 	}
@@ -122,7 +122,7 @@ conversations: {
 	}
 	n22: {
 		id: n22
-		dialog: I must've passed out. That's the only \r\nexplanation I can think of.
+		dialog: I must've passed out. That's the only\r\nexplanation I can think of.
 		character: My Thoughts
 		type: NPC
 	}
@@ -186,11 +186,41 @@ conversations: {
 		character: null
 		type: ACTION
 	}
+	n105: {
+		id: n105
+		dialog: GO_TO_PORTAL_ROOM
+		character: null
+		type: ACTION
+	}
+	n104: {
+		id: n104
+		dialog: CHAR2_TURN_AROUND
+		character: null
+		type: ACTION
+	}
+	n103: {
+		id: n103
+		dialog: I'll help you anyways. maybe you'll decide\r\notherwise later.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n102: {
+		id: n102
+		dialog: Wait... hold on a second.
+		character: Me
+		type: NPC
+	}
 	n19: {
 		id: n19
 		dialog: This is China? I can't say that it looks like it.
 		character: My Thoughts
 		type: NPC
+	}
+	n101: {
+		id: n101
+		dialog: WAIT_500
+		character: null
+		type: ACTION
 	}
 	n18: {
 		id: n18
@@ -200,13 +230,13 @@ conversations: {
 	}
 	n100: {
 		id: n100
-		dialog: FORCEFIELD
+		dialog: FORCE_FIELD
 		character: null
 		type: ACTION
 	}
 	n17: {
 		id: n17
-		dialog: "OK, let me rephrase that: which country are \r\nwe in right now?"
+		dialog: "OK, let me rephrase that: which country are\r\nwe in right now?"
 		character: Girl
 		type: NPC
 	}
@@ -224,7 +254,7 @@ conversations: {
 	}
 	n13: {
 		id: n13
-		dialog: "I know you're not here to raid my castle!\r\nNo idiot would go throught the front gates to \r\nexit the castles.\r\nNot to mention, you obviously aren't from \r\naround here."
+		dialog: "I know you're not here to raid my castle!¶\r\nNo idiot would go throught the front gates to\r\nexit the castles.§\r\nNot to mention, you obviously aren't from\r\naround here."
 		character: Girl
 		type: NPC
 	}
@@ -242,7 +272,7 @@ conversations: {
 	}
 	n11: {
 		id: n11
-		dialog: Maybe if you looked around you would know \r\nwhere you are.
+		dialog: Maybe if you looked around you would know\r\nwhere you are.
 		character: Girl
 		type: NPC
 	}
@@ -254,7 +284,7 @@ conversations: {
 	}
 	n10: {
 		id: n10
-		dialog: "I’m not here to raid your castle... frankly, I \r\ndon’t even know why I’m here.\r\nI don’t even know where ‘here’ is."
+		dialog: "I’m not here to raid your castle... frankly, I \r\ndon’t even know why I’m here.§\r\nI don’t even know where ‘here’ is."
 		character: Me
 		type: NPC
 	}
@@ -290,7 +320,7 @@ conversations: {
 	}
 	n70: {
 		id: n70
-		dialog: "Well, I suppose just in case a giant goblin with \r\nbig tusks happens to be raiding Shnarfulapogus"
+		dialog: "Well, I suppose just in case a giant goblin with\r\nbig tusks happens to be raiding Shnarfulapogus"
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -302,7 +332,7 @@ conversations: {
 	}
 	n68: {
 		id: n68
-		dialog: We shouldn’t need them: the lands are pretty \r\nsafe.
+		dialog: We shouldn’t need them: the lands are pretty\r\nsafe.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -326,7 +356,7 @@ conversations: {
 	}
 	n64: {
 		id: n64
-		dialog: "There are Gem Keepers protecting The Gems, \r\nbut they have been told to stay at the Temples \r\nuntil I give them the OK in person."
+		dialog: "There are Gem Keepers protecting The Gems,\r\nbut they have been told to stay at the Temples\r\nuntil I give them the OK in person."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -362,7 +392,7 @@ conversations: {
 	}
 	n58: {
 		id: n58
-		dialog: Why? Who else is - NO! You’re not coming! \r\nYou have a country to run!
+		dialog: Why? Who else is - NO! You’re not coming!§\r\nYou have a country to run!
 		character: Me
 		type: NPC
 	}
@@ -374,7 +404,7 @@ conversations: {
 	}
 	n53: {
 		id: n53
-		dialog: "Yeah, did you really expect it to be that easy?\r\nWe just have to get The Gems: Emerald, \r\nTopaz, Diamond, Sapphire, and Ruby."
+		dialog: "Yeah, did you really expect it to be that easy?§\r\nWe just have to get The Gems: Emerald, \r\nTopaz, Diamond, Sapphire, and Ruby."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -386,7 +416,7 @@ conversations: {
 	}
 	n49: {
 		id: n49
-		dialog: You really are strange. It’s the town that we’re \r\nin right now.
+		dialog: You really are strange. It’s the town that we’re\r\nin right now.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -404,7 +434,7 @@ conversations: {
 	}
 	n46: {
 		id: n46
-		dialog: Just imagine this world and then you'll return.
+		dialog: Just imagine this world and then you'll return.¶\r\nSimple as that.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -416,25 +446,25 @@ conversations: {
 	}
 	n44: {
 		id: n44
-		dialog: Uh… that's mean!\r\nI'll help you anyways. maybe you'll decide \r\notherwise later.
+		dialog: That's mean!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n9: {
 		id: n9
-		dialog: "I am not here to harm you, I just want to ask \r\nwhat your intentions for raiding my castle are."
+		dialog: "I am not here to harm you, I just want to ask\r\nwhat your intentions for raiding my castle are."
 		character: Girl
 		type: NPC
 	}
 	n41: {
 		id: n41
-		dialog: "There is, but I’ll only tell you if you promise me \r\none thing - you’ll visit Elmour again."
+		dialog: "There is, but I’ll only tell you if you promise me\r\none thing - you’ll visit Elmour again."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n40: {
 		id: n40
-		dialog: "I don’t know why, but they’ve been acting \r\nstrange recently."
+		dialog: "I don’t know why, but they’ve been acting\r\nstrange recently."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -488,7 +518,7 @@ conversations: {
 	}
 	n34: {
 		id: n34
-		dialog: "Yep, that’s my name.\r\nPrincess {CHARACTER_2}, but you can just \r\ncall me {CHARACTER_2}. I am in charge of these lands."
+		dialog: "Yep, that’s my name.§\r\nPrincess {CHARACTER_2}, but you can just\r\ncall me {CHARACTER_2}.§\r\nI am in charge of these lands."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -612,7 +642,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n28
-			destinationId: n29
+			destinationId: n101
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -760,11 +790,51 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n105: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n105
+			destinationId: n52
+			choicePhrase: You mean I could’ve just left as soon as I \r\ncame?
+		}
+	]
+	n104: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n104
+			destinationId: n103
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n103: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n103
+			destinationId: n48
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n102: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n102
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n19: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n19
 			destinationId: n83
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n101: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n101
+			destinationId: n102
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -913,7 +983,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked \r\nby your guards twice."
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1114,8 +1184,8 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n49
-			destinationId: n52
-			choicePhrase: Is this a portal?
+			destinationId: n105
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n48: [
@@ -1154,7 +1224,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n44
-			destinationId: n48
+			destinationId: n104
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1315,7 +1385,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked \r\nby your guards twice."
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
 		}
 	]
 	n36: [
@@ -1339,7 +1409,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n34
 			destinationId: n37
-			choicePhrase: "Speaking of which, is there anyway that I can \r\nget off these lands?"
+			choicePhrase: "Speaking of which, is there anyway that I can\r\nget off these lands?"
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice

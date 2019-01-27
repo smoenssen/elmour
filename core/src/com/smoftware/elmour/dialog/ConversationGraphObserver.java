@@ -27,6 +27,7 @@ public interface ConversationGraphObserver {
         LOOK_AROUND_AGAIN,
         ENTER_GUARDS,
         GUARDS_MOVE_FORWARD,
+        FORCE_FIELD,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,
