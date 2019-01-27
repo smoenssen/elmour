@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by moenssr on 3/1/2018.
@@ -238,8 +239,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private float gravity;
     private float battleHUDHeight;
     private float bounceVelocityY;
-    private BattleBurst hpBattleBurst;
-    private BattleBurst specialBattleBurst;
+    private CopyOnWriteArrayList<BattleBurst> battleBursts; // a thread-safe Arraylist.
     private boolean isMissHit = false;
     private boolean battleWon = false;
 
@@ -374,8 +374,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         _transitionActor = new ScreenTransitionActor();
 
-        hpBattleBurst = new BattleBurst();
-        specialBattleBurst = new BattleBurst();
+        battleBursts = new CopyOnWriteArrayList<>();
         throwingItem = new ThrowingItem();
 
         _stage.addActor(_transitionActor);
@@ -845,12 +844,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private void completeAllActions() {
         float delta = 1;
 
-        for (Image image : hpBattleBurst.imageArray) {
-            image.addAction(Actions.fadeOut(0));
-        }
-
-        for (Image image : specialBattleBurst.imageArray) {
-            image.addAction(Actions.fadeOut(0));
+        for (BattleBurst bb : battleBursts) {
+            for (Image image : bb.imageArray) {
+                image.addAction(Actions.fadeOut(0));
+            }
         }
 
         // need to loop multiple times in case there is an embedded sequence
@@ -1995,12 +1992,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             _mapRenderer.getBatch().end();
         }
 
-        if (hpBattleBurst.show) {
-            updateBattleBurst(delta, hpBattleBurst);
-        }
-
-        if (specialBattleBurst.show) {
-            updateBattleBurst(delta, specialBattleBurst);
+        for (int i = 0; i < battleBursts.size(); i++) {
+            BattleBurst bb = battleBursts.get(i);
+            if (bb.show) {
+                updateBattleBurst(delta, bb);
+            }
         }
 
         if (throwingItem.show)
@@ -2037,20 +2033,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         if (selectedEntity.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
             switch (selectedEntity.getBattlePosition()) {
                 case 1:
-                    party2.draw(_mapRenderer.getBatch(),1);
+                    if (party2.getStage() != null)
+                        party2.draw(_mapRenderer.getBatch(),1);
                     break;
                 case 3:
-                    party4.draw(_mapRenderer.getBatch(),1);
+                    if (party4.getStage() != null)
+                        party4.draw(_mapRenderer.getBatch(),1);
                     break;
             }
         }
         else {
             switch (selectedEntity.getBattlePosition()) {
                 case 1:
-                    enemy2.draw(_mapRenderer.getBatch(),1);
+                    if (enemy2.getStage() != null)
+                        enemy2.draw(_mapRenderer.getBatch(),1);
                     break;
                 case 3:
-                    enemy4.draw(_mapRenderer.getBatch(),1);
+                    if (enemy4.getStage() != null)
+                        enemy4.draw(_mapRenderer.getBatch(),1);
                     break;
             }
         }
@@ -2504,11 +2504,13 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private void endThrowingItem() {
         throwingItem.show = false;
         itemIsBeingThrown = false;
-        if (hpBattleBurst.isDelayed) {
-            for (Image image : hpBattleBurst.imageArray) {
-                image.setVisible(true);
+        for (BattleBurst bb : battleBursts) {
+            if (bb.isDelayed) {
+                for (Image image : bb.imageArray) {
+                    image.setVisible(true);
+                }
+                bb.show = true;
             }
-            hpBattleBurst.show = true;
         }
     }
 
@@ -2633,6 +2635,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 }
                 bb.show = false;
                 bb.isDelayed = false;
+
+                for (BattleBurst burst : battleBursts) {
+                    if (bb == burst) {
+                        battleBursts.remove(bb);
+                    }
+                }
             }
         }
 
@@ -2767,14 +2775,22 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private void hitPointAnimation(final Entity entity, final String hitValue) {
 
         AnimatedImage character = getAnimatedImageFromEntity(entity);
-
+/*
         if (character != null) {
             if (hitValue.equals(CRIT_HIT) || hitValue.equals(MISS_HIT) || hitValue.equals(WEAK_HIT)) {
-                initBattleBurst(specialBattleBurst, character, hitValue, entity.getBattleEntityType());
+                BattleBurst bb = new BattleBurst();
+                initBattleBurst(bb, character, hitValue, entity.getBattleEntityType());
+                specialBattleBursts.add(bb);
             }
             else {
                 initBattleBurst(hpBattleBurst, character, hitValue, entity.getBattleEntityType());
             }
+        }
+*/
+        if (character != null) {
+            BattleBurst bb = new BattleBurst();
+            initBattleBurst(bb, character, hitValue, entity.getBattleEntityType());
+            battleBursts.add(bb);
         }
 
         isMissHit = false;

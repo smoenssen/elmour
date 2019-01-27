@@ -106,6 +106,9 @@ public class AnimatedImage extends Image {
             _frameTime = (_frameTime + delta) % 5;
         }
 
+        if (_entity == null || _currentAnimationType == null)
+            return;
+
         _entity.getAnimation(_currentAnimationType).setPlayMode(Animation.PlayMode.NORMAL);
 
         if (_currentAnimationType != Entity.AnimationType.IDLE) {

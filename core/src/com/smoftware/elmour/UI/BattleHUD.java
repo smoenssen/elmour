@@ -310,7 +310,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private MyTextField battleWonStatsTextField;
     private ScrollPane battleWonStatsScrollPanel;
     private Table battleWonStatsTable;
-    private float battleWonStatsRowHeight = 24;
+    private float battleWonStatsRowHeight = 26;
     private Image dimmedScreen;
 
     public String selectedCharacter = null;
@@ -1512,6 +1512,9 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                // DIBS go to the party
                                                game.statusUI.updatePartyDibs(dibsReward);
 
+                                               // enable scroll panel
+                                               battleWonStatsScrollPanel.setTouchable(Touchable.enabled);
+
                                                // reset for next battle
                                                xpReward = 0;
                                                dibsReward = 0;
@@ -1620,6 +1623,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                rewardItems.clear();
                                                rewardItemsShown = 0;
                                                battleWon = false;
+                                               battleWonStatsScrollPanel.setTouchable(Touchable.disabled);
 
                                                if( !resetControlsTimer().isScheduled() ){
                                                    Timer.schedule(resetControlsTimer(), 1);

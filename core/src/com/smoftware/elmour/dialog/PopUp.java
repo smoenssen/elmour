@@ -47,6 +47,7 @@ public class PopUp extends Window implements PopUpSubject {
 	private boolean isReady = false;
 	private boolean isEcho = false;
 	private boolean isActive = false;
+	private boolean isThreadRunning = false;
 	private boolean doneWithCurrentNode = true;
 	private long setVisibleDelay = 0;
 	private PopUpType popUpType;
@@ -125,7 +126,14 @@ public class PopUp extends Window implements PopUpSubject {
 	}
 
 	public void cleanupTextArea() {
-		this.reset();
+		try {
+			this.reset();
+		}
+		catch (IndexOutOfBoundsException e) {
+			Gdx.app.error(TAG, "IndexOutOfBoundsException caught when cleaning up text area");
+			e.printStackTrace();
+		}
+
 		textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
         textArea.adjustOffsetY(-3f);
 		textArea.setDisabled(true);
@@ -304,6 +312,14 @@ public class PopUp extends Window implements PopUpSubject {
 			public void run() {
 				Gdx.app.log(TAG, "Starting InteractionThread...");
 
+				if (isThreadRunning) {
+					Gdx.app.log(TAG, "InteractionThread already running so exiting");
+					return;
+				}
+				else {
+					isThreadRunning = true;
+				}
+
 				try { Thread.sleep(setVisibleDelay); } catch (InterruptedException e) { e.printStackTrace(); }
 
 				while (isActive) {
@@ -363,7 +379,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 							if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
 								// done populating current box so need to pause for next interaction
-								while (!interactReceived && state == State.LISTENING) {
+								while (isActive && !interactReceived && state == State.LISTENING) {
 									pause(100);
 								}
 
@@ -389,7 +405,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 						// if this is an echo, then keep the text displayed until next interaction
 						interactReceived = false;
-						while (isEcho && !interactReceived) {
+						while (isActive && isEcho && !interactReceived) {
 							pause(100);
 						}
 
@@ -416,6 +432,7 @@ public class PopUp extends Window implements PopUpSubject {
 				Gdx.app.log(TAG, "Exiting InteractionThread");
 				PopUp.this.notify(0, PopUpObserver.PopUpEvent.INTERACTION_THREAD_EXIT);
 				hide();
+				isThreadRunning = false;
 			}
 		};
 

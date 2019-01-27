@@ -443,8 +443,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 guard7.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard7.setCurrentDirection(Entity.Direction.LEFT);
 
-                misc.setPosition(2, 5);
-                misc.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                misc.setPosition(-1.5f, 2.5f);
+                misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
+                misc.setVisible(false);
             }
         };
     }

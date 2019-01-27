@@ -80,7 +80,17 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	battleLarge: {
+		font: myFont
+		fontColor: white
+		background: transparent
+	}
 	stats: {
+		font: myFontSuperSmall
+		fontColor: white
+		background: transparent
+	}
+	tree: {
 		font: myFontSuperSmall
 		fontColor: white
 		background: transparent
@@ -88,7 +98,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
-		font: myFontSmall
+		font: myFontVerySmall
 		fontColorSelected: white
 		fontColorUnselected: white
 		selection: selection
@@ -167,8 +177,8 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: textbutton
 		down: textbutton_down
 	}
-	no_background: {
-		font: myFontSmall
+	tree_node: {
+		font: myFontVerySmall
 		fontColor: white
 		up: transparent
 	}
@@ -191,6 +201,21 @@ com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
 		font: myFontSmall
 		fontColor: white
 		background: textbutton
+	}
+	battletext: {
+		font: myFontVerySmall
+		fontColor: white
+		background: transparent
+	}
+	battleLarge: {
+		font: myFont
+		fontColor: white
+		background: textbutton
+	}
+	battleHitpoints: {
+		font: myFontRed
+		fontColor: white
+		background: transparent
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
@@ -229,6 +254,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		titleFontColor: white
 		background: textfield
 		stageBackground: dialogDim
+	}
+	battle: {
+		titleFont: myFontSmall
+		titleFontColor: white
+		background: textbutton
 	}
 }
 }

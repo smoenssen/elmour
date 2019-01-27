@@ -1,12 +1,27 @@
 {
-entityID : MISC_ANIMATIONS
-state : IDLE
+	entityID : MISC_ANIMATIONS
+	state : IDLE
 animationConfig: [
+	{
+	    frameDuration: 0.15
+			frameWidth : 80
+			frameHeight : 80
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Misc/Misc.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
 	{
 			frameDuration: 0.08
 			frameWidth : 80
 			frameHeight : 80
-			looping : false
+			looping : true
 		animationType: FORCEFIELD
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Misc/Misc.png

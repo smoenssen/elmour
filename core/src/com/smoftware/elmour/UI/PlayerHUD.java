@@ -553,7 +553,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        if (touchPointIsInButton(saveButton)) {
                                            hideMenu(true);
                                            if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
-                                               confirmOverwrite();
+                                               //confirmOverwrite();
+                                               testInput();
                                            }
                                            else {
                                                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
@@ -754,6 +755,77 @@ public class PlayerHUD implements Screen, AudioSubject,
         Rectangle buttonRect = new Rectangle(button.getX(), button.getY(), button.getWidth(), button.getHeight());
 
         return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
+    }
+
+    private void testInput() {
+        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
+        TextButton btnCancel = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
+        final MyTextField inputField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+
+        //_stage.add(usernameTextField);            // <-- Actor now on stage
+        //Gdx.input.setInputProcessor(stage);
+
+        final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
+            @Override
+            public float getPrefWidth() {
+                // force dialog width
+                return _stage.getWidth() / 1.1f;
+            }
+
+            @Override
+            public float getPrefHeight() {
+                // force dialog height
+                return 125f;
+            }
+        };
+        dialog.setModal(true);
+        dialog.setMovable(false);
+        dialog.setResizable(false);
+
+        btnOK.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                // save profile
+                String input = inputField.getText();
+                Gdx.app.log(TAG, "Input: " + input);
+                dialog.cancel();
+                dialog.hide();
+                Gdx.input.setOnscreenKeyboardVisible(false);
+                return true;
+            }
+        });
+
+        btnCancel.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                dialog.cancel();
+                dialog.hide();
+                Gdx.input.setOnscreenKeyboardVisible(false);
+                return true;
+            }
+        });
+
+        float btnHeight = 30f;
+        float btnWidth = 100f;
+        Table t = new Table();
+        t.row().pad(5, 5, 0, 5);
+        // t.debug();
+
+        Label label1 = new Label("Name:", Utility.ELMOUR_UI_SKIN, "message_box");
+        //label1.setAlignment(Align.center);
+        dialog.getContentTable().add(label1).padTop(5f);
+        dialog.getContentTable().add(inputField).width(200).padTop(5f);
+
+        t.add(btnOK).width(btnWidth).height(btnHeight);
+        t.add(btnCancel).width(btnWidth).height(btnHeight);
+
+        dialog.getButtonTable().add(t).center().padBottom(10f);
+        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - dialog.getWidth() / 2, _stage.getHeight() - dialog.getHeight() - 7);
+
+        dialog.setName("inputDialog");
+        _stage.addActor(dialog);
     }
 
     private void confirmOverwrite() {
@@ -1696,7 +1768,6 @@ public class PlayerHUD implements Screen, AudioSubject,
             case INTERACTION_THREAD_EXIT:
                 // this is necessary to allow player to move again
                 isCurrentConversationDone = true;
-                signPopUp.hide();
                 break;
         }
     }

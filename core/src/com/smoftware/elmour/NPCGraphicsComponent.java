@@ -70,8 +70,11 @@ public class NPCGraphicsComponent extends GraphicsComponent {
                     float frameDuration = animationConfig.getFrameDuration();
                     Animation<TextureRegion> animation = null;
 
+                    int frameHeight = animationConfig.getFrameHeight();
+                    int frameWidth = animationConfig.getFrameWidth();
+
                     if( textureNames.size == 1) {
-                        animation = loadAnimation(textureNames.get(0), points, frameDuration);
+                        animation = loadAnimation(textureNames.get(0), points, frameDuration, frameWidth, frameHeight);
                     }else if( textureNames.size == 2){
                         animation = loadAnimation(textureNames.get(0), textureNames.get(1), points, frameDuration);
                     }
