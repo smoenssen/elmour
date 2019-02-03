@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -33,6 +35,7 @@ import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.InputDialogObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -42,7 +45,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 import java.util.ArrayList;
 
-public class CutSceneChapter1 extends GameScreen implements ConversationGraphObserver {
+public class CutSceneChapter1 extends GameScreen implements ConversationGraphObserver, InputDialogObserver {
     private static final String TAG = CutSceneChapter1.class.getSimpleName();
 
     private final float V_WIDTH = 18;//2.4f;//srm
@@ -72,7 +75,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
     protected OrthographicCamera _hudCamera = null;
-    //protected OrthographicCamera controllersCam = null;
 
     private Json _json;
     private ElmourGame _game;
@@ -83,8 +85,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
     private Actor _followingActor;
     private MyActions myActions;
-
-    private boolean isInConversation = false;
 
     private Viewport _viewport;
     private Stage _stage;
@@ -110,6 +110,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private AnimatedImage guard8;
     private AnimatedImage camactor;
     private AnimatedImage misc;
+
+    private Image blackBarLeft;
+    private Image blackBarRight;
 
     float oneBlockTime = 0;
     float zoomRate = 0;
@@ -211,6 +214,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         }
 
         _playerHUD.setCutScene(true);
+        _playerHUD.addObserver(this);
 
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
@@ -241,6 +245,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         misc.setVisible(false);
         misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
 
+        blackBarLeft = new Image(new Texture("graphics/black_rectangle.png"));
+        blackBarLeft.setVisible(false);
+        blackBarRight = new Image(new Texture("graphics/black_rectangle.png"));
+        blackBarRight.setVisible(false);
+
         _transitionActor = new ScreenTransitionActor();
 
         _followingActor = new Actor();
@@ -261,6 +270,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
         _stage.addActor(camactor);
         _stage.addActor(misc);
+        _stage.addActor(blackBarLeft);
+        _stage.addActor(blackBarRight);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -447,8 +458,33 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 misc.setPosition(-1, 3);
                 misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
+                misc.setVisible(false);
+
+                blackBarLeft.setWidth(2.5f);
+                blackBarLeft.setHeight(5);
+                blackBarLeft.setPosition(-1.5f, 2.5f);
+                blackBarLeft.setVisible(true);
+
+                blackBarRight.setWidth(2.5f);
+                blackBarRight.setHeight(5);
+                blackBarRight.setPosition(9, 4);
+                blackBarRight.setVisible(true);
             }
         };
+    }
+
+    @Override
+    public void onInputDialogNotify(String value, InputDialogEvent event) {
+        Gdx.app.log(TAG, "Got value " + value + " for event " + event.toString());
+
+        switch(event) {
+            case GET_CHAR1_NAME:
+                ProfileManager.getInstance().setProperty("CHARACTER_1", value);
+                break;
+            case GET_CHAR2_NAME:
+                ProfileManager.getInstance().setProperty("CHARACTER_2", value);
+                break;
+        }
     }
 
     @Override
@@ -682,6 +718,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 break;
             case ENTER_GUARDS:
+                //_playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR1_NAME);
                 _stage.addAction(Actions.sequence(
                         //First
                         myActions.new setCharacterVisible(guard1, true),
@@ -1006,6 +1043,12 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         )
                 );
 
+                break;
+            case GET_CHAR1_NAME:
+                _playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR1_NAME);
+                break;
+            case GET_CHAR2_NAME:
+                _playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR2_NAME);
                 break;
             case EXIT_CONVERSATION:
                 _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
@@ -1431,7 +1474,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         new Runnable() {
                             @Override
                             public void run() {
-                                isInConversation = true;
                                 _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
@@ -1529,7 +1571,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
-                // myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
                 myActions.new continueConversation(_playerHUD)
@@ -1578,7 +1620,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
     @Override
     public void show() {
-        _stage.addAction(getOpeningCutSceneAction());
+        //_stage.addAction(getOpeningCutSceneAction());
+        _stage.addAction(getWakeUpScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

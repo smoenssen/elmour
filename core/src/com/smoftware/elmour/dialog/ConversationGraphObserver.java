@@ -28,6 +28,8 @@ public interface ConversationGraphObserver {
         ENTER_GUARDS,
         GUARDS_MOVE_FORWARD,
         FORCE_FIELD,
+        GET_CHAR1_NAME,
+        GET_CHAR2_NAME,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,

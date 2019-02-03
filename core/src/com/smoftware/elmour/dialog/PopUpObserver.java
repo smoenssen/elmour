@@ -1,7 +1,7 @@
 package com.smoftware.elmour.dialog;
 
 public interface PopUpObserver {
-    public static enum PopUpEvent {
+    enum PopUpEvent {
         INTERACTION_THREAD_EXIT
     }
 

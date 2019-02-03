@@ -164,6 +164,8 @@ public final class Utility {
 		ELMOUR_UI_SKIN.add("myFontRed", fontRed, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
+
+		ELMOUR_UI_SKIN.add("cursor", new Texture("graphics/black_rectangle.png"));
 	}
 
 	public static void unloadAsset(String assetFilenamePath){

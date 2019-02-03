@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Scaling;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.maps.Elmour;
 
 public class AnimatedImage extends Image {
     private static final String TAG = AnimatedImage.class.getSimpleName();
@@ -74,13 +75,13 @@ public class AnimatedImage extends Image {
             Array<EntityConfig.AnimationConfig> animationConfigs = _entity.getEntityConfig().getAnimationConfig();
 
             Gdx.app.debug(TAG, "Animation type " + animationType.toString());
-            if (animationType.equals(Entity.AnimationType.THINK)) {
-                int x;
-                x=0;
-            }
 
             for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
                 if (animationConfig.getAnimationType().equals(animationType)) {
+
+                    // this is necessary so that the correct frame width and height from the json file is used
+                    this.setSize(animationConfig.getFrameWidth() * Elmour.UNIT_SCALE, animationConfig.getFrameHeight() * Elmour.UNIT_SCALE);
+
                     isLooping = animationConfig.getLooping();
                     Gdx.app.log(TAG, "setting isLooping to " + isLooping + " for animation type " + animationType.toString());
                     break;

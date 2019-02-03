@@ -243,7 +243,7 @@ public class PopUp extends Window implements PopUpSubject {
 		if (currentCharacter.startsWith("{")) {
 			// get character name placeholder
 			String placeholder = currentCharacter.substring(1, currentCharacter.length() - 1);
-			currentCharacter = ProfileManager.getInstance().getProperty(placeholder, String .class);
+			currentCharacter = ProfileManager.getInstance().getProperty(placeholder, String.class);
 		}
 
 		// set character name(s) if placeholders are in dialog text
@@ -252,7 +252,7 @@ public class PopUp extends Window implements PopUpSubject {
 		while (leftBracketIndex >= 0) {
 			int rightBracketIndex = tmp.indexOf('}', leftBracketIndex + 1);
 			String placeholder = tmp.substring(leftBracketIndex + 1, rightBracketIndex);
-			String characterName = ProfileManager.getInstance().getProperty(placeholder, String .class);
+			String characterName = ProfileManager.getInstance().getProperty(placeholder, String.class);
 			fullText = fullText.replace("{" + placeholder + "}", characterName);
 			leftBracketIndex = tmp.indexOf('{', rightBracketIndex + 1);
 		}

@@ -4,8 +4,8 @@
 animationConfig: [
 	{
 	    frameDuration: 0.15
-			frameWidth : 80
-			frameHeight : 80
+			frameWidth : 16
+			frameHeight : 16
 		animationType: IDLE
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Misc/Misc.png

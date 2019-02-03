@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -41,6 +42,8 @@ import com.smoftware.elmour.dialog.ChoicePopUp;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.InputDialogObserver;
+import com.smoftware.elmour.dialog.InputDialogSubject;
 import com.smoftware.elmour.dialog.PopUpLabel;
 import com.smoftware.elmour.dialog.PopUp;
 import com.smoftware.elmour.dialog.PopUpObserver;
@@ -56,6 +59,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class PlayerHUD implements Screen, AudioSubject,
                                 ProfileObserver,
@@ -63,7 +67,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 ConversationGraphObserver,
                                 BattleObserver,
                                 StatusObserver,
-        PopUpObserver {
+                                PopUpObserver,
+                                InputDialogSubject{
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -133,7 +138,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Json _json;
     private MapManager _mapMgr;
 
-    private Array<AudioObserver> _observers;
+    private Array<AudioObserver> audioObservers;
+    private Array<InputDialogObserver> inputDialogObservers;
     private ScreenTransitionActor _transitionActor;
 
     private ShakeCamera _shakeCam;
@@ -157,7 +163,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         isCutScene = false;
         isEnabled = true;
 
-        _observers = new Array<AudioObserver>();
+        audioObservers = new Array<>();
+        inputDialogObservers = new Array<>();
         _transitionActor = new ScreenTransitionActor();
 
         _shakeCam = new ShakeCamera(0,0, 30.0f);
@@ -553,8 +560,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        if (touchPointIsInButton(saveButton)) {
                                            hideMenu(true);
                                            if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
-                                               //confirmOverwrite();
-                                               testInput();
+                                               confirmOverwrite();
                                            }
                                            else {
                                                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
@@ -757,13 +763,22 @@ public class PlayerHUD implements Screen, AudioSubject,
         return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
     }
 
-    private void testInput() {
-        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnCancel = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
-        final MyTextField inputField = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battleLarge");
+    public InputDialogObserver.InputDialogEvent inputDialogEvent;
 
-        //_stage.add(usernameTextField);            // <-- Actor now on stage
-        //Gdx.input.setInputProcessor(stage);
+    public void requestInput(String labelText, InputDialogObserver.InputDialogEvent event) {
+        inputDialogEvent = event;
+        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
+
+        // All of this is needed in order to get a blinking cursor
+        MyTextField.TextFieldStyle tStyle = new MyTextField.TextFieldStyle();
+        tStyle.font = Utility.ELMOUR_UI_SKIN.getFont("myFont");
+        tStyle.fontColor = Color.BLACK;
+        tStyle.background = Utility.ELMOUR_UI_SKIN.getDrawable("textbutton");
+        tStyle.cursor = Utility.ELMOUR_UI_SKIN.newDrawable("cursor", Color.BLACK);
+        tStyle.cursor.setMinWidth(3.5f);
+        tStyle.selection = Utility.ELMOUR_UI_SKIN.newDrawable("textbutton", 0.5f, 0.5f, 0.5f, 0.5f);
+
+        final MyTextField inputField = new MyTextField("", tStyle);
 
         final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
             @Override
@@ -786,23 +801,13 @@ public class PlayerHUD implements Screen, AudioSubject,
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
-                // save profile
                 String input = inputField.getText();
                 Gdx.app.log(TAG, "Input: " + input);
+                validateInput(input);
                 dialog.cancel();
                 dialog.hide();
                 Gdx.input.setOnscreenKeyboardVisible(false);
-                return true;
-            }
-        });
-
-        btnCancel.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y,
-                                     int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
-                Gdx.input.setOnscreenKeyboardVisible(false);
+                PlayerHUD.this.notify(input, inputDialogEvent);
                 return true;
             }
         });
@@ -813,19 +818,29 @@ public class PlayerHUD implements Screen, AudioSubject,
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label("Name:", Utility.ELMOUR_UI_SKIN, "message_box");
-        //label1.setAlignment(Align.center);
+        Label label1 = new Label(labelText, Utility.ELMOUR_UI_SKIN, "message_box");
         dialog.getContentTable().add(label1).padTop(5f);
-        dialog.getContentTable().add(inputField).width(200).padTop(5f);
+        dialog.getContentTable().add(inputField).width(250).padTop(5f);
 
         t.add(btnOK).width(btnWidth).height(btnHeight);
-        t.add(btnCancel).width(btnWidth).height(btnHeight);
 
         dialog.getButtonTable().add(t).center().padBottom(10f);
         dialog.show(_stage).setPosition(_stage.getWidth() / 2 - dialog.getWidth() / 2, _stage.getHeight() - dialog.getHeight() - 7);
 
         dialog.setName("inputDialog");
         _stage.addActor(dialog);
+    }
+
+    private boolean validateInput(String input) {
+        String validCharacters = "^[\\sa-zA-Z0-9ÀÁÂÃÄÅÆÈÉÊËÌÍÎÏĐÑÒÓÔÕÖØÙÚÛÜÝÿþÞßŸàáâãäåæèéêëìíîïñòóôõöøùúûüý]*$";
+
+        if (input.matches(validCharacters)) {
+            Gdx.app.log(TAG, "Input is valid");
+            return true;
+        } else {
+            Gdx.app.log(TAG, "Input is not valid");
+            return false;
+        }
     }
 
     private void confirmOverwrite() {
@@ -1730,23 +1745,47 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     @Override
     public void addObserver(AudioObserver audioObserver) {
-        _observers.add(audioObserver);
+        audioObservers.add(audioObserver);
     }
 
     @Override
     public void removeObserver(AudioObserver audioObserver) {
-        _observers.removeValue(audioObserver, true);
+        audioObservers.removeValue(audioObserver, true);
     }
 
     @Override
     public void removeAllObservers() {
-        _observers.removeAll(_observers, true);
+        audioObservers.removeAll(audioObservers, true);
     }
 
     @Override
     public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
-        for(AudioObserver observer: _observers){
+        for(AudioObserver observer: audioObservers){
             observer.onNotify(command, event);
+        }
+    }
+
+    @Override
+    public void addObserver(InputDialogObserver observer) {
+        inputDialogObservers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(InputDialogObserver observer) {
+        inputDialogObservers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllInputDialogObservers() {
+        for(InputDialogObserver observer: inputDialogObservers){
+            inputDialogObservers.removeValue(observer, true);
+        }
+    }
+
+    @Override
+    public void notify(final String value, InputDialogObserver.InputDialogEvent event) {
+        for(InputDialogObserver observer: inputDialogObservers){
+            observer.onInputDialogNotify(value, event);
         }
     }
 
