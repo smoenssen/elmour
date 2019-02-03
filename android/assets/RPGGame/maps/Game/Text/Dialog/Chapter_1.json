@@ -104,13 +104,13 @@ conversations: {
 	}
 	n89: {
 		id: n89
-		dialog: CHAR2_ENTER_FORCEFIELD
+		dialog: CHAR2_NEXT_TO_CHAR1
 		character: null
 		type: ACTION
 	}
 	n23: {
 		id: n23
-		dialog: That girl... who was she?
+		dialog: That girl... who was she?§\r\nShe seemed familiar somehow...
 		character: My Thoughts
 		type: NPC
 	}
@@ -1443,5 +1443,5 @@ associatedChoices: {
 		}
 	]
 }
-currentConversationID: n21
+currentConversationID: n0
 }

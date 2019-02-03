@@ -21,7 +21,7 @@ animationConfig: [
 			frameDuration: 0.08
 			frameWidth : 80
 			frameHeight : 80
-			looping : true
+			looping : false
 		animationType: FORCEFIELD
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Misc/Misc.png

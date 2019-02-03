@@ -238,6 +238,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         guard6.setVisible(false);
         guard7.setVisible(false);
         guard8.setVisible(false);
+        misc.setVisible(false);
+        misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
 
         _transitionActor = new ScreenTransitionActor();
 
@@ -443,9 +445,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 guard7.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard7.setCurrentDirection(Entity.Direction.LEFT);
 
-                misc.setPosition(-1.5f, 2.5f);
+                misc.setPosition(-1, 3);
                 misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
-                misc.setVisible(false);
             }
         };
     }
@@ -683,14 +684,13 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
             case ENTER_GUARDS:
                 _stage.addAction(Actions.sequence(
                         //First
-                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
-                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
-
                         myActions.new setCharacterVisible(guard1, true),
                         Actions.delay(oneBlockTime),
                         myActions.new setWalkDirection(guard1, Entity.AnimationType.WALK_LEFT),
                         Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime), guard1),
                         Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
                         //Second
                         myActions.new setCharacterVisible(guard2, true),
@@ -885,9 +885,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                         myActions.new setWalkDirection(guard7, Entity.AnimationType.IDLE),
                         Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.UP),
                         myActions.new setWalkDirection(guard5, Entity.AnimationType.IDLE),
                         myActions.new setWalkDirection(guard6, Entity.AnimationType.IDLE),
                         Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
                         myActions.new setIdleDirection(guard3, Entity.Direction.DOWN),
                         myActions.new setIdleDirection(guard4, Entity.Direction.UP),
                         myActions.new setWalkDirection(guard3, Entity.AnimationType.IDLE),
@@ -897,6 +899,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         myActions.new setIdleDirection(guard2, Entity.Direction.UP),
                         myActions.new setWalkDirection(guard1, Entity.AnimationType.IDLE),
                         myActions.new setWalkDirection(guard2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
 
                         myActions.new continueConversation(_playerHUD)
                         )
@@ -919,29 +923,84 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                                                         guard6.getY() - ((guard6.getY() - character1.getY()) * percentToChar1));
                 Vector2 guard7Destination = new Vector2(guard7.getX() - ((guard7.getX() - character1.getX()) * percentToChar1),
                                                         guard7.getY() - ((guard7.getY() - character1.getY()) * percentToChar1));
+                float guard3_4_X = (guard3.getX() - guard3Destination.x) * 3 * (float)Math.sqrt(5);
+                float guard5_6_Y = (guard5.getY() - guard5Destination.y) * 3 * (float)Math.sqrt(1.25);
+
+                float guard3_4_Time = (float)Math.sqrt((guard3_4_X * guard3_4_X) + (4.1f * 4.1f));
+                float guard5_6_Time = (float)Math.sqrt((guard5_6_Y * guard5_6_Y) + (4.1f * 4.1f));
 
                 _stage.addAction(Actions.sequence(
                         Actions.parallel(
                         myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_DOWN),
                         Actions.addAction(Actions.moveTo(guard1Destination.x, guard1Destination.y, oneBlockTime * 2), guard1),
-                        myActions.new setWalkDirection(guard2, Entity.AnimationType.RUN_DOWN),
+                        myActions.new setWalkDirection(guard2, Entity.AnimationType.RUN_UP),
                         Actions.addAction(Actions.moveTo(guard2Destination.x, guard2Destination.y, oneBlockTime * 2), guard2),
-                        myActions.new setWalkDirection(guard3, Entity.AnimationType.RUN_LEFT),
+                        myActions.new setWalkDirection(guard3, Entity.AnimationType.RUN_DOWN),
                         Actions.addAction(Actions.moveTo(guard3Destination.x, guard3Destination.y, oneBlockTime * 2), guard3),
-                        myActions.new setWalkDirection(guard4, Entity.AnimationType.RUN_LEFT),
+                        myActions.new setWalkDirection(guard4, Entity.AnimationType.RUN_UP),
                         Actions.addAction(Actions.moveTo(guard4Destination.x, guard4Destination.y, oneBlockTime * 2), guard4),
                         myActions.new setWalkDirection(guard5, Entity.AnimationType.RUN_LEFT),
                         Actions.addAction(Actions.moveTo(guard5Destination.x, guard5Destination.y, oneBlockTime * 2), guard5),
-                        myActions.new setWalkDirection(guard6, Entity.AnimationType.RUN_UP),
+                        myActions.new setWalkDirection(guard6, Entity.AnimationType.RUN_LEFT),
                         Actions.addAction(Actions.moveTo(guard6Destination.x, guard6Destination.y, oneBlockTime * 2), guard6),
-                        myActions.new setWalkDirection(guard7, Entity.AnimationType.RUN_UP),
+                        myActions.new setWalkDirection(guard7, Entity.AnimationType.RUN_LEFT),
                         Actions.addAction(Actions.moveTo(guard7Destination.x, guard7Destination.y, oneBlockTime * 2), guard7)
                         ),
-                        Actions.delay(oneBlockTime * 2),
+                        Actions.delay(oneBlockTime * 0.5f),
+
+                        Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
+                        Actions.delay(oneBlockTime * 0.0025f),
+                        Actions.addAction(Actions.moveBy(-0.10f, 0, 0.005f), character1),
+                        Actions.delay(oneBlockTime * 0.005f),
+                        Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
+
+                        Actions.delay(oneBlockTime * 0.2425f),
 
                         myActions.new setCharacterVisible(misc, true),
                         myActions.new setWalkDirection(misc, Entity.AnimationType.FORCEFIELD),
-                        Actions.delay(oneBlockTime * 20),
+                        Actions.delay(oneBlockTime * 0.5f),
+
+                        Actions.parallel(
+                                myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_DOWN),
+                                Actions.addAction(Actions.moveTo(guard1Destination.x, 9.5f, oneBlockTime * 0.25f * 4.1f), guard1),
+                                myActions.new setWalkDirection(guard2, Entity.AnimationType.RUN_UP),
+                                Actions.addAction(Actions.moveTo(guard2Destination.x, 1, oneBlockTime * 0.25f * 4.1f), guard2),
+                                myActions.new setWalkDirection(guard3, Entity.AnimationType.RUN_DOWN),
+                                Actions.addAction(Actions.moveTo(guard3_4_X, 9.5f, oneBlockTime * 0.25f * guard3_4_Time), guard3),
+                                myActions.new setWalkDirection(guard4, Entity.AnimationType.RUN_UP),
+                                Actions.addAction(Actions.moveTo(guard3_4_X, 1, oneBlockTime * 0.25f * guard3_4_Time), guard4),
+                                myActions.new setWalkDirection(guard5, Entity.AnimationType.RUN_LEFT),
+                                Actions.addAction(Actions.moveTo(7, character1.getY() + guard5_6_Y, oneBlockTime * 0.25f * guard5_6_Time), guard5),
+                                myActions.new setWalkDirection(guard6, Entity.AnimationType.RUN_LEFT),
+                                Actions.addAction(Actions.moveTo(7, guard5_6_Y, oneBlockTime * 0.25f * guard5_6_Time), guard6),
+                                myActions.new setWalkDirection(guard7, Entity.AnimationType.RUN_LEFT),
+                                Actions.addAction(Actions.moveTo(10, guard7Destination.y, oneBlockTime * 0.25f * 9), guard7)
+                                ),
+                        Actions.delay(oneBlockTime * 0.25f * 9),
+                        myActions.new setWalkDirection(guard1, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard2, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard3, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard4, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard5, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard6, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(guard7, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character1, Entity.Direction.UP),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setCharacterVisible(character2, true),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(5, 5, oneBlockTime * 3), character2),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
 
                         myActions.new continueConversation(_playerHUD)
                         )
@@ -1470,7 +1529,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                // myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
                 myActions.new continueConversation(_playerHUD)
@@ -1519,7 +1578,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
     @Override
     public void show() {
-        _stage.addAction(getWakeUpScene());
+        _stage.addAction(getOpeningCutSceneAction());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

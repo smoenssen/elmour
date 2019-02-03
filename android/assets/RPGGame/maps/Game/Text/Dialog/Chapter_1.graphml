@@ -455,10 +455,11 @@ explanation I can think of.<y:LabelModel>
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="149.22485892859595" x="2056.6674967079925" y="311.319768933271"/>
+          <y:Geometry height="30.0" width="207.2103046642983" x="2027.6747738401414" y="311.319768933271"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="136.7265625" x="6.2491482142977475" y="5.6494140625">That girl... who was she?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="178.076171875" x="14.567066394649373" y="-1.701171875">That girl... who was she?§
+She seemed familiar somehow...<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1695,7 +1696,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
           <y:Geometry height="30.0" width="179.67617705723626" x="2402.2735157788247" y="463.0653329809122"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="174.701171875" x="2.4875025911183" y="5.6494140625">CHAR2_ENTER_FORCEFIELD<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.041015625" x="12.8175807161183" y="5.6494140625">CHAR2_NEXT_TO_CHAR1<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1961,7 +1962,7 @@ otherwise later.<y:LabelModel>
           <y:Geometry height="30.0" width="147.59787520000066" x="4050.605663076498" y="358.0653329809121"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="143.353515625" x="2.1221797875000448" y="5.6494140625">CHAR2_TURN_AROUND<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="143.353515625" x="2.1221797875004995" y="5.6494140625">CHAR2_TURN_AROUND<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2808,7 +2809,10 @@ otherwise later.<y:LabelModel>
     <edge id="e80" source="n87" target="n23">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="2131.2799261722903" y="296.75615994518125"/>
+            <y:Point x="2131.2799261722903" y="296.75615994518125"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -2999,10 +3003,7 @@ otherwise later.<y:LabelModel>
     <edge id="e97" source="n23" target="n96">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="2131.2799261722903" y="357.19255095709156"/>
-            <y:Point x="2131.2799261722907" y="357.19255095709156"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="0.0" tx="-4.547473508864641E-13" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -3080,7 +3081,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e105" source="n28" target="n101">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3091,7 +3091,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e106" source="n102" target="n29">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3104,7 +3103,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e107" source="n101" target="n102">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3115,7 +3113,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e108" source="n44" target="n104">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3128,7 +3125,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e109" source="n104" target="n103">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3141,7 +3137,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e110" source="n105" target="n51">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3154,7 +3149,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e111" source="n105" target="n50">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3167,7 +3161,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e112" source="n51" target="n52">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3180,7 +3173,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e113" source="n50" target="n52">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3193,7 +3185,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e114" source="n103" target="n48">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-39.25731250442368" ty="0.0"/>
@@ -3204,7 +3195,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e115" source="n49" target="n105">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
