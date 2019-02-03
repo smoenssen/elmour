@@ -59,7 +59,9 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class PlayerHUD implements Screen, AudioSubject,
                                 ProfileObserver,
@@ -765,7 +767,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     public InputDialogObserver.InputDialogEvent inputDialogEvent;
 
-    public void requestInput(String labelText, InputDialogObserver.InputDialogEvent event) {
+    public void requestInput(final String labelText, InputDialogObserver.InputDialogEvent event) {
         inputDialogEvent = event;
         TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
 
@@ -803,11 +805,37 @@ public class PlayerHUD implements Screen, AudioSubject,
                                      int pointer, int button) {
                 String input = inputField.getText();
                 Gdx.app.log(TAG, "Input: " + input);
-                validateInput(input);
-                dialog.cancel();
-                dialog.hide();
-                Gdx.input.setOnscreenKeyboardVisible(false);
-                PlayerHUD.this.notify(input, inputDialogEvent);
+
+                input = input.trim();
+
+                if (input.isEmpty()) {
+                    dialog.cancel();
+                    dialog.hide();
+                    String message = "Empty string not allowed";
+                    invalidInputMessage(labelText, message);
+                }
+                else if (input.length() > 15) {
+                    dialog.cancel();
+                    dialog.hide();
+                    String message = "A maximum of 15 characters is allowed";
+                    invalidInputMessage(labelText, message);
+                }
+                else {
+                    String invalidChars = validateInput(input);
+                    if (invalidChars.isEmpty()) {
+                        dialog.cancel();
+                        dialog.hide();
+                        Gdx.input.setOnscreenKeyboardVisible(false);
+                        PlayerHUD.this.notify(input, inputDialogEvent);
+                    }
+                    else {
+                        dialog.cancel();
+                        dialog.hide();
+                        String charsNotAllowed = removeDuplicateChars(invalidChars);
+                        String message = "These character(s) are not allowed: \"" + charsNotAllowed + "\"";
+                        invalidInputMessage(labelText, message);
+                    }
+                }
                 return true;
             }
         });
@@ -829,18 +857,86 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         dialog.setName("inputDialog");
         _stage.addActor(dialog);
+        _stage.setKeyboardFocus(inputField);
     }
 
-    private boolean validateInput(String input) {
-        String validCharacters = "^[\\sa-zA-Z0-9ÀÁÂÃÄÅÆÈÉÊËÌÍÎÏĐÑÒÓÔÕÖØÙÚÛÜÝÿþÞßŸàáâãäåæèéêëìíîïñòóôõöøùúûüý]*$";
+    private void invalidInputMessage(final String labelText, String message) {
+        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
 
-        if (input.matches(validCharacters)) {
+        final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
+            @Override
+            public float getPrefWidth() {
+                // force dialog width
+                return _stage.getWidth() / 1.1f;
+            }
+
+            @Override
+            public float getPrefHeight() {
+                // force dialog height
+                return 125f;
+            }
+        };
+        dialog.setModal(true);
+        dialog.setMovable(false);
+        dialog.setResizable(false);
+
+        btnOK.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y,
+                                     int pointer, int button) {
+                dialog.cancel();
+                dialog.hide();
+                requestInput(labelText, inputDialogEvent);
+                return true;
+            }
+        });
+
+        float btnHeight = 30f;
+        float btnWidth = 100f;
+        Table t = new Table();
+        t.row().pad(5, 5, 0, 5);
+        // t.debug();
+
+        Label label1 = new Label(message, Utility.ELMOUR_UI_SKIN, "message_box");
+        dialog.getContentTable().add(label1).padTop(5f);
+
+        t.add(btnOK).width(btnWidth).height(btnHeight);
+
+        dialog.getButtonTable().add(t).center().padBottom(10f);
+        dialog.show(_stage).setPosition(_stage.getWidth() / 2 - dialog.getWidth() / 2, _stage.getHeight() - dialog.getHeight() - 7);
+
+        dialog.setName("invalidCharsDialog");
+        _stage.addActor(dialog);
+    }
+
+    private String validateInput(String input) {
+        String validCharacters = "\\sa-zA-Z0-9ÀÁÂÃÄÅÆÈÉÊËÌÍÎÏĐÑÒÓÔÕÖØÙÚÛÜÝÿþÞßŸàáâãäåæèéêëìíîïñòóôõöøùúûüý.,?!_*#$%+-/:;<=>\\^|£¥¿¡×÷€";
+        String regEx = "^[" + validCharacters + "]*$";
+        String invalidChars = "";
+
+        if (input.matches(regEx)) {
             Gdx.app.log(TAG, "Input is valid");
-            return true;
+            return invalidChars;
         } else {
-            Gdx.app.log(TAG, "Input is not valid");
-            return false;
+            invalidChars = input.replaceAll("([" + validCharacters + "])", "");
+            Gdx.app.log(TAG, "Input is not valid: " + invalidChars);
+            return invalidChars;
         }
+    }
+
+    private String removeDuplicateChars(String string) {
+        char[] chars = string.toCharArray();
+        Set<Character> charSet = new LinkedHashSet<Character>();
+        for (char c : chars) {
+            charSet.add(c);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Character character : charSet) {
+            sb.append(character);
+        }
+
+        return sb.toString();
     }
 
     private void confirmOverwrite() {
@@ -1404,17 +1500,18 @@ public class PlayerHUD implements Screen, AudioSubject,
             case NEXT_CONVERSATION_ID:
                 nextConversationId = value;
                 Gdx.app.log(TAG, String.format("------- NEXT_CONVERSATION_ID = %s", nextConversationId));
+
+                conversationPopUp.populateConversationDialogById(nextConversationId);
+
                 break;
             case PLAYER_RESPONSE:
-                //if (numVisibleChoices > 0) {
                 // interact first so previous popup is cleared
                 conversationPopUp.interact(false);
-                //}
 
                 // need a slight delay here, otherwise new popup isn't populated
                 try { Thread.sleep(100); } catch (InterruptedException e) { e.printStackTrace(); }
 
-                conversationPopUp.populateConversationDialogByText(value, "Me"); //todo: get player name
+                conversationPopUp.populateConversationDialogById(nextConversationId);
 
                 choicePopUp1.hide();
                 choicePopUp2.hide();
@@ -1422,9 +1519,6 @@ public class PlayerHUD implements Screen, AudioSubject,
                 choicePopUp4.hide();
                 numVisibleChoices = 0;
                 isThereAnActiveHiddenChoice = false;
-
-                // //now interact again to show new popup
-                conversationPopUp.interact(true);
 
                 break;
             case CHARACTER_NAME:

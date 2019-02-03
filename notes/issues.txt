@@ -7,6 +7,5 @@ make sure number of turns executed is correct
 If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
-
-In Spell.json, change SpellsPowerElement to SpellPowerElement
-Remove itemTypeID from every character .json file.
+Label in conversation is delayed from previous label
+If clicking in popup that has "section" character, next popup is dismissed

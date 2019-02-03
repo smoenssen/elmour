@@ -718,7 +718,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 break;
             case ENTER_GUARDS:
-                //_playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR1_NAME);
                 _stage.addAction(Actions.sequence(
                         //First
                         myActions.new setCharacterVisible(guard1, true),
