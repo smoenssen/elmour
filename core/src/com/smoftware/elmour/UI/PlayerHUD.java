@@ -1388,6 +1388,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         int choiceNum = 0;
         isThereAnActiveHiddenChoice = false;
 
+        Gdx.app.log(TAG, "Displaying " + choices.size() + " choices");
+
         for (ConversationChoice choice : choices) {
             switch(choiceNum++) {
                 case 0:

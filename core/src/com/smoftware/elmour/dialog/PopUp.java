@@ -326,6 +326,10 @@ public class PopUp extends Window implements PopUpSubject {
 					int sectionsProcessed = 0;
 					doneWithCurrentNode = false;
 
+                    if (popUpType == PopUpType.CONVERSATION) {
+                        graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
+                    }
+
 					for (String currFullText : fullTextSections) {
 						Gdx.app.log(TAG, "interaction thread   currFullText = " + currFullText);
 						sectionsProcessed++;
@@ -348,10 +352,6 @@ public class PopUp extends Window implements PopUpSubject {
 
 						// reset
 						delay = true;
-
-						if (popUpType == PopUpType.CONVERSATION) {
-							graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
-						}
 
 						// loop through lines
 						for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
@@ -384,10 +384,6 @@ public class PopUp extends Window implements PopUpSubject {
 								}
 
 								if (lineIdx == dialog.lineStrings.size - 1) {
-									//if (okToHide) {
-									//hide();
-									//state = State.HIDDEN;
-									//}
 									break;
 								}
 
