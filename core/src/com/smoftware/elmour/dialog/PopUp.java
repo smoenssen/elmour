@@ -355,14 +355,13 @@ public class PopUp extends Window implements PopUpSubject {
 
 						// loop through lines
 						for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
+							// process the current line
+							processLine(dialog.lineStrings.get(lineIdx));
 
 							if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
 								// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
 								doneWithCurrentNode = true;
 							}
-
-							// process the current line
-							processLine(dialog.lineStrings.get(lineIdx));
 
 							if (state == State.HIDDEN)
 								// break out of loop and exit thread if we were hidden
