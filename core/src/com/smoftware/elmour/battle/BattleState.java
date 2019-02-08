@@ -566,37 +566,72 @@ public class BattleState extends BattleSubject implements StatusObserver {
                     message += String.format(" on %s", currentSelectedCharacter.getEntityConfig().getDisplayName());
                 }
 
+                int hitPoints = 0;
+                int newHP = 0;
+
+                // miss hit or critical hit only applies to thrown items
+                boolean isMiss = false;
+                boolean isCriticalHit = false;
+
+                // check if this is a thrown inventory item, and if so check for a miss hit or critical hit
+                if (selectedInventoryElement.category == InventoryElement.InventoryCategory.Throwing) {
+                    float chanceOfHit = getChanceOfHit(1);
+                    int randomVal = MathUtils.random(1, 100);
+
+                    Gdx.app.log(TAG, "Chance of hit with ranged attack = " + chanceOfHit + ", randVal = " + randomVal);
+
+                    if (chanceOfHit < randomVal) {
+                        isMiss = true;
+                    }
+                    else {
+                        isCriticalHit = checkForCriticalHit();
+                    }
+                }
+
                 // Loop through effect list and apply effect value to character's profile.
                 // Also modify message text for HP and MP
                 boolean gotHPorMP = false;
                 boolean addedPeriod = false;
                 boolean addedEffectText = false;
                 int hpMax = game.statusUI.getHPMaxValue(currentSelectedCharacter);
-                int hitPoints = 0;
-                int newHP = 0;
                 for (InventoryElement.EffectItem effectItem : selectedInventoryElement.effectList) {
-
-                    int currVal = 0;
-                    int newVal = 0;
+                    int currVal;
+                    int newVal;
                     if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP)) {
                         currVal = game.statusUI.getHPValue(currentSelectedCharacter);
-                        newVal = MathUtils.clamp(currVal + effectItem.value, 0, hpMax);
-                        message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
-                        game.statusUI.setHPValue(currentSelectedCharacter, newVal);
-                        gotHPorMP = true;
-                        newHP = newVal;
-                        hitPoints = currVal - newVal;
-                    }
-                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
+                        if (!isMiss) {
+                            newVal = MathUtils.clamp(currVal + effectItem.value, 0, hpMax);
+                            message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                            game.statusUI.setHPValue(currentSelectedCharacter, newVal);
+                            gotHPorMP = true;
+                            newHP = newVal;
+                            hitPoints = currVal - newVal;
+                            if (isCriticalHit) {
+                                hitPoints *= 2;
+                            }
+                        }
+                        else {
+                            newHP = currVal;
+                            message += ", but missed!";
+                        }
+                    } else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_HP_PERCENT)) {
                         currVal = game.statusUI.getHPValue(currentSelectedCharacter);
-                        newVal = MathUtils.clamp(Utility.applyPercentageAndRoundUp(currVal, effectItem.value), 0, hpMax);
-                        message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
-                        game.statusUI.setHPValue(currentSelectedCharacter, newVal);
-                        gotHPorMP = true;
-                        newHP = newVal;
-                        hitPoints = currVal - newVal;
-                    }
-                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP) &&
+                        if (!isMiss) {
+                            newVal = MathUtils.clamp(Utility.applyPercentageAndRoundUp(currVal, effectItem.value), 0, hpMax);
+                            message += getEffectPhrase(newVal - currVal, "HP", gotHPorMP);
+                            game.statusUI.setHPValue(currentSelectedCharacter, newVal);
+                            gotHPorMP = true;
+                            newHP = isMiss ? currVal : newVal;
+                            hitPoints = currVal - newVal;
+                            if (isCriticalHit) {
+                                hitPoints *= 2;
+                            }
+                        }
+                        else {
+                            newHP = currVal;
+                            message += ", but missed!";
+                        }
+                    } else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP) &&
                             currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
                         int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                         currVal = game.statusUI.getMPValue(currentSelectedCharacter);
@@ -604,8 +639,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
                         game.statusUI.setMPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
-                    }
-                    else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT) &&
+                    } else if (effectItem.effect.equals(InventoryElement.Effect.HEAL_MP_PERCENT) &&
                             currentSelectedCharacter.getBattleEntityType().equals(Entity.BattleEntityType.PARTY)) {
                         int mpMax = game.statusUI.getMPMaxValue(currentSelectedCharacter);
                         currVal = game.statusUI.getMPValue(currentSelectedCharacter);
@@ -613,8 +647,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                         message += getEffectPhrase(newVal - currVal, "MP", gotHPorMP);
                         game.statusUI.setMPValue(currentSelectedCharacter, newVal);
                         gotHPorMP = true;
-                    }
-                    else {
+                    } else {
                         if (gotHPorMP && !addedPeriod) {
                             String tmp = message.substring(message.length() - 1, message.length());
                             if (!tmp.equals(".")) {
@@ -658,8 +691,32 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 }
 
                 // for debugging
-                game.statusUI.printCurrentStatusForEntity(currentSelectedCharacter);
+                //game.statusUI.printCurrentStatusForEntity(currentSelectedCharacter);
 
+                if (selectedInventoryElement.category == InventoryElement.InventoryCategory.Throwing) {
+                    // miss hit or critical hit only applies to thrown items
+                    if (isMiss) {
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_THROWING_ITEM_BUT_MISSED, "");
+                    } else {
+                        BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_THROWING_ITEM, "");
+                    }
+                }
+                else {
+                    BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_APPLYING_INVENTORY, message);
+                }
+
+                // kick off the delayed results notification
+                if (!getDisplayApplyInventoryResultsTimer(message, isCriticalHit, hitPoints, newHP).isScheduled()) {
+                    Timer.schedule(getDisplayApplyInventoryResultsTimer(message, isCriticalHit, hitPoints, newHP), 1.5f);
+                }
+            }
+        };
+    }
+
+    private Timer.Task getDisplayApplyInventoryResultsTimer(final String message, final boolean isCriticalHit, final int hitPoints, final int newHP) {
+        return new Timer.Task() {
+            @Override
+            public void run() {
                 // Send appropriate notifications for ALL statuses of the selected character.
                 Array<InventoryElement.Effect> statusArray = game.statusUI.getCurrentStatusArrayForEntity(currentSelectedCharacter);
                 for (InventoryElement.Effect effectStatus : statusArray) {
@@ -667,6 +724,10 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 }
 
                 BattleState.this.notify(currentTurnCharacter, currentSelectedCharacter, BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY, message);
+
+                if (isCriticalHit) {
+                    BattleState.this.notify(currentSelectedCharacter, BattleObserver.BattleEvent.CRITICAL_HIT);
+                }
 
                 // Need to send notification for damage after notification for applied inventory so that observer
                 // knows that the damage was due to inventory item being used.

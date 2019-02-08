@@ -96,16 +96,12 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                         Set<InventoryElement.ElementID> inventoryKeys = inventoryList.keySet();
                         for(InventoryElement.ElementID key: inventoryKeys){
                             InventoryElement element = inventoryList.get(key);
-                            // todo?
-                            //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
                             PartyInventory.getInstance().addItem(element, quantity, true);
                         }
 
                         Set<InventoryElement.ElementID> equipmentKeys = equipmentList.keySet();
                         for(InventoryElement.ElementID key: equipmentKeys){
                             InventoryElement element = equipmentList.get(key);
-                            // todo?
-                            //InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(key);
                             PartyInventory.getInstance().addItem(element, quantity, true);
                         }
                     }

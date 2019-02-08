@@ -31,10 +31,13 @@ public interface BattleObserver {
         PLAYER_ATTACKS,
         PLAYER_TURN_DONE,
         PLAYER_HIT_DAMAGE,
+        PLAYER_APPLYING_INVENTORY,
         PLAYER_APPLIED_INVENTORY,
         PLAYER_APPLIED_SPELL_POWER,
         ATTACK_BLOCKED,
         MISS_HIT,
+        PLAYER_THROWING_ITEM,
+        PLAYER_THROWING_ITEM_BUT_MISSED,
         NONE
     }
 

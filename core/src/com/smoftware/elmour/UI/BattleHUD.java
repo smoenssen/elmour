@@ -1409,10 +1409,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                    middleTextAreaTable.row().width(middleAreaWidth/2 - tablePadding);
 
                                                    Label stat = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                   stat.setText(effect.effect.toString());
+                                                   stat.setText(getEffectText(effect));
                                                    stat.setAlignment(Align.left);
-                                                   Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
-                                                   value.setText(effect.value.toString());
+                                                   Label value = new Label("", Utility.ELMOUR_UI_SKIN, "battle");;
+                                                   value.setText(getEffectValue(effect));
                                                    value.setAlignment(Align.right);
 
                                                    middleTextAreaTable.add(stat).align(Align.left);
@@ -1643,6 +1643,52 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_EATING);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
+    }
+
+    private String getEffectText(InventoryElement.EffectItem effect) {
+        String ret = effect.effect.toString();
+
+        switch (effect.effect) {
+            case HEAL_HP:
+            case HEAL_HP_PERCENT:
+            case HEAL_MP:
+            case HEAL_MP_PERCENT:
+                ret = "HEAL";
+                break;
+            default:
+                ret = ret.replace("_DOWN", "");
+                ret = ret.replace("_UP", "");
+        }
+
+        return ret;
+    }
+
+    private String getEffectValue(InventoryElement.EffectItem effect) {
+        String ret = effect.value.toString();
+
+        switch (effect.effect) {
+            case HEAL_HP:
+                ret = effect.value.toString() + " HP";
+                break;
+            case HEAL_HP_PERCENT:
+                ret = effect.value.toString() + "% HP";
+                break;
+            case HEAL_MP:
+                ret = effect.value.toString() + " MP";
+                break;
+            case HEAL_MP_PERCENT:
+                ret = effect.value.toString() + "% MP";
+                break;
+            default:
+                if (effect.effect.toString().contains("_DOWN")) {
+                   ret = "- " + effect.value.toString();
+                }
+                else if (effect.effect.toString().contains("_UP")) {
+                    ret = "+ " + effect.value.toString();
+                }
+        }
+
+        return ret;
     }
 
     private void setBattleWonStatsControlSize(int numRows) {
@@ -2958,11 +3004,26 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 selectedCharacter = null;
 
-                if (event.equals(PLAYER_APPLIED_INVENTORY) || event.equals(PLAYER_APPLIED_SPELL_POWER) || event.equals(MISS_HIT))
+                if (event.equals(PLAYER_APPLIED_INVENTORY) ||
+                        event.equals(PLAYER_APPLIED_SPELL_POWER) ||
+                        event.equals(MISS_HIT)) {
                     turnInProgress = false;
+                }
 
                 break;
             case ATTACK_BLOCKED:
+                // kick off the delayed results
+                if (!getDisplayResultsTimer(message).isScheduled()) {
+                    Timer.schedule(getDisplayResultsTimer(message), 1.75f);
+                }
+                break;
+        }
+    }
+
+    private Timer.Task getDisplayResultsTimer(final String message) {
+        return new Timer.Task() {
+            @Override
+            public void run() {
                 battleTextArea.populateText(message);
                 battleTextArea.show();
 
@@ -2971,9 +3032,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 screenStack.push(ScreenState.MAIN);
 
                 selectedCharacter = null;
-                //turnInProgress = false;
-                break;
-        }
+            }
+        };
     }
 
     @Override
