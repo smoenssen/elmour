@@ -1396,8 +1396,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
                 new showStatArrows(false),
                 myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_LEFT),
-                Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
-
+                Actions.parallel(Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.25f),
 
                 // turn to face victim
@@ -1419,7 +1419,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(null, null, null, null),
 
                 myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_RIGHT),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
+                 Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.4f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.4f),
 
                 // turn to face back out
