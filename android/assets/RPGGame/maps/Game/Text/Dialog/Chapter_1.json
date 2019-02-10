@@ -2,27 +2,27 @@
 conversations: {
 	n32: {
 		id: n32
-		dialog: "{OPEN_TEXT}"
+		dialog: GET_CHAR2_NAME
 		character: null
-		type: NPC
+		type: ACTION
 	}
 	n97: {
 		id: n97
-		dialog: Uhh... Hey guys...
-		character: Me
-		type: NPC
+		dialog: GUARDS_MOVE_FORWARD
+		character: null
+		type: ACTION
 	}
 	n31: {
 		id: n31
-		dialog: "{OPEN_TEXT}"
+		dialog: GET_CHAR1_NAME
 		character: null
-		type: NPC
+		type: ACTION
 	}
 	n96: {
 		id: n96
-		dialog: ENTER_GUARDS
-		character: null
-		type: ACTION
+		dialog: Uhh... Hey guys...
+		character: Me
+		type: NPC
 	}
 	n30: {
 		id: n30
@@ -32,39 +32,39 @@ conversations: {
 	}
 	n95: {
 		id: n95
-		dialog: THINK
+		dialog: ENTER_GUARDS
 		character: null
 		type: ACTION
 	}
 	n94: {
 		id: n94
-		dialog: STOP_LEAVING
+		dialog: THINK
 		character: null
 		type: ACTION
 	}
 	n93: {
 		id: n93
-		dialog: START_LEAVING
+		dialog: STOP_LEAVING
 		character: null
 		type: ACTION
 	}
 	n92: {
 		id: n92
-		dialog: So is there anyway out?
-		character: Me
-		type: NPC
+		dialog: START_LEAVING
+		character: null
+		type: ACTION
 	}
 	n91: {
 		id: n91
-		dialog: I don't know...
+		dialog: So is there anyway out?
 		character: Me
 		type: NPC
 	}
 	n90: {
 		id: n90
-		dialog: DISSMISED
-		character: null
-		type: ACTION
+		dialog: I don't know...
+		character: Me
+		type: NPC
 	}
 	n29: {
 		id: n29
@@ -86,13 +86,13 @@ conversations: {
 	}
 	n26: {
 		id: n26
-		dialog: Dismissed
+		dialog: Dismissed.
 		character: Girl
 		type: NPC
 	}
 	n25: {
 		id: n25
-		dialog: Don't get anywhere near that maniac! I forbid\r\nyou!
+		dialog: Get away from here!¶\r\nProtect yourself!
 		character: Guard
 		type: NPC
 	}
@@ -104,7 +104,7 @@ conversations: {
 	}
 	n89: {
 		id: n89
-		dialog: CHAR2_NEXT_TO_CHAR1
+		dialog: DISMISSED
 		character: null
 		type: ACTION
 	}
@@ -116,7 +116,7 @@ conversations: {
 	}
 	n88: {
 		id: n88
-		dialog: CHAR2_WALK_LEFT
+		dialog: CHAR2_NEXT_TO_CHAR1
 		character: null
 		type: ACTION
 	}
@@ -186,28 +186,46 @@ conversations: {
 		character: null
 		type: ACTION
 	}
+	n108: {
+		id: n108
+		dialog: CHAR2_ANGER
+		character: null
+		type: ACTION
+	}
+	n107: {
+		id: n107
+		dialog: I said dismissed.
+		character: Girl
+		type: NPC
+	}
+	n106: {
+		id: n106
+		dialog: Are you sure about this?
+		character: Guard
+		type: NPC
+	}
 	n105: {
 		id: n105
-		dialog: GO_TO_PORTAL_ROOM
+		dialog: GUARD_SHAKE
 		character: null
 		type: ACTION
 	}
 	n104: {
 		id: n104
-		dialog: CHAR2_TURN_AROUND
+		dialog: GO_TO_PORTAL_ROOM
 		character: null
 		type: ACTION
 	}
 	n103: {
 		id: n103
-		dialog: I'll help you anyways. maybe you'll decide\r\notherwise later.
-		character: "{CHARACTER_2}"
-		type: NPC
+		dialog: CHAR2_TURN_AROUND
+		character: null
+		type: ACTION
 	}
 	n102: {
 		id: n102
-		dialog: Wait... hold on a second.
-		character: Me
+		dialog: I'll help you anyways. maybe you'll decide\r\notherwise later.
+		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n19: {
@@ -218,9 +236,9 @@ conversations: {
 	}
 	n101: {
 		id: n101
-		dialog: WAIT_500
-		character: null
-		type: ACTION
+		dialog: Wait... hold on a second.
+		character: Me
+		type: NPC
 	}
 	n18: {
 		id: n18
@@ -230,7 +248,7 @@ conversations: {
 	}
 	n100: {
 		id: n100
-		dialog: FORCE_FIELD
+		dialog: WAIT_500
 		character: null
 		type: ACTION
 	}
@@ -524,9 +542,9 @@ conversations: {
 	}
 	n99: {
 		id: n99
-		dialog: Not this again...
-		character: My Thoughts
-		type: NPC
+		dialog: FORCE_FIELD
+		character: null
+		type: ACTION
 	}
 	n33: {
 		id: n33
@@ -536,9 +554,9 @@ conversations: {
 	}
 	n98: {
 		id: n98
-		dialog: GUARDS_MOVE_FORWARD
-		character: null
-		type: ACTION
+		dialog: Not this again...
+		character: My Thoughts
+		type: NPC
 	}
 }
 associatedChoices: {
@@ -586,7 +604,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n95
-			destinationId: n19
+			destinationId: n96
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -594,7 +612,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n94
-			destinationId: n68
+			destinationId: n19
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -602,7 +620,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n93
-			destinationId: n66
+			destinationId: n68
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -610,7 +628,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n92
-			destinationId: n41
+			destinationId: n66
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -618,7 +636,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n91
-			destinationId: n11
+			destinationId: n41
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -626,7 +644,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n90
-			destinationId: n27
+			destinationId: n11
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -642,7 +660,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n28
-			destinationId: n101
+			destinationId: n100
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -658,7 +676,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n26
-			destinationId: n90
+			destinationId: n89
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -666,7 +684,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n25
-			destinationId: n89
+			destinationId: n88
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -674,7 +692,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n24
-			destinationId: n88
+			destinationId: n105
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -682,7 +700,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n89
-			destinationId: n26
+			destinationId: n106
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -690,7 +708,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n23
-			destinationId: n96
+			destinationId: n95
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -698,7 +716,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n88
-			destinationId: n25
+			destinationId: n26
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -770,7 +788,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n82
-			destinationId: n95
+			destinationId: n94
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -790,27 +808,51 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n108: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n108
+			destinationId: n107
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n107: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n107
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n106: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n106
+			destinationId: n108
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n105: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n105
-			destinationId: n52
-			choicePhrase: You mean I could’ve just left as soon as I \r\ncame?
+			destinationId: n25
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n104: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n104
-			destinationId: n103
-			choicePhrase: NO_CHOICE
+			destinationId: n52
+			choicePhrase: You mean I could’ve just left as soon as I \r\ncame?
 		}
 	]
 	n103: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n103
-			destinationId: n48
+			destinationId: n102
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -818,7 +860,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n102
-			destinationId: n29
+			destinationId: n48
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -834,7 +876,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n101
-			destinationId: n102
+			destinationId: n29
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -850,7 +892,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n100
-			destinationId: n24
+			destinationId: n101
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -858,7 +900,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n17
-			destinationId: n91
+			destinationId: n90
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1022,7 +1064,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n67
-			destinationId: n93
+			destinationId: n92
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1030,7 +1072,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n66
-			destinationId: n94
+			destinationId: n93
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1184,7 +1226,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n49
-			destinationId: n105
+			destinationId: n104
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1224,7 +1266,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n44
-			destinationId: n104
+			destinationId: n103
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1278,7 +1320,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n40
-			destinationId: n92
+			destinationId: n91
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1422,7 +1464,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n99
-			destinationId: n100
+			destinationId: n24
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1443,5 +1485,5 @@ associatedChoices: {
 		}
 	]
 }
-currentConversationID: n21
+currentConversationID: n27
 }

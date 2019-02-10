@@ -2,6 +2,7 @@ package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -355,6 +356,23 @@ public class MyActions {
         @Override
         public boolean act(float delta) {
             this.HUD.setEnabled(this.enable);
+            return true;
+        }
+    }
+    public class setOrigin extends Action {
+        Actor actor;
+        float x;
+        float y;
+
+        public setOrigin(Actor actor, float x, float y) {
+            this.actor = actor;
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.actor.setOrigin(x, y);
             return true;
         }
     }

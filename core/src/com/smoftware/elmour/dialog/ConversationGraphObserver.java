@@ -28,6 +28,11 @@ public interface ConversationGraphObserver {
         ENTER_GUARDS,
         GUARDS_MOVE_FORWARD,
         FORCE_FIELD,
+        GUARD_SHAKE,
+        CHAR2_NEXT_TO_CHAR1,
+        DISMISSED,
+        CHAR2_ANGER,
+        GUARD_LEAVES,
         GET_CHAR1_NAME,
         GET_CHAR2_NAME,
         //Chapter 2

@@ -1,19 +1,19 @@
 {
-	entityID : MISC_ANIMATIONS
-	state : IDLE
+entityID : MISC_ANIMATIONS
+state : IDLE
 animationConfig: [
 	{
-	    frameDuration: 0.15
-			frameWidth : 16
-			frameHeight : 16
+			frameDuration: 0.08
+			frameWidth : 80
+			frameHeight : 80
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Misc/Misc.png
+				RPGGame/maps/Game/Characters/Misc/Misc.png
 		]
 		gridPoints: [
 			{
-				x: 0
-				y: 0
+				x: 1
+				y: 4
 			}
 		]
 	}
@@ -66,6 +66,589 @@ animationConfig: [
 			{
 				x: 1
 				y: 4
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: LOVE_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 3
+			}
+			{
+				x: 0
+				y: 2
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: LOVE_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SHOCK_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SHOCK_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: QUESTION_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 1
+				y: 2
+			}
+			{
+				x: 1
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: QUESTION_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 2
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.2
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SLEEP_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+		animationType: SLEEP_LOOP
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 1
+			}
+			{
+				x: 2
+				y: 2
+			}
+			{
+				x: 2
+				y: 3
+			}
+			{
+				x: 2
+				y: 2
+			}
+			{
+				x: 2
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SLEEP_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SMUG_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SMUG_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: HAPPY_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 2
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: HAPPY_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: VERY_HAPPY_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: VERY_HAPPY_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: NEUTRAL_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 4
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: NEUTRAL_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SAD_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 4
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: SAD_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: CRY_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 4
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: CRY_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 4
+				y: 2
+			}
+			{
+				x: 4
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: TEAR_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 5
+				y: 0
+			}
+			{
+				x: 5
+				y: 1
+			}
+			{
+				x: 5
+				y: 2
+			}
+			{
+				x: 5
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: TEAR_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 6
+				y: 0
+			}
+			{
+				x: 6
+				y: 1
+			}
+			{
+				x: 6
+				y: 2
+			}
+			{
+				x: 6
+				y: 3
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: ANGER_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 7
+				y: 0
+			}
+			{
+				x: 7
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: ANGER_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 7
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
 			}
 		]
 	}
