@@ -275,8 +275,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
             else {
                 effectItem.turns--;
                 entity.getEntityConfig().setTurnEffectListItem(i, effectItem);
-                Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Decrementing turns for " +
-                        effectItem.effect.toString() + " to " + effectItem.turns);
+                //Gdx.app.log(TAG, currentTurnCharacter.getEntityConfig().getEntityID() + ": Decrementing turns for " +
+                //        effectItem.effect.toString() + " to " + effectItem.turns);
             }
         }
 
@@ -567,7 +567,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 }
 
                 int hitPoints = 0;
-                int newHP = 0;
+                int newHP = game.statusUI.getHPValue(currentSelectedCharacter);
 
                 // miss hit or critical hit only applies to thrown items
                 boolean isMiss = false;

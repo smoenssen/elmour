@@ -188,7 +188,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     private Stage _stage;
     private Viewport _viewport;
     private Camera _camera;
-    private Entity _player;
 
     private MyActions myActions;
     final public static float fadeTime = 0.35f;
@@ -332,9 +331,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     }
     private Array<RewardItem> rewardItems;
 
-    public BattleHUD(final ElmourGame game, final Camera camera, Entity player, MapManager mapMgr, BattleScreen screen) {
+    public BattleHUD(final ElmourGame game, final Camera camera, MapManager mapMgr, BattleScreen screen) {
         _camera = camera;
-        _player = player;
         _mapMgr = mapMgr;
         battleScreen = screen;
         this.game = game;
@@ -1660,6 +1658,13 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 ret = ret.replace("_UP", "");
         }
 
+        if (effect.turns > 0) {
+            ret += " (for " + effect.turns + " turns)";
+        }
+        else if (selectedInventoryElement.turns > 0) {
+            ret += " (for " + selectedInventoryElement.turns + " turns)";
+        }
+
         return ret;
     }
 
@@ -2960,8 +2965,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 int HP = game.statusUI.getHPValue(destinationEntity);
                 int HP_MAX = game.statusUI.getHPMaxValue(destinationEntity);
 
-                Gdx.app.log(TAG, "HP = " + HP + ", HP_MAX = " + HP_MAX);
-
                 // set color of enemy name based on current HP
                 Color color;
                 if (HP < 0.3f * (float)HP_MAX) {
@@ -2998,7 +3001,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
                 UpdateStats(destinationEntity);
 
-                Gdx.app.log(TAG, message);
                 battleTextArea.populateText(message);
                 battleTextArea.show();
 

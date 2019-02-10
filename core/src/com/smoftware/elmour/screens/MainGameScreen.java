@@ -21,6 +21,7 @@ import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.UI.InventoryHUD;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.Utility;
@@ -65,6 +66,7 @@ public class MainGameScreen extends GameScreen implements MapObserver {
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
     protected OrthographicCamera _hudCamera = null;
+    protected OrthographicCamera inventoryHudCamera = null;
     protected OrthographicCamera controllersCam = null;
 
     private Stage stage;
@@ -76,6 +78,7 @@ public class MainGameScreen extends GameScreen implements MapObserver {
 
     private Entity _player;
     private PlayerHUD _playerHUD;
+    private InventoryHUD inventoryHUD;
     private MobileControls mobileControls;
 
     public MainGameScreen(ElmourGame game){
@@ -111,6 +114,10 @@ public class MainGameScreen extends GameScreen implements MapObserver {
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
+            inventoryHudCamera = new OrthographicCamera();
+            inventoryHudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+            inventoryHUD = new InventoryHUD(inventoryHudCamera);
+
             _playerHUD = new PlayerHUD(game,_hudCamera, _player, _mapMgr);
 
             _multiplexer = new InputMultiplexer();
@@ -122,6 +129,10 @@ public class MainGameScreen extends GameScreen implements MapObserver {
             _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+            inventoryHudCamera = new OrthographicCamera();
+            inventoryHudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+            inventoryHUD = new InventoryHUD(inventoryHudCamera);
 
             _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
@@ -343,6 +354,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         if (_playerHUD != null)
             _playerHUD.render(delta);
 
+        if (inventoryHUD != null)
+            inventoryHUD.render(delta);
+
         if (ElmourGame.isAndroid())
             mobileControls.render(delta);
 
@@ -370,6 +384,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
 
         if (_playerHUD != null)
             _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+
+        if (inventoryHUD != null)
+            inventoryHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
     }
 
     @Override
@@ -377,6 +394,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         //setGameState(GameState.SAVING);
         if (_playerHUD != null)
             _playerHUD.pause();
+
+        if (inventoryHUD != null)
+            inventoryHUD.pause();
     }
 
     @Override
@@ -384,6 +404,9 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         setGameState(GameState.RUNNING);
         if (_playerHUD != null)
             _playerHUD.resume();
+
+        if (inventoryHUD != null)
+            inventoryHUD.resume();
     }
 
     @Override
@@ -467,7 +490,6 @@ public class MainGameScreen extends GameScreen implements MapObserver {
         switch(event) {
             case SHAKE_CAM:
                 if( shakeCam == null ){
-                    //shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y, 0.2f);
                     shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
                             0.025f,
                             0.2f,

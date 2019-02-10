@@ -331,7 +331,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
-            battleHUD = new BattleHUD(game, _hudCamera, _player, _mapMgr, this);
+            battleHUD = new BattleHUD(game, _hudCamera, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());
@@ -347,7 +347,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
             battleControls = new BattleControls(controllersCam);
 
-            battleHUD = new BattleHUD(game, _hudCamera, _player, _mapMgr, this);
+            battleHUD = new BattleHUD(game, _hudCamera, _mapMgr, this);
 
             _multiplexer = new InputMultiplexer();
             _multiplexer.addProcessor(battleControls.getStage());

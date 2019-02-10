@@ -74,7 +74,7 @@ public class AnimatedImage extends Image {
             // check if this animation is looping or not
             Array<EntityConfig.AnimationConfig> animationConfigs = _entity.getEntityConfig().getAnimationConfig();
 
-            Gdx.app.debug(TAG, "Animation type " + animationType.toString());
+            //Gdx.app.debug(TAG, "Animation type " + animationType.toString());
 
             for( EntityConfig.AnimationConfig animationConfig : animationConfigs ){
                 if (animationConfig.getAnimationType().equals(animationType)) {
@@ -83,7 +83,7 @@ public class AnimatedImage extends Image {
                     this.setSize(animationConfig.getFrameWidth() * Elmour.UNIT_SCALE, animationConfig.getFrameHeight() * Elmour.UNIT_SCALE);
 
                     isLooping = animationConfig.getLooping();
-                    Gdx.app.log(TAG, "setting isLooping to " + isLooping + " for animation type " + animationType.toString());
+                    //Gdx.app.log(TAG, "setting isLooping to " + isLooping + " for animation type " + animationType.toString());
                     break;
                 }
             }

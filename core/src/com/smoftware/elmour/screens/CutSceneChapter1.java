@@ -42,6 +42,7 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
+import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Json _json;
     private ElmourGame _game;
     private InputMultiplexer _multiplexer;
+    private ShakeCamera shakeCam;
 
     private Entity _player;
     private PlayerHUD _playerHUD;
@@ -170,6 +172,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
         //_camera setup
         setupViewport(V_WIDTH, V_HEIGHT);
+        shakeCam = null;
 
         //get the current size
         _camera = new OrthographicCamera();
@@ -1692,6 +1695,18 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
         _camera.zoom += zoomRate;
         _camera.update();
+
+        if (shakeCam != null) {
+            if (shakeCam.isCameraShaking()) {
+
+                Vector2 shakeCoords = shakeCam.getNewShakePosition();
+                _camera.position.x = shakeCoords.x;
+                _camera.position.y = shakeCoords.y;
+                _camera.update();
+            } else {
+                shakeCam.reset();
+            }
+        }
 
         _playerHUD.render(delta);
     }

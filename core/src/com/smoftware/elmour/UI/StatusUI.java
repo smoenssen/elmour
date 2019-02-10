@@ -229,7 +229,7 @@ public class StatusUI extends Window implements StatusSubject, ProfileObserver {
 
         if (baseVal != retVal) {
             String units = effectUP.toString().substring(0, effectUP.toString().indexOf("_"));
-            Gdx.app.log(TAG, "Applied change percent of " + changePercent + " for " + effectUP.toString() + "/" + effectDOWN.toString() +
+            Gdx.app.log(TAG, entity.getEntityConfig().getDisplayName() + ": Applied change percent of " + changePercent + " for " + effectUP.toString() + "/" + effectDOWN.toString() +
                     " turn effects to base value of " + baseVal + " " + units + ", resulting in " + retVal + " " + units);
         }
 
