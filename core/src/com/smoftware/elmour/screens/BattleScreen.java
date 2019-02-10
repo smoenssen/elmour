@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -63,12 +64,29 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private static final String TAG = BattleScreen.class.getSimpleName();
 
     public enum AnimationState {BATTLE, ESCAPED, FAILED_ESCAPE, NONE}
-
+/*
     public class CharacterLayerComparator implements Comparator<AnimatedImage> {
         @Override
         public int compare(AnimatedImage arg0, AnimatedImage arg1) {
             float y0 = arg0.getY();
             float y1 = arg1.getY();
+            if (y0 > y1) {
+                return -1;
+            }
+            else if (y0 == y1) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
+        }
+    }
+*/
+    public class CharacterLayerComparator implements Comparator<AnimatedImageWithShadow> {
+        @Override
+        public int compare(AnimatedImageWithShadow arg0, AnimatedImageWithShadow arg1) {
+            float y0 = arg0.character.getY();
+            float y1 = arg1.character.getY();
             if (y0 > y1) {
                 return -1;
             }
@@ -132,6 +150,16 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         public boolean act (float delta) {
             initThrowingItem(animationType, isMissHit);
             return true; // An action returns true when it's completed
+        }
+    }
+
+    public class AnimatedImageWithShadow {
+        AnimatedImage character;
+        AnimatedImage shadow;
+
+        AnimatedImageWithShadow(AnimatedImage character, AnimatedImage shadow) {
+            this.character = character;
+            this.shadow = shadow;
         }
     }
 
@@ -211,7 +239,22 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private AnimatedImage enemy4;
     private AnimatedImage enemy5;
 
-    private ArrayList<AnimatedImage> charLayerSortList;
+    private AnimatedImage party1Shadow;
+    private AnimatedImage party2Shadow;
+    private AnimatedImage party3Shadow;
+    private AnimatedImage party4Shadow;
+    private AnimatedImage party5Shadow;
+    private AnimatedImage enemy1Shadow;
+    private AnimatedImage enemy2Shadow;
+    private AnimatedImage enemy3Shadow;
+    private AnimatedImage enemy4Shadow;
+    private AnimatedImage enemy5Shadow;
+
+    private Hashtable<AnimatedImage, AnimatedImage> shadowMap;
+
+    float shadowYOffset = 0.15f;
+
+    private ArrayList<AnimatedImageWithShadow> characterShadowSortList;
 
     private boolean showStatusArrows = true;
     private StatusArrows party1StatArrows;
@@ -328,17 +371,52 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy4 = new AnimatedImage();
         enemy5 = new AnimatedImage();
 
-        charLayerSortList = new ArrayList<>();
-        charLayerSortList.add(party1);
-        charLayerSortList.add(party2);
-        charLayerSortList.add(party3);
-        charLayerSortList.add(party4);
-        charLayerSortList.add(party5);
-        charLayerSortList.add(enemy1);
-        charLayerSortList.add(enemy2);
-        charLayerSortList.add(enemy3);
-        charLayerSortList.add(enemy4);
-        charLayerSortList.add(enemy5);
+        party1Shadow = new AnimatedImage();
+        party2Shadow = new AnimatedImage();
+        party3Shadow = new AnimatedImage();
+        party4Shadow = new AnimatedImage();
+        party5Shadow = new AnimatedImage();
+
+        enemy1Shadow = new AnimatedImage();
+        enemy2Shadow = new AnimatedImage();
+        enemy3Shadow = new AnimatedImage();
+        enemy4Shadow = new AnimatedImage();
+        enemy5Shadow = new AnimatedImage();
+
+        party1Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW1));
+        party2Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW2));
+        party3Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW3));
+        party4Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW4));
+        party5Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW5));
+        enemy1Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW6));
+        enemy2Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW7));
+        enemy3Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW8));
+        enemy4Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW9));
+        enemy5Shadow.setEntity(EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.SHADOW10));
+
+        shadowMap = new Hashtable<>();
+        shadowMap.put(party1, party1Shadow);
+        shadowMap.put(party2, party2Shadow);
+        shadowMap.put(party3, party3Shadow);
+        shadowMap.put(party4, party4Shadow);
+        shadowMap.put(party5, party5Shadow);
+        shadowMap.put(enemy1, enemy1Shadow);
+        shadowMap.put(enemy2, enemy2Shadow);
+        shadowMap.put(enemy3, enemy3Shadow);
+        shadowMap.put(enemy4, enemy4Shadow);
+        shadowMap.put(enemy5, enemy5Shadow);
+
+        characterShadowSortList= new ArrayList<>();
+        characterShadowSortList.add(new AnimatedImageWithShadow(party1, party1Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(party2, party2Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(party3, party3Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(party4, party4Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(party5, party5Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(enemy1, enemy1Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(enemy2, enemy2Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(enemy3, enemy3Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(enemy4, enemy4Shadow));
+        characterShadowSortList.add(new AnimatedImageWithShadow(enemy5, enemy5Shadow));
 
         party1StatArrows = new StatusArrows(_stage);
         party2StatArrows = new StatusArrows(_stage);
@@ -410,6 +488,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party1.getEntity() != null)
                     party1.getEntity().setCurrentPosition(new Vector2(party1.getX(), party1.getY()));
                 party1StatArrows.setPosition(party1.getX() - 1, party1.getY());
+                party1Shadow.addAction(Actions.fadeOut(0));
+                party1Shadow.setTouchable(Touchable.disabled);
+                party1Shadow.setVisible(true);
+                party1Shadow.setSize(characterWidth, characterHeight);
+                party1Shadow.setPosition(party1.getX(), party1.getY() - shadowYOffset);
 
                 /*
                 party1StatArrows.add(EntityFactory.EntityName.ATK_DOWN_LEFT);
@@ -430,6 +513,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party2.getEntity() != null)
                     party2.getEntity().setCurrentPosition(new Vector2(party2.getX(), party2.getY()));
                 party2StatArrows.setPosition(party2.getX() - 1, party2.getY());
+                party2Shadow.addAction(Actions.fadeOut(0));
+                party2Shadow.setTouchable(Touchable.disabled);
+                party2Shadow.setVisible(true);
+                party2Shadow.setSize(characterWidth, characterHeight);
+                party2Shadow.setPosition(party2.getX(), party2.getY() - shadowYOffset);
 
                 party3.setSize(characterWidth, characterHeight);
                 party3.addAction(Actions.fadeOut(0));
@@ -438,6 +526,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party3.getEntity() != null)
                     party3.getEntity().setCurrentPosition(new Vector2(party3.getX(), party3.getY()));
                 party3StatArrows.setPosition(party3.getX() - 1, party3.getY());
+                party3Shadow.addAction(Actions.fadeOut(0));
+                party3Shadow.setTouchable(Touchable.disabled);
+                party3Shadow.setVisible(true);
+                party3Shadow.setSize(characterWidth, characterHeight);
+                party3Shadow.setPosition(party3.getX(), party3.getY() - shadowYOffset);
 
                 party4.setSize(characterWidth, characterHeight);
                 party4.addAction(Actions.fadeOut(0));
@@ -446,6 +539,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party4.getEntity() != null)
                     party4.getEntity().setCurrentPosition(new Vector2(party4.getX(), party4.getY()));
                 party4StatArrows.setPosition(party4.getX() - 1, party4.getY());
+                party4Shadow.addAction(Actions.fadeOut(0));
+                party4Shadow.setTouchable(Touchable.disabled);
+                party4Shadow.setVisible(true);
+                party4Shadow.setSize(characterWidth, characterHeight);
+                party4Shadow.setPosition(party4.getX(), party4.getY() - shadowYOffset);
 
                 party5.setSize(characterWidth, characterHeight);
                 party5.addAction(Actions.fadeOut(0));
@@ -454,6 +552,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (party5.getEntity() != null)
                     party5.getEntity().setCurrentPosition(new Vector2(party5.getX(), party5.getY()));
                 party5StatArrows.setPosition(party5.getX() - 1, party5.getY());
+                party5Shadow.addAction(Actions.fadeOut(0));
+                party5Shadow.setTouchable(Touchable.disabled);
+                party5Shadow.setVisible(true);
+                party5Shadow.setSize(characterWidth, characterHeight);
+                party5Shadow.setPosition(party5.getX(), party5.getY() - shadowYOffset);
 
                 enemy1.setSize(characterWidth, characterHeight);
                 enemy1.addAction(Actions.fadeOut(0));
@@ -462,6 +565,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (enemy1.getEntity() != null)
                     enemy1.getEntity().setCurrentPosition(new Vector2(enemy1.getX(), enemy1.getY()));
                 enemy1StatArrows.setPosition(enemy1.getX() + 1, enemy1.getY());
+                enemy1Shadow.addAction(Actions.fadeOut(0));
+                enemy1Shadow.setTouchable(Touchable.disabled);
+                enemy1Shadow.setVisible(true);
+                enemy1Shadow.setSize(characterWidth, characterHeight);
+                enemy1Shadow.setPosition(enemy1.getX(), enemy1.getY() - shadowYOffset);
 
                 enemy2.setSize(characterWidth, characterHeight);
                 enemy2.addAction(Actions.fadeOut(0));
@@ -470,6 +578,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (enemy2.getEntity() != null)
                     enemy2.getEntity().setCurrentPosition(new Vector2(enemy2.getX(), enemy2.getY()));
                 enemy2StatArrows.setPosition(enemy2.getX() + 1, enemy2.getY());
+                enemy2Shadow.addAction(Actions.fadeOut(0));
+                enemy2Shadow.setTouchable(Touchable.disabled);
+                enemy2Shadow.setVisible(true);
+                enemy2Shadow.setSize(characterWidth, characterHeight);
+                enemy2Shadow.setPosition(enemy2.getX(), enemy2.getY() - shadowYOffset);
 
                 enemy3.setSize(characterWidth, characterHeight);
                 enemy3.addAction(Actions.fadeOut(0));
@@ -478,6 +591,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (enemy3.getEntity() != null)
                     enemy3.getEntity().setCurrentPosition(new Vector2(enemy3.getX(), enemy3.getY()));
                 enemy3StatArrows.setPosition(enemy3.getX() + 1, enemy3.getY());
+                enemy3Shadow.addAction(Actions.fadeOut(0));
+                enemy3Shadow.setTouchable(Touchable.disabled);
+                enemy3Shadow.setVisible(true);
+                enemy3Shadow.setSize(characterWidth, characterHeight);
+                enemy3Shadow.setPosition(enemy3.getX(), enemy3.getY() - shadowYOffset);
 
                 enemy4.setSize(characterWidth, characterHeight);
                 enemy4.addAction(Actions.fadeOut(0));
@@ -486,6 +604,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (enemy4.getEntity() != null)
                     enemy4.getEntity().setCurrentPosition(new Vector2(enemy4.getX(), enemy4.getY()));
                 enemy4StatArrows.setPosition(enemy4.getX() + 1, enemy4.getY());
+                enemy4Shadow.addAction(Actions.fadeOut(0));
+                enemy4Shadow.setTouchable(Touchable.disabled);
+                enemy4Shadow.setVisible(true);
+                enemy4Shadow.setSize(characterWidth, characterHeight);
+                enemy4Shadow.setPosition(enemy4.getX(), enemy4.getY() - shadowYOffset);
 
                 enemy5.setSize(characterWidth, characterHeight);
                 enemy5.addAction(Actions.fadeOut(0));
@@ -494,6 +617,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 if (enemy5.getEntity() != null)
                     enemy5.getEntity().setCurrentPosition(new Vector2(enemy5.getX(), enemy5.getY()));
                 enemy5StatArrows.setPosition(enemy5.getX() + 1, enemy5.getY());
+                enemy5Shadow.addAction(Actions.fadeOut(0));
+                enemy5Shadow.setTouchable(Touchable.disabled);
+                enemy5Shadow.setVisible(true);
+                enemy5Shadow.setSize(characterWidth, characterHeight);
+                enemy5Shadow.setPosition(enemy5.getX(), enemy5.getY() - shadowYOffset);
             }
         };
 
@@ -829,21 +957,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
     }
 
-    /*
-        public class showHPFloater extends Action {
-            boolean show;
-
-            public showHPFloater(boolean show) {
-                this.show = show;
-            }
-
-            @Override
-            public boolean act (float delta) {
-                showHitPointFloater = show;
-                return true; // An action returns true when it's completed
-            }
-        }
-    */
     private void completeAllActions() {
         float delta = 1;
 
@@ -866,6 +979,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             if (enemy3 != null) enemy3.act(delta);
             if (enemy4 != null) enemy4.act(delta);
             if (enemy5 != null) enemy5.act(delta);
+
+            if (party1Shadow != null) party1Shadow.act(delta);
+            if (party2Shadow != null) party2Shadow.act(delta);
+            if (party3Shadow != null) party3Shadow.act(delta);
+            if (party4Shadow != null) party4Shadow.act(delta);
+            if (party5Shadow != null) party5Shadow.act(delta);
+            if (enemy1Shadow != null) enemy1Shadow.act(delta);
+            if (enemy2Shadow != null) enemy2Shadow.act(delta);
+            if (enemy3Shadow != null) enemy3Shadow.act(delta);
+            if (enemy4Shadow != null) enemy4Shadow.act(delta);
+            if (enemy5Shadow != null) enemy5Shadow.act(delta);
         }
     }
 
@@ -958,11 +1082,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
 
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 Actions.delay(0.75f),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         weaponAnimations.get(characterWeaponIdAnimationType),null, null),
@@ -977,13 +1102,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(null, null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkAwayFromVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.75f),
 
                 // turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1101,18 +1227,23 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
 
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y, walkInOutTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y, walkInOutTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, entity.getCurrentPosition().y- shadowYOffset, walkInOutTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
+
                 Actions.delay(walkInOutTime),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionToAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, walkUpDownTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkDirectionToAttack),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, walkUpDownTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, walkUpDownTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
+
                 Actions.delay(walkUpDownTime),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, walkToVictimAndBackTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, walkToVictimAndBackTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, walkToVictimAndBackTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IMMOBILE),
                 Actions.delay(walkToVictimAndBackTime),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         weaponAnimations.get(characterWeaponIdAnimationType),null, null),
@@ -1127,21 +1258,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(null, null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, walkToVictimAndBackTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, walkToVictimAndBackTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, walkToVictimAndBackTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(walkToVictimAndBackTime),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), walkUpDownTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkDirectionFromAttack),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), walkUpDownTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY() - shadowYOffset, walkUpDownTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(walkUpDownTime),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkBackIntoPlace),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), walkInOutTime, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkBackIntoPlace),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), walkInOutTime, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, walkInOutTime, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(walkInOutTime),
 
                 // turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1199,16 +1333,16 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         currentCharacterBattleAnimation = getBattleAnimations(entityName);
 
         return Actions.sequence(
-
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                Actions.parallel(Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 Actions.delay(0.25f),
 
                 // turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, faceVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), faceVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         null, null, null),
@@ -1220,17 +1354,19 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 Actions.delay(0.5f),
                 new setCurrentHitAnimation(null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new setCurrentBattleAnimations(null, null, null, null),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkBack),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkBack),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.4f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
+
                 Actions.delay(0.4f),
 
                 // turn to face back out
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1259,14 +1395,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
 
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_LEFT),
                 Actions.addAction(Actions.moveTo(destinationX, entity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
 
                 Actions.delay(0.25f),
 
                 // turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_RIGHT),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_RIGHT),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         null, null, null),
@@ -1278,17 +1414,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 Actions.delay(0.5f),
                 new setCurrentHitAnimation(null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new setCurrentBattleAnimations(null, null, null, null),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_RIGHT),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_RIGHT),
                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.4f, Interpolation.linear), currentTurnCharacter),
                 Actions.delay(0.4f),
 
                 // turn to face back out
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.WALK_LEFT),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.WALK_LEFT),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1346,22 +1482,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         return Actions.sequence(
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(destinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 Actions.delay(0.50f),
 
                 // defender walk to block
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionToBlock),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionToBlock),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, selectedEntity.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(defendingCharacter))),
 
                 Actions.delay(0.25f),
 
                 // defender turn to face attacker
-                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkAwayFromVictim),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), Entity.AnimationType.IDLE),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(weaponCategoryAnimationType),
                         weaponAnimations.get(characterWeaponIdAnimationType),
@@ -1378,22 +1516,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new setCurrentBattleAnimations(null, null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkAwayFromVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 // defender walk back into place
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionFromBlock),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionFromBlock),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(defendingCharacter))),
 
                 Actions.delay(0.75f),
 
                 // defender turn to face attacker
-                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkAwayFromVictim),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), Entity.AnimationType.IDLE),
 
                 // attacker turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1457,16 +1597,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
                 new showStatArrows(false),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(destinationX, defender.getCurrentPosition().y- shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 Actions.delay(0.65f),
 
                 // defender turn to face attacker
-                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkAwayFromVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
                 Actions.delay(0.25f),
 
                 new setCurrentBattleAnimations(currentAttackerBattleAnimation.get(weaponCategoryAnimationType),
@@ -1476,30 +1617,33 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new showMainCharacterAnimation(currentTurnCharacter, false),
 
                 // defender walk back to miss attack
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionDefender),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(defendingCharacter))),
 
                 // Framerate * # of Frames
                 Actions.delay(0.5f),
                 new setCurrentBattleAnimations(null, null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkAwayFromVictim),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkAwayFromVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.75f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 // defender walk back into place
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionDefender),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.75f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y - shadowYOffset, 0.75f, Interpolation.linear), shadowMap.get(defendingCharacter))),
 
                 Actions.delay(0.75f),
 
                 // defender turn to face attacker
-                myActions.new setWalkDirection(defendingCharacter, walkAwayFromVictim),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkAwayFromVictim),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), Entity.AnimationType.IDLE),
 
                 // attacker turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1579,21 +1723,24 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
 
                 new showStatArrows(false),
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, attacker.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, attacker.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, attacker.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.25f),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionToAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkDirectionToAttack),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y- shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.25f),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                Actions.parallel(Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(attackDestinationX, selectedEntity.getCurrentPosition().y- shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
 
                 myActions.new setIdleDirection(currentTurnCharacter, Entity.Direction.RIGHT),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IMMOBILE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IMMOBILE),
                 Actions.delay(0.25f),
                 new setCurrentBattleAnimations(currentCharacterBattleAnimation.get(weaponCategoryAnimationType),
                         weaponAnimations.get(characterWeaponIdAnimationType), null, null),
@@ -1601,38 +1748,43 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 new showMainCharacterAnimation(currentTurnCharacter, false),
 
                 // defender walk back to miss attack
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionDefender),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x + evasionOffset, defender.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(defendingCharacter))),
 
                 // Framerate * # of Frames
                 Actions.delay(0.5f),
                 new setCurrentBattleAnimations(null, null, null, null),
                 new showMainCharacterAnimation(currentTurnCharacter, true),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkOut),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkOut),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y, 0.25f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, selectedEntity.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.25f),
 
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 // defender walk back into place
                 myActions.new setIdleDirection(currentTurnCharacter, Entity.Direction.LEFT),
-                myActions.new setWalkDirection(defendingCharacter, walkDirectionDefender),
-                Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), walkDirectionDefender),
+                Actions.parallel(Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y, 0.25f, Interpolation.linear), defendingCharacter),
+                                 Actions.addAction(Actions.moveTo(defender.getCurrentPosition().x, defender.getCurrentPosition().y - shadowYOffset, 0.25f, Interpolation.linear), shadowMap.get(defendingCharacter))),
                 Actions.delay(0.15f),
-                myActions.new setWalkDirection(defendingCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(defendingCharacter, shadowMap.get(defendingCharacter), Entity.AnimationType.IDLE),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkDirectionFromAttack),
-                Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.15f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkDirectionFromAttack),
+                Actions.parallel(Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY(), 0.15f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(walkOutDestinationX, currentTurnCharacter.getY() - shadowYOffset, 0.15f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.1f),
 
-                myActions.new setWalkDirection(currentTurnCharacter, walkBackIntoPlace),
-                Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.45f, Interpolation.linear), currentTurnCharacter),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkBackIntoPlace),
+                Actions.parallel(Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY(), 0.45f, Interpolation.linear), currentTurnCharacter),
+                                 Actions.addAction(Actions.moveTo(currentTurnCharacter.getX(), currentTurnCharacter.getY() - shadowYOffset, 0.45f, Interpolation.linear), shadowMap.get(currentTurnCharacter))),
                 Actions.delay(0.45f),
 
                 // turn to face victim
-                myActions.new setWalkDirection(currentTurnCharacter, walkTowardsVictim),
-                myActions.new setWalkDirection(currentTurnCharacter, Entity.AnimationType.IDLE),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), walkTowardsVictim),
+                myActions.new setWalkDirectionWithShadow(currentTurnCharacter, shadowMap.get(currentTurnCharacter), Entity.AnimationType.IDLE),
 
                 new animationComplete(),
                 new showStatArrows(true)
@@ -1678,17 +1830,27 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
                 new showStatArrows(false),
                 Actions.parallel(
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
-                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
-                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party1))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
+                                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party2))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party3))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
+                                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party4))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party5))),
 
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), enemyDuration, Interpolation.linear), enemy1),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), enemyDuration, Interpolation.linear), enemy2),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), enemyDuration, Interpolation.linear), enemy3),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), enemyDuration, Interpolation.linear), enemy4),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), enemyDuration, Interpolation.linear), enemy5)
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), enemyDuration, Interpolation.linear), enemy1),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY() - shadowYOffset, enemyDuration, Interpolation.linear), shadowMap.get(enemy1))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), enemyDuration, Interpolation.linear), enemy2),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY() - shadowYOffset, enemyDuration, Interpolation.linear), shadowMap.get(enemy2))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), enemyDuration, Interpolation.linear), enemy3),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY() - shadowYOffset, enemyDuration, Interpolation.linear), shadowMap.get(enemy3))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), enemyDuration, Interpolation.linear), enemy4),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY() - shadowYOffset, enemyDuration, Interpolation.linear), shadowMap.get(enemy4))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), enemyDuration, Interpolation.linear), enemy5),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY() - shadowYOffset, enemyDuration, Interpolation.linear), shadowMap.get(enemy5)))
                 ),
 
                 Actions.delay(duration * 0.5f),
@@ -1719,7 +1881,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         float duration = 3;
         float tilesPerSec = 7.5f;
-        float enemyDurationFactor = 1f;
         Entity.AnimationType runDirection;
         Entity.AnimationType battlePositionParty = Entity.AnimationType.WALK_LEFT;
         Entity.AnimationType battlePositionEnemy = Entity.AnimationType.WALK_RIGHT;
@@ -1754,17 +1915,27 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         return Actions.sequence(
                 new showStatArrows(false),
                 Actions.parallel(
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
-                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
-                        Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
-                        Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY(), duration, Interpolation.linear), party1),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party1.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party1))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY(), duration, Interpolation.linear), party2),
+                                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party2.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party2))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY(), duration, Interpolation.linear), party3),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party3.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party3))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY(), duration, Interpolation.linear), party4),
+                                Actions.addAction(Actions.moveTo(partyDestinationX__2_4_, party4.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party4))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY(), duration, Interpolation.linear), party5),
+                                Actions.addAction(Actions.moveTo(partyDestinationX_1_3_5, party5.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(party5))),
 
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy1),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy2),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy3),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy4),
-                        Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), duration * enemyDurationFactor, Interpolation.linear), enemy5)
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY(), duration, Interpolation.linear), enemy1),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy1.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(enemy1))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY(), duration, Interpolation.linear), enemy2),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy2.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(enemy2))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY(), duration, Interpolation.linear), enemy3),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy3.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(enemy3))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY(), duration, Interpolation.linear), enemy4),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX__2_4_, enemy4.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(enemy4))),
+                        Actions.parallel(Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY(), duration, Interpolation.linear), enemy5),
+                                Actions.addAction(Actions.moveTo(enemyDestinationX_1_3_5, enemy5.getY() - shadowYOffset, duration, Interpolation.linear), shadowMap.get(enemy5)))
                 ),
 
                 Actions.delay(duration * 0.5f),
@@ -1866,11 +2037,34 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         party3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         party4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         party5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
         enemy1.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         enemy2.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         enemy3.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         enemy4.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
         enemy5.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
+        if (party1.getEntity() != null)
+            party1Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (party2.getEntity() != null)
+            party2Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (party3.getEntity() != null)
+            party3Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (party4.getEntity() != null)
+            party4Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (party5.getEntity() != null)
+            party5Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+
+        if (enemy1.getEntity() != null)
+            enemy1Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (enemy2.getEntity() != null)
+            enemy2Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (enemy3.getEntity() != null)
+            enemy3Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (enemy4.getEntity() != null)
+            enemy4Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
+        if (enemy5.getEntity() != null)
+            enemy5Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(fadeTime)));
     }
 
     private void fadeOutCharacters(float fadeTime) {
@@ -1884,6 +2078,17 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy3.addAction(Actions.fadeOut(fadeTime));
         enemy4.addAction(Actions.fadeOut(fadeTime));
         enemy5.addAction(Actions.fadeOut(fadeTime));
+
+        party1Shadow.addAction(Actions.fadeOut(fadeTime));
+        party2Shadow.addAction(Actions.fadeOut(fadeTime));
+        party3Shadow.addAction(Actions.fadeOut(fadeTime));
+        party4Shadow.addAction(Actions.fadeOut(fadeTime));
+        party5Shadow.addAction(Actions.fadeOut(fadeTime));
+        enemy1Shadow.addAction(Actions.fadeOut(fadeTime));
+        enemy2Shadow.addAction(Actions.fadeOut(fadeTime));
+        enemy3Shadow.addAction(Actions.fadeOut(fadeTime));
+        enemy4Shadow.addAction(Actions.fadeOut(fadeTime));
+        enemy5Shadow.addAction(Actions.fadeOut(fadeTime));
     }
 
     @Override
@@ -2115,12 +2320,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     private void correctCharactersZLayer() {
         // sort list in descending order by Y position
-        Collections.sort(charLayerSortList, new CharacterLayerComparator());
+        Collections.sort(characterShadowSortList, new CharacterLayerComparator());
 
-        // now set the z order of each character based on layer
-        for (int i = 0; i < charLayerSortList.size(); i++) {
-            AnimatedImage character = charLayerSortList.get(i);
-            character.setZIndex(i);
+        // now set the z order of each character and shadow based on layer
+        // shadow should be on the layer right before the character
+        for (int i = 0; i < characterShadowSortList.size(); i++) {
+            AnimatedImageWithShadow characterWithShadow = characterShadowSortList.get(i);
+            characterWithShadow.shadow.setZIndex(i);
+            characterWithShadow.character.setZIndex(i + 1);
         }
     }
 
@@ -2307,30 +2514,36 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 party1.setEntity(partyEntity);
                 party1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party1.setCurrentDirection(Entity.Direction.LEFT);
+                party1Shadow.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(0)));
+                _stage.addActor(party1Shadow);
                 _stage.addActor(party1);
                 break;
             case 2:
                 party2.setEntity(partyEntity);
                 party2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party2.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party2Shadow);
                 _stage.addActor(party2);
                 break;
             case 3:
                 party3.setEntity(partyEntity);
                 party3.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party3.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party3Shadow);
                 _stage.addActor(party3);
                 break;
             case 4:
                 party4.setEntity(partyEntity);
                 party4.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party4.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party4Shadow);
                 _stage.addActor(party4);
                 break;
             case 5:
                 party5.setEntity(partyEntity);
                 party5.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 party5.setCurrentDirection(Entity.Direction.LEFT);
+                _stage.addActor(party5Shadow);
                 _stage.addActor(party5);
                 break;
         }
@@ -2377,30 +2590,35 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 enemy1.setEntity(enemyEntity);
                 enemy1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 enemy1.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy1Shadow);
                 _stage.addActor(enemy1);
                 break;
             case 2:
                 enemy2.setEntity(enemyEntity);
                 enemy2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 enemy2.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy2Shadow);
                 _stage.addActor(enemy2);
                 break;
             case 3:
                 enemy3.setEntity(enemyEntity);
                 enemy3.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 enemy3.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy3Shadow);
                 _stage.addActor(enemy3);
                 break;
             case 4:
                 enemy4.setEntity(enemyEntity);
                 enemy4.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 enemy4.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy4Shadow);
                 _stage.addActor(enemy4);
                 break;
             case 5:
                 enemy5.setEntity(enemyEntity);
                 enemy5.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 enemy5.setCurrentDirection(Entity.Direction.RIGHT);
+                _stage.addActor(enemy5Shadow);
                 _stage.addActor(enemy5);
                 break;
         }
@@ -2435,11 +2653,12 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         }
     }
 
-    private Timer.Task removeOpponent(final AnimatedImage enemy) {
+    private Timer.Task removeOpponent(final AnimatedImage enemy, final AnimatedImage enemyShadow) {
         return new Timer.Task() {
             @Override
             public void run() {
                 enemy.remove();
+                enemyShadow.remove();
             }
         };
     }
@@ -2968,8 +3187,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                         statusArrows = getStatArrows(enemy1.getEntity());
                         statusArrows.clear();
                         enemy1.addAction(Actions.fadeOut(fadeOutTime));
-                        if (!removeOpponent(enemy1).isScheduled()) {
-                            Timer.schedule(removeOpponent(enemy1), fadeOutTime);
+                        enemy1Shadow.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy1, enemy1Shadow).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy1, enemy1Shadow), fadeOutTime);
                         }
                     }
                 }
@@ -2978,8 +3198,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                         statusArrows = getStatArrows(enemy2.getEntity());
                         statusArrows.clear();
                         enemy2.addAction(Actions.fadeOut(fadeOutTime));
-                        if (!removeOpponent(enemy2).isScheduled()) {
-                            Timer.schedule(removeOpponent(enemy2), fadeOutTime);
+                        enemy2Shadow.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy2, enemy2Shadow).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy2, enemy2Shadow), fadeOutTime);
                         }
                     }
                 }
@@ -2988,8 +3209,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                         statusArrows = getStatArrows(enemy3.getEntity());
                         statusArrows.clear();
                         enemy3.addAction(Actions.fadeOut(fadeOutTime));
-                        if (!removeOpponent(enemy3).isScheduled()) {
-                            Timer.schedule(removeOpponent(enemy3), fadeOutTime);
+                        enemy3Shadow.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy3, enemy3Shadow).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy3, enemy3Shadow), fadeOutTime);
                         }
                     }
                 }
@@ -2998,8 +3220,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                         statusArrows = getStatArrows(enemy4.getEntity());
                         statusArrows.clear();
                         enemy4.addAction(Actions.fadeOut(fadeOutTime));
-                        if (!removeOpponent(enemy4).isScheduled()) {
-                            Timer.schedule(removeOpponent(enemy4), fadeOutTime);
+                        enemy4Shadow.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy4, enemy4Shadow).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy4, enemy4Shadow), fadeOutTime);
                         }
                     }
                 }
@@ -3008,8 +3231,9 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                         statusArrows = getStatArrows(enemy5.getEntity());
                         statusArrows.clear();
                         enemy5.addAction(Actions.fadeOut(fadeOutTime));
-                        if (!removeOpponent(enemy5).isScheduled()) {
-                            Timer.schedule(removeOpponent(enemy5), fadeOutTime);
+                        enemy5Shadow.addAction(Actions.fadeOut(fadeOutTime));
+                        if (!removeOpponent(enemy5, enemy5Shadow).isScheduled()) {
+                            Timer.schedule(removeOpponent(enemy5, enemy5Shadow), fadeOutTime);
                         }
                     }
                 }

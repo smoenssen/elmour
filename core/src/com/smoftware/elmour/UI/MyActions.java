@@ -258,6 +258,27 @@ public class MyActions {
         }
     }
 
+    public class setWalkDirectionWithShadow extends Action {
+        AnimatedImage character;
+        AnimatedImage shadow;
+        Entity.AnimationType direction;
+
+        public setWalkDirectionWithShadow(AnimatedImage character, AnimatedImage shadow, Entity.AnimationType direction) {
+            this.character = character;
+            this.shadow = shadow;
+            this.direction = direction;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            if (character != null) {
+                character.setCurrentAnimationType(direction);
+                shadow.setCurrentAnimationType(direction);
+            }
+            return true; // An action returns true when it's completed
+        }
+    }
+
     public class setIdleDirection extends Action {
         AnimatedImage character;
         Entity.Direction direction;

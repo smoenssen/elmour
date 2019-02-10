@@ -1,0 +1,723 @@
+
+[
+{
+entityID : SHADOW1
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW2
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW3
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW4
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW5
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW6
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW7
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW8
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW9
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+{
+entityID : SHADOW10
+state : IMMOBILE
+direction : DOWN
+animationConfig: [
+	{
+	  frameDuration: 1.0
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 1.0
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+		]
+	}
+	{
+	  frameDuration: 1.0
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Shadow/Shadow.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+		]
+	}
+]
+}
+]
