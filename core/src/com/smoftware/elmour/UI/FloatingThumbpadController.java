@@ -15,6 +15,7 @@ public class FloatingThumbpadController extends FixedThumbpadController {
     private Vector2 localPos;
     private InputEvent fakeTouchDownEvent;
     private int currentNumTouchPointsOnLeft = 0;
+    private boolean isHidden = false;
 
     public FloatingThumbpadController() {
         screenPos = new Vector2();
@@ -25,6 +26,10 @@ public class FloatingThumbpadController extends FixedThumbpadController {
 
     @Override
     public Vector2 getDirection() {
+
+        if (isHidden) {
+            return new Vector2(0, 0);
+        }
 
         // get first touchpoint on the left side of the screen
         // assuming there should only be one, but need to differentiate from
@@ -72,5 +77,16 @@ public class FloatingThumbpadController extends FixedThumbpadController {
         currentNumTouchPointsOnLeft = newNumTouchPointsOnLeft;
 
         return super.getDirection();
+    }
+
+    @Override
+    public void hide() {
+        touchpad.setVisible(false);
+        isHidden = true;
+    }
+
+    @Override
+    public void show() {
+        isHidden = false;
     }
 }

@@ -125,7 +125,8 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
     @Override
     public void show() {
-
+        buttonTable.setVisible(true);
+        touchpad.show();
     }
 
     @Override
@@ -151,6 +152,8 @@ public class MobileControls extends MobileControlsSubject implements Screen {
 
     @Override
     public void hide() {
+        buttonTable.setVisible(false);
+        touchpad.hide();
     }
 
     @Override

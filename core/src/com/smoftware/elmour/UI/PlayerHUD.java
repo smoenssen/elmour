@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -70,7 +71,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 BattleObserver,
                                 StatusObserver,
                                 PopUpObserver,
-                                InputDialogSubject{
+                                InputDialogSubject,
+                                PlayerHudSubject,
+                                InventoryHudObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -142,10 +145,13 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private Array<AudioObserver> audioObservers;
     private Array<InputDialogObserver> inputDialogObservers;
+    private Array<PlayerHudObserver> playerHudObservers;
     private ScreenTransitionActor _transitionActor;
 
     private ShakeCamera _shakeCam;
     private ClockActor _clock;
+
+    private InventoryHUD inventoryHUD;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -154,22 +160,24 @@ public class PlayerHUD implements Screen, AudioSubject,
         _camera = camera;
         _player = player;
         _mapMgr = mapMgr;
-        //_viewport = new ScreenViewport(_camera);
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
-
-        //todo: should this be removed????
-        game.battleState.addObserver(this);
 
         isCutScene = false;
         isEnabled = true;
 
         audioObservers = new Array<>();
         inputDialogObservers = new Array<>();
+        playerHudObservers = new Array<>();
         _transitionActor = new ScreenTransitionActor();
 
-        _shakeCam = new ShakeCamera(0,0, 30.0f);
+        _shakeCam = new ShakeCamera(0, 0, 30.0f);
+
+        inventoryHUD = new InventoryHUD(_stage);
+
+        game.battleState.addObserver(this);
+        inventoryHUD.addObserver(this);
 
         _json = new Json();
 
@@ -177,7 +185,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _label.setWrap(true);
         _messageBoxUI = new Dialog("", Utility.STATUSUI_SKIN, "solidbackground");
         _messageBoxUI.setVisible(false);
-        _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth()/2).pad(10, 10, 10, 0);
+        _messageBoxUI.getContentTable().add(_label).width(_stage.getWidth() / 2).pad(10, 10, 10, 0);
         _messageBoxUI.pack();
         _messageBoxUI.setPosition(_stage.getWidth() / 2 - _messageBoxUI.getWidth() / 2, _stage.getHeight() - _messageBoxUI.getHeight());
         /*
@@ -195,7 +203,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         };
         */
         _clock = new ClockActor("0", Utility.STATUSUI_SKIN);
-        _clock.setPosition(_stage.getWidth()-_clock.getWidth(),0);
+        _clock.setPosition(_stage.getWidth() - _clock.getWidth(), 0);
         _clock.setRateOfTime(60);
         _clock.setVisible(true);
 
@@ -221,8 +229,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (ElmourGame.isAndroid()) {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
             signPopUp.setHeight(84);
-        }
-        else {
+        } else {
             signPopUp.setWidth(_stage.getWidth() / 1.1f);
             signPopUp.setHeight(84);
         }
@@ -234,8 +241,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (ElmourGame.isAndroid()) {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
             conversationPopUp.setHeight(84);
-        }
-        else {
+        } else {
             conversationPopUp.setWidth(_stage.getWidth() / 1.04f);
             conversationPopUp.setHeight(84);
         }
@@ -247,8 +253,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (ElmourGame.isAndroid()) {
             popUpLabel.setWidth(140);
             popUpLabel.setHeight(24);
-        }
-        else {
+        } else {
             popUpLabel.setWidth(140);
             popUpLabel.setHeight(24);
         }
@@ -509,7 +514,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                     }
 
                                     @Override
-                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         Gdx.app.log(TAG, "party button up");
                                         if (touchPointIsInButton(partyButton)) {
                                             hideMenu(true);
@@ -525,10 +530,11 @@ public class PlayerHUD implements Screen, AudioSubject,
                                         }
 
                                         @Override
-                                        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             Gdx.app.log(TAG, "inventory button up");
                                             if (touchPointIsInButton(inventoryButton)) {
                                                 hideMenu(true);
+                                                showInventoryHUD();
                                             }
                                         }
                                     }
@@ -541,7 +547,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                       }
 
                                       @Override
-                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                           Gdx.app.log(TAG, "options button up");
                                           if (touchPointIsInButton(optionsButton)) {
                                               hideMenu(true);
@@ -557,14 +563,13 @@ public class PlayerHUD implements Screen, AudioSubject,
                                    }
 
                                    @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                   public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                        // make sure touch point is still on this button
                                        if (touchPointIsInButton(saveButton)) {
                                            hideMenu(true);
                                            if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
                                                confirmOverwrite();
-                                           }
-                                           else {
+                                           } else {
                                                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
                                                ProfileManager.getInstance().saveProfile();
                                            }
@@ -574,22 +579,22 @@ public class PlayerHUD implements Screen, AudioSubject,
         );
 
         debugButton.addListener(new ClickListener() {
-                                   @Override
-                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       return true;
-                                   }
+                                    @Override
+                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        return true;
+                                    }
 
-                                   @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       hideMenu(true);
-                                       utilityButton.setVisible(true);
-                                       noClipModeButton.setVisible(true);
-                                       adjustInventoryButton.setVisible(true);
-                                       adjustSpellsPowersButton.setVisible(true);
-                                       parseXMLButton.setVisible(true);
-                                       debugMenuIsVisible = true;
-                                   }
-                               }
+                                    @Override
+                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                        hideMenu(true);
+                                        utilityButton.setVisible(true);
+                                        noClipModeButton.setVisible(true);
+                                        adjustInventoryButton.setVisible(true);
+                                        adjustSpellsPowersButton.setVisible(true);
+                                        parseXMLButton.setVisible(true);
+                                        debugMenuIsVisible = true;
+                                    }
+                                }
         );
 
         utilityButton.addListener(new ClickListener() {
@@ -599,7 +604,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                       }
 
                                       @Override
-                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                           // make sure touch point is still on this button
                                           if (touchPointIsInButton(utilityButton)) {
                                               hideDebugMenu();
@@ -625,20 +630,20 @@ public class PlayerHUD implements Screen, AudioSubject,
         );
 
         noClipModeButton.addListener(new ClickListener() {
-                                      @Override
-                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                          return true;
-                                      }
+                                         @Override
+                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                             return true;
+                                         }
 
-                                      @Override
-                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                          // make sure touch point is still on this button
-                                          if (touchPointIsInButton(noClipModeButton)) {
-                                              hideDebugMenu();
-                                              _player.toggleNoClipping();
-                                          }
-                                      }
-                                  }
+                                         @Override
+                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                             // make sure touch point is still on this button
+                                             if (touchPointIsInButton(noClipModeButton)) {
+                                                 hideDebugMenu();
+                                                 _player.toggleNoClipping();
+                                             }
+                                         }
+                                     }
         );
 
         adjustInventoryButton.addListener(new ClickListener() {
@@ -648,7 +653,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                               }
 
                                               @Override
-                                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                              public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                                   // make sure touch point is still on this button
                                                   if (touchPointIsInButton(adjustInventoryButton)) {
                                                       hideDebugMenu();
@@ -662,23 +667,23 @@ public class PlayerHUD implements Screen, AudioSubject,
         );
 
         adjustSpellsPowersButton.addListener(new ClickListener() {
-                                              @Override
-                                              public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                                  return true;
-                                              }
+                                                 @Override
+                                                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                                     return true;
+                                                 }
 
-                                              @Override
-                                              public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                                  // make sure touch point is still on this button
-                                                  if (touchPointIsInButton(adjustSpellsPowersButton)) {
-                                                      hideDebugMenu();
-                                                      Gdx.app.log(TAG, "adjustSpellsPowersButton clicked");
+                                                 @Override
+                                                 public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                                     // make sure touch point is still on this button
+                                                     if (touchPointIsInButton(adjustSpellsPowersButton)) {
+                                                         hideDebugMenu();
+                                                         Gdx.app.log(TAG, "adjustSpellsPowersButton clicked");
 
-                                                      AdjustSpellsPowersInputListener listener = new AdjustSpellsPowersInputListener(_stage);
-                                                      Gdx.input.getTextInput(listener, "Enter Character", "", "");
-                                                  }
-                                              }
-                                          }
+                                                         AdjustSpellsPowersInputListener listener = new AdjustSpellsPowersInputListener(_stage);
+                                                         Gdx.input.getTextInput(listener, "Enter Character", "", "");
+                                                     }
+                                                 }
+                                             }
         );
 
         parseXMLButton.addListener(new ClickListener() {
@@ -711,7 +716,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         return playerIsInBattle;
     }
 
-    public void showMessage(String message){
+    public void showMessage(String message) {
         _label.setText(message);
         Gdx.app.debug(TAG, message);
         _messageBoxUI.pack();
@@ -750,6 +755,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         debugButton.setVisible(true);
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
+    }
+
+    private void showInventoryHUD() {
+        inventoryHUD.show();
     }
 
     private boolean touchPointIsInButton(TextButton button) {
@@ -1594,6 +1603,9 @@ public class PlayerHUD implements Screen, AudioSubject,
             menuButton.setVisible(false);
         }
 
+        if (inventoryHUD != null)
+            inventoryHUD.render(delta);
+
         if (signPopUp.isReady())
             signPopUp.update();
 
@@ -1690,15 +1702,21 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.getViewport().update(width, height, true);
         //_battleUI.validate();
        // _battleUI.resize();
+        if (inventoryHUD != null)
+            inventoryHUD.resize((int) MainGameScreen.VIEWPORT.physicalWidth, (int) MainGameScreen.VIEWPORT.physicalHeight);
     }
 
     @Override
     public void pause() {
         /*_battleUI.resetDefaults();*/
+        if (inventoryHUD != null)
+            inventoryHUD.pause();
     }
 
     @Override
     public void resume() {
+        if (inventoryHUD != null)
+            inventoryHUD.resume();
     }
 
     @Override
@@ -1850,6 +1868,31 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
+    public void addObserver(PlayerHudObserver observer) {
+        playerHudObservers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(PlayerHudObserver observer) {
+        playerHudObservers.removeValue(observer, true);
+    }
+
+    public void addInventoryObserver(InventoryHudObserver observer) {
+        inventoryHUD.addObserver(observer);
+    }
+
+    public void removeInventoryObserver(InventoryHudObserver observer) {
+        inventoryHUD.removeObserver(observer);
+    }
+
+    @Override
+    public void notify(PlayerHudObserver.PlayerHudEvent event) {
+        for(PlayerHudObserver observer: playerHudObservers){
+            observer.onNotify(event);
+        }
+    }
+
+    @Override
     public void removeAllObservers() {
         audioObservers.removeAll(audioObservers, true);
     }
@@ -1903,6 +1946,18 @@ public class PlayerHUD implements Screen, AudioSubject,
             case INTERACTION_THREAD_EXIT:
                 // this is necessary to allow player to move again
                 isCurrentConversationDone = true;
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(InventoryHudEvent event) {
+        switch (event) {
+            case INVENTORY_HUD_SHOWN:
+                menuButton.setVisible(false);
+                break;
+            case INVENTORY_HUD_HIDDEN:
+                menuButton.setVisible(true);
                 break;
         }
     }

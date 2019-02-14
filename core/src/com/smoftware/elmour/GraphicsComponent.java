@@ -203,6 +203,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
     }
 
     protected static Animation loadAnimation(String textureName, Array<GridPoint2> points, float frameDuration, int frameWidth, int frameHeight){
+        //Gdx.app.log("GP", "textureName = " + textureName);
         Utility.loadTextureAsset(textureName);
         Texture texture = Utility.getTextureAsset(textureName);
 

@@ -50,4 +50,10 @@ public class FixedThumbpadController {
 
     public Vector2 getDirection() {
         return new Vector2(touchpad.getKnobPercentX(), touchpad.getKnobPercentY());    }
+
+    public void hide() {
+    }
+
+    public void show() {
+    }
 }
