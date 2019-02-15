@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -34,6 +37,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
     private TextButton consumablesButton;
     private TextButton exitButton;
 
+    private List<String> consumablesListView;
+    private ScrollPane consumablesScrollPaneList;
+
     public InventoryHUD(Stage stage) {
 
         this.stage = stage;
@@ -49,6 +55,16 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         //equipmentButton.setHeight(50);
         //equipmentButton.setPosition(0, 0);
         //equipmentButton.setVisible(true);
+
+        consumablesListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        consumablesScrollPaneList = new ScrollPane(consumablesListView);
+
+        String[] strings = new String[20];
+        for (int i = 0, k = 0; i < 20; i++) {
+            strings[k++] = "String: " + i;
+
+        }
+        consumablesListView.setItems(strings);
 
         mainTable.row().width(stage.getWidth()).height(50);
         mainTable.add(equipmentButton).pad(-2).width(stage.getWidth() / 3);
