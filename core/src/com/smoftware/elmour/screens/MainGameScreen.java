@@ -29,6 +29,7 @@ import com.smoftware.elmour.UI.PlayerHudObserver;
 import com.smoftware.elmour.UI.PlayerHudSubject;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -491,10 +492,14 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     public void onNotify(InventoryHudEvent event) {
         switch (event) {
             case INVENTORY_HUD_HIDDEN:
-                mobileControls.show();
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.show();
+                }
                 break;
             case INVENTORY_HUD_SHOWN:
-                mobileControls.hide();
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.hide();
+                }
                 break;
         }
     }

@@ -80,13 +80,13 @@ conversations: {
 	}
 	n28: {
 		id: n28
-		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your’s?"
+		dialog: "My name is {CHARACTER_1}.§\nMind telling me your’s?"
 		character: Me
 		type: NPC
 	}
 	n27: {
 		id: n27
-		dialog: "You know, I never asked for your name, not\r\nthat I had the chance.§\r\nMind telling me?"
+		dialog: "You know, I never asked for your name, not\nthat I had the chance.§\nMind telling me?"
 		character: Girl
 		type: NPC
 	}
@@ -98,7 +98,7 @@ conversations: {
 	}
 	n25: {
 		id: n25
-		dialog: Get away from here!¶\r\nProtect yourself!
+		dialog: Get away from here!¶\nProtect yourself!
 		character: Guard
 		type: NPC
 	}
@@ -116,7 +116,7 @@ conversations: {
 	}
 	n23: {
 		id: n23
-		dialog: That girl... who was she?§\r\nShe seemed familiar somehow...
+		dialog: That girl... who was she?§\nShe seemed familiar somehow...
 		character: My Thoughts
 		type: NPC
 	}
@@ -128,7 +128,7 @@ conversations: {
 	}
 	n22: {
 		id: n22
-		dialog: I must've passed out. That's the only\r\nexplanation I can think of.
+		dialog: I must've passed out. That's the only\nexplanation I can think of.
 		character: My Thoughts
 		type: NPC
 	}
@@ -236,7 +236,7 @@ conversations: {
 	}
 	n102: {
 		id: n102
-		dialog: I'll help you anyways. maybe you'll decide\r\notherwise later.
+		dialog: I'll help you anyways. maybe you'll decide\notherwise later.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -266,7 +266,7 @@ conversations: {
 	}
 	n17: {
 		id: n17
-		dialog: "OK, let me rephrase that: which country are\r\nwe in right now?"
+		dialog: "OK, let me rephrase that: which country are\nwe in right now?"
 		character: Girl
 		type: NPC
 	}
@@ -284,7 +284,7 @@ conversations: {
 	}
 	n13: {
 		id: n13
-		dialog: "I know you're not here to raid my castle!¶\r\nNo idiot would go throught the front gates to\r\nexit the castles.§\r\nNot to mention, you obviously aren't from\r\naround here."
+		dialog: "I know you're not here to raid my castle!¶\nNo idiot would go throught the front gates to\nexit the castles.§\nNot to mention, you obviously aren't from\naround here."
 		character: Girl
 		type: NPC
 	}
@@ -302,7 +302,7 @@ conversations: {
 	}
 	n11: {
 		id: n11
-		dialog: Maybe if you looked around you would know\r\nwhere you are.
+		dialog: Maybe if you looked around you would know\nwhere you are.
 		character: Girl
 		type: NPC
 	}
@@ -314,7 +314,7 @@ conversations: {
 	}
 	n10: {
 		id: n10
-		dialog: "I’m not here to raid your castle... frankly, I \r\ndon’t even know why I’m here.§\r\nI don’t even know where ‘here’ is."
+		dialog: "I’m not here to raid your castle... frankly, I \ndon’t even know why I’m here.§\nI don’t even know where ‘here’ is."
 		character: Me
 		type: NPC
 	}
@@ -350,7 +350,7 @@ conversations: {
 	}
 	n70: {
 		id: n70
-		dialog: "Well, I suppose just in case a giant goblin with\r\nbig tusks happens to be raiding Shnarfulapogus"
+		dialog: "Well, I suppose just in case a giant goblin with\nbig tusks happens to be raiding Shnarfulapogus"
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -362,7 +362,7 @@ conversations: {
 	}
 	n68: {
 		id: n68
-		dialog: We shouldn’t need them: the lands are pretty\r\nsafe.
+		dialog: We shouldn’t need them: the lands are pretty\nsafe.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -386,7 +386,7 @@ conversations: {
 	}
 	n64: {
 		id: n64
-		dialog: "There are Gem Keepers protecting The Gems,\r\nbut they have been told to stay at the Temples\r\nuntil I give them the OK in person."
+		dialog: "There are Gem Keepers protecting The Gems,\nbut they have been told to stay at the Temples\nuntil I give them the OK in person."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -404,7 +404,7 @@ conversations: {
 	}
 	n61: {
 		id: n61
-		dialog: So whose going to run the country while \r\nyou're away?
+		dialog: So whose going to run the country while \nyou're away?
 		character: Me
 		type: NPC
 	}
@@ -422,7 +422,7 @@ conversations: {
 	}
 	n58: {
 		id: n58
-		dialog: Why? Who else is - NO! You’re not coming!§\r\nYou have a country to run!
+		dialog: Why? Who else is - NO! You’re not coming!§\nYou have a country to run!
 		character: Me
 		type: NPC
 	}
@@ -434,7 +434,7 @@ conversations: {
 	}
 	n53: {
 		id: n53
-		dialog: "Yeah, did you really expect it to be that easy?§\r\nWe just have to get The Gems: Emerald, \r\nTopaz, Diamond, Sapphire, and Ruby."
+		dialog: "Yeah, did you really expect it to be that easy?§\nWe just have to get The Gems: Emerald, \nTopaz, Diamond, Sapphire, and Ruby."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -446,7 +446,7 @@ conversations: {
 	}
 	n49: {
 		id: n49
-		dialog: You really are strange. It’s the town that we’re\r\nin right now.
+		dialog: You really are strange. It’s the town that we’re\nin right now.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -464,7 +464,7 @@ conversations: {
 	}
 	n46: {
 		id: n46
-		dialog: Just imagine this world and then you'll return.¶\r\nSimple as that.
+		dialog: Just imagine this world and then you'll return.¶\nSimple as that.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -482,19 +482,19 @@ conversations: {
 	}
 	n9: {
 		id: n9
-		dialog: "I am not here to harm you, I just want to ask\r\nwhat your intentions for raiding my castle are."
+		dialog: "I am not here to harm you, I just want to ask\nwhat your intentions for raiding my castle are."
 		character: Girl
 		type: NPC
 	}
 	n41: {
 		id: n41
-		dialog: "There is, but I’ll only tell you if you promise me\r\none thing - you’ll visit Elmour again."
+		dialog: "There is, but I’ll only tell you if you promise me\none thing - you’ll visit Elmour again."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n40: {
 		id: n40
-		dialog: "I don’t know why, but they’ve been acting\r\nstrange recently."
+		dialog: "I don’t know why, but they’ve been acting\nstrange recently."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -548,7 +548,7 @@ conversations: {
 	}
 	n34: {
 		id: n34
-		dialog: "Yep, that’s my name.§\r\nPrincess {CHARACTER_2}, but you can just\r\ncall me {CHARACTER_2}.§\r\nI am in charge of these lands."
+		dialog: "Yep, that’s my name.§\nPrincess {CHARACTER_2}, but you can just\ncall me {CHARACTER_2}.§\nI am in charge of these lands."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -873,7 +873,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n104
 			destinationId: n52
-			choicePhrase: You mean I could’ve just left as soon as I \r\ncame?
+			choicePhrase: You mean I could’ve just left as soon as I \ncame?
 		}
 	]
 	n103: [
@@ -1053,7 +1053,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1455,7 +1455,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
+			choicePhrase: "I’ve only just arrived, and I’ve been attacked\nby your guards twice."
 		}
 	]
 	n36: [
@@ -1479,7 +1479,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n34
 			destinationId: n37
-			choicePhrase: "Speaking of which, is there anyway that I can\r\nget off these lands?"
+			choicePhrase: "Speaking of which, is there anyway that I can\nget off these lands?"
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -1513,5 +1513,5 @@ associatedChoices: {
 		}
 	]
 }
-currentConversationID: n21
+currentConversationID: n27
 }

@@ -370,7 +370,9 @@ public class PopUp extends Window implements PopUpSubject {
 								// go into listening mode
 								state = State.LISTENING;
 
-							if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" && lineIdx == dialog.lineStrings.size - 1) {
+							if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" &&
+									sectionsProcessed == fullTextSections.length &&
+									lineIdx == dialog.lineStrings.size - 1) {
 								// show choices now since this is the last line of the dialog
 								//todo: get character name
 								showChoices();

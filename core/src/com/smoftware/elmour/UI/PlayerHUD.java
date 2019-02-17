@@ -1395,9 +1395,16 @@ public class PlayerHUD implements Screen, AudioSubject,
     @Override
     public void onNotify(ConversationGraph graph, ArrayList<ConversationChoice> choices) {
         int choiceNum = 0;
+        float choicePopupHeight;
         isThereAnActiveHiddenChoice = false;
 
         Gdx.app.log(TAG, "Displaying " + choices.size() + " choices");
+
+        if (ElmourGame.isAndroid()) {
+            choicePopupHeight = 110;
+        } else {
+            choicePopupHeight = 110;
+        }
 
         for (ConversationChoice choice : choices) {
             switch(choiceNum++) {
@@ -1423,7 +1430,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         switch (choices.size()) {
             case 1:
                 choicePopUp1.setWidth(_stage.getWidth() / 2f);
-                choicePopUp1.setHeight(80);
+                choicePopUp1.setHeight(choicePopupHeight);
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 4, _stage.getHeight() - choicePopUp1.getHeight() - 12);
 
                 if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
@@ -1436,18 +1443,11 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 break;
             case 2:
-                if (ElmourGame.isAndroid()) {
-                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 2f);
-                    choicePopUp1.setHeight(80);
-                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 2f);
-                    choicePopUp2.setHeight(80);
-                }
-                else {
-                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 2f);
-                    choicePopUp1.setHeight(80);
-                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 2f);
-                    choicePopUp2.setHeight(80);
-                }
+                choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 2f);
+                choicePopUp1.setHeight(choicePopupHeight);
+                choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 2f);
+                choicePopUp2.setHeight(choicePopupHeight);
+
                 choicePopUp1.setPosition(_stage.getWidth() / 2 - conversationPopUp.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp2.setPosition(_stage.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 if (!choicePopUp1.getChoice().getChoicePhrase().equals(ConversationChoice.NO_CHOICE)) {
@@ -1463,22 +1463,13 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 break;
             case 3:
-                if (ElmourGame.isAndroid()) {
-                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp1.setHeight(90);
-                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp2.setHeight(90);
-                    choicePopUp3.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp3.setHeight(90);
-                }
-                else {
-                    choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp1.setHeight(100);
-                    choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp2.setHeight(100);
-                    choicePopUp3.setWidth(_stage.getWidth() / 1.04f / 3f);
-                    choicePopUp3.setHeight(100);
-                }
+                choicePopUp1.setWidth(_stage.getWidth() / 1.04f / 3f);
+                choicePopUp1.setHeight(choicePopupHeight);
+                choicePopUp2.setWidth(_stage.getWidth() / 1.04f / 3f);
+                choicePopUp2.setHeight(choicePopupHeight);
+                choicePopUp3.setWidth(_stage.getWidth() / 1.04f / 3f);
+                choicePopUp3.setHeight(choicePopupHeight);
+
                 choicePopUp1.setPosition(_stage.getWidth() /  -  (1.5f * choicePopUp1.getWidth()) + 13, _stage.getHeight() - choicePopUp1.getHeight() - 12);
                 choicePopUp2.setPosition(_stage.getWidth() / 2 - choicePopUp2.getWidth() / 2, _stage.getHeight() - choicePopUp2.getHeight() - 12);
                 choicePopUp3.setPosition(_stage.getWidth() / 2 + choicePopUp3.getWidth() / 2, _stage.getHeight() - choicePopUp3.getHeight() - 12);
