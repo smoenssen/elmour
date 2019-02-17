@@ -71,7 +71,7 @@ animationConfig: [
 	    frameDuration: 0.167
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -92,7 +92,7 @@ animationConfig: [
 	    frameDuration: 0.167
 		animationType: WALK_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -113,7 +113,7 @@ animationConfig: [
 		frameDuration: 0.167
 		animationType: WALK_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -134,7 +134,7 @@ animationConfig: [
 		frameDuration: 0.167
 		animationType: WALK_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -155,7 +155,7 @@ animationConfig: [
 		frameDuration: 0.167
 		animationType: WALK_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -176,7 +176,7 @@ animationConfig: [
 			frameDuration: 0.10
 		animationType: RUN_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -197,7 +197,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -218,7 +218,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -239,7 +239,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Swarm/Swarm.png
+			RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -262,7 +262,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Swarm/Swarm.png
+				RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -289,7 +289,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Swarm/Swarm.png
+				RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -316,7 +316,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Swarm/Swarm.png
+				RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{
@@ -343,7 +343,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Swarm/Swarm.png
+				RPGGame/maps/Game/Characters/Flies_Hive/Swarm.png
 		]
 		gridPoints: [
 			{

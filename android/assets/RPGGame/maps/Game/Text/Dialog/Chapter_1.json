@@ -72,6 +72,12 @@ conversations: {
 		character: Girl
 		type: NPC
 	}
+	n110: {
+		id: n110
+		dialog: WAIT_1000
+		character: null
+		type: ACTION
+	}
 	n28: {
 		id: n28
 		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your’s?"
@@ -186,6 +192,12 @@ conversations: {
 		character: null
 		type: ACTION
 	}
+	n109: {
+		id: n109
+		dialog: Ahem...
+		character: Girl
+		type: NPC
+	}
 	n108: {
 		id: n108
 		dialog: CHAR2_ANGER
@@ -248,7 +260,7 @@ conversations: {
 	}
 	n100: {
 		id: n100
-		dialog: WAIT_500
+		dialog: WAIT_1000
 		character: null
 		type: ACTION
 	}
@@ -656,6 +668,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n110: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n110
+			destinationId: n109
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n28: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -808,6 +828,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n109: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n109
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n108: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -820,7 +848,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n107
-			destinationId: n27
+			destinationId: n110
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -1485,5 +1513,5 @@ associatedChoices: {
 		}
 	]
 }
-currentConversationID: n27
+currentConversationID: n21
 }

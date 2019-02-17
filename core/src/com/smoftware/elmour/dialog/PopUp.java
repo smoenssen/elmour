@@ -231,9 +231,6 @@ public class PopUp extends Window implements PopUpSubject {
 		// Instead, ¶ is being used to indicate actual new lines.
 		fullText = fullText.replace("\n", " ");
 
-		// Split the fulltext into the separate sections to display
-		fullTextSections = fullText.split("§");
-
 		currentCharacter = conversation.getCharacter();
 
 		if (currentCharacter == null)
@@ -257,6 +254,9 @@ public class PopUp extends Window implements PopUpSubject {
 			leftBracketIndex = tmp.indexOf('{', rightBracketIndex + 1);
 		}
 		Gdx.app.log(TAG, "populating fullText = " + fullText);
+
+		// Split the fulltext into the separate sections to display
+		fullTextSections = fullText.split("§");
 
 		String type = conversation.getType();
 

@@ -509,10 +509,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         emoteOff = 0.05f;
 
         switch (action) {
+            case WAIT_500:
+                _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 500);
+                break;
             case WAIT_1000:
-                _stage.addAction(
-                        Actions.delay(1)
-                    );
+                _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 1000);
                 break;
             case WAIT_10000:
                 _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 10000);
@@ -1244,10 +1245,10 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         myActions.new setEnabledHUD(_playerHUD, false),
                         myActions.new continueConversation(_playerHUD),
 
-                        myActions.new setOrigin(guard5, guard5.getWidth()/2, guard5.getHeight()/2),
+                        myActions.new setOrigin(guard5, guard5.getWidth()/3, guard5.getHeight()/3),
                         myActions.new setWalkDirection(guard5, Entity.AnimationType.WALK_LEFT),
                         Actions.addAction(Actions.moveTo(10, 5, oneBlockTime * 2), guard5),
-                        Actions.addAction(Actions.rotateBy(900, oneBlockTime * 10), guard5),
+                        Actions.addAction(Actions.rotateBy(-4500, oneBlockTime * 10), guard5),
                         Actions.delay(oneBlockTime * 5.5f),
 
                         myActions.new continueConversation(_playerHUD),
@@ -1267,6 +1268,23 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 break;
             case GET_CHAR2_NAME:
                 _playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR2_NAME);
+                break;
+            case CHAR2_TURN_AROUND:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character2, Entity.Direction.RIGHT),
+                        Actions.addAction(Actions.moveTo(2, 5, oneBlockTime * 6), character2),
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SAD_ON),
+                        Actions.delay(emoteOn),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SAD_OFF),
+                        Actions.delay(emoteOff),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
                 break;
             case EXIT_CONVERSATION:
                 _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));

@@ -35,6 +35,8 @@ public interface ConversationGraphObserver {
         GUARD_LEAVES,
         GET_CHAR1_NAME,
         GET_CHAR2_NAME,
+        CHAR2_TURN_AROUND,
+        CHAR2_THINK,
         //Chapter 2
         WALK_TO_ARMORY,
         WALK_AROUND_TOWN,
@@ -44,6 +46,7 @@ public interface ConversationGraphObserver {
         WAIT_5000,
         WAIT_2000,
         WAIT_1000,
+        WAIT_500,
 
         ALT_TEXT_1,
         ALT_TEXT_2,

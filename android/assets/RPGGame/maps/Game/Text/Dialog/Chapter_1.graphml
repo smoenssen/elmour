@@ -1890,7 +1890,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
           <y:Geometry height="30.0" width="78.39571440653356" x="2387.2778193690247" y="163.0653329809121"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="60.689453125" x="8.853130640766722" y="5.6494140625">WAIT_500<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="67.36328125" x="5.516216578266722" y="5.6494140625">WAIT_1000<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2050,7 +2050,7 @@ otherwise later.<y:LabelModel>
       <data key="d5"><![CDATA[Girl]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="99.89076249733807" x="2841.5095155009103" y="418.06533298091216"/>
+          <y:Geometry height="30.0" width="99.89076249733807" x="2711.6187530035722" y="418.06533298091216"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="45.349609375" x="27.270576561169037" y="5.6494140625">Ahem...<y:LabelModel>
@@ -2067,7 +2067,7 @@ otherwise later.<y:LabelModel>
     <node id="n110">
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="78.39571440653356" x="2733.113801094377" y="418.0653329809122"/>
+          <y:Geometry height="30.0" width="78.39571440653356" x="2852.2570395463126" y="418.06533298091216"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="67.36328125" x="5.516216578266722" y="5.6494140625">WAIT_1000<y:LabelModel>
@@ -3302,7 +3302,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e116" source="n106" target="n108">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3315,7 +3314,6 @@ otherwise later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e117" source="n108" target="n107">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3327,7 +3325,7 @@ otherwise later.<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e118" source="n107" target="n109">
+    <edge id="e118" source="n107" target="n110">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -3338,28 +3336,24 @@ otherwise later.<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e119" source="n109" target="n110">
+    <edge id="e119" source="n110" target="n109">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="2831.8832775236115" y="433.06533298091216"/>
-            <y:Point x="2831.8832775236115" y="433.0653329809122"/>
-          </y:Path>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e120" source="n110" target="n27">
+    <edge id="e120" source="n109" target="n27">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="2657.531746965219" y="433.0653329809122"/>
-            <y:Point x="2657.531746965219" y="415.5653329809121"/>
-            <y:Point x="2426.4756765722914" y="415.5653329809121"/>
+            <y:Point x="2761.5641342522413" y="410.5653329809121"/>
+            <y:Point x="2426.4756765722914" y="410.5653329809121"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
