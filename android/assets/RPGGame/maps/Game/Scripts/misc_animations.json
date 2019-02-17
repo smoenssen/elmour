@@ -577,7 +577,7 @@ animationConfig: [
 		]
 	}
 	{
-			frameDuration: 0.025
+			frameDuration: 0.08
 			frameWidth : 16
 			frameHeight : 16
 			looping : false
@@ -645,6 +645,77 @@ animationConfig: [
 			{
 				x: 7
 				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: THINK_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 6
+				y: 3
+			}
+			{
+				x: 6
+				y: 2
+			}
+		]
+	}
+	{
+			frameDuration: 0.7
+			frameWidth : 16
+			frameHeight : 16
+		animationType: THINK_LOOP
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 8
+				y: 0
+			}
+			{
+				x: 8
+				y: 1
+			}
+			{
+				x: 8
+				y: 2
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: THINK_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 6
+				y: 3
+			}
+			{
+				x: 6
+				y: 2
 			}
 			{
 				x: 0

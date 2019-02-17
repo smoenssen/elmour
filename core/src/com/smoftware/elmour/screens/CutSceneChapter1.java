@@ -99,6 +99,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Action setupCourtyardChaseScene;
     private Action setupGuardsSurroundScene;
     private Action setupWakeUpScene;
+    private Action setupPortalRoomScene;
     private Action waitForConversationExit;
 
     private AnimatedImage character1;
@@ -476,6 +477,46 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 blackBarRight.setWidth(2.5f);
                 blackBarRight.setHeight(5);
                 blackBarRight.setPosition(9, 4);
+                blackBarRight.setVisible(true);
+            }
+        };
+
+        setupPortalRoomScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.PORTAL_ROOM);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(5, 4.25f);
+
+                character1.setPosition(3, 6);
+                character1.setCurrentAnimationType(Entity.AnimationType.WALK_DOWN);
+                character1.setCurrentDirection(Entity.Direction.UP);
+
+                //todo
+                character2.setVisible(true);
+                //todo
+                character2.setPosition(3, 4);
+                character2.setCurrentAnimationType(Entity.AnimationType.WALK_DOWN);
+                character2.setCurrentDirection(Entity.Direction.UP);
+
+                guard1.setVisible(false);
+                guard2.setVisible(false);
+                guard3.setVisible(false);
+                guard4.setVisible(false);
+                guard5.setVisible(false);
+                guard6.setVisible(false);
+                guard7.setVisible(false);
+
+                misc.setPosition(4.8f + emoteX, 3.5f + emoteY);
+                misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+                misc.setVisible(false);
+
+                blackBarLeft.setVisible(false);
+
+                blackBarRight.setWidth(2.5f);
+                blackBarRight.setHeight(5);
+                blackBarRight.setPosition(8, 0);
                 blackBarRight.setVisible(true);
             }
         };
@@ -1264,16 +1305,14 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 break;
             case GET_CHAR1_NAME:
-                _playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR1_NAME);
+                _playerHUD.requestInput("What is my name?", InputDialogEvent.GET_CHAR1_NAME);
                 break;
             case GET_CHAR2_NAME:
-                _playerHUD.requestInput("Name: ", InputDialogEvent.GET_CHAR2_NAME);
+                _playerHUD.requestInput("What was her name again?", InputDialogEvent.GET_CHAR2_NAME);
                 break;
             case CHAR2_TURN_AROUND:
                 _stage.addAction(Actions.sequence(
-                        Actions.delay(oneBlockTime),
                         myActions.new setIdleDirection(character2, Entity.Direction.RIGHT),
-                        Actions.addAction(Actions.moveTo(2, 5, oneBlockTime * 6), character2),
                         myActions.new setCharacterVisible(misc, true),
                         myActions.new setWalkDirection(misc, Entity.AnimationType.SAD_ON),
                         Actions.delay(emoteOn),
@@ -1281,13 +1320,143 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         Actions.delay(emoteOff),
                         myActions.new setCharacterVisible(misc, false),
                         Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.THINK),
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_LOOP),
+                        Actions.delay(2.1f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character2, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR2_WALK_RIGHT:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveTo(4, 5, oneBlockTime * 2), character2),
+                        myActions.new setIdleDirection(character2, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case GO_TO_PORTAL_ROOM:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveTo(10, 5, oneBlockTime * 9), character1),
+                        Actions.addAction(Actions.moveTo(10, 5, oneBlockTime * 6), character2),
+                        Actions.delay(oneBlockTime * 8),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.5f), _transitionActor),
+                        new setFading(true),
+                        Actions.delay(oneBlockTime),
+
+                        Actions.addAction(getPortalRoomScene())
+                        )
+                );
+
+                break;
+            case CHAR1_LOOK_CHAR2:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime * 0.5f),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR1_SHOCK:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_ON),
+                        Actions.delay(emoteOn),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_OFF),
+                        Actions.delay(emoteOff),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR2_LOOK_CHAR1:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character2, Entity.Direction.LEFT),
+                        Actions.delay(oneBlockTime * 0.5f),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR1_TEAR:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.TEAR_ON),
+                        Actions.delay(0.4f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.TEAR_OFF),
+                        Actions.delay(0.4f),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case START_LEAVING:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(6, 2, oneBlockTime * 1.5f), character2),
+                        Actions.delay(oneBlockTime * 1.5f),
+                        myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case STOP_LEAVING:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character2, Entity.Direction.UP),
+                        Actions.delay(oneBlockTime),
+
                         myActions.new continueConversation(_playerHUD)
                         )
                 );
 
                 break;
             case EXIT_CONVERSATION:
-                _stage.addAction(Actions.addAction(Actions.moveTo(15, 76, 10, Interpolation.linear), character2));
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveTo(9, 2, oneBlockTime * 3), character2),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(5, 2, oneBlockTime * 1.5f), character1),
+                        Actions.delay(oneBlockTime * 1.5f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveTo(9, 2, oneBlockTime * 4), character1),
+                        Actions.delay(oneBlockTime * 2.5f),
+                       new setFading(true)
+                        )
+                );
+
                 _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
         }
 
@@ -1780,9 +1949,45 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
+    private Action getPortalRoomScene() {
+        setupPortalRoomScene.reset();
+        return Actions.sequence(
+                Actions.addAction(setupPortalRoomScene),
+                Actions.addAction(Actions.moveTo(3, 1.5f, oneBlockTime * 4.5f), character1),
+                Actions.addAction(Actions.moveTo(3, 1.5f, oneBlockTime * 2.5f), character2),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor),
+                Actions.delay(1),
+                new setFading(false),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n114
+                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+
+                Actions.delay(1.5f),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
+                Actions.addAction(Actions.moveTo(6, 1.5f, oneBlockTime * 3), character2),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
+                Actions.addAction(Actions.moveTo(5, 1.5f, oneBlockTime * 2), character1),
+                Actions.delay(oneBlockTime * 1),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                Actions.addAction(Actions.moveTo(6, 3.5f, oneBlockTime * 2), character2),
+                Actions.delay(oneBlockTime * 1),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                Actions.addAction(Actions.moveTo(5, 3.5f, oneBlockTime * 2), character1),
+                Actions.delay(oneBlockTime * 1),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime * 1),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
                 myActions.new continueConversation(_playerHUD)
         );
     }
@@ -1829,8 +2034,8 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
     @Override
     public void show() {
-        //_stage.addAction(getOpeningCutSceneAction());
-        _stage.addAction(getWakeUpScene());
+        _stage.addAction(getOpeningCutSceneAction());
+        //_stage.addAction(getPortalRoomScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

@@ -1,0 +1,170 @@
+{
+entityID : MISC_ANIMATIONS
+state : IDLE
+animationConfig: [
+	{
+			frameDuration: 0.1
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: OPEN
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: BATTLE_EQUIP
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: BATTLE_KEY
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: EQUIP_BATTLE
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: EQUIP_KEY
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: KEY_BATTLE
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
+		animationType: KEY_EQUIP
+		texturePaths: [
+				RPGGame/maps/Game/Icons/Backpack/ALICE.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 1
+			}
+		]
+	}
+]
+}
