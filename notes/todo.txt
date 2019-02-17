@@ -2,3 +2,4 @@
 
 apply spell effect list
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
+a9d4ff use for button highlight

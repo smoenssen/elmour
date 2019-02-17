@@ -80,6 +80,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
     private Label descText;
     private MyTextArea descBackground;
 
+    // Graphic
+    private WidgetGroup graphicGroup;
+    private MyTextArea graphicBackground;
+
     public InventoryHUD(Stage stage) {
 
         this.stage = stage;
@@ -163,17 +167,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         groupThrowing.addActor(throwingBackground);
         groupThrowing.addActor(throwingScrollPaneList);
 
-        listsTable.row().width(stage.getWidth()).height(labelHeight);
+        listsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         listsTable.add(labelPotions).pad(-1).width(buttonWidth);
         listsTable.add(labelConsumables).pad(-1).width(buttonWidth);
         listsTable.add(labelThrowing).pad(-1).width(buttonWidth);
 
-        listsTable.row().width(stage.getWidth()).height(stage.getHeight() - bottomMargin - labelHeight - mainButtonTable.getHeight() - 1);
+        listsTable.row().width(stage.getWidth()).height(stage.getHeight() - bottomMargin - labelHeight - mainButtonTable.getHeight());
         listsTable.add(groupPotions).pad(-1).width(buttonWidth);
         listsTable.add(groupConsumables).pad(-1).width(buttonWidth);
         listsTable.add(groupThrowing).pad(-1).width(buttonWidth);
         listsTable.pack();
-        listsTable.setPosition(leftMargin, bottomMargin + mainButtonTable.getHeight() - 1);
+        listsTable.setPosition(leftMargin, bottomMargin + mainButtonTable.getHeight());
 
         //listsTable.debugAll();
         float descTablePadding = 10;
@@ -189,7 +193,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
 
         descBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         descBackground.setSize(descAreaWidth, descAreaHeight);
-        descBackground.setPosition(leftMargin + listsTable.getWidth(), bottomMargin);
+        descBackground.setPosition(leftMargin + listsTable.getWidth() - 1, bottomMargin - 1);
 
         descTable = new Table();
         descTable.setHeight(descAreaHeight - descTablePadding);
@@ -202,14 +206,20 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         //descTable.debugAll();
 
         actionButtonTable.row().width(stage.getWidth()).height(buttonHeight);
-        actionButtonTable.add(actionButton).pad(-1).width(buttonWidth);
+        actionButtonTable.add(actionButton).pad(-1).width(buttonWidth + 2);
         actionButtonTable.row().width(stage.getWidth()).height(buttonHeight);
-        actionButtonTable.add(swapButton).pad(-1).width(buttonWidth);
+        actionButtonTable.add(swapButton).pad(-1).width(buttonWidth + 2);
         actionButtonTable.row().width(stage.getWidth()).height(buttonHeight);
-        actionButtonTable.add(backButton).pad(-1).width(buttonWidth);
+        actionButtonTable.add(backButton).pad(-1).width(buttonWidth + 2);
         actionButtonTable.pack();
-        actionButtonTable.setPosition(descTable.getX() + descTable.getWidth(), bottomMargin + 1);
+        actionButtonTable.setPosition(descTable.getX() + descTable.getWidth() - 2, bottomMargin);
 
+        graphicGroup = new WidgetGroup();
+        graphicBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        graphicBackground.setSize(descTable.getWidth() + actionButtonTable.getWidth(), stage.getHeight() - actionButtonTable.getHeight() - bottomMargin - 4);
+        graphicBackground.setPosition(descTable.getX() - 1, descTable.getY() + descTable.getHeight() + 2);
+
+        graphicGroup.addActor(graphicBackground);
 
         equipmentButton.addListener(new ClickListener() {
                                     @Override
@@ -235,10 +245,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            Gdx.app.log(TAG, "exitButton up");
-                                            if (touchPointIsInButton(equipmentButton)) {
+                                            Gdx.app.log(TAG, "backButton up");
+                                            // there is an issue with the button x, y coordinates
+                                            //if (touchPointIsInButton(backButton)) {
                                                 hide();
-                                            }
+                                            //}
                                         }
                                     }
         );
@@ -264,6 +275,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         stage.addActor(descBackground);
         stage.addActor(descTable);
         stage.addActor(actionButtonTable);
+        stage.addActor(graphicGroup);
         notify(InventoryHudObserver.InventoryHudEvent.INVENTORY_HUD_SHOWN);
     }
 
@@ -292,6 +304,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
     public void hide() {
         listsTable.remove();
         mainButtonTable.remove();
+        descBackground.remove();
+        descTable.remove();
+        actionButtonTable.remove();
+        graphicGroup.remove();
         notify(InventoryHudObserver.InventoryHudEvent.INVENTORY_HUD_HIDDEN);
     }
 
