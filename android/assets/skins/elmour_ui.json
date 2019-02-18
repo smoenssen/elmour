@@ -104,6 +104,14 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		selection: selection
 	}
 }
+com.smoftware.elmour.UI.MyTextButtonList$ListStyle: {
+	default: {
+		font: myFontVerySmall
+		fontColorSelected: white
+		fontColorUnselected: white
+		selection: selection
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: {
 		background: default-slider
@@ -186,6 +194,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		font: myFontSmall
 		fontColor: white
 		up: textbutton
+		down: textbutton_down
+	}
+	force_down: {
+		font: myFontSmall
+		fontColor: white
+		up: textbutton_down
 		down: textbutton_down
 	}
 }

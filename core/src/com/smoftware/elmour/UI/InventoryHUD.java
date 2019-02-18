@@ -2,26 +2,32 @@ package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.PartyInventory;
+import com.smoftware.elmour.PartyInventoryItem;
+import com.smoftware.elmour.PartyInventoryObserver;
 import com.smoftware.elmour.Utility;
 
 /**
  * Created by steve on 2/10/19.
  */
 
-public class InventoryHUD implements Screen, InventoryHudSubject {
+public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
     // main buttons
@@ -60,17 +66,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
     private WidgetGroup groupThrowing;
 
     private TextButton labelPotions;
-    private List<String> potionsListView;
+    private MyTextButtonList<TextButton> potionsListView;
     private ScrollPane potionsScrollPaneList;
     private MyTextArea potionsBackground;
 
     private TextButton labelConsumables;
-    private List<String> consumablesListView;
+    private MyTextButtonList<TextButton> consumablesListView;
     private ScrollPane consumablesScrollPaneList;
     private MyTextArea consumablesBackground;
 
     private TextButton labelThrowing;
-    private List<String> throwingListView;
+    private MyTextButtonList<TextButton> throwingListView;
     private ScrollPane throwingScrollPaneList;
     private MyTextArea throwingBackground;
 
@@ -89,6 +95,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         this.stage = stage;
         observers = new Array<>();
 
+        PartyInventory.getInstance().addObserver(this);
+
         listsTable = new Table();
         mainButtonTable = new Table();
         actionButtonTable = new Table();
@@ -103,33 +111,21 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
 
         labelPotions = new TextButton("Potions", Utility.ELMOUR_UI_SKIN, "battle");
         labelPotions.setTouchable(Touchable.disabled);
-        potionsListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        potionsListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         potionsScrollPaneList = new ScrollPane(potionsListView);
         potionsBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
 
         labelConsumables = new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "battle");
         labelConsumables.setTouchable(Touchable.disabled);
-        consumablesListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        consumablesListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         consumablesScrollPaneList = new ScrollPane(consumablesListView);
         consumablesBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
 
         labelThrowing = new TextButton("Throwing", Utility.ELMOUR_UI_SKIN, "battle");
         labelThrowing.setTouchable(Touchable.disabled);
-        throwingListView = new List<>(Utility.ELMOUR_UI_SKIN);
+        throwingListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         throwingScrollPaneList = new ScrollPane(throwingListView);
         throwingBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
-
-        ////////////// todo: temporary
-        int size = 40;
-        String[] strings = new String[size];
-        for (int i = 0, k = 0; i < size; i++) {
-            strings[k++] = "Item: " + i;
-
-        }
-        potionsListView.setItems(strings);
-        consumablesListView.setItems(strings);
-        throwingListView.setItems(strings);
-        /////////////////////////////////
 
         groupPotions = new WidgetGroup();
         groupConsumables = new WidgetGroup();
@@ -140,6 +136,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         float topMargin = 6;
         float buttonHeight = 65;
         float buttonWidth = stage.getWidth() / 5 - 1;
+
+        if (ElmourGame.isAndroid()) {
+            buttonHeight = 45;
+        }
 
         mainButtonTable.row().width(stage.getWidth()).height(buttonHeight);
         mainButtonTable.add(equipmentButton).pad(-1).width(buttonWidth);
@@ -186,7 +186,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
 
         descText = new Label("", Utility.ELMOUR_UI_SKIN, "battle");
         descText.setWrap(true);
-        descText.setText("This is the place where the summary will be shown. This is the place where the summary will be shown. This is the place where the summary will be shown. This is the place where the summary will be shown. ");
 
         descScrollPanel = new ScrollPane(descText);
         descScrollPanel.setHeight(10);
@@ -224,17 +223,51 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
         equipmentButton.addListener(new ClickListener() {
                                     @Override
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                                        consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                        keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
                                         return true;
                                     }
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         Gdx.app.log(TAG, "equipmentButton up");
-                                        if (touchPointIsInButton(equipmentButton)) {
+
+                                    }
+                                }
+        );
+
+        consumablesButton.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                            consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                                            keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            Gdx.app.log(TAG, "consumablesButton up");
+                                        }
+                                    }
+        );
+
+        keyItemsButton.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                            consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                            keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            Gdx.app.log(TAG, "keyItemsButton up");
 
                                         }
                                     }
-                                }
         );
 
         backButton.addListener(new ClickListener() {
@@ -250,6 +283,57 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
                                             //if (touchPointIsInButton(backButton)) {
                                                 hide();
                                             //}
+                                        }
+                                    }
+        );
+
+        potionsListView.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            consumablesListView.setSelectedIndex(-1);
+                                            throwingListView.setSelectedIndex(-1);
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            TextButton btn = potionsListView.getSelected();
+                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            descText.setText(element.summary);
+                                        }
+                                    }
+        );
+
+        consumablesListView.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            potionsListView.setSelectedIndex(-1);
+                                            throwingListView.setSelectedIndex(-1);
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            TextButton btn = consumablesListView.getSelected();
+                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            descText.setText(element.summary);
+                                        }
+                                    }
+        );
+
+        throwingListView.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            potionsListView.setSelectedIndex(-1);
+                                            consumablesListView.setSelectedIndex(-1);
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            TextButton btn = throwingListView.getSelected();
+                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            descText.setText(element.summary);
                                         }
                                     }
         );
@@ -330,6 +414,47 @@ public class InventoryHUD implements Screen, InventoryHudSubject {
     public void notify(InventoryHudObserver.InventoryHudEvent event) {
         for(InventoryHudObserver observer: observers){
             observer.onNotify(event);
+        }
+    }
+
+    @Override
+    public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
+        InventoryElement element = partyInventoryItem.getElement();
+
+        switch (event) {
+            case INVENTORY_ADDED:
+                switch(element.category) {
+                    case Potion:
+                        addListViewItem(potionsListView, partyInventoryItem);
+                        break;
+                    case Consumables:
+                        addListViewItem(consumablesListView, partyInventoryItem);
+                        break;
+                    case Throwing:
+                        addListViewItem(throwingListView, partyInventoryItem);
+                        break;
+                }
+                break;
+            case INVENTORY_REMOVED:
+                break;
+        }
+    }
+
+    private void addListViewItem(MyTextButtonList<TextButton> list, PartyInventoryItem partyInventoryItem) {
+        InventoryElement element = partyInventoryItem.getElement();
+        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantity());
+        TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
+        button.setUserObject(element);
+
+        if (list.getItems().size == 0) {
+            // hack to get scrolling to work (need to add array if first item being added)
+            TextButton[] buttons = new TextButton[1];
+            buttons[0] = button;
+            list.setItems(buttons);
+            list.setSelectedIndex(-1);
+        }
+        else {
+            list.getItems().add(button);
         }
     }
 }

@@ -107,8 +107,8 @@ public class ElmourGame extends Game {
 		cutSceneChapter1 = new CutSceneChapter1(this);
 		cutSceneChapter2 = new CutSceneChapter2(this);
 
-		Utility.parseConversationXMLFiles("n0");
-		setScreen(cutSceneChapter1);
+		//Utility.parseConversationXMLFiles("n0");
+		//setScreen(cutSceneChapter1);
 		//setScreen(cutSceneChapter2);
 
 		setScreen(splashScreen);
