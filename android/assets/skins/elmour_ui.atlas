@@ -21,6 +21,13 @@ label_tab
   orig: 48, 24
   offset: 0, 0
   index: -1
+selection
+  rotate: false
+  xy: 176, 175
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
 textbutton
   rotate: false
   xy: 85, 160
@@ -33,7 +40,7 @@ textbutton_down
   rotate: false
   xy: 30, 84
   size: 16, 16
-  split: 3, 3, 3, 3
+  split: 2, 2, 2, 2
   orig: 16, 16
   offset: 0, 0
   index: -1
@@ -223,13 +230,6 @@ default-window
   size: 27, 29
   split: 4, 3, 20, 3
   orig: 27, 29
-  offset: 0, 0
-  index: -1
-selection
-  rotate: false
-  xy: 176, 175
-  size: 1, 1
-  orig: 1, 1
   offset: 0, 0
   index: -1
 tree-minus

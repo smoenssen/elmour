@@ -263,19 +263,6 @@ atlasData: {
 			name: default-window
 		}
 		{
-			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/elmour_ui_data/selection.png"
-			bgColor: {
-				r: 1
-				g: 1
-				b: 1
-				a: 1
-			}
-			visible: true
-			tint: null
-			tintName: null
-			name: selection
-		}
-		{
 			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/elmour_ui_data/tree-minus.png"
 			bgColor: {
 				r: 1
@@ -435,6 +422,19 @@ atlasData: {
 			tint: null
 			tintName: null
 			name: tree_plus_triangle
+		}
+		{
+			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/default/raw/selection.png"
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: selection
 		}
 	]
 }
@@ -2415,7 +2415,7 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: selection
 						optional: true
-						value: selection
+						value: null
 					}
 					messageFont: {
 						class: com.ray3k.skincomposer.data.StyleProperty

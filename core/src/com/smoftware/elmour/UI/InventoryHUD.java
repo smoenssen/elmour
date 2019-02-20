@@ -556,6 +556,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     }
 
     public void setLists(ButtonState state) {
+
+        //todo: set text based on last selection
+        descText.setText("");
+
+
         switch (state) {
             case EQUIPMENT:
                 stage.addActor(equipmentListsTable);
