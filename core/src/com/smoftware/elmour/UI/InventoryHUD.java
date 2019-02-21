@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
@@ -126,6 +127,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private WidgetGroup graphicGroup;
     private MyTextArea graphicBackground;
 
+    // Persistence
+    TextButton lastSelectedConsumablesItem;
+    TextButton lastSelectedEquipmentItem;
+
     public InventoryHUD(Stage stage) {
 
         this.stage = stage;
@@ -179,15 +184,19 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         weaponListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         weaponScrollPaneList = new ScrollPane(weaponListView);
         weaponBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        weaponBackground.setTouchable(Touchable.disabled);
 
         labelArmor = new TextButton("Armor", Utility.ELMOUR_UI_SKIN, "battle");
         labelArmor.setTouchable(Touchable.disabled);
         armorListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         armorScrollPaneList = new ScrollPane(armorListView);
         armorBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        armorBackground.setTouchable(Touchable.disabled);
 
         weaponNameBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         armorNameBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        weaponNameBackground.setTouchable(Touchable.disabled);
+        armorNameBackground.setTouchable(Touchable.disabled);
 
         groupWeapon = new WidgetGroup();
         groupArmor = new WidgetGroup();
@@ -197,30 +206,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         float nameTableHeight = 2 * buttonHeight - 2;
 
         weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
-        weaponScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight - nameTableHeight + 2);
+        weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        weaponScrollPaneList.setX(2);   // this and the above -2 prevents highlight of selected item from crossing over the borders
         armorBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
-        armorScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight - nameTableHeight + 2);
+        armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        armorScrollPaneList.setX(2);
 
         weaponNameBackground.setSize(listWidth, nameTableHeight);
         armorNameBackground.setSize(listWidth, nameTableHeight);
-
-        //todo: get names from somewhere else. also, the list will change depending on what is selected.
-        Array<Label> names = new Array<>();
-        names.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
-        names.add(new Label("Character", Utility.ELMOUR_UI_SKIN, "battle"));
-        names.add(new Label("Character", Utility.ELMOUR_UI_SKIN, "battle"));
-        names.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
-        names.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
-
-        Array<Label> names2 = new Array<>();
-        names2.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
-        names2.add(new Label("Character", Utility.ELMOUR_UI_SKIN, "battle"));
-        names2.add(new Label("Character", Utility.ELMOUR_UI_SKIN, "battle"));
-        names2.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
-        names2.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
-
-        createNameTable(weaponNameTable, names);
-        createNameTable(armorNameTable, names2);
 
         groupWeapon.addActor(weaponBackground);
         groupWeapon.addActor(weaponScrollPaneList);
@@ -245,6 +238,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentListsTable.pack();
         equipmentListsTable.setPosition(leftMargin, bottomMargin + mainButtonTable.getHeight());
 
+        /////////////////////////
+        //todo:
+        InventoryElement weaponElement = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.DAGGER1);
+        PartyInventoryItem weaponPartyInventoryItem = new PartyInventoryItem(weaponElement, 5);
+        addListViewItem(weaponListView, weaponPartyInventoryItem);
+
+        InventoryElement armorElement = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.BREASTPLATE1);
+        PartyInventoryItem armorPartyInventoryItem = new PartyInventoryItem(armorElement, 5);
+        addListViewItem(armorListView, armorPartyInventoryItem);
+        //////////////////////////
+
         //
         // CONSUMABLES
         //
@@ -253,18 +257,21 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         potionsListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         potionsScrollPaneList = new ScrollPane(potionsListView);
         potionsBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        potionsBackground.setTouchable(Touchable.disabled);
 
         labelConsumables = new TextButton("Consumables", Utility.ELMOUR_UI_SKIN, "battle");
         labelConsumables.setTouchable(Touchable.disabled);
         consumablesListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         consumablesScrollPaneList = new ScrollPane(consumablesListView);
         consumablesBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        consumablesBackground.setTouchable(Touchable.disabled);
 
         labelThrowing = new TextButton("Throwing", Utility.ELMOUR_UI_SKIN, "battle");
         labelThrowing.setTouchable(Touchable.disabled);
         throwingListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         throwingScrollPaneList = new ScrollPane(throwingListView);
         throwingBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        throwingBackground.setTouchable(Touchable.disabled);
 
         groupPotions = new WidgetGroup();
         groupConsumables = new WidgetGroup();
@@ -273,11 +280,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         listWidth = buttonWidth;
 
         potionsBackground.setSize(listWidth, listHeight - labelHeight);
-        potionsScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight);
+        potionsScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        potionsScrollPaneList.setX(2);
         consumablesBackground.setSize(listWidth, listHeight - labelHeight);
-        consumablesScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight);
+        consumablesScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        consumablesScrollPaneList.setX(2);
         throwingBackground.setSize(listWidth, listHeight - labelHeight);
-        throwingScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight);
+        throwingScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        throwingScrollPaneList.setX(2);
 
         groupPotions.addActor(potionsBackground);
         groupPotions.addActor(potionsScrollPaneList);
@@ -306,12 +316,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         nonQuestListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         nonQuestScrollPaneList = new ScrollPane(nonQuestListView);
         nonQuestBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        nonQuestBackground.setTouchable(Touchable.disabled);
 
         labelQuest = new TextButton("Quest", Utility.ELMOUR_UI_SKIN, "battle");
         labelQuest.setTouchable(Touchable.disabled);
         questListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
         questScrollPaneList = new ScrollPane(questListView);
         questBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        questBackground.setTouchable(Touchable.disabled);
 
         groupNonQuest = new WidgetGroup();
         groupQuest = new WidgetGroup();
@@ -319,9 +331,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         listWidth = mainButtonTable.getWidth()/2 + 2;
 
         nonQuestBackground.setSize(listWidth, listHeight - labelHeight);
-        nonQuestScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight);
+        nonQuestScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        nonQuestScrollPaneList.setX(2);
         questBackground.setSize(listWidth, listHeight - labelHeight);
-        questScrollPaneList.setSize(listWidth, listHeight - listTopPadding - labelHeight);
+        questScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        questScrollPaneList.setX(2);
 
         groupNonQuest.addActor(nonQuestBackground);
         groupNonQuest.addActor(nonQuestScrollPaneList);
@@ -353,6 +367,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         descBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         descBackground.setSize(descAreaWidth, descAreaHeight);
         descBackground.setPosition(leftMargin + consumableListsTable.getWidth() - 1, bottomMargin - 1);
+        descBackground.setTouchable(Touchable.disabled);
 
         descTable = new Table();
         descTable.setHeight(descAreaHeight - descTablePadding);
@@ -377,15 +392,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         graphicBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         graphicBackground.setSize(descTable.getWidth() + actionButtonTable.getWidth(), stage.getHeight() - actionButtonTable.getHeight() - bottomMargin - 4);
         graphicBackground.setPosition(descTable.getX() - 1, descTable.getY() + descTable.getHeight() + 2);
+        graphicBackground.setTouchable(Touchable.disabled);
 
         graphicGroup.addActor(graphicBackground);
 
         equipmentButton.addListener(new ClickListener() {
                                     @Override
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                        equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
-                                        consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
-                                        keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                        setButtonState(ButtonState.EQUIPMENT);
                                         return true;
                                     }
 
@@ -399,9 +413,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         consumablesButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
-                                            consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
-                                            keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                                            setButtonState(ButtonState.CONSUMABLES);
                                             return true;
                                         }
 
@@ -415,9 +427,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         keyItemsButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
-                                            consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
-                                            keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                                            setButtonState(ButtonState.KEY_ITEMS);
                                             return true;
                                         }
 
@@ -445,6 +455,56 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                     }
         );
 
+        weaponListView.addListener(new ClickListener() {
+                                        @Override
+                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            armorListView.setSelectedIndex(-1);
+                                            return true;
+                                        }
+
+                                        @Override
+                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            lastSelectedEquipmentItem = weaponListView.getSelected();
+                                            InventoryElement element = (InventoryElement)lastSelectedEquipmentItem.getUserObject();
+                                            descText.setText(element.summary);
+
+                                            //todo: get names from somewhere else. also, the list will change depending on what is selected.
+                                            Array<Label> names = new Array<>();
+                                            names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
+                                            names.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
+                                            names.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
+
+                                            createNameTable(weaponNameTable, names);
+                                            clearNameTable(armorNameTable);
+                                        }
+                                    }
+        );
+
+        armorListView.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           weaponListView.setSelectedIndex(-1);
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                           lastSelectedEquipmentItem = armorListView.getSelected();
+                                           InventoryElement element = (InventoryElement)lastSelectedEquipmentItem.getUserObject();
+                                           descText.setText(element.summary);
+
+                                           //todo: get names from somewhere else. also, the list will change depending on what is selected.
+                                           Array<Label> names = new Array<>();
+                                           names.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
+                                           names.add(new Label("Character 1", Utility.ELMOUR_UI_SKIN, "battle"));
+                                           names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
+
+                                           createNameTable(armorNameTable, names);
+                                           clearNameTable(weaponNameTable);
+                                       }
+                                   }
+        );
+
         potionsListView.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -455,8 +515,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            TextButton btn = potionsListView.getSelected();
-                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            lastSelectedConsumablesItem = potionsListView.getSelected();
+                                            InventoryElement element = (InventoryElement)lastSelectedConsumablesItem.getUserObject();
                                             descText.setText(element.summary);
                                         }
                                     }
@@ -472,8 +532,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            TextButton btn = consumablesListView.getSelected();
-                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            lastSelectedConsumablesItem = consumablesListView.getSelected();
+                                            InventoryElement element = (InventoryElement)lastSelectedConsumablesItem.getUserObject();
                                             descText.setText(element.summary);
                                         }
                                     }
@@ -489,8 +549,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                            TextButton btn = throwingListView.getSelected();
-                                            InventoryElement element = (InventoryElement)btn.getUserObject();
+                                            lastSelectedConsumablesItem = throwingListView.getSelected();
+                                            InventoryElement element = (InventoryElement)lastSelectedConsumablesItem.getUserObject();
                                             descText.setText(element.summary);
                                         }
                                     }
@@ -539,7 +599,13 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
             table.add(names.get(4)).size(nameWidth, nameHeight);
         }
 
+        //todo: set table.setY() based on number of names to keep names at top
+
         table.pack();
+    }
+
+    private void clearNameTable(Table table) {
+        table.clear();
     }
 
     private boolean touchPointIsInButton(TextButton button) {
@@ -555,22 +621,48 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         return Utility.pointInRectangle(buttonRect, localPos.x, localPos.y);
     }
 
-    public void setLists(ButtonState state) {
+    private void setButtonState(ButtonState state) {
+        switch (state) {
+            case EQUIPMENT:
+                equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                break;
+            case CONSUMABLES:
+                equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                break;
+            case KEY_ITEMS:
+                equipmentButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                consumablesButton.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", TextButton.TextButtonStyle.class));
+                keyItemsButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", TextButton.TextButtonStyle.class));
+                break;
+        }
+    }
 
-        //todo: set text based on last selection
+    private void setLists(ButtonState state) {
+
         descText.setText("");
-
 
         switch (state) {
             case EQUIPMENT:
                 stage.addActor(equipmentListsTable);
                 consumableListsTable.remove();
                 keyItemsListsTable.remove();
+                if (lastSelectedEquipmentItem != null) {
+                    InventoryElement equipmentElement = (InventoryElement) lastSelectedEquipmentItem.getUserObject();
+                    descText.setText(equipmentElement.summary);
+                }
                 break;
             case CONSUMABLES:
                 equipmentListsTable.remove();
                 stage.addActor(consumableListsTable);
                 keyItemsListsTable.remove();
+                if (lastSelectedConsumablesItem != null) {
+                    InventoryElement consumableElement = (InventoryElement) lastSelectedConsumablesItem.getUserObject();
+                    descText.setText(consumableElement.summary);
+                }
                 break;
             case KEY_ITEMS:
                 equipmentListsTable.remove();
@@ -581,7 +673,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     }
     @Override
     public void show() {
-        stage.addActor(consumableListsTable);
+        // initial screen
+        setLists(ButtonState.EQUIPMENT);
+        setButtonState(ButtonState.EQUIPMENT);
+
         stage.addActor(mainButtonTable);
         stage.addActor(descBackground);
         stage.addActor(descTable);
