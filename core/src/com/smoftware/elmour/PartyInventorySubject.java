@@ -28,4 +28,10 @@ public class PartyInventorySubject {
             observer.onNotify(partyInventoryItem, event);
         }
     }
+
+    public void notify(final PartyInventoryItem item1, final PartyInventoryItem item2, final PartyInventoryObserver.PartyInventoryEvent event) {
+        for(PartyInventoryObserver observer: _observers){
+            observer.onNotify(item1, item2, event);
+        }
+    }
 }

@@ -3260,8 +3260,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
+        Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.toString());
+
         InventoryElement element = partyInventoryItem.getElement();
-        Array<Tree.Node> nodeArray = null;
+        Array<Tree.Node> nodeArray;
         rootNode rNode = null;
         InventoryNode inventoryNode = null;
         Tree.Node categoryNode = null;
@@ -3342,6 +3344,28 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                         inventoryRootNodeArray.removeValue(rNode, false); // remove from rootNode array
                     }
                 }
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(PartyInventoryItem item1, PartyInventoryItem item2, PartyInventoryEvent event) {
+        switch (event) {
+            case INVENTORY_SWAP:
+                InventoryNode node1Temp = (InventoryNode)inventoryTree.findNode(item1);
+                InventoryNode node2Temp = (InventoryNode)inventoryTree.findNode(item2);
+
+                InventoryNode node1 = (InventoryNode)inventoryTree.findNode(item1);
+                InventoryNode node2 = (InventoryNode)inventoryTree.findNode(item2);
+
+                int i = inventoryTree.getNodes().indexOf(inventoryTree.findNode(item1), true);
+                int j = inventoryTree.getNodes().indexOf(inventoryTree.findNode(item2), true);
+                inventoryTree.getNodes().swap(i, j);
+
+
+                //TextButton label = (TextButton)node1.getActor();
+                //label.setText("WTF");
+
                 break;
         }
     }

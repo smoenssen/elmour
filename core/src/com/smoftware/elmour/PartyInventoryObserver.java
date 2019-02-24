@@ -3,8 +3,10 @@ package com.smoftware.elmour;
 public interface PartyInventoryObserver {
     public static enum PartyInventoryEvent {
         INVENTORY_ADDED,
-        INVENTORY_REMOVED
+        INVENTORY_REMOVED,
+        INVENTORY_SWAP
     }
 
     void onNotify(final PartyInventoryItem partyInventoryItem, final PartyInventoryEvent event);
+    void onNotify(final PartyInventoryItem item1, final PartyInventoryItem item2, final PartyInventoryEvent event);
 }

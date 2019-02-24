@@ -1,9 +1,13 @@
 package com.smoftware.elmour;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.profile.ProfileManager;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -14,14 +18,15 @@ public class PartyInventory extends PartyInventorySubject {
     private static final String TAG = PartyInventory.class.getSimpleName();
 
     private static PartyInventory partyInventory;
-    //private Array<PartyInventoryItem> list;
-    private Hashtable<InventoryElement.ElementID, PartyInventoryItem> _list = null;
+
+    // Using a LinkedHashMap so that ordering of items is preserved which is needed for swapping
+    private LinkedHashMap<InventoryElement.ElementID, PartyInventoryItem> _list = null;
     public final String PROPERTY_NAME = "partyInventory";
     public final String ITEM_DELIMITER = ";";
     public final String VALUE_DELIMITER = ",";
 
     private PartyInventory(){
-        _list = new Hashtable<>();
+        _list = new LinkedHashMap<>();
     }
 
     public static final PartyInventory getInstance(){
@@ -95,8 +100,31 @@ public class PartyInventory extends PartyInventorySubject {
                 _list.put(element.id, listItem);
             }
 
-            if (notify)
-                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_REMOVED);
+            notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_REMOVED);
         }
+    }
+
+    public void swapItems(PartyInventoryItem item1, PartyInventoryItem item2) {
+        // Need to swap items in hash table...
+
+        // Get Set of entries from HashMap
+        Set<Map.Entry<InventoryElement.ElementID, PartyInventoryItem>> entrySet = _list.entrySet();
+
+        // Create an ArrayList of Entry objects
+        ArrayList<Map.Entry<InventoryElement.ElementID, PartyInventoryItem>> listOfEntries = new ArrayList<>(entrySet);
+
+        // Swap items in ArrayList
+        Collections.swap(listOfEntries, listOfEntries.indexOf(item1), listOfEntries.indexOf(item2));
+
+        // Rewrite the Hash Table
+        _list.clear();
+        for (Map.Entry<InventoryElement.ElementID, PartyInventoryItem>  partyInventoryItem : listOfEntries) {
+            Gdx.app.log(TAG, "putting " + partyInventoryItem.getKey());
+            _list.put(partyInventoryItem.getKey(), partyInventoryItem.getValue());
+        }
+
+        // Save new list to profile and notify to reset inventory
+        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+        notify(item1, item2, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_SWAP);
     }
 }
