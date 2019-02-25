@@ -66,6 +66,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private Table equipmentListsTable;
     private Table weaponNameTable;
     private Table armorNameTable;
+    private Table equipNameTable;
     private Table consumableListsTable;
     private Table keyItemsListsTable;
     private Table mainButtonTable;
@@ -81,6 +82,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private WidgetGroup groupPotions;
     private WidgetGroup groupConsumables;
     private WidgetGroup groupThrowing;
+    private WidgetGroup groupEquipName;
 
     // list components
     private TextButton labelWeapon;
@@ -95,6 +97,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     private MyTextArea weaponNameBackground;
     private MyTextArea armorNameBackground;
+    private MyTextArea equipNameBackground;
+    private TextButton labelEquipTo;
 
     private TextButton labelNonQuest;
     private MyTextButtonList<TextButton> nonQuestListView;
@@ -134,12 +138,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     // Persistence
     private TextButton lastSelectedConsumablesItem;
     private TextButton lastSelectedEquipmentItem;
+    private TextButton lastSelectedKeyItem;
     private ButtonState buttonState;
     private ListType lastSelectedEquipmentListType;
     private ListType lastSelectedConsumablesListType;
     private ListType lastSelectedKeyItemsListType;
 
     private boolean isSwapping = false;
+
+    float labelHeight = 30;
+    float bottomMargin = 6;
+    float nameTableHeight;
 
     public InventoryHUD(Stage stage) {
 
@@ -155,6 +164,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         actionButtonTable = new Table();
         weaponNameTable = new Table();
         armorNameTable = new Table();
+        equipNameTable = new Table();
 
         equipmentButton = new TextButton(BTN_NAME_EQUIPMENT, Utility.ELMOUR_UI_SKIN, "battle");
         consumablesButton = new TextButton(BTN_NAME_CONSUMABLES, Utility.ELMOUR_UI_SKIN, "battle");
@@ -164,7 +174,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         swapButton = new TextButton(BTN_NAME_SWAP, Utility.ELMOUR_UI_SKIN, "battle");
         backButton = new TextButton(BTN_BACK, Utility.ELMOUR_UI_SKIN, "battle");
 
-        float bottomMargin = 6;
         float topMargin = 6;
         float buttonHeight = 65;
         float buttonWidth = (int)stage.getWidth() / 5;
@@ -184,7 +193,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         float listWidth = mainButtonTable.getWidth()/2 + 2;
         float listHeight = (stage.getHeight() - mainButtonTable.getHeight() - bottomMargin);
         float listTopPadding = 6;
-        float labelHeight = 30;
 
         //
         // EQUIPMENT
@@ -205,15 +213,21 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         weaponNameBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         armorNameBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
+        equipNameBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         weaponNameBackground.setTouchable(Touchable.disabled);
         armorNameBackground.setTouchable(Touchable.disabled);
+        equipNameBackground.setTouchable(Touchable.disabled);
+
+        labelEquipTo = new TextButton("Equip To", Utility.ELMOUR_UI_SKIN, "battle");
+        labelEquipTo.setTouchable(Touchable.disabled);
 
         groupWeapon = new WidgetGroup();
         groupArmor = new WidgetGroup();
         groupWeaponName = new WidgetGroup();
         groupArmorName = new WidgetGroup();
+        groupEquipName = new WidgetGroup();
 
-        float nameTableHeight = 2 * buttonHeight - 2;
+        nameTableHeight = 2 * buttonHeight - 2;
 
         weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
         weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight);
@@ -233,6 +247,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         groupWeaponName.addActor(weaponNameTable);
         groupArmorName.addActor(armorNameBackground);
         groupArmorName.addActor(armorNameTable);
+        groupEquipName.addActor(equipNameBackground);
+        groupEquipName.addActor(equipNameTable);
 
         equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
@@ -545,7 +561,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        String buttonName = actionButton.getText().toString();
 
                                        if (buttonName.equals(BTN_NAME_EQUIP)) {
-
+                                            displayEquipScreen();
                                        }
                                        else if (buttonName.equals(BTN_NAME_USE)) {
 
@@ -571,6 +587,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                     TextButton selectedItem  = weaponListView.getSelected();
                                                     if (selectedItem != lastSelectedEquipmentItem) {
                                                         swapListItems(weaponListView, selectedItem, lastSelectedEquipmentItem);
+
+                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject());
+
                                                         descText.setText(ITEMS_SWAPPED);
                                                         isSwapping = false;
                                                         lastSelectedEquipmentItem = selectedItem;
@@ -615,6 +635,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                    TextButton selectedItem  = armorListView.getSelected();
                                                    if (selectedItem != lastSelectedEquipmentItem) {
                                                        swapListItems(armorListView, selectedItem, lastSelectedEquipmentItem);
+
+                                                       PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject());
+
                                                        descText.setText(ITEMS_SWAPPED);
                                                        isSwapping = false;
                                                        lastSelectedEquipmentItem = selectedItem;
@@ -660,6 +684,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                     TextButton selectedItem  = potionsListView.getSelected();
                                                     if (selectedItem != lastSelectedConsumablesItem) {
                                                         swapListItems(potionsListView, selectedItem, lastSelectedConsumablesItem);
+
+                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
+
                                                         descText.setText(ITEMS_SWAPPED);
                                                         isSwapping = false;
                                                         lastSelectedConsumablesItem = selectedItem;
@@ -697,9 +725,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                     if (selectedItem != lastSelectedConsumablesItem) {
                                                         swapListItems(consumablesListView, selectedItem, lastSelectedConsumablesItem);
 
-                                                        PartyInventoryItem item1 = (PartyInventoryItem) selectedItem.getUserObject();
-                                                        PartyInventoryItem item2 = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
-                                                        PartyInventory.getInstance().swapItems(item1, item2);
+                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
 
                                                         descText.setText(ITEMS_SWAPPED);
                                                         isSwapping = false;
@@ -737,6 +764,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                     TextButton selectedItem  = throwingListView.getSelected();
                                                     if (selectedItem != lastSelectedConsumablesItem) {
                                                         swapListItems(throwingListView, selectedItem, lastSelectedConsumablesItem);
+
+                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
+
                                                         descText.setText(ITEMS_SWAPPED);
                                                         isSwapping = false;
                                                         lastSelectedConsumablesItem = selectedItem;
@@ -757,6 +788,144 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         }
                                     }
         );
+
+        questListView.addListener(new ClickListener() {
+                                         @Override
+                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                             nonQuestListView.setSelectedIndex(-1);
+                                             return true;
+                                         }
+
+                                         @Override
+                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                             if (isSwapping) {
+                                                 if (lastSelectedKeyItemsListType == ListType.QUEST) {
+                                                     TextButton selectedItem  = questListView.getSelected();
+                                                     if (selectedItem != lastSelectedKeyItem) {
+                                                         swapListItems(questListView, selectedItem, lastSelectedKeyItem);
+
+                                                         PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                                (PartyInventoryItem) lastSelectedKeyItem.getUserObject());
+
+                                                         descText.setText(ITEMS_SWAPPED);
+                                                         isSwapping = false;
+                                                         lastSelectedKeyItem = selectedItem;
+                                                     }
+                                                 }
+                                                 else {
+                                                     reselectLastListItem(lastSelectedKeyItemsListType);
+                                                     questListView.setSelectedIndex(-1);
+                                                 }
+                                             }
+                                             else {
+                                                 lastSelectedKeyItem = questListView.getSelected();
+                                                 //todo
+                                                 /*
+                                                 PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedKeyItem.getUserObject();
+                                                 InventoryElement element = partyInventoryItem.getElement();
+                                                 descText.setText(element.summary);
+                                                 */
+                                                 lastSelectedKeyItemsListType = ListType.QUEST;
+                                             }
+                                         }
+                                     }
+        );
+
+        nonQuestListView.addListener(new ClickListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          questListView.setSelectedIndex(-1);
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                          if (isSwapping) {
+                                              if (lastSelectedKeyItemsListType == ListType.NON_QUEST) {
+                                                  TextButton selectedItem  = nonQuestListView.getSelected();
+                                                  if (selectedItem != lastSelectedKeyItem) {
+                                                      swapListItems(nonQuestListView, selectedItem, lastSelectedKeyItem);
+
+                                                      PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                                                                                            (PartyInventoryItem) lastSelectedKeyItem.getUserObject());
+
+                                                      descText.setText(ITEMS_SWAPPED);
+                                                      isSwapping = false;
+                                                      lastSelectedKeyItem = selectedItem;
+                                                  }
+                                              }
+                                              else {
+                                                  reselectLastListItem(lastSelectedKeyItemsListType);
+                                                  nonQuestListView.setSelectedIndex(-1);
+                                              }
+                                          }
+                                          else {
+                                              lastSelectedKeyItem = nonQuestListView.getSelected();
+                                              //todo
+                                              /*
+                                              PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedKeyItem.getUserObject();
+                                              InventoryElement element = partyInventoryItem.getElement();
+                                              descText.setText(element.summary);
+                                              */
+                                              lastSelectedKeyItemsListType = ListType.NON_QUEST;
+                                          }
+                                      }
+                                  }
+        );
+    }
+
+    private void displayEquipScreen() {
+        equipmentListsTable.clear();
+
+        float listWidth = (int)stage.getWidth() / 5;
+        float listHeight = (stage.getHeight() - mainButtonTable.getHeight() - bottomMargin);
+        float listTopPadding = 6;
+
+        weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        weaponScrollPaneList.setX(2);   // this and the above -2 prevents highlight of selected item from crossing over the borders
+        armorBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        armorScrollPaneList.setX(2);
+        equipNameBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+
+        weaponNameBackground.setSize(listWidth, nameTableHeight);
+        armorNameBackground.setSize(listWidth, nameTableHeight);
+        //equipNameBackground.setSize(listWidth, nameTableHeight);
+
+        equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
+        equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
+        equipmentListsTable.add(labelArmor).pad(-1).width(listWidth);
+        equipmentListsTable.add(labelEquipTo).pad(-1).width(listWidth);
+
+        equipmentListsTable.row().width(stage.getWidth()).height(stage.getHeight() - bottomMargin - labelHeight - nameTableHeight - mainButtonTable.getHeight() + 2);
+        equipmentListsTable.add(groupWeapon).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupArmor).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupEquipName).pad(-1).width(listWidth);
+
+        equipmentListsTable.row().width(stage.getWidth()).height(nameTableHeight);
+        equipmentListsTable.add(groupWeaponName).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupArmorName).pad(-1).width(listWidth * 2).colspan(2);
+        equipmentListsTable.pack();
+    }
+
+    private void displayEquipmentScreen() {
+        equipmentListsTable.clear();
+
+        float listWidth = mainButtonTable.getWidth()/2 + 2;
+
+        equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
+        equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
+        equipmentListsTable.add(labelArmor).pad(-1).width(listWidth);
+
+        equipmentListsTable.row().width(stage.getWidth()).height(stage.getHeight() - bottomMargin - labelHeight - nameTableHeight - mainButtonTable.getHeight() + 2);
+        equipmentListsTable.add(groupWeapon).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupArmor).pad(-1).width(listWidth);
+
+        equipmentListsTable.row().width(stage.getWidth()).height(nameTableHeight);
+        equipmentListsTable.add(groupWeaponName).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupArmorName).pad(-1).width(listWidth);
+        equipmentListsTable.pack();
     }
 
     private void swapListItems(MyTextButtonList<TextButton> list, TextButton a, TextButton b) {
@@ -784,6 +953,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                     break;
                 case THROWING:
                     throwingListView.setSelected(lastSelectedConsumablesItem);
+                    break;
+                case QUEST:
+                    questListView.setSelected(lastSelectedKeyItem);
+                    break;
+                case NON_QUEST:
+                    nonQuestListView.setSelected(lastSelectedKeyItem);
                     break;
             }
         }

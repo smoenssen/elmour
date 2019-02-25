@@ -3352,19 +3352,27 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public void onNotify(PartyInventoryItem item1, PartyInventoryItem item2, PartyInventoryEvent event) {
         switch (event) {
             case INVENTORY_SWAP:
-                InventoryNode node1Temp = (InventoryNode)inventoryTree.findNode(item1);
-                InventoryNode node2Temp = (InventoryNode)inventoryTree.findNode(item2);
+                if (item1.getElement().category != item2.getElement().category) {
+                    throw new IllegalArgumentException("Inventory items being swapped are not from the same category");
+                }
 
-                InventoryNode node1 = (InventoryNode)inventoryTree.findNode(item1);
-                InventoryNode node2 = (InventoryNode)inventoryTree.findNode(item2);
+                Tree.Node categoryNode = null;
+                switch(item1.getElement().category) {
+                    case Potion:
+                        categoryNode = PotionsNode;
+                        break;
+                    case Consumables:
+                        categoryNode = ConsumablesNode;
+                        break;
+                    case Throwing:
+                        categoryNode = ThrowingNode;
+                        break;
+                }
 
-                int i = inventoryTree.getNodes().indexOf(inventoryTree.findNode(item1), true);
-                int j = inventoryTree.getNodes().indexOf(inventoryTree.findNode(item2), true);
-                inventoryTree.getNodes().swap(i, j);
-
-
-                //TextButton label = (TextButton)node1.getActor();
-                //label.setText("WTF");
+                if (categoryNode != null) {
+                    categoryNode.getChildren().swap(categoryNode.getChildren().indexOf(categoryNode.findNode(item1), true),
+                                                    categoryNode.getChildren().indexOf(categoryNode.findNode(item2), true));
+                }
 
                 break;
         }
