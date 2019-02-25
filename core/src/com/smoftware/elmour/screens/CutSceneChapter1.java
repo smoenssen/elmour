@@ -299,14 +299,14 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(5, 4.25f);
 
+                character2.setPosition(7, 10);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
+
                 character1.setVisible(true);
                 character1.setPosition(5.5f, 1.5f);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character1.setCurrentDirection(Entity.Direction.DOWN);
-
-                character2.setPosition(7, 10);
-                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character2.setCurrentDirection(Entity.Direction.LEFT);
 
                 misc.setPosition(character1.getX() + emoteX, character1.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
@@ -436,36 +436,44 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 character2.setPosition(8, 5);
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.LEFT);
+                character2.setVisible(false);
 
                 guard1.setPosition(8, 5);
                 guard1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard1.setCurrentDirection(Entity.Direction.LEFT);
+                guard1.setVisible(false);
 
                 guard2.setPosition(8, 5);
                 guard2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard2.setCurrentDirection(Entity.Direction.LEFT);
+                guard2.setVisible(false);
 
                 guard3.setPosition(8, 5);
                 guard3.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard3.setCurrentDirection(Entity.Direction.LEFT);
+                guard3.setVisible(false);
 
                 guard4.setPosition(8, 5);
                 guard4.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard4.setCurrentDirection(Entity.Direction.LEFT);
+                guard4.setVisible(false);
 
                 guard5.setPosition(8, 5);
                 guard5.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard5.setCurrentDirection(Entity.Direction.LEFT);
+                guard5.setVisible(false);
 
                 guard6.setPosition(8, 5);
                 guard6.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard6.setCurrentDirection(Entity.Direction.LEFT);
+                guard6.setVisible(false);
 
                 guard7.setPosition(8, 5);
                 guard7.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 guard7.setCurrentDirection(Entity.Direction.LEFT);
+                guard7.setVisible(false);
 
-                misc.setPosition(-1, 3);
+                misc.setPosition(4 + emoteX, 5 + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
                 misc.setVisible(false);
 
@@ -493,9 +501,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 character1.setCurrentAnimationType(Entity.AnimationType.WALK_DOWN);
                 character1.setCurrentDirection(Entity.Direction.UP);
 
-                //todo
                 character2.setVisible(true);
-                //todo
                 character2.setPosition(3, 4);
                 character2.setCurrentAnimationType(Entity.AnimationType.WALK_DOWN);
                 character2.setCurrentDirection(Entity.Direction.UP);
@@ -604,7 +610,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
                         Actions.delay(oneBlockTime * 2),
 
-                        Actions.addAction(Actions.moveTo(character1.getX() + emoteX, character1.getY() + emoteY), misc),
+                        Actions.addAction(Actions.moveTo(2 + emoteX, 3 + emoteY), misc),
                         myActions.new setCharacterVisible(misc, true),
                         myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_ON),
                         Actions.delay(emoteOn),
@@ -618,6 +624,16 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 );
                 break;
             case JUMP_BACK:
+                if( shakeCam == null ){
+                    shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
+                            0.10f,
+                            0.05f,
+                            0.025f,
+                            0.0125f,
+                            0.2f,
+                            0.2f,
+                            0.2f);
+                }
                 _stage.addAction(Actions.sequence(
                         //Stutter
                         Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
@@ -628,16 +644,17 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         Actions.delay(0.75f),
                         //Jump
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(3.5f, 4, 0.1f), character1),
+                        Actions.addAction(Actions.moveTo(3.25f, 3.75f, 0.1f), character1),
                         Actions.delay(0.1f),
 
-                        Actions.addAction(Actions.rotateBy(90, oneBlockTime), character1),
-                        Actions.addAction(Actions.moveBy(0, -0.5f, oneBlockTime), character1),
-                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        myActions.new shakeCam(shakeCam),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_LEFT),
+                        Actions.addAction(Actions.moveBy(-0.5f, -0.25f, oneBlockTime), character1),
                         //Get up
-                        Actions.delay(1),
-                        Actions.addAction(Actions.rotateBy(-90, oneBlockTime), character1),
-                        Actions.addAction(Actions.moveTo(3, 3.5f, oneBlockTime), character1),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        Actions.addAction(Actions.moveTo(3, 3.5f), character1),
                         Actions.delay(oneBlockTime),
                         myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
                         Actions.delay(oneBlockTime * 3),
@@ -690,9 +707,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 );
                 break;
             case LOOK_AROUND_ELMOUR:
+                oneBlockTime = 0.5f;
                 _stage.addAction(Actions.sequence(
                         Actions.delay(oneBlockTime),
-                        Actions.delay(oneBlockTime * 2),
 
                         Actions.run(
                             new Runnable() {
@@ -708,19 +725,20 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         new setZoomRate(0),
 
                         myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
-                        Actions.addAction(Actions.moveTo(26, 29, oneBlockTime * 2), camactor),
+                        Actions.addAction(Actions.moveTo(21, 29, oneBlockTime * 2), camactor),
                         Actions.delay(oneBlockTime * 3),
                         myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
                         Actions.addAction(Actions.moveTo(22, 13, oneBlockTime * 2), camactor),
                         Actions.delay(oneBlockTime * 3),
-                        Actions.addAction(Actions.moveTo(53, 13, oneBlockTime * 4), camactor),
-                        Actions.delay(oneBlockTime * 5),
+                        Actions.addAction(Actions.moveTo(53, 13, oneBlockTime * 3), camactor),
+                        Actions.delay(oneBlockTime * 4),
                         myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
-                        Actions.addAction(Actions.moveTo(49, 29, oneBlockTime * 2), camactor),
+                        Actions.addAction(Actions.moveTo(54, 29, oneBlockTime * 2), camactor),
                         Actions.delay(oneBlockTime * 3),
                         Actions.addAction(Actions.moveTo(37.5f, 29, oneBlockTime * 2), camactor),
                         Actions.delay(oneBlockTime * 3),
                         myActions.new setIdleDirection(character1, Entity.Direction.UP),
+
                         new setZoomRate(-0.01f),
                         Actions.delay(oneBlockTime * 2),
                         new setZoomRate(0),
@@ -760,12 +778,13 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 break;
             case FAINT:
                 _stage.addAction(Actions.sequence(
-                        myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_DOWN),
                         Actions.delay(oneBlockTime * 2),
 
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 2), _transitionActor),
                         new setFading(true),
-                        Actions.delay(oneBlockTime * 2),
+                        Actions.delay(2),
 
                         Actions.addAction(getWakeUpScene())
                         )
@@ -1025,6 +1044,16 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
                 break;
             case FORCE_FIELD:
+                if( shakeCam == null ){
+                    shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
+                            5.20f,
+                            0.1f,
+                            0.05f,
+                            0.025f,
+                            1f,
+                           0.70f,
+                            0.90f);
+                }
                 float percentToChar1 = 0.6f;
                 Vector2 guard1Destination = new Vector2(guard1.getX() - ((guard1.getX() - character1.getX()) * percentToChar1),
                                                         guard1.getY() - ((guard1.getY() - character1.getY()) * percentToChar1));
@@ -1077,6 +1106,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         myActions.new setCharacterVisible(misc, true),
                         myActions.new setWalkDirection(misc, Entity.AnimationType.FORCEFIELD),
                         Actions.delay(oneBlockTime * 0.5f),
+                        myActions.new shakeCam(shakeCam),
 
                         Actions.parallel(
                                 myActions.new setWalkDirection(guard1, Entity.AnimationType.RUN_DOWN),
@@ -1345,9 +1375,10 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
                         Actions.addAction(Actions.moveTo(4, 5, oneBlockTime * 2), character2),
+                        Actions.delay(oneBlockTime * 2),
                         myActions.new setIdleDirection(character2, Entity.Direction.RIGHT),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
-                        Actions.delay(oneBlockTime * 2),
+                        Actions.delay(oneBlockTime),
 
                         myActions.new continueConversation(_playerHUD)
                         )
@@ -1363,7 +1394,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         Actions.delay(oneBlockTime * 8),
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0.5f), _transitionActor),
                         new setFading(true),
-                        Actions.delay(oneBlockTime),
+                        Actions.delay(oneBlockTime * 2),
 
                         Actions.addAction(getPortalRoomScene())
                         )
@@ -1427,6 +1458,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         Actions.delay(oneBlockTime * 1.5f),
                         myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
 
                         myActions.new continueConversation(_playerHUD)
                         )
@@ -1445,6 +1477,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 break;
             case EXIT_CONVERSATION:
                 _stage.addAction(Actions.sequence(
+                        new setFading(true),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
                         Actions.addAction(Actions.moveTo(9, 2, oneBlockTime * 3), character2),
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
@@ -1452,11 +1485,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                         Actions.delay(oneBlockTime * 1.5f),
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
                         Actions.addAction(Actions.moveTo(9, 2, oneBlockTime * 4), character1),
-                        Actions.delay(oneBlockTime * 2.5f),
-                       new setFading(true)
+                        Actions.delay(oneBlockTime * 2.5f)
                         )
                 );
-
                 _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
         }
 
@@ -1466,10 +1497,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         return Actions.sequence(
 
                 Actions.delay(oneBlockTime * 2),
-                Actions.addAction(Actions.moveBy(0, 0.15f, oneBlockTime, Interpolation.exp10Out), character1),
-                Actions.addAction(Actions.moveBy(0, -0.15f, oneBlockTime, Interpolation.exp10In), character1),
+                Actions.addAction(Actions.moveBy(0, 0.1f, oneBlockTime, Interpolation.exp10Out), character1),
+                Actions.addAction(Actions.moveBy(0, -0.1f, oneBlockTime, Interpolation.exp10In), character1),
                 Actions.delay(oneBlockTime),
-
 
                 new setOneBlockTime(0.2f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
@@ -1483,7 +1513,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.delay(oneBlockTime * 2.5f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
-                Actions.delay(oneBlockTime * 5),
+                Actions.delay(oneBlockTime),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.LAY_DOWN),
+                Actions.delay(oneBlockTime * 4),
 
                 new setZoomRate(-0.002f),
                 Actions.delay(oneBlockTime * 7.7f),
@@ -1507,11 +1539,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(Actions.moveBy(0, -0.15f, oneBlockTime, Interpolation.exp10In), character1),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_RIGHT),
                 //RUN
-                            // todo dstfgeriushntvwoeishoahgeiohgaeoriuheoudivhfoiuqenpitjeriug
-                //Actions.addAction(Actions.rotateBy(9000, oneBlockTime * 100), character1),
-                            // todo dstfgeriushntvwoeishoahgeiohgaeoriuheoudivhfoiuqenpitjeriug
-
-
                 Actions.addAction(Actions.moveTo(6, 4, oneBlockTime * 0.25f), character1),
                 Actions.delay(oneBlockTime * 0.25f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_DOWN),
@@ -1589,16 +1616,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.addAction(Actions.moveTo(3.5f, 10.5f, oneBlockTime * 2.25f), character1),
                 Actions.delay(oneBlockTime * 2.25f),
 
-
-
-
-                                //todo tueahfyvsdfhgoysenrg8s8ghergiurnaehrGEAiug
-                //Actions.addAction(Actions.rotateBy(90000, oneBlockTime * 100), character1),
-                                //todo weurosjfndzcvuiweodrcuerhnvouienteioshusei
-
-
-
-
                 Actions.addAction(Actions.moveTo(10, 13.5f, oneBlockTime * 1.5f), camactor),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.RUN_UP),
@@ -1647,7 +1664,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Action character2Chase2() {
         oneBlockTime = 0.3f;
         return Actions.sequence(
-                Actions.delay(oneBlockTime * 3),
+                Actions.delay(oneBlockTime * 4),
                 myActions.new setCharacterVisible(character2, true),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_RIGHT),
                 Actions.addAction(Actions.moveTo(3.5f, 10.5f, oneBlockTime * 1.75f), character2),
@@ -1661,7 +1678,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.delay(oneBlockTime * 5.75f),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_DOWN),
                 Actions.addAction(Actions.moveTo(15, 4.5f, oneBlockTime * 9.5f), character2),
-                Actions.delay(oneBlockTime * 10.5f)
+                Actions.delay(oneBlockTime * 9.5f)
         );
     }
 
@@ -1671,9 +1688,9 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character1),
                 Actions.delay(oneBlockTime * 1.75f),
-                Actions.addAction(Actions.rotateBy(360, oneBlockTime), character1),
-                Actions.delay(oneBlockTime * 3),
-                Actions.addAction(Actions.rotateBy(-360, oneBlockTime), character1),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.LAY_DOWN),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 Actions.delay(oneBlockTime),
 
                 myActions.new setIdleDirection(character1, Entity.Direction.UP),
@@ -1693,7 +1710,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
                 Actions.delay(oneBlockTime * 11.75f),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
                 Actions.addAction(Actions.moveTo(16, 10, oneBlockTime * 1.75f, Interpolation.exp10In), character2),
-                Actions.delay(oneBlockTime * 2.75f),
+                Actions.delay(oneBlockTime * 2.25f),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.RUN_DOWN),
                 Actions.addAction(Actions.moveTo(16, -2, oneBlockTime * 6), character2),
 
@@ -1942,36 +1959,46 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         setupWakeUpScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupWakeUpScene),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor),
-                Actions.delay(1),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_DOWN),
+                Actions.delay(0.25f),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
+                Actions.delay(2),
                 new setFading(false),
-                myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
                 //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
-                myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+                myActions.new setCharacterVisible(misc, true),
+                myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_ON),
+                Actions.delay(emoteOn),
+                myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_OFF),
+                Actions.delay(emoteOff),
+                myActions.new setCharacterVisible(misc, false),
+                Actions.delay(oneBlockTime),
+
                 myActions.new continueConversation(_playerHUD)
         );
     }
 
     private Action getPortalRoomScene() {
         setupPortalRoomScene.reset();
+        oneBlockTime = 0.3f;
         return Actions.sequence(
                 Actions.addAction(setupPortalRoomScene),
                 Actions.addAction(Actions.moveTo(3, 1.5f, oneBlockTime * 4.5f), character1),
                 Actions.addAction(Actions.moveTo(3, 1.5f, oneBlockTime * 2.5f), character2),
 
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor),
-                Actions.delay(1),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, oneBlockTime * 2.5f), _transitionActor),
+                Actions.delay(oneBlockTime * 2.5f),
                 new setFading(false),
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n114
                 //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
-                Actions.delay(1.5f),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_RIGHT),
                 Actions.addAction(Actions.moveTo(6, 1.5f, oneBlockTime * 3), character2),
                 Actions.delay(oneBlockTime * 2),

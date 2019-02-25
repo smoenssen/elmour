@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.sfx.ShakeCamera;
 
 /**
  * Created by steve on 10/7/18.
@@ -373,6 +374,20 @@ public class MyActions {
         @Override
         public boolean act(float delta) {
             this.actor.setOrigin(x, y);
+            return true;
+        }
+    }
+
+    public class shakeCam extends Action {
+        ShakeCamera cam;
+
+        public shakeCam(ShakeCamera cam) {
+            this.cam = cam;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            this.cam.startShaking();
             return true;
         }
     }

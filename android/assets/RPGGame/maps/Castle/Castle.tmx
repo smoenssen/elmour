@@ -18,8 +18,8 @@
  <tileset firstgid="52" name="Grass Blur" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="../Game/Tiles/Outside/Grass/Blur/Grass Blur.png" width="16" height="16"/>
  </tileset>
- <tileset firstgid="53" name="Curved_Castle" tilewidth="16" tileheight="16" tilecount="6" columns="3">
-  <image source="../Game/Pop_Ups/Castle/Curved/Curved_Castle.png" width="48" height="32"/>
+ <tileset firstgid="53" name="Curved_Castle" tilewidth="16" tileheight="16" tilecount="12" columns="3">
+  <image source="../Game/Pop_Ups/Castle/Curved/Curved_Castle.png" width="48" height="64"/>
  </tileset>
  <layer name="Tile Layer 1" width="32" height="22">
   <data encoding="csv">
@@ -68,8 +68,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,53,54,55,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,56,57,58,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,59,60,61,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,62,63,64,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>

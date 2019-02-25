@@ -72,10 +72,11 @@
       <data key="d5"><![CDATA[My Thoughts]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="66.0" x="539.7569033617998" y="395.79128480669135"/>
+          <y:Geometry height="30.0" width="122.99900603130584" x="511.257400346147" y="395.79128480669135"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="56.6875" x="4.65625" y="5.6494140625">Oh crap...<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="88.708984375" x="17.145010828152977" y="-1.701171875">Oh crap...§
+That was loud...<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -204,9 +205,9 @@ what your intentions for raiding my castle are.<y:LabelModel>
           <y:Geometry height="59.99999999999994" width="265.1957504000011" x="1198.558763546148" y="103.06533298091216"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="227.423828125" x="18.885961137500544" y="5.948242187499972">I’m not here to raid your castle... frankly, I 
-don’t even know why I’m here.§
-I don’t even know where ‘here’ is.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="227.048828125" x="19.073461137500544" y="5.948242187499972">I'm not here to raid your castle... frankly, I 
+don't even know why I'm here.§
+I don't even know where 'here' is.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -478,7 +479,7 @@ She seemed familiar somehow...<y:LabelModel>
           <y:Geometry height="30.0" width="149.22485892859595" x="2051.094391270918" y="553.0653329809122"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="100.05859375" x="24.583132589297747" y="5.6494140625">What is going on?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="96.349609375" x="26.437624776797747" y="5.6494140625">What's going on?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -557,7 +558,7 @@ Mind telling me?<y:LabelModel>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="174.724609375" x="6.051889096970626" y="-1.701171875">My name is {CHARACTER_1}.§
-Mind telling me your’s?<y:LabelModel>
+Mind telling me your's?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -664,12 +665,13 @@ Mind telling me your’s?<y:LabelModel>
       <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="60.0" width="309.0315408751694" x="2884.2693021722926" y="343.0653329809121"/>
+          <y:Geometry height="90.0" width="309.0315408751694" x="2884.2693021722926" y="313.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="240.103515625" x="34.464012625084706" y="-1.40234375">Yep, that’s my name.§
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="240.103515625" x="34.464012625084706" y="6.2470703125">Yep, that’s my name.§
 Princess {CHARACTER_2}, but you can just
-call me {CHARACTER_2}.§
+call me {CHARACTER_2},
+I'm not one for honorifics.§
 I am in charge of these lands.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -685,7 +687,7 @@ I am in charge of these lands.<y:LabelModel>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="265.1957504000011" x="2906.1871974098767" y="283.0653329809121"/>
+          <y:Geometry height="30.0" width="265.1957504000011" x="2906.1871974098767" y="268.0653329809121"/>
           <y:Fill color="#FFFF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="244.134765625" x="10.530492387500544" y="-1.701171875">Speaking of which, is there anyway that I can
@@ -727,7 +729,7 @@ get off these lands?<y:LabelModel>
           <y:Geometry height="30.0" width="189.55462093404003" x="2965.9256573804414" y="223.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="169.41015625" x="10.072232342020015" y="5.6494140625">What? You’ve only just arrived!<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="169.03515625" x="10.259732342020015" y="5.6494140625">What? You've only just arrived!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -746,7 +748,7 @@ get off these lands?<y:LabelModel>
           <y:Geometry height="30.0" width="265.1957504000011" x="3185.4802783144814" y="223.0653329809121"/>
           <y:Fill color="#FFFF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="237.466796875" x="13.864476762500544" y="-1.701171875">I’ve only just arrived, and I’ve been attacked
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="236.716796875" x="14.239476762500544" y="-1.701171875">I've only just arrived, and I've been attacked
 by your guards twice.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -785,7 +787,7 @@ by your guards twice.<y:LabelModel>
           <y:Geometry height="30.0" width="265.1957504000011" x="3185.4802783144814" y="163.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="222.80078125" x="21.197484575000544" y="-1.701171875">I don’t know why, but they’ve been acting
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="222.42578125" x="21.384984575000544" y="-1.701171875">I don’t know why, but they've been acting
 strange recently.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -805,8 +807,8 @@ strange recently.<y:LabelModel>
           <y:Geometry height="30.0" width="265.1957504000011" x="3617.0693499809213" y="283.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="250.099609375" x="7.548070512500544" y="-1.701171875">There is, but I’ll only tell you if you promise me
-one thing - you’ll visit Elmour again.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="249.724609375" x="7.735570512500544" y="-1.701171875">There is, but I'll only tell you if you promise me
+one thing - you'll visit Elmour again.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -940,7 +942,7 @@ You'll know how to get back when the time comes.<y:LabelModel>
           <y:Geometry height="30.0" width="186.6811253911519" x="4267.460850780923" y="253.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="151.392578125" x="17.6442736330755" y="5.6494140625">By the way, what’s Elmour?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="151.017578125" x="17.8317736330755" y="5.6494140625">By the way, what's Elmour?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -958,7 +960,7 @@ You'll know how to get back when the time comes.<y:LabelModel>
           <y:Geometry height="30.0" width="265.19575039999927" x="4484.1419761720745" y="253.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="247.45703125" x="8.86935957500009" y="-1.701171875">You really are strange. It’s the town that we’re
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="246.70703125" x="9.24435957500009" y="-1.701171875">You really are strange. It's the town that we're
 in right now.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -997,7 +999,7 @@ in right now.<y:LabelModel>
           <y:Geometry height="30.0" width="265.19575039999927" x="4720.538788972075" y="163.0653329809121"/>
           <y:Fill color="#FFFF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="225.455078125" x="19.87033613749918" y="-1.701171875">You mean I could’ve just left as soon as I 
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="225.080078125" x="20.05783613749918" y="-1.701171875">You mean I could've just left as soon as I 
 came?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -1036,7 +1038,7 @@ came?<y:LabelModel>
           <y:Geometry height="60.0" width="265.19575039999927" x="5201.319562853089" y="223.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="252.82421875" x="6.18576582499918" y="5.948242187500028">Yeah, did you really expect it to be that easy?§
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="48.103515625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="252.82421875" x="6.1857658250000895" y="5.9482421875">Yeah, did you really expect it to be that easy?§
 We just have to get The Gems: Emerald, 
 Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -1113,7 +1115,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
           <y:Geometry height="30.0" width="174.43096018199958" x="5496.515313253089" y="103.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="148.099609375" x="13.165675403499336" y="5.6494140625">Oh, you’re not going alone.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="147.724609375" x="13.353175403499336" y="5.6494140625">Oh, you're not going alone.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1131,7 +1133,7 @@ Topaz, Diamond, Sapphire, and Ruby.<y:LabelModel>
           <y:Geometry height="30.0" width="115.77398216982783" x="5740.290617096146" y="103.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="107.359375" x="4.207303584913461" y="5.6494140625">Why? Who else is -<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="107.359375" x="4.207303584914371" y="5.6494140625">Why? Who else is -<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1227,7 +1229,7 @@ you're away?<y:LabelModel>
           <y:Geometry height="30.0" width="213.77530384305737" x="6291.337774235088" y="223.06533298091216"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="203.447265625" x="5.1640191090282315" y="5.6494140625">They’ve started on a bad note for me.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="203.072265625" x="5.3515191090282315" y="5.6494140625">They've started on a bad note for me.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1286,7 +1288,7 @@ until I give them the OK in person.<y:LabelModel>
           <y:Geometry height="30.0" width="176.69950929480456" x="6856.257766080298" y="223.06533298091213"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.771484375" x="12.964012459902733" y="5.6494140625">Shouldn’t we get weapons?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.396484375" x="13.151512459902733" y="5.6494140625">Shouldn't we get weapons?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1324,7 +1326,7 @@ until I give them the OK in person.<y:LabelModel>
           <y:Geometry height="30.0" width="271.9785720326672" x="7062.957275375103" y="223.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="242.8046875" x="14.586942266333608" y="-1.701171875">We shouldn’t need them: the lands are pretty
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="242.4296875" x="14.774442266333608" y="-1.701171875">We shouldn't need them: the lands are pretty
 safe.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -1401,7 +1403,7 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
           <y:Geometry height="30.0" width="189.55462093404003" x="3442.855463981502" y="358.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="169.41015625" x="10.072232342020015" y="5.6494140625">What? You’ve only just arrived!<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="169.03515625" x="10.259732342020015" y="5.6494140625">What? You've only just arrived!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1710,10 +1712,10 @@ big tusks happens to be raiding Shnarfulapogus<y:LabelModel>
       <data key="d5"><![CDATA[Me]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="90.0" x="1595.2110053270706" y="283.06533298091216"/>
+          <y:Geometry height="30.0" width="125.34741241599" x="1577.5372991190757" y="283.06533298091216"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="77.6640625" x="6.16796875" y="5.6494140625">I don't know...<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="114.33203125" x="5.507690582994883" y="5.6494140625">Well... I don't know...<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2088,7 +2090,7 @@ your mind.<y:LabelModel>
           <y:Geometry height="30.0" width="265.19575039999927" x="5015.734539372074" y="163.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="228.759765625" x="18.21799238749918" y="5.6494140625">Hold on, it looks like something is missing.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="228.759765625" x="18.21799238750009" y="5.6494140625">Hold on, it looks like something is missing.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2123,7 +2125,7 @@ your mind.<y:LabelModel>
           <y:Geometry height="30.0" width="81.44327226269252" x="4477.810736110354" y="133.0653329809121"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.013671875" x="9.714800193846713" y="5.6494140625">Follow me.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="62.013671875" x="9.714800193845804" y="5.6494140625">Follow me.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2159,7 +2161,7 @@ your mind.<y:LabelModel>
           <y:Geometry height="30.0" width="190.18239306987198" x="5846.720255604917" y="43.0653329809121"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="144.75390625" x="22.71424340993599" y="-1.701171875">NO! You’re not coming!§
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="144.75390625" x="22.71424340993599" y="-1.701171875">NO! You're not coming!§
 You have a country to run!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -2452,7 +2454,10 @@ You have a country to run!<y:LabelModel>
     <edge id="e18" source="n33" target="n34">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="15.0"/>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="22.499999999999996">
+            <y:Point x="2880.2282497910846" y="388.0653329809121"/>
+            <y:Point x="2880.2282497910846" y="380.5653329809121"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -2471,7 +2476,7 @@ You have a country to run!<y:LabelModel>
     <edge id="e20" source="n34" target="n36">
       <data key="d10">
         <y:BezierEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="139.64654045230236" sy="15.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
         </y:BezierEdge>
@@ -2754,12 +2759,41 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e48" source="n3" target="n77">
+    <edge id="e48" source="n77" target="n4">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e49" source="n2" target="n78">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e50" source="n78" target="n76">
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e51" source="n76" target="n3">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="572.7569033617998" y="380.79128480669135"/>
-            <y:Point x="572.7569033617999" y="380.79128480669135"/>
+            <y:Point x="572.7569033617999" y="470.79128480669135"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -2767,7 +2801,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e49" source="n77" target="n4">
+    <edge id="e52" source="n79" target="n5">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2777,7 +2811,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e50" source="n2" target="n78">
+    <edge id="e53" source="n4" target="n79">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2787,7 +2821,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e51" source="n78" target="n76">
+    <edge id="e54" source="n5" target="n80">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2797,49 +2831,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e52" source="n76" target="n3">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="572.7569033617998" y="470.79128480669135"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e53" source="n79" target="n5">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e54" source="n4" target="n79">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e55" source="n5" target="n80">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e56" source="n80" target="n6">
+    <edge id="e55" source="n80" target="n6">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2851,7 +2843,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e57" source="n11" target="n81">
+    <edge id="e56" source="n11" target="n81">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2861,7 +2853,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e58" source="n81" target="n18">
+    <edge id="e57" source="n81" target="n18">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-5.867378376808574" ty="0.0"/>
@@ -2871,7 +2863,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e59" source="n18" target="n82">
+    <edge id="e58" source="n18" target="n82">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-48.42286904546518" ty="0.0"/>
@@ -2881,7 +2873,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e60" source="n19" target="n83">
+    <edge id="e59" source="n19" target="n83">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2894,7 +2886,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e61" source="n84" target="n20">
+    <edge id="e60" source="n84" target="n20">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2904,7 +2896,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e62" source="n20" target="n85">
+    <edge id="e61" source="n20" target="n85">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="30.0" ty="0.0"/>
@@ -2914,7 +2906,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e63" source="n85" target="n21">
+    <edge id="e62" source="n85" target="n21">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2924,7 +2916,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e64" source="n21" target="n86">
+    <edge id="e63" source="n21" target="n86">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2934,7 +2926,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e65" source="n86" target="n22">
+    <edge id="e64" source="n86" target="n22">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-107.08365617109348" ty="0.5599900328121521">
@@ -2946,7 +2938,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e66" source="n22" target="n87">
+    <edge id="e65" source="n22" target="n87">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2956,7 +2948,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e67" source="n87" target="n23">
+    <edge id="e66" source="n87" target="n23">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2969,7 +2961,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e68" source="n25" target="n88">
+    <edge id="e67" source="n25" target="n88">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2981,7 +2973,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e69" source="n88" target="n26">
+    <edge id="e68" source="n88" target="n26">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2993,7 +2985,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e70" source="n26" target="n89">
+    <edge id="e69" source="n26" target="n89">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="5.0"/>
@@ -3003,17 +2995,20 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e71" source="n17" target="n90">
+    <edge id="e70" source="n17" target="n90">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="1640.2110053270706" y="373.0653329809122"/>
+            <y:Point x="1640.2110053270708" y="373.0653329809122"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e72" source="n90" target="n11">
+    <edge id="e71" source="n90" target="n11">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="82.17867009590964" ty="2.315881762330946">
@@ -3025,7 +3020,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e73" source="n40" target="n91">
+    <edge id="e72" source="n40" target="n91">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3035,7 +3030,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e74" source="n91" target="n41">
+    <edge id="e73" source="n91" target="n41">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3047,7 +3042,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e75" source="n56" target="n64">
+    <edge id="e74" source="n56" target="n64">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-99.2652085658292" ty="14.999999999999972"/>
@@ -3057,7 +3052,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e76" source="n67" target="n92">
+    <edge id="e75" source="n67" target="n92">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3067,7 +3062,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e77" source="n92" target="n66">
+    <edge id="e76" source="n92" target="n66">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3079,7 +3074,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e78" source="n66" target="n93">
+    <edge id="e77" source="n66" target="n93">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3091,7 +3086,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e79" source="n93" target="n68">
+    <edge id="e78" source="n93" target="n68">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3103,7 +3098,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e80" source="n82" target="n94">
+    <edge id="e79" source="n82" target="n94">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3115,7 +3110,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e81" source="n94" target="n19">
+    <edge id="e80" source="n94" target="n19">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3127,7 +3122,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e82" source="n83" target="n84">
+    <edge id="e81" source="n83" target="n84">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3140,7 +3135,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e83" source="n23" target="n95">
+    <edge id="e82" source="n23" target="n95">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-4.547473508864641E-13" ty="0.0"/>
@@ -3150,7 +3145,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e84" source="n95" target="n96">
+    <edge id="e83" source="n95" target="n96">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-14.92073341197829" ty="0.0"/>
@@ -3160,7 +3155,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e85" source="n96" target="n97">
+    <edge id="e84" source="n96" target="n97">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="77.59276745068655" ty="-5.6843418860808015E-14"/>
@@ -3170,7 +3165,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e86" source="n97" target="n98">
+    <edge id="e85" source="n97" target="n98">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3180,7 +3175,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e87" source="n98" target="n99">
+    <edge id="e86" source="n98" target="n99">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3190,7 +3185,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e88" source="n99" target="n24">
+    <edge id="e87" source="n99" target="n24">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3200,7 +3195,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e89" source="n28" target="n100">
+    <edge id="e88" source="n28" target="n100">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3210,7 +3205,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e90" source="n101" target="n29">
+    <edge id="e89" source="n101" target="n29">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3222,7 +3217,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e91" source="n100" target="n101">
+    <edge id="e90" source="n100" target="n101">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3232,7 +3227,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e92" source="n50" target="n52">
+    <edge id="e91" source="n50" target="n52">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3244,7 +3239,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e93" source="n102" target="n48">
+    <edge id="e92" source="n102" target="n48">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-39.25731250442368" ty="0.0"/>
@@ -3254,7 +3249,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e94" source="n24" target="n105">
+    <edge id="e93" source="n24" target="n105">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3264,7 +3259,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e95" source="n105" target="n25">
+    <edge id="e94" source="n105" target="n25">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-7.693867875089381" ty="0.0"/>
@@ -3274,7 +3269,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e96" source="n89" target="n106">
+    <edge id="e95" source="n89" target="n106">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3287,7 +3282,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e97" source="n106" target="n108">
+    <edge id="e96" source="n106" target="n108">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3299,7 +3294,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e98" source="n108" target="n107">
+    <edge id="e97" source="n108" target="n107">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3311,8 +3306,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e99" source="n107" target="n110">
-      <data key="d9"/>
+    <edge id="e98" source="n107" target="n110">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3322,8 +3316,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e100" source="n110" target="n109">
-      <data key="d9"/>
+    <edge id="e99" source="n110" target="n109">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3333,22 +3326,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e101" source="n109" target="n27">
-      <data key="d9"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="2761.5641342522413" y="410.5653329809121"/>
-            <y:Point x="2426.4756765722914" y="410.5653329809121"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e102" source="n51" target="n111">
-      <data key="d9"/>
+    <edge id="e100" source="n51" target="n111">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3358,8 +3336,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e103" source="n45" target="n46">
-      <data key="d9"/>
+    <edge id="e101" source="n45" target="n46">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="89.86891655601175" sy="0.0" tx="-94.74470350695901" ty="0.0"/>
@@ -3369,8 +3346,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e104" source="n46" target="n47">
-      <data key="d9"/>
+    <edge id="e102" source="n46" target="n47">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="46.167278421649826" sy="0.0" tx="-5.6159143153790865" ty="0.0"/>
@@ -3380,8 +3356,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e105" source="n43" target="n44">
-      <data key="d9"/>
+    <edge id="e103" source="n43" target="n44">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3391,8 +3366,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e106" source="n44" target="n103">
-      <data key="d9"/>
+    <edge id="e104" source="n44" target="n103">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3404,8 +3378,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e107" source="n103" target="n102">
-      <data key="d9"/>
+    <edge id="e105" source="n103" target="n102">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3417,8 +3390,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e108" source="n49" target="n112">
-      <data key="d9"/>
+    <edge id="e106" source="n49" target="n112">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3430,8 +3402,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e109" source="n112" target="n113">
-      <data key="d9"/>
+    <edge id="e107" source="n112" target="n113">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3444,8 +3415,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e110" source="n113" target="n104">
-      <data key="d9"/>
+    <edge id="e108" source="n113" target="n104">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3457,8 +3427,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e111" source="n104" target="n114">
-      <data key="d9"/>
+    <edge id="e109" source="n104" target="n114">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3468,8 +3437,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e112" source="n114" target="n50">
-      <data key="d9"/>
+    <edge id="e110" source="n114" target="n50">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3483,8 +3451,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e113" source="n114" target="n51">
-      <data key="d9"/>
+    <edge id="e111" source="n114" target="n51">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="41.78222927966999" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3494,8 +3461,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e114" source="n58" target="n116">
-      <data key="d9"/>
+    <edge id="e112" source="n58" target="n116">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3508,8 +3474,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e115" source="n116" target="n115">
-      <data key="d9"/>
+    <edge id="e113" source="n116" target="n115">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3519,8 +3484,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e116" source="n60" target="n117">
-      <data key="d9"/>
+    <edge id="e114" source="n60" target="n117">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3532,8 +3496,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e117" source="n62" target="n117">
-      <data key="d9"/>
+    <edge id="e115" source="n62" target="n117">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="46.61170374228277" ty="0.0"/>
@@ -3543,8 +3506,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e118" source="n117" target="n63">
-      <data key="d9"/>
+    <edge id="e116" source="n117" target="n63">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3554,8 +3516,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e119" source="n111" target="n53">
-      <data key="d9"/>
+    <edge id="e117" source="n111" target="n53">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="47.15219244830041" ty="0.0">
@@ -3568,8 +3529,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e120" source="n52" target="n53">
-      <data key="d9"/>
+    <edge id="e118" source="n52" target="n53">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-32.987148281014015" sy="0.0" tx="-95.44568275169877" ty="9.84742000260087">
@@ -3581,8 +3541,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e121" source="n57" target="n118">
-      <data key="d9"/>
+    <edge id="e119" source="n57" target="n118">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3595,8 +3554,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e122" source="n118" target="n58">
-      <data key="d9"/>
+    <edge id="e120" source="n118" target="n58">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-19.986057898444415" ty="0.0"/>
@@ -3606,8 +3564,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e123" source="n119" target="n61">
-      <data key="d9"/>
+    <edge id="e121" source="n119" target="n61">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3619,8 +3576,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e124" source="n115" target="n120">
-      <data key="d9"/>
+    <edge id="e122" source="n115" target="n120">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="31.711372000718256" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3630,8 +3586,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e125" source="n120" target="n60">
-      <data key="d9"/>
+    <edge id="e123" source="n120" target="n60">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-47.88023984499614" ty="-0.8315442367449464">
@@ -3643,8 +3598,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e126" source="n61" target="n121">
-      <data key="d9"/>
+    <edge id="e124" source="n61" target="n121">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3656,8 +3610,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e127" source="n121" target="n62">
-      <data key="d9"/>
+    <edge id="e125" source="n121" target="n62">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3669,8 +3622,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e128" source="n53" target="n56">
-      <data key="d9"/>
+    <edge id="e126" source="n53" target="n56">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3683,8 +3635,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e129" source="n53" target="n54">
-      <data key="d9"/>
+    <edge id="e127" source="n53" target="n54">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="77.38940278020709" sy="0.0" tx="0.0" ty="0.0">
@@ -3696,8 +3647,7 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e130" source="n53" target="n55">
-      <data key="d9"/>
+    <edge id="e128" source="n53" target="n55">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3709,11 +3659,35 @@ You have a country to run!<y:LabelModel>
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e131" source="n59" target="n119">
-      <data key="d9"/>
+    <edge id="e129" source="n59" target="n119">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-21.41139281701544" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e130" source="n3" target="n77">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e131" source="n109" target="n27">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="2761.5641342522413" y="410.5653329809121"/>
+            <y:Point x="2426.4756765722914" y="410.5653329809121"/>
+          </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

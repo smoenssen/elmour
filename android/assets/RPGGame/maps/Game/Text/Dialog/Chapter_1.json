@@ -62,7 +62,7 @@ conversations: {
 	}
 	n90: {
 		id: n90
-		dialog: I don't know...
+		dialog: Well... I don't know...
 		character: Me
 		type: NPC
 	}
@@ -92,7 +92,7 @@ conversations: {
 	}
 	n115: {
 		id: n115
-		dialog: NO! You’re not coming!§\r\nYou have a country to run!
+		dialog: NO! You're not coming!§\r\nYou have a country to run!
 		character: Me
 		type: NPC
 	}
@@ -134,7 +134,7 @@ conversations: {
 	}
 	n28: {
 		id: n28
-		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your’s?"
+		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your's?"
 		character: Me
 		type: NPC
 	}
@@ -158,7 +158,7 @@ conversations: {
 	}
 	n24: {
 		id: n24
-		dialog: What is going on?
+		dialog: What's going on?
 		character: Girl
 		type: NPC
 	}
@@ -368,7 +368,7 @@ conversations: {
 	}
 	n10: {
 		id: n10
-		dialog: "I’m not here to raid your castle... frankly, I \r\ndon’t even know why I’m here.§\r\nI don’t even know where ‘here’ is."
+		dialog: "I'm not here to raid your castle... frankly, I \r\ndon't even know why I'm here.§\r\nI don't even know where 'here' is."
 		character: Me
 		type: NPC
 	}
@@ -392,7 +392,7 @@ conversations: {
 	}
 	n72: {
 		id: n72
-		dialog: What? You’ve only just arrived!
+		dialog: What? You've only just arrived!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -416,7 +416,7 @@ conversations: {
 	}
 	n68: {
 		id: n68
-		dialog: We shouldn’t need them: the lands are pretty\r\nsafe.
+		dialog: We shouldn't need them: the lands are pretty\r\nsafe.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -428,7 +428,7 @@ conversations: {
 	}
 	n66: {
 		id: n66
-		dialog: Shouldn’t we get weapons?
+		dialog: Shouldn't we get weapons?
 		character: Me
 		type: NPC
 	}
@@ -446,7 +446,7 @@ conversations: {
 	}
 	n63: {
 		id: n63
-		dialog: They’ve started on a bad note for me.
+		dialog: They've started on a bad note for me.
 		character: Me
 		type: NPC
 	}
@@ -482,7 +482,7 @@ conversations: {
 	}
 	n57: {
 		id: n57
-		dialog: "Oh, you’re not going alone."
+		dialog: "Oh, you're not going alone."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -500,13 +500,13 @@ conversations: {
 	}
 	n49: {
 		id: n49
-		dialog: You really are strange. It’s the town that we’re\r\nin right now.
+		dialog: You really are strange. It's the town that we're\r\nin right now.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n48: {
 		id: n48
-		dialog: "By the way, what’s Elmour?"
+		dialog: "By the way, what's Elmour?"
 		character: Me
 		type: NPC
 	}
@@ -542,13 +542,13 @@ conversations: {
 	}
 	n41: {
 		id: n41
-		dialog: "There is, but I’ll only tell you if you promise me\r\none thing - you’ll visit Elmour again."
+		dialog: "There is, but I'll only tell you if you promise me\r\none thing - you'll visit Elmour again."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n40: {
 		id: n40
-		dialog: "I don’t know why, but they’ve been acting\r\nstrange recently."
+		dialog: "I don’t know why, but they've been acting\r\nstrange recently."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -572,7 +572,7 @@ conversations: {
 	}
 	n3: {
 		id: n3
-		dialog: Oh crap...
+		dialog: Oh crap...§\r\nThat was loud...
 		character: My Thoughts
 		type: NPC
 	}
@@ -608,13 +608,13 @@ conversations: {
 	}
 	n37: {
 		id: n37
-		dialog: What? You’ve only just arrived!
+		dialog: What? You've only just arrived!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n34: {
 		id: n34
-		dialog: "Yep, that’s my name.§\r\nPrincess {CHARACTER_2}, but you can just\r\ncall me {CHARACTER_2}.§\r\nI am in charge of these lands."
+		dialog: "Yep, that’s my name.§\r\nPrincess {CHARACTER_2}, but you can just\r\ncall me {CHARACTER_2},\r\nI'm not one for honorifics.§\r\nI am in charge of these lands."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -777,7 +777,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n114
 			destinationId: n111
-			choicePhrase: You mean I could’ve just left as soon as I \r\ncame?
+			choicePhrase: You mean I could've just left as soon as I \r\ncame?
 		}
 	]
 	n113: [
@@ -1197,7 +1197,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
+			choicePhrase: "I've only just arrived, and I've been attacked\r\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1615,7 +1615,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I’ve only just arrived, and I’ve been attacked\r\nby your guards twice."
+			choicePhrase: "I've only just arrived, and I've been attacked\r\nby your guards twice."
 		}
 	]
 	n36: [
