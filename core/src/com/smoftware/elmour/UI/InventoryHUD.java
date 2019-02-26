@@ -49,8 +49,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private final String BTN_NAME_USE = "Use";          // multi use
     private final String BTN_NAME_INSPECT = "Inspect";  // multi use
     private final String BTN_NAME_EQUIP = "Equip";      // multi use
+    private final String BTN_NAME_OK = "OK";            // multi use
     private final String BTN_NAME_SWAP = "Swap";
-    private final String BTN_BACK = "Back";
+    private final String BTN_NAME_BACK = "Back";
+    private final String BTN_NAME_CLOSE = "Close";
+    private final String BTN_NAME_CANCEL = "Cancel";
 
     // main buttons
     private TextButton equipmentButton;
@@ -66,7 +69,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private Table equipmentListsTable;
     private Table weaponNameTable;
     private Table armorNameTable;
-    private Table equipNameTable;
     private Table consumableListsTable;
     private Table keyItemsListsTable;
     private Table mainButtonTable;
@@ -82,7 +84,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private WidgetGroup groupPotions;
     private WidgetGroup groupConsumables;
     private WidgetGroup groupThrowing;
-    private WidgetGroup groupEquipName;
+    private WidgetGroup groupEquipToName;
 
     // list components
     private TextButton labelWeapon;
@@ -97,8 +99,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     private MyTextArea weaponNameBackground;
     private MyTextArea armorNameBackground;
-    private MyTextArea equipNameBackground;
+
     private TextButton labelEquipTo;
+    private MyTextButtonList<TextButton> equipToListView;
+    private MyTextArea equipNameBackground;
 
     private TextButton labelNonQuest;
     private MyTextButtonList<TextButton> nonQuestListView;
@@ -164,7 +168,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         actionButtonTable = new Table();
         weaponNameTable = new Table();
         armorNameTable = new Table();
-        equipNameTable = new Table();
 
         equipmentButton = new TextButton(BTN_NAME_EQUIPMENT, Utility.ELMOUR_UI_SKIN, "battle");
         consumablesButton = new TextButton(BTN_NAME_CONSUMABLES, Utility.ELMOUR_UI_SKIN, "battle");
@@ -172,7 +175,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         actionButton = new TextButton(BTN_NAME_USE, Utility.ELMOUR_UI_SKIN, "battle");
         swapButton = new TextButton(BTN_NAME_SWAP, Utility.ELMOUR_UI_SKIN, "battle");
-        backButton = new TextButton(BTN_BACK, Utility.ELMOUR_UI_SKIN, "battle");
+        backButton = new TextButton(BTN_NAME_CLOSE, Utility.ELMOUR_UI_SKIN, "battle");
 
         float topMargin = 6;
         float buttonHeight = 65;
@@ -220,12 +223,13 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         labelEquipTo = new TextButton("Equip To", Utility.ELMOUR_UI_SKIN, "battle");
         labelEquipTo.setTouchable(Touchable.disabled);
+        equipToListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
 
         groupWeapon = new WidgetGroup();
         groupArmor = new WidgetGroup();
         groupWeaponName = new WidgetGroup();
         groupArmorName = new WidgetGroup();
-        groupEquipName = new WidgetGroup();
+        groupEquipToName = new WidgetGroup();
 
         nameTableHeight = 2 * buttonHeight - 2;
 
@@ -247,8 +251,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         groupWeaponName.addActor(weaponNameTable);
         groupArmorName.addActor(armorNameBackground);
         groupArmorName.addActor(armorNameTable);
-        groupEquipName.addActor(equipNameBackground);
-        groupEquipName.addActor(equipNameTable);
+        groupEquipToName.addActor(equipNameBackground);
+        groupEquipToName.addActor(equipToListView);
 
         equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
@@ -380,7 +384,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         //
         // RIGHT PANEL AREA
-        float descTablePadding = 10;
+        final float descTablePadding = 10;
         float descAreaWidth = buttonWidth;
         float descAreaHeight = buttonHeight * 3 - 4;
 
@@ -541,10 +545,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             Gdx.app.log(TAG, "backButton up");
-                                            // there is an issue with the button x, y coordinates
-                                            //if (touchPointIsInButton(backButton)) {
+                                            if (backButton.getText().toString().equals(BTN_NAME_CLOSE)) {
                                                 hide();
-                                            //}
+                                            }
+                                            else {
+                                                backButton.setText(BTN_NAME_CLOSE);
+                                            }
                                         }
                                     }
         );
@@ -561,13 +567,37 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        String buttonName = actionButton.getText().toString();
 
                                        if (buttonName.equals(BTN_NAME_EQUIP)) {
-                                            displayEquipScreen();
+                                           backButton.setText(BTN_NAME_CANCEL);
+                                           actionButton.setText(BTN_NAME_OK);
+                                           displayEquipScreen();
+
+                                           // disable all other buttons
+                                           equipmentButton.setTouchable(Touchable.disabled);
+                                           consumablesButton.setTouchable(Touchable.disabled);
+                                           keyItemsButton.setTouchable(Touchable.disabled);
+                                           swapButton.setTouchable(Touchable.disabled);
                                        }
                                        else if (buttonName.equals(BTN_NAME_USE)) {
 
                                        }
                                        else if (buttonName.equals(BTN_NAME_INSPECT)) {
 
+                                       }
+                                       else if (buttonName.equals(BTN_NAME_OK)) {
+                                           TextButton selectedCharacter = equipToListView.getSelected();
+                                           if (selectedCharacter != null && lastSelectedEquipmentItem != null) {
+                                               // re-enable all buttons
+                                               equipmentButton.setTouchable(Touchable.enabled);
+                                               consumablesButton.setTouchable(Touchable.enabled);
+                                               keyItemsButton.setTouchable(Touchable.enabled);
+                                               swapButton.setTouchable(Touchable.enabled);
+
+                                               PartyInventoryItem selectedItem = (PartyInventoryItem)lastSelectedEquipmentItem.getUserObject();
+                                               descText.setText(selectedCharacter.getText().toString() + " equipped with " + selectedItem.getElement().name);
+
+                                               displayEquipmentScreen();
+                                               backButton.setText(BTN_NAME_CLOSE);
+                                           }
                                        }
                                    }
                                }
@@ -876,6 +906,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     private void displayEquipScreen() {
         equipmentListsTable.clear();
+        descText.setText("Select an item and a character to equip and click OK.");
 
         float listWidth = (int)stage.getWidth() / 5;
         float listHeight = (stage.getHeight() - mainButtonTable.getHeight() - bottomMargin);
@@ -888,10 +919,26 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
         armorScrollPaneList.setX(2);
         equipNameBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        equipToListView.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        equipToListView.setX(2);
+        equipToListView.setY(-8);
+
+        //todo: add available characters
+        equipToListView.clearItems();
+        TextButton button = new TextButton("Carmen", Utility.ELMOUR_UI_SKIN, "tree_node");
+        equipToListView.getItems().add(button);
+        TextButton button1 = new TextButton("Character 1", Utility.ELMOUR_UI_SKIN, "tree_node");
+        equipToListView.getItems().add(button1);
+        TextButton button2 = new TextButton("Character 2", Utility.ELMOUR_UI_SKIN, "tree_node");
+        equipToListView.getItems().add(button2);
+        TextButton button3 = new TextButton("Justin", Utility.ELMOUR_UI_SKIN, "tree_node");
+        equipToListView.getItems().add(button3);
+        TextButton button4 = new TextButton("Jaxon", Utility.ELMOUR_UI_SKIN, "tree_node");
+        equipToListView.getItems().add(button4);
+        ///////////////////
 
         weaponNameBackground.setSize(listWidth, nameTableHeight);
-        armorNameBackground.setSize(listWidth, nameTableHeight);
-        //equipNameBackground.setSize(listWidth, nameTableHeight);
+        armorNameBackground.setSize(listWidth * 2 - 2, nameTableHeight); // needs to correspond with width of adding groupArmorName below
 
         equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
@@ -901,11 +948,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentListsTable.row().width(stage.getWidth()).height(stage.getHeight() - bottomMargin - labelHeight - nameTableHeight - mainButtonTable.getHeight() + 2);
         equipmentListsTable.add(groupWeapon).pad(-1).width(listWidth);
         equipmentListsTable.add(groupArmor).pad(-1).width(listWidth);
-        equipmentListsTable.add(groupEquipName).pad(-1).width(listWidth);
+        equipmentListsTable.add(groupEquipToName).pad(-1).width(listWidth);
 
         equipmentListsTable.row().width(stage.getWidth()).height(nameTableHeight);
         equipmentListsTable.add(groupWeaponName).pad(-1).width(listWidth);
-        equipmentListsTable.add(groupArmorName).pad(-1).width(listWidth * 2).colspan(2);
+        // some trickery involved here... need to correspond with width of armorNameBackground above
+        equipmentListsTable.add(groupArmorName).pad(-1).width(listWidth * 2 - 2).colspan(2);
         equipmentListsTable.pack();
     }
 
@@ -913,6 +961,18 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentListsTable.clear();
 
         float listWidth = mainButtonTable.getWidth()/2 + 2;
+        float listHeight = (stage.getHeight() - mainButtonTable.getHeight() - bottomMargin);
+        float listTopPadding = 6;
+
+        weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        weaponScrollPaneList.setX(2);   // this and the above -2 prevents highlight of selected item from crossing over the borders
+        armorBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        armorScrollPaneList.setX(2);
+
+        weaponNameBackground.setSize(listWidth, nameTableHeight);
+        armorNameBackground.setSize(listWidth, nameTableHeight);
 
         equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
