@@ -155,9 +155,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     private boolean isSwapping = false;
 
-    float labelHeight = 30;
-    float bottomMargin = 6;
-    float nameTableHeight;
+    private float labelHeight = 30;
+    private float bottomMargin = 6;
+    private float nameTableHeight;
+
+    private int numberOfButtonDowns = 0;
 
     public InventoryHUD(Stage stage) {
 
@@ -443,6 +445,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentButton.addListener(new ClickListener() {
                                     @Override
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        numberOfButtonDowns++;
                                         setButtonState(ButtonState.EQUIPMENT);
                                         return true;
                                     }
@@ -450,6 +453,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         setLists(ButtonState.EQUIPMENT);
+                                        numberOfButtonDowns--;
                                     }
                                 }
         );
@@ -457,6 +461,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         consumablesButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            numberOfButtonDowns++;
                                             setButtonState(ButtonState.CONSUMABLES);
                                             return true;
                                         }
@@ -464,6 +469,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             setLists(ButtonState.CONSUMABLES);
+                                            numberOfButtonDowns--;
                                         }
                                     }
         );
@@ -471,6 +477,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         keyItemsButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            numberOfButtonDowns++;
                                             setButtonState(ButtonState.KEY_ITEMS);
                                             return true;
                                         }
@@ -478,6 +485,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             setLists(ButtonState.KEY_ITEMS);
+                                            numberOfButtonDowns--;
                                         }
                                     }
         );
@@ -485,6 +493,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         swapButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       numberOfButtonDowns++;
                                        return true;
                                    }
 
@@ -546,6 +555,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                descText.setText("Select another key item?????");
                                                break;
                                        }
+
+                                       numberOfButtonDowns--;
                                    }
                                }
         );
@@ -553,6 +564,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         backButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                            numberOfButtonDowns++;
                                             return true;
                                         }
 
@@ -568,6 +580,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             else {
                                                 backButton.setText(BTN_NAME_CLOSE);
                                             }
+
+                                            numberOfButtonDowns--;
                                         }
                                     }
         );
@@ -575,6 +589,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         actionButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                       numberOfButtonDowns++;
                                        return true;
                                    }
 
@@ -609,6 +624,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                displayEquipmentScreen();
                                            }
                                        }
+
+                                       numberOfButtonDowns--;
                                    }
                                }
         );
@@ -617,6 +634,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             armorListView.setSelectedIndex(-1);
+                                            armorListView.setTouchable(Touchable.disabled);
                                             return true;
                                         }
 
@@ -657,6 +675,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 clearNameTable(armorNameTable);
                                                 lastSelectedEquipmentListType = ListType.WEAPON;
                                             }
+
+                                            armorListView.setTouchable(Touchable.enabled);
                                         }
                                     }
         );
@@ -665,6 +685,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                            weaponListView.setSelectedIndex(-1);
+                                           weaponListView.setTouchable(Touchable.disabled);
                                            return true;
                                        }
 
@@ -705,6 +726,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                clearNameTable(weaponNameTable);
                                                lastSelectedEquipmentListType = ListType.ARMOR;
                                            }
+
+                                           weaponListView.setTouchable(Touchable.enabled);
                                        }
                                    }
         );
@@ -714,6 +737,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             consumablesListView.setSelectedIndex(-1);
                                             throwingListView.setSelectedIndex(-1);
+                                            consumablesListView.setTouchable(Touchable.disabled);
+                                            throwingListView.setTouchable(Touchable.disabled);
                                             return true;
                                         }
 
@@ -745,6 +770,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 descText.setText(element.summary);
                                                 lastSelectedConsumablesListType = ListType.POTION;
                                             }
+
+                                            consumablesListView.setTouchable(Touchable.enabled);
+                                            throwingListView.setTouchable(Touchable.enabled);
                                         }
                                     }
         );
@@ -754,6 +782,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             potionsListView.setSelectedIndex(-1);
                                             throwingListView.setSelectedIndex(-1);
+                                            potionsListView.setTouchable(Touchable.disabled);
+                                            throwingListView.setTouchable(Touchable.disabled);
                                             return true;
                                         }
 
@@ -785,6 +815,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 descText.setText(element.summary);
                                                 lastSelectedConsumablesListType = ListType.CONSUMABLE;
                                             }
+
+                                            potionsListView.setTouchable(Touchable.enabled);
+                                            throwingListView.setTouchable(Touchable.enabled);
                                         }
                                     }
         );
@@ -794,6 +827,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             potionsListView.setSelectedIndex(-1);
                                             consumablesListView.setSelectedIndex(-1);
+                                            potionsListView.setTouchable(Touchable.disabled);
+                                            consumablesListView.setTouchable(Touchable.disabled);
                                             return true;
                                         }
 
@@ -825,6 +860,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 descText.setText(element.summary);
                                                 lastSelectedConsumablesListType = ListType.THROWING;
                                             }
+
+                                            potionsListView.setTouchable(Touchable.enabled);
+                                            consumablesListView.setTouchable(Touchable.enabled);
                                         }
                                     }
         );
@@ -833,6 +871,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                          @Override
                                          public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                              nonQuestListView.setSelectedIndex(-1);
+                                             nonQuestListView.setTouchable(Touchable.disabled);
                                              return true;
                                          }
 
@@ -867,6 +906,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                  */
                                                  lastSelectedKeyItemsListType = ListType.QUEST;
                                              }
+
+                                             nonQuestListView.setTouchable(Touchable.enabled);
                                          }
                                      }
         );
@@ -875,6 +916,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                       @Override
                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                           questListView.setSelectedIndex(-1);
+                                          questListView.setTouchable(Touchable.disabled);
                                           return true;
                                       }
 
@@ -909,6 +951,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                               */
                                               lastSelectedKeyItemsListType = ListType.NON_QUEST;
                                           }
+
+                                          questListView.setTouchable(Touchable.enabled);
                                       }
                                   }
         );
