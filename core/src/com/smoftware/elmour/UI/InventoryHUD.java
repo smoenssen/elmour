@@ -16,12 +16,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
 import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.maps.Map;
 
 /**
  * Created by steve on 2/10/19.
@@ -30,7 +33,7 @@ import com.smoftware.elmour.Utility;
 public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
-    enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP }
+    enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
     enum ListType { WEAPON, ARMOR, POTION, CONSUMABLE, THROWING, QUEST, NON_QUEST }
 
     private Stage stage;
@@ -138,12 +141,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     // Graphic
     private WidgetGroup graphicGroup;
     private MyTextArea graphicBackground;
+    private AnimatedImage backpack;
 
     // Persistence
     private TextButton lastSelectedConsumablesItem;
     private TextButton lastSelectedEquipmentItem;
     private TextButton lastSelectedKeyItem;
     private ButtonState buttonState;
+    private ButtonState previousButtonState;
     private ListType lastSelectedEquipmentListType;
     private ListType lastSelectedConsumablesListType;
     private ListType lastSelectedKeyItemsListType;
@@ -424,7 +429,16 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         graphicBackground.setPosition(descTable.getX() - 1, descTable.getY() + descTable.getHeight() + 2);
         graphicBackground.setTouchable(Touchable.disabled);
 
+        backpack = getAnimatedImage(EntityFactory.EntityName.BACKPACK);
+        backpack.setCurrentAnimationType(Entity.AnimationType.OPEN);
+        backpack.setCurrentAnimation(Entity.AnimationType.OPEN);
+        // Note: Size and AnimationType are also set in setBackpack
+        backpack.setSize(graphicBackground.getWidth() * 2/3, graphicBackground.getWidth() * 2/3);
+        backpack.setPosition(graphicBackground.getX() + (graphicBackground.getWidth() - backpack.getWidth())/2,
+                             graphicBackground.getY() + (graphicBackground.getHeight() - backpack.getHeight())/2);
+
         graphicGroup.addActor(graphicBackground);
+        graphicGroup.addActor(backpack);
 
         equipmentButton.addListener(new ClickListener() {
                                     @Override
@@ -545,7 +559,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             Gdx.app.log(TAG, "backButton up");
-                                            if (backButton.getText().toString().equals(BTN_NAME_CLOSE)) {
+                                            if (backButton.getText().toString().equals(BTN_NAME_CANCEL)) {
+                                                displayEquipmentScreen();
+                                            }
+                                            else if (backButton.getText().toString().equals(BTN_NAME_CLOSE)) {
                                                 hide();
                                             }
                                             else {
@@ -586,17 +603,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        else if (buttonName.equals(BTN_NAME_OK)) {
                                            TextButton selectedCharacter = equipToListView.getSelected();
                                            if (selectedCharacter != null && lastSelectedEquipmentItem != null) {
-                                               // re-enable all buttons
-                                               equipmentButton.setTouchable(Touchable.enabled);
-                                               consumablesButton.setTouchable(Touchable.enabled);
-                                               keyItemsButton.setTouchable(Touchable.enabled);
-                                               swapButton.setTouchable(Touchable.enabled);
-
                                                PartyInventoryItem selectedItem = (PartyInventoryItem)lastSelectedEquipmentItem.getUserObject();
                                                descText.setText(selectedCharacter.getText().toString() + " equipped with " + selectedItem.getElement().name);
 
                                                displayEquipmentScreen();
-                                               backButton.setText(BTN_NAME_CLOSE);
                                            }
                                        }
                                    }
@@ -904,6 +914,18 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         );
     }
 
+    private AnimatedImage setEntityAnimation(Entity entity){
+        final AnimatedImage animEntity = new AnimatedImage();
+        animEntity.setEntity(entity);
+        animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
+        return animEntity;
+    }
+
+    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
+        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        return setEntityAnimation(entity);
+    }
+
     private void displayEquipScreen() {
         equipmentListsTable.clear();
         descText.setText("Select an item and a character to equip and click OK.");
@@ -919,7 +941,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
         armorScrollPaneList.setX(2);
         equipNameBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
-        equipToListView.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
+        equipToListView.setSize(listWidth - 4, listHeight - labelHeight - nameTableHeight + 2);
         equipToListView.setX(2);
         equipToListView.setY(-8);
 
@@ -958,6 +980,15 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     }
 
     private void displayEquipmentScreen() {
+        // re-enable all buttons
+        equipmentButton.setTouchable(Touchable.enabled);
+        consumablesButton.setTouchable(Touchable.enabled);
+        keyItemsButton.setTouchable(Touchable.enabled);
+        swapButton.setTouchable(Touchable.enabled);
+
+        actionButton.setText(BTN_NAME_EQUIP);
+        backButton.setText(BTN_NAME_CLOSE);
+
         equipmentListsTable.clear();
 
         float listWidth = mainButtonTable.getWidth()/2 + 2;
@@ -1122,6 +1153,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         descText.setText("");
 
+        setBackpack(state);
+
         switch (state) {
             case EQUIPMENT:
                 stage.addActor(equipmentListsTable);
@@ -1150,6 +1183,43 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                 break;
         }
     }
+
+    private void setBackpack(ButtonState buttonState) {
+        Entity.AnimationType animationType = Entity.AnimationType.OPEN;
+
+        switch(buttonState) {
+            case EQUIPMENT:
+                if (previousButtonState == ButtonState.CONSUMABLES)
+                    animationType = Entity.AnimationType.BATTLE_EQUIP;
+                else
+                    animationType = Entity.AnimationType.KEY_EQUIP;
+
+                previousButtonState = ButtonState.EQUIPMENT;
+                break;
+            case CONSUMABLES:
+                if (previousButtonState == ButtonState.EQUIPMENT)
+                    animationType = Entity.AnimationType.EQUIP_BATTLE;
+                else
+                    animationType = Entity.AnimationType.KEY_BATTLE;
+
+                previousButtonState = ButtonState.CONSUMABLES;
+                break;
+            case KEY_ITEMS:
+                if (previousButtonState == ButtonState.CONSUMABLES)
+                    animationType = Entity.AnimationType.BATTLE_KEY;
+                else
+                    animationType = Entity.AnimationType.EQUIP_KEY;
+
+                previousButtonState = ButtonState.KEY_ITEMS;
+                break;
+        }
+
+        Gdx.app.log(TAG, "Setting AnimationType " + animationType.toString());
+        backpack.setCurrentAnimationType(animationType);
+        backpack.setCurrentAnimation(animationType);
+        backpack.setSize(graphicBackground.getWidth() * 2/3, graphicBackground.getWidth() * 2/3);
+    }
+
     @Override
     public void show() {
         // initial screen

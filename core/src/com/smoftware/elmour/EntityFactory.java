@@ -33,6 +33,7 @@ public class EntityFactory {
         HIT,
         WEAPON_ANIMATIONS,
         MISC_ANIMATIONS,
+        BACKPACK,
         PLAYER_PUPPET,
         TOWN_GUARD_WALKING,
         TOWN_BLACKSMITH,
@@ -72,6 +73,7 @@ public class EntityFactory {
     public static String HIT_CONFIG = "RPGGame/maps/Game/Scripts/hit.json";
     public static String WEAPON_ANIMATIONS_CONFIG = "RPGGame/maps/Game/Scripts/weapon_animations.json";
     public static String MISC_ANIMATIONS_CONFIG = "RPGGame/maps/Game/Scripts/misc_animations.json";
+    public static String BACKPACK_CONFIG = "RPGGame/maps/Game/Scripts/backpack.json";
 
     public static String PLAYER_CONFIG = "scripts/player.json";
 
@@ -136,6 +138,7 @@ public class EntityFactory {
         entities.put(EntityName.HIT.toString(), Entity.loadEntityConfigByPath(HIT_CONFIG));
         entities.put(EntityName.WEAPON_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(WEAPON_ANIMATIONS_CONFIG));
         entities.put(EntityName.MISC_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(MISC_ANIMATIONS_CONFIG));
+        entities.put(EntityName.BACKPACK.toString(), Entity.loadEntityConfigByPath(BACKPACK_CONFIG));
 
 /*
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));
