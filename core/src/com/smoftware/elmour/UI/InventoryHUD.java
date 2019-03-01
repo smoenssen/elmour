@@ -159,8 +159,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private float bottomMargin = 6;
     private float nameTableHeight;
 
-    private int numberOfButtonDowns = 0;
-
     public InventoryHUD(Stage stage) {
 
         this.stage = stage;
@@ -240,12 +238,16 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         nameTableHeight = 2 * buttonHeight - 2;
 
+        // the -2 prevents highlight of selected item from crossing over the borders
+        // also need to set position then +2
         weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
-        weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight);
-        weaponScrollPaneList.setX(2);   // this and the above -2 prevents highlight of selected item from crossing over the borders
+        weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight - 2);
+        weaponScrollPaneList.setX(2);
+        weaponScrollPaneList.setY(2);
         armorBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
-        armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight);
+        armorScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - nameTableHeight - 2);
         armorScrollPaneList.setX(2);
+        armorScrollPaneList.setY(2);
 
         weaponNameBackground.setSize(listWidth, nameTableHeight);
         armorNameBackground.setSize(listWidth, nameTableHeight);
@@ -317,14 +319,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         listWidth = buttonWidth;
 
         potionsBackground.setSize(listWidth, listHeight - labelHeight);
-        potionsScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        potionsScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - 2);
         potionsScrollPaneList.setX(2);
+        potionsScrollPaneList.setY(2);
         consumablesBackground.setSize(listWidth, listHeight - labelHeight);
-        consumablesScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        consumablesScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - 2);
         consumablesScrollPaneList.setX(2);
+        consumablesScrollPaneList.setY(2);
         throwingBackground.setSize(listWidth, listHeight - labelHeight);
-        throwingScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight);
+        throwingScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - 2);
         throwingScrollPaneList.setX(2);
+        throwingScrollPaneList.setY(2);
 
         groupPotions.addActor(potionsBackground);
         groupPotions.addActor(potionsScrollPaneList);
@@ -368,11 +373,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         listWidth = mainButtonTable.getWidth()/2 + 2;
 
         nonQuestBackground.setSize(listWidth, listHeight - labelHeight);
-        nonQuestScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight);
+        nonQuestScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - 2);
         nonQuestScrollPaneList.setX(2);
+        nonQuestScrollPaneList.setY(2);
         questBackground.setSize(listWidth, listHeight - labelHeight);
-        questScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight);
+        questScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - 2);
         questScrollPaneList.setX(2);
+        questScrollPaneList.setX(4);
+
 
         groupNonQuest.addActor(nonQuestBackground);
         groupNonQuest.addActor(nonQuestScrollPaneList);
@@ -445,15 +453,19 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentButton.addListener(new ClickListener() {
                                     @Override
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                        numberOfButtonDowns++;
+                                        disableAllButtonsExceptSelectedButton(equipmentButton);
                                         setButtonState(ButtonState.EQUIPMENT);
                                         return true;
                                     }
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                        if (backButton.getText().toString().equals(BTN_NAME_CANCEL)) {
+                                            buttonCancel();
+                                        }
+
                                         setLists(ButtonState.EQUIPMENT);
-                                        numberOfButtonDowns--;
+                                        enableAllButtons();
                                     }
                                 }
         );
@@ -461,15 +473,19 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         consumablesButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            numberOfButtonDowns++;
+                                            disableAllButtonsExceptSelectedButton(consumablesButton);
                                             setButtonState(ButtonState.CONSUMABLES);
                                             return true;
                                         }
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            if (backButton.getText().toString().equals(BTN_NAME_CANCEL)) {
+                                                buttonCancel();
+                                            }
+
                                             setLists(ButtonState.CONSUMABLES);
-                                            numberOfButtonDowns--;
+                                            enableAllButtons();
                                         }
                                     }
         );
@@ -477,15 +493,19 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         keyItemsButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            numberOfButtonDowns++;
+                                            disableAllButtonsExceptSelectedButton(keyItemsButton);
                                             setButtonState(ButtonState.KEY_ITEMS);
                                             return true;
                                         }
 
                                         @Override
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                            if (backButton.getText().toString().equals(BTN_NAME_CANCEL)) {
+                                                buttonCancel();
+                                            }
+
                                             setLists(ButtonState.KEY_ITEMS);
-                                            numberOfButtonDowns--;
+                                            enableAllButtons();
                                         }
                                     }
         );
@@ -493,7 +513,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         swapButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       numberOfButtonDowns++;
+                                       disableAllButtonsExceptSelectedButton(swapButton);
                                        return true;
                                    }
 
@@ -556,7 +576,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                break;
                                        }
 
-                                       numberOfButtonDowns--;
+                                       enableAllButtons();
                                    }
                                }
         );
@@ -564,7 +584,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         backButton.addListener(new ClickListener() {
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                            numberOfButtonDowns++;
+                                            disableAllButtonsExceptSelectedButton(backButton);
                                             return true;
                                         }
 
@@ -572,7 +592,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             Gdx.app.log(TAG, "backButton up");
                                             if (backButton.getText().toString().equals(BTN_NAME_CANCEL)) {
-                                                displayEquipmentScreen();
+                                                buttonCancel();
                                             }
                                             else if (backButton.getText().toString().equals(BTN_NAME_CLOSE)) {
                                                 hide();
@@ -581,7 +601,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 backButton.setText(BTN_NAME_CLOSE);
                                             }
 
-                                            numberOfButtonDowns--;
+                                            enableAllButtons();
                                         }
                                     }
         );
@@ -589,7 +609,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         actionButton.addListener(new ClickListener() {
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       numberOfButtonDowns++;
+                                       disableAllButtonsExceptSelectedButton(actionButton);
                                        return true;
                                    }
 
@@ -602,12 +622,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                            backButton.setText(BTN_NAME_CANCEL);
                                            actionButton.setText(BTN_NAME_OK);
                                            displayEquipScreen();
-
-                                           // disable all other buttons
-                                           equipmentButton.setTouchable(Touchable.disabled);
-                                           consumablesButton.setTouchable(Touchable.disabled);
-                                           keyItemsButton.setTouchable(Touchable.disabled);
-                                           swapButton.setTouchable(Touchable.disabled);
+                                           swapButton.setTouchable(Touchable.disabled); //todo?
                                        }
                                        else if (buttonName.equals(BTN_NAME_USE)) {
 
@@ -625,7 +640,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                            }
                                        }
 
-                                       numberOfButtonDowns--;
+                                       enableAllButtons();
                                    }
                                }
         );
@@ -968,6 +983,35 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
         Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
         return setEntityAnimation(entity);
+    }
+
+    private void buttonCancel() {
+        backButton.setText(BTN_NAME_CLOSE);
+        displayEquipmentScreen();
+    }
+
+    private void disableAllButtonsExceptSelectedButton(TextButton selectedButton) {
+        if (!selectedButton.equals(equipmentButton))
+            equipmentButton.setTouchable(Touchable.disabled);
+        if (!selectedButton.equals(consumablesButton))
+            consumablesButton.setTouchable(Touchable.disabled);
+        if (!selectedButton.equals(keyItemsButton))
+            keyItemsButton.setTouchable(Touchable.disabled);
+        if (!selectedButton.equals(actionButton))
+            actionButton.setTouchable(Touchable.disabled);
+        if (!selectedButton.equals(swapButton))
+            swapButton.setTouchable(Touchable.disabled);
+        if (!selectedButton.equals(backButton))
+            backButton.setTouchable(Touchable.disabled);
+    }
+
+    private void enableAllButtons() {
+        equipmentButton.setTouchable(Touchable.enabled);
+        consumablesButton.setTouchable(Touchable.enabled);
+        keyItemsButton.setTouchable(Touchable.enabled);
+        actionButton.setTouchable(Touchable.enabled);
+        swapButton.setTouchable(Touchable.enabled);
+        backButton.setTouchable(Touchable.enabled);
     }
 
     private void displayEquipScreen() {
