@@ -37,60 +37,15 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 import java.util.ArrayList;
 
-public class CutSceneChapter2 extends GameScreen implements ConversationGraphObserver {
+public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphObserver {
     private static final String TAG = CutSceneChapter2.class.getSimpleName();
 
-    private final float V_WIDTH = 12;//2.4f;//srm
-    private final float V_HEIGHT = 8;//1.6f;
-
-    public static class VIEWPORT {
-        public static float viewportWidth;
-        public static float viewportHeight;
-        public static float virtualWidth;
-        public static float virtualHeight;
-        public static float physicalWidth;
-        public static float physicalHeight;
-        public static float aspectRatio;
-    }
-
-    public static enum GameState {
-        SAVING,
-        LOADING,
-        RUNNING,
-        PAUSED,
-        GAME_OVER
-    }
-    private static GameState _gameState;
-
     CutSceneChapter2 thisScreen;
-    protected OrthogonalTiledMapRenderer _mapRenderer = null;
-    protected MapManager _mapMgr;
-    protected OrthographicCamera _camera = null;
-    protected OrthographicCamera _hudCamera = null;
-    //protected OrthographicCamera controllersCam = null;
 
-    private Json _json;
-    private ElmourGame _game;
-    private InputMultiplexer _multiplexer;
-
-    private Entity _player;
-    private PlayerHUD _playerHUD;
-
-    private Actor _followingActor;
-    private MyActions myActions;
-
-    private boolean isInConversation = false;
-
-    private Viewport _viewport;
-    private Stage _stage;
-    private boolean _isCameraFixed = true;
-    private ScreenTransitionActor _transitionActor;
     private Action openingCutScene;
-    private Action _switchScreenAction;
     private Action armoryCutSceneAction;
     private Action setupScene01;
     private Action setupSceneArmory;
-    private Action waitForConversationExit;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
@@ -98,76 +53,17 @@ public class CutSceneChapter2 extends GameScreen implements ConversationGraphObs
     private AnimatedImage jaxon;
 
     public CutSceneChapter2(ElmourGame game){
+        super(game);
         thisScreen = this;
-        _game = game;
-        _mapMgr = new MapManager();
-        _json = new Json();
-
-        setGameState(GameState.RUNNING);
-
-        //_camera setup
-        setupViewport(V_WIDTH, V_HEIGHT);
-
-        //get the current size
-        _camera = new OrthographicCamera();
-        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-        _viewport = new ScreenViewport(_camera);
-        _stage = new Stage(_viewport);
-
-        if (ElmourGame.isAndroid()) {
-            // capture Android back key so it is not passed on to the OS
-            Gdx.input.setCatchBackKey(true);
-
-            //NOTE!!! Need to create mobileControls before player because player
-            //is an observer of mobileControls
-            //controllersCam = new OrthographicCamera();
-            //controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-            //mobileControls = new MobileControls(controllersCam);
-
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            //_multiplexer = new InputMultiplexer();
-            //_multiplexer.addProcessor(mobileControls.getStage());
-            //_multiplexer.addProcessor(_playerHUD.getStage());
-            //Gdx.input.setInputProcessor(_multiplexer);
-            Gdx.input.setInputProcessor(_playerHUD.getStage());
-        }
-        else {
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            _multiplexer = new InputMultiplexer();
-            _multiplexer.addProcessor(_playerHUD.getStage());
-            _multiplexer.addProcessor(_player.getInputProcessor());
-            Gdx.input.setInputProcessor(_multiplexer);
-        }
-
-        _playerHUD.setCutScene(true);
-
-        _mapMgr.setPlayer(_player);
-        _mapMgr.setCamera(_camera);
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
         justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
         jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON_1);
 
-        _transitionActor = new ScreenTransitionActor();
-
-        _followingActor = new Actor();
         _followingActor.setPosition(0, 0);
 
         followActor(character2);
-
-        myActions = new MyActions();
 
         _stage.addActor(character1);
         _stage.addActor(character2);
@@ -323,7 +219,6 @@ public class CutSceneChapter2 extends GameScreen implements ConversationGraphObs
                         new Runnable() {
                             @Override
                             public void run() {
-                                isInConversation = true;
                                 _playerHUD.loadConversationForCutScene("conversations/Chapter_2.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
@@ -365,111 +260,6 @@ public class CutSceneChapter2 extends GameScreen implements ConversationGraphObs
                 );
     }
 
-    private Action getCutsceneAction(){
-        setupScene01.reset();
-        setupSceneArmory.reset();
-        _switchScreenAction.reset();
-
-        return Actions.sequence(
-                Actions.addAction(setupScene01),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                isInConversation = true;
-                                _playerHUD.loadConversationForCutScene("conversations/testing.json", thisScreen);
-                                _playerHUD.doConversation();
-                                //_playerHUD.showMessage("BLACKSMITH: We have planned this long enough. The time is now! I have had enough talk...");
-                            }
-                        }),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("MAGE: This is dark magic you fool. We must proceed with caution, or this could end badly for all of us");
-                            }
-                        }),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("INNKEEPER: Both of you need to keep it down. If we get caught using black magic, we will all be hanged!");
-                            }
-                        }),
-                Actions.delay(5),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor),
-                Actions.delay(3),
-                Actions.addAction(setupSceneArmory),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("BLACKSMITH: Now, let's get on with this. I don't like the cemeteries very much...");
-                            }
-                        }
-                ),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("MAGE: I told you, we can't rush the spell. Bringing someone back to life isn't simple!");
-                            }
-                        }
-                ),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("INNKEEPER: I know you loved your daughter, but this just isn't right...");
-                            }
-                        }
-                ),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("BLACKSMITH: You have never had a child of your own. You just don't understand!");
-                            }
-                        }
-                ),
-                Actions.delay(3),
-                Actions.run(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                _playerHUD.showMessage("MAGE: You both need to concentrate, wait...Oh no, something is wrong!!");
-                            }
-                        }
-                ),
-
-                Actions.delay(2),
-                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor),
-                Actions.delay(2),
-                Actions.after(_switchScreenAction)
-        );
-
-    }
-
-    private AnimatedImage setEntityAnimation(Entity entity){
-        final AnimatedImage animEntity = new AnimatedImage();
-        animEntity.setEntity(entity);
-        animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
-        return animEntity;
-    }
-
-    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
-        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
-        return setEntityAnimation(entity);
-    }
 
     public void followActor(Actor actor){
         _followingActor = actor;
@@ -479,24 +269,6 @@ public class CutSceneChapter2 extends GameScreen implements ConversationGraphObs
     public void setCameraPosition(float x, float y){
         _camera.position.set(x, y, 0f);
         _isCameraFixed = true;
-    }
-
-    private Rectangle getObjectRectangle(MapLayer layer, String objectName) {
-        if (layer == null) {
-            return null;
-        }
-
-        Rectangle rectangle = null;
-
-        for( MapObject object: layer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                if (object.getName().equals(objectName)) {
-                    rectangle = ((RectangleMapObject)object).getRectangle();
-                }
-            }
-        }
-
-        return rectangle;
     }
 
     @Override
@@ -591,66 +363,5 @@ public class CutSceneChapter2 extends GameScreen implements ConversationGraphObs
 
         AudioManager.getInstance().dispose();
         MapFactory.clearCache();
-    }
-
-    public static void setGameState(GameState gameState){
-        switch(gameState){
-            case RUNNING:
-                _gameState = GameState.RUNNING;
-                break;
-            case LOADING:
-                ProfileManager.getInstance().loadProfile();
-                _gameState = GameState.RUNNING;
-                break;
-            case SAVING:
-                ProfileManager.getInstance().saveProfile();
-                _gameState = GameState.PAUSED;
-                break;
-            case PAUSED:
-                if( _gameState == GameState.PAUSED ){
-                    _gameState = GameState.RUNNING;
-                }else if( _gameState == GameState.RUNNING ){
-                    _gameState = GameState.PAUSED;
-                }
-                break;
-            case GAME_OVER:
-                _gameState = GameState.GAME_OVER;
-                break;
-            default:
-                _gameState = GameState.RUNNING;
-                break;
-        }
-    }
-
-    private void setupViewport(float width, float height){
-        //Make the viewport a percentage of the total display area
-        VIEWPORT.virtualWidth = width;
-        VIEWPORT.virtualHeight = height;
-
-        //Current viewport dimensions
-        VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
-        VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
-
-        //pixel dimensions of display
-        VIEWPORT.physicalWidth = Gdx.graphics.getWidth();
-        VIEWPORT.physicalHeight = Gdx.graphics.getHeight();
-
-        //aspect ratio for current viewport
-        VIEWPORT.aspectRatio = (VIEWPORT.virtualWidth / VIEWPORT.virtualHeight);
-
-        //update viewport if there could be skewing
-        if( VIEWPORT.physicalWidth / VIEWPORT.physicalHeight >= VIEWPORT.aspectRatio){
-            //Letterbox left and right
-            VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/ VIEWPORT.physicalHeight);
-            VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
-        }else{
-            //letterbox above and below
-            VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
-            VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/ VIEWPORT.physicalWidth);
-        }
-
-        Gdx.app.debug(TAG, "WorldRenderer: virtual: (" + VIEWPORT.virtualWidth + "," + VIEWPORT.virtualHeight + ")" );
-        Gdx.app.debug(TAG, "WorldRenderer: viewport: (" + VIEWPORT.viewportWidth + "," + VIEWPORT.viewportHeight + ")" );
-        Gdx.app.debug(TAG, "WorldRenderer: physical: (" + VIEWPORT.physicalWidth + "," + VIEWPORT.physicalHeight + ")" );
     }
 }

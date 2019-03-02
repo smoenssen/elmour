@@ -3260,7 +3260,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
-        Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.toString());
+        Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.getElement().id.toString() + " (" + partyInventoryItem.getQuantity() + ")");
 
         InventoryElement element = partyInventoryItem.getElement();
         Array<Tree.Node> nodeArray;
@@ -3352,10 +3352,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
     public void onNotify(PartyInventoryItem item1, PartyInventoryItem item2, PartyInventoryEvent event) {
         switch (event) {
             case INVENTORY_SWAP:
-                if (item1.getElement().category != item2.getElement().category) {
-                    throw new IllegalArgumentException("Inventory items being swapped are not from the same category");
-                }
-
                 Tree.Node categoryNode = null;
                 switch(item1.getElement().category) {
                     case Potion:

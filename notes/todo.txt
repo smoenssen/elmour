@@ -2,3 +2,6 @@
 
 apply spell effect list
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
+
+On Android, how to allow inventory item at bottom of list to be swapped with one at top, using scrolling
+Fix issue with not being able to scroll to bottom of items if they were added after initial inventory display

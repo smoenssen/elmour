@@ -47,60 +47,17 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-public class CutSceneChapter1 extends GameScreen implements ConversationGraphObserver, InputDialogObserver {
+public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphObserver, InputDialogObserver {
     private static final String TAG = CutSceneChapter1.class.getSimpleName();
 
-    private final float V_WIDTH = 18;//2.4f;//srm
-    private final float V_HEIGHT = 12;//1.6f;
-
-    public static class VIEWPORT {
-        public static float viewportWidth;
-        public static float viewportHeight;
-        public static float virtualWidth;
-        public static float virtualHeight;
-        public static float physicalWidth;
-        public static float physicalHeight;
-        public static float aspectRatio;
-    }
-
-    public static enum GameState {
-        SAVING,
-        LOADING,
-        RUNNING,
-        PAUSED,
-        GAME_OVER
-    }
-    private static GameState _gameState;
-
     CutSceneChapter1 thisScreen;
-    protected OrthogonalTiledMapRenderer _mapRenderer = null;
-    protected MapManager _mapMgr;
-    protected OrthographicCamera _camera = null;
-    protected OrthographicCamera _hudCamera = null;
 
-    private Json _json;
-    private ElmourGame _game;
-    private InputMultiplexer _multiplexer;
-    private ShakeCamera shakeCam;
-
-    private Entity _player;
-    private PlayerHUD _playerHUD;
-
-    private Actor _followingActor;
-    private MyActions myActions;
-
-    private Viewport _viewport;
-    private Stage _stage;
-    private boolean _isCameraFixed = true;
-    private ScreenTransitionActor _transitionActor;
-    private Action _switchScreenAction;
     private Action setupScene01;
     private Action setupCastleChaseScene;
     private Action setupCourtyardChaseScene;
     private Action setupGuardsSurroundScene;
     private Action setupWakeUpScene;
     private Action setupPortalRoomScene;
-    private Action waitForConversationExit;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
@@ -118,115 +75,11 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
     private Image blackBarLeft;
     private Image blackBarRight;
 
-    float oneBlockTime = 0;
-    float emoteOn = 0;
-    float emoteOff = 0;
-    float emoteX = 0.8f;
-    int emoteY = 1;
-    float zoomRate = 0;
-    private boolean isFading = false;
-
-    public class setOneBlockTime extends Action {
-        float time = 0;
-
-        public setOneBlockTime(float time) {
-            this.time = time;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            oneBlockTime = this.time;
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setZoomRate extends Action {
-        float rate = 0;
-
-        public setZoomRate(float rate) {
-            this.rate = rate;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            zoomRate = this.rate;
-            return true; // An action returns true when it's completed
-        }
-    }
-
-    public class setFading extends Action {
-        boolean fading;
-
-        public setFading(boolean fading) {
-            this.fading = fading;
-        }
-
-        @Override
-        public boolean act (float delta) {
-            isFading = this.fading;
-            return true; // An action returns true when it's completed
-        }
-    }
-
     public CutSceneChapter1(ElmourGame game){
+        super(game);
         thisScreen = this;
-        _game = game;
-        _mapMgr = new MapManager();
-        _json = new Json();
 
-        setGameState(GameState.RUNNING);
-
-        //_camera setup
-        setupViewport(V_WIDTH, V_HEIGHT);
-        shakeCam = null;
-
-        //get the current size
-        _camera = new OrthographicCamera();
-        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-        _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
-        _stage = new Stage(_viewport);
-
-        if (ElmourGame.isAndroid()) {
-            // capture Android back key so it is not passed on to the OS
-            Gdx.input.setCatchBackKey(true);
-
-            //NOTE!!! Need to create mobileControls before player because player
-            //is an observer of mobileControls
-            //controllersCam = new OrthographicCamera();
-            //controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-            //mobileControls = new MobileControls(controllersCam);
-
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            //_multiplexer = new InputMultiplexer();
-            //_multiplexer.addProcessor(mobileControls.getStage());
-            //_multiplexer.addProcessor(_playerHUD.getStage());
-            //Gdx.input.setInputProcessor(_multiplexer);
-            Gdx.input.setInputProcessor(_playerHUD.getStage());
-        }
-        else {
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            _multiplexer = new InputMultiplexer();
-            _multiplexer.addProcessor(_playerHUD.getStage());
-            _multiplexer.addProcessor(_player.getInputProcessor());
-            Gdx.input.setInputProcessor(_multiplexer);
-        }
-
-        _playerHUD.setCutScene(true);
         _playerHUD.addObserver(this);
-
-        _mapMgr.setPlayer(_player);
-        _mapMgr.setCamera(_camera);
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
@@ -259,12 +112,7 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         blackBarRight = new Image(new Texture("graphics/black_rectangle.png"));
         blackBarRight.setVisible(false);
 
-        _transitionActor = new ScreenTransitionActor();
-
-        _followingActor = new Actor();
         _followingActor.setPosition(0, 0);
-
-        myActions = new MyActions();
 
         _stage.addActor(character1);
         _stage.addActor(character2);
@@ -282,14 +130,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         _stage.addActor(blackBarLeft);
         _stage.addActor(blackBarRight);
         _stage.addActor(_transitionActor);
-
-        //Actions
-        _switchScreenAction = new RunnableAction(){
-            @Override
-            public void run() {
-                _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
-            }
-        };
 
         setupScene01 = new RunnableAction() {
             @Override
@@ -2019,46 +1859,6 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
         );
     }
 
-    private AnimatedImage setEntityAnimation(Entity entity){
-        final AnimatedImage animEntity = new AnimatedImage();
-        animEntity.setEntity(entity);
-        animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
-        return animEntity;
-    }
-
-    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
-        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
-        return setEntityAnimation(entity);
-    }
-
-    public void followActor(Actor actor){
-        _followingActor = actor;
-        _isCameraFixed = false;
-    }
-
-    public void setCameraPosition(float x, float y){
-        _camera.position.set(x, y, 0f);
-        _isCameraFixed = true;
-    }
-
-    private Rectangle getObjectRectangle(MapLayer layer, String objectName) {
-        if (layer == null) {
-            return null;
-        }
-
-        Rectangle rectangle = null;
-
-        for( MapObject object: layer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                if (object.getName().equals(objectName)) {
-                    rectangle = ((RectangleMapObject)object).getRectangle();
-                }
-            }
-        }
-
-        return rectangle;
-    }
-
     @Override
     public void show() {
         _stage.addAction(getOpeningCutSceneAction());
@@ -2186,66 +1986,5 @@ public class CutSceneChapter1 extends GameScreen implements ConversationGraphObs
 
         AudioManager.getInstance().dispose();
         MapFactory.clearCache();
-    }
-
-    public static void setGameState(GameState gameState){
-        switch(gameState){
-            case RUNNING:
-                _gameState = GameState.RUNNING;
-                break;
-            case LOADING:
-                ProfileManager.getInstance().loadProfile();
-                _gameState = GameState.RUNNING;
-                break;
-            case SAVING:
-                ProfileManager.getInstance().saveProfile();
-                _gameState = GameState.PAUSED;
-                break;
-            case PAUSED:
-                if( _gameState == GameState.PAUSED ){
-                    _gameState = GameState.RUNNING;
-                }else if( _gameState == GameState.RUNNING ){
-                    _gameState = GameState.PAUSED;
-                }
-                break;
-            case GAME_OVER:
-                _gameState = GameState.GAME_OVER;
-                break;
-            default:
-                _gameState = GameState.RUNNING;
-                break;
-        }
-    }
-
-    private void setupViewport(float width, float height){
-        //Make the viewport a percentage of the total display area
-        VIEWPORT.virtualWidth = width;
-        VIEWPORT.virtualHeight = height;
-
-        //Current viewport dimensions
-        VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
-        VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
-
-        //pixel dimensions of display
-        VIEWPORT.physicalWidth = Gdx.graphics.getWidth();
-        VIEWPORT.physicalHeight = Gdx.graphics.getHeight();
-
-        //aspect ratio for current viewport
-        VIEWPORT.aspectRatio = (VIEWPORT.virtualWidth / VIEWPORT.virtualHeight);
-
-        //update viewport if there could be skewing
-        if( VIEWPORT.physicalWidth / VIEWPORT.physicalHeight >= VIEWPORT.aspectRatio){
-            //Letterbox left and right
-            VIEWPORT.viewportWidth = VIEWPORT.viewportHeight * (VIEWPORT.physicalWidth/ VIEWPORT.physicalHeight);
-            VIEWPORT.viewportHeight = VIEWPORT.virtualHeight;
-        }else{
-            //letterbox above and below
-            VIEWPORT.viewportWidth = VIEWPORT.virtualWidth;
-            VIEWPORT.viewportHeight = VIEWPORT.viewportWidth * (VIEWPORT.physicalHeight/ VIEWPORT.physicalWidth);
-        }
-
-        Gdx.app.debug(TAG, "WorldRenderer: virtual: (" + VIEWPORT.virtualWidth + "," + VIEWPORT.virtualHeight + ")" );
-        Gdx.app.debug(TAG, "WorldRenderer: viewport: (" + VIEWPORT.viewportWidth + "," + VIEWPORT.viewportHeight + ")" );
-        Gdx.app.debug(TAG, "WorldRenderer: physical: (" + VIEWPORT.physicalWidth + "," + VIEWPORT.physicalHeight + ")" );
     }
 }

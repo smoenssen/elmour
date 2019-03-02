@@ -277,17 +277,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentListsTable.pack();
         equipmentListsTable.setPosition(leftMargin, bottomMargin + mainButtonTable.getHeight());
 
-        /////////////////////////
-        //todo:
-        InventoryElement weaponElement = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.DAGGER1);
-        PartyInventoryItem weaponPartyInventoryItem = new PartyInventoryItem(weaponElement, 5);
-        addListViewItem(weaponListView, weaponPartyInventoryItem);
-
-        InventoryElement armorElement = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.BREASTPLATE1);
-        PartyInventoryItem armorPartyInventoryItem = new PartyInventoryItem(armorElement, 5);
-        addListViewItem(armorListView, armorPartyInventoryItem);
-        //////////////////////////
-
         //
         // CONSUMABLES
         //
@@ -455,6 +444,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                         disableAllButtonsExceptSelectedButton(equipmentButton);
                                         setButtonState(ButtonState.EQUIPMENT);
+                                        isSwapping = false;
                                         return true;
                                     }
 
@@ -475,6 +465,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             disableAllButtonsExceptSelectedButton(consumablesButton);
                                             setButtonState(ButtonState.CONSUMABLES);
+                                            isSwapping = false;
                                             return true;
                                         }
 
@@ -495,6 +486,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             disableAllButtonsExceptSelectedButton(keyItemsButton);
                                             setButtonState(ButtonState.KEY_ITEMS);
+                                            isSwapping = false;
                                             return true;
                                         }
 
@@ -572,7 +564,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                }
                                                break;
                                            case KEY_ITEMS:
-                                               descText.setText("Select another key item?????");
+                                               descText.setText("Select another key item????? TODO!!! Or NOT!!");
                                                break;
                                        }
 
@@ -585,6 +577,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         @Override
                                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                             disableAllButtonsExceptSelectedButton(backButton);
+                                            isSwapping = false;
                                             return true;
                                         }
 
@@ -610,6 +603,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                    @Override
                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                        disableAllButtonsExceptSelectedButton(actionButton);
+                                       isSwapping = false;
                                        return true;
                                    }
 
@@ -1394,6 +1388,16 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                     case Throwing:
                         addListViewItem(throwingListView, partyInventoryItem);
                         break;
+                    case Leggings:
+                    case Helmet:
+                    case Breastplate:
+                        addListViewItem(armorListView, partyInventoryItem);
+                        break;
+                    case BLUNT:
+                    case STAB:
+                    case KNUCKLES:
+                        addListViewItem(weaponListView, partyInventoryItem);
+                        break;
                 }
                 break;
             case INVENTORY_REMOVED:
@@ -1420,7 +1424,25 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
             list.setSelectedIndex(-1);
         }
         else {
-            list.getItems().add(button);
+            TextButton inventoryItem = null;
+
+            // see if there is already an existing inventory item in list
+            for (TextButton iterator : list.getItems()) {
+                PartyInventoryItem item = (PartyInventoryItem) iterator.getUserObject();
+                if (partyInventoryItem.getElement().id.equals(item.getElement().id)) {
+                    inventoryItem = iterator;
+                    break;
+                }
+            }
+
+            if (inventoryItem != null) {
+                // update existing item
+                inventoryItem.setText(description);
+            }
+            else {
+                // add new item
+                list.getItems().add(button);
+            }
         }
     }
 }
