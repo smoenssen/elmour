@@ -57,15 +57,17 @@ public class Elmour extends Map {
 
     @Override
     public void handleInteraction(MapManager mapMgr) {
-        if (interaction == Entity.Interaction.ARMORY) {
-            mapMgr.loadMap(MapFactory.MapType.ARMORY);
+        switch(interaction) {
+            case ARMORY:
+                mapMgr.loadMap(MapFactory.MapType.ARMORY);
+                break;
         }
 
     }
 
     @Override
     public void handleInteractionFinished() {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     private void initSpecialEntityPosition(Entity entity){

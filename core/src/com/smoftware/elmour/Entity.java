@@ -128,6 +128,10 @@ public class Entity {
 			@Override
 			public String toString() { return "ARMORY"; }
 		},
+		EXIT {
+			@Override
+			public String toString() { return "EXIT"; }
+		},
 		GTDOOR {
 			@Override
 			public String toString() { return "GTDOOR"; }

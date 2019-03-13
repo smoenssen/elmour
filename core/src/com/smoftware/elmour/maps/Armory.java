@@ -17,6 +17,7 @@ public class Armory extends Map {
     private static final String TAG = Armory.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Armory.tmx";
+    private Entity.Interaction interaction;
     private Json json;
 
     Armory(){
@@ -45,7 +46,7 @@ public class Armory extends Map {
     @Override
     public void
     handleInteractionInit(Entity.Interaction interaction) {
-
+        this.interaction = interaction;
     }
 
     @Override
@@ -55,12 +56,16 @@ public class Armory extends Map {
 
     @Override
     public void handleInteraction(MapManager mapMgr) {
-
+        switch(interaction) {
+            case EXIT:
+                mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                break;
+        }
     }
 
     @Override
     public void handleInteractionFinished() {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     private void initSpecialEntityPosition(Entity entity){
