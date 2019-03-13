@@ -22,13 +22,13 @@ public class QuestTask {
         NONE
     }
 
-    private ObjectMap<String, Object> taskProperties;
+    private ObjectMap<QuestTaskPropertyType, Object> taskProperties;
     private String id;
     private String taskPhrase;
     private QuestType questType;
 
     public QuestTask(){
-        taskProperties = new ObjectMap<String, Object>();
+        taskProperties = new ObjectMap<QuestTaskPropertyType, Object>();
     }
 
     public String getId() {
@@ -55,36 +55,36 @@ public class QuestTask {
         this.questType = questType;
     }
 
-    public ObjectMap<String, Object> getTaskProperties() {
+    public ObjectMap<QuestTaskPropertyType, Object> getTaskProperties() {
         return taskProperties;
     }
 
-    public void setTaskProperties(ObjectMap<String, Object> taskProperties) {
+    public void setTaskProperties(ObjectMap<QuestTaskPropertyType, Object> taskProperties) {
         this.taskProperties = taskProperties;
     }
 
     public boolean isTaskComplete(){
-        if( !taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()) ){
-            setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
+        if( !taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE) ){
+            setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
             return false;
         }
-        String val = taskProperties.get(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()).toString();
+        String val = taskProperties.get(QuestTaskPropertyType.IS_TASK_COMPLETE).toString();
         return Boolean.parseBoolean(val);
     }
 
     public void setTaskComplete(){
-        setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "true");
+        setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE, "true");
     }
 
     public void resetAllProperties(){
-        taskProperties.put(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
+        taskProperties.put(QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
     }
 
-    public void setPropertyValue(String key, String value){
+    public void setPropertyValue(QuestTaskPropertyType key, String value){
         taskProperties.put(key, value);
     }
 
-    public String getPropertyValue(String key){
+    public String getPropertyValue(QuestTaskPropertyType key){
         Object propertyVal = taskProperties.get(key);
         if( propertyVal == null ) return new String();
         return propertyVal.toString();

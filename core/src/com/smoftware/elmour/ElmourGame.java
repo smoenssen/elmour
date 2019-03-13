@@ -14,6 +14,7 @@ import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
 import com.smoftware.elmour.screens.StartScreen;
+import com.smoftware.elmour.tests.QuestGraphTest;
 
 
 /* NOTES
@@ -109,9 +110,9 @@ public class ElmourGame extends Game {
 
 		//Utility.parseConversationXMLFiles("n0");
 		//setScreen(cutSceneChapter1);
-		//setScreen(cutSceneChapter2);
+		setScreen(cutSceneChapter2);
 
-		setScreen(splashScreen);
+		//setScreen(splashScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm
@@ -122,6 +123,9 @@ public class ElmourGame extends Game {
 			setScreen(getScreenType(ElmourGame.ScreenType.MainGame));
 		}
 		////////////////*/
+
+		QuestGraphTest questGraphTest = new QuestGraphTest();
+		questGraphTest.main(null);
 	}
 
 	@Override

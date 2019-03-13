@@ -217,14 +217,14 @@ public class QuestGraph {
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
+            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION);
             if (taskLocation == null ||
                     taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
             switch (questTask.getQuestType()) {
                 case FETCH:
-                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE.toString());
+                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE);
                     if( taskConfig == null || taskConfig.isEmpty() ) break;
                     EntityConfig config = Entity.getEntityConfig(taskConfig);
 
@@ -263,7 +263,7 @@ public class QuestGraph {
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
+            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION);
             if (     taskLocation == null ||
                      taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
@@ -272,7 +272,7 @@ public class QuestGraph {
                 case FETCH:
                     Array<Entity> questEntities = new Array<Entity>();
                     Array<Vector2> positions = mapMgr.getQuestItemSpawnPositions(questID, questTask.getId());
-                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE.toString());
+                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE);
                     if( taskConfig == null || taskConfig.isEmpty() ) break;
                     EntityConfig config = Entity.getEntityConfig(taskConfig);
 

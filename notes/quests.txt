@@ -1,0 +1,16 @@
+
+
+Map
+QUEST_DISCOVER_LAYER
+QUEST_ITEM_SPAWN_LAYER
+
+Quest map object:
+questID is the object name on the map - all objects of the same quest will have the same questID
+taskID is a custom property that matches id of task in .json file
+
+taskProperties:
+TARGET_TYPE is path to .json config file (for RETURN quests or FETCH type quests on QUEST_ITEM_SPAWN_LAYER)
+TARGET_LOCATION is name of map
+
+Questions:
+Should we have a split window for Quest and associated quest tasks to show what has been done and what still needs to be done?
