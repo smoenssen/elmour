@@ -31,6 +31,11 @@ public class Elmour extends Map {
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
             mapEntities.add(entity);
         }
+
+        //Special cases
+       // Entity char1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
+       // initSpecialEntityPosition(char1);
+       // mapEntities.add(char1);
     }
 
     @Override

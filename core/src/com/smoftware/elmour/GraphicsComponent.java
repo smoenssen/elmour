@@ -110,6 +110,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
                 if (shadowAnimations == null) return;
                 shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_LEFT);
+                if (shadowAnimation == null ) return;
                 currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             case UP:
@@ -133,6 +134,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
                 if (shadowAnimations == null) return;
                 shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_UP);
+                if (shadowAnimation == null ) return;
                 currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             case RIGHT:
@@ -156,6 +158,7 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
 
                 if (shadowAnimations == null) return;
                 shadowAnimation = shadowAnimations.get(Entity.AnimationType.WALK_RIGHT);
+                if (shadowAnimation == null ) return;
                 currentShadowFrame = shadowAnimation.getKeyFrame(_frameTime);
                 break;
             default:

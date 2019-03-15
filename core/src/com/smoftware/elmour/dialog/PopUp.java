@@ -330,99 +330,101 @@ public class PopUp extends Window implements PopUpSubject {
                         graph.notify(currentCharacter, ConversationGraphObserver.ConversationCommandEvent.CHARACTER_NAME);
                     }
 
-					for (String currFullText : fullTextSections) {
-						Gdx.app.log(TAG, "interaction thread   currFullText = " + currFullText);
-						sectionsProcessed++;
-						currentVisibleText = "";
+                    if (fullTextSections != null) {
+						for (String currFullText : fullTextSections) {
+							Gdx.app.log(TAG, "interaction thread   currFullText = " + currFullText);
+							sectionsProcessed++;
+							currentVisibleText = "";
 
-						// need slight delay here so previous dialog can cleanup
-						pause(100);
+							// need slight delay here so previous dialog can cleanup
+							pause(100);
 
-						if (dialog.lineStrings != null)
-							Gdx.app.log(TAG, String.format("lineString = %d strings", dialog.lineStrings.size));
+							if (dialog.lineStrings != null)
+								Gdx.app.log(TAG, String.format("lineString = %d strings", dialog.lineStrings.size));
 
-						if (dialog.lineStrings == null || dialog.lineStrings.size == 0) {
-							// calculate the line strings of the textArea with currentText
-							dialog.lineStrings = calculateLineStrings(currFullText);
+							if (dialog.lineStrings == null || dialog.lineStrings.size == 0) {
+								// calculate the line strings of the textArea with currentText
+								dialog.lineStrings = calculateLineStrings(currFullText);
 
-							//Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
-							//Gdx.app.log(TAG, "setting isReady to true");
-							isReady = true;
-						}
-
-						// reset
-						delay = true;
-
-						// loop through lines
-						for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
-							// process the current line
-							processLine(dialog.lineStrings.get(lineIdx));
-
-							if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
-								// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
-								doneWithCurrentNode = true;
+								//Gdx.app.log(TAG, String.format("initializing textArea.getLineStrings() returned %d strings", dialog.lineStrings.size));
+								//Gdx.app.log(TAG, "setting isReady to true");
+								isReady = true;
 							}
 
-							if (state == State.HIDDEN)
-								// break out of loop and exit thread if we were hidden
-								break;
-							else
-								// go into listening mode
-								state = State.LISTENING;
+							// reset
+							delay = true;
 
-							if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" &&
-									sectionsProcessed == fullTextSections.length &&
-									lineIdx == dialog.lineStrings.size - 1) {
-								// show choices now since this is the last line of the dialog
-								//todo: get character name
-								showChoices();
-							}
+							// loop through lines
+							for (int lineIdx = 0; lineIdx < dialog.lineStrings.size; lineIdx++) {
+								// process the current line
+								processLine(dialog.lineStrings.get(lineIdx));
 
-							if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
-								// done populating current box so need to pause for next interaction
-								while (isActive && !interactReceived && state == State.LISTENING) {
-									pause(100);
+								if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
+									// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
+									doneWithCurrentNode = true;
 								}
-
-								if (lineIdx == dialog.lineStrings.size - 1) {
-									break;
-								}
-
-								// reset for next iteration
-								interactReceived = false;
-								delay = true;
 
 								if (state == State.HIDDEN)
+									// break out of loop and exit thread if we were hidden
 									break;
+								else
+									// go into listening mode
+									state = State.LISTENING;
 
-								currentVisibleText = "";
-								setTextForUIThread(currentVisibleText, true);
+								if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" &&
+										sectionsProcessed == fullTextSections.length &&
+										lineIdx == dialog.lineStrings.size - 1) {
+									// show choices now since this is the last line of the dialog
+									//todo: get character name
+									showChoices();
+								}
+
+								if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
+									// done populating current box so need to pause for next interaction
+									while (isActive && !interactReceived && state == State.LISTENING) {
+										pause(100);
+									}
+
+									if (lineIdx == dialog.lineStrings.size - 1) {
+										break;
+									}
+
+									// reset for next iteration
+									interactReceived = false;
+									delay = true;
+
+									if (state == State.HIDDEN)
+										break;
+
+									currentVisibleText = "";
+									setTextForUIThread(currentVisibleText, true);
+								}
 							}
-						}
 
-						// if this is an echo, then keep the text displayed until next interaction
-						interactReceived = false;
-						while (isActive && isEcho && !interactReceived) {
-							pause(100);
-						}
-
-						if (doneWithCurrentNode && graph == null) {
-							isActive = false;
-						}
-
-						// total reset
-						currentText = "";
-						displayText = false;
-						interactReceived = false;
-
-						// post a Runnable to the rendering thread
-						Gdx.app.postRunnable(new Runnable() {
-							@Override
-							public void run() {
-								dialog.lineStrings.clear();
-								cleanupTextArea();
+							// if this is an echo, then keep the text displayed until next interaction
+							interactReceived = false;
+							while (isActive && isEcho && !interactReceived) {
+								pause(100);
 							}
-						});
+
+							if (doneWithCurrentNode && graph == null) {
+								isActive = false;
+							}
+
+							// total reset
+							currentText = "";
+							displayText = false;
+							interactReceived = false;
+
+							// post a Runnable to the rendering thread
+							Gdx.app.postRunnable(new Runnable() {
+								@Override
+								public void run() {
+									dialog.lineStrings.clear();
+									cleanupTextArea();
+								}
+							});
+						}
 					}
 				}
 
