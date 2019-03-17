@@ -33,9 +33,9 @@ public class Elmour extends Map {
         }
 
         //Special cases
-       // Entity char1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
-       // initSpecialEntityPosition(char1);
-       // mapEntities.add(char1);
+        Entity char1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
+        initSpecialEntityPosition(char1);
+        mapEntities.add(char1);
     }
 
     @Override
@@ -65,6 +65,7 @@ public class Elmour extends Map {
         switch(interaction) {
             case ARMORY:
                 mapMgr.loadMap(MapFactory.MapType.ARMORY);
+                interaction = Entity.Interaction.NONE;
                 break;
         }
 

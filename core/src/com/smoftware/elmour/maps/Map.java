@@ -73,6 +73,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
     protected Vector2 _playerStartPositionRect;
     protected Vector2 _closestPlayerStartPosition;
+    protected Vector2 lastKnownPlayerPosition;
     protected Vector2 _convertedUnits;
     protected TiledMap _currentMap = null;
     protected Vector2 _playerStart;
@@ -117,6 +118,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
         _playerStart = new Vector2(0,0);
         _playerStartPositionRect = new Vector2(0,0);
         _closestPlayerStartPosition = new Vector2(0,0);
+        lastKnownPlayerPosition = new Vector2(0,0);
         _convertedUnits = new Vector2(0,0);
 
         if( fullMapPath == null || fullMapPath.isEmpty() ) {
@@ -236,6 +238,10 @@ public abstract class Map extends MapSubject implements AudioSubject{
         //Observers
         this.addObserver(AudioManager.getInstance());
     }
+
+    public void setLastKnownPlayerPosition(Vector2 position) { lastKnownPlayerPosition = position; }
+
+    public Vector2 getLastKnownPlayerPosition() { return lastKnownPlayerPosition; }
 
     public String getPlayerZLayer() { return playerZLayer; }
 
@@ -543,6 +549,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
     }
 
     public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
+        if (_portalLayer == null) return;
+
         float shortestDistance = 0f;
         Vector2 portalObjectPos = new Vector2(0f, 0f);
 

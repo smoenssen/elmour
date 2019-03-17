@@ -59,6 +59,7 @@ public class Armory extends Map {
         switch(interaction) {
             case EXIT:
                 mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                interaction = Entity.Interaction.NONE;
                 break;
         }
     }

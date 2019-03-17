@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="46">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" infinite="0" nextobjectid="46">
  <tileset firstgid="1" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
  </tileset>
@@ -103,13 +103,13 @@
   <object id="34" x="32" y="48" width="80" height="15"/>
  </objectgroup>
  <objectgroup name="SPAWNS_LAYER">
-  <object id="39" name="PLAYER_START" x="64" y="132" width="16" height="12"/>
+  <object id="39" name="PLAYER_START" x="64" y="125" width="16" height="12"/>
  </objectgroup>
  <objectgroup name="Z_GATES">
   <object id="40" name="ZDOWN" x="64" y="132" width="16" height="12"/>
  </objectgroup>
  <objectgroup name="INTERACTION">
-  <object id="36" name="EXIT" x="64" y="132" width="16" height="12"/>
+  <object id="36" name="EXIT" x="64" y="138" width="16" height="6"/>
   <object id="37" name="TBD" x="112" y="32" width="16" height="8"/>
   <object id="41" name="Jaxon" x="56" y="63" width="16" height="9"/>
   <object id="42" name="Justin" x="72" y="63" width="16" height="9"/>
