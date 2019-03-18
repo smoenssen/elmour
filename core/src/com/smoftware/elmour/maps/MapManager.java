@@ -24,7 +24,6 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     private Camera _camera;
     private boolean _mapChanged = false;
     private Map _currentMap;
-    private MapFactory.MapType previousMapType = null;
     private Entity _player;
     private Entity _currentSelectedEntity = null;
     private MapLayer _currentLightMap = null;
@@ -135,10 +134,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         map.loadMusic();
 
         if (_currentMap != null) {
-            previousMapType = _currentMap.getCurrentMapType();
+            map.setPreviousMapType(_currentMap.getCurrentMapType());
         }
         else {
-            previousMapType = mapType;
+            map.setPreviousMapType(mapType);
         }
 
         _currentMap = map;
@@ -192,7 +191,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void setStartPositionFromPreviousMap() {
-        _currentMap.setStartPositionFromPreviousMap(previousMapType);
+        _currentMap.setStartPositionFromPreviousMap(_currentMap.getPreviousMapType());
     }
 
     public void setStartPostionByNameExtension(String nameExtension) {

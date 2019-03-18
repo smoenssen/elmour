@@ -58,8 +58,11 @@ public class Armory extends Map {
     public void handleInteraction(MapManager mapMgr) {
         switch(interaction) {
             case EXIT:
-                mapMgr.loadMap(MapFactory.MapType.ELMOUR);
-                interaction = Entity.Interaction.NONE;
+                if (previousMapType != null) {
+                    mapMgr.loadMap(previousMapType);
+                    mapMgr.setStartPositionFromPreviousMap();
+                    interaction = Entity.Interaction.NONE;
+                }
                 break;
         }
     }

@@ -82,28 +82,5 @@ public class QuestGraphTest {
         _questTasks.clear();
         _graph.clear();
 
-        QuestTask q01 = new QuestTask();
-        q01.setId("1");
-        q01.setTaskPhrase("Come back to me with the herbs");
-        q01.resetAllProperties();
-
-        QuestTask q02 = new QuestTask();
-        q02.setId("2");
-        q02.setTaskPhrase("Please collect 5 herbs for my sick mother");
-        q02.resetAllProperties();
-
-        _questTasks.put(q01.getId(), q01);
-        _questTasks.put(q02.getId(), q02);
-
-        _graph.setTasks(_questTasks);
-
-        QuestTaskDependency qDep01 = new QuestTaskDependency();
-        qDep01.setSourceId(q01.getId());
-        qDep01.setDestinationId(q02.getId());
-
-        _graph.addDependency(qDep01);
-
-        System.out.println(_json.prettyPrint(_graph));
-
     }
 }
