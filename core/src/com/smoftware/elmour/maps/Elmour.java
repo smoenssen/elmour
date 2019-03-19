@@ -18,13 +18,9 @@ public class Elmour extends Map {
     private static final String TAG = Elmour.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Elmour.tmx";
-    private Entity.Interaction interaction;
-    private Json json;
 
     Elmour(){
         super(MapFactory.MapType.ELMOUR, mapPath);
-
-        json = new Json();
 
         for( Vector2 position: _npcStartPositions){
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_GUARD_WALKING);

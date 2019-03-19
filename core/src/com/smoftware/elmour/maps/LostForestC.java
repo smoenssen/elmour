@@ -17,13 +17,9 @@ public class LostForestC extends Map {
     private static final String TAG = LostForestC.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Caves/Lost_Forest_C.tmx";
-    private Entity.Interaction interaction;
-    private Json json;
 
     LostForestC(){
         super(MapFactory.MapType.LOST_FOREST_C, mapPath);
-
-        json = new Json();
 
     }
 

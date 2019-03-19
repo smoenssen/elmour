@@ -69,7 +69,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected final static String E4 = "E4";
     protected final static String E5 = "E5";
 
-    protected Json _json;
+    protected Json json;
 
     protected Vector2 _playerStartPositionRect;
     protected Vector2 _closestPlayerStartPosition;
@@ -109,8 +109,10 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected Array<Entity> _mapQuestEntities;
     protected Array<ParticleEffect> _mapParticleEffects;
 
+    protected Entity.Interaction interaction = Entity.Interaction.NONE;
+
     Map( MapFactory.MapType mapType, String fullMapPath){
-        _json = new Json();
+        json = new Json();
         mapEntities = new Array<Entity>(10);
         _observers = new Array<AudioObserver>();
         _mapQuestEntities = new Array<Entity>();

@@ -22,8 +22,6 @@ public class M6_Cave_B extends Map {
     M6_Cave_B(){
         super(MapFactory.MapType.M6_CAVE_B, mapPath);
 
-        json = new Json();
-
         for( Vector2 position: _npcStartPositions){
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_GUARD_WALKING);
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));

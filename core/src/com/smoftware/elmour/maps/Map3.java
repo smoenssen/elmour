@@ -22,8 +22,6 @@ public class Map3 extends Map {
     Map3(){
         super(MapFactory.MapType.MAP3, mapPath);
 
-        json = new Json();
-
     }
 
     @Override
