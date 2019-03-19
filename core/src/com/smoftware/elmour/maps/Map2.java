@@ -18,13 +18,11 @@ public class Map2 extends Map {
     private static final String TAG = Map2.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Map_2.tmx";
-    private Json json;
-    private Entity.Interaction interaction;
     private boolean switchEnabled;
 
     Map2(){
         super(MapFactory.MapType.MAP2, mapPath);
-        json = new Json();
+
         interaction = Entity.Interaction.NONE;
         switchEnabled = false; //todo: get this from profile
     }

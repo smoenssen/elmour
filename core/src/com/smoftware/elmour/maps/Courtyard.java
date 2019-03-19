@@ -18,13 +18,9 @@ public class Courtyard extends Map {
     private static final String TAG = Courtyard.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Courtyard.tmx";
-    private Entity.Interaction interaction;
-    private Json json;
 
     Courtyard(){
         super(MapFactory.MapType.COURTYARD, mapPath);
-
-        json = new Json();
 
         for( Vector2 position: _npcStartPositions){
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TOWN_GUARD_WALKING);

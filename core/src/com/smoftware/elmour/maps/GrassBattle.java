@@ -21,8 +21,6 @@ public class GrassBattle extends Map {
     GrassBattle(){
         super(MapFactory.MapType.GRASS_BATTLE, mapPath);
 
-        json = new Json();
-
     }
 
     @Override

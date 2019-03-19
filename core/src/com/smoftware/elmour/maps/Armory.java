@@ -17,13 +17,9 @@ public class Armory extends Map {
     private static final String TAG = Armory.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Armory.tmx";
-    private Entity.Interaction interaction;
-    private Json json;
 
     Armory(){
         super(MapFactory.MapType.ARMORY, mapPath);
-
-        json = new Json();
 
         for( Vector2 position: _npcStartPositions){
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);

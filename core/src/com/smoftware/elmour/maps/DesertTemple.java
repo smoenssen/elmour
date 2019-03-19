@@ -17,13 +17,9 @@ public class DesertTemple extends Map {
     private static final String TAG = DesertTemple.class.getSimpleName();
 
     private static String mapPath = "RPGGame/maps/Desert_Temple.tmx";
-    private Entity.Interaction interaction;
-    private Json json;
 
     DesertTemple(){
         super(MapFactory.MapType.DESERT_TEMPLE, mapPath);
-
-        json = new Json();
 
     }
 

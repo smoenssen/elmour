@@ -49,7 +49,15 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 }else{
                     mapType = MapFactory.MapType.valueOf(currentMap);
                 }
+
                 loadMap(mapType);
+
+                // loadMap sets _currentMap and defaults previous map type to current map type if _currentMap is initially null
+                // so need to see if there was a previous map type saved
+                MapFactory.MapType previousMapType = profileManager.getProperty("previousMapType", MapFactory.MapType.class);
+                if (previousMapType != null) {
+                    _currentMap.setPreviousMapType(previousMapType);
+                }
 /*
                 Vector2 topWorldMapStartPosition = profileManager.getProperty("topWorldMapStartPosition", Vector2.class);
                 if( topWorldMapStartPosition != null ){
@@ -86,6 +94,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             case SAVING_PROFILE:
                 if( _currentMap != null ){
                     profileManager.setProperty("currentMapType", _currentMap._currentMapType.toString());
+                    profileManager.setProperty("previousMapType", _currentMap.getPreviousMapType());
                     profileManager.setProperty("playerCurrentPosition", _player.getCurrentPosition());
                     profileManager.setProperty("playerZLayer", MapFactory.getMap(_currentMap.getCurrentMapType()).getPlayerZLayer());
                     profileManager.setProperty("shadowZLayer", MapFactory.getMap(_currentMap.getCurrentMapType()).getShadowZLayer());
