@@ -1,0 +1,12 @@
+
+
+walking up to NPC and interacting can:
+- do simple conversation
+- kick off a chapter cutscene
+- kick off a quest cutscene
+
+the last 2 will require a fade out and fade in
+
+cutscenes can also be kicked-off by just walking into a map area
+
+need to add support for dependencies for making quests available
