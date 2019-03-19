@@ -81,6 +81,14 @@ public class ElmourGame extends Game {
 	public void create(){
 		Utility.initializeElmourUISkin();
 
+		/*
+		Application.LOG_NONE: mutes all logging.
+		Application.LOG_DEBUG: logs all messages.
+		Application.LOG_ERROR: logs only error messages.
+		Application.LOG_INFO: logs error and normal messages
+		*/
+		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
 		// set width and height to fill screen
 		if (isAndroid()) {
 			V_WIDTH = 512;

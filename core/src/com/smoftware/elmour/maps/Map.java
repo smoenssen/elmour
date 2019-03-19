@@ -103,7 +103,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected MapLayer _lightMapDuskLayer = null;
     protected MapLayer _lightMapNightLayer = null;
 
-    protected MapFactory.MapType _currentMapType;
+    protected MapFactory.MapType _currentMapType = null;
+    protected MapFactory.MapType previousMapType = null;
     protected Array<Entity> mapEntities;
     protected Array<Entity> _mapQuestEntities;
     protected Array<ParticleEffect> _mapParticleEffects;
@@ -340,6 +341,10 @@ public abstract class Map extends MapSubject implements AudioSubject{
         return _currentMapType;
     }
 
+    public void setPreviousMapType(MapFactory.MapType mapType) { previousMapType = mapType; }
+
+    public MapFactory.MapType getPreviousMapType() { return previousMapType; }
+
     public Vector2 getPlayerStart() {
         return _playerStart;
     }
@@ -549,49 +554,77 @@ public abstract class Map extends MapSubject implements AudioSubject{
     }
 
     public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
-        if (_portalLayer == null) return;
+        if (_portalLayer == null || _spawnsLayer == null) return;
 
-        float shortestDistance = 0f;
-        Vector2 portalObjectPos = new Vector2(0f, 0f);
+        // First see if there is a specific PLAYER_START spawn location coming from the previous map
+        // where name = "PLAYER_START_<previous map name>"
+        String specificPlayerStart = PLAYER_START + "_" + previousMapType.toString();
+        boolean playerStartFound = false;
 
-        // Find location of portal for the previous map
-        for (MapObject object : _portalLayer.getObjects()){
+        for( MapObject object: _spawnsLayer.getObjects()) {
             String objectName = object.getName();
 
-            if( objectName == null || objectName.isEmpty() ){
+            if (objectName == null || objectName.isEmpty()) {
                 continue;
             }
 
-            if( objectName.equalsIgnoreCase(previousMap.toString())) {
-                // found portal object
+            if( objectName.equalsIgnoreCase(specificPlayerStart) ){
+                // found spawn object
                 Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
-                portalObjectPos.set(rectangle.x, rectangle.y);
+                Vector2 spawnObjectPos = new Vector2(rectangle.x, rectangle.y);
+
+                Gdx.app.debug(TAG, "setStartPositionFromPreviousMap: START is: " + specificPlayerStart + " for " + _currentMapType.toString());
+                _playerStart =  spawnObjectPos.cpy();
+                playerStartFound = true;
                 break;
             }
+
         }
 
-        // Go through all player start positions and choose closest to map portal position
-        for( MapObject object: _spawnsLayer.getObjects()){
-            String objectName = object.getName();
+        if (!playerStartFound) {
+            float shortestDistance = 0f;
+            Vector2 portalObjectPos = new Vector2(0f, 0f);
 
-            if( objectName == null || objectName.isEmpty() ){
-                continue;
-            }
+            // Find location of portal for the previous map
+            for (MapObject object : _portalLayer.getObjects()){
+                String objectName = object.getName();
 
-            if( objectName.equalsIgnoreCase(PLAYER_START) ){
-                ((RectangleMapObject)object).getRectangle().getPosition(_playerStartPositionRect);
-                float distance = portalObjectPos.dst2(_playerStartPositionRect);
+                if( objectName == null || objectName.isEmpty() ){
+                    continue;
+                }
 
-                Gdx.app.debug(TAG, "DISTANCE: " + distance + " for " + _currentMapType.toString());
-
-                if( distance < shortestDistance || shortestDistance == 0 ){
-                    _closestPlayerStartPosition.set(_playerStartPositionRect);
-                    shortestDistance = distance;
-                    Gdx.app.debug(TAG, "setStartPositionFromPreviousMap: closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " +  _currentMapType.toString());
+                if( objectName.equalsIgnoreCase(previousMap.toString())) {
+                    // found portal object
+                    Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
+                    portalObjectPos.set(rectangle.x, rectangle.y);
+                    break;
                 }
             }
+
+            // Go through all player start positions and choose closest to map portal position
+            for (MapObject object : _spawnsLayer.getObjects()) {
+                String objectName = object.getName();
+
+                if (objectName == null || objectName.isEmpty()) {
+                    continue;
+                }
+
+                if (objectName.equalsIgnoreCase(PLAYER_START)) {
+                    ((RectangleMapObject) object).getRectangle().getPosition(_playerStartPositionRect);
+                    float distance = portalObjectPos.dst2(_playerStartPositionRect);
+
+                    Gdx.app.debug(TAG, "DISTANCE: " + distance + " for " + _currentMapType.toString());
+
+                    if (distance < shortestDistance || shortestDistance == 0) {
+                        _closestPlayerStartPosition.set(_playerStartPositionRect);
+                        shortestDistance = distance;
+                        Gdx.app.debug(TAG, "setStartPositionFromPreviousMap: closest START is: (" + _closestPlayerStartPosition.x + "," + _closestPlayerStartPosition.y + ") " + _currentMapType.toString());
+                    }
+                }
+            }
+
+            _playerStart =  _closestPlayerStartPosition.cpy();
         }
-        _playerStart =  _closestPlayerStartPosition.cpy();
     }
 
     abstract public void unloadMusic();
