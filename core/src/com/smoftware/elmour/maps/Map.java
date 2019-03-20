@@ -556,7 +556,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     }
 
     public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
-        if (_portalLayer == null || _spawnsLayer == null) return;
+        if (_spawnsLayer == null) return;
 
         // First see if there is a specific PLAYER_START spawn location coming from the previous map
         // where name = "PLAYER_START_<previous map name>"
@@ -587,19 +587,21 @@ public abstract class Map extends MapSubject implements AudioSubject{
             float shortestDistance = 0f;
             Vector2 portalObjectPos = new Vector2(0f, 0f);
 
-            // Find location of portal for the previous map
-            for (MapObject object : _portalLayer.getObjects()){
-                String objectName = object.getName();
+            if (_portalLayer != null) {
+                // Find location of portal for the previous map
+                for (MapObject object : _portalLayer.getObjects()) {
+                    String objectName = object.getName();
 
-                if( objectName == null || objectName.isEmpty() ){
-                    continue;
-                }
+                    if (objectName == null || objectName.isEmpty()) {
+                        continue;
+                    }
 
-                if( objectName.equalsIgnoreCase(previousMap.toString())) {
-                    // found portal object
-                    Rectangle rectangle = ((RectangleMapObject)object).getRectangle();
-                    portalObjectPos.set(rectangle.x, rectangle.y);
-                    break;
+                    if (objectName.equalsIgnoreCase(previousMap.toString())) {
+                        // found portal object
+                        Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                        portalObjectPos.set(rectangle.x, rectangle.y);
+                        break;
+                    }
                 }
             }
 

@@ -1,6 +1,6 @@
 
 
-walking up to NPC and interacting can:
+Walking up to NPC and interacting can:
 - do simple conversation
 - kick off a chapter cutscene
 - kick off a quest cutscene

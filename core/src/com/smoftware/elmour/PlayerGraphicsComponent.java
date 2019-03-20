@@ -163,10 +163,25 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
 
         Camera camera = mapMgr.getCamera();
 
-        //keep camera within map
-        camera.position.set(MathUtils.clamp(_currentPosition.x, camera.viewportWidth / 2f, mapWidthInTiles - (camera.viewportWidth  / 2f)),
-                            MathUtils.clamp(_currentPosition.y, camera.viewportHeight / 2f, mapHeightInTiles - (camera.viewportHeight / 2f)), 0f);
+        float camX;
+        float camY;
+        if (mapWidthInTiles < camera.viewportWidth) {
+            camX = (float)mapWidthInTiles/2;
+        }
+        else {
+            //keep camera within map horizontally
+            camX = MathUtils.clamp(_currentPosition.x, camera.viewportWidth / 2f, mapWidthInTiles - (camera.viewportWidth  / 2f));
+        }
 
+        if (mapHeightInTiles < camera.viewportHeight) {
+            camY = (float)mapHeightInTiles/2;
+        }
+        else {
+            //keep camera within map vertically
+            camY = MathUtils.clamp(_currentPosition.y, camera.viewportHeight / 2f, mapHeightInTiles - (camera.viewportHeight  / 2f));
+        }
+
+        camera.position.set(camX, camY, 0f);
         camera.update();
 
         //batch.begin();

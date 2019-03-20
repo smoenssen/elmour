@@ -61,6 +61,7 @@ public class Elmour extends Map {
         switch(interaction) {
             case ARMORY:
                 mapMgr.loadMap(MapFactory.MapType.ARMORY);
+                mapMgr.setStartPositionFromPreviousMap();
                 interaction = Entity.Interaction.NONE;
                 break;
         }

@@ -8,3 +8,4 @@ If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
 Allow apostrophes in conversation popups
+When minimizing or changing apps on Android, camera readjusts
