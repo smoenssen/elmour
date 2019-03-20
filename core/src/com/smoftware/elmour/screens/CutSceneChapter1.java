@@ -1889,72 +1889,11 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        _mapRenderer.setView(_camera);
-
-        _mapRenderer.getBatch().enableBlending();
-        _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        if( _mapMgr.hasMapChanged() ){
-            _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
-            _mapMgr.setMapChanged(false);
-        }
-
-        _mapRenderer.render();
-
-        for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
-            MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);
-
-            if (mapLayer != null && mapLayer instanceof TiledMapTileLayer) {
-                TiledMapTileLayer layer = (TiledMapTileLayer) mapLayer;
-
-                // render the stage on the ZDOWN tile layer
-                if (layer.getName().equals("ZDOWN")) {
-                    _stage.act(delta);
-                    _stage.draw();
-                } else if (layer.isVisible() && !isFading) { // don't render the layer if it's not visible
-                    _mapRenderer.getBatch().begin();
-                    _mapRenderer.renderTileLayer(layer);
-                    _mapRenderer.getBatch().end();
-                }
-            }
-        }
-
-        if( !_isCameraFixed ){
-            TiledMap map = _mapMgr.getCurrentTiledMap();
-            MapProperties prop = map.getProperties();
-            int mapWidthInTiles = prop.get("width", Integer.class);
-            int mapHeightInTiles = prop.get("height", Integer.class);
-
-            _camera.position.set(MathUtils.clamp(_followingActor.getX() + _followingActor.getWidth()/2, _camera.viewportWidth / 2f, mapWidthInTiles - (_camera.viewportWidth  / 2f)),
-                    MathUtils.clamp(_followingActor.getY(), _camera.viewportHeight / 2f, mapHeightInTiles - (_camera.viewportHeight / 2f)), 0f);
-
-        }
-
-        _camera.zoom += zoomRate;
-        _camera.update();
-
-        if (shakeCam != null) {
-            if (shakeCam.isCameraShaking()) {
-
-                Vector2 shakeCoords = shakeCam.getNewShakePosition();
-                _camera.position.x = shakeCoords.x;
-                _camera.position.y = shakeCoords.y;
-                _camera.update();
-            } else {
-                shakeCam.reset();
-            }
-        }
-
-        _playerHUD.render(delta);
+        baseRender(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        Gdx.app.log(TAG, "resized");
-
         setupViewport(V_WIDTH, V_HEIGHT);
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
         _camera.position.set(lastCameraPosition);
@@ -1965,18 +1904,15 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void pause() {
-        Gdx.app.log(TAG, "paused");
         lastCameraPosition = _camera.position.cpy();
-        //setGameState(GameState.SAVING);
+
         if (_playerHUD != null)
             _playerHUD.pause();
     }
 
     @Override
     public void resume() {
-        Gdx.app.log(TAG, "resumed");
         _camera.position.set(lastCameraPosition);
-        _camera.update();
 
         setGameState(GameState.RUNNING);
         if (_playerHUD != null)
