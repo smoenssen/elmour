@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -108,6 +109,7 @@ public class CutSceneBase extends GameScreen {
     protected MapManager _mapMgr;
     protected OrthographicCamera _camera = null;
     protected OrthographicCamera _hudCamera = null;
+    protected Vector3 lastCameraPosition;
 
     protected Json _json;
     protected ElmourGame _game;
@@ -143,6 +145,7 @@ public class CutSceneBase extends GameScreen {
         //_camera setup
         setupViewport(V_WIDTH, V_HEIGHT);
         shakeCam = null;
+        lastCameraPosition = new Vector3(0, 0, 0);
 
         setGameState(GameState.RUNNING);
 
@@ -216,6 +219,7 @@ public class CutSceneBase extends GameScreen {
 
     public void setCameraPosition(float x, float y){
         _camera.position.set(x, y, 0f);
+        lastCameraPosition = _camera.position.cpy();
         _isCameraFixed = true;
     }
 

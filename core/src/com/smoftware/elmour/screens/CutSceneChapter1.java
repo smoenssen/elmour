@@ -1886,6 +1886,7 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
         Gdx.input.setInputProcessor(null);
     }
 
+
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -1952,8 +1953,11 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void resize(int width, int height) {
+        Gdx.app.log(TAG, "resized");
+
         setupViewport(V_WIDTH, V_HEIGHT);
         _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+        _camera.position.set(lastCameraPosition);
 
         if (_playerHUD != null)
             _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
@@ -1961,6 +1965,8 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void pause() {
+        Gdx.app.log(TAG, "paused");
+        lastCameraPosition = _camera.position.cpy();
         //setGameState(GameState.SAVING);
         if (_playerHUD != null)
             _playerHUD.pause();
@@ -1968,6 +1974,10 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void resume() {
+        Gdx.app.log(TAG, "resumed");
+        _camera.position.set(lastCameraPosition);
+        _camera.update();
+
         setGameState(GameState.RUNNING);
         if (_playerHUD != null)
             _playerHUD.resume();
