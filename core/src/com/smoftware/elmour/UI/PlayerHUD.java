@@ -867,6 +867,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         dialog.setName("inputDialog");
         _stage.addActor(dialog);
         _stage.setKeyboardFocus(inputField);
+
+        if (Gdx.input.getInputProcessor() == null) {
+            Gdx.app.log(TAG, "Setting input processor to PlayerHUD stage in requestInput()");
+            Gdx.input.setInputProcessor(_stage);
+        }
     }
 
     private void invalidInputMessage(final String labelText, String message) {
