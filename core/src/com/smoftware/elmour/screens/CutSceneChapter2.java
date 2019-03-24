@@ -1,39 +1,26 @@
 package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
-import com.smoftware.elmour.UI.MyActions;
-import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
-import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
-import com.smoftware.elmour.sfx.ScreenTransitionActor;
 
 import java.util.ArrayList;
 
@@ -72,7 +59,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         _stage.addActor(_transitionActor);
 
         //Actions
-        _switchScreenAction = new RunnableAction(){
+        _switchScreenToMainAction = new RunnableAction(){
             @Override
             public void run() {
                 _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
@@ -301,8 +288,6 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void render(float delta) {
-        baseRender(delta);
-        /*todo: okay to remove?
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -327,7 +312,6 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         _stage.draw();
 
         _playerHUD.render(delta);
-        */
     }
 
     @Override

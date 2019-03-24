@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.UI.MyTextArea;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -100,7 +101,53 @@ public class ChoicePopUp extends Window {
 
     public void setChoice(ConversationChoice choice) {
         this.choice = choice;
-        textArea.setText(choice.getChoicePhrase(), true);
+
+        textArea.setText(this.choice.getChoicePhrase(), true);
+
+        Array<String> lines = calculateLineStrings(this.choice.getChoicePhrase());
+
+        String fullText = "";
+        for (String line : lines) {
+            fullText += line.replace('@', '\'');
+        }
+
+        this.choice.setChoicePhrase(fullText);
+    }
+
+    private Array<String> calculateLineStrings(String currFullText) {
+        // set full text so that the total number of lines can be figured out
+        // send displayText = false so that text isn't displayed
+
+        // remove "\r" and "\n" line returns
+        // then replace "¶" with "\n" so number of lines is figured out correctly
+        currFullText = currFullText.replace("\r\n", " ");
+        currFullText = currFullText.replace("\r", " ");
+        currFullText = currFullText.replace("\n", " ");
+        currFullText = currFullText.replace("¶", "\n");
+
+        // wait up to 5 sec to make sure lines are populated
+        int numLines = textArea.getLines();
+        for (int q = 0; q < 100 && numLines == 0; q++) {
+            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
+            pause(50);
+
+            numLines = textArea.getLines();
+            //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
+
+            // reassemble lines to make sure we got everything
+            String check = "";
+            for (String str : textArea.getLineStrings()) {
+                check += str;
+            }
+
+            if (check.equals(currFullText)) {
+                Gdx.app.log(TAG, "Got all line strings");
+                break;
+            }
+        }
+
+        pause(100);
+        return textArea.getLineStrings();
     }
 
     public ConversationChoice getChoice() { return this.choice; }
@@ -112,6 +159,14 @@ public class ChoicePopUp extends Window {
 
     public void clear() {
         choice = null;
+    }
+
+    private void pause(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -314,7 +314,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
-        float menuItemHeight = 45;
+        float menuItemHeight = MathUtils.clamp(_stage.getHeight() / 7.5f, 0, 45);
         float menuItemX = _stage.getWidth() - menuItemWidth - menuPadding;
         float menuItemY = _stage.getHeight() - menuItemHeight - menuPadding;
 
@@ -695,7 +695,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           Utility.parseConversationXMLFiles("");
+                                           Utility.parseAllConversationXMLFiles();
                                        }
                                    }
         );
@@ -820,7 +820,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (input.isEmpty()) {
                     dialog.cancel();
                     dialog.hide();
-                    String message = "Empty string not allowed";
+                    String message = "Input cannot be empty";
                     invalidInputMessage(labelText, message);
                 }
                 else if (input.length() > 15) {

@@ -182,14 +182,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         swapButton = new TextButton(BTN_NAME_SWAP, Utility.ELMOUR_UI_SKIN, "battle");
         backButton = new TextButton(BTN_NAME_CLOSE, Utility.ELMOUR_UI_SKIN, "battle");
 
-        float topMargin = 6;
-        float buttonHeight = 65;
+        float buttonHeight = stage.getHeight() / 7.5f;
         float buttonWidth = (int)stage.getWidth() / 5;
         float leftMargin = (stage.getWidth() - (buttonWidth * 5) + 6)/2;
-
-        if (ElmourGame.isAndroid()) {
-            buttonHeight = 45;
-        }
 
         mainButtonTable.row().width(stage.getWidth()).height(buttonHeight);
         mainButtonTable.add(equipmentButton).pad(-1).width(buttonWidth);

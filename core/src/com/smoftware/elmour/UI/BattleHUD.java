@@ -371,8 +371,8 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         dummyButtonRight = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
 
         // Desktop
-        menuItemWidth = 115;
-        menuItemHeight = 75;
+        menuItemWidth = _stage.getWidth()/5.5f;//115;
+        menuItemHeight = _stage.getHeight()/5.5f;//75;
         float menuItemX = _stage.getWidth()/4.75f;
         float menuItemY = menuItemHeight;
         float leftTextAreaWidth = menuItemX;
@@ -380,11 +380,10 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
         // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            menuItemWidth = 95;
-            menuItemHeight = 57;
-            menuItemX = _stage.getWidth()/4.75f;
-            menuItemY = menuItemHeight;
-
+            //menuItemWidth = 95;
+            //menuItemHeight = 57;
+            //menuItemX = _stage.getWidth()/4.75f;
+            //menuItemY = menuItemHeight;
         }
 
         minBannerWidth = 100;
@@ -453,21 +452,21 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         leftNameTable = new Table();
 
         // Desktop
-        float nameWidth = 100;
-        float nameHeight = 15;
+        float nameWidth = menuItemWidth;//100;
+        float nameHeight = menuItemHeight/5;//15;
         float topMargin = 0;
-        float bottomMargin = 6.5f;
+        float bottomMargin = 5;
         float leftMargin = 8;
         float rightMargin = 0;
 
         // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            nameWidth = 75;
-            nameHeight = 12;
-            topMargin = 0;
-            bottomMargin = 4.5f;
-            leftMargin = 8;
-            rightMargin = 0;
+            //nameWidth = 75;
+            //nameHeight = 12;
+            //topMargin = 0;
+            //bottomMargin = 4.5f;
+            //leftMargin = 8;
+            //rightMargin = 0;
         }
 
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);

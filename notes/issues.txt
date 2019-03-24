@@ -9,3 +9,7 @@ If starting first new game after installing, save, then go to battle and lose, t
 Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
 Allow apostrophes in conversation popups
 When minimizing or changing apps on Android, camera readjusts
+
+Ben's phone 1440 x 2960 or 1080 x 2220
+
+speaking of which is there anyway that I can

@@ -1,36 +1,18 @@
 package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
-import com.smoftware.elmour.UI.MyActions;
-import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
@@ -38,11 +20,8 @@ import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.dialog.InputDialogObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
-import com.smoftware.elmour.maps.MapManager;
-import com.smoftware.elmour.maps.MapSubject;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
-import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
@@ -1329,6 +1308,8 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
                         )
                 );
                 _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
+
+                _stage.addAction(_switchScreenToMainAction);
         }
 
     }
@@ -1807,7 +1788,7 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
-                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
@@ -1861,8 +1842,8 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
-        _stage.addAction(getOpeningCutSceneAction());
-        //_stage.addAction(getPortalRoomScene());
+        //_stage.addAction(getOpeningCutSceneAction());
+        _stage.addAction(getWakeUpScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

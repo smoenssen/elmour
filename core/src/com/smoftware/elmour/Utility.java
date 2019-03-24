@@ -338,9 +338,23 @@ public final class Utility {
 		return texture;
 	}
 
-	public static void parseConversationXMLFiles(String currentConversationID) {
-		FileHandle outFile = Gdx.files.local("RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
-		String fullFilenamePath = "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml";
+	public static void parseAllConversationXMLFiles() {
+		FileHandle dirHandle = Gdx.files.internal("RPGGame/maps/Game/Text/Dialog");
+
+		for (FileHandle entry: dirHandle.list()) {
+			String inputFileName = entry.file().getName();
+			String fileType = inputFileName.substring(inputFileName.lastIndexOf('.') + 1);
+
+			if (fileType.equalsIgnoreCase("graphml")) {
+				String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
+				String outpuFileName = "RPGGame/maps/Game/Text/Dialog/" + filename + ".json";
+				parseConversationXMLFiles("", entry.path(), outpuFileName);
+			}
+		}
+	}
+
+	public static void parseConversationXMLFiles(String currentConversationID, String inputFileName, String outputFileName) {
+		FileHandle outFile = Gdx.files.local(outputFileName);
 
 		Hashtable<String, Conversation> conversations = new Hashtable<>();
 		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<>();
@@ -348,7 +362,7 @@ public final class Utility {
 		XmlReader xml = new XmlReader();
 		XmlReader.Element xml_element = null;
 		try {
-			xml_element = xml.parse(Gdx.files.internal(fullFilenamePath));
+			xml_element = xml.parse(Gdx.files.internal(inputFileName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -469,10 +483,6 @@ public final class Utility {
 		conversation.setCharacter(rootNode.character);
 		conversations.put(rootId, conversation);
 
-		if (rootId.equals("n18")) {
-			int x;
-			x=0;
-		}
 		for (String nextId : rootNode.next) {
 			String command = "";
 
@@ -495,7 +505,9 @@ public final class Utility {
 
 			if (node.type == ConversationNode.NodeType.CHOICE) {
 				// set choice phrase for this node
-				choice.setChoicePhrase(node.data);
+				// replace special characters that need to be re-interpreted in ChoicePopUp
+				String temp = node.data.replace('\'', '@'); // single apostrophe
+				choice.setChoicePhrase(temp);
 
 				// next node must be an NPC so get its id, otherwise throw exception
 				nextId = node.next.get(0);

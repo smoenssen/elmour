@@ -99,6 +99,8 @@ public class ElmourGame extends Game {
 			V_HEIGHT = Gdx.graphics.getHeight();
 		}
 
+		float width = (float) Gdx.graphics.getWidth();
+		float height = (float) Gdx.graphics.getHeight();
 		ASPECT_RATIO = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
 		V_HEIGHT = (int)((float)V_WIDTH / ASPECT_RATIO);
 
@@ -116,7 +118,9 @@ public class ElmourGame extends Game {
 		cutSceneChapter1 = new CutSceneChapter1(this);
 		cutSceneChapter2 = new CutSceneChapter2(this);
 
-		//Utility.parseConversationXMLFiles("n0");
+		Utility.parseConversationXMLFiles("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
+
+		//Utility.parseAllConversationXMLFiles();
 		setScreen(cutSceneChapter1);
 		//setScreen(cutSceneChapter2);
 

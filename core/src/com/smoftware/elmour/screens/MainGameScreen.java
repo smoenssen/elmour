@@ -42,8 +42,8 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
-    private final float V_WIDTH = 12;//2.4f;//srm
-    private final float V_HEIGHT = 8;//1.6f;
+    //private final float V_WIDTH = 12;//2.4f;//srm
+    //private final float V_HEIGHT = 8;//1.6f;
 
     private ShakeCamera shakeCam;
 
@@ -93,7 +93,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         setGameState(GameState.RUNNING);
 
         //_camera setup
-        setupViewport(V_WIDTH, V_HEIGHT);
+        setupViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
 
         //get the current size
         _camera = new OrthographicCamera();

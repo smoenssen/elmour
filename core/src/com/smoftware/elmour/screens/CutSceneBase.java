@@ -132,7 +132,7 @@ public class CutSceneBase extends GameScreen {
     protected Stage _stage;
     protected boolean _isCameraFixed = true;
     protected ScreenTransitionActor _transitionActor;
-    protected Action _switchScreenAction;
+    protected Action _switchScreenToMainAction;
 
     protected float oneBlockTime = 0;
     protected float emoteOn = 0;
@@ -197,7 +197,7 @@ public class CutSceneBase extends GameScreen {
 
         _playerHUD.setCutScene(true);
 
-        _switchScreenAction = new
+        _switchScreenToMainAction = new
                 RunnableAction() {
                     @Override
                     public void run() {
