@@ -102,23 +102,23 @@ public class ChoicePopUp extends Window {
     public void setChoice(ConversationChoice choice) {
         this.choice = choice;
 
-        textArea.setText(this.choice.getChoicePhrase(), true);
+        // set full text so that the total number of lines can be figured out
+        // send displayText = false so that text isn't displayed
+        textArea.setText(this.choice.getChoicePhrase(), false);
 
         Array<String> lines = calculateLineStrings(this.choice.getChoicePhrase());
 
         String fullText = "";
         for (String line : lines) {
-            fullText += line.replace('@', '\'');
+            fullText += line.replace('|', '\'');
         }
 
+        textArea.setText(fullText, true);
         this.choice.setChoicePhrase(fullText);
     }
 
     private Array<String> calculateLineStrings(String currFullText) {
-        // set full text so that the total number of lines can be figured out
-        // send displayText = false so that text isn't displayed
-
-        // remove "\r" and "\n" line returns
+                // remove "\r" and "\n" line returns
         // then replace "¶" with "\n" so number of lines is figured out correctly
         currFullText = currFullText.replace("\r\n", " ");
         currFullText = currFullText.replace("\r", " ");

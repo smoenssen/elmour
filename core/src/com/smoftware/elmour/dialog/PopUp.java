@@ -125,29 +125,37 @@ public class PopUp extends Window implements PopUpSubject {
 		Gdx.app.log(TAG, "popup interact new state = " + state.toString());
 	}
 
+	boolean firstTime = true;
+
 	public void cleanupTextArea() {
-		try {
-			this.reset();
-		}
-		catch (IndexOutOfBoundsException e) {
-			Gdx.app.error(TAG, "IndexOutOfBoundsException caught when cleaning up text area");
-			e.printStackTrace();
-		}
+	    if (firstTime) {
+            try {
+                this.reset();
+            } catch (IndexOutOfBoundsException e) {
+                Gdx.app.error(TAG, "IndexOutOfBoundsException caught when cleaning up text area");
+                e.printStackTrace();
+            }
 
-		textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
-        textArea.adjustOffsetY(-3f);
-		textArea.setDisabled(true);
-		textArea.layout();
-		//fullText = "";
+            textArea = new MyTextArea("", Utility.ELMOUR_UI_SKIN);
+            textArea.adjustOffsetY(-3f);
+            textArea.setDisabled(true);
+            textArea.layout();
+            //fullText = "";
 
-		// set isReady to false so that full text doesn't flash on popup at first
-		//Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
-		isReady = false;
+            // set isReady to false so that full text doesn't flash on popup at first
+            //Gdx.app.log(TAG, "setting isReady to false in cleanupTextArea");
+            isReady = false;
 
-		//layout
-		this.add();
-		this.defaults().expand().fill();
-		this.add(textArea);
+            //layout
+            this.add();
+            this.defaults().expand().fill();
+            this.add(textArea);
+
+            firstTime = false;
+        }
+        else {
+	        setTextForUIThread("", true);
+        }
 	}
 
 	public void hide() {
@@ -250,6 +258,7 @@ public class PopUp extends Window implements PopUpSubject {
 			int rightBracketIndex = tmp.indexOf('}', leftBracketIndex + 1);
 			String placeholder = tmp.substring(leftBracketIndex + 1, rightBracketIndex);
 			String characterName = ProfileManager.getInstance().getProperty(placeholder, String.class);
+			if (characterName == null) characterName = "<Name not set>";
 			fullText = fullText.replace("{" + placeholder + "}", characterName);
 			leftBracketIndex = tmp.indexOf('{', rightBracketIndex + 1);
 		}

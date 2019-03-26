@@ -348,12 +348,12 @@ public final class Utility {
 			if (fileType.equalsIgnoreCase("graphml")) {
 				String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
 				String outpuFileName = "RPGGame/maps/Game/Text/Dialog/" + filename + ".json";
-				parseConversationXMLFiles("", entry.path(), outpuFileName);
+				parseConversationXMLFile("", entry.path(), outpuFileName);
 			}
 		}
 	}
 
-	public static void parseConversationXMLFiles(String currentConversationID, String inputFileName, String outputFileName) {
+	public static void parseConversationXMLFile(String currentConversationID, String inputFileName, String outputFileName) {
 		FileHandle outFile = Gdx.files.local(outputFileName);
 
 		Hashtable<String, Conversation> conversations = new Hashtable<>();
