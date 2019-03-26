@@ -1788,7 +1788,7 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n21
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
+                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_1.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
@@ -1842,8 +1842,8 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
-        //_stage.addAction(getOpeningCutSceneAction());
-        _stage.addAction(getWakeUpScene());
+        _stage.addAction(getOpeningCutSceneAction());
+        //_stage.addAction(getWakeUpScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         if (_playerHUD != null)

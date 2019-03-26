@@ -121,10 +121,10 @@ public class ElmourGame extends Game {
 		//Utility.parseConversationXMLFile("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
 
 		//Utility.parseAllConversationXMLFiles();
-		setScreen(cutSceneChapter1);
+		//setScreen(cutSceneChapter1);
 		//setScreen(cutSceneChapter2);
 
-		//setScreen(splashScreen);
+		setScreen(splashScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm
