@@ -1304,12 +1304,16 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
                         Actions.delay(oneBlockTime * 1.5f),
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
                         Actions.addAction(Actions.moveTo(9, 2, oneBlockTime * 4), character1),
-                        Actions.delay(oneBlockTime * 2.5f)
+                        Actions.delay(oneBlockTime * 2.5f),
+
+                        Actions.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor)),
+                        Actions.delay(3),
+                        Actions.addAction(_switchScreenToMainAction)
                         )
                 );
-                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
+                //_stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 3), _transitionActor));
 
-                _stage.addAction(_switchScreenToMainAction);
+                //_stage.addAction(_switchScreenToMainAction);
         }
 
     }

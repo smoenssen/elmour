@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
+import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneChapter2;
@@ -121,6 +122,7 @@ public class ElmourGame extends Game {
 		//Utility.parseConversationXMLFile("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
 
 		//Utility.parseAllConversationXMLFiles();
+		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE); // this is needed for previous save profile info
 		//setScreen(cutSceneChapter1);
 		//setScreen(cutSceneChapter2);
 

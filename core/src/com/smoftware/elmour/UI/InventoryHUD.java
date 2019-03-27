@@ -665,19 +665,21 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             }
                                             else {
                                                 lastSelectedEquipmentItem = weaponListView.getSelected();
-                                                PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-                                                InventoryElement element = partyInventoryItem.getElement();
-                                                descText.setText(element.summary);
+                                                if (lastSelectedEquipmentItem != null) {
+                                                    PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
+                                                    InventoryElement element = partyInventoryItem.getElement();
+                                                    descText.setText(element.summary);
 
-                                                //todo: get names from somewhere else. also, the list will change depending on what is selected.
-                                                Array<Label> names = new Array<>();
-                                                names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                names.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                names.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                    //todo: get names from somewhere else. also, the list will change depending on what is selected.
+                                                    Array<Label> names = new Array<>();
+                                                    names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                    names.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                    names.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
 
-                                                createNameTable(weaponNameTable, names);
-                                                clearNameTable(armorNameTable);
-                                                lastSelectedEquipmentListType = ListType.WEAPON;
+                                                    createNameTable(weaponNameTable, names);
+                                                    clearNameTable(armorNameTable);
+                                                    lastSelectedEquipmentListType = ListType.WEAPON;
+                                                }
                                             }
 
                                             armorListView.setTouchable(Touchable.enabled);
@@ -716,19 +718,22 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                            }
                                            else {
                                                lastSelectedEquipmentItem = armorListView.getSelected();
-                                               PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-                                               InventoryElement element = partyInventoryItem.getElement();
-                                               descText.setText(element.summary);
+                                               if (lastSelectedEquipmentItem != null) {
+                                                   PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
+                                                   InventoryElement element = partyInventoryItem.getElement();
+                                                   descText.setText(element.summary);
 
-                                               //todo: get names from somewhere else. also, the list will change depending on what is selected.
-                                               Array<Label> names = new Array<>();
-                                               names.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
-                                               names.add(new Label("Character 1", Utility.ELMOUR_UI_SKIN, "battle"));
-                                               names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                   //todo: get names from somewhere else. also, the list will change depending on what is selected.
+                                                   Array<Label> names = new Array<>();
+                                                   names.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                   names.add(new Label("Character 1", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                   names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
 
-                                               createNameTable(armorNameTable, names);
-                                               clearNameTable(weaponNameTable);
-                                               lastSelectedEquipmentListType = ListType.ARMOR;
+                                                   createNameTable(armorNameTable, names);
+                                                   clearNameTable(weaponNameTable);
+                                                   lastSelectedEquipmentListType = ListType.ARMOR;
+
+                                               }
                                            }
 
                                            weaponListView.setTouchable(Touchable.enabled);
@@ -769,10 +774,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             }
                                             else {
                                                 lastSelectedConsumablesItem = potionsListView.getSelected();
-                                                PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
-                                                InventoryElement element = partyInventoryItem.getElement();
-                                                descText.setText(element.summary);
-                                                lastSelectedConsumablesListType = ListType.POTION;
+                                                if (lastSelectedConsumablesItem != null) {
+                                                    PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
+                                                    InventoryElement element = partyInventoryItem.getElement();
+                                                    descText.setText(element.summary);
+                                                    lastSelectedConsumablesListType = ListType.POTION;
+                                                }
                                             }
 
                                             consumablesListView.setTouchable(Touchable.enabled);
@@ -814,10 +821,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             }
                                             else {
                                                 lastSelectedConsumablesItem = consumablesListView.getSelected();
-                                                PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
-                                                InventoryElement element = partyInventoryItem.getElement();
-                                                descText.setText(element.summary);
-                                                lastSelectedConsumablesListType = ListType.CONSUMABLE;
+                                                if (lastSelectedConsumablesItem != null) {
+                                                    PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
+                                                    InventoryElement element = partyInventoryItem.getElement();
+                                                    descText.setText(element.summary);
+                                                    lastSelectedConsumablesListType = ListType.CONSUMABLE;
+                                                }
                                             }
 
                                             potionsListView.setTouchable(Touchable.enabled);
@@ -859,10 +868,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             }
                                             else {
                                                 lastSelectedConsumablesItem = throwingListView.getSelected();
-                                                PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
-                                                InventoryElement element = partyInventoryItem.getElement();
-                                                descText.setText(element.summary);
-                                                lastSelectedConsumablesListType = ListType.THROWING;
+                                                if (lastSelectedConsumablesItem != null) {
+                                                    PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject();
+                                                    InventoryElement element = partyInventoryItem.getElement();
+                                                    descText.setText(element.summary);
+                                                    lastSelectedConsumablesListType = ListType.THROWING;
+                                                }
                                             }
 
                                             potionsListView.setTouchable(Touchable.enabled);

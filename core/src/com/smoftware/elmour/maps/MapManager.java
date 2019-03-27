@@ -258,8 +258,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public TiledMap getCurrentTiledMap(){
         if( _currentMap == null ) {
-            //loadMap(MapFactory.MapType.TOWN);//srm
-            loadMap(MapFactory.MapType.MAP1);
+            String currentMapType = ProfileManager.getInstance().getProperty("currentMapType", String.class);
+            if (currentMapType != null) {
+                loadMap(MapFactory.MapType.valueOf(currentMapType));
+            }
         }
         return _currentMap.getCurrentTiledMap();
     }
