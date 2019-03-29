@@ -36,8 +36,10 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
     enum ListType { WEAPON, ARMOR, POTION, CONSUMABLE, THROWING, QUEST, NON_QUEST }
 
+    private ElmourGame game;
     private Stage stage;
     private Array<InventoryHudObserver> observers;
+    private Array<Entity> partyEntityList;
 
     // message text
     private final String ITEMS_SWAPPED = "Items swapped!";
@@ -159,10 +161,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private float bottomMargin = 6;
     private float nameTableHeight;
 
-    public InventoryHUD(Stage stage) {
+    public InventoryHUD(final ElmourGame game, Stage stage) {
 
+        this.game = game;
         this.stage = stage;
         observers = new Array<>();
+        partyEntityList = new Array<>();
 
         PartyInventory.getInstance().addObserver(this);
 
@@ -233,7 +237,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         nameTableHeight = 2 * buttonHeight - 2;
 
-        // the -2 prevents highlight of selected item from crossing over the borders
+        // Note: the -2 prevents highlight of selected item from crossing over the borders
         // also need to set position then +2
         weaponBackground.setSize(listWidth, listHeight - labelHeight - nameTableHeight + 2);
         weaponScrollPaneList.setSize(listWidth - 2, listHeight - listTopPadding - labelHeight - nameTableHeight - 2);
@@ -258,6 +262,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         groupEquipToName.addActor(equipNameBackground);
         groupEquipToName.addActor(equipToListView);
 
+        // Note: padding -1 is so boxes can be overlapping to keep the border to 2 pixels
         equipmentListsTable.row().width(stage.getWidth()).height(labelHeight - 2);
         equipmentListsTable.add(labelWeapon).pad(-1).width(listWidth);
         equipmentListsTable.add(labelArmor).pad(-1).width(listWidth);
@@ -625,6 +630,12 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                PartyInventoryItem selectedItem = (PartyInventoryItem)lastSelectedEquipmentItem.getUserObject();
                                                descText.setText(selectedCharacter.getText().toString() + " equipped with " + selectedItem.getElement().name);
 
+                                               InventoryElement selectedElement = selectedItem.getElement();
+                                               if (selectedElement.isWeapon()) {
+                                                   Entity partyMember = (Entity)selectedCharacter.getUserObject();
+                                                   partyMember.setWeapon(selectedElement);
+                                               }
+
                                                displayEquipmentScreen();
                                            }
                                        }
@@ -666,15 +677,31 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             else {
                                                 lastSelectedEquipmentItem = weaponListView.getSelected();
                                                 if (lastSelectedEquipmentItem != null) {
+                                                    if (partyEntityList.size == 0) {
+                                                        populatePartyEntityList();
+                                                    }
                                                     PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-                                                    InventoryElement element = partyInventoryItem.getElement();
-                                                    descText.setText(element.summary);
+                                                    InventoryElement selectedWeapon = partyInventoryItem.getElement();
 
-                                                    //todo: get names from somewhere else. also, the list will change depending on what is selected.
+                                                    descText.setText(selectedWeapon.summary);
+
+                                                    // populate Equip To and bottom character name lists
                                                     Array<Label> names = new Array<>();
-                                                    names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                    names.add(new Label("Justin", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                    names.add(new Label("Jaxon", Utility.ELMOUR_UI_SKIN, "battle"));
+                                                    equipToListView.clearItems();
+                                                    for (Entity partyMember : partyEntityList) {
+                                                        InventoryElement partyMemberWeapon = partyMember.getWeapon();
+
+                                                        if (!selectedWeapon.equals(partyMemberWeapon)) {
+                                                            // character does not have this weapon, so add their name to the Equip To list
+                                                            TextButton equipToName = new TextButton(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "tree_node");
+                                                            equipToName.setUserObject(partyMember);
+                                                            equipToListView.getItems().add(equipToName);
+                                                        }
+                                                        else {
+                                                            // character already has this weapon, so display their name in bottom list
+                                                            names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
+                                                        }
+                                                    }
 
                                                     createNameTable(weaponNameTable, names);
                                                     clearNameTable(armorNameTable);
@@ -973,6 +1000,15 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         );
     }
 
+    private void populatePartyEntityList() {
+        Array<EntityFactory.EntityName> partyList = game.getPartyList();
+
+        for (EntityFactory.EntityName entityName : partyList) {
+            Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+            partyEntityList.add(entity);
+        }
+    }
+
     private AnimatedImage setEntityAnimation(Entity entity){
         final AnimatedImage animEntity = new AnimatedImage();
         animEntity.setEntity(entity);
@@ -1032,20 +1068,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipToListView.setSize(listWidth - 4, listHeight - labelHeight - nameTableHeight + 2);
         equipToListView.setX(2);
         equipToListView.setY(-8);
-
-        //todo: add available characters
-        equipToListView.clearItems();
-        TextButton button = new TextButton("Carmen", Utility.ELMOUR_UI_SKIN, "tree_node");
-        equipToListView.getItems().add(button);
-        TextButton button1 = new TextButton("Character 1", Utility.ELMOUR_UI_SKIN, "tree_node");
-        equipToListView.getItems().add(button1);
-        TextButton button2 = new TextButton("Character 2", Utility.ELMOUR_UI_SKIN, "tree_node");
-        equipToListView.getItems().add(button2);
-        TextButton button3 = new TextButton("Justin", Utility.ELMOUR_UI_SKIN, "tree_node");
-        equipToListView.getItems().add(button3);
-        TextButton button4 = new TextButton("Jaxon", Utility.ELMOUR_UI_SKIN, "tree_node");
-        equipToListView.getItems().add(button4);
-        ///////////////////
 
         weaponNameBackground.setSize(listWidth, nameTableHeight);
         armorNameBackground.setSize(listWidth * 2 - 2, nameTableHeight); // needs to correspond with width of adding groupArmorName below
@@ -1157,7 +1179,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         // Android
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
             nameWidth = 75;
-            nameHeight = 12;
+            nameHeight = 10;
             topMargin = 0;
             bottomMargin = 4.5f;
             leftMargin = 8;

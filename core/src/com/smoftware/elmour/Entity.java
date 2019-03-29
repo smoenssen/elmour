@@ -301,6 +301,7 @@ public class Entity {
 	private int battlePosition;
 	private boolean isAlive;
 	private InventoryElement weapon;
+	private Array<InventoryElement> equipment;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -326,6 +327,7 @@ public class Entity {
 		battlePosition = entity.battlePosition;
 		isAlive = entity.isAlive;
 		weapon = new InventoryElement();
+		equipment = new Array<>();
 		return this;
 	}
 
@@ -347,6 +349,7 @@ public class Entity {
 		battlePosition = 0;
 		isAlive = false;
 		weapon = new InventoryElement();
+		equipment = new Array<>();
 	}
 
 	public EntityConfig getEntityConfig() {
@@ -368,6 +371,10 @@ public class Entity {
 	public void setWeapon(InventoryElement weapon) { this.weapon = weapon; }
 
 	public InventoryElement getWeapon() { return this.weapon; }
+
+	public void setEquipment(Array<InventoryElement> equipment) { this.equipment = equipment; }
+
+	public Array<InventoryElement> getEquipment() { return this.equipment; }
 
 	public void sendMessage(Component.MESSAGE messageType, String ... args){
 		String fullMessage = messageType.toString();

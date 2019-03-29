@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -76,7 +77,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     private Viewport viewport;
 
     private Json _json;
-    private ElmourGame _game;
+    private static ElmourGame _game;
     private InputMultiplexer _multiplexer;
 
     private Entity _player;
@@ -415,6 +416,22 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 break;
             case LOADING:
                 ProfileManager.getInstance().loadProfile();
+                Array<EntityFactory.EntityName> partyList = ProfileManager.getInstance().getProperty("partyList", Array.class);
+
+                if (partyList == null || partyList.size == 0 ) {
+                    // add main character
+                    _game.addPartyMember(EntityFactory.EntityName.CHARACTER_2);
+
+                    // todo: remove this: other party members will be added elsewhere
+                    _game.addPartyMember(EntityFactory.EntityName.CHARACTER_1);
+                    _game.addPartyMember(EntityFactory.EntityName.CARMEN);
+                    _game.addPartyMember(EntityFactory.EntityName.JUSTIN);
+                    _game.addPartyMember(EntityFactory.EntityName.JAXON_1);
+                    ////////////////////////////////////////////////////////////
+                }
+
+                _game.setPartyList(ProfileManager.getInstance().getProperty("partyList", Array.class));
+
                 _gameState = GameState.RUNNING;
                 break;
             case SAVING:

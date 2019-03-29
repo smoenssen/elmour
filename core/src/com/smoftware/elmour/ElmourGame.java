@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -35,6 +36,8 @@ public class ElmourGame extends Game {
 
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
 	public static boolean DEV_MODE = true;
+
+	private Array<EntityFactory.EntityName> partyList;
 
 	public BattleState battleState = null;
 	public StatusUI statusUI;
@@ -119,10 +122,13 @@ public class ElmourGame extends Game {
 		cutSceneChapter1 = new CutSceneChapter1(this);
 		cutSceneChapter2 = new CutSceneChapter2(this);
 
-		//Utility.parseConversationXMLFile("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
+		partyList = new Array<>();
 
+		//Utility.parseConversationXMLFile("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
 		//Utility.parseAllConversationXMLFiles();
-		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE); // this is needed for previous save profile info
+
+		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
+		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
 		//setScreen(cutSceneChapter1);
 		//setScreen(cutSceneChapter2);
 
@@ -140,6 +146,32 @@ public class ElmourGame extends Game {
 
 		QuestGraphTest questGraphTest = new QuestGraphTest();
 		questGraphTest.main(null);
+	}
+
+	public void addPartyMember(EntityFactory.EntityName name) {
+		partyList.add(name);
+		ProfileManager.getInstance().setProperty("partyList", partyList);
+	}
+
+	public void removePartyMember(EntityFactory.EntityName name) {
+		partyList.removeValue(name, true);
+		ProfileManager.getInstance().setProperty("partyList", partyList);
+	}
+
+	public Array<EntityFactory.EntityName> getPartyList() {
+		return partyList;
+	}
+
+	public void setPartyList(Array<EntityFactory.EntityName> list) {
+		partyList.clear();
+		for (EntityFactory.EntityName name : list) {
+			addPartyMember(name);
+		}
+	}
+
+	public void clearPartyList() {
+		partyList.clear();
+		ProfileManager.getInstance().setProperty("partyList", partyList);
 	}
 
 	@Override

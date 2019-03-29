@@ -164,4 +164,8 @@ public class InventoryElement{
 
         return item;
     }
+
+    public boolean isWeapon() {
+        return (category == InventoryCategory.BLUNT || category == InventoryCategory.STAB || category == InventoryCategory.KNUCKLES);
+    }
 }

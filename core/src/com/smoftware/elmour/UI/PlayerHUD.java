@@ -174,7 +174,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         _shakeCam = new ShakeCamera(0, 0, 30.0f);
 
-        inventoryHUD = new InventoryHUD(_stage);
+        inventoryHUD = new InventoryHUD(this.game, _stage);
 
         game.battleState.addObserver(this);
         inventoryHUD.addObserver(this);

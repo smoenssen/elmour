@@ -186,6 +186,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
 
     public void setCurrentPartyList() {
         //todo: this is temporary code: need to figure out how/when characters are added to party list
+        // Characters will be added to ElmourGame partyList, so should retrieve from there
+        // i.e., currentPartyList = game.getPartyList();
         for (Entity entity : currentPartyList) {
             entity.getEntityConfig().clearTurnEffectList();
         }
