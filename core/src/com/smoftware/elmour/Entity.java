@@ -115,6 +115,13 @@ public class Entity {
 
 	public enum BattleEntityType { PARTY, ENEMY, UNKNOWN }
 
+	public enum IdType {
+		WEAPON_ID,
+		HELMET_ID,
+		BREASTPLATE_ID,
+		LEGGINGS_ID
+	}
+
 	public static enum Interaction {
 		COMPASSSIGN1 {
 			@Override
@@ -300,7 +307,6 @@ public class Entity {
 	private BattleEntityType battleEntityType;
 	private int battlePosition;
 	private boolean isAlive;
-	private Array<InventoryElement> equipment;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -325,7 +331,6 @@ public class Entity {
 		battleEntityType = entity.battleEntityType;
 		battlePosition = entity.battlePosition;
 		isAlive = entity.isAlive;
-		equipment = new Array<>();
 		return this;
 	}
 
@@ -346,7 +351,6 @@ public class Entity {
 		battleEntityType = BattleEntityType.UNKNOWN;
 		battlePosition = 0;
 		isAlive = false;
-		equipment = new Array<>();
 	}
 
 	public EntityConfig getEntityConfig() {
@@ -366,20 +370,53 @@ public class Entity {
 	public boolean isAlive() { return isAlive; }
 
 	public void setWeapon(InventoryElement weapon) {
-		ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + "WeaponId", weapon.id);
+		ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), weapon.id);
 	}
 
 	public InventoryElement getWeapon() {
 		InventoryElement weapon = null;
-		InventoryElement.ElementID weaponId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + "WeaponId", InventoryElement.ElementID.class);
+		InventoryElement.ElementID weaponId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), InventoryElement.ElementID.class);
+
 		if (weaponId != null)
 			weapon = InventoryElementFactory.getInstance().getInventoryElement(weaponId);
+
 		return weapon;
 	}
 
-	public void setEquipment(Array<InventoryElement> equipment) { this.equipment = equipment; }
+	public void setArmor(InventoryElement armorItem) {
+		switch (armorItem.category) {
+			case Helmet:
+				ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.HELMET_ID.toString(), armorItem.id);
+				break;
+			case Breastplate:
+				ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.BREASTPLATE_ID.toString(), armorItem.id);
+				break;
+			case Leggings:
+				ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.LEGGINGS_ID.toString(), armorItem.id);
+				break;
+		}
+	}
 
-	public Array<InventoryElement> getEquipment() { return this.equipment; }
+	public InventoryElement getArmor(InventoryElement.InventoryCategory category) {
+		InventoryElement armorItem = null;
+		InventoryElement.ElementID armorId = null;
+
+		switch (category) {
+			case Helmet:
+				armorId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.HELMET_ID.toString(), InventoryElement.ElementID.class);
+				break;
+			case Breastplate:
+				armorId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.BREASTPLATE_ID.toString(), InventoryElement.ElementID.class);
+				break;
+			case Leggings:
+				armorId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.LEGGINGS_ID.toString(), InventoryElement.ElementID.class);
+				break;
+		}
+
+		if (armorId != null)
+			armorItem = InventoryElementFactory.getInstance().getInventoryElement(armorId);
+		return armorItem;
+	}
 
 	public void sendMessage(Component.MESSAGE messageType, String ... args){
 		String fullMessage = messageType.toString();

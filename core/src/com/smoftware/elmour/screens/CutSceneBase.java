@@ -121,6 +121,7 @@ public class CutSceneBase extends GameScreen {
     protected ElmourGame _game;
     protected InputMultiplexer _multiplexer;
     protected ShakeCamera shakeCam;
+    protected boolean keepCamInMap;
 
     protected Entity _player;
     protected PlayerHUD _playerHUD;
@@ -153,6 +154,7 @@ public class CutSceneBase extends GameScreen {
         setupViewport(V_WIDTH, V_HEIGHT);
         shakeCam = null;
         lastCameraPosition = new Vector3(0, 0, 0);
+        keepCamInMap = true;
 
         setGameState(GameState.RUNNING);
 
@@ -351,8 +353,13 @@ public class CutSceneBase extends GameScreen {
             int mapWidthInTiles = prop.get("width", Integer.class);
             int mapHeightInTiles = prop.get("height", Integer.class);
 
-            _camera.position.set(MathUtils.clamp(_followingActor.getX() + _followingActor.getWidth()/2, _camera.viewportWidth / 2f, mapWidthInTiles - (_camera.viewportWidth  / 2f)),
-                    MathUtils.clamp(_followingActor.getY(), _camera.viewportHeight / 2f, mapHeightInTiles - (_camera.viewportHeight / 2f)), 0f);
+            if (keepCamInMap) {
+                _camera.position.set(MathUtils.clamp(_followingActor.getX() + _followingActor.getWidth() / 2, _camera.viewportWidth / 2f, mapWidthInTiles - (_camera.viewportWidth / 2f)),
+                        MathUtils.clamp(_followingActor.getY(), _camera.viewportHeight / 2f, mapHeightInTiles - (_camera.viewportHeight / 2f)), 0f);
+            }
+            else {
+                _camera.position.set(_followingActor.getX() + _followingActor.getWidth() / 2, _followingActor.getY(), _camera.viewportHeight / 2f);
+            }
 
         }
 

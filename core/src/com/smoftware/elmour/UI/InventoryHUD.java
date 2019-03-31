@@ -619,6 +619,13 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                            actionButton.setText(BTN_NAME_OK);
                                            displayEquipToScreen();
                                            swapButton.setTouchable(Touchable.disabled); //todo?
+
+                                           if (lastSelectedEquipmentListType == ListType.WEAPON) {
+                                               handleEquipmentListSelection(weaponListView, false);
+                                           }
+                                           else if (lastSelectedEquipmentListType == ListType.ARMOR) {
+                                               handleEquipmentListSelection(armorListView, false);
+                                           }
                                        }
                                        else if (buttonName.equals(BTN_NAME_USE)) {
 
@@ -635,7 +642,24 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                InventoryElement selectedElement = selectedItem.getElement();
                                                if (selectedElement.isWeapon()) {
                                                    Entity partyMember = (Entity)selectedCharacter.getUserObject();
+                                                   InventoryElement currentWeapon = partyMember.getWeapon();
+
+                                                   if (currentWeapon != null) {
+                                                       PartyInventory.getInstance().stopUsingItem(currentWeapon);
+                                                   }
+
                                                    partyMember.setWeapon(selectedElement);
+                                                   PartyInventory.getInstance().useItem(selectedElement);
+                                               }
+                                               else if (selectedElement.isArmor()) {
+                                                   Entity partyMember = (Entity)selectedCharacter.getUserObject();
+                                                   InventoryElement currentArmorItem = partyMember.getArmor(selectedElement.category);
+
+                                                   if (currentArmorItem != null) {
+                                                       PartyInventory.getInstance().stopUsingItem(currentArmorItem);
+                                                   }
+
+                                                   partyMember.setArmor(selectedElement);
                                                    PartyInventory.getInstance().useItem(selectedElement);
                                                }
 
@@ -660,17 +684,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             if (isSwapping) {
                                                 if (lastSelectedEquipmentListType == ListType.WEAPON) {
-                                                    TextButton selectedItem  = weaponListView.getSelected();
-                                                    if (selectedItem != lastSelectedEquipmentItem) {
-                                                        swapListItems(weaponListView, selectedItem, lastSelectedEquipmentItem);
-
-                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
-                                                                                                (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject());
-
-                                                        descText.setText(ITEMS_SWAPPED);
-                                                        isSwapping = false;
-                                                        lastSelectedEquipmentItem = selectedItem;
-                                                    }
+                                                    lastSelectedEquipmentItem = swapEquipmentListItems(weaponListView, lastSelectedEquipmentItem);
+                                                    handleEquipmentListSelection(weaponListView, true);
                                                 }
                                                 else {
                                                     reselectLastListItem(lastSelectedEquipmentListType);
@@ -678,42 +693,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                 }
                                             }
                                             else {
-                                                lastSelectedEquipmentItem = weaponListView.getSelected();
-                                                if (lastSelectedEquipmentItem != null) {
-                                                    if (partyEntityList.size == 0) {
-                                                        populatePartyEntityList();
-                                                    }
-                                                    PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-                                                    InventoryElement selectedWeapon = partyInventoryItem.getElement();
-
-                                                    descText.setText(selectedWeapon.summary);
-
-                                                    // populate Equip To and bottom character name lists
-                                                    Array<Label> names = new Array<>();
-                                                    equipToListView.clearItems();
-                                                    for (Entity partyMember : partyEntityList) {
-                                                        InventoryElement partyMemberWeapon = partyMember.getWeapon();
-
-                                                        if (partyMemberWeapon == null || (selectedWeapon.id != partyMemberWeapon.id)) {
-                                                            if (partyInventoryItem.isAvailable()) {
-                                                                // character does not have this weapon, so add their name to the Equip To list
-                                                                TextButton equipToName = new TextButton(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "tree_node");
-                                                                equipToName.setUserObject(partyMember);
-                                                                equipToListView.getItems().add(equipToName);
-                                                            }
-                                                            else {
-                                                                equipToListView.clearItems();
-                                                            }
-                                                        } else {
-                                                            // character already has this weapon, so display their name in bottom list
-                                                            names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
-                                                        }
-                                                    }
-
-                                                    createNameTable(weaponNameTable, names);
-                                                    clearNameTable(armorNameTable);
-                                                    lastSelectedEquipmentListType = ListType.WEAPON;
-                                                }
+                                                handleEquipmentListSelection(weaponListView, false);
                                             }
 
                                             armorListView.setTouchable(Touchable.enabled);
@@ -733,17 +713,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (isSwapping) {
                                                if (lastSelectedEquipmentListType == ListType.ARMOR) {
-                                                   TextButton selectedItem  = armorListView.getSelected();
-                                                   if (selectedItem != lastSelectedEquipmentItem) {
-                                                       swapListItems(armorListView, selectedItem, lastSelectedEquipmentItem);
-
-                                                       PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
-                                                                                                (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject());
-
-                                                       descText.setText(ITEMS_SWAPPED);
-                                                       isSwapping = false;
-                                                       lastSelectedEquipmentItem = selectedItem;
-                                                   }
+                                                   lastSelectedEquipmentItem = swapEquipmentListItems(armorListView, lastSelectedEquipmentItem);
+                                                   handleEquipmentListSelection(armorListView, true);
                                                }
                                                else {
                                                    reselectLastListItem(lastSelectedEquipmentListType);
@@ -751,23 +722,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                }
                                            }
                                            else {
-                                               lastSelectedEquipmentItem = armorListView.getSelected();
-                                               if (lastSelectedEquipmentItem != null) {
-                                                   PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-                                                   InventoryElement element = partyInventoryItem.getElement();
-                                                   descText.setText(element.summary);
-
-                                                   //todo: get names from somewhere else. also, the list will change depending on what is selected.
-                                                   Array<Label> names = new Array<>();
-                                                   names.add(new Label("Carmen", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                   names.add(new Label("Character 1", Utility.ELMOUR_UI_SKIN, "battle"));
-                                                   names.add(new Label("Character 2", Utility.ELMOUR_UI_SKIN, "battle"));
-
-                                                   createNameTable(armorNameTable, names);
-                                                   clearNameTable(weaponNameTable);
-                                                   lastSelectedEquipmentListType = ListType.ARMOR;
-
-                                               }
+                                               handleEquipmentListSelection(armorListView, false);
                                            }
 
                                            weaponListView.setTouchable(Touchable.enabled);
@@ -789,17 +744,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             if (isSwapping) {
                                                 if (lastSelectedConsumablesListType == ListType.POTION) {
-                                                    TextButton selectedItem  = potionsListView.getSelected();
-                                                    if (selectedItem != lastSelectedConsumablesItem) {
-                                                        swapListItems(potionsListView, selectedItem, lastSelectedConsumablesItem);
-
-                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
-                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
-
-                                                        descText.setText(ITEMS_SWAPPED);
-                                                        isSwapping = false;
-                                                        lastSelectedConsumablesItem = selectedItem;
-                                                    }
+                                                    lastSelectedConsumablesItem = swapEquipmentListItems(potionsListView, lastSelectedConsumablesItem);
                                                 }
                                                 else {
                                                     reselectLastListItem(lastSelectedConsumablesListType);
@@ -837,16 +782,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                             if (isSwapping) {
                                                 TextButton selectedItem  = consumablesListView.getSelected();
                                                 if (lastSelectedConsumablesListType == ListType.CONSUMABLE) {
-                                                    if (selectedItem != lastSelectedConsumablesItem) {
-                                                        swapListItems(consumablesListView, selectedItem, lastSelectedConsumablesItem);
-
-                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
-                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
-
-                                                        descText.setText(ITEMS_SWAPPED);
-                                                        isSwapping = false;
-                                                        lastSelectedConsumablesItem = selectedItem;
-                                                    }
+                                                    lastSelectedConsumablesItem = swapEquipmentListItems(consumablesListView, lastSelectedConsumablesItem);
                                                 }
                                                 else {
                                                     reselectLastListItem(lastSelectedConsumablesListType);
@@ -883,17 +819,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                             if (isSwapping) {
                                                 if (lastSelectedConsumablesListType == ListType.THROWING) {
-                                                    TextButton selectedItem  = throwingListView.getSelected();
-                                                    if (selectedItem != lastSelectedConsumablesItem) {
-                                                        swapListItems(throwingListView, selectedItem, lastSelectedConsumablesItem);
-
-                                                        PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
-                                                                                                (PartyInventoryItem) lastSelectedConsumablesItem.getUserObject());
-
-                                                        descText.setText(ITEMS_SWAPPED);
-                                                        isSwapping = false;
-                                                        lastSelectedConsumablesItem = selectedItem;
-                                                    }
+                                                    lastSelectedConsumablesItem = swapEquipmentListItems(throwingListView, lastSelectedConsumablesItem);
                                                 }
                                                 else {
                                                     reselectLastListItem(lastSelectedConsumablesListType);
@@ -1137,37 +1063,120 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         if (lastSelectedEquipmentListType == ListType.WEAPON) {
             // populate bottom character name list
-            Array<Label> names = new Array<>();
-            PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
-            InventoryElement selectedWeapon = partyInventoryItem.getElement();
-
-            for (Entity partyMember : partyEntityList) {
-                InventoryElement partyMemberWeapon = partyMember.getWeapon();
-
-                if (partyMemberWeapon != null && selectedWeapon != null) {
-                    if (selectedWeapon.id == partyMemberWeapon.id) {
-                        // character has this weapon, so display their name in bottom list
-                        names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
-                    }
-                }
-            }
-
-            if (!partyInventoryItem.isAvailable()) {
-                // clear Equip To list
-                equipToListView.clearItems();
-            }
-
+            Array<Label> names = getEquipmentUserNames();
             createNameTable(weaponNameTable, names);
             clearNameTable(armorNameTable);
         }
         else if (lastSelectedEquipmentListType == ListType.ARMOR) {
-
+            Array<Label> names = getEquipmentUserNames();
+            createNameTable(armorNameTable, names);
+            clearNameTable(weaponNameTable);
         }
         else {
             Gdx.app.error(TAG, "Unhandled ListType in displayEquipmentScreen");
         }
     }
 
+    private Array<Label> getEquipmentUserNames()
+    {
+        Array<Label> names = new Array<>();
+        PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
+        InventoryElement selectedElement = partyInventoryItem.getElement();
+
+        for (Entity partyMember : partyEntityList) {
+            InventoryElement partyMemberElement = null;
+
+            if (selectedElement.isWeapon()) {
+                partyMemberElement = partyMember.getWeapon();
+            } else if (selectedElement.isArmor()) {
+                partyMemberElement = partyMember.getArmor(selectedElement.category);
+            }
+
+            if (partyMemberElement != null && selectedElement != null) {
+                if (selectedElement.id == partyMemberElement.id) {
+                    // character has this weapon, so display their name in bottom list
+                    names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
+                }
+            }
+        }
+
+        if (!partyInventoryItem.isAvailable()) {
+            // clear Equip To list
+            equipToListView.clearItems();
+        }
+
+        return names;
+    }
+
+    private TextButton swapEquipmentListItems(MyTextButtonList<TextButton> listView, TextButton lastSelectedItem) {
+        TextButton selectedItem = listView.getSelected();
+        if (selectedItem != lastSelectedItem) {
+            swapListItems(listView, selectedItem, lastSelectedItem);
+
+            PartyInventory.getInstance().swapItems((PartyInventoryItem) selectedItem.getUserObject(),
+                    (PartyInventoryItem) lastSelectedItem.getUserObject());
+
+            descText.setText(ITEMS_SWAPPED);
+            isSwapping = false;
+            return selectedItem;
+        }
+        else {
+            return lastSelectedItem;
+        }
+    }
+
+    private void handleEquipmentListSelection(MyTextButtonList<TextButton> listView, boolean itemWasSwapped) {
+        lastSelectedEquipmentItem = listView.getSelected();
+        if (lastSelectedEquipmentItem != null) {
+
+            if (partyEntityList.size == 0) {
+                populatePartyEntityList();
+            }
+            PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
+            InventoryElement selectedElement = partyInventoryItem.getElement();
+
+            if (!itemWasSwapped) {
+                descText.setText(selectedElement.summary);
+            }
+
+            // populate Equip To and bottom character name lists
+            Array<Label> names = new Array<>();
+            equipToListView.clearItems();
+            for (Entity partyMember : partyEntityList) {
+                InventoryElement partyMemberElement = null;
+
+                if (selectedElement.isWeapon()) {
+                    partyMemberElement = partyMember.getWeapon();
+                } else if (selectedElement.isArmor()) {
+                    partyMemberElement = partyMember.getArmor(selectedElement.category);
+                }
+
+                if (partyMemberElement == null || (selectedElement.id != partyMemberElement.id)) {
+                    if (partyInventoryItem.isAvailable()) {
+                        // character does not have this item, so add their name to the Equip To list
+                        TextButton equipToName = new TextButton(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "tree_node");
+                        equipToName.setUserObject(partyMember);
+                        equipToListView.getItems().add(equipToName);
+                    } else {
+                        equipToListView.clearItems();
+                    }
+                } else {
+                    // character already has this item, so display their name in bottom list
+                    names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
+                }
+            }
+
+            if (selectedElement.isWeapon()) {
+                createNameTable(weaponNameTable, names);
+                clearNameTable(armorNameTable);
+                lastSelectedEquipmentListType = ListType.WEAPON;
+            } else if (selectedElement.isArmor()) {
+                createNameTable(armorNameTable, names);
+                clearNameTable(weaponNameTable);
+                lastSelectedEquipmentListType = ListType.ARMOR;
+            }
+        }
+    }
     private void swapListItems(MyTextButtonList<TextButton> list, TextButton a, TextButton b) {
         list.getItems().swap(list.getItems().indexOf(a, true), list.getItems().indexOf(b, true));
     }
@@ -1471,7 +1480,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                 break;
             case INVENTORY_REMOVED:
                 break;
-            case INVENTORY_IN_USE:
+            case INVENTORY_ITEM_USE_CHANGED:
                 if (element.isWeapon()) {
                     updateListViewItem(weaponListView, partyInventoryItem);
                 }

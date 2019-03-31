@@ -150,10 +150,24 @@ public class PartyInventory extends PartyInventorySubject {
 
                 // Save new list to profile and notify
                 ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
-                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_IN_USE);
+                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_ITEM_USE_CHANGED);
             }
             else {
                 removeItem(element, 1, true);
+            }
+        }
+    }
+
+    public void stopUsingItem(InventoryElement element) {
+        PartyInventoryItem listItem = _list.get(element.id);
+
+        if (listItem != null) {
+            if (element.isWeapon() || element.isArmor()) {
+                listItem.setItemInUse(false, this);
+
+                // Save new list to profile and notify
+                ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_ITEM_USE_CHANGED);
             }
         }
     }

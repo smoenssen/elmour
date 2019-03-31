@@ -5,7 +5,7 @@ public interface PartyInventoryObserver {
         INVENTORY_ADDED,
         INVENTORY_REMOVED,
         INVENTORY_SWAP,
-        INVENTORY_IN_USE
+        INVENTORY_ITEM_USE_CHANGED
     }
 
     void onNotify(final PartyInventoryItem partyInventoryItem, final PartyInventoryEvent event);
