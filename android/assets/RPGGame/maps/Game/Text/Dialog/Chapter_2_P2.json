@@ -1,0 +1,764 @@
+{
+conversations: {
+	n39: {
+		id: n39
+		dialog: CHAR2_LOOK_UP
+		character: null
+		type: ACTION
+	}
+	n38: {
+		id: n38
+		dialog: CHAR2_LOOK_DOWN
+		character: null
+		type: ACTION
+	}
+	n37: {
+		id: n37
+		dialog: WALK_TO_CHAR2
+		character: null
+		type: ACTION
+	}
+	n36: {
+		id: n36
+		dialog: WALK_TO_BOOK
+		character: null
+		type: ACTION
+	}
+	n35: {
+		id: n35
+		dialog: WALK_TO_DOOR
+		character: null
+		type: ACTION
+	}
+	n34: {
+		id: n34
+		dialog: WALK_INTO_ARMORY
+		character: null
+		type: ACTION
+	}
+	n32: {
+		id: n32
+		dialog: Let me know when you've decided
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n31: {
+		id: n31
+		dialog: "Anyways, you should take the book: you\r\nnever know when it may come in handy.§\r\nI'd pick another weapon to go along with the book.¶\r\nEvery mage needs a backup weapon after all!§\r\nEach weapon has it's pros and cons."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n30: {
+		id: n30
+		dialog: WAIT_1000
+		character: null
+		type: ACTION
+	}
+	n29: {
+		id: n29
+		dialog: Then throw the book at them!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n28: {
+		id: n28
+		dialog: And if it still doesn’t work?
+		character: Me
+		type: NPC
+	}
+	n27: {
+		id: n27
+		dialog: Try it somewhere else.§\r\nWe don't know how powerfull it is.
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n26: {
+		id: n26
+		dialog: But how will I know if it works?
+		character: Me
+		type: NPC
+	}
+	n25: {
+		id: n25
+		dialog: Don't do it in here!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n24: {
+		id: n24
+		dialog: Shu-
+		character: Me
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: That’s water. It is pronounced 'shuǐ.'
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n55: {
+		id: n55
+		dialog: CHAR2_LOOK_RIGHT
+		character: null
+		type: ACTION
+	}
+	n22: {
+		id: n22
+		dialog: "Hey, {CHARACTER_2}, you wouldn't\r\nhappen to know what this says, do you?"
+		character: Me
+		type: NPC
+	}
+	n54: {
+		id: n54
+		dialog: JAXON_LOOK_DOWN
+		character: null
+		type: ACTION
+	}
+	n21: {
+		id: n21
+		dialog: It looks like everything in this book is writen in\r\nChinese.
+		character: My Thoughts
+		type: NPC
+	}
+	n53: {
+		id: n53
+		dialog: JUSTIN_QUESTION
+		character: null
+		type: ACTION
+	}
+	n20: {
+		id: n20
+		dialog: "I found that on the ground during one of my rai \r\n- ahem, scoutings.§\r\nHad a bunch of elements in it. Looked like a\r\nspellbook, so I took it."
+		character: Justin
+		type: NPC
+	}
+	n52: {
+		id: n52
+		dialog: CHAR2_LOOK_LEFT
+		character: null
+		type: ACTION
+	}
+	n51: {
+		id: n51
+		dialog: CHAR1_LOOK_RIGHT
+		character: null
+		type: ACTION
+	}
+	n50: {
+		id: n50
+		dialog: EXIT_CONVERSATION_2
+		character: null
+		type: ACTION
+	}
+	n9: {
+		id: n9
+		dialog: "And Jaxon, this is {CHARACTER_1}.§\r\n{CHARACTER_1}, this is Jaxon."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n8: {
+		id: n8
+		dialog: "Oh, didnt recognize you, {CHARACTER_2}.§\r\nDid you get a haircut?"
+		character: Jaxon
+		type: NPC
+	}
+	n7: {
+		id: n7
+		dialog: "Howdy! Take good care of {CHARACTER_2}."
+		character: Justin
+		type: NPC
+	}
+	n6: {
+		id: n6
+		dialog: "Anyways...§\r\nJustin, this is {CHARACTER_1}.§\r\n{CHARACTER_1}, this is Justin."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: No! How dare you!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: "Who's that, {CHARACTER_2}? Is that your\r\nlover?"
+		character: Justin
+		type: NPC
+	}
+	n3: {
+		id: n3
+		dialog: Justin! Jaxon! We need weapons!
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n2: {
+		id: n2
+		dialog: "Yeah, I guess you're right.§\r\nI'll handle negotiations, so there's no reason\r\nto panic about money."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: "It won't hurt to at least be prepared, right?"
+		character: Me
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: "You really want a weapon, don't you?"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: "Wow. Look at all of these weapons.¶\r\nSwords, maces, staves, daggers, and… a\r\nbook?"
+		character: Me
+		type: NPC
+	}
+	n18: {
+		id: n18
+		dialog: I guess I handled that situation pretty well.
+		character: Jaxon
+		type: NPC
+	}
+	n17: {
+		id: n17
+		dialog: OPEN_ARMORY_DOOR
+		character: null
+		type: ACTION
+	}
+	n16: {
+		id: n16
+		dialog: Fair enough. Follow me.
+		character: Justin
+		type: NPC
+	}
+	n47: {
+		id: n47
+		dialog: TAKE_BOOK
+		character: null
+		type: ACTION
+	}
+	n15: {
+		id: n15
+		dialog: Just in case.
+		character: Me
+		type: NPC
+	}
+	n14: {
+		id: n14
+		dialog: That's what I -
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n46: {
+		id: n46
+		dialog: "OK, fine."
+		character: Justin
+		type: NPC
+	}
+	n13: {
+		id: n13
+		dialog: Aren't the lands pretty safe though?
+		character: Justin
+		type: NPC
+	}
+	n45: {
+		id: n45
+		dialog: WAIT_1000
+		character: null
+		type: ACTION
+	}
+	n12: {
+		id: n12
+		dialog: "We need to get The Gems to send\r\n{CHARACTER_1} back to the other world."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n44: {
+		id: n44
+		dialog: Why?
+		character: Justin
+		type: NPC
+	}
+	n11: {
+		id: n11
+		dialog: What do you need weapons for?
+		character: Justin
+		type: NPC
+	}
+	n43: {
+		id: n43
+		dialog: Wait!§\r\nLet me open the door!
+		character: Jaxon
+		type: NPC
+	}
+	n10: {
+		id: n10
+		dialog: "So, how about those weapons?"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n42: {
+		id: n42
+		dialog: START_WALKING
+		character: null
+		type: ACTION
+	}
+	n41: {
+		id: n41
+		dialog: JUSTIN_QUESTION2
+		character: null
+		type: ACTION
+	}
+	n40: {
+		id: n40
+		dialog: CHAR2_LOOK_UP_WAIT
+		character: null
+		type: ACTION
+	}
+}
+associatedChoices: {
+	n39: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n39
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n38: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n38
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n37: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n37
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n36: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n36
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n35: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n35
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n34: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n34
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n32: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n32
+			destinationId: n50
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n31: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n31
+			destinationId: n32
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n30: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n30
+			destinationId: n31
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n29: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n29
+			destinationId: n30
+			choicePhrase: NO_CHOICE
+			conversationCommandEvent: SET_THROWBOOK
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n27: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n27
+			destinationId: n28
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n26: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n26
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n26
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n24
+			choicePhrase: Try it.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n31
+			choicePhrase: Don@t try it.
+		}
+	]
+	n55: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n55
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n23
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n54: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n54
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n37
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n53: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n53
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n47
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n52: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n52
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n51: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n51
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n40
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n55
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n54
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n39
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n38
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n53
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n34
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n52
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n51
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n36
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n35
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n49: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n49
+			destinationId: n31
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n17: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n48: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n48
+			destinationId: n24
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n42
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n47: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n47
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n46: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n46
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n14
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n45: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n45
+			destinationId: n46
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n41
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n44: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n44
+			destinationId: n45
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n43: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n43
+			destinationId: n44
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n42: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n42
+			destinationId: n43
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n41: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n41
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n40: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n40
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

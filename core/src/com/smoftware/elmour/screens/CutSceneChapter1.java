@@ -864,15 +864,16 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
                 break;
             case FORCE_FIELD:
+                shakeCam = null;
                 if( shakeCam == null ){
                     shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
-                            5.20f,
-                            0.1f,
+                            0.20f,
+                            0.10f,
                             0.05f,
                             0.025f,
-                            1f,
-                           0.70f,
-                            0.90f);
+                            0.20f,
+                           0.20f,
+                            0.20f);
                 }
                 float percentToChar1 = 0.6f;
                 Vector2 guard1Destination = new Vector2(guard1.getX() - ((guard1.getX() - character1.getX()) * percentToChar1),
@@ -1116,6 +1117,7 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
 
                 break;
             case CHAR2_ANGER:
+                shakeCam = null;
                 if( shakeCam == null ){
                     shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
                             0.10f,

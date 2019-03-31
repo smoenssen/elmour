@@ -124,15 +124,15 @@ public class ElmourGame extends Game {
 
 		partyList = new Array<>();
 
-		//Utility.parseConversationXMLFile("n34", "RPGGame/maps/Game/Text/Dialog/Chapter_1.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_1.json");
-		//Utility.parseAllConversationXMLFiles();
+		//Utility.parseConversationXMLFile("n3", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
+		Utility.parseAllConversationXMLFiles();
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
 		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
 		//setScreen(cutSceneChapter1);
-		//setScreen(cutSceneChapter2);
+		setScreen(cutSceneChapter2);
 
-		setScreen(splashScreen);
+		//setScreen(splashScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

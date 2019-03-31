@@ -1,0 +1,83 @@
+{
+conversations: {
+	n6: {
+		id: n6
+		dialog: "Maximum power output. That'll help a lot,\r\nbut are you sure?"
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: Come back anytime!\r\n(Preferably with money...)
+		character: Justin
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: "No pressure. Remember, we can always get\r\na different weapon later."
+		character: "{CHARACTER_2}"
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: WALK_OUT_OF_ARMORY
+		character: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: Obtained Mace.
+		character: null
+		type: NPC
+	}
+}
+associatedChoices: {
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n0
+			choicePhrase: Yes.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n4
+			choicePhrase: No.
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n0
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n6
+}

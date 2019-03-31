@@ -360,7 +360,6 @@ public class CutSceneBase extends GameScreen {
             else {
                 _camera.position.set(_followingActor.getX() + _followingActor.getWidth() / 2, _followingActor.getY(), _camera.viewportHeight / 2f);
             }
-
         }
 
         _camera.zoom += zoomRate;

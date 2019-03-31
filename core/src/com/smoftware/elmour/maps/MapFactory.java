@@ -42,6 +42,7 @@ public class MapFactory {
         PORTAL_ROOM,
         SHNARFULAPOGUS,
         TARPING_TOWN,
+        WEAPONS_ROOM,
         TOP_WORLD,
         TOWN,
         TOWN1,
@@ -283,7 +284,14 @@ public class MapFactory {
                     _mapTable.put(MapType.TARPING_TOWN, map);
                 }
                 break;
-           case TOP_WORLD:
+            case WEAPONS_ROOM:
+                map = _mapTable.get(MapType.WEAPONS_ROOM);
+                if( map == null ){
+                    map = new WeaponsRoom();
+                    _mapTable.put(MapType.WEAPONS_ROOM, map);
+                }
+                break;
+            case TOP_WORLD:
                 map = _mapTable.get(TOP_WORLD);
                 if( map == null ){
                     map = new TopWorldMap();

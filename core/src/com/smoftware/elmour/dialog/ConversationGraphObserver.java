@@ -6,6 +6,7 @@ public interface ConversationGraphObserver {
     public static enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
         EXIT_CONVERSATION,
+        EXIT_CONVERSATION_1,
         NEXT_CONVERSATION_ID,
         CHARACTER_NAME,
         PLAYER_RESPONSE,
@@ -45,7 +46,26 @@ public interface ConversationGraphObserver {
         START_LEAVING,
         STOP_LEAVING,
         //Chapter 2
-        WALK_TO_ARMORY,
+        //P1
+        PAN_TO_ARMORY,
+        PAN_TO_INN,
+        PAN_TO_WOODSHOP,
+        PAN_TO_CHARS,
+        CHAR1_LOOK_RIGHT,
+        CHAR2_LOOK_LEFT,
+        //P2
+        WALK_INTO_ARMORY,
+        JUSTIN_QUESTION,
+        CHAR2_LOOK_DOWN,
+        CHAR2_LOOK_UP,
+        JAXON_LOOK_DOWN,
+        CHAR2_LOOK_RIGHT,
+        CHAR2_LOOK_UP_WAIT,
+        JUSTIN_QUESTION2,
+        START_WALKING,
+        OPEN_ARMORY_DOOR,
+        WALK_TO_DOOR,
+
         WALK_AROUND_TOWN,
 
         WAIT_15000,

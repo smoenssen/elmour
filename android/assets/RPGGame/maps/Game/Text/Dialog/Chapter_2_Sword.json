@@ -1,54 +1,42 @@
 {
 conversations: {
-	n8: {
-		id: n8
-		dialog: EXIT_CONVERSATION
-		character: null
-		type: ACTION
-	}
-	n7: {
-		id: n7
-		dialog: That was nice!
-		character: "{CHARACTER_2}"
-		type: NPC
-	}
 	n6: {
 		id: n6
-		dialog: EXIT_CONVERSATION
-		character: null
-		type: ACTION
+		dialog: Come back anytime!\r\n(Preferably with money...)
+		character: Justin
+		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: Cool!
+		dialog: "No pressure. Remember, we can always get\r\na different weapon later."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
-	n4: {
-		id: n4
-		dialog: WALK_AROUND_TOWN
+	n2: {
+		id: n2
+		dialog: WALK_OUT_OF_ARMORY
 		character: null
 		type: ACTION
 	}
-	n3: {
-		id: n3
-		dialog: Oh... OK then.
-		character: "{CHARACTER_2}"
+	n1: {
+		id: n1
+		dialog: Obtained Sword.
+		character: null
 		type: NPC
 	}
 	n0: {
 		id: n0
-		dialog: Let's walk around this map!
+		dialog: "Something with power that doesn't slow you\r\ndown? A wise decision, but are you sure?"
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 }
 associatedChoices: {
-	n5: [
+	n6: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n5
-			destinationId: n4
+			sourceId: n6
+			destinationId: n2
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -56,7 +44,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n4
-			destinationId: n7
+			destinationId: n5
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -64,15 +52,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n3
-			destinationId: n6
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n2: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n2
-			destinationId: n3
+			destinationId: n1
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -80,7 +60,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
-			destinationId: n5
+			destinationId: n6
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -88,22 +68,14 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
-			destinationId: n3
-			choicePhrase: Let@s not.
+			destinationId: n1
+			choicePhrase: Yes.
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n5
-			choicePhrase: OK!
-		}
-	]
-	n7: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n7
-			destinationId: n8
-			choicePhrase: NO_CHOICE
+			choicePhrase: No.
 		}
 	]
 }

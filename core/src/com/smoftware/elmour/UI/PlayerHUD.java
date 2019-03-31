@@ -1102,8 +1102,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 profileManager.setProperty("currentPlayerMP", 0 );
                 profileManager.setProperty("currentPlayerMPMax", 0 );
                 profileManager.setProperty("currentTime", 0);
-                profileManager.setProperty("CHARACTER_1", "Purple Boy");
-                profileManager.setProperty("CHARACTER_2", "Girl");
+                profileManager.setProperty("CHARACTER_1", "Apollo");
+                profileManager.setProperty("CHARACTER_2", "Isabell");
                 break;
             default:
                 break;
