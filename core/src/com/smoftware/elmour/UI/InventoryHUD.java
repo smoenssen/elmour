@@ -19,18 +19,19 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.maps.Map;
+import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.profile.ProfileObserver;
 
 /**
  * Created by steve on 2/10/19.
  */
 
-public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver {
+public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
     enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
@@ -169,6 +170,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         partyEntityList = new Array<>();
 
         PartyInventory.getInstance().addObserver(this);
+        ProfileManager.getInstance().addObserver(this);
 
         equipmentListsTable = new Table();
         consumableListsTable = new Table();
@@ -615,7 +617,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                        if (buttonName.equals(BTN_NAME_EQUIP)) {
                                            backButton.setText(BTN_NAME_CANCEL);
                                            actionButton.setText(BTN_NAME_OK);
-                                           displayEquipScreen();
+                                           displayEquipToScreen();
                                            swapButton.setTouchable(Touchable.disabled); //todo?
                                        }
                                        else if (buttonName.equals(BTN_NAME_USE)) {
@@ -634,6 +636,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                if (selectedElement.isWeapon()) {
                                                    Entity partyMember = (Entity)selectedCharacter.getUserObject();
                                                    partyMember.setWeapon(selectedElement);
+                                                   PartyInventory.getInstance().useItem(selectedElement);
                                                }
 
                                                displayEquipmentScreen();
@@ -691,13 +694,17 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                                                     for (Entity partyMember : partyEntityList) {
                                                         InventoryElement partyMemberWeapon = partyMember.getWeapon();
 
-                                                        if (!selectedWeapon.equals(partyMemberWeapon)) {
-                                                            // character does not have this weapon, so add their name to the Equip To list
-                                                            TextButton equipToName = new TextButton(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "tree_node");
-                                                            equipToName.setUserObject(partyMember);
-                                                            equipToListView.getItems().add(equipToName);
-                                                        }
-                                                        else {
+                                                        if (partyMemberWeapon == null || (selectedWeapon.id != partyMemberWeapon.id)) {
+                                                            if (partyInventoryItem.isAvailable()) {
+                                                                // character does not have this weapon, so add their name to the Equip To list
+                                                                TextButton equipToName = new TextButton(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "tree_node");
+                                                                equipToName.setUserObject(partyMember);
+                                                                equipToListView.getItems().add(equipToName);
+                                                            }
+                                                            else {
+                                                                equipToListView.clearItems();
+                                                            }
+                                                        } else {
                                                             // character already has this weapon, so display their name in bottom list
                                                             names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
                                                         }
@@ -1050,7 +1057,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         backButton.setTouchable(Touchable.enabled);
     }
 
-    private void displayEquipScreen() {
+    private void displayEquipToScreen() {
         equipmentListsTable.clear();
         descText.setText("Select an item and a character to equip and click OK.");
 
@@ -1127,6 +1134,38 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         equipmentListsTable.add(groupWeaponName).pad(-1).width(listWidth);
         equipmentListsTable.add(groupArmorName).pad(-1).width(listWidth);
         equipmentListsTable.pack();
+
+        if (lastSelectedEquipmentListType == ListType.WEAPON) {
+            // populate bottom character name list
+            Array<Label> names = new Array<>();
+            PartyInventoryItem partyInventoryItem = (PartyInventoryItem) lastSelectedEquipmentItem.getUserObject();
+            InventoryElement selectedWeapon = partyInventoryItem.getElement();
+
+            for (Entity partyMember : partyEntityList) {
+                InventoryElement partyMemberWeapon = partyMember.getWeapon();
+
+                if (partyMemberWeapon != null && selectedWeapon != null) {
+                    if (selectedWeapon.id == partyMemberWeapon.id) {
+                        // character has this weapon, so display their name in bottom list
+                        names.add(new Label(partyMember.getEntityConfig().getDisplayName(), Utility.ELMOUR_UI_SKIN, "battle"));
+                    }
+                }
+            }
+
+            if (!partyInventoryItem.isAvailable()) {
+                // clear Equip To list
+                equipToListView.clearItems();
+            }
+
+            createNameTable(weaponNameTable, names);
+            clearNameTable(armorNameTable);
+        }
+        else if (lastSelectedEquipmentListType == ListType.ARMOR) {
+
+        }
+        else {
+            Gdx.app.error(TAG, "Unhandled ListType in displayEquipmentScreen");
+        }
     }
 
     private void swapListItems(MyTextButtonList<TextButton> list, TextButton a, TextButton b) {
@@ -1404,43 +1443,85 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
         InventoryElement element = partyInventoryItem.getElement();
 
+        //Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.getElement().id.toString() + " (" + partyInventoryItem.getQuantity() + ")");
+
         switch (event) {
             case INVENTORY_ADDED:
                 switch(element.category) {
                     case Potion:
-                        addListViewItem(potionsListView, partyInventoryItem);
+                        addListViewItem(potionsListView, potionsScrollPaneList, partyInventoryItem);
                         break;
                     case Consumables:
-                        addListViewItem(consumablesListView, partyInventoryItem);
+                        addListViewItem(consumablesListView, consumablesScrollPaneList, partyInventoryItem);
                         break;
                     case Throwing:
-                        addListViewItem(throwingListView, partyInventoryItem);
+                        addListViewItem(throwingListView, throwingScrollPaneList, partyInventoryItem);
                         break;
                     case Leggings:
                     case Helmet:
                     case Breastplate:
-                        addListViewItem(armorListView, partyInventoryItem);
+                        addListViewItem(armorListView, armorScrollPaneList, partyInventoryItem);
                         break;
                     case BLUNT:
                     case STAB:
                     case KNUCKLES:
-                        addListViewItem(weaponListView, partyInventoryItem);
+                        addListViewItem(weaponListView, weaponScrollPaneList, partyInventoryItem);
                         break;
                 }
                 break;
             case INVENTORY_REMOVED:
+                break;
+            case INVENTORY_IN_USE:
+                if (element.isWeapon()) {
+                    updateListViewItem(weaponListView, partyInventoryItem);
+                }
+                else if (element.isArmor()) {
+                    updateListViewItem(armorListView, partyInventoryItem);
+                }
+
                 break;
         }
     }
 
     @Override
     public void onNotify(PartyInventoryItem item1, PartyInventoryItem item2, PartyInventoryEvent event) {
-
+        switch (event) {
+            case INVENTORY_SWAP:
+                break;
+        }
     }
 
-    private void addListViewItem(MyTextButtonList<TextButton> list, PartyInventoryItem partyInventoryItem) {
+    @Override
+    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+        Gdx.app.log(TAG, "onNotify event = " + event.toString());
+
+        switch(event){
+            case PROFILE_LOADED:
+                boolean firstTime = profileManager.getIsNewProfile();
+
+                if( firstTime ){
+                    // no inventory
+                }
+                else {
+                    // load inventory from profile manager
+                    String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
+                    PartyInventory.getInstance().setInventoryList(partyInventoryString);
+                }
+
+                break;
+            case SAVING_PROFILE:
+                break;
+            case CLEAR_CURRENT_PROFILE:
+                // set default profile
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, PartyInventoryItem partyInventoryItem) {
         InventoryElement element = partyInventoryItem.getElement();
-        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantity());
+        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
         TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
         button.setUserObject(partyInventoryItem);
 
@@ -1470,7 +1551,32 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
             else {
                 // add new item
                 list.getItems().add(button);
+                list.layout();
+                scrollPane.layout();
+
             }
+        }
+    }
+
+    private void updateListViewItem(MyTextButtonList<TextButton> list, PartyInventoryItem partyInventoryItem) {
+        InventoryElement element = partyInventoryItem.getElement();
+        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
+
+        TextButton inventoryItem = null;
+
+        // find item in list
+        for (TextButton iterator : list.getItems()) {
+            PartyInventoryItem item = (PartyInventoryItem) iterator.getUserObject();
+            if (partyInventoryItem.getElement().id.equals(item.getElement().id)) {
+                inventoryItem = iterator;
+                break;
+            }
+        }
+
+        if (inventoryItem != null) {
+            // update item
+            inventoryItem.setText(description);
+            inventoryItem.setUserObject(partyInventoryItem);
         }
     }
 }

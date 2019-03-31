@@ -96,13 +96,13 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                         Set<InventoryElement.ElementID> inventoryKeys = inventoryList.keySet();
                         for(InventoryElement.ElementID key: inventoryKeys){
                             InventoryElement element = inventoryList.get(key);
-                            PartyInventory.getInstance().addItem(element, quantity, true);
+                            PartyInventory.getInstance().addItem(element, quantity, 0, true);
                         }
 
                         Set<InventoryElement.ElementID> equipmentKeys = equipmentList.keySet();
                         for(InventoryElement.ElementID key: equipmentKeys){
                             InventoryElement element = equipmentList.get(key);
-                            PartyInventory.getInstance().addItem(element, quantity, true);
+                            PartyInventory.getInstance().addItem(element, quantity, 0, true);
                         }
                     }
                     else {
@@ -120,7 +120,7 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
                                 Gdx.app.log(TAG, String.format("Adding (%d) %s to inventory", quantity, elementID.toString()));
 
                                 if (quantity > 0) {
-                                    PartyInventory.getInstance().addItem(element, quantity, true);
+                                    PartyInventory.getInstance().addItem(element, quantity, 0, true);
                                 }
                                 else if (quantity < 0) {
                                     quantity *= -1;

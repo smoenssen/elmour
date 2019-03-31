@@ -81,10 +81,10 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     private InputMultiplexer _multiplexer;
 
     private Entity _player;
-    private PlayerHUD _playerHUD;
+    public PlayerHUD _playerHUD;
     private MobileControls mobileControls;
 
-    public MainGameScreen(ElmourGame game){
+    public MainGameScreen(ElmourGame game, boolean createPlayerHUD){
         _game = game;
         _mapMgr = new MapManager();
         _json = new Json();
@@ -103,41 +103,42 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
         stage = new Stage(viewport);
 
-        if (ElmourGame.isAndroid()) {
-            // capture Android back key so it is not passed on to the OS
-            Gdx.input.setCatchBackKey(true);
+        if (createPlayerHUD){
+            if (ElmourGame.isAndroid()) {
+                // capture Android back key so it is not passed on to the OS
+                Gdx.input.setCatchBackKey(true);
 
-            //NOTE!!! Need to create mobileControls before player because player
-            //is an observer of mobileControls
-            controllersCam = new OrthographicCamera();
-            controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-            mobileControls = new MobileControls(controllersCam);
+                //NOTE!!! Need to create mobileControls before player because player
+                //is an observer of mobileControls
+                controllersCam = new OrthographicCamera();
+                controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+                mobileControls = new MobileControls(controllersCam);
 
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+                _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+                _hudCamera = new OrthographicCamera();
+                _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
 
-            _playerHUD = new PlayerHUD(game,_hudCamera, _player, _mapMgr);
+                _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
-            _multiplexer = new InputMultiplexer();
-            _multiplexer.addProcessor(mobileControls.getStage());
-            _multiplexer.addProcessor(_playerHUD.getStage());
-            Gdx.input.setInputProcessor(_multiplexer);
+                _multiplexer = new InputMultiplexer();
+                _multiplexer.addProcessor(mobileControls.getStage());
+                _multiplexer.addProcessor(_playerHUD.getStage());
+                Gdx.input.setInputProcessor(_multiplexer);
+            } else {
+                _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+                _hudCamera = new OrthographicCamera();
+                _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+
+                _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
+
+                _multiplexer = new InputMultiplexer();
+                _multiplexer.addProcessor(_playerHUD.getStage());
+                _multiplexer.addProcessor(_player.getInputProcessor());
+                Gdx.input.setInputProcessor(_multiplexer);
+            }
+
+            _playerHUD.addInventoryObserver(this);
         }
-        else {
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            _multiplexer = new InputMultiplexer();
-            _multiplexer.addProcessor(_playerHUD.getStage());
-            _multiplexer.addProcessor(_player.getInputProcessor());
-            Gdx.input.setInputProcessor(_multiplexer);
-        }
-
-        _playerHUD.addInventoryObserver(this);
 
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
@@ -174,7 +175,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     @Override
     public void show() {
         ProfileManager.getInstance().addObserver(_mapMgr);
-        ProfileManager.getInstance().addObserver(_playerHUD);
+        //ProfileManager.getInstance().addObserver(_playerHUD);
+
+        _playerHUD.setCutScene(false);
 
         setGameState(GameState.LOADING);
 
@@ -410,6 +413,8 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     }
 
     public static void setGameState(GameState gameState){
+        Gdx.app.log(TAG, "setGameState " + gameState.toString());
+
         switch(gameState){
             case RUNNING:
                 _gameState = GameState.RUNNING;
@@ -429,8 +434,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                     _game.addPartyMember(EntityFactory.EntityName.JAXON_1);
                     ////////////////////////////////////////////////////////////
                 }
-
-                _game.setPartyList(ProfileManager.getInstance().getProperty("partyList", Array.class));
+                else {
+                    _game.setPartyList(partyList);
+                }
 
                 _gameState = GameState.RUNNING;
                 break;

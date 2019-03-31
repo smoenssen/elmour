@@ -115,12 +115,12 @@ public class ElmourGame extends Game {
 
 		splashScreen = new SplashScreen(this);
 		startScreen = new StartScreen(this);
-		_mainGameScreen = new MainGameScreen(this);
+		_mainGameScreen = new MainGameScreen(this, true);
 		_gameOverScreen = new GameOverScreen(this);
 		_creditScreen = new CreditScreen(this);
 		battleScreen = new BattleScreen(this);
-		cutSceneChapter1 = new CutSceneChapter1(this);
-		cutSceneChapter2 = new CutSceneChapter2(this);
+		cutSceneChapter1 = new CutSceneChapter1(this, _mainGameScreen._playerHUD);
+		cutSceneChapter2 = new CutSceneChapter2(this, _mainGameScreen._playerHUD);
 
 		partyList = new Array<>();
 

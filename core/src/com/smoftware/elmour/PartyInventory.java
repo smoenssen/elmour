@@ -5,7 +5,6 @@ import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +38,8 @@ public class PartyInventory extends PartyInventorySubject {
     public int getSize() { return _list.size(); }
 
     public void setInventoryList(String profileString) {
+        Gdx.app.log(TAG, "setInventoryList");
+
         if (profileString == null) return;
         if (profileString.length() == 0) return;
         _list.clear();
@@ -50,7 +51,9 @@ public class PartyInventory extends PartyInventorySubject {
             String [] saValues = item.split(VALUE_DELIMITER);
 
             InventoryElement.ElementID elementID = InventoryElement.ElementID.valueOf(saValues[0]);
-            addItem(InventoryElementFactory.getInstance().getInventoryElement(elementID), Integer.parseInt(saValues[1]), true);
+            addItem(InventoryElementFactory.getInstance().getInventoryElement(elementID),
+                    Integer.parseInt(saValues[1]),
+                    Integer.parseInt(saValues[2]), true);
         }
     }
 
@@ -61,7 +64,10 @@ public class PartyInventory extends PartyInventorySubject {
         Set<InventoryElement.ElementID> setKeys = _list.keySet();
         for(InventoryElement.ElementID key: setKeys){
             PartyInventoryItem item = _list.get(key);
-            String newItem = key.toString() + VALUE_DELIMITER + Integer.toString(item.getQuantity());
+            String newItem = key.toString() + VALUE_DELIMITER +
+                            Integer.toString(item.getQuantity()) + VALUE_DELIMITER +
+                            Integer.toString(item.getQuantityInUse());
+
             profileString += newItem + ITEM_DELIMITER;
         }
         return profileString;
@@ -71,20 +77,25 @@ public class PartyInventory extends PartyInventorySubject {
         return _list.get(element.id);
     }
 
-    public void addItem(InventoryElement element, int quantity, boolean notify) {
+    public void addItem(InventoryElement element, int quantity, int quantityInUse, boolean notify) {
         // add item to list if it doesn't exist, otherwise update the quantity
         PartyInventoryItem listItem = _list.get(element.id);
+
         if (listItem != null) {
-            listItem.increaseQuantity(quantity);
-            if (notify)
-                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_ADDED);
+            listItem.increaseQuantity(quantity, this);
+            if (quantityInUse > 0)
+                listItem.setQuantityInUse(quantityInUse, this);
         }
         else {
-            PartyInventoryItem itemToAdd = new PartyInventoryItem(element, quantity);
-            _list.put(element.id, itemToAdd);
-            if (notify)
-                notify(itemToAdd, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_ADDED);
+            listItem = new PartyInventoryItem(element, quantity, quantityInUse);
+            _list.put(element.id, listItem);
         }
+
+        // Save new list to profile
+        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+
+        if (notify)
+            notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_ADDED);
     }
 
     public void removeItem(InventoryElement element, int quantity, boolean notify) {
@@ -92,7 +103,7 @@ public class PartyInventory extends PartyInventorySubject {
         PartyInventoryItem listItem = _list.get(element.id);
 
         if (listItem != null) {
-            listItem.reduceQuantity(quantity);
+            listItem.reduceQuantity(quantity, this);
             if (listItem.getQuantity() <= 0) {
                 _list.remove(listItem);
             }
@@ -100,6 +111,8 @@ public class PartyInventory extends PartyInventorySubject {
                 _list.put(element.id, listItem);
             }
 
+            // Save new list to profile and notify
+            ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
             notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_REMOVED);
         }
     }
@@ -127,4 +140,22 @@ public class PartyInventory extends PartyInventorySubject {
         ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
         notify(item1, item2, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_SWAP);
     }
+
+    public void useItem(InventoryElement element) {
+        PartyInventoryItem listItem = _list.get(element.id);
+
+        if (listItem != null) {
+            if (element.isWeapon() || element.isArmor()) {
+                listItem.setItemInUse(true, this);
+
+                // Save new list to profile and notify
+                ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+                notify(listItem, PartyInventoryObserver.PartyInventoryEvent.INVENTORY_IN_USE);
+            }
+            else {
+                removeItem(element, 1, true);
+            }
+        }
+    }
+
 }

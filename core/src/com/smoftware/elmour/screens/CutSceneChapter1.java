@@ -13,6 +13,7 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
@@ -54,8 +55,8 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
     private Image blackBarLeft;
     private Image blackBarRight;
 
-    public CutSceneChapter1(ElmourGame game){
-        super(game);
+    public CutSceneChapter1(ElmourGame game, PlayerHUD playerHUD){
+        super(game, playerHUD);
         thisScreen = this;
 
         _playerHUD.addObserver(this);
@@ -1850,8 +1851,9 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
         //_stage.addAction(getWakeUpScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
-        if (_playerHUD != null)
-            ProfileManager.getInstance().addObserver(_playerHUD);
+        _playerHUD.setCutScene(true);
+        //if (_playerHUD != null)
+        //    ProfileManager.getInstance().addObserver(_playerHUD);
 
         setGameState(GameState.LOADING);
 

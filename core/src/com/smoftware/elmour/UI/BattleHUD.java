@@ -64,7 +64,7 @@ import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.
 import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_INVENTORY;
 import static com.smoftware.elmour.battle.BattleObserver.BattleEventWithMessage.PLAYER_APPLIED_SPELL_POWER;
 
-public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleControlsObserver, StatusObserver, BattleObserver, PartyInventoryObserver {
+public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, StatusObserver, BattleObserver, PartyInventoryObserver {
     private static final String TAG = BattleHUD.class.getSimpleName();
 
     public enum ScreenState { FIGHT, FINAL, INVENTORY, MAIN, MAGIC, MENU, SPELLS_POWER, STATS, UNKNOWN }
@@ -338,7 +338,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
         this.game = game;
 
         game.battleState.addObserver(this);
-        ProfileManager.getInstance().addObserver(this);
         PartyInventory.getInstance().addObserver(this);
 
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
@@ -1596,7 +1595,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                                                    Label stat2 = new Label("", Utility.ELMOUR_UI_SKIN, "battleLarge");
 
                                                    InventoryElement element = InventoryElementFactory.getInstance().getInventoryElement(item.itemID);
-                                                   PartyInventory.getInstance().addItem(element, item.quantity, true);
+                                                   PartyInventory.getInstance().addItem(element, item.quantity, 0, true);
 
                                                    stat2.setText(element.name);
                                                    stat2.setAlignment(Align.left);
@@ -2412,34 +2411,6 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
                 Actions.sequence(
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
     }
-
-    @Override
-    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
-        //Gdx.app.log(TAG, "onNotify event = " + event.toString());
-        switch(event){
-            case PROFILE_LOADED:
-                boolean firstTime = profileManager.getIsNewProfile();
-
-                if( firstTime ){
-                    // no inventory
-                }
-                else {
-                    // load inventory from profile manager
-                    String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
-                    PartyInventory.getInstance().setInventoryList(partyInventoryString);
-                }
-
-                break;
-            case SAVING_PROFILE:
-                break;
-            case CLEAR_CURRENT_PROFILE:
-                // set default profile
-                break;
-            default:
-                break;
-        }
-    }
-
 
     @Override
     public void onNotify(int value, StatusEvent event) {
@@ -3259,7 +3230,7 @@ public class BattleHUD implements Screen, AudioSubject, ProfileObserver, BattleC
 
     @Override
     public void onNotify(PartyInventoryItem partyInventoryItem, PartyInventoryEvent event) {
-        Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.getElement().id.toString() + " (" + partyInventoryItem.getQuantity() + ")");
+        //Gdx.app.log(TAG, event.toString() + " " + partyInventoryItem.getElement().id.toString() + " (" + partyInventoryItem.getQuantity() + ")");
 
         InventoryElement element = partyInventoryItem.getElement();
         Array<Tree.Node> nodeArray;

@@ -297,7 +297,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private static AnimationState animationState = AnimationState.NONE;
 
     public BattleScreen(ElmourGame game) {
-        super(game);
+        super(game, false);
 
         _game = game;
         _mapMgr = new MapManager();
@@ -1013,7 +1013,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 direction = "LEFT";
         }
 
-        strWeaponID = entity.getWeapon().id.toString() + "_" + direction;
+        InventoryElement weapon = entity.getWeapon();
+        if (weapon != null) {
+            strWeaponID = entity.getWeapon().id.toString() + "_" + direction;
+        }
+        else {
+            strWeaponID = InventoryElement.ElementID.NONE + "_" + direction;
+        }
+
         return Entity.AnimationType.valueOf(strWeaponID);
     }
 
@@ -1034,7 +1041,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
                 direction = "LEFT";
         }
 
-        strAnimationType = entity.getWeapon().category.toString() + "_" + direction;
+        InventoryElement weapon = entity.getWeapon();
+        if (weapon != null) {
+            strAnimationType = entity.getWeapon().category.toString() + "_" + direction;
+        }
+        else {
+            strAnimationType = InventoryElement.InventoryCategory.NONE+ "_" + direction;
+        }
+
         return Entity.AnimationType.valueOf(strAnimationType);
     }
 
@@ -1048,8 +1062,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         characterWeaponIdAnimationType = getWeaponIdAnimationType(entity, true);
         weaponCategoryAnimationType = getWeaponCategoryAnimationType(entity, true);
 
-        if (entity.getWeapon().id.toString().contains("DAGGER"))
+        InventoryElement weapon = entity.getWeapon();
+        if (weapon != null) {
+            if (weapon.id.toString().contains("DAGGER"))
             isDagger = true;
+        }
 
         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(entity.getEntityConfig().getEntityID().toUpperCase());
 
@@ -1554,8 +1571,11 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         characterWeaponIdAnimationType = getWeaponIdAnimationType(attacker, true);
         weaponCategoryAnimationType = getWeaponCategoryAnimationType(attacker, true);
 
-        if (attacker.getWeapon().id.toString().contains("DAGGER"))
-            isDagger = true;
+        InventoryElement weapon = attacker.getWeapon();
+        if (weapon != null) {
+            if (weapon.id.toString().contains("DAGGER"))
+                isDagger = true;
+        }
 
         EntityFactory.EntityName attackerEntityName = EntityFactory.EntityName.valueOf(attacker.getEntityConfig().getEntityID().toUpperCase());
         EntityFactory.EntityName defenderEntityName = EntityFactory.EntityName.valueOf(defender.getEntityConfig().getEntityID().toUpperCase());

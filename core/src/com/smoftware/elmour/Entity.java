@@ -300,7 +300,6 @@ public class Entity {
 	private BattleEntityType battleEntityType;
 	private int battlePosition;
 	private boolean isAlive;
-	private InventoryElement weapon;
 	private Array<InventoryElement> equipment;
 
 	public Entity(Entity entity){
@@ -326,7 +325,6 @@ public class Entity {
 		battleEntityType = entity.battleEntityType;
 		battlePosition = entity.battlePosition;
 		isAlive = entity.isAlive;
-		weapon = new InventoryElement();
 		equipment = new Array<>();
 		return this;
 	}
@@ -348,7 +346,6 @@ public class Entity {
 		battleEntityType = BattleEntityType.UNKNOWN;
 		battlePosition = 0;
 		isAlive = false;
-		weapon = new InventoryElement();
 		equipment = new Array<>();
 	}
 
@@ -368,9 +365,17 @@ public class Entity {
 
 	public boolean isAlive() { return isAlive; }
 
-	public void setWeapon(InventoryElement weapon) { this.weapon = weapon; }
+	public void setWeapon(InventoryElement weapon) {
+		ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + "WeaponId", weapon.id);
+	}
 
-	public InventoryElement getWeapon() { return this.weapon; }
+	public InventoryElement getWeapon() {
+		InventoryElement weapon = null;
+		InventoryElement.ElementID weaponId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + "WeaponId", InventoryElement.ElementID.class);
+		if (weaponId != null)
+			weapon = InventoryElementFactory.getInstance().getInventoryElement(weaponId);
+		return weapon;
+	}
 
 	public void setEquipment(Array<InventoryElement> equipment) { this.equipment = equipment; }
 

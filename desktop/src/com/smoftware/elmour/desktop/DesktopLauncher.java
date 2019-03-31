@@ -16,7 +16,10 @@ public class DesktopLauncher {
 		// fullscreen
 		//cfg.fullscreen = true;
 		// vSync
-		//cfg.vSyncEnabled = true;
+		cfg.vSyncEnabled = true;
+		//cfg.vSyncEnabled = false; // Setting to false disables vertical sync
+		//cfg.foregroundFPS = 40; // Setting to 0 disables foreground fps throttling
+		//cfg.backgroundFPS = 0; // Setting to 0 disables background fps throttling
 
 		Application app = new LwjglApplication(new ElmourGame(), cfg);
 

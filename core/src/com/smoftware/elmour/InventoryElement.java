@@ -168,4 +168,8 @@ public class InventoryElement{
     public boolean isWeapon() {
         return (category == InventoryCategory.BLUNT || category == InventoryCategory.STAB || category == InventoryCategory.KNUCKLES);
     }
+
+    public boolean isArmor() {
+        return (category == InventoryCategory.Helmet || category == InventoryCategory.Breastplate || category == InventoryCategory.Leggings);
+    }
 }

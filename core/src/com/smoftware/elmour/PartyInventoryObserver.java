@@ -4,7 +4,8 @@ public interface PartyInventoryObserver {
     public static enum PartyInventoryEvent {
         INVENTORY_ADDED,
         INVENTORY_REMOVED,
-        INVENTORY_SWAP
+        INVENTORY_SWAP,
+        INVENTORY_IN_USE
     }
 
     void onNotify(final PartyInventoryItem partyInventoryItem, final PartyInventoryEvent event);

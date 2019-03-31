@@ -178,6 +178,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         game.battleState.addObserver(this);
         inventoryHUD.addObserver(this);
+        ProfileManager.getInstance().addObserver(this);
 
         _json = new Json();
 

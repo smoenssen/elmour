@@ -142,9 +142,10 @@ public class CutSceneBase extends GameScreen {
     protected float zoomRate = 0;
     protected boolean isFading = false;
 
-    public CutSceneBase(ElmourGame game) {
+    public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {
 
         _game = game;
+        _playerHUD = playerHUD;
         _mapMgr = new MapManager();
         _json = new Json();
 
@@ -162,6 +163,7 @@ public class CutSceneBase extends GameScreen {
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
         _stage = new Stage(_viewport);
 
+        /*
         if (ElmourGame.isAndroid()) {
             // capture Android back key so it is not passed on to the OS
             Gdx.input.setCatchBackKey(true);
@@ -187,6 +189,7 @@ public class CutSceneBase extends GameScreen {
             _multiplexer.addProcessor(_player.getInputProcessor());
             Gdx.input.setInputProcessor(_multiplexer);
         }
+        */
 
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
@@ -194,8 +197,6 @@ public class CutSceneBase extends GameScreen {
 
         _transitionActor = new ScreenTransitionActor();
         _followingActor = new Actor();
-
-        _playerHUD.setCutScene(true);
 
         _switchScreenToMainAction = new
                 RunnableAction() {
@@ -248,6 +249,8 @@ public class CutSceneBase extends GameScreen {
     }
 
     public static void setGameState(GameState gameState){
+        Gdx.app.log(TAG, "setGameState " + gameState.toString());
+
         switch(gameState){
             case RUNNING:
                 _gameState = GameState.RUNNING;
