@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="17" height="12" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="Wood_Floor" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Tiles/Inside/Wood_Floor/Wood_Floor.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="2" name="Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="Game/Tiles/Inside/Border.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="4" name="Wooden_Wall" tilewidth="16" tileheight="16" tilecount="3" columns="1">
+  <image source="Game/Tiles/Inside/Wooden_Wall/Wooden_Wall.png" width="16" height="48"/>
+ </tileset>
+ <tileset firstgid="7" name="Dagger_Display" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Display_Case/Dagger_Display.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="11" name="Mace_Display" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Display_Case/Mace_Display.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="15" name="Staff_Display" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Display_Case/Staff_Display.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="19" name="Sword_Display" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Display_Case/Sword_Display.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="23" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="24" name="Steel_Door" tilewidth="16" tileheight="16" tilecount="5" columns="5">
+  <image source="Game/Tiles/Inside/Steel_Door/Steel_Door.png" width="80" height="16"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="17" height="12">
+  <data encoding="csv">
+1073741826,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,2147483650,
+1073741826,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1073741826,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2147483650,
+1610612739,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3758096386,3221225475
+</data>
+ </layer>
+ <layer name="Higher" width="17" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,24,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,11,12,0,15,16,0,0,0,0,0,0,
+0,0,0,0,0,0,13,14,0,17,18,0,0,0,0,0,0,
+0,0,0,19,20,0,0,0,0,0,0,0,7,8,0,0,0,
+0,0,0,21,22,0,0,0,0,0,0,0,9,10,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,23,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZDOWN" width="17" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="COLLISION_LAYER"/>
+ <objectgroup name="SPAWNS_LAYER"/>
+ <objectgroup name="Z_GATES"/>
+ <objectgroup name="INTERACTION"/>
+</map>

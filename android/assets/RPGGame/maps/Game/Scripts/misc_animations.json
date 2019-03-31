@@ -723,5 +723,85 @@ animationConfig: [
 			}
 		]
 	}
+	{
+			frameDuration: 0.125
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: STEEL_DOOR_OPEN
+		texturePaths: [
+				RPGGame/maps/Game/Tiles/Inside/Steel_Door/Steel_Door.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 3
+			}
+			{
+				x: 0
+				y: 4
+			}
+		]
+	}
 ]
 }

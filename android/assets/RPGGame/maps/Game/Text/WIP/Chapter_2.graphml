@@ -475,8 +475,8 @@ as {CHARACTER_2}.<y:LabelModel>
           <y:Geometry height="30.0" width="260.76277073135043" x="4738.682162229933" y="610.4553729930747"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="220.767578125" x="19.99759630317476" y="-1.701171875">We need to get The Gems to send this 
-{CHARACTER_1} to the non-chibi world.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="187.43359375" x="36.66458849067476" y="-1.701171875">We need to get The Gems to send
+{CHARACTER_1} to his world.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -2357,7 +2357,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n125">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="127.76000000000067" x="1946.290076818869" y="610.4553729930744"/>
@@ -2375,7 +2374,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n126">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="110.80000000000018" x="6387.831839759373" y="540.7555083187553"/>
@@ -2393,7 +2391,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n127">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="110.80000000000018" x="6675.8318397593775" y="507.9555083187571"/>
@@ -2411,7 +2408,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n128">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="106.80000000000018" x="7248.631839759377" y="524.7555083187556"/>
@@ -2429,7 +2425,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n129">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="10539.032439376126" y="760.4553729930748"/>
@@ -2447,7 +2442,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n130">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="120.13402289967917" x="3352.807122895041" y="890.4998833187525"/>
@@ -2500,7 +2494,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n133">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="120.13402289967917" x="3518.90613225939" y="875.4857117036017"/>
@@ -2518,7 +2511,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </node>
     <node id="n134">
-      <data key="d5"/>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="123.18541602344067" x="4546.536013719113" y="772.4041869866343"/>
@@ -3803,7 +3795,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e116" source="n125" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3814,7 +3805,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e117" source="n29" target="n30">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3827,7 +3817,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e118" source="n30" target="n31">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3840,7 +3829,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e119" source="n31" target="n126">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3853,7 +3841,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e120" source="n126" target="n32">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3866,7 +3853,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e121" source="n32" target="n127">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3879,7 +3865,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e122" source="n127" target="n33">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3892,7 +3877,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e123" source="n34" target="n128">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3905,7 +3889,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e124" source="n128" target="n35">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3918,7 +3901,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e125" source="n129" target="n106">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="1.0446114800914441E-11" sy="0.0" tx="59.03615216892047" ty="0.030338710527303192">
@@ -3931,7 +3913,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e126" source="n87" target="n129">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3945,7 +3926,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e127" source="n86" target="n129">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="35.72764388548735" ty="0.0">
@@ -3959,7 +3939,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e128" source="n88" target="n129">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-23.5778148348345" ty="0.0"/>
@@ -3970,7 +3949,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e129" source="n130" target="n106">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -3983,7 +3961,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e130" source="n46" target="n131">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -3994,7 +3971,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e131" source="n131" target="n49">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="15.0"/>
@@ -4005,7 +3981,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e132" source="n124" target="n132">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="-15.0" tx="0.0" ty="0.0"/>
@@ -4016,7 +3991,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e133" source="n132" target="n21">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4029,7 +4003,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e134" source="n101" target="n133">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4042,7 +4015,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e135" source="n133" target="n106">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="51.571389797842585" ty="0.0">
@@ -4055,7 +4027,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e136" source="n134" target="n106">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="3.734549440300443E-12" sy="0.0" tx="59.02890518068182" ty="0.0">
@@ -4068,7 +4039,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e137" source="n50" target="n56">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4082,7 +4052,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e138" source="n50" target="n58">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4096,7 +4065,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e139" source="n50" target="n57">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4111,7 +4079,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e140" source="n56" target="n52">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4125,7 +4092,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e141" source="n57" target="n54">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -4136,7 +4102,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e142" source="n58" target="n55">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -4147,7 +4112,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e143" source="n55" target="n60">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4161,7 +4125,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e144" source="n52" target="n53">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4175,7 +4138,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e145" source="n54" target="n59">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4191,7 +4153,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e146" source="n5" target="n8">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -4202,7 +4163,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e147" source="n8" target="n9">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -4216,7 +4176,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e148" source="n9" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="131.00455149746904" sy="-1.1368683772161603E-13" tx="0.0" ty="0.0"/>
@@ -4227,7 +4186,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e149" source="n10" target="n125">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -4238,7 +4196,6 @@ as {CHARACTER_2}.<y:LabelModel>
       </data>
     </edge>
     <edge id="e150" source="n17" target="n18">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="96.57220242937592" sy="1.1368683772161603E-13" tx="0.0" ty="0.0"/>
