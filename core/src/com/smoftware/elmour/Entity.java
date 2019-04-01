@@ -309,6 +309,7 @@ public class Entity {
 	private BattleEntityType battleEntityType;
 	private int battlePosition;
 	private boolean isAlive;
+	private InventoryElement enemyWeapon;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -333,6 +334,7 @@ public class Entity {
 		battleEntityType = entity.battleEntityType;
 		battlePosition = entity.battlePosition;
 		isAlive = entity.isAlive;
+        enemyWeapon = entity.enemyWeapon;
 		return this;
 	}
 
@@ -353,6 +355,7 @@ public class Entity {
 		battleEntityType = BattleEntityType.UNKNOWN;
 		battlePosition = 0;
 		isAlive = false;
+        enemyWeapon = new InventoryElement();
 	}
 
 	public EntityConfig getEntityConfig() {
@@ -372,15 +375,28 @@ public class Entity {
 	public boolean isAlive() { return isAlive; }
 
 	public void setWeapon(InventoryElement weapon) {
-		ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), weapon.id);
+        if (battleEntityType.equals(BattleEntityType.PARTY)) {
+            // Party weapons are always saved in the profile
+            ProfileManager.getInstance().setProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), weapon.id);
+        }
+		else if (battleEntityType.equals(BattleEntityType.ENEMY)) {
+            // Don't save Enemy weapons to profile
+            this.enemyWeapon = weapon;
+        }
 	}
 
 	public InventoryElement getWeapon() {
 		InventoryElement weapon = null;
-		InventoryElement.ElementID weaponId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), InventoryElement.ElementID.class);
 
-		if (weaponId != null)
-			weapon = InventoryElementFactory.getInstance().getInventoryElement(weaponId);
+        if (battleEntityType.equals(BattleEntityType.PARTY)) {
+            // Party weapons are always retrieved from the profile
+            InventoryElement.ElementID weaponId = ProfileManager.getInstance().getProperty(_entityConfig.getEntityID() + IdType.WEAPON_ID.toString(), InventoryElement.ElementID.class);
+            if (weaponId != null)
+                weapon = InventoryElementFactory.getInstance().getInventoryElement(weaponId);
+        }
+        else if (battleEntityType.equals(BattleEntityType.ENEMY)) {
+            weapon = enemyWeapon;
+        }
 
 		return weapon;
 	}

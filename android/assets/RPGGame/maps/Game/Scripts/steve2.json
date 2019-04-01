@@ -6,6 +6,7 @@ direction : DOWN
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""
+preferredWeaponType : STAFF
 entityProperties: {
 	HP: {
 		class: java.lang.String

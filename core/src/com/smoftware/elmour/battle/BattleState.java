@@ -178,6 +178,7 @@ public class BattleState extends BattleSubject implements StatusObserver {
                 entity.setAlive(true);
                 entity.setBattleEntityType(Entity.BattleEntityType.ENEMY);
                 entity.setBattlePosition(battlePosition++);
+                entity.setWeapon(getRandomWeapon(entity.getEntityConfig().getPreferredWeaponType()));
                 currentEnemyList.add(entity);
                 notify(entity, BattleObserver.BattleEvent.OPPONENT_ADDED);
             }
@@ -317,6 +318,37 @@ public class BattleState extends BattleSubject implements StatusObserver {
     public void setCurrentSelectedCharacter(Entity entity) {
         this.currentSelectedCharacter = entity;
         notify(entity, BattleObserver.BattleEvent.CHARACTER_SELECTED);
+    }
+
+    private InventoryElement getRandomWeapon(InventoryElement.WeaponType preferredWeaponType) {
+        InventoryElement weapon = null;
+        String weaponString;
+        int chanceOfPreferredWeaponType = 40;
+        int numPossiblePreferredWeapons = InventoryElement.getNumberOfWeaponsOfType(preferredWeaponType);
+        InventoryElement.WeaponType [] weaponTypes = InventoryElement.WeaponType.values();
+
+        if (preferredWeaponType != InventoryElement.WeaponType.NONE) {
+            // determine if preferred weapon type will be used
+            int randomNumber = MathUtils.random(1, 100);
+
+            if (chanceOfPreferredWeaponType > randomNumber) {
+                // use preferred weapon type
+                int randomWeaponNum = MathUtils.random(1, numPossiblePreferredWeapons);
+                weaponString = preferredWeaponType.toString() + randomWeaponNum;
+            }
+            else {
+                // choose random weapon type (using length - 2 to remove NONE possibility)
+                int randomWeaponType = MathUtils.random(0, weaponTypes.length - 2);
+                InventoryElement.WeaponType weaponType = weaponTypes[randomWeaponType];
+                int numPossibleWeapons = InventoryElement.getNumberOfWeaponsOfType(weaponType);
+                int randomWeaponNum = MathUtils.random(1, numPossibleWeapons);
+                weaponString = weaponType.toString() + randomWeaponNum;
+            }
+
+            weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.valueOf(weaponString));
+        }
+
+        return weapon;
     }
 
     public void applyInventoryItemToCharacter(InventoryElement selectedElement) {

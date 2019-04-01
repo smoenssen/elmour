@@ -20,6 +20,7 @@ public class EntityConfig {
     private String conversationConfigPath;
     private String questConfigPath;
     private String currentQuestID;
+    private InventoryElement.WeaponType preferredWeaponType;
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
     private String displayName;
@@ -77,6 +78,7 @@ public class EntityConfig {
         rewardItems = new Array<ItemReward>();
         entityAbilities = new Array<EntityAbility>();
         spellPowerElementIDs = new Array<>();
+        preferredWeaponType = InventoryElement.WeaponType.NONE;
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
@@ -131,6 +133,7 @@ public class EntityConfig {
         conversationConfigPath = config.getConversationConfigPath();
         questConfigPath = config.getQuestConfigPath();
         currentQuestID = config.getCurrentQuestID();
+        preferredWeaponType = config.getPreferredWeaponType();
 
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
@@ -176,9 +179,11 @@ public class EntityConfig {
         return propertyVal.toString();
     }
 
-    public String getCurrentQuestID() {
-        return currentQuestID;
-    }
+    public InventoryElement.WeaponType getPreferredWeaponType() { return preferredWeaponType; }
+
+    public void setPreferredWeaponType(InventoryElement.WeaponType preferredWeaponType) { this.preferredWeaponType = preferredWeaponType; }
+
+    public String getCurrentQuestID() { return currentQuestID; }
 
     public void setCurrentQuestID(String currentQuestID) {
         this.currentQuestID = currentQuestID;

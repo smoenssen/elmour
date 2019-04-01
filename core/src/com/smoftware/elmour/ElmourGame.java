@@ -130,9 +130,9 @@ public class ElmourGame extends Game {
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
 		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
 		//setScreen(cutSceneChapter1);
-		setScreen(cutSceneChapter2);
+		//setScreen(cutSceneChapter2);
 
-		//setScreen(splashScreen);
+		setScreen(splashScreen);
 
 		/*//////////////////////////////////////
 		//For testing to go right to game screen //srm

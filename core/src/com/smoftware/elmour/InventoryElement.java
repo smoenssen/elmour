@@ -2,6 +2,7 @@ package com.smoftware.elmour;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 
 
@@ -27,11 +28,12 @@ public class InventoryElement{
     }
 
     public enum WeaponType {
-        Dagger,
-        Sword,
-        Mace,
-        Staff,
-        None
+        DAGGER,
+        KNUCKLES,
+        SWORD,
+        MACE,
+        STAFF,
+        NONE    // needs to always be last item
     }
 
     public enum Effect {
@@ -82,14 +84,38 @@ public class InventoryElement{
         THROW1, THROW2, THROW3, THROW4, THROW5, THROW6,
         BREASTPLATE1, BREASTPLATE2, BREASTPLATE3, LEGGINGS1, LEGGINGS2, LEGGINGS3, HELMET1, HELMET2, HELMET3,
 
+        // Note: if any weapons are added, getNumberOfWeaponsOfType() below will need to be updated
         DAGGER1, DAGGER2, DAGGER3, DAGGER4, DAGGER5,
         KNUCKLES1, KNUCKLES2, KNUCKLES3, KNUCKLES4, KNUCKLES5,
         SWORD1, SWORD2, SWORD3, SWORD4, SWORD5,
         MACE1, MACE2, MACE3, MACE4, MACE5,
         STAFF1, STAFF2, STAFF3, STAFF4, STAFF5,
 
-
         NONE
+    }
+
+    public static int getNumberOfWeaponsOfType(WeaponType type) {
+        int numOfWeapons = 0;
+
+        switch (type) {
+            case DAGGER:
+                numOfWeapons = 5;
+                break;
+            case KNUCKLES:
+                numOfWeapons = 5;
+                break;
+            case SWORD:
+                numOfWeapons = 5;
+                break;
+            case MACE:
+                numOfWeapons = 5;
+                break;
+            case STAFF:
+                numOfWeapons = 5;
+                break;
+        }
+
+        return numOfWeapons;
     }
 
     public InventoryCategory category;
@@ -122,7 +148,7 @@ public class InventoryElement{
     public InventoryElement() {
         // default values
         id = ElementID.NONE;
-        type = WeaponType.None;
+        type = WeaponType.NONE;
         effectText = "";
         location = "";
         chapter = 0;
