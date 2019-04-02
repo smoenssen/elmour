@@ -395,8 +395,8 @@ public class BattleState extends BattleSubject implements StatusObserver {
             }
 
             if (defender.getWeapon() != null && defender.getWeapon().category != null) {
-                if (defender.getWeapon().category.equals(InventoryElement.InventoryCategory.STAB)) {
-                    // don't allow defender to block if their weapon is a dagger (STAB category)
+                if (!defender.getWeapon().category.equals(InventoryElement.InventoryCategory.BLUNT)) {
+                    // don't allow defender to block if their weapon is not in the BLUNT category
                     Gdx.app.log(TAG, defender.getEntityConfig().getDisplayName() + " can't block because he/she has a " + defender.getWeapon().name);
                     return false;
                 }
@@ -428,22 +428,6 @@ public class BattleState extends BattleSubject implements StatusObserver {
 
     public void frontMeleeAttack(){
         if (currentSelectedCharacter == null || currentTurnCharacter == null) { return; }
-
-        /*/////////////////////////////////////////////////////////////////
-        //todo: this is just temporary - weapon will be set somewhere else
-        if (currentTurnCharacter.getBattleEntityType() == Entity.BattleEntityType.PARTY) {
-            InventoryElement weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.SWORD1);
-            currentTurnCharacter.setWeapon(weapon);
-        }
-        else {
-            InventoryElement weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.MACE5);
-            currentTurnCharacter.setWeapon(weapon);
-        }
-
-        InventoryElement weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.STAFF1);
-        currentSelectedCharacter.setWeapon(weapon);
-        *//////////////////////////////////////////////////////////////////
-
         Entity attacker = currentTurnCharacter;
         Array<Entity> defenderList = null;
         String message;
@@ -467,18 +451,6 @@ public class BattleState extends BattleSubject implements StatusObserver {
         // check for block
         Entity defender2 = getCharacterAtBattlePosition(defenderList, 2);
         Entity defender4 = getCharacterAtBattlePosition(defenderList, 4);
-
-        /*/////////////////////////////////////////////////////////////////
-        //todo: this is just temporary - weapon will be set somewhere else
-        InventoryElement defender2Weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.MACE1);
-        InventoryElement defender4Weapon = InventoryElementFactory.getInstance().getInventoryElement(InventoryElement.ElementID.SWORD1);
-        if (defender2 != null)
-            defender2.setWeapon(defender2Weapon);
-
-        if (defender4 != null)
-            defender4.setWeapon(defender4Weapon);
-        *//////////////////////////////////////////////////////////////////
-
         boolean blockedBy2 = false;
         boolean blockedBy4 = false;
 

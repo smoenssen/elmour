@@ -8,11 +8,7 @@ On Android, how to allow inventory item at bottom of list to be swapped with one
 
 
 test stopUsingItem
-handle if character doesn't have a weapon (default to KNUCKLE?)
-if equipping to character that already has a weapon, should the previous weapon just be put back in the inventory?
-can character block if they don't have a weapon? only with blunt weapons
-how to assign weapon to enemy? set preferred weapon type (e.g., SWORD) in json file.
-  before every battle, determine chance of getting preferred weapon type. If got preferred weapon type, randomly choose type (e.g., SWORD1-5).
-  If not get preferred weapon type, randomly choose other weapon. some enemies won't have weapon (preferred weapon NONE).
+handle if character doesn't have a weapon: default to KNUCKLE
+if equipping to character that already has a weapon, the previous weapon just be put back in the inventory
+
   
-  should NONE be included in the random weapon type choosing?
