@@ -858,7 +858,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         Label label1 = new Label(labelText, Utility.ELMOUR_UI_SKIN, "message_box");
         dialog.getContentTable().add(label1).padTop(5f);
-        dialog.getContentTable().add(inputField).width(250).padTop(5f);
+        dialog.getContentTable().add(inputField).width(150).padTop(5f);
 
         t.add(btnOK).width(btnWidth).height(btnHeight);
 

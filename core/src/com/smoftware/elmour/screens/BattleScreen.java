@@ -1018,7 +1018,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             strWeaponID = entity.getWeapon().id.toString() + "_" + direction;
         }
         else {
-            strWeaponID = InventoryElement.ElementID.NONE + "_" + direction;
+            strWeaponID = InventoryElement.ElementID.KNUCKLES1 + "_" + direction;
         }
 
         return Entity.AnimationType.valueOf(strWeaponID);
@@ -1046,7 +1046,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             strAnimationType = entity.getWeapon().category.toString() + "_" + direction;
         }
         else {
-            strAnimationType = InventoryElement.InventoryCategory.NONE+ "_" + direction;
+            strAnimationType = InventoryElement.InventoryCategory.KNUCKLES + "_" + direction;
         }
 
         return Entity.AnimationType.valueOf(strAnimationType);

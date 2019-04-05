@@ -133,6 +133,15 @@ public class MyTextArea extends MyTextField {
             //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
             //Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
 
+            /* KEEP GETTING AN EXCEPTION ON currString += text.charAt(i);
+                java.lang.StringIndexOutOfBoundsException: length=0; index=23
+                at java.lang.String.charAt(Native Method)
+                at com.smoftware.elmour.UI.MyTextArea.getLineStrings(MyTextArea.java:137)
+                at com.smoftware.elmour.dialog.PopUp.calculateLineStrings(PopUp.java:486)
+                at com.smoftware.elmour.dialog.PopUp.access$1200(PopUp.java:20)
+                at com.smoftware.elmour.dialog.PopUp$1.run(PopUp.java:360)
+                at java.lang.Thread.run(Thread.java:764)
+             */
             if (text.length() > 0)
                 currString += text.charAt(i);
         }

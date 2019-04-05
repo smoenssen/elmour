@@ -51,6 +51,7 @@ public class PopUp extends Window implements PopUpSubject {
 	private boolean doneWithCurrentNode = true;
 	private long setVisibleDelay = 0;
 	private PopUpType popUpType;
+	private Object criticalSection;
 
 	public PopUp(PopUpType popUpType) {
 		//Notes:
@@ -64,6 +65,7 @@ public class PopUp extends Window implements PopUpSubject {
 		json = new Json();
 		observers = new Array<PopUpObserver>();
 		this.popUpType = popUpType;
+		criticalSection  = new Object();
 		hide();
 	}
 
@@ -99,12 +101,13 @@ public class PopUp extends Window implements PopUpSubject {
 
 	public void interact(boolean isEcho) {
 
+        //synchronized (criticalSection) {
 		this.isEcho = isEcho;
 
 		Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
 		Gdx.app.log(TAG, "interact   fullText = " + fullText);
 		if (isEcho)
-			Gdx.app .log(TAG, "isEcho");
+			Gdx.app.log(TAG, "isEcho");
 
 		switch (state) {
 			case HIDDEN:
@@ -123,6 +126,7 @@ public class PopUp extends Window implements PopUpSubject {
 		}
 
 		Gdx.app.log(TAG, "popup interact new state = " + state.toString());
+		//}
 	}
 
 	boolean firstTime = true;
@@ -368,6 +372,7 @@ public class PopUp extends Window implements PopUpSubject {
 								// process the current line
 								processLine(dialog.lineStrings.get(lineIdx));
 
+								//synchronized (criticalSection) {
 								if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
 									// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
 									doneWithCurrentNode = true;
@@ -380,13 +385,13 @@ public class PopUp extends Window implements PopUpSubject {
 									// go into listening mode
 									state = State.LISTENING;
 
-								if (popUpType == PopUpType.CONVERSATION && currentCharacter != "Me" &&
+								if (popUpType == PopUpType.CONVERSATION &&
 										sectionsProcessed == fullTextSections.length &&
 										lineIdx == dialog.lineStrings.size - 1) {
 									// show choices now since this is the last line of the dialog
-									//todo: get character name
 									showChoices();
 								}
+								//}
 
 								if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
 									// done populating current box so need to pause for next interaction
