@@ -85,6 +85,20 @@ public class CutSceneBase extends GameScreen {
         }
     }
 
+    public class setMapRendering extends Action {
+        boolean on;
+
+        public setMapRendering(boolean on) {
+            this.on = on;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            isMapRendering = this.on;
+            return true; // An action returns true when it's completed
+        }
+    }
+
     // End common cut scene actions
     /////////////////////////////////////////////////////////
 
@@ -122,6 +136,7 @@ public class CutSceneBase extends GameScreen {
     protected InputMultiplexer _multiplexer;
     protected ShakeCamera shakeCam;
     protected boolean keepCamInMap;
+    protected boolean isMapRendering;
 
     protected Entity _player;
     protected PlayerHUD _playerHUD;
@@ -155,6 +170,7 @@ public class CutSceneBase extends GameScreen {
         shakeCam = null;
         lastCameraPosition = new Vector3(0, 0, 0);
         keepCamInMap = true;
+        isMapRendering = true;
 
         setGameState(GameState.RUNNING);
 
@@ -327,7 +343,9 @@ public class CutSceneBase extends GameScreen {
             _mapMgr.setMapChanged(false);
         }
 
-        _mapRenderer.render();
+        if (isMapRendering)
+            _mapRenderer.render();
+
 
         for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
             MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);

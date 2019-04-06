@@ -26,25 +26,31 @@ public class ConversationGraphSubject {
     }
 
     public void notify(final ConversationGraph graph, ConversationGraphObserver.ConversationCommandEvent event) {
-        for(ConversationGraphObserver observer: _observers){
+        // can't use an iterator here because it might be nested
+        for (int i = 0; i < _observers.size; i++) {
+            ConversationGraphObserver observer = _observers.get(i);
             observer.onNotify(graph, event);
         }
     }
 
     public void notify(final ConversationGraph graph, ConversationGraphObserver.ConversationCommandEvent event, String conversationId) {
-        for(ConversationGraphObserver observer: _observers){
+        // can't use an iterator here because it might be nested
+        for (int i = 0; i < _observers.size; i++) {
+            ConversationGraphObserver observer = _observers.get(i);
             observer.onNotify(graph, event, conversationId);
         }
     }
 
     public void notify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices) {
-        for(ConversationGraphObserver observer: _observers){
+        // can't use an iterator here because it might be nested
+        for (int i = 0; i < _observers.size; i++) {
+            ConversationGraphObserver observer = _observers.get(i);
             observer.onNotify(graph, choices);
         }
     }
 
     public void notify(final String value, ConversationGraphObserver.ConversationCommandEvent event) {
-        // can't use an iterator here because it can be nested
+        // can't use an iterator here because it might be nested
         for (int i = 0; i < _observers.size; i++) {
             ConversationGraphObserver observer = _observers.get(i);
             observer.onNotify(value, event);

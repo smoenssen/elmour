@@ -1786,10 +1786,12 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
     private Action getWakeUpScene() {
         setupWakeUpScene.reset();
         return Actions.sequence(
+                new setMapRendering(false),
                 Actions.addAction(setupWakeUpScene),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_DOWN),
                 Actions.delay(0.25f),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
+                new setMapRendering(true),
                 Actions.delay(2),
                 new setFading(false),
 

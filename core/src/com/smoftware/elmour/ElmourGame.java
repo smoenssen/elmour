@@ -125,7 +125,7 @@ public class ElmourGame extends Game {
 		partyList = new Array<>();
 
 		//Utility.parseConversationXMLFile("n3", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
-		Utility.parseAllConversationXMLFiles();
+		//Utility.parseAllConversationXMLFiles();
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
 		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);

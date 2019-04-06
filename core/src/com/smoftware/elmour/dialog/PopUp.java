@@ -101,32 +101,32 @@ public class PopUp extends Window implements PopUpSubject {
 
 	public void interact(boolean isEcho) {
 
-        //synchronized (criticalSection) {
-		this.isEcho = isEcho;
+        synchronized (criticalSection) {
+			this.isEcho = isEcho;
 
-		Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
-		Gdx.app.log(TAG, "interact   fullText = " + fullText);
-		if (isEcho)
-			Gdx.app.log(TAG, "isEcho");
+			Gdx.app.log(TAG, "popup interact cur state = " + state.toString());
+			Gdx.app.log(TAG, "interact   fullText = " + fullText);
+			if (isEcho)
+				Gdx.app.log(TAG, "isEcho");
 
-		switch (state) {
-			case HIDDEN:
-				if (fullText != "") {
-					Gdx.app.log(TAG, "setting isReady to false in interact");
-					isReady = false;
-					this.setVisible(true);
-					isActive = true;
-					state = State.LISTENING;
-					startInteractionThread();
-				}
-				break;
-			case LISTENING:
-				interactReceived = true;
-				break;
+			switch (state) {
+				case HIDDEN:
+					if (fullText != "") {
+						Gdx.app.log(TAG, "setting isReady to false in interact");
+						isReady = false;
+						this.setVisible(true);
+						isActive = true;
+						state = State.LISTENING;
+						startInteractionThread();
+					}
+					break;
+				case LISTENING:
+					interactReceived = true;
+					break;
+			}
+
+			Gdx.app.log(TAG, "popup interact new state = " + state.toString());
 		}
-
-		Gdx.app.log(TAG, "popup interact new state = " + state.toString());
-		//}
 	}
 
 	boolean firstTime = true;
@@ -372,26 +372,26 @@ public class PopUp extends Window implements PopUpSubject {
 								// process the current line
 								processLine(dialog.lineStrings.get(lineIdx));
 
-								//synchronized (criticalSection) {
-								if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
-									// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
-									doneWithCurrentNode = true;
-								}
+								synchronized (criticalSection) {
+									if (sectionsProcessed == fullTextSections.length && lineIdx == dialog.lineStrings.size - 1) {
+										// this is the last line of the last section, so set flag so PlayerHUD knows to move on to next node
+										doneWithCurrentNode = true;
+									}
 
-								if (state == State.HIDDEN)
-									// break out of loop and exit thread if we were hidden
-									break;
-								else
-									// go into listening mode
-									state = State.LISTENING;
+									if (state == State.HIDDEN)
+										// break out of loop and exit thread if we were hidden
+										break;
+									else
+										// go into listening mode
+										state = State.LISTENING;
 
-								if (popUpType == PopUpType.CONVERSATION &&
-										sectionsProcessed == fullTextSections.length &&
-										lineIdx == dialog.lineStrings.size - 1) {
-									// show choices now since this is the last line of the dialog
-									showChoices();
+									if (popUpType == PopUpType.CONVERSATION &&
+											sectionsProcessed == fullTextSections.length &&
+											lineIdx == dialog.lineStrings.size - 1) {
+										// show choices now since this is the last line of the dialog
+										showChoices();
+									}
 								}
-								//}
 
 								if ((lineIdx != 0 && (lineIdx + 1) % 2 == 0) || lineIdx == dialog.lineStrings.size - 1) {
 									// done populating current box so need to pause for next interaction
