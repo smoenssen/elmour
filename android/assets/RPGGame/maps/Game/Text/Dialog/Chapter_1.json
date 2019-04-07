@@ -777,7 +777,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n114
 			destinationId: n111
-			choicePhrase: You mean I could@ve just left as soon as I \r\ncame?
+			choicePhrase: You mean I could©ve just left as soon as I \r\ncame?
 		}
 	]
 	n113: [
@@ -1103,7 +1103,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n14
 			destinationId: n11
-			choicePhrase: I don@t know...
+			choicePhrase: I don©t know...
 		}
 	]
 	n79: [
@@ -1197,7 +1197,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I@ve only just arrived, and I@ve been attacked\r\nby your guards twice."
+			choicePhrase: "I©ve only just arrived, and I©ve been attacked\r\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1521,7 +1521,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n6
 			destinationId: n13
-			choicePhrase: "I@m raiding this castle, what else?"
+			choicePhrase: "I©m raiding this castle, what else?"
 		}
 	]
 	n5: [
@@ -1615,7 +1615,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I@ve only just arrived, and I@ve been attacked\r\nby your guards twice."
+			choicePhrase: "I©ve only just arrived, and I©ve been attacked\r\nby your guards twice."
 		}
 	]
 	n36: [

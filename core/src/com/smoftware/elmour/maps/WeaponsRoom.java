@@ -44,9 +44,16 @@ public class WeaponsRoom extends Map {
 
     }
 
-    @Override
     public void handleInteraction(MapManager mapMgr) {
-
+        switch(interaction) {
+            case EXIT:
+                if (previousMapType != null) {
+                    mapMgr.loadMap(previousMapType);
+                    mapMgr.setStartPositionFromPreviousMap();
+                    interaction = Entity.Interaction.NONE;
+                }
+                break;
+        }
     }
 
     @Override

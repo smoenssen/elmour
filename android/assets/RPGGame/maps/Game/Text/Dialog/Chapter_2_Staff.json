@@ -24,6 +24,12 @@ conversations: {
 		character: null
 		type: NPC
 	}
+	n8: {
+		id: n8
+		dialog: WALK_OUT_OF_WAY
+		character: null
+		type: ACTION
+	}
 }
 associatedChoices: {
 	n6: [
@@ -54,6 +60,14 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
 			destinationId: n5
 			choicePhrase: NO_CHOICE
 		}

@@ -1,5 +1,17 @@
 {
 conversations: {
+	n8: {
+		id: n8
+		dialog: WALK_OUT_OF_WAY
+		character: null
+		type: ACTION
+	}
+	n7: {
+		id: n7
+		dialog: EXIT_CONVERSATION_2
+		character: null
+		type: ACTION
+	}
 	n6: {
 		id: n6
 		dialog: Come back anytime!\r\n(Preferably with money...)
@@ -40,6 +52,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n4: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -60,7 +80,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
-			destinationId: n6
+			destinationId: n8
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -76,6 +96,14 @@ associatedChoices: {
 			sourceId: n0
 			destinationId: n1
 			choicePhrase: Yes.
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n6
+			choicePhrase: NO_CHOICE
 		}
 	]
 }

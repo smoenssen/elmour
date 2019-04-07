@@ -95,9 +95,9 @@ public class Entity {
 
 		FALL_DOWN, FALL_LEFT, FALL_RIGHT, FALL_UP, REACH_LEFT, REACH_RIGHT, LAY_DOWN,
 
-		STEEL_DOOR_OPEN,
+		STEEL_DOOR_OPEN, BOOK_STAND,
 
-		THINK, FORCEFIELD, SLEEP_LOOP, THINK_LOOP,
+		THINK, FORCEFIELD, SLEEP_LOOP, THINK_LOOP, BOOK, BOOK_CLOSE,
 		LOVE_ON, SHOCK_ON, QUESTION_ON, SLEEP_ON, SMUG_ON, HAPPY_ON, VERY_HAPPY_ON, NEUTRAL_ON, SAD_ON, CRY_ON, TEAR_ON, ANGER_ON, THINK_ON,
 		LOVE_OFF, SHOCK_OFF, QUESTION_OFF, SLEEP_OFF, SMUG_OFF, HAPPY_OFF, VERY_HAPPY_OFF, NEUTRAL_OFF, SAD_OFF, CRY_OFF, TEAR_OFF, ANGER_OFF, THINK_OFF,
 
@@ -266,6 +266,10 @@ public class Entity {
 			@Override
 			public String toString() { return "M14SIGN2"; }
 		},
+		STORAGE_ROOM {
+			@Override
+			public String toString() { return "STORAGE_ROOM"; }
+		},
 		T2DOOR1 {
 			@Override
 			public String toString() { return "T2DOOR1"; }
@@ -289,6 +293,10 @@ public class Entity {
 		Portal_Room {
 			@Override
 			public String toString() { return "Portal_Room"; }
+		},
+		WEAPONS_ROOM {
+			@Override
+			public String toString() { return "WEAPONS_ROOM"; }
 		},
 		NONE {
 			@Override

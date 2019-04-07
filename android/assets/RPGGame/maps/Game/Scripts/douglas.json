@@ -6,7 +6,6 @@ direction : DOWN
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""
-preferredWeaponType : MACE
 entityProperties: {
 	HP: {
 		class: java.lang.String

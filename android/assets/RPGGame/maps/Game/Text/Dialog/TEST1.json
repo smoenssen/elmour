@@ -89,7 +89,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n3
-			choicePhrase: Let@s not.
+			choicePhrase: Let©s not.
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice

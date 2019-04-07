@@ -713,5 +713,89 @@ animationConfig: [
 			}
 		]
 	}
+	{
+			frameDuration: 0.15
+			frameWidth : 16
+			frameHeight : 16
+			looping : true
+		animationType: BOOK
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Misc/Misc.png
+		]
+		gridPoints: [
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 6
+			}
+			{
+				x: 10
+				y: 7
+			}
+			{
+				x: 10
+				y: 8
+			}
+			{
+				x: 10
+				y: 9
+			}
+			{
+				x: 10
+				y: 10
+			}
+		]
+	}
+	{
+			frameDuration: 0.15
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: BOOK_CLOSE
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Misc/Misc.png
+		]
+		gridPoints: [
+			{
+				x: 10
+				y: 5
+			}
+			{
+				x: 10
+				y: 11
+			}
+			{
+				x: 10
+				y: 12
+			}
+		]
+	}
 ]
 }

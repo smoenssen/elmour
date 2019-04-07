@@ -803,5 +803,21 @@ animationConfig: [
 			}
 		]
 	}
+	{
+			frameDuration: 1
+			frameWidth : 16
+			frameHeight : 32
+			looping : false
+		animationType: BOOK_STAND
+		texturePaths: [
+				RPGGame/maps/Game/Tiles/Inside/Book_Stand/Book_Stand.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
 ]
 }

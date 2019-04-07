@@ -151,6 +151,7 @@ public class CutSceneBase extends GameScreen {
     protected Action _switchScreenToMainAction;
 
     protected float oneBlockTime = 0;
+    protected float closeBook = 0;
     protected float emoteOn = 0;
     protected float emoteOff = 0;
     protected float emoteX = 0.8f;

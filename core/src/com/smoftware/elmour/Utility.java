@@ -506,7 +506,7 @@ public final class Utility {
 			if (node.type == ConversationNode.NodeType.CHOICE) {
 				// set choice phrase for this node
 				// replace special characters that need to be re-interpreted in ChoicePopUp
-				String temp = node.data.replace('\'', '@'); // single apostrophe
+				String temp = node.data.replace('\'', '©'); // single apostrophe
 				choice.setChoicePhrase(temp);
 
 				// next node must be an NPC so get its id, otherwise throw exception

@@ -1,5 +1,17 @@
 {
 conversations: {
+	n8: {
+		id: n8
+		dialog: WALK_OUT_OF_WAY
+		character: null
+		type: ACTION
+	}
+	n7: {
+		id: n7
+		dialog: EXIT_CONVERSATION_2
+		character: null
+		type: ACTION
+	}
 	n6: {
 		id: n6
 		dialog: "Maximum power output. That'll help a lot,\r\nbut are you sure?"
@@ -54,6 +66,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n3: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
@@ -74,6 +94,14 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
 			destinationId: n5
 			choicePhrase: NO_CHOICE
 		}
