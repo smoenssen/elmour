@@ -36,7 +36,7 @@ public class WeaponsRoom extends Map {
 
     @Override
     public void handleInteractionInit(Entity.Interaction interaction) {
-
+        this.interaction = interaction;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class WeaponsRoom extends Map {
 
     @Override
     public void handleInteractionFinished() {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     private void initSpecialEntityPosition(Entity entity){

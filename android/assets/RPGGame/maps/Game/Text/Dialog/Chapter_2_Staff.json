@@ -2,13 +2,13 @@
 conversations: {
 	n6: {
 		id: n6
-		dialog: "Something that'll help your magical capabilities.\r\nSounds like it'll go well with the book, but\r\nare you sure?"
+		dialog: "Something that'll help your magical capabilities.\nSounds like it'll go well with the book, but\nare you sure?"
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: Come back anytime!\r\n(Preferably with money...)
+		dialog: Come back anytime!\n(Preferably with money...)
 		character: Justin
 		type: NPC
 	}

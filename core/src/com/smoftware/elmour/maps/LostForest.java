@@ -55,7 +55,7 @@ public class LostForest extends Map {
 
     @Override
     public void handleInteractionFinished() {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     private void initSpecialEntityPosition(Entity entity){

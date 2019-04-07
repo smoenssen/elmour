@@ -45,7 +45,7 @@ public class TopWorldMap extends Map{
 
     @Override
     public void handleInteraction(MapManager mapMgr) {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     @Override

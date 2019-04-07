@@ -55,8 +55,9 @@ public class LostForestC extends Map {
 
     @Override
     public void handleInteractionFinished() {
-
+        interaction = Entity.Interaction.NONE;
     }
+
     private void initSpecialEntityPosition(Entity entity){
         Vector2 position = new Vector2(0,0);
 

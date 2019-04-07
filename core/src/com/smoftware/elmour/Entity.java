@@ -266,9 +266,9 @@ public class Entity {
 			@Override
 			public String toString() { return "M14SIGN2"; }
 		},
-		STORAGE_ROOM {
+		STORAGE_ROOM_SIGN {
 			@Override
-			public String toString() { return "STORAGE_ROOM"; }
+			public String toString() { return "STORAGE_ROOM_SIGN"; }
 		},
 		T2DOOR1 {
 			@Override

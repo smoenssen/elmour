@@ -463,6 +463,7 @@ public class PopUp extends Window implements PopUpSubject {
 		currFullText = currFullText.replace("\r", "");
         currFullText = currFullText.replace("\n", "");
 		currFullText = currFullText.replace("¶", "\n");
+		currFullText = currFullText.replace("�", "\n"); // strange character that is suppose to be ¶
 
 		Gdx.app.log(TAG, "setting text for UI thread = " + currFullText);
 		setTextForUIThread(currFullText, false);

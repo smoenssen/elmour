@@ -2,7 +2,7 @@
 conversations: {
 	n9: {
 		id: n9
-		dialog: "How odd… last time I checked, a woodshop \r\nshouldn't smell like a bomb…"
+		dialog: "How odd… last time I checked, a woodshop \nshouldn't smell like a bomb…"
 		character: My Thoughts
 		type: NPC
 	}
@@ -20,13 +20,13 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "There should be backpacks there.\r\nI'll cover any costs this time, but after that, \r\nyou'll need to buy it on your own."
+		dialog: "There should be backpacks there.\nI'll cover any costs this time, but after that, \nyou'll need to buy it on your own."
 		character: null
 		type: NPC
 	}
 	n19: {
 		id: n19
-		dialog: If I were to point it out it would certainly make\r\na crisis. That’s the last thing I need to deal with.
+		dialog: If I were to point it out it would certainly make\na crisis. That’s the last thing I need to deal with.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -38,7 +38,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: "So you noticed too, I just assumed that you\r\ndidn't.§\r\nYou just walked to the counter and ignored it."
+		dialog: "So you noticed too, I just assumed that you\ndidn't.§\nYou just walked to the counter and ignored it."
 		character: Me
 		type: NPC
 	}
@@ -50,13 +50,13 @@ conversations: {
 	}
 	n17: {
 		id: n17
-		dialog: That man creeps me out.§\r\nNobody knows his name either… and the\r\nshop should not smell like gunpowder!
+		dialog: That man creeps me out.§\nNobody knows his name either… and the\nshop should not smell like gunpowder!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n2: {
 		id: n2
-		dialog: "Our first trip will be… about a hundred miles.\r\nIt goes by a lot faster than it sounds, though."
+		dialog: "Our first trip will be… about a hundred miles.\nIt goes by a lot faster than it sounds, though."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -74,7 +74,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "We'll need firewood for our travels. After all,\r\nwe won't be returning to Elmour for quite\r\nsome time."
+		dialog: "We'll need firewood for our travels. After all,\nwe won't be returning to Elmour for quite\nsome time."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}

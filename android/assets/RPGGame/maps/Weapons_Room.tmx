@@ -127,6 +127,6 @@
  <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="12" name="EXIT" x="128" y="170" width="16" height="6"/>
-  <object id="13" name="STORAGE_ROOM" x="128" y="32" width="16" height="6"/>
+  <object id="13" name="STORAGE_ROOM_SIGN" x="128" y="32" width="16" height="6"/>
  </objectgroup>
 </map>

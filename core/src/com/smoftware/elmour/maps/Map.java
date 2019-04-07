@@ -20,6 +20,7 @@ import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
 import java.util.Hashtable;
+import java.util.Stack;
 
 public abstract class Map extends MapSubject implements AudioSubject{
     private static final String TAG = Map.class.getSimpleName();
@@ -105,6 +106,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
     protected MapFactory.MapType _currentMapType = null;
     protected MapFactory.MapType previousMapType = null;
+    private Stack<MapFactory.MapType> previousInteractionMapType;
     protected Array<Entity> mapEntities;
     protected Array<Entity> _mapQuestEntities;
     protected Array<ParticleEffect> _mapParticleEffects;
@@ -118,6 +120,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
         _mapQuestEntities = new Array<Entity>();
         _mapParticleEffects = new Array<ParticleEffect>();
         _currentMapType = mapType;
+        previousInteractionMapType = new Stack<>();
         _playerStart = new Vector2(0,0);
         _playerStartPositionRect = new Vector2(0,0);
         _closestPlayerStartPosition = new Vector2(0,0);

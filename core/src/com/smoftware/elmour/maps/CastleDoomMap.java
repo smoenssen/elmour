@@ -36,7 +36,7 @@ public class CastleDoomMap extends Map{
 
     @Override
     public void handleInteractionInit(Entity.Interaction interaction) {
-
+        this.interaction = interaction;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CastleDoomMap extends Map{
 
     @Override
     public void handleInteraction(MapManager mapMgr) {
-
+        interaction = Entity.Interaction.NONE;
     }
 
     @Override
