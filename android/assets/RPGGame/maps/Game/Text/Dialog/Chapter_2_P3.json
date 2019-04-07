@@ -2,7 +2,7 @@
 conversations: {
 	n9: {
 		id: n9
-		dialog: "How odd… last time I checked, a woodshop \nshouldn't smell like a bomb…"
+		dialog: "How odd... this smell... last time I checked, a\r\nwoodshop shouldn't smell like a bomb..."
 		character: My Thoughts
 		type: NPC
 	}
@@ -20,13 +20,13 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "There should be backpacks there.\nI'll cover any costs this time, but after that, \nyou'll need to buy it on your own."
+		dialog: "There should be backpacks there.\r\nI'll cover any costs this time, but after that, \r\nyou'll need to buy it on your own."
 		character: null
 		type: NPC
 	}
 	n19: {
 		id: n19
-		dialog: If I were to point it out it would certainly make\na crisis. That’s the last thing I need to deal with.
+		dialog: If I were to point it out it would certainly make\r\na crisis. That's the last thing I need to deal with.
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -38,7 +38,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: "So you noticed too, I just assumed that you\ndidn't.§\nYou just walked to the counter and ignored it."
+		dialog: "So you noticed too, I just assumed that you\r\ndidn't.§\r\nYou just walked to the counter and ignored it."
 		character: Me
 		type: NPC
 	}
@@ -50,13 +50,13 @@ conversations: {
 	}
 	n17: {
 		id: n17
-		dialog: That man creeps me out.§\nNobody knows his name either… and the\nshop should not smell like gunpowder!
+		dialog: That man creeps me out.§\r\nNobody knows his name either... and the\r\nshop should not smell like gunpowder!
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
 	n2: {
 		id: n2
-		dialog: "Our first trip will be… about a hundred miles.\nIt goes by a lot faster than it sounds, though."
+		dialog: "Our first trip will be... about a hundred miles.\r\nIt goes by a lot faster than it sounds, though."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -74,7 +74,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "We'll need firewood for our travels. After all,\nwe won't be returning to Elmour for quite\nsome time."
+		dialog: "We'll need firewood for our travels. After all,\r\nwe won't be returning to Elmour for quite\r\nsome time."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -106,6 +106,30 @@ conversations: {
 		id: n10
 		dialog: Yeah.
 		character: ???
+		type: NPC
+	}
+	n25: {
+		id: n25
+		dialog: "OK, but, how will we carry it all?"
+		character: Me
+		type: NPC
+	}
+	n24: {
+		id: n24
+		dialog: CHAR1_THINK
+		character: null
+		type: ACTION
+	}
+	n23: {
+		id: n23
+		dialog: CHAR1_STUTTER
+		character: null
+		type: ACTION
+	}
+	n22: {
+		id: n22
+		dialog: H-hundred?!
+		character: Me
 		type: NPC
 	}
 	n21: {
@@ -206,7 +230,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n2
-			destinationId: n5
+			destinationId: n23
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -285,6 +309,38 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n10
 			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n24
 			choicePhrase: NO_CHOICE
 		}
 	]

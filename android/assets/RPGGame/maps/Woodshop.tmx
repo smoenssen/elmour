@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" nextobjectid="9">
+ <tileset firstgid="1" name="Cement" tilewidth="16" tileheight="16" tilecount="4" columns="4">
+  <image source="Game/Tiles/Inside/Cement/Cement.png" width="64" height="16"/>
+ </tileset>
+ <tileset firstgid="5" name="Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="Game/Tiles/Inside/Border.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="7" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="8" name="Table" tilewidth="16" tileheight="16" tilecount="3" columns="3">
+  <image source="Game/Tiles/Inside/Furniture/Table.png" width="48" height="16"/>
+ </tileset>
+ <tileset firstgid="11" name="Wood_Wall" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Wood_Wall/Wood_Wall.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="15" name="Table_2" tilewidth="16" tileheight="16" tilecount="3" columns="1">
+  <image source="Game/Tiles/Inside/Furniture/Table_2.png" width="16" height="48"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="12" height="12">
+  <data encoding="csv">
+1073741829,11,12,11,12,11,12,11,12,11,12,2147483653,
+1073741829,13,14,13,14,13,14,13,14,13,14,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1073741829,1,1,1,1,1,1,1,1,1,1,2147483653,
+1610612742,3758096389,3758096389,3758096389,3758096389,3758096389,3758096389,3758096389,3758096389,3758096389,3758096389,3221225478
+</data>
+ </layer>
+ <layer name="Lower" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,7,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZSHADOWDOWN" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Higher" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,8,9,9,9,10,0,0,0,0,0,
+0,0,0,0,0,0,0,0,15,0,0,0,
+0,0,0,0,0,0,0,0,16,0,0,0,
+0,0,0,0,0,0,0,0,16,0,0,0,
+0,0,0,0,0,0,0,0,16,0,0,0,
+0,0,0,0,0,0,0,0,16,0,0,0,
+0,0,0,0,0,0,0,0,17,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZDOWN" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="COLLISION_LAYER">
+  <object id="1" x="0" y="0" width="16" height="192"/>
+  <object id="2" x="16" y="176" width="160" height="16"/>
+  <object id="3" x="176" y="0" width="16" height="192"/>
+  <object id="4" x="16" y="0" width="160" height="32"/>
+  <object id="5" x="33" y="48" width="78" height="15"/>
+  <object id="6" x="129" y="65" width="14" height="94"/>
+ </objectgroup>
+ <objectgroup name="SPAWNS_LAYER">
+  <object id="8" name="PLAYER_START" x="64" y="157" width="16" height="12"/>
+ </objectgroup>
+ <objectgroup name="Z_GATES"/>
+ <objectgroup name="INTERACTION">
+  <object id="7" name="EXIT" x="64" y="170" width="16" height="6"/>
+ </objectgroup>
+</map>

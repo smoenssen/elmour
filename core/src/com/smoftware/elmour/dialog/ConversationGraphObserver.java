@@ -79,6 +79,16 @@ public interface ConversationGraphObserver {
         ZOOM_OUT,
         WALK_OUT_OF_WAY,
         WALK_OUT_OF_ARMORY,
+        //P3
+        CHAR1_STUTTER,
+        CHAR1_THINK,
+        //P4
+        WALK_INTO_INN,
+        DIANE_WALK,
+        DIANE_WALK_BACK,
+        START_LEAVE_INN,
+        CHAR2_LOOK_UP_2,
+        WALK_OUT_OF_INN,
 
         WALK_AROUND_TOWN,
 

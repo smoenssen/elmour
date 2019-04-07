@@ -1,6 +1,6 @@
 {
 entityID : Character_1
-displayName : "Apollo"
+displayName : "Ophion"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
@@ -58,10 +58,10 @@ entityProperties: {
 }
 animationConfig: [
 	{
-	    frameDuration: 0.15
+	    frameDuration: 0.3
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -83,10 +83,10 @@ animationConfig: [
 		]
 	}
 	{
-	    frameDuration: 0.15
+	    frameDuration: 0.3
 		animationType: WALK_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -108,10 +108,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.15
+		frameDuration: 0.3
 		animationType: WALK_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -133,10 +133,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.15
+		frameDuration: 0.3
 		animationType: WALK_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -158,10 +158,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.15
+		frameDuration: 0.3
 		animationType: WALK_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -183,10 +183,10 @@ animationConfig: [
 		]
 	}
 	{
-			frameDuration: 0.10
+			frameDuration: 0.20
 		animationType: RUN_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -208,10 +208,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.10
+		frameDuration: 0.20
 		animationType: RUN_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -233,10 +233,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.10
+		frameDuration: 0.20
 		animationType: RUN_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -258,10 +258,10 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.10
+		frameDuration: 0.20
 		animationType: RUN_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
+			RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -288,7 +288,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -315,7 +315,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -342,7 +342,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: STAB_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -377,7 +377,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: STAB_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -412,7 +412,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: KNUCKLE_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -431,7 +431,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: KNUCKLE_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -450,7 +450,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -469,7 +469,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -488,7 +488,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -515,7 +515,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
+				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
@@ -533,267 +533,6 @@ animationConfig: [
 			{
 				x: 0
 				y: 4
-			}
-		]
-	}
-	{
-			frameDuration: 0.08
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: THINK
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Misc/Misc.png
-		]
-		gridPoints: [
-			{
-				x: 10
-				y: 0
-			}
-			{
-				x: 10
-				y: 1
-			}
-		]
-	}
-	{
-		frameDuration: 0.3
-		animationType: SLOW_WALK_RIGHT
-		texturePaths: [
-			RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 5
-				y: 7
-			}
-			{
-				x: 5
-				y: 6
-			}
-			{
-				x: 5
-				y: 8
-			}
-			{
-				x: 5
-				y: 6
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: FALL_DOWN
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 0
-			}
-			{
-				x: 6
-				y: 1
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: FALL_LEFT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 2
-			}
-			{
-				x: 6
-				y: 3
-			}
-			{
-				x: 6
-				y: 4
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: FALL_RIGHT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 5
-			}
-			{
-				x: 6
-				y: 6
-			}
-			{
-				x: 6
-				y: 7
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: FALL_UP
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 8
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: REACH_LEFT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 9
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: REACH_RIGHT
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Character_1/Character_1.png
-		]
-		gridPoints: [
-			{
-				x: 6
-				y: 10
-			}
-		]
-	}
-	{
-			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: LAY_DOWN
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Misc/Misc.png
-		]
-		gridPoints: [
-			{
-				x: 10
-				y: 4
-			}
-		]
-	}
-	{
-			frameDuration: 0.15
-			frameWidth : 16
-			frameHeight : 16
-			looping : true
-		animationType: BOOK
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Misc/Misc.png
-		]
-		gridPoints: [
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 6
-			}
-			{
-				x: 10
-				y: 7
-			}
-			{
-				x: 10
-				y: 8
-			}
-			{
-				x: 10
-				y: 9
-			}
-			{
-				x: 10
-				y: 10
-			}
-		]
-	}
-	{
-			frameDuration: 0.15
-			frameWidth : 16
-			frameHeight : 16
-			looping : false
-		animationType: BOOK_CLOSE
-		texturePaths: [
-				RPGGame/maps/Game/Characters/Misc/Misc.png
-		]
-		gridPoints: [
-			{
-				x: 10
-				y: 5
-			}
-			{
-				x: 10
-				y: 11
-			}
-			{
-				x: 10
-				y: 12
 			}
 		]
 	}

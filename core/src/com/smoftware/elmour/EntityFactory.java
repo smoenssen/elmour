@@ -25,6 +25,8 @@ public class EntityFactory {
         DOUGLAS,
         JUSTIN,
         JAXON_1,
+        DIANE,
+        OPHION,
         ROYAL_GUARD,
         STEVE,
         STEVE2,
@@ -63,6 +65,8 @@ public class EntityFactory {
     public static String CHARACTER_2_CONFIG = "RPGGame/maps/Game/Scripts/character_2.json";
     public static String JUSTIN_CONFIG = "RPGGame/maps/Game/Scripts/justin.json";
     public static String JAXON_1_CONFIG = "RPGGame/maps/Game/Scripts/jaxon_1.json";
+    public static String DIANE_CONFIG = "RPGGame/maps/Game/Scripts/diane.json";
+    public static String OPHION_CONFIG = "RPGGame/maps/Game/Scripts/ophion.json";
 
     public static String DOUGLAS_CONFIG = "RPGGame/maps/Game/Scripts/douglas.json";
     public static String ROYAL_GUARD_CONFIG = "RPGGame/maps/Game/Scripts/royal_guard.json";
@@ -128,6 +132,8 @@ public class EntityFactory {
         entities.put(EntityName.CHARACTER_2.toString(), Entity.loadEntityConfigByPath(CHARACTER_2_CONFIG));
         entities.put(EntityName.JUSTIN.toString(), Entity.loadEntityConfigByPath(JUSTIN_CONFIG));
         entities.put(EntityName.JAXON_1.toString(), Entity.loadEntityConfigByPath(JAXON_1_CONFIG));
+        entities.put(EntityName.DIANE.toString(), Entity.loadEntityConfigByPath(DIANE_CONFIG));
+        entities.put(EntityName.OPHION.toString(), Entity.loadEntityConfigByPath(OPHION_CONFIG));
 
         entities.put(EntityName.DOUGLAS.toString(), Entity.loadEntityConfigByPath(DOUGLAS_CONFIG));
         entities.put(EntityName.ROYAL_GUARD.toString(), Entity.loadEntityConfigByPath(ROYAL_GUARD_CONFIG));

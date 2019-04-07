@@ -1,6 +1,6 @@
 {
 entityID : Character_2
-displayName : Girl
+displayName : "Isabell"
 state : IDLE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"

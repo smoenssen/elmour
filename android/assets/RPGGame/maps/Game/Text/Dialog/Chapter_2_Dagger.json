@@ -14,13 +14,13 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: Come back anytime!\n(Preferably with money...)
+		dialog: Come back anytime!\r\n(Preferably with money...)
 		character: Justin
 		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: "No pressure. Remember, we can always get\na different weapon later."
+		dialog: "No pressure. Remember, we can always get\r\na different weapon later."
 		character: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -38,7 +38,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "Something that allows evasive maneuvers.\nGood choice, but are you sure?"
+		dialog: "Something that allows evasive maneuvers.\r\nGood choice, but are you sure?"
 		character: "{CHARACTER_2}"
 		type: NPC
 	}

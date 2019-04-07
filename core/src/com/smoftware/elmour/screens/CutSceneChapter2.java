@@ -48,16 +48,23 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private Action setupSceneArmory;
     private Action setupSceneWeaponsRoom;
     private Action setupGetWeapon;
+    private Action setupOutsideInnScene;
+    private Action setupInnScene;
+    private Action setupOutsideWoodshopScene;
+    private Action setupWoodshopScene;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
     private AnimatedImage justin;
     private AnimatedImage jaxon;
+    private AnimatedImage diane;
+    private AnimatedImage ophion;
+
     private AnimatedImage camactor;
     private AnimatedImage misc;
     private AnimatedImage misc2;
 
-    public CutSceneChapter2(ElmourGame game, PlayerHUD playerHUD){
+    public CutSceneChapter2(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
 
@@ -65,6 +72,9 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
         justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
         jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON_1);
+        diane = getAnimatedImage(EntityFactory.EntityName.DIANE);
+        ophion = getAnimatedImage(EntityFactory.EntityName.OPHION);
+
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
         misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
         misc2 = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
@@ -81,6 +91,8 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         _stage.addActor(character2);
         _stage.addActor(justin);
         _stage.addActor(jaxon);
+        _stage.addActor(diane);
+        _stage.addActor(ophion);
 
         _stage.addActor(camactor);
         _stage.addActor(misc);
@@ -88,7 +100,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         _stage.addActor(_transitionActor);
 
         //Actions
-        _switchScreenToMainAction = new RunnableAction(){
+        _switchScreenToMainAction = new RunnableAction() {
             @Override
             public void run() {
                 _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
@@ -155,12 +167,12 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 //setCameraPosition(centerX, 3f);
 
                 character1.setVisible(false);
-                character1.setPosition(centerX - character1.getWidth()/2, 1);
+                character1.setPosition(centerX - character1.getWidth() / 2, 1);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character1.setCurrentDirection(Entity.Direction.UP);
 
                 character2.setVisible(true);
-                character2.setPosition(centerX - character2.getWidth()/2, 1);
+                character2.setPosition(centerX - character2.getWidth() / 2, 1);
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.UP);
 
@@ -173,6 +185,9 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 jaxon.setPosition(centerX, 7.1f);
                 jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 jaxon.setCurrentDirection(Entity.Direction.DOWN);
+
+                diane.setVisible(false);
+                ophion.setVisible(false);
 
                 misc.setPosition(justin.getX() + emoteX, justin.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
@@ -261,8 +276,122 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 followActor(camactor);
             }
         };
-    }
 
+        setupOutsideInnScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(49, 24);
+                keepCamInMap = false;
+
+                character1.setVisible(true);
+                character1.setPosition(48.5f, 23.5f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                character2.setVisible(true);
+                character2.setPosition(49.5f, 23.5f);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
+
+                justin.setVisible(false);
+                jaxon.setVisible(false);
+                ophion.setVisible(false);
+            }
+        };
+
+        setupInnScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.INN);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(4.5f, 5);
+                keepCamInMap = false;
+
+                float f = _stage.getWidth();
+                float centerX = (4.5f);
+                //setCameraPosition(centerX, 3f);
+
+                character1.setVisible(false);
+                character1.setPosition(centerX - character1.getWidth() / 2, 1);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.UP);
+
+                character2.setVisible(true);
+                character2.setPosition(centerX - character2.getWidth() / 2, 1);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.UP);
+
+                diane.setVisible(true);
+                diane.setPosition(centerX- 0.5f, 7.1f);
+                diane.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                diane.setCurrentDirection(Entity.Direction.DOWN);
+
+                misc.setPosition(diane.getX() + emoteX, diane.getY() + emoteY);
+                misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+            }
+        };
+        setupOutsideWoodshopScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(60, 24);
+                keepCamInMap = false;
+
+                character1.setVisible(true);
+                character1.setPosition(59.5f, 23.5f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                character2.setVisible(true);
+                character2.setPosition(60.5f, 23.5f);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
+
+                misc.setPosition(character1.getX() + emoteX, character1.getY() + emoteY);
+                misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+
+                diane.setVisible(false);
+                justin.setVisible(false);
+                jaxon.setVisible(false);
+            }
+        };
+
+        setupWoodshopScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.INN);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(4.5f, 5);
+                keepCamInMap = false;
+
+                float f = _stage.getWidth();
+                float centerX = (4.5f);
+                //setCameraPosition(centerX, 3f);
+
+                character1.setVisible(false);
+                character1.setPosition(centerX - character1.getWidth() / 2, 1);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.UP);
+
+                character2.setVisible(true);
+                character2.setPosition(centerX - character2.getWidth() / 2, 1);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.UP);
+
+                ophion.setVisible(true);
+                ophion.setPosition(centerX- 0.5f, 7.1f);
+                ophion.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                ophion.setCurrentDirection(Entity.Direction.DOWN);
+            }
+        };
+    }
 
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent action, String conversationId) {
@@ -835,6 +964,163 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 );
 
                 break;
+            case WALK_INTO_INN:
+                _stage.addAction(Actions.sequence(
+                        new setFading(true),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(49, 24, oneBlockTime), character2),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setCharacterVisible(character2, false),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(49, 24, oneBlockTime), character1),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setCharacterVisible(character1, false),
+
+                        Actions.addAction(getInnScene())
+                        )
+                );
+                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 2), _transitionActor));
+
+                break;
+            case DIANE_WALK:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(4, 8.5f, oneBlockTime * 2), diane),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(diane, Entity.Direction.UP),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(4, 8, oneBlockTime), diane),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(diane, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(diane, Entity.Direction.DOWN),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case DIANE_WALK_BACK:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(3, 8, oneBlockTime), diane),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(diane, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(4, 7.1f, oneBlockTime * 1.5f), diane),
+                        Actions.delay(oneBlockTime * 1.5f),
+                        myActions.new setIdleDirection(diane, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(diane, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case START_LEAVE_INN:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(4, 3, oneBlockTime * 3), character2),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR2_LOOK_UP_2:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character2, Entity.Direction.UP),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR1_STUTTER:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_ON),
+
+                        Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
+                        Actions.delay(0.0025f),
+                        Actions.addAction(Actions.moveBy(-0.10f, 0, 0.005f), character1),
+                        Actions.delay(0.005f),
+                        Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
+                        Actions.delay(0.5f),
+
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_OFF),
+                        Actions.delay(emoteOff),
+                        myActions.new setCharacterVisible(misc, false),
+
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR1_THINK:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.THINK),
+
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_LOOP),
+                        Actions.delay(2.1f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+
+
+
+
+
+
+
+            case WALK_OUT_OF_INN:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 2), character2),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 5), character1),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 5), _transitionActor),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setCharacterVisible(character2, false),
+                        Actions.delay(oneBlockTime * 4),
+                        //todo qweqerwutiotyretwqrykuthrarhsmdshagassysdsyaesjdywardgmtysrtunertu6usr6ks
+
+                        Actions.addAction(_switchScreenToMainAction)
+                        )
+                );
+
+                break;
             case WALK_OUT_OF_ARMORY:
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
@@ -941,7 +1227,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n18
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json", thisScreen),
+                //myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json", thisScreen),
 
                 myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
                 myActions.new continueConversation(_playerHUD),
@@ -1055,6 +1341,76 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         );
     }
 
+    private Action getOutsideInnScene() {
+        setupOutsideInnScene.reset();
+        oneBlockTime = 0.3f;
+        return Actions.sequence(
+                Actions.addAction(setupOutsideInnScene),
+                new setFading(true),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
+                Actions.delay(0.5f),
+                new setFading(false),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n0
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P4.json", thisScreen),
+
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
+    private Action getInnScene() {
+        setupInnScene.reset();
+        return Actions.sequence(
+                new setMapRendering(false),
+                Actions.addAction(setupInnScene),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor),
+                new setMapRendering(true),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                Actions.addAction(Actions.moveTo(3.5f, 5.5f, oneBlockTime * 5), character2),
+                Actions.delay(oneBlockTime * 2.5f),
+
+                myActions.new setCharacterVisible(character1, true),
+                Actions.addAction(Actions.moveTo(4.5f, 5.5f, oneBlockTime * 5), character1),
+                Actions.delay(oneBlockTime * 2.5f),
+
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                Actions.delay((oneBlockTime * 2.5f) - 0.75f),
+
+                myActions.new setCharacterVisible(misc, true),
+                myActions.new setWalkDirection(misc, Entity.AnimationType.HAPPY_ON),
+                Actions.delay(emoteOn),
+                myActions.new setWalkDirection(misc, Entity.AnimationType.HAPPY_OFF),
+                Actions.delay(emoteOff),
+                myActions.new setCharacterVisible(misc, false),
+
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
+    private Action getOutsideWoodshopScene() {
+        setupOutsideWoodshopScene.reset();
+        oneBlockTime = 0.3f;
+        return Actions.sequence(
+                Actions.addAction(setupOutsideWoodshopScene),
+                new setFading(true),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
+                Actions.delay(0.5f),
+                new setFading(false),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n0
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P3.json", thisScreen),
+
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
     public void followActor(Actor actor){
         _followingActor = actor;
         _isCameraFixed = false;
@@ -1071,7 +1427,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         //P2
         //_stage.addAction(getOutsideArmoryScene());
         //_stage.addAction(getArmoryCutScreenAction());
-        _stage.addAction(getSwordScene());
+        //_stage.addAction(getSwordScene());
+        //P3
+        _stage.addAction(getOutsideWoodshopScene());
+        //P4
+        //_stage.addAction(getOutsideInnScene());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         _playerHUD.setCutScene(true);
