@@ -142,11 +142,25 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
         map.loadMusic();
 
-        if (_currentMap != null) {
-            map.setPreviousMapType(_currentMap.getCurrentMapType());
+        // Special cases: don't set previous map type for nested maps:
+        // WEAPONS_ROOM
+        // todo: for INN rooms???
+        // Note: mapMgr.setStartPositionFromPreviousMap(<nested room map type>) needs to be called from nested room
+        boolean setPreviousMapType = false;
+        if (_currentMap != null &&
+                _currentMap.getCurrentMapType() != MapFactory.MapType.WEAPONS_ROOM) {
+            setPreviousMapType = true;
         }
-        else {
-            map.setPreviousMapType(mapType);
+        else if (_currentMap == null) {
+            setPreviousMapType = true;
+        }
+
+        if (setPreviousMapType) {
+            if (_currentMap != null) {
+                map.setPreviousMapType(_currentMap.getCurrentMapType());
+            } else {
+                map.setPreviousMapType(mapType);
+            }
         }
 
         _currentMap = map;
@@ -201,6 +215,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public void setStartPositionFromPreviousMap() {
         _currentMap.setStartPositionFromPreviousMap(_currentMap.getPreviousMapType());
+    }
+
+    public void setStartPositionFromPreviousMap(MapFactory.MapType mapType) {
+        _currentMap.setStartPositionFromPreviousMap(mapType);
     }
 
     public void setStartPostionByNameExtension(String nameExtension) {

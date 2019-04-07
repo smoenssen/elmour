@@ -563,7 +563,11 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
         // First see if there is a specific PLAYER_START spawn location coming from the previous map
         // where name = "PLAYER_START_<previous map name>"
-        String specificPlayerStart = PLAYER_START + "_" + previousMapType.toString();
+        String specificPlayerStart = "";
+        if (previousMap != null) {
+            specificPlayerStart = PLAYER_START + "_" + previousMap.toString();
+        }
+
         boolean playerStartFound = false;
 
         for( MapObject object: _spawnsLayer.getObjects()) {

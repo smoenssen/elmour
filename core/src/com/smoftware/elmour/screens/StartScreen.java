@@ -139,8 +139,9 @@ public class StartScreen  extends GameScreen {
             @Override
             public void run() {
                 // Do something on the main thread
-                //game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-                game.setChapterScreen(1);
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                // todo:
+                //game.setChapterScreen(1);
             }
         });
     }
