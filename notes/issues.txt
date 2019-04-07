@@ -7,7 +7,7 @@ make sure number of turns executed is correct
 If used 2 potions of strength, crashes when attacking.
 If starting first new game after installing, save, then go to battle and lose, the Continue button is missing
 Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
-Allow apostrophes in conversation popups
+Allow apostrophes in conversation popups: use copyright symbol
+Compass sign is broken with paragraph line feed
 
 Ben's phone 1440 x 2960 or 1080 x 2220
-

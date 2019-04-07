@@ -50,7 +50,6 @@ public final class Utility {
 	private final static String ELMOUR_SKIN_PATH = "skins/elmour_ui.json";
 	public static TextureAtlas ELMOUR_UI_TEXTUREATLAS = new TextureAtlas(ELMOUR_TEXTURE_ATLAS_PATH);
 	public static Skin ELMOUR_UI_SKIN;
-	public static int myFontSize;
 	public static int fontSmallSize;
 	public static int myFontVerySmallSize;
 	public static int myFontSuperSmallSize;
@@ -60,6 +59,7 @@ public final class Utility {
 		//	font: myFont
 		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
+		int myFontSize;
 
 		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
@@ -155,6 +155,42 @@ public final class Utility {
 
 		BitmapFont fontRed = generator.generateFont(parameter);
 
+		// CHAPTER TITLE TEXT
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			myFontSize = 48;
+		}
+		else{
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			myFontSize = 64;
+		}
+
+		parameter.size = myFontSize;
+		parameter.color = Color.WHITE;
+		parameter.shadowColor = Color.BLACK;
+
+		BitmapFont fontChapterTitle = generator.generateFont(parameter);
+
+		// CHAPTER TITLE SUBTEXT
+		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			myFontSize = 32;
+		}
+		else{
+			parameter.shadowOffsetX = 1;
+			parameter.shadowOffsetY = 1;
+			myFontSize = 36;
+		}
+
+		parameter.size = myFontSize;
+		parameter.color = Color.GRAY;
+		parameter.shadowColor = Color.BLACK;
+
+		BitmapFont fontChapterTitleSubtext = generator.generateFont(parameter);
+
 		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
@@ -162,6 +198,8 @@ public final class Utility {
 		ELMOUR_UI_SKIN.add("myFontVerySmall", fontVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSuperSmall", fontSuperSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontRed", fontRed, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontChapterTitle", fontChapterTitle, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontChapterTitleSubtext", fontChapterTitleSubtext, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
 

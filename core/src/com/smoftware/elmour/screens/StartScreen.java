@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.UI.ChapterInputListener;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -33,6 +34,7 @@ public class StartScreen  extends GameScreen {
 
     private TextButton continueButton;
     private TextButton newGameButton;
+    private TextButton chapterButton;
 
     public StartScreen(final ElmourGame game) {
         this.game = game;
@@ -43,11 +45,12 @@ public class StartScreen  extends GameScreen {
         //creation and layout
         continueButton = new TextButton("Continue", Utility.ELMOUR_UI_SKIN);
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
+        chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
+
 
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
-        float menuPadding = 12;
         float menuItemWidth = stage.getWidth() / 3f;
         float menuItemHeight = 45;
         float menuItemX = (stage.getWidth() - menuItemWidth) / 2 ;
@@ -60,7 +63,6 @@ public class StartScreen  extends GameScreen {
         if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE))
             continueButton.setVisible(false);
 
-        //menuItemY -= menuItemHeight - 2;
         menuItemY -= menuItemHeight + 10;
         newGameButton.setWidth(menuItemWidth);
         newGameButton.setHeight(menuItemHeight);
@@ -69,6 +71,14 @@ public class StartScreen  extends GameScreen {
         stage.addActor(title);
         stage.addActor(continueButton);
         stage.addActor(newGameButton);
+
+        if (ElmourGame.DEV_MODE) {
+            menuItemY -= menuItemHeight + 10;
+            chapterButton.setWidth(menuItemWidth);
+            chapterButton.setHeight(menuItemHeight);
+            chapterButton.setPosition(menuItemX, menuItemY);
+            stage.addActor(chapterButton);
+        }
 
         //Listeners
         continueButton.addListener(new ClickListener() {
@@ -102,6 +112,20 @@ public class StartScreen  extends GameScreen {
                    }
                }
         );
+
+        chapterButton.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                           ChapterInputListener listener = new ChapterInputListener(game, stage);
+                                           Gdx.input.getTextInput(listener, "Enter Chapter Number", "", "");
+                                       }
+                                   }
+        );
     }
 
     private void startNewGame() {
@@ -115,7 +139,8 @@ public class StartScreen  extends GameScreen {
             @Override
             public void run() {
                 // Do something on the main thread
-                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                //game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                game.setChapterScreen(1);
             }
         });
     }

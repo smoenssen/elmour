@@ -12,6 +12,7 @@ import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneChapter2;
 import com.smoftware.elmour.screens.CutSceneChapter1;
+import com.smoftware.elmour.screens.ChapterSplashScreen;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
@@ -58,6 +59,9 @@ public class ElmourGame extends Game {
 		MainGame,
 		GameOver,
 		WatchIntro,
+		ChapterSplashScreen,
+		Chapter1Screen,
+		Chapter2Screen,
 		Credits
 	}
 
@@ -71,6 +75,10 @@ public class ElmourGame extends Game {
 				return startScreen;
 			case MainGame:
 				return _mainGameScreen;
+			case Chapter1Screen:
+				return cutSceneChapter1;
+			case Chapter2Screen:
+				return cutSceneChapter2;
 			case GameOver:
 				return _gameOverScreen;
 			case Credits:
@@ -146,6 +154,22 @@ public class ElmourGame extends Game {
 
 		QuestGraphTest questGraphTest = new QuestGraphTest();
 		questGraphTest.main(null);
+	}
+
+	public void setChapterScreen(final int chapterNum) {
+
+		ChapterSplashScreen chapterSplashScreen = null;
+
+		switch (chapterNum) {
+			case 1:
+				chapterSplashScreen = new ChapterSplashScreen(this, ScreenType.Chapter1Screen, chapterNum, "A Rude Awakening");
+				break;
+			case 2:
+				chapterSplashScreen = new ChapterSplashScreen(this, ScreenType.Chapter2Screen, chapterNum, "The Slow Rush for Supplies");
+				break;
+		}
+
+		setScreen(chapterSplashScreen);
 	}
 
 	public void addPartyMember(EntityFactory.EntityName name) {
