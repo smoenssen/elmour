@@ -105,6 +105,9 @@ public class ConversationGraph extends ConversationGraphSubject {
     }
 
     public String getNextConversationIDFromChoice(String id, int choiceIndex) {
+        if (id == null)
+            return null;
+
         ArrayList<ConversationChoice> choices = associatedChoices.get(id);
         if (choices == null)
             return null;

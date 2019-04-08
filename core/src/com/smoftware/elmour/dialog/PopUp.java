@@ -274,15 +274,16 @@ public class PopUp extends Window implements PopUpSubject {
 		String type = conversation.getType();
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			if (fullText.contains("EXIT_CONVERSATION")) {
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION, conversationID);
+			}
+
 			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
 			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
+
 			// return false to indicate not to interact with this node
 			return false;
-		}
-		// todo
-		else if (fullText.equals("EXIT_CONVERSATION")) {
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION, conversationID);
 		}
 
 		return true;

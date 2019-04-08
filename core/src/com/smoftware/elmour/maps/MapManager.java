@@ -280,6 +280,9 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             if (currentMapType != null) {
                 loadMap(MapFactory.MapType.valueOf(currentMapType));
             }
+            else {
+                return null;
+            }
         }
         return _currentMap.getCurrentTiledMap();
     }

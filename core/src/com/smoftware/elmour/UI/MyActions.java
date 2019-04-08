@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.sfx.ShakeCamera;
@@ -388,6 +389,22 @@ public class MyActions {
         @Override
         public boolean act(float delta) {
             this.cam.startShaking();
+            return true;
+        }
+    }
+
+    public class setScreen extends Action {
+        ElmourGame game;
+        ElmourGame.ScreenType screenType;
+
+        public setScreen(ElmourGame game, ElmourGame.ScreenType screenType) {
+            this.game = game;
+            this.screenType = screenType;
+        }
+
+        @Override
+        public boolean act(float delta) {
+            game.setScreen(game.getScreenType(screenType));
             return true;
         }
     }

@@ -149,6 +149,7 @@ public class CutSceneBase extends GameScreen {
     protected boolean _isCameraFixed = true;
     protected ScreenTransitionActor _transitionActor;
     protected Action _switchScreenToMainAction;
+    protected Action switchScreenToElmourAction;
 
     protected float oneBlockTime = 0;
     protected float closeBook = 0;
@@ -210,7 +211,7 @@ public class CutSceneBase extends GameScreen {
         }
         */
 
-        _mapMgr.setPlayer(_player);
+        //_mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
         myActions = new MyActions();
 

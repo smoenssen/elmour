@@ -1423,13 +1423,13 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
-        //_stage.addAction(getOpeningCutSceneAction());
+        _stage.addAction(getOpeningCutSceneAction());
         //P2
         //_stage.addAction(getOutsideArmoryScene());
         //_stage.addAction(getArmoryCutScreenAction());
         //_stage.addAction(getSwordScene());
         //P3
-        _stage.addAction(getOutsideWoodshopScene());
+        //_stage.addAction(getOutsideWoodshopScene());
         //P4
         //_stage.addAction(getOutsideInnScene());
 
@@ -1440,9 +1440,10 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
         setGameState(GameState.LOADING);
 
-        Gdx.input.setInputProcessor(_multiplexer);
+        //Gdx.input.setInputProcessor(_multiplexer);
 
         if( _mapRenderer == null ){
+            ProfileManager.getInstance().setProperty("currentMapType", MapFactory.MapType.ELMOUR.toString());
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
     }

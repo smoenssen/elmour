@@ -1327,7 +1327,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
             case EXIT_CONVERSATION:
-                //_conversationUI.setVisible(false);
                 nextConversationId = null;
                 isCurrentConversationDone = true;
                 conversationPopUp.endConversation();
