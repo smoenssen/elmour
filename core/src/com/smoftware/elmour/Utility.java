@@ -518,7 +518,7 @@ public final class Utility {
 		conversation.setId(rootId);
 		conversation.setType(rootNode.type.toString());
 		conversation.setDialog(rootNode.data);
-		conversation.setCharacter(rootNode.character);
+		conversation.setData(rootNode.character);
 		conversations.put(rootId, conversation);
 
 		for (String nextId : rootNode.next) {

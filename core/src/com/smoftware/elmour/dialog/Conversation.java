@@ -3,7 +3,7 @@ package com.smoftware.elmour.dialog;
 public class Conversation {
     private String id;
     private String dialog = "";
-    private String character = "";
+    private String data = "";
     private String type = "";
 
     public Conversation(){
@@ -23,11 +23,11 @@ public class Conversation {
         this.dialog = dialog;
     }
 
-    public String getCharacter(){
-        return character;
+    public String getData(){
+        return data;
     }
-    public void setCharacter(String character){
-        this.character = character;
+    public void setData(String data){
+        this.data = data;
     }
 
     public String getType() {

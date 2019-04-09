@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public interface ConversationGraphObserver {
     public static enum ConversationCommandEvent {
         LOAD_STORE_INVENTORY,
-        EXIT_CONVERSATION,
+        EXIT_CHAT,
+        EXIT_CUTSCENE,
         EXIT_CONVERSATION_1,
         EXIT_CONVERSATION_2,
         NEXT_CONVERSATION_ID,
@@ -118,7 +119,7 @@ public interface ConversationGraphObserver {
     }
 
     void onNotify(final ConversationGraph graph, ConversationCommandEvent event);
-    void onNotify(final ConversationGraph graph, ConversationCommandEvent event, String conversationId);
+    void onNotify(final ConversationGraph graph, ConversationCommandEvent event, String data);
     void onNotify(final ConversationGraph graph, final ArrayList<ConversationChoice> choices);
     void onNotify(final String value, ConversationCommandEvent event);
 }

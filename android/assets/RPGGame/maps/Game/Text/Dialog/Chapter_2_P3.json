@@ -2,146 +2,146 @@
 conversations: {
 	n9: {
 		id: n9
-		dialog: "How odd... this smell... last time I checked, a\r\nwoodshop shouldn't smell like a bomb..."
-		character: My Thoughts
+		dialog: "How odd... this smell... last time I checked, a\nwoodshop shouldn't smell like a bomb..."
+		data: My Thoughts
 		type: NPC
 	}
 	n8: {
 		id: n8
 		dialog: "Hey, do you have any backpacks?"
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n7: {
 		id: n7
 		dialog: WALK_TO_WOODSHOP
-		character: null
+		data: null
 		type: ACTION
 	}
 	n6: {
 		id: n6
-		dialog: "There should be backpacks there.\r\nI'll cover any costs this time, but after that, \r\nyou'll need to buy it on your own."
-		character: null
+		dialog: "There should be backpacks there.\nI'll cover any costs this time, but after that, \nyou'll need to buy it on your own."
+		data: null
 		type: NPC
 	}
 	n19: {
 		id: n19
-		dialog: If I were to point it out it would certainly make\r\na crisis. That's the last thing I need to deal with.
-		character: "{CHARACTER_2}"
+		dialog: If I were to point it out it would certainly make\na crisis. That's the last thing I need to deal with.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n5: {
 		id: n5
 		dialog: How will we carry it all?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n18: {
 		id: n18
-		dialog: "So you noticed too, I just assumed that you\r\ndidn't.§\r\nYou just walked to the counter and ignored it."
-		character: Me
+		dialog: "So you noticed too, I just assumed that you\ndidn't.§\nYou just walked to the counter and ignored it."
+		data: Me
 		type: NPC
 	}
 	n4: {
 		id: n4
 		dialog: "We'll need a lot, enough for a couple nights."
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n17: {
 		id: n17
-		dialog: That man creeps me out.§\r\nNobody knows his name either... and the\r\nshop should not smell like gunpowder!
-		character: "{CHARACTER_2}"
+		dialog: That man creeps me out.§\nNobody knows his name either... and the\nshop should not smell like gunpowder!
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n2: {
 		id: n2
-		dialog: "Our first trip will be... about a hundred miles.\r\nIt goes by a lot faster than it sounds, though."
-		character: "{CHARACTER_2}"
+		dialog: "Our first trip will be... about a hundred miles.\nIt goes by a lot faster than it sounds, though."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n16: {
 		id: n16
 		dialog: GET_FIREWOOD
-		character: null
+		data: null
 		type: ACTION
 	}
 	n15: {
 		id: n15
 		dialog: We also need some firewood.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n0: {
 		id: n0
-		dialog: "We'll need firewood for our travels. After all,\r\nwe won't be returning to Elmour for quite\r\nsome time."
-		character: "{CHARACTER_2}"
+		dialog: "We'll need firewood for our travels. After all,\nwe won't be returning to Elmour for quite\nsome time."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n14: {
 		id: n14
 		dialog: GET_BACKPACKS
-		character: null
+		data: null
 		type: ACTION
 	}
 	n13: {
 		id: n13
 		dialog: Nothing important.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n12: {
 		id: n12
 		dialog: What do you need them for?
-		character: ???
+		data: ???
 		type: NPC
 	}
 	n11: {
 		id: n11
 		dialog: WAIT_1000
-		character: null
+		data: null
 		type: ACTION
 	}
 	n10: {
 		id: n10
 		dialog: Yeah.
-		character: ???
+		data: ???
 		type: NPC
 	}
 	n25: {
 		id: n25
 		dialog: "OK, but, how will we carry it all?"
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n24: {
 		id: n24
 		dialog: CHAR1_THINK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n23: {
 		id: n23
 		dialog: CHAR1_STUTTER
-		character: null
+		data: null
 		type: ACTION
 	}
 	n22: {
 		id: n22
 		dialog: H-hundred?!
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n21: {
 		id: n21
 		dialog: There.
-		character: ???
+		data: ???
 		type: NPC
 	}
 	n20: {
 		id: n20
 		dialog: EXIT_WOODSHOP
-		character: null
+		data: null
 		type: ACTION
 	}
 }

@@ -3,43 +3,43 @@ conversations: {
 	n8: {
 		id: n8
 		dialog: WALK_OUT_OF_WAY
-		character: null
+		data: null
 		type: ACTION
 	}
 	n7: {
 		id: n7
 		dialog: EXIT_CONVERSATION_2
-		character: null
+		data: null
 		type: ACTION
 	}
 	n6: {
 		id: n6
-		dialog: Come back anytime!\r\n(Preferably with money...)
-		character: Justin
+		dialog: Come back anytime!\n(Preferably with money...)
+		data: Justin
 		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: "No pressure. Remember, we can always get\r\na different weapon later."
-		character: "{CHARACTER_2}"
+		dialog: "No pressure. Remember, we can always get\na different weapon later."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n2: {
 		id: n2
 		dialog: WALK_OUT_OF_ARMORY
-		character: null
+		data: null
 		type: ACTION
 	}
 	n1: {
 		id: n1
 		dialog: Obtained Sword.
-		character: null
+		data: null
 		type: NPC
 	}
 	n0: {
 		id: n0
-		dialog: "Something with power that doesn't slow you\r\ndown? A wise decision, but are you sure?"
-		character: "{CHARACTER_2}"
+		dialog: "Something with power that doesn't slow you\ndown? A wise decision, but are you sure?"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 }

@@ -243,7 +243,7 @@ public class PopUp extends Window implements PopUpSubject {
 		// Instead, ¶ is being used to indicate actual new lines.
 		fullText = fullText.replace("\n", " ");
 
-		currentCharacter = conversation.getCharacter();
+		currentCharacter = conversation.getData();
 
 		if (currentCharacter == null)
 			currentCharacter = new String(" ");
@@ -274,9 +274,13 @@ public class PopUp extends Window implements PopUpSubject {
 		String type = conversation.getType();
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (fullText.contains("EXIT_CONVERSATION")) {
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION);
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CONVERSATION, conversationID);
+			if (fullText.equals("EXIT_CHAT")) {
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT);
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT, conversationID);
+			}
+			else if (fullText.contains("EXIT_CONVERSATION")) {
+				// EXIT_CONVERSATION should only be used in cut scenes
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
 			}
 
 			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));

@@ -3,109 +3,109 @@ conversations: {
 	n9: {
 		id: n9
 		dialog: Do you think I'm abusing my power?
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n8: {
 		id: n8
 		dialog: The Royal Guard is paying for this?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n7: {
 		id: n7
 		dialog: Thank you!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n6: {
 		id: n6
-		dialog: "There you go, honey. I'll charge it to the Royal \r\nGuard like usual."
-		character: Lady
+		dialog: "There you go, honey. I'll charge it to the Royal \nGuard like usual."
+		data: Lady
 		type: NPC
 	}
 	n5: {
 		id: n5
 		dialog: Indeed.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n19: {
 		id: n19
 		dialog: CHAR2_LOOK_UP_2
-		character: null
+		data: null
 		type: ACTION
 	}
 	n4: {
 		id: n4
 		dialog: I assume that you'll need water as well?
-		character: Lady
+		data: Lady
 		type: NPC
 	}
 	n18: {
 		id: n18
 		dialog: START_LEAVE_INN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n3: {
 		id: n3
 		dialog: "We need some food, and lots of it."
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n17: {
 		id: n17
 		dialog: DIANE_WALK_BACK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n2: {
 		id: n2
 		dialog: How may I help you?
-		character: Lady
+		data: Lady
 		type: NPC
 	}
 	n16: {
 		id: n16
 		dialog: DIANE_WALK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n15: {
 		id: n15
 		dialog: WALK_OUT_OF_INN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n1: {
 		id: n1
 		dialog: WALK_INTO_INN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: Food is always important. It's usefull in more \r\nways than one.\r\nI'll discuss that when it's necessary.
-		character: "{CHARACTER_2}"
+		dialog: Food is always important. It's usefull in more \nways than one.\nI'll discuss that when it's necessary.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n14: {
 		id: n14
 		dialog: WALK_OUT_OF_INN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n13: {
 		id: n13
 		dialog: I know you're lying.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n12: {
 		id: n12
 		dialog: I'll pretend I didn't hear that.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 }

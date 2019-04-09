@@ -3,43 +3,43 @@ conversations: {
 	n8: {
 		id: n8
 		dialog: EXIT_CONVERSATION
-		character: null
+		data: null
 		type: ACTION
 	}
 	n7: {
 		id: n7
 		dialog: That was nice!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n6: {
 		id: n6
 		dialog: EXIT_CONVERSATION
-		character: null
+		data: null
 		type: ACTION
 	}
 	n5: {
 		id: n5
 		dialog: Cool!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n4: {
 		id: n4
 		dialog: WALK_AROUND_TOWN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n3: {
 		id: n3
 		dialog: Oh... OK then.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n0: {
 		id: n0
 		dialog: Let's walk around this map!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 }

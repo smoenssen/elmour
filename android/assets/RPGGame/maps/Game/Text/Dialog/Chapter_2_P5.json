@@ -3,91 +3,91 @@ conversations: {
 	n9: {
 		id: n9
 		dialog: CHAR1_LOOK_AT_BOOK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n8: {
 		id: n8
-		dialog: Why do I feel like there is something familiar \r\nabout this book?
-		character: My Thoughts
+		dialog: Why do I feel like there is something familiar \nabout this book?
+		data: My Thoughts
 		type: NPC
 	}
 	n7: {
 		id: n7
 		dialog: I guess I should study the book.
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n6: {
 		id: n6
 		dialog: CHAR2_TO_CASTLE
-		character: null
+		data: null
 		type: ACTION
 	}
 	n5: {
 		id: n5
 		dialog: Wait right here.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n4: {
 		id: n4
 		dialog: "Yeah, something."
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n3: {
 		id: n3
 		dialog: WAIT_1000
-		character: null
+		data: null
 		type: ACTION
 	}
 	n2: {
 		id: n2
 		dialog: Something?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n14: {
 		id: n14
 		dialog: EXIT_CONVERSATION
-		character: null
+		data: null
 		type: ACTION
 	}
 	n1: {
 		id: n1
 		dialog: I forgot something.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n13: {
 		id: n13
 		dialog: Yes!
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n0: {
 		id: n0
 		dialog: Why are we walking back to the castle?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n12: {
 		id: n12
 		dialog: Shall we go?
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n11: {
 		id: n11
-		dialog: "I believe we are all ready. Everything that we \r\ndidn't have, I have packed."
-		character: "{CHARACTER_2}"
+		dialog: "I believe we are all ready. Everything that we \ndidn't have, I have packed."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n10: {
 		id: n10
 		dialog: CHAR2_WALKS_BACK
-		character: null
+		data: null
 		type: ACTION
 	}
 }

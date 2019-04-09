@@ -3,637 +3,637 @@ conversations: {
 	n32: {
 		id: n32
 		dialog: GET_CHAR2_NAME
-		character: null
+		data: null
 		type: ACTION
 	}
 	n97: {
 		id: n97
 		dialog: GUARDS_MOVE_FORWARD
-		character: null
+		data: null
 		type: ACTION
 	}
 	n31: {
 		id: n31
 		dialog: GET_CHAR1_NAME
-		character: null
+		data: null
 		type: ACTION
 	}
 	n96: {
 		id: n96
 		dialog: Uhh... Hey guys...
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n30: {
 		id: n30
 		dialog: I think I know you from somewhere...
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n95: {
 		id: n95
 		dialog: ENTER_GUARDS
-		character: null
+		data: null
 		type: ACTION
 	}
 	n94: {
 		id: n94
 		dialog: THINK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n93: {
 		id: n93
 		dialog: STOP_LEAVING
-		character: null
+		data: null
 		type: ACTION
 	}
 	n92: {
 		id: n92
 		dialog: START_LEAVING
-		character: null
+		data: null
 		type: ACTION
 	}
 	n91: {
 		id: n91
 		dialog: So is there anyway out?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n90: {
 		id: n90
 		dialog: Well... I don't know...
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n119: {
 		id: n119
 		dialog: CHAR1_LOOK_CHAR2
-		character: null
+		data: null
 		type: ACTION
 	}
 	n118: {
 		id: n118
 		dialog: CHAR1_LOOK_CHAR2
-		character: null
+		data: null
 		type: ACTION
 	}
 	n117: {
 		id: n117
 		dialog: CHAR1_TEAR
-		character: null
+		data: null
 		type: ACTION
 	}
 	n116: {
 		id: n116
 		dialog: CHAR1_SHOCK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n115: {
 		id: n115
-		dialog: NO! You're not coming!§\r\nYou have a country to run!
-		character: Me
+		dialog: NO! You're not coming!§\nYou have a country to run!
+		data: Me
 		type: NPC
 	}
 	n114: {
 		id: n114
 		dialog: Well... this is it.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n113: {
 		id: n113
 		dialog: Follow me.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n112: {
 		id: n112
 		dialog: CHAR2_WALK_RIGHT
-		character: null
+		data: null
 		type: ACTION
 	}
 	n111: {
 		id: n111
 		dialog: "Hold on, it looks like something is missing."
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n29: {
 		id: n29
 		dialog: What is it?
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n110: {
 		id: n110
 		dialog: WAIT_1000
-		character: null
+		data: null
 		type: ACTION
 	}
 	n28: {
 		id: n28
-		dialog: "My name is {CHARACTER_1}.§\r\nMind telling me your's?"
-		character: Me
+		dialog: "My name is {CHARACTER_1}.§\nMind telling me your's?"
+		data: Me
 		type: NPC
 	}
 	n27: {
 		id: n27
-		dialog: "You know, I never asked for your name, not\r\nthat I had the chance.§\r\nMind telling me?"
-		character: Girl
+		dialog: "You know, I never asked for your name, not\nthat I had the chance.§\nMind telling me?"
+		data: Girl
 		type: NPC
 	}
 	n26: {
 		id: n26
 		dialog: Dismissed.
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n25: {
 		id: n25
-		dialog: Get away from here!¶\r\nProtect yourself!
-		character: Guard
+		dialog: Get away from here!¶\nProtect yourself!
+		data: Guard
 		type: NPC
 	}
 	n24: {
 		id: n24
 		dialog: What's going on?
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n89: {
 		id: n89
 		dialog: DISMISSED
-		character: null
+		data: null
 		type: ACTION
 	}
 	n23: {
 		id: n23
-		dialog: That girl... who was she?§\r\nShe seemed familiar somehow...
-		character: My Thoughts
+		dialog: That girl... who was she?§\nShe seemed familiar somehow...
+		data: My Thoughts
 		type: NPC
 	}
 	n88: {
 		id: n88
 		dialog: CHAR2_NEXT_TO_CHAR1
-		character: null
+		data: null
 		type: ACTION
 	}
 	n22: {
 		id: n22
-		dialog: I must've passed out. That's the only\r\nexplanation I can think of.
-		character: My Thoughts
+		dialog: I must've passed out. That's the only\nexplanation I can think of.
+		data: My Thoughts
 		type: NPC
 	}
 	n87: {
 		id: n87
 		dialog: THINK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n21: {
 		id: n21
 		dialog: What just happened?
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n86: {
 		id: n86
 		dialog: LOOK_AROUND_AGAIN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n20: {
 		id: n20
 		dialog: Ugh!
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n85: {
 		id: n85
 		dialog: FAINT
-		character: null
+		data: null
 		type: ACTION
 	}
 	n84: {
 		id: n84
 		dialog: STUTTER
-		character: null
+		data: null
 		type: ACTION
 	}
 	n83: {
 		id: n83
 		dialog: "That girl, though. I feel as if I know her..."
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n82: {
 		id: n82
 		dialog: We're in China. How do you not know that?
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n81: {
 		id: n81
 		dialog: LOOK_AROUND_ELMOUR
-		character: null
+		data: null
 		type: ACTION
 	}
 	n80: {
 		id: n80
 		dialog: GUARDS_STOP
-		character: null
+		data: null
 		type: ACTION
 	}
 	n109: {
 		id: n109
 		dialog: Ahem...
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n108: {
 		id: n108
 		dialog: CHAR2_ANGER
-		character: null
+		data: null
 		type: ACTION
 	}
 	n107: {
 		id: n107
 		dialog: I said dismissed.
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n106: {
 		id: n106
 		dialog: Are you sure about this?
-		character: Guard
+		data: Guard
 		type: NPC
 	}
 	n105: {
 		id: n105
 		dialog: GUARD_SHAKE
-		character: null
+		data: null
 		type: ACTION
 	}
 	n104: {
 		id: n104
 		dialog: GO_TO_PORTAL_ROOM
-		character: null
+		data: null
 		type: ACTION
 	}
 	n103: {
 		id: n103
 		dialog: CHAR2_TURN_AROUND
-		character: null
+		data: null
 		type: ACTION
 	}
 	n102: {
 		id: n102
-		dialog: I'll help you anyways. Maybe you'll change\r\nyour mind.
-		character: "{CHARACTER_2}"
+		dialog: I'll help you anyways. Maybe you'll change\nyour mind.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n19: {
 		id: n19
 		dialog: This is China? I can't say that it looks like it.
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n101: {
 		id: n101
 		dialog: Wait... hold on a second.
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n18: {
 		id: n18
 		dialog: We're in... uh... where are we?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n100: {
 		id: n100
 		dialog: WAIT_500
-		character: null
+		data: null
 		type: ACTION
 	}
 	n17: {
 		id: n17
-		dialog: "OK, let me rephrase that: which country are\r\nwe in right now?"
-		character: Girl
+		dialog: "OK, let me rephrase that: which country are\nwe in right now?"
+		data: Girl
 		type: NPC
 	}
 	n14: {
 		id: n14
 		dialog: Answer me this: where are we right now?
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n79: {
 		id: n79
 		dialog: GUARDS_SURROUND
-		character: null
+		data: null
 		type: ACTION
 	}
 	n13: {
 		id: n13
-		dialog: "I know you're not here to raid my castle!¶\r\nNo idiot would go throught the front gates to\r\nexit the castles.§\r\nNot to mention, you obviously aren't from\r\naround here."
-		character: Girl
+		dialog: "I know you're not here to raid my castle!¶\nNo idiot would go throught the front gates to\nexit the castles.§\nNot to mention, you obviously aren't from\naround here."
+		data: Girl
 		type: NPC
 	}
 	n78: {
 		id: n78
 		dialog: Who am I!?
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n77: {
 		id: n77
 		dialog: CHASE_SEQUENCE
-		character: null
+		data: null
 		type: ACTION
 	}
 	n11: {
 		id: n11
-		dialog: Maybe if you looked around you would know\r\nwhere you are.
-		character: Girl
+		dialog: Maybe if you looked around you would know\nwhere you are.
+		data: Girl
 		type: NPC
 	}
 	n76: {
 		id: n76
 		dialog: JUMP_BACK
-		character: null
+		data: null
 		type: ACTION
 	}
 	n10: {
 		id: n10
-		dialog: "I'm not here to raid your castle... frankly, I \r\ndon't even know why I'm here.§\r\nI don't even know where 'here' is."
-		character: Me
+		dialog: "I'm not here to raid your castle... frankly, I \ndon't even know why I'm here.§\nI don't even know where 'here' is."
+		data: Me
 		type: NPC
 	}
 	n75: {
 		id: n75
 		dialog: WALK_TO_MIRROR
-		character: null
+		data: null
 		type: ACTION
 	}
 	n74: {
 		id: n74
 		dialog: EXIT_CONVERSATION
-		character: null
+		data: null
 		type: ACTION
 	}
 	n73: {
 		id: n73
 		dialog: LOOK_AROUND
-		character: null
+		data: null
 		type: ACTION
 	}
 	n72: {
 		id: n72
 		dialog: What? You've only just arrived!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n71: {
 		id: n71
 		dialog: What was that?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n70: {
 		id: n70
-		dialog: "Well, I suppose just in case a giant goblin with\r\nbig tusks happens to be raiding Shnarfulapogus"
-		character: "{CHARACTER_2}"
+		dialog: "Well, I suppose just in case a giant goblin with\nbig tusks happens to be raiding Shnarfulapogus"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n69: {
 		id: n69
 		dialog: Just in case?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n68: {
 		id: n68
-		dialog: We shouldn't need them: the lands are pretty\r\nsafe.
-		character: "{CHARACTER_2}"
+		dialog: We shouldn't need them: the lands are pretty\nsafe.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n67: {
 		id: n67
 		dialog: "Well, let's go!"
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n66: {
 		id: n66
 		dialog: Shouldn't we get weapons?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n65: {
 		id: n65
 		dialog: What could possibly go wrong?
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n64: {
 		id: n64
-		dialog: "There are Gem Keepers protecting The Gems,\r\nbut they have been told to stay at the Temples\r\nuntil I give them the OK in person."
-		character: "{CHARACTER_2}"
+		dialog: "There are Gem Keepers protecting The Gems,\nbut they have been told to stay at the Temples\nuntil I give them the OK in person."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n63: {
 		id: n63
 		dialog: They've started on a bad note for me.
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n62: {
 		id: n62
 		dialog: That's what the Royal Guard is for.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n61: {
 		id: n61
-		dialog: So whose going to run the country while \r\nyou're away?
-		character: Me
+		dialog: So whose going to run the country while \nyou're away?
+		data: Me
 		type: NPC
 	}
 	n60: {
 		id: n60
 		dialog: The Royal Guard can run it themselves.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n59: {
 		id: n59
 		dialog: That was the plan.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n58: {
 		id: n58
 		dialog: Why? Who else is -
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n57: {
 		id: n57
 		dialog: "Oh, you're not going alone."
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n53: {
 		id: n53
-		dialog: "Yeah, did you really expect it to be that easy?§\r\nWe just have to get The Gems: Emerald, \r\nTopaz, Diamond, Sapphire, and Ruby."
-		character: "{CHARACTER_2}"
+		dialog: "Yeah, did you really expect it to be that easy?§\nWe just have to get The Gems: Emerald, \nTopaz, Diamond, Sapphire, and Ruby."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n52: {
 		id: n52
 		dialog: "Hold on, it looks like something is missing."
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n49: {
 		id: n49
-		dialog: You really are strange. It's the town that we're\r\nin right now.
-		character: "{CHARACTER_2}"
+		dialog: You really are strange. It's the town that we're\nin right now.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n48: {
 		id: n48
 		dialog: "By the way, what's Elmour?"
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n47: {
 		id: n47
 		dialog: Well then it's a deal!
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n46: {
 		id: n46
-		dialog: No need to worry about that.¶\r\nYou'll know how to get back when the time comes.
-		character: "{CHARACTER_2}"
+		dialog: No need to worry about that.¶\nYou'll know how to get back when the time comes.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n45: {
 		id: n45
 		dialog: I have one question though: how do I return?
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n44: {
 		id: n44
 		dialog: That's mean!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n9: {
 		id: n9
-		dialog: "I am not here to harm you, I just want to ask\r\nwhat your intentions for raiding my castle are."
-		character: Girl
+		dialog: "I am not here to harm you, I just want to ask\nwhat your intentions for raiding my castle are."
+		data: Girl
 		type: NPC
 	}
 	n41: {
 		id: n41
-		dialog: "There is, but I'll only tell you if you promise me\r\none thing - you'll visit Elmour again."
-		character: "{CHARACTER_2}"
+		dialog: "There is, but I'll only tell you if you promise me\none thing - you'll visit Elmour again."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n40: {
 		id: n40
-		dialog: "I don’t know why, but they've been acting\r\nstrange recently."
-		character: "{CHARACTER_2}"
+		dialog: "I don’t know why, but they've been acting\nstrange recently."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n6: {
 		id: n6
 		dialog: What is the meaning of this?
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n5: {
 		id: n5
 		dialog: Stop!
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n4: {
 		id: n4
 		dialog: Guards!
-		character: Girl
+		data: Girl
 		type: NPC
 	}
 	n3: {
 		id: n3
-		dialog: Oh crap...§\r\nThat was loud...
-		character: My Thoughts
+		dialog: Oh crap...§\nThat was loud...
+		data: My Thoughts
 		type: NPC
 	}
 	n2: {
 		id: n2
 		dialog: W-what's going on!?
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n1: {
 		id: n1
 		dialog: Huh... a mirror...
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n0: {
 		id: n0
 		dialog: Where am I?
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 	n121: {
 		id: n121
 		dialog: CHAR2_LOOK_CHAR1
-		character: null
+		data: null
 		type: ACTION
 	}
 	n120: {
 		id: n120
 		dialog: CHAR2_LOOK_CHAR1
-		character: null
+		data: null
 		type: ACTION
 	}
 	n37: {
 		id: n37
 		dialog: What? You've only just arrived!
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n34: {
 		id: n34
-		dialog: "Yep, that’s my name.§\r\nPrincess {CHARACTER_2}, but you can just\r\ncall me {CHARACTER_2},\r\nI'm not one for honorifics.§\r\nI am in charge of these lands."
-		character: "{CHARACTER_2}"
+		dialog: "Yep, that’s my name.§\nPrincess {CHARACTER_2}, but you can just\ncall me {CHARACTER_2},\nI'm not one for honorifics.§\nI am in charge of these lands."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n99: {
 		id: n99
 		dialog: FORCE_FIELD
-		character: null
+		data: null
 		type: ACTION
 	}
 	n33: {
 		id: n33
 		dialog: "Is your name {CHARACTER_2}?"
-		character: Me
+		data: Me
 		type: NPC
 	}
 	n98: {
 		id: n98
 		dialog: Not this again...
-		character: My Thoughts
+		data: My Thoughts
 		type: NPC
 	}
 }
@@ -777,7 +777,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n114
 			destinationId: n111
-			choicePhrase: You mean I could©ve just left as soon as I \r\ncame?
+			choicePhrase: You mean I could©ve just left as soon as I \ncame?
 		}
 	]
 	n113: [
@@ -1197,7 +1197,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I©ve only just arrived, and I©ve been attacked\r\nby your guards twice."
+			choicePhrase: "I©ve only just arrived, and I©ve been attacked\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1615,7 +1615,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I©ve only just arrived, and I©ve been attacked\r\nby your guards twice."
+			choicePhrase: "I©ve only just arrived, and I©ve been attacked\nby your guards twice."
 		}
 	]
 	n36: [
@@ -1639,7 +1639,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n34
 			destinationId: n37
-			choicePhrase: "Speaking of which, is there anyway that I can\r\nget off these lands?"
+			choicePhrase: "Speaking of which, is there anyway that I can\nget off these lands?"
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice

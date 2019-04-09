@@ -1301,7 +1301,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
         else if (choicePopUp1.getChoice() != null) {
             if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
-                if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CONVERSATION)) {
+                if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CHAT)) {
                     conversationPopUp.hide();
                     popUpLabel.setVisible(false);
                 }
@@ -1322,23 +1322,27 @@ public class PlayerHUD implements Screen, AudioSubject,
         conversationPopUp.getCurrentConversationGraph().addObserver(graphObserver);
     }
 
+    private void handleExitConversation() {
+        nextConversationId = null;
+        isCurrentConversationDone = true;
+        conversationPopUp.endConversation();
+        popUpLabel.setVisible(false);
+        conversationPopUp.hide();
+        isThereAnActiveHiddenChoice = false;
+        choicePopUp1.clear();
+        choicePopUp2.clear();
+        choicePopUp3.clear();
+        choicePopUp4.clear();
+        isExitingConversation = true;
+        _mapMgr.clearCurrentSelectedMapEntity();
+    }
+
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
-            case EXIT_CONVERSATION:
-                nextConversationId = null;
-                isCurrentConversationDone = true;
-                conversationPopUp.endConversation();
-                popUpLabel.setVisible(false);
-                conversationPopUp.hide();
-                isThereAnActiveHiddenChoice = false;
-                choicePopUp1.clear();
-                choicePopUp2.clear();
-                choicePopUp3.clear();
-                choicePopUp4.clear();
-                isExitingConversation = true;
-                _mapMgr.clearCurrentSelectedMapEntity();
+            case EXIT_CHAT:
+                handleExitConversation();
                 break;
             case ACCEPT_QUEST:
                 Entity currentlySelectedEntity = _mapMgr.getCurrentSelectedMapEntity();
@@ -1393,8 +1397,14 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(ConversationGraph graph, ConversationCommandEvent event, String conversationId) {
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent event, String data) {
+        switch(event) {
+            case EXIT_CUTSCENE:
+                handleExitConversation();
 
+                // data contains <PLAYER_START_ + extension>;<Map name>
+                break;
+        }
     }
 
     @Override

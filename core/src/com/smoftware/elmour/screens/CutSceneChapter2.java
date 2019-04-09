@@ -394,8 +394,9 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     }
 
     @Override
-    public void onNotify(ConversationGraph graph, ConversationCommandEvent action, String conversationId) {
+    public void onNotify(ConversationGraph graph, ConversationCommandEvent action, String data) {
         Gdx.app.log(TAG, "Got notification " + action.toString());
+        String conversationId = data;
         oneBlockTime = 0.3f;
         emoteOn = 0.7f;
         emoteOff = 0.05f;

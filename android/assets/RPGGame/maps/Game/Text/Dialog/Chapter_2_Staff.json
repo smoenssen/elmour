@@ -2,32 +2,32 @@
 conversations: {
 	n6: {
 		id: n6
-		dialog: "Something that'll help your magical capabilities.\r\nSounds like it'll go well with the book, but\r\nare you sure?"
-		character: "{CHARACTER_2}"
+		dialog: "Something that'll help your magical capabilities.\nSounds like it'll go well with the book, but\nare you sure?"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: Come back anytime!\r\n(Preferably with money...)
-		character: Justin
+		dialog: Come back anytime!\n(Preferably with money...)
+		data: Justin
 		type: NPC
 	}
 	n1: {
 		id: n1
 		dialog: WALK_OUT_OF_ARMORY
-		character: null
+		data: null
 		type: ACTION
 	}
 	n0: {
 		id: n0
 		dialog: Obtained Staff.
-		character: null
+		data: null
 		type: NPC
 	}
 	n8: {
 		id: n8
 		dialog: WALK_OUT_OF_WAY
-		character: null
+		data: null
 		type: ACTION
 	}
 }

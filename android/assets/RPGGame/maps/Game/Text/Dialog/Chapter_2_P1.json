@@ -3,73 +3,73 @@ conversations: {
 	n9: {
 		id: n9
 		dialog: Which is right over there.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n8: {
 		id: n8
-		dialog: "As for food and water, we obtain them at the\r\nfood court in the inn."
-		character: "{CHARACTER_2}"
+		dialog: "As for food and water, we obtain them at the\nfood court in the inn."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n7: {
 		id: n7
 		dialog: EXIT_CONVERSATION_1
-		character: null
+		data: C2_P1;ELMOUR
 		type: ACTION
 	}
 	n6: {
 		id: n6
-		dialog: I'll leave it to you to decide where to go first.§\r\nNo pressure.
-		character: "{CHARACTER_2}"
+		dialog: I'll leave it to you to decide where to go first.§\nNo pressure.
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n5: {
 		id: n5
 		dialog: PAN_TO_WOODSHOP
-		character: null
+		data: null
 		type: ACTION
 	}
 	n4: {
 		id: n4
 		dialog: We'll also need firewood for our travels.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n3: {
 		id: n3
 		dialog: PAN_TO_INN
-		character: null
+		data: null
 		type: ACTION
 	}
 	n2: {
 		id: n2
 		dialog: The armory is over there.
-		character: "{CHARACTER_2}"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n1: {
 		id: n1
 		dialog: PAN_TO_ARMORY
-		character: null
+		data: null
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: "There are other things that we will need\r\nbesides weapons.§\r\nIf you're so insistent on getting weapons,\r\nthen we should head to the armory.§"
-		character: "{CHARACTER_2}"
+		dialog: "There are other things that we will need\nbesides weapons.§\nIf you're so insistent on getting weapons,\nthen we should head to the armory.§"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n11: {
 		id: n11
 		dialog: PAN_TO_CHARS
-		character: null
+		data: null
 		type: ACTION
 	}
 	n10: {
 		id: n10
-		dialog: "This is no small quest that we're taking on, so\r\nwe'll need it."
-		character: "{CHARACTER_2}"
+		dialog: "This is no small quest that we're taking on, so\nwe'll need it."
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
 }

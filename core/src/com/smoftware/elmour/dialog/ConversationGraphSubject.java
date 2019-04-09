@@ -33,11 +33,11 @@ public class ConversationGraphSubject {
         }
     }
 
-    public void notify(final ConversationGraph graph, ConversationGraphObserver.ConversationCommandEvent event, String conversationId) {
+    public void notify(final ConversationGraph graph, ConversationGraphObserver.ConversationCommandEvent event, String data) {
         // can't use an iterator here because it might be nested
         for (int i = 0; i < _observers.size; i++) {
             ConversationGraphObserver observer = _observers.get(i);
-            observer.onNotify(graph, event, conversationId);
+            observer.onNotify(graph, event, data);
         }
     }
 
