@@ -48,7 +48,7 @@ public class WeaponsRoom extends Map {
         switch(interaction) {
             case EXIT:
                 mapMgr.loadMap(MapFactory.MapType.ARMORY);
-                mapMgr.setStartPositionFromPreviousMap(MapFactory.MapType.WEAPONS_ROOM);
+                mapMgr.setStartPositionFromPreviousMap(MapFactory.MapType.WEAPONS_ROOM.toString());
                 interaction = Entity.Interaction.NONE;
                 break;
         }

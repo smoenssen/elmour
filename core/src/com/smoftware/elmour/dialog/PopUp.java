@@ -280,6 +280,7 @@ public class PopUp extends Window implements PopUpSubject {
 			}
 			else if (fullText.contains("EXIT_CONVERSATION")) {
 				// EXIT_CONVERSATION should only be used in cut scenes
+				// so send EXIT_CUTSCENE notification
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
 			}
 

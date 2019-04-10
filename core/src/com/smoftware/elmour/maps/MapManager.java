@@ -214,10 +214,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void setStartPositionFromPreviousMap() {
-        _currentMap.setStartPositionFromPreviousMap(_currentMap.getPreviousMapType());
+        _currentMap.setStartPositionFromPreviousMap(_currentMap.getPreviousMapType().toString());
     }
 
-    public void setStartPositionFromPreviousMap(MapFactory.MapType mapType) {
+    public void setStartPositionFromPreviousMap(String mapType) {
         _currentMap.setStartPositionFromPreviousMap(mapType);
     }
 

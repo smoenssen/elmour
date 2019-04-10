@@ -558,14 +558,14 @@ public abstract class Map extends MapSubject implements AudioSubject{
         _playerStart =  _closestPlayerStartPosition.cpy();
     }
 
-    public void setStartPositionFromPreviousMap(MapFactory.MapType previousMap) {
+    public void setStartPositionFromPreviousMap(String previousMap) {
         if (_spawnsLayer == null) return;
 
         // First see if there is a specific PLAYER_START spawn location coming from the previous map
         // where name = "PLAYER_START_<previous map name>"
         String specificPlayerStart = "";
         if (previousMap != null) {
-            specificPlayerStart = PLAYER_START + "_" + previousMap.toString();
+            specificPlayerStart = PLAYER_START + "_" + previousMap;
         }
 
         boolean playerStartFound = false;
@@ -603,7 +603,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
                         continue;
                     }
 
-                    if (objectName.equalsIgnoreCase(previousMap.toString())) {
+                    if (objectName.equalsIgnoreCase(previousMap)) {
                         // found portal object
                         Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
                         portalObjectPos.set(rectangle.x, rectangle.y);

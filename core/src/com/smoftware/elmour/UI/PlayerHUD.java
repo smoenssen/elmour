@@ -48,6 +48,7 @@ import com.smoftware.elmour.dialog.InputDialogSubject;
 import com.smoftware.elmour.dialog.PopUpLabel;
 import com.smoftware.elmour.dialog.PopUp;
 import com.smoftware.elmour.dialog.PopUpObserver;
+import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
@@ -1402,7 +1403,11 @@ public class PlayerHUD implements Screen, AudioSubject,
             case EXIT_CUTSCENE:
                 handleExitConversation();
 
+                // Load map and position player at correct start position.
                 // data contains <PLAYER_START_ + extension>;<Map name>
+                String [] sa = data.split(";");
+                _mapMgr.loadMap(MapFactory.MapType.valueOf(sa[1]));
+                _mapMgr.setStartPositionFromPreviousMap(sa[0]);
                 break;
         }
     }
