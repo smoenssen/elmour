@@ -369,7 +369,7 @@ Did you get a haircut?<y:LabelModel>
           <y:Geometry height="30.0" width="243.18395997348716" x="3402.0010770398435" y="579.4108813118314"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="227.46484375" x="7.859558111743809" y="5.6494140625">I guess I handled that situation pretty well.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="236.8046875" x="3.1896362367438087" y="5.6494140625">I guess I *handled* that situation pretty well.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -639,7 +639,7 @@ never know when it may come in handy.<y:LabelModel>
           <y:Geometry height="30.0" width="194.4846151800475" x="6733.442594924691" y="624.4108813118316"/>
           <y:Fill color="#FF99CC" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="187.0703125" x="3.707151340024211" y="5.6494140625">Let me know when you've decided<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="190.404296875" x="2.040159152524211" y="5.6494140625">Let me know when you've decided.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -953,6 +953,7 @@ Let me open the door!<y:LabelModel>
       </data>
     </node>
     <node id="n50">
+      <data key="d5"><![CDATA[C2_P2;WEAPONS_ROOM]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="150.22678590425858" x="6957.927210104738" y="624.4108813118316"/>
@@ -1081,7 +1082,7 @@ Let me open the door!<y:LabelModel>
           <y:Geometry height="30.0" width="60.02185608989339" x="3953.8083457425155" y="429.4108813118314"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.703125" x="6.659365544946468" y="5.6494140625">a book?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="46.703125" x="6.6593655449469225" y="5.6494140625">a book?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1134,7 +1135,7 @@ Let me open the door!<y:LabelModel>
           <y:Geometry height="30.0" width="51.60994425711715" x="3497.788084898029" y="519.4108813118314"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="42.677734375" x="4.466104941058802" y="5.6494140625">Maces!<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="42.677734375" x="4.466104941058347" y="5.6494140625">Maces!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1170,7 +1171,7 @@ Let me open the door!<y:LabelModel>
           <y:Geometry height="30.0" width="60.02185608989339" x="3493.582128981641" y="399.4108813118314"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="44.01953125" x="8.001162419946922" y="5.6494140625">Staves!<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="44.01953125" x="8.001162419946468" y="5.6494140625">Staves!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1293,7 +1294,7 @@ Let me open the door!<y:LabelModel>
           <y:Geometry height="30.0" width="80.20145608652729" x="5302.02171559306" y="519.4108813118316"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="71.998046875" x="4.101704605763189" y="5.6494140625">ZOOM_OUT<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="71.998046875" x="4.101704605764098" y="5.6494140625">ZOOM_OUT<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1347,7 +1348,7 @@ Each weapon has it's pros and cons.<y:LabelModel>
           <y:Geometry height="30.0" width="135.57456430728143" x="6567.86803061741" y="624.4108813118316"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="128.69921875" x="3.437672778641172" y="5.6494140625">CHAR2_LOOK_RIGHT<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="128.69921875" x="3.4376727786402625" y="5.6494140625">CHAR2_LOOK_RIGHT<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1912,7 +1913,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e51" source="n19" target="n58">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -1926,7 +1926,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e52" source="n58" target="n56">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1937,7 +1936,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e53" source="n61" target="n60">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1948,7 +1946,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e54" source="n56" target="n61">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1959,7 +1956,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e55" source="n60" target="n65">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1970,7 +1966,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e56" source="n65" target="n62">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1981,7 +1976,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e57" source="n62" target="n66">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1992,7 +1986,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e58" source="n66" target="n63">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2003,7 +1996,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e59" source="n63" target="n67">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2017,7 +2009,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e60" source="n67" target="n64">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -2028,7 +2019,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e61" source="n64" target="n59">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2042,7 +2032,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e62" source="n59" target="n57">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-5.334157000242612" ty="0.0"/>
@@ -2053,7 +2042,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e63" source="n57" target="n36">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2067,7 +2055,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e64" source="n24" target="n68">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-15.17997365203942" ty="0.0">
@@ -2081,7 +2068,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e65" source="n68" target="n25">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2094,7 +2080,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e66" source="n25" target="n69">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2107,7 +2092,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e67" source="n69" target="n26">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2120,7 +2104,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e68" source="n49" target="n31">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2133,7 +2116,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e69" source="n31" target="n71">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2146,7 +2128,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e70" source="n71" target="n70">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-22.5"/>
@@ -2157,7 +2138,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e71" source="n70" target="n72">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -2171,7 +2151,6 @@ Each weapon has it's pros and cons.<y:LabelModel>
       </data>
     </edge>
     <edge id="e72" source="n72" target="n32">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

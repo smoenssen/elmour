@@ -246,7 +246,7 @@ public class PopUp extends Window implements PopUpSubject {
 		currentCharacter = conversation.getData();
 
 		if (currentCharacter == null)
-			currentCharacter = new String(" ");
+			currentCharacter = new String("");
 
 		// set character name in placeholder for label
 		if (currentCharacter.startsWith("{")) {

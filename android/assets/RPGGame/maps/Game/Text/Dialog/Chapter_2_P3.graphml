@@ -132,6 +132,7 @@ It goes by a lot faster than it sounds, though.<y:LabelModel>
       </data>
     </node>
     <node id="n6">
+      <data key="d5"><![CDATA[{CHARACTER_2}]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="59.999999999999886" width="242.43034568583562" x="2110.2686748418732" y="695.9107459861489"/>
@@ -393,12 +394,14 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </node>
     <node id="n20">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[CENTER;ELMOUR]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="30.0" width="123.18541602344067" x="4571.634611742116" y="797.8595599797087"/>
+          <y:Geometry height="30.0" width="161.79544225659538" x="4571.634611742116" y="797.8595599797087"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="110.013671875" x="6.585872074219878" y="5.6494140625">EXIT_WOODSHOP<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="146.705078125" x="7.545182065798144" y="5.6494140625">EXIT_CONVERSATION_7<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -491,7 +494,7 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
           <y:Geometry height="30.0" width="186.34346277647364" x="2044.3974682122994" y="605.9107459861489"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="173.388671875" x="6.477395450736594" y="5.6494140625">OK, but, how will we carry it all?<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="173.388671875" x="6.477395450736822" y="5.6494140625">OK, but, how will we carry it all?<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -644,9 +647,9 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
     <edge id="e13" source="n19" target="n20">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="3.734549440300443E-12" ty="0.0">
+          <y:Path sx="0.0" sy="0.0" tx="4.905069916779371E-12" ty="0.0">
             <y:Point x="4679.820027765558" y="776.8851529829287"/>
-            <y:Point x="4633.22731975384" y="776.8851529829287"/>
+            <y:Point x="4652.532332870419" y="776.8851529829287"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -727,7 +730,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e20" source="n2" target="n23">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -738,7 +740,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e21" source="n23" target="n22">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -749,7 +750,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e22" source="n22" target="n24">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -760,7 +760,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e23" source="n24" target="n25">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -771,7 +770,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e24" source="n25" target="n6">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-93.91464808425462" ty="-6.994113908840859"/>
@@ -782,7 +780,6 @@ a crisis. That's the last thing I need to deal with.<y:LabelModel>
       </data>
     </edge>
     <edge id="e25" source="n4" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">

@@ -2,21 +2,21 @@
 conversations: {
 	n6: {
 		id: n6
-		dialog: "Something that'll help your magical capabilities.\nSounds like it'll go well with the book, but\nare you sure?"
-		data: "{CHARACTER_2}"
-		type: NPC
+		dialog: WALK_OUT_OF_WAY
+		data: null
+		type: ACTION
 	}
 	n5: {
 		id: n5
-		dialog: Come back anytime!\n(Preferably with money...)
-		data: Justin
+		dialog: "Something that'll help your magical capabilities.\r\nSounds like it'll go well with the book, but\r\nare you sure?"
+		data: "{CHARACTER_2}"
 		type: NPC
 	}
-	n1: {
-		id: n1
-		dialog: WALK_OUT_OF_ARMORY
-		data: null
-		type: ACTION
+	n4: {
+		id: n4
+		dialog: Come back anytime!\r\n(Preferably with money...)
+		data: Justin
+		type: NPC
 	}
 	n0: {
 		id: n0
@@ -24,10 +24,10 @@ conversations: {
 		data: null
 		type: NPC
 	}
-	n8: {
-		id: n8
-		dialog: WALK_OUT_OF_WAY
-		data: null
+	n7: {
+		id: n7
+		dialog: EXIT_CONVERSATION_5
+		data: CENTER;ELMOUR
 		type: ACTION
 	}
 }
@@ -36,22 +36,30 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n6
-			destinationId: n0
-			choicePhrase: Yes.
+			destinationId: n4
+			choicePhrase: NO_CHOICE
 		}
 	]
 	n5: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n5
-			destinationId: n1
+			destinationId: n0
+			choicePhrase: Yes.
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n7
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n2: [
+	n1: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n2
+			sourceId: n1
 			destinationId: n0
 			choicePhrase: NO_CHOICE
 		}
@@ -60,18 +68,10 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
-			destinationId: n8
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n8: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n8
-			destinationId: n5
+			destinationId: n6
 			choicePhrase: NO_CHOICE
 		}
 	]
 }
-currentConversationID: n6
+currentConversationID: n5
 }

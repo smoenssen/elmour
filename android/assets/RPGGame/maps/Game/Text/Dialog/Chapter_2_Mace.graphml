@@ -32,12 +32,14 @@
       </data>
     </node>
     <node id="n1">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[CENTER;ELMOUR]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="1201.6286376602893" y="505.8217626236632"/>
           <y:Fill color="#99CCFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="152.693359375" x="9.795505477663028" y="5.6494140625">WALK_OUT_OF_ARMORY<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="146.705078125" x="12.789646102663028" y="5.6494140625">EXIT_CONVERSATION_5<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -147,6 +149,8 @@ but are you sure?<y:LabelModel>
       </data>
     </node>
     <node id="n7">
+      <data key="d4"/>
+      <data key="d5"><![CDATA[NO;WEAPONS_ROOM]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="907.8397404634525" y="565.8217626236632"/>
@@ -233,7 +237,6 @@ but are you sure?<y:LabelModel>
       </data>
     </edge>
     <edge id="e5" source="n4" target="n7">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -244,7 +247,6 @@ but are you sure?<y:LabelModel>
       </data>
     </edge>
     <edge id="e6" source="n0" target="n8">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-40.71765776216216" ty="0.0"/>
@@ -255,7 +257,6 @@ but are you sure?<y:LabelModel>
       </data>
     </edge>
     <edge id="e7" source="n8" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="61.22486187127379" sy="0.0" tx="-66.66682282545207" ty="0.4222373763366818"/>

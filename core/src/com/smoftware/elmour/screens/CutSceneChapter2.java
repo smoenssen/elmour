@@ -229,6 +229,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 jaxon.setCurrentDirection(Entity.Direction.DOWN);
 
+                misc.setVisible(false);
                 misc.setPosition(justin.getX() + emoteX, justin.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
 
@@ -330,6 +331,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 diane.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 diane.setCurrentDirection(Entity.Direction.DOWN);
 
+                misc.setVisible(false);
                 misc.setPosition(diane.getX() + emoteX, diane.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
             }
@@ -712,7 +714,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 }
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(3.5f, 5, oneBlockTime), character1),
+                        Actions.addAction(Actions.moveTo(3.5f, 5.5f, oneBlockTime), character1),
                         Actions.addAction(Actions.moveTo(3.5f, 6, oneBlockTime * 0.5f), camactor),
                         new setZoomRate(-0.05f),
                         Actions.delay(oneBlockTime * 0.5f),
@@ -744,11 +746,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 }
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
-                        Actions.addAction(Actions.moveTo(4, 5, oneBlockTime * 0.5f), character1),
+                        Actions.addAction(Actions.moveTo(4, 5.5f, oneBlockTime * 0.5f), character1),
                         Actions.delay(oneBlockTime * 0.5f),
 
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
-                        Actions.addAction(Actions.moveTo(6.5f, 7, oneBlockTime * 2), character1),
+                        Actions.addAction(Actions.moveTo(6.5f, 7.5f, oneBlockTime * 2), character1),
                         Actions.addAction(Actions.moveTo(6.5f, 8, oneBlockTime * 1.5f), camactor),
                         Actions.delay(oneBlockTime * 1.75f),
                         myActions.new shakeCam(shakeCam),
@@ -777,7 +779,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 }
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
-                        Actions.addAction(Actions.moveTo(9.5f, 7, oneBlockTime * 2), character1),
+                        Actions.addAction(Actions.moveTo(9.5f, 7.5f, oneBlockTime * 2), character1),
                         Actions.addAction(Actions.moveTo(9.5f, 8, oneBlockTime * 1.5f), camactor),
                         Actions.delay(oneBlockTime * 1.75f),
                         myActions.new shakeCam(shakeCam),
@@ -805,7 +807,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 }
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
-                        Actions.addAction(Actions.moveTo(12, 5, oneBlockTime * 2), character1),
+                        Actions.addAction(Actions.moveTo(12, 5.5f, oneBlockTime * 2), character1),
                         Actions.addAction(Actions.moveTo(12.5f, 6, oneBlockTime * 1.5f), camactor),
                         Actions.delay(oneBlockTime * 2),
 
@@ -813,7 +815,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                         myActions.new setIdleDirection(justin, Entity.Direction.RIGHT),
 
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
-                        Actions.addAction(Actions.moveTo(12.5f, 5, oneBlockTime * 0.5f), character1),
+                        Actions.addAction(Actions.moveTo(12.5f, 5.5f, oneBlockTime * 0.5f), character1),
                         Actions.delay(oneBlockTime * 0.25f),
                         myActions.new shakeCam(shakeCam),
                         Actions.delay(oneBlockTime * 0.25f),
@@ -1091,6 +1093,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                         myActions.new setCharacterVisible(misc, false),
                         Actions.delay(oneBlockTime * 2),
                         myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
                         myActions.new continueConversation(_playerHUD)
                         )
@@ -1104,7 +1107,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
 
 
-            case WALK_OUT_OF_INN:
+            case EXIT_CONVERSATION_6:
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
                         Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 2), character2),
@@ -1115,23 +1118,23 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                         Actions.delay(oneBlockTime),
                         myActions.new setCharacterVisible(character2, false),
                         Actions.delay(oneBlockTime * 4),
-                        //todo qweqerwutiotyretwqrykuthrarhsmdshagassysdsyaesjdywardgmtysrtunertu6usr6ks
 
                         Actions.addAction(_switchScreenToMainAction)
                         )
                 );
 
                 break;
-            case WALK_OUT_OF_ARMORY:
+            case EXIT_CONVERSATION_5:
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
                         Actions.addAction(Actions.moveBy(0, -5, 2), character1),
                         Actions.addAction(Actions.moveBy(0, -5, 2), character2),
                         Actions.delay(oneBlockTime),
+
                         new setFading(true),
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor),
-                        //todo qweqerwutiotyretwqrykuthrarhsmdshagassysdsyaesjdywardgmtysrtunertu6usr6ks
+                        Actions.delay(1),
                         Actions.addAction(_switchScreenToMainAction)
                         )
                 );
@@ -1141,7 +1144,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 _stage.addAction(Actions.sequence(
                         new setFading(true),
                         Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor),
-                        //todo qweqerwutiotyretwqrykuthrarhsmdshagassysdsyaesjdywardgmtysrtunertu6usr6ks
+                        Actions.delay(1),
                         Actions.addAction(_switchScreenToMainAction)
                         )
                 );
@@ -1279,6 +1282,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         return Actions.sequence(
                 Actions.addAction(setupGetWeapon),
                 new setFading(true),
+
+                new setZoomRate(-0.07f),
+                Actions.delay(0.01f),
+                new setZoomRate(0),
+
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
                 Actions.delay(0.5f),
                 new setFading(false),
@@ -1296,6 +1304,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         return Actions.sequence(
                 Actions.addAction(setupGetWeapon),
                 new setFading(true),
+
+                new setZoomRate(-0.07f),
+                Actions.delay(0.01f),
+                new setZoomRate(0),
+
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
                 Actions.delay(0.5f),
                 new setFading(false),
@@ -1313,6 +1326,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         return Actions.sequence(
                 Actions.addAction(setupGetWeapon),
                 new setFading(true),
+
+                new setZoomRate(-0.07f),
+                Actions.delay(0.01f),
+                new setZoomRate(0),
+
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
                 Actions.delay(0.5f),
                 new setFading(false),
@@ -1330,6 +1348,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         return Actions.sequence(
                 Actions.addAction(setupGetWeapon),
                 new setFading(true),
+
+                new setZoomRate(-0.07f),
+                Actions.delay(0.01f),
+                new setZoomRate(0),
+
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
                 Actions.delay(0.5f),
                 new setFading(false),
@@ -1424,13 +1447,13 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
-        _stage.addAction(getOpeningCutSceneAction());
+        //_stage.addAction(getOpeningCutSceneAction());
         //P2
         //_stage.addAction(getOutsideArmoryScene());
         //_stage.addAction(getArmoryCutScreenAction());
         //_stage.addAction(getSwordScene());
         //P3
-        //_stage.addAction(getOutsideWoodshopScene());
+        _stage.addAction(getOutsideWoodshopScene());
         //P4
         //_stage.addAction(getOutsideInnScene());
 

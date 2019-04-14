@@ -2,13 +2,13 @@
 conversations: {
 	n32: {
 		id: n32
-		dialog: Let me know when you've decided
+		dialog: Let me know when you've decided.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n31: {
 		id: n31
-		dialog: "Anyways, you should take the book: you\nnever know when it may come in handy."
+		dialog: "Anyways, you should take the book: you\r\nnever know when it may come in handy."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -32,7 +32,7 @@ conversations: {
 	}
 	n27: {
 		id: n27
-		dialog: Try it somewhere else.§\nWe don't know how powerfull it is.
+		dialog: Try it somewhere else.§\r\nWe don't know how powerfull it is.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -62,19 +62,19 @@ conversations: {
 	}
 	n22: {
 		id: n22
-		dialog: "Hey, {CHARACTER_2}, you wouldn't\nhappen to know what this says, would you?"
+		dialog: "Hey, {CHARACTER_2}, you wouldn't\r\nhappen to know what this says, would you?"
 		data: Me
 		type: NPC
 	}
 	n21: {
 		id: n21
-		dialog: It looks like everything in this book is writen in\nChinese.
+		dialog: It looks like everything in this book is writen in\r\nChinese.
 		data: My Thoughts
 		type: NPC
 	}
 	n20: {
 		id: n20
-		dialog: "I found that on the ground during one of my rai \n- ahem, scoutings.§\nHad a bunch of elements in it. Looked like a\nspellbook, so I took it."
+		dialog: "I found that on the ground during one of my rai \r\n- ahem, scoutings.§\r\nHad a bunch of elements in it. Looked like a\r\nspellbook, so I took it."
 		data: Justin
 		type: NPC
 	}
@@ -86,7 +86,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: I guess I handled that situation pretty well.
+		dialog: I guess I *handled* that situation pretty well.
 		data: Jaxon
 		type: NPC
 	}
@@ -122,7 +122,7 @@ conversations: {
 	}
 	n12: {
 		id: n12
-		dialog: "We need to get The Gems to send\n{CHARACTER_1} back to the other world."
+		dialog: "We need to get The Gems to send\r\n{CHARACTER_1} back to the other world."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -152,7 +152,7 @@ conversations: {
 	}
 	n70: {
 		id: n70
-		dialog: I'd pick another weapon to go along with the book.¶\nEvery mage needs a backup weapon after all!§\nEach weapon has it's pros and cons.
+		dialog: I'd pick another weapon to go along with the book.¶\r\nEvery mage needs a backup weapon after all!§\r\nEach weapon has it's pros and cons.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -273,7 +273,7 @@ conversations: {
 	n50: {
 		id: n50
 		dialog: EXIT_CONVERSATION_2
-		data: null
+		data: C2_P2;WEAPONS_ROOM
 		type: ACTION
 	}
 	n47: {
@@ -302,7 +302,7 @@ conversations: {
 	}
 	n43: {
 		id: n43
-		dialog: Wait!§\nLet me open the door!
+		dialog: Wait!§\r\nLet me open the door!
 		data: Jaxon
 		type: NPC
 	}
@@ -320,7 +320,7 @@ conversations: {
 	}
 	n9: {
 		id: n9
-		dialog: "And Jaxon, this is {CHARACTER_1}.¶\n{CHARACTER_1}, this is Jaxon."
+		dialog: "And Jaxon, this is {CHARACTER_1}.¶\r\n{CHARACTER_1}, this is Jaxon."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -332,7 +332,7 @@ conversations: {
 	}
 	n8: {
 		id: n8
-		dialog: "Oh, didnt recognize you, {CHARACTER_2}.§\nDid you get a haircut?"
+		dialog: "Oh, didnt recognize you, {CHARACTER_2}.§\r\nDid you get a haircut?"
 		data: Jaxon
 		type: NPC
 	}
@@ -344,7 +344,7 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "Anyways...§\nJustin, this is {CHARACTER_1}.¶\n{CHARACTER_1}, this is Justin."
+		dialog: "Anyways...§\r\nJustin, this is {CHARACTER_1}.¶\r\n{CHARACTER_1}, this is Justin."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -356,7 +356,7 @@ conversations: {
 	}
 	n4: {
 		id: n4
-		dialog: "Who's that, {CHARACTER_2}? Is that your\nlover?"
+		dialog: "Who's that, {CHARACTER_2}? Is that your\r\nlover?"
 		data: Justin
 		type: NPC
 	}
@@ -368,7 +368,7 @@ conversations: {
 	}
 	n2: {
 		id: n2
-		dialog: "Yeah, I guess you're right.§\nI'll handle negotiations, so there's no reason\nto panic about money."
+		dialog: "Yeah, I guess you're right.§\r\nI'll handle negotiations, so there's no reason\r\nto panic about money."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

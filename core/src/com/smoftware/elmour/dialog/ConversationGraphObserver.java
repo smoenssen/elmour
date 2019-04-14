@@ -9,6 +9,10 @@ public interface ConversationGraphObserver {
         EXIT_CUTSCENE,
         EXIT_CONVERSATION_1,
         EXIT_CONVERSATION_2,
+        EXIT_CONVERSATION_3,
+        EXIT_CONVERSATION_4,
+        EXIT_CONVERSATION_5,
+        EXIT_CONVERSATION_6,
         NEXT_CONVERSATION_ID,
         CHARACTER_NAME,
         PLAYER_RESPONSE,
@@ -79,7 +83,6 @@ public interface ConversationGraphObserver {
         ZOOM_IN,
         ZOOM_OUT,
         WALK_OUT_OF_WAY,
-        WALK_OUT_OF_ARMORY,
         //P3
         CHAR1_STUTTER,
         CHAR1_THINK,
@@ -89,7 +92,8 @@ public interface ConversationGraphObserver {
         DIANE_WALK_BACK,
         START_LEAVE_INN,
         CHAR2_LOOK_UP_2,
-        WALK_OUT_OF_INN,
+
+
 
         WALK_AROUND_TOWN,
 

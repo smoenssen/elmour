@@ -20,7 +20,7 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "There you go, honey. I'll charge it to the Royal \nGuard like usual."
+		dialog: "There you go, honey. I'll charge it to the Royal \r\nGuard like usual."
 		data: Lady
 		type: NPC
 	}
@@ -32,8 +32,8 @@ conversations: {
 	}
 	n19: {
 		id: n19
-		dialog: CHAR2_LOOK_UP_2
-		data: null
+		dialog: EXIT_CONVERSATION_6
+		data: CENTER;ELMOUR
 		type: ACTION
 	}
 	n4: {
@@ -44,7 +44,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: START_LEAVE_INN
+		dialog: CHAR2_LOOK_UP_2
 		data: null
 		type: ACTION
 	}
@@ -56,7 +56,7 @@ conversations: {
 	}
 	n17: {
 		id: n17
-		dialog: DIANE_WALK_BACK
+		dialog: START_LEAVE_INN
 		data: null
 		type: ACTION
 	}
@@ -68,13 +68,7 @@ conversations: {
 	}
 	n16: {
 		id: n16
-		dialog: DIANE_WALK
-		data: null
-		type: ACTION
-	}
-	n15: {
-		id: n15
-		dialog: WALK_OUT_OF_INN
+		dialog: DIANE_WALK_BACK
 		data: null
 		type: ACTION
 	}
@@ -84,17 +78,23 @@ conversations: {
 		data: null
 		type: ACTION
 	}
-	n0: {
-		id: n0
-		dialog: Food is always important. It's usefull in more \nways than one.\nI'll discuss that when it's necessary.
-		data: "{CHARACTER_2}"
-		type: NPC
+	n15: {
+		id: n15
+		dialog: DIANE_WALK
+		data: null
+		type: ACTION
 	}
 	n14: {
 		id: n14
-		dialog: WALK_OUT_OF_INN
-		data: null
+		dialog: EXIT_CONVERSATION_6
+		data: CENTER;ELMOUR
 		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: Food is always important. It's usefull in more \r\nways than one.\r\nI'll discuss that when it's necessary.
+		data: "{CHARACTER_2}"
+		type: NPC
 	}
 	n13: {
 		id: n13
@@ -128,7 +128,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n8
-			destinationId: n19
+			destinationId: n18
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -136,7 +136,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n7
-			destinationId: n18
+			destinationId: n17
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -152,15 +152,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n5
-			destinationId: n17
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n19: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n19
-			destinationId: n9
+			destinationId: n16
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -176,7 +168,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n18
-			destinationId: n8
+			destinationId: n9
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -184,7 +176,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n3
-			destinationId: n16
+			destinationId: n15
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -192,7 +184,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n17
-			destinationId: n6
+			destinationId: n8
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -208,7 +200,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n16
-			destinationId: n4
+			destinationId: n6
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -217,6 +209,14 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
 			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n4
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -232,7 +232,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n13
-			destinationId: n14
+			destinationId: n19
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -240,7 +240,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n12
-			destinationId: n15
+			destinationId: n14
 			choicePhrase: NO_CHOICE
 		}
 	]
