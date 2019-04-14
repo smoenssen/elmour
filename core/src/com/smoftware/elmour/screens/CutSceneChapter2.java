@@ -1,28 +1,15 @@
 package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.UI.AnimatedImage;
-import com.smoftware.elmour.UI.MyActions;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -30,10 +17,8 @@ import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
-import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
-import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
@@ -50,8 +35,8 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private Action setupGetWeapon;
     private Action setupOutsideInnScene;
     private Action setupInnScene;
-    private Action setupOutsideWoodshopScene;
     private Action setupWoodshopScene;
+    private Action setupScene05;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
@@ -338,7 +323,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
             }
         };
-        setupOutsideWoodshopScene = new RunnableAction() {
+        setupWoodshopScene = new RunnableAction() {
             @Override
             public void run() {
                 _playerHUD.hideMessage();
@@ -346,6 +331,10 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(60, 24);
                 keepCamInMap = false;
+
+                camactor.setPosition(60, 24);
+                camactor.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                camactor.setCurrentDirection(Entity.Direction.DOWN);
 
                 character1.setVisible(true);
                 character1.setPosition(59.5f, 23.5f);
@@ -357,42 +346,52 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.LEFT);
 
+                ophion.setVisible(false);
+                ophion.setPosition(60, 28.8f);
+                ophion.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                ophion.setCurrentDirection(Entity.Direction.DOWN);
+
                 misc.setPosition(character1.getX() + emoteX, character1.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
 
                 diane.setVisible(false);
                 justin.setVisible(false);
                 jaxon.setVisible(false);
+
+                followActor(camactor);
             }
         };
-
-        setupWoodshopScene = new RunnableAction() {
+        setupScene05 = new RunnableAction() {
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.INN);
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(4.5f, 5);
+                setCameraPosition(37.5f, 30);
                 keepCamInMap = false;
 
-                float f = _stage.getWidth();
-                float centerX = (4.5f);
-                //setCameraPosition(centerX, 3f);
-
-                character1.setVisible(false);
-                character1.setPosition(centerX - character1.getWidth() / 2, 1);
-                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character1.setCurrentDirection(Entity.Direction.UP);
+                camactor.setPosition(37.5f, 30);
+                camactor.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                camactor.setCurrentDirection(Entity.Direction.DOWN);
 
                 character2.setVisible(true);
-                character2.setPosition(centerX - character2.getWidth() / 2, 1);
-                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character2.setCurrentDirection(Entity.Direction.UP);
+                character2.setPosition(38, 27);
+                character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
+                character2.setCurrentDirection(Entity.Direction.LEFT);
 
-                ophion.setVisible(true);
-                ophion.setPosition(centerX- 0.5f, 7.1f);
-                ophion.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                ophion.setCurrentDirection(Entity.Direction.DOWN);
+                character1.setVisible(true);
+                character1.setPosition(37, 27);
+                character1.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+
+                ophion.setVisible(false);
+                diane.setVisible(false);
+                justin.setVisible(false);
+                jaxon.setVisible(false);
+
+                followActor(camactor);
             }
         };
     }
@@ -1102,6 +1101,107 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 );
 
                 break;
+            case WALK_TO_WOODSHOP:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setCharacterVisible(ophion, true),
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -1, oneBlockTime * 6), ophion),
+
+                        Actions.addAction(Actions.moveTo(60, 26, oneBlockTime * 4), camactor),
+
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(60.5f, 26.5f, oneBlockTime * 4), character2),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(59.5f, 26.5f, oneBlockTime * 4), character1),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setIdleDirection(character2, Entity.Direction.UP),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character1, Entity.Direction.UP),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        myActions.new setIdleDirection(ophion, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case GET_BACKPACKS:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(1, 0, oneBlockTime * 6), ophion),
+                        Actions.delay(oneBlockTime * 6),
+                        myActions.new setIdleDirection(ophion, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime * 6), ophion),
+                        Actions.delay(oneBlockTime * 6),
+                        myActions.new setIdleDirection(ophion, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case GET_FIREWOOD:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveBy(0, 1, oneBlockTime * 6), ophion),
+                        Actions.delay(oneBlockTime * 9),
+
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -1, oneBlockTime * 6), ophion),
+                        Actions.delay(oneBlockTime * 6),
+                        myActions.new setIdleDirection(ophion, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(ophion, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+
+                        Actions.addAction(Actions.moveTo(character2.getX() + emoteX + 0.5f, character2.getY() + emoteY), misc),
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_LOOP),
+                        Actions.delay(1.1f),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        Actions.delay(1),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.THINK_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -5, oneBlockTime * 5), character2),
+                        Actions.addAction(Actions.moveBy(0, -5, oneBlockTime * 9), camactor),
+
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -5, oneBlockTime * 6), character1),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(character2, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
 
 
 
@@ -1419,11 +1519,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         );
     }
 
-    private Action getOutsideWoodshopScene() {
-        setupOutsideWoodshopScene.reset();
-        oneBlockTime = 0.3f;
+    private Action getWoodshopScene() {
+        setupWoodshopScene.reset();
+        oneBlockTime = 0.5f;
         return Actions.sequence(
-                Actions.addAction(setupOutsideWoodshopScene),
+                Actions.addAction(setupWoodshopScene),
                 new setFading(true),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
                 Actions.delay(0.5f),
@@ -1432,6 +1532,32 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n0
                 myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P3.json", thisScreen),
+
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
+    private Action getSetupScene05() {
+        setupScene05.reset();
+        oneBlockTime = 0.4f;
+        return Actions.sequence(
+                Actions.addAction(setupScene05),
+                new setFading(true),
+                Actions.addAction(Actions.moveBy(0, 6, oneBlockTime * 6), character2),
+                Actions.addAction(Actions.moveBy(0, 6, oneBlockTime * 6), character1),
+                Actions.addAction(Actions.moveBy(0, 2, oneBlockTime * 6), camactor),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
+                Actions.delay(oneBlockTime * 5),
+                new setFading(false),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n0
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_p5.json", thisScreen),
+
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime * 0.5f),
+                myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
                 myActions.new continueConversation(_playerHUD)
         );
@@ -1450,7 +1576,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     @Override
     public void show() {
         String partNum = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
-
+/*
         if (partNum == null || partNum.equals("")) {
             _stage.addAction(getOpeningCutSceneAction());
         }
@@ -1458,18 +1584,17 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
             _stage.addAction(getOutsideArmoryScene());
         }
         else if (partNum.equals("P3")) {
-            _stage.addAction(getOutsideWoodshopScene());
+            _stage.addAction(getWoodshopScene());
         }
         else if (partNum.equals("P4")) {
             _stage.addAction(getOutsideInnScene());
-        }
+        }*/
 
         // This will be an interaction
         //_stage.addAction(getSwordScene());
-        //P3
-        _stage.addAction(getOutsideWoodshopScene());
-        //P4
-        //_stage.addAction(getOutsideInnScene());
+        // This will be a goal
+        //P5
+        _stage.addAction(getSetupScene05());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         _playerHUD.setCutScene(true);

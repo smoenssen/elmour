@@ -86,6 +86,9 @@ public interface ConversationGraphObserver {
         //P3
         CHAR1_STUTTER,
         CHAR1_THINK,
+        WALK_TO_WOODSHOP,
+        GET_BACKPACKS,
+        GET_FIREWOOD,
         //P4
         WALK_INTO_INN,
         DIANE_WALK,
