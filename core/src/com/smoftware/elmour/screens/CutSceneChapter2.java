@@ -146,6 +146,8 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 character2.setPosition(26.5f, 23.5f);
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.UP);
+
+                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0), _transitionActor));
             }
         };
 
@@ -1447,10 +1449,22 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
-        //_stage.addAction(getOpeningCutSceneAction());
-        //P2
-        //_stage.addAction(getOutsideArmoryScene());
-        //_stage.addAction(getArmoryCutScreenAction());
+        String partNum = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
+
+        if (partNum == null || partNum.equals("")) {
+            _stage.addAction(getOpeningCutSceneAction());
+        }
+        else if (partNum.equals("P2")) {
+            _stage.addAction(getOutsideArmoryScene());
+        }
+        else if (partNum.equals("P3")) {
+            _stage.addAction(getOutsideWoodshopScene());
+        }
+        else if (partNum.equals("P4")) {
+            _stage.addAction(getOutsideInnScene());
+        }
+
+        // This will be an interaction
         //_stage.addAction(getSwordScene());
         //P3
         _stage.addAction(getOutsideWoodshopScene());
@@ -1478,6 +1492,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         //    setGameState(GameState.SAVING);
         //}
 
+        ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), "");
         Gdx.input.setInputProcessor(null);
     }
 
