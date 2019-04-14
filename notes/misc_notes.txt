@@ -10,3 +10,7 @@ the last 2 will require a fade out and fade in
 cutscenes can also be kicked-off by just walking into a map area
 
 need to add support for dependencies for making quests available
+
+The following will fade characters in if put in the screen's show function
+_stage.getRoot().getColor().a = 0;
+_stage.getRoot().addAction(Actions.fadeIn(2.0f));

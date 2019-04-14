@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
+import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
@@ -40,7 +41,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
-public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver {
+public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, ComponentObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
     //private final float V_WIDTH = 12;//2.4f;//srm
@@ -83,6 +84,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     private Entity _player;
     public PlayerHUD _playerHUD;
     private MobileControls mobileControls;
+    private CutSceneManager cutSceneManager;
 
     public MainGameScreen(ElmourGame game, boolean createPlayerHUD){
         _game = game;
@@ -137,11 +139,16 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 Gdx.input.setInputProcessor(_multiplexer);
             }
 
+            _player.registerObserver(this);
             _playerHUD.addInventoryObserver(this);
+            cutSceneManager = new CutSceneManager(_game, _player);
         }
 
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
+
+        stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0), _transitionActor));
+        stage.addActor(_transitionActor);
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
     }
@@ -522,6 +529,23 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             case INVENTORY_HUD_SHOWN:
                 if (ElmourGame.isAndroid()) {
                     mobileControls.hide();
+                }
+                break;
+        }
+    }
+
+    protected ScreenTransitionActor _transitionActor = new ScreenTransitionActor();
+
+    boolean isFadingOut = false;
+    @Override
+    public void onNotify(String value, ComponentEvent event) {
+        switch (event) {
+            case CUTSCENE_ACTIVATED:
+                if (!isFadingOut) {
+                    // fade out
+                    stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1.5f), _transitionActor));
+                    stage.addAction(Actions.delay(1.5f));
+                    isFadingOut = true;
                 }
                 break;
         }

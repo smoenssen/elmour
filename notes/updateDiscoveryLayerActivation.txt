@@ -1,0 +1,56 @@
+private boolean updateDiscoveryLayerActivation(MapManager mapMgr){
+        MapLayer mapDiscoveryLayer =  mapMgr.getQuestDiscoverLayer();
+
+        if( mapDiscoveryLayer == null ){
+            //Gdx.app.debug(TAG, "Discovery Layer doesn't exist!");
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapDiscoveryLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+
+                if (_boundingBox.overlaps(rectangle) ){
+                    String mapName = object.getName();
+                    mapName = mapName.toUpperCase();
+                    if( mapName == null ) {
+                        return false;
+                    }
+
+                    // check if there is a specific spawn position in the map name
+                    String spawnPosition = null;
+                    if (mapName.contains("+")) {
+                        // get spawn position
+                        spawnPosition = mapName.substring(mapName.indexOf("+") + 1);
+
+                        // strip off spawn position for actual map name
+                        mapName = mapName.substring(0, mapName.indexOf("+"));
+                    }
+
+                    Gdx.app.debug(TAG, "loading map " + mapName);
+                    //mapMgr.setClosestStartPositionFromScaledUnits(_currentEntityPosition);
+
+                    //todo: loading map calls setClosestStartPosition, so this could cause confusion
+                    mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
+
+                    if (spawnPosition != null) {
+                        mapMgr.setStartPostionByNameExtension(spawnPosition);
+                    }
+                    else {
+                        mapMgr.setStartPositionFromPreviousMap();
+                    }
+
+                    _currentEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
+                    _currentEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;
+                    _nextEntityPosition.x = mapMgr.getPlayerStartUnitScaled().x;
+                    _nextEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;
+
+                    Gdx.app.debug(TAG, "Portal Activated");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }

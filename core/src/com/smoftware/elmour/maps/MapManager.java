@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.sfx.ClockActor;
@@ -243,9 +242,9 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public MapLayer getUnderBridgeObstacleLayer() { return _currentMap.getUnderBridgeObstacleLayer(); }
 
-    public MapLayer getPortalLayer(){
-        return _currentMap.getPortalLayer();
-    }
+    public MapLayer getPortalLayer() { return _currentMap.getPortalLayer(); }
+
+    public MapLayer getDiscoveryLayer() { return _currentMap.getCutsceneLayer(); }
 
     // todo: _currentMap is null
     public MapLayer getSpawnsLayer() { return _currentMap.getSpawnsLayer(); }
@@ -265,6 +264,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     public MapLayer getEnemySpawnLayer(){
         return _currentMap.getEnemySpawnLayer();
     }
+
+    public MapLayer getCutsceneLayer() { return _currentMap.getCutsceneLayer(); }
 
     public MapFactory.MapType getCurrentMapType(){
         return _currentMap.getCurrentMapType();

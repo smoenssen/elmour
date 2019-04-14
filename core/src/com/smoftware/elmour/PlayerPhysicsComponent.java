@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -272,8 +271,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         MapObject object = null;
         updateBoundingBoxPosition(_nextEntityPosition);
         updatePortalLayerActivation(mapMgr);
-        updateDiscoverLayerActivation(mapMgr);
+        updateQuestLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
+        updateCutsceneLayerActivation(mapMgr);
 
         // pass current state to graphics entity
         entity.sendMessage(MESSAGE.CURRENT_STATE, _json.toJson(_state));
@@ -540,16 +540,16 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return messageSent;
     }
 */
-    private boolean updateDiscoverLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
-        MapLayer mapDiscoverLayer =  mapMgr.getQuestDiscoverLayer();
+    private boolean updateQuestLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
+        MapLayer mapQuestLayer =  mapMgr.getQuestDiscoverLayer();
 
-        if( mapDiscoverLayer == null ){
+        if( mapQuestLayer == null ){
             return false;
         }
 
         Rectangle rectangle = null;
 
-        for( MapObject object: mapDiscoverLayer.getObjects()){
+        for( MapObject object: mapQuestLayer.getObjects()){
             if(object instanceof RectangleMapObject) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
 
@@ -671,6 +671,35 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                     _nextEntityPosition.y = mapMgr.getPlayerStartUnitScaled().y;
 
                     Gdx.app.debug(TAG, "Portal Activated");
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // The cutscene layer is used to kick off cut scenes
+    private boolean updateCutsceneLayerActivation(MapManager mapMgr){
+        MapLayer mapCutsceneLayer =  mapMgr.getCutsceneLayer();
+
+        if( mapCutsceneLayer == null ){
+            //Gdx.app.debug(TAG, "Cutscene Layer doesn't exist!");
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapCutsceneLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+
+                if (_boundingBox.overlaps(rectangle) ){
+                    String cutsceneName = object.getName();
+                    if( cutsceneName == null ) {
+                        return false;
+                    }
+
+                    notify(cutsceneName, ComponentObserver.ComponentEvent.CUTSCENE_ACTIVATED);
                     return true;
                 }
             }

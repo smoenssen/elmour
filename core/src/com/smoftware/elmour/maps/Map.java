@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -45,6 +44,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected final static String UNDERBRIDGE_OBSTACLE_LAYER = "UNDERBRIDGE_OBSTACLE";
     protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
     protected final static String Z_GATES_LAYER = "Z_GATES";
+    protected final static String CUTSCENE_LAYER = "CUTSCENE_LAYER";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -98,6 +98,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected MapLayer underBridgeObstacleLayer = null;
     protected MapLayer npcBoundsLayer = null;
     protected MapLayer zGatesLayer = null;
+    protected MapLayer cutsceneLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -236,6 +237,11 @@ public abstract class Map extends MapSubject implements AudioSubject{
         zGatesLayer = _currentMap.getLayers().get(Z_GATES_LAYER);
         if( zGatesLayer == null ){
             Gdx.app.debug(TAG, "No level gates layerr!");
+        }
+
+        cutsceneLayer = _currentMap.getLayers().get(CUTSCENE_LAYER);
+        if( cutsceneLayer == null ){
+            Gdx.app.debug(TAG, "No cut scene layerr!");
         }
 
         _npcStartPositions = getNPCStartPositions();
@@ -423,6 +429,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
     public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
 
     public MapLayer getZGatesLayer() { return zGatesLayer; }
+
+    public MapLayer getCutsceneLayer() { return cutsceneLayer; }
 
     public MapLayer getQuestItemSpawnLayer(){
         return _questItemSpawnLayer;
