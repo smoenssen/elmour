@@ -544,7 +544,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 if (!isFadingOut) {
                     // fade out
                     stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1.5f), _transitionActor));
-                    stage.addAction(Actions.delay(1.5f));
+                    stage.addAction(Actions.delay(CutSceneManager.FADE_OUT_TIME));
                     isFadingOut = true;
                 }
                 break;

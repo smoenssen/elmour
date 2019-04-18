@@ -1575,6 +1575,8 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
     @Override
     public void show() {
+        super.baseShow();
+
         String partNum = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
 /*
         if (partNum == null || partNum.equals("")) {
@@ -1619,6 +1621,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
         ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), "");
         Gdx.input.setInputProcessor(null);
+        super.baseHide();
     }
 
     @Override

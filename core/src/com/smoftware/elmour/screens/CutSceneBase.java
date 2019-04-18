@@ -159,6 +159,7 @@ public class CutSceneBase extends GameScreen {
     protected int emoteY = 1;
     protected float zoomRate = 0;
     protected boolean isFading = false;
+    private boolean isFirstTime = true;
 
     public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {
 
@@ -331,6 +332,14 @@ public class CutSceneBase extends GameScreen {
         Gdx.app.debug(TAG, "WorldRenderer: physical: (" + VIEWPORT.physicalWidth + "," + VIEWPORT.physicalHeight + ")" );
     }
 
+    protected void baseShow() {
+        isFading = true;
+    }
+
+    protected void baseHide() {
+        isFirstTime = true;
+    }
+
     protected void baseRender(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -345,9 +354,12 @@ public class CutSceneBase extends GameScreen {
             _mapMgr.setMapChanged(false);
         }
 
-        if (isMapRendering)
+        // isFirstTime and isFading are used to fix an issue with the wrong map being flashed for the first frame
+        // todo: is isMapRendering really necessary anymore? (called from cut scenes using setMapRendering)
+        // todo: also need to fade in characters
+        if (!isFirstTime && isMapRendering) {
             _mapRenderer.render();
-
+        }
 
         for (int i = 0; i < _mapMgr.getCurrentTiledMap().getLayers().getCount(); i++) {
             MapLayer mapLayer = _mapMgr.getCurrentTiledMap().getLayers().get(i);
@@ -398,5 +410,7 @@ public class CutSceneBase extends GameScreen {
         }
 
         _playerHUD.render(delta);
+
+        isFirstTime = false;
     }
 }
