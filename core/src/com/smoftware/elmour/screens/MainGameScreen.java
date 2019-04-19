@@ -85,6 +85,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     public PlayerHUD _playerHUD;
     private MobileControls mobileControls;
     private CutSceneManager cutSceneManager;
+    private boolean isFadingOut = false;
 
     public MainGameScreen(ElmourGame game, boolean createPlayerHUD){
         _game = game;
@@ -536,18 +537,31 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
     protected ScreenTransitionActor _transitionActor = new ScreenTransitionActor();
 
-    boolean isFadingOut = false;
     @Override
     public void onNotify(String value, ComponentEvent event) {
         switch (event) {
             case CUTSCENE_ACTIVATED:
                 if (!isFadingOut) {
                     // fade out
-                    stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1.5f), _transitionActor));
+                    stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, CutSceneManager.FADE_OUT_TIME), _transitionActor));
                     stage.addAction(Actions.delay(CutSceneManager.FADE_OUT_TIME));
                     isFadingOut = true;
+
+                    if (!getSetScreenTimer().isScheduled()) {
+                        // delay here so game screen has a chance to fade out before setting isFadingOut back to false
+                        Timer.schedule(getSetScreenTimer(), CutSceneManager.FADE_OUT_TIME);
+                    }
                 }
                 break;
         }
+    }
+
+    private Timer.Task getSetScreenTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                isFadingOut = false;
+            }
+        };
     }
 }

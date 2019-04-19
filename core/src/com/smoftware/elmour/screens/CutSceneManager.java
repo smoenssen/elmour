@@ -15,6 +15,7 @@ public class CutSceneManager implements ComponentObserver {
     private static final String TAG = CutSceneManager.class.getSimpleName();
 
     public static float FADE_OUT_TIME = 0.5f;
+    private boolean isFadingIn = false;
 
     private Entity player;
     private ElmourGame game;
@@ -24,8 +25,6 @@ public class CutSceneManager implements ComponentObserver {
         this.player = player;
         this.player.registerObserver(this);
     }
-
-    boolean isFadingIn = false;//todo: when to set false? also in MainGameScreen. Also, could this be a static variable?
 
     @Override
     public void onNotify(String value, ComponentEvent event) {
@@ -56,6 +55,7 @@ public class CutSceneManager implements ComponentObserver {
                 }
 
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.valueOf(sa[0])));
+                isFadingIn = false;
             }
         };
     }

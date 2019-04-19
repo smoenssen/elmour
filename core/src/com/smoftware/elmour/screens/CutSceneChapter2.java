@@ -131,8 +131,6 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 character2.setPosition(26.5f, 23.5f);
                 character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character2.setCurrentDirection(Entity.Direction.UP);
-
-                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 0), _transitionActor));
             }
         };
 

@@ -149,7 +149,6 @@ public class CutSceneBase extends GameScreen {
     protected boolean _isCameraFixed = true;
     protected ScreenTransitionActor _transitionActor;
     protected Action _switchScreenToMainAction;
-    protected Action switchScreenToElmourAction;
 
     protected float oneBlockTime = 0;
     protected float closeBook = 0;
@@ -158,7 +157,7 @@ public class CutSceneBase extends GameScreen {
     protected float emoteX = 0.8f;
     protected int emoteY = 1;
     protected float zoomRate = 0;
-    protected boolean isFading = false;
+    protected boolean isFading = true;
     private boolean isFirstTime = true;
 
     public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {
@@ -184,35 +183,6 @@ public class CutSceneBase extends GameScreen {
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, _camera);
         _stage = new Stage(_viewport);
 
-        /*
-        if (ElmourGame.isAndroid()) {
-            // capture Android back key so it is not passed on to the OS
-            Gdx.input.setCatchBackKey(true);
-
-            //NOTE!!! Need to create mobileControls before player because player
-            //is an observer of mobileControls
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-            Gdx.input.setInputProcessor(_playerHUD.getStage());
-        }
-        else {
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            _hudCamera = new OrthographicCamera();
-            _hudCamera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-
-            _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
-
-            _multiplexer = new InputMultiplexer();
-            _multiplexer.addProcessor(_playerHUD.getStage());
-            _multiplexer.addProcessor(_player.getInputProcessor());
-            Gdx.input.setInputProcessor(_multiplexer);
-        }
-        */
-
-        //_mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
         myActions = new MyActions();
 
@@ -354,9 +324,7 @@ public class CutSceneBase extends GameScreen {
             _mapMgr.setMapChanged(false);
         }
 
-        // isFirstTime and isFading are used to fix an issue with the wrong map being flashed for the first frame
-        // todo: is isMapRendering really necessary anymore? (called from cut scenes using setMapRendering)
-        // todo: also need to fade in characters
+        // isFirstTime and isFading are used to fix an issue with the map being flashed for the first frame
         if (!isFirstTime && isMapRendering) {
             _mapRenderer.render();
         }
@@ -371,7 +339,7 @@ public class CutSceneBase extends GameScreen {
                 if (layer.getName().equals("ZDOWN")) {
                     _stage.act(delta);
                     _stage.draw();
-                } else if (layer.isVisible() && !isFading) { // don't render the layer if it's not visible
+                } else if (layer.isVisible() && !isFading) { // don't render the layer if it's not visible or if it's fading
                     _mapRenderer.getBatch().begin();
                     _mapRenderer.renderTileLayer(layer);
                     _mapRenderer.getBatch().end();
