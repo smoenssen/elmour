@@ -37,6 +37,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private Action setupInnScene;
     private Action setupWoodshopScene;
     private Action setupScene05;
+    private Action setupLeave;
 
     private AnimatedImage character1;
     private AnimatedImage character2;
@@ -321,6 +322,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
             }
         };
+
         setupWoodshopScene = new RunnableAction() {
             @Override
             public void run() {
@@ -359,6 +361,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 followActor(camactor);
             }
         };
+
         setupScene05 = new RunnableAction() {
             @Override
             public void run() {
@@ -375,12 +378,12 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 character2.setVisible(true);
                 character2.setPosition(38, 27);
                 character2.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
-                character2.setCurrentDirection(Entity.Direction.LEFT);
+                character2.setCurrentDirection(Entity.Direction.UP);
 
                 character1.setVisible(true);
                 character1.setPosition(37, 27);
                 character1.setCurrentAnimationType(Entity.AnimationType.WALK_UP);
-                character1.setCurrentDirection(Entity.Direction.RIGHT);
+                character1.setCurrentDirection(Entity.Direction.UP);
 
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
 
@@ -390,6 +393,34 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 jaxon.setVisible(false);
 
                 followActor(camactor);
+            }
+        };
+
+        setupLeave = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(10, 20.5f);
+                keepCamInMap = true;
+
+                character2.setVisible(true);
+                character2.setPosition(3, 20.5f);
+                character2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character2.setCurrentDirection(Entity.Direction.RIGHT);
+
+                character1.setVisible(true);
+                character1.setPosition(4, 20.5f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.LEFT);
+
+                ophion.setVisible(false);
+                diane.setVisible(false);
+                justin.setVisible(false);
+                jaxon.setVisible(false);
+
+                followActor(character1);
             }
         };
     }
@@ -1200,6 +1231,67 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 );
 
                 break;
+            case CHAR2_LOOK_DOWN_2:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(character2, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR2_TO_CASTLE:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveBy(-0.5f, 5, oneBlockTime * 5), character2),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(0.5f, 0, oneBlockTime), character1),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR1_LOOK_AT_BOOK:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime * 0.5f),
+                        myActions.new setIdleDirection(character1, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.BOOK),
+                        Actions.delay(oneBlockTime * 3),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case CHAR2_RETURNS:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -5, oneBlockTime * 5), character2),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.BOOK_CLOSE),
+                        Actions.delay(closeBook),
+                        myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(character1, Entity.Direction.UP),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+
 
 
 
@@ -1541,8 +1633,8 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         return Actions.sequence(
                 Actions.addAction(setupScene05),
                 new setFading(true),
-                Actions.addAction(Actions.moveBy(0, 6, oneBlockTime * 6), character2),
-                Actions.addAction(Actions.moveBy(0, 6, oneBlockTime * 6), character1),
+                Actions.addAction(Actions.moveBy(0, 7, oneBlockTime * 7), character2),
+                Actions.addAction(Actions.moveBy(0, 5, oneBlockTime * 5), character1),
                 Actions.addAction(Actions.moveBy(0, 2, oneBlockTime * 6), camactor),
 
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
@@ -1553,9 +1645,27 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 // also need to change currentConversationID in the json file to n0
                 myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_p5.json", thisScreen),
 
-                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
-                Actions.delay(oneBlockTime * 0.5f),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                Actions.delay(oneBlockTime * 2),
+                myActions.new setWalkDirection(character2, Entity.AnimationType.IDLE),
+
+                myActions.new continueConversation(_playerHUD)
+        );
+    }
+
+    private Action getLeave() {
+        setupLeave.reset();
+        return Actions.sequence(
+                Actions.addAction(setupLeave),
+                new setFading(true),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0.5f), _transitionActor),
+                Actions.delay(0.5f),
+                new setFading(false),
+
+                // uncomment to start right from guard surround scene
+                // also need to change currentConversationID in the json file to n0
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_Leave.json", thisScreen),
 
                 myActions.new continueConversation(_playerHUD)
         );
@@ -1576,7 +1686,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         super.baseShow();
 
         String partNum = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
-/*
+
         if (partNum == null || partNum.equals("")) {
             _stage.addAction(getOpeningCutSceneAction());
         }
@@ -1588,13 +1698,16 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
         }
         else if (partNum.equals("P4")) {
             _stage.addAction(getOutsideInnScene());
-        }*/
+        }
+        else if (partNum.equals("Leave")) {
+            _stage.addAction(getLeave());
+        }
 
         // This will be an interaction
         //_stage.addAction(getSwordScene());
         // This will be a goal
         //P5
-        _stage.addAction(getSetupScene05());
+        //_stage.addAction(getSetupScene05());
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         _playerHUD.setCutScene(true);

@@ -102,8 +102,8 @@ public class CutSceneBase extends GameScreen {
     // End common cut scene actions
     /////////////////////////////////////////////////////////
 
-    protected final float V_WIDTH = 18;
-    protected final float V_HEIGHT = 12;
+    protected final float V_WIDTH = 15;
+    protected final float V_HEIGHT = 10;
 
     public static class VIEWPORT {
         public static float viewportWidth;

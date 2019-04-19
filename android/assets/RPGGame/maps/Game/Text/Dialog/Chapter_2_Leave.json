@@ -1,0 +1,27 @@
+{
+conversations: {
+	n1: {
+		id: n1
+		dialog: EXIT_CONVERSATION_1
+		data: LEFT;ELMOUR
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: "We still haven't gotten everything that we need.§\r\nRemember, we need weapons, food, and\r\nfirewood."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+}
+associatedChoices: {
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

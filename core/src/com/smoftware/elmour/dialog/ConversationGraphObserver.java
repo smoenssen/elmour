@@ -95,6 +95,11 @@ public interface ConversationGraphObserver {
         DIANE_WALK_BACK,
         START_LEAVE_INN,
         CHAR2_LOOK_UP_2,
+        //P5
+        CHAR2_LOOK_DOWN_2,
+        CHAR2_TO_CASTLE,
+        CHAR1_LOOK_AT_BOOK,
+        CHAR2_RETURNS,
 
 
 

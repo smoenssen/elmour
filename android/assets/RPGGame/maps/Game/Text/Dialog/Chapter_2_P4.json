@@ -20,7 +20,7 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "There you go, honey. I'll charge it to the Royal \nGuard like usual."
+		dialog: "There you go, honey. I'll charge it to the Royal \r\nGuard like usual."
 		data: Lady
 		type: NPC
 	}
@@ -92,7 +92,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: Food is always important. It's usefull in more \nways than one.\nI'll discuss that when it's necessary.
+		dialog: Food is always important. It's usefull in more \r\nways than one.\r\nI'll discuss that when it's necessary.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
