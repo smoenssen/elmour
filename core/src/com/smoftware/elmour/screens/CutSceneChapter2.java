@@ -295,7 +295,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.INN);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(4.5f, 5);
+                setCameraPosition(4.5f, 6);
                 keepCamInMap = false;
 
                 float f = _stage.getWidth();
@@ -512,6 +512,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
             case WALK_INTO_ARMORY:
                 _stage.addAction(Actions.sequence(
                         new setFading(true),
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 3), _transitionActor),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
                         Actions.addAction(Actions.moveTo(26, 24, oneBlockTime), character2),
                         Actions.delay(oneBlockTime),
@@ -521,11 +522,11 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                         Actions.addAction(Actions.moveTo(26, 24, oneBlockTime), character1),
                         Actions.delay(oneBlockTime),
                         myActions.new setCharacterVisible(character1, false),
+                        Actions.delay(oneBlockTime),
 
                         Actions.addAction(getArmoryCutScreenAction())
                         )
                 );
-                _stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 3), _transitionActor));
 
                 break;
             case JUSTIN_QUESTION:
@@ -1408,8 +1409,10 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private Action getArmoryCutScreenAction() {
         setupSceneArmory.reset();
         return Actions.sequence(
+                new setMapRendering(false),
                 Actions.addAction(setupSceneArmory),
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor),
+                new setMapRendering(true),
                 myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
                 myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_UP),
                 Actions.addAction(Actions.moveTo(3.5f, 5.5f, oneBlockTime * 5), character2),
