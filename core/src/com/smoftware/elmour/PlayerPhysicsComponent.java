@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.screens.CutSceneManager;
 
 public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
@@ -346,11 +347,19 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
         else if (isInteractionColliding) {
+            object = checkCollisionWithInteractionLayer(mapMgr);
+            String objectName = object.getName();
+
             // send message once no longer colliding
-            if (checkCollisionWithInteractionLayer(mapMgr) == null) {
+            if (object == null || objectName.startsWith(CutSceneManager.CUTSCENE_PREFIX)) {
                 isInteractionColliding = false;
                 isInteractionCollisionMsgSent = false;
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));
+
+                if (objectName.startsWith(CutSceneManager.CUTSCENE_PREFIX)) {
+                    String cutsceneName = objectName.substring(CutSceneManager.CUTSCENE_PREFIX.length(), objectName.length());
+                    notify(cutsceneName, ComponentObserver.ComponentEvent.CUTSCENE_ACTIVATED);
+                }
             }
         }
 
@@ -706,5 +715,4 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         }
         return false;
     }
-
 }

@@ -137,6 +137,10 @@ public class Entity {
 			@Override
 			public String toString() { return "ARMORY"; }
 		},
+		CUTSCENE_Chapter2Screen_Sword {
+			@Override
+			public String toString() { return "CUTSCENE_Chapter2Screen_Sword"; }
+		},
 		EXIT {
 			@Override
 			public String toString() { return "EXIT"; }

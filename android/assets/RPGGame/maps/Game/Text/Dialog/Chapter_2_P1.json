@@ -8,7 +8,7 @@ conversations: {
 	}
 	n8: {
 		id: n8
-		dialog: "As for food and water, we obtain them at the\r\nfood court in the inn."
+		dialog: "As for food and water, we obtain them at the\nfood court in the inn."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -20,7 +20,7 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: I'll leave it to you to decide where to go first.§\r\nNo pressure.
+		dialog: I'll leave it to you to decide where to go first.§\nNo pressure.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -56,7 +56,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "There are other things that we will need\r\nbesides weapons.§\r\nIf you're so insistent on getting weapons,\r\nthen we should head to the armory.§"
+		dialog: "There are other things that we will need\nbesides weapons.§\nIf you're so insistent on getting weapons,\nthen we should head to the armory.§"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -68,7 +68,7 @@ conversations: {
 	}
 	n10: {
 		id: n10
-		dialog: "This is no small quest that we're taking on, so\r\nwe'll need it."
+		dialog: "This is no small quest that we're taking on, so\nwe'll need it."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

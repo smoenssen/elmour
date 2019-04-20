@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
@@ -23,15 +22,11 @@ import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.UI.InventoryHUD;
+import com.smoftware.elmour.PlayerInputComponent;
 import com.smoftware.elmour.UI.InventoryHudObserver;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
-import com.smoftware.elmour.UI.PlayerHudObserver;
-import com.smoftware.elmour.UI.PlayerHudSubject;
-import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
-import com.smoftware.elmour.maps.Elmour;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -83,6 +78,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
     private Entity _player;
     public PlayerHUD _playerHUD;
+    private ScreenTransitionActor _transitionActor;
     private MobileControls mobileControls;
     private CutSceneManager cutSceneManager;
     private boolean isFadingOut = false;
@@ -148,9 +144,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         _mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
 
-        stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0), _transitionActor));
-        stage.addActor(_transitionActor);
-
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
     }
 
@@ -183,7 +176,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     @Override
     public void show() {
         ProfileManager.getInstance().addObserver(_mapMgr);
-        //ProfileManager.getInstance().addObserver(_playerHUD);
 
         _playerHUD.setCutScene(false);
 
@@ -199,6 +191,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         stage.getRoot().getColor().a = 0;
         stage.getRoot().addAction(Actions.fadeIn(2.0f));
+
+        // need to create new transition actor each time screen is shown to fix fade out issue when coming back from cut scene
+        _transitionActor = new ScreenTransitionActor();
+        stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0), _transitionActor));
+        stage.addActor(_transitionActor);
     }
 
     @Override
@@ -206,6 +203,10 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         Gdx.input.setInputProcessor(null);
         ProfileManager.getInstance().removeObserver(_mapMgr);
         ProfileManager.getInstance().removeObserver(_playerHUD);
+
+        // need to remove transition actor each time screen is hidden to fix fade out issue when coming back from cut scene
+        _transitionActor.remove();
+        _transitionActor = null;
     }
 
     @Override
@@ -535,16 +536,19 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         }
     }
 
-    protected ScreenTransitionActor _transitionActor = new ScreenTransitionActor();
-
     @Override
     public void onNotify(String value, ComponentEvent event) {
         switch (event) {
             case CUTSCENE_ACTIVATED:
                 if (!isFadingOut) {
+                    // clear input
+                    if (!getClearInputTimer().isScheduled()) {
+                        // delay here and clear the input
+                        Timer.schedule(getClearInputTimer(), 0.2f);
+                    }
+
                     // fade out
                     stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, CutSceneManager.FADE_OUT_TIME), _transitionActor));
-                    stage.addAction(Actions.delay(CutSceneManager.FADE_OUT_TIME));
                     isFadingOut = true;
 
                     if (!getSetScreenTimer().isScheduled()) {
@@ -561,6 +565,18 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             @Override
             public void run() {
                 isFadingOut = false;
+
+                _player.sendMessage(Component.MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+            }
+        };
+    }
+
+    private Timer.Task getClearInputTimer(){
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                _player.sendMessage(Component.MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+                PlayerInputComponent.clear();
             }
         };
     }

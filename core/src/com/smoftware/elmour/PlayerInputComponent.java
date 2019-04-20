@@ -348,6 +348,8 @@ public class PlayerInputComponent extends InputComponent implements MobileContro
 		keys.put(Keys.DOWN, false);
 		keys.put(Keys.QUIT, false);
 		keys.put(Keys.SPACE, false);
+		keys.put(Keys.ESCAPE, false);
+		keys.put(Keys.SPACE, false);
 		actionButtons.put(ActionButtons.A_BUTTON_PRESSED, false);
 		actionButtons.put(ActionButtons.A_BUTTON_RELEASED, false);
 		actionButtons.put(ActionButtons.B_BUTTON_PRESSED, false);

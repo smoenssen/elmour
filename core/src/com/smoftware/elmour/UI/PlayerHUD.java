@@ -1404,10 +1404,23 @@ public class PlayerHUD implements Screen, AudioSubject,
                 handleExitConversation();
 
                 // Load map and position player at correct start position.
-                // data contains <PLAYER_START_ + extension>;<Map name>
+                // data contains <PLAYER_START_ + extension>;<Map name>[;<Direction>[;<Character name>]]
+                // Default Direction to DOWN
+                // Character name is optional
                 String [] sa = data.split(";");
                 _mapMgr.loadMap(MapFactory.MapType.valueOf(sa[1]));
                 _mapMgr.setStartPositionFromPreviousMap(sa[0]);
+
+                Entity.Direction direction = Entity.Direction.DOWN;
+                if (sa.length > 2) {
+                    direction = Entity.Direction.valueOf(sa[2]);
+                }
+
+                _player.sendMessage(Component.MESSAGE.CURRENT_STATE, _json.toJson(Entity.State.IDLE));
+                _player.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, _json.toJson(direction));
+
+                //todo: handle changing character if sa[3] parameter exists
+                
                 break;
         }
     }

@@ -14,7 +14,8 @@ import com.smoftware.elmour.profile.ProfileManager;
 public class CutSceneManager implements ComponentObserver {
     private static final String TAG = CutSceneManager.class.getSimpleName();
 
-    public static float FADE_OUT_TIME = 0.5f;
+    public final static float FADE_OUT_TIME = 0.5f;
+    public final static String CUTSCENE_PREFIX = "CUTSCENE_";
     private boolean isFadingIn = false;
 
     private Entity player;
