@@ -347,11 +347,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
         else if (isInteractionColliding) {
+            String objectName = "";
             object = checkCollisionWithInteractionLayer(mapMgr);
-            String objectName = object.getName();
 
-            // send message once no longer colliding
-            if (object == null || objectName.startsWith(CutSceneManager.CUTSCENE_PREFIX)) {
+            if (object != null) {
+                objectName = object.getName();
+            }
+
+            // send message once no longer colliding or if map has changed
+            if (object == null || objectName.startsWith(CutSceneManager.CUTSCENE_PREFIX) || mapMgr.hasMapChanged()) {
                 isInteractionColliding = false;
                 isInteractionCollisionMsgSent = false;
                 entity.sendMessage(MESSAGE.INTERACTION_COLLISION, _json.toJson(Entity.Interaction.NONE));

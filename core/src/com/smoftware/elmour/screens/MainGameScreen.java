@@ -36,7 +36,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
-public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, ComponentObserver {
+public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, CutSceneObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
     //private final float V_WIDTH = 12;//2.4f;//srm
@@ -136,12 +136,15 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 Gdx.input.setInputProcessor(_multiplexer);
             }
 
-            _player.registerObserver(this);
+            //_player.registerObserver(this);
             _playerHUD.addInventoryObserver(this);
             cutSceneManager = new CutSceneManager(_game, _player);
         }
 
-        _mapMgr.setPlayer(_player);
+        if (_player != null) {
+            _mapMgr.setPlayer(_player);
+        }
+
         _mapMgr.setCamera(_camera);
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
@@ -176,6 +179,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     @Override
     public void show() {
         ProfileManager.getInstance().addObserver(_mapMgr);
+        cutSceneManager.addObserver(this);
 
         _playerHUD.setCutScene(false);
 
@@ -203,6 +207,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         Gdx.input.setInputProcessor(null);
         ProfileManager.getInstance().removeObserver(_mapMgr);
         ProfileManager.getInstance().removeObserver(_playerHUD);
+        cutSceneManager.removeObserver(this);
 
         // need to remove transition actor each time screen is hidden to fix fade out issue when coming back from cut scene
         _transitionActor.remove();
@@ -537,25 +542,26 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     }
 
     @Override
-    public void onNotify(String value, ComponentEvent event) {
+    public void onNotify(String value, CutSceneStatus event) {
         switch (event) {
-            case CUTSCENE_ACTIVATED:
-                if (!isFadingOut) {
-                    // clear input
-                    if (!getClearInputTimer().isScheduled()) {
-                        // delay here and clear the input
-                        Timer.schedule(getClearInputTimer(), 0.2f);
-                    }
-
-                    // fade out
-                    stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, CutSceneManager.FADE_OUT_TIME), _transitionActor));
-                    isFadingOut = true;
-
-                    if (!getSetScreenTimer().isScheduled()) {
-                        // delay here so game screen has a chance to fade out before setting isFadingOut back to false
-                        Timer.schedule(getSetScreenTimer(), CutSceneManager.FADE_OUT_TIME);
-                    }
+            case NOT_STARTED:
+                break;
+            case STARTED:
+                if (!getClearInputTimer().isScheduled()) {
+                    // delay here and clear the input
+                    Timer.schedule(getClearInputTimer(), 0.2f);
                 }
+
+                // fade out
+                stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, CutSceneManager.FADE_OUT_TIME), _transitionActor));
+                isFadingOut = true;
+
+                if (!getSetScreenTimer().isScheduled()) {
+                    // delay here so game screen has a chance to fade out before setting isFadingOut back to false
+                    Timer.schedule(getSetScreenTimer(), CutSceneManager.FADE_OUT_TIME);
+                }
+                break;
+            case DONE:
                 break;
         }
     }

@@ -27,6 +27,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private static final String TAG = CutSceneChapter2.class.getSimpleName();
 
     CutSceneChapter2 thisScreen;
+    String currentPartNumber;
 
     private Action setupScene01;
     private Action setupOutsideArmoryScene;
@@ -53,6 +54,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     public CutSceneChapter2(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
+        currentPartNumber = "";
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         character2 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_2);
@@ -423,6 +425,15 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
                 followActor(character1);
             }
         };
+    }
+
+    boolean isDoneWithExploring() {
+        return ((ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P2",
+                                        CutSceneObserver.CutSceneStatus.class)) == CutSceneObserver.CutSceneStatus.DONE &&
+                (ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P3",
+                                        CutSceneObserver.CutSceneStatus.class)) == CutSceneObserver.CutSceneStatus.DONE &&
+                (ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P4",
+                                        CutSceneObserver.CutSceneStatus.class)) == CutSceneObserver.CutSceneStatus.DONE);
     }
 
     @Override
@@ -1301,20 +1312,29 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
 
             case EXIT_CONVERSATION_6:
-                _stage.addAction(Actions.sequence(
-                        myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
-                        Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 2), character2),
-                        Actions.delay(oneBlockTime),
-                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
-                        Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 5), character1),
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 5), _transitionActor),
-                        Actions.delay(oneBlockTime),
-                        myActions.new setCharacterVisible(character2, false),
-                        Actions.delay(oneBlockTime * 4),
+                if (currentPartNumber.equals("P4")) {
+                    ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P4", CutSceneObserver.CutSceneStatus.DONE);
+                }
 
-                        Actions.addAction(_switchScreenToMainAction)
-                        )
-                );
+                if (isDoneWithExploring()) {
+                    _stage.addAction(getSetupScene05());
+                }
+                else {
+                    _stage.addAction(Actions.sequence(
+                            myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
+                            Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 2), character2),
+                            Actions.delay(oneBlockTime),
+                            myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
+                            Actions.addAction(Actions.moveTo(4, 1, oneBlockTime * 5), character1),
+                            Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, oneBlockTime * 5), _transitionActor),
+                            Actions.delay(oneBlockTime),
+                            myActions.new setCharacterVisible(character2, false),
+                            Actions.delay(oneBlockTime * 4),
+
+                            Actions.addAction(_switchScreenToMainAction)
+                            )
+                    );
+                }
 
                 break;
             case EXIT_CONVERSATION_5:
@@ -1334,13 +1354,25 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
                 break;
             case EXIT_CONVERSATION_2:
-                _stage.addAction(Actions.sequence(
-                        new setFading(true),
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor),
-                        Actions.delay(1),
-                        Actions.addAction(_switchScreenToMainAction)
-                        )
-                );
+                if (currentPartNumber.equals("P2")) {
+                    ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P2", CutSceneObserver.CutSceneStatus.DONE);
+                }
+                else if (currentPartNumber.equals("P3")) {
+                    ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P3", CutSceneObserver.CutSceneStatus.DONE);
+                }
+
+                if (isDoneWithExploring()) {
+                    _stage.addAction(getSetupScene05());
+                }
+                else {
+                    _stage.addAction(Actions.sequence(
+                            new setFading(true),
+                            Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor),
+                            Actions.delay(1),
+                            Actions.addAction(_switchScreenToMainAction)
+                            )
+                    );
+                }
 
                 break;
             case EXIT_CONVERSATION_1:
@@ -1646,7 +1678,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
 
                 // uncomment to start right from guard surround scene
                 // also need to change currentConversationID in the json file to n0
-                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_p5.json", thisScreen),
+                myActions.new loadConversation(_playerHUD, "RPGGame/maps/Game/Text/Dialog/Chapter_2_P5.json", thisScreen),
 
                 myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
                 Actions.delay(oneBlockTime * 2),
@@ -1688,26 +1720,39 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     public void show() {
         super.baseShow();
 
-        String partNum = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
+        currentPartNumber = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), String.class);
 
-        if (partNum == null || partNum.equals("")) {
+        if (currentPartNumber == null || currentPartNumber.equals("")) {
             _stage.addAction(getOpeningCutSceneAction());
         }
-        else if (partNum.equals("P2")) {
+        else if (currentPartNumber.equals("P2")) {
             _stage.addAction(getOutsideArmoryScene());
         }
-        else if (partNum.equals("P3")) {
+        else if (currentPartNumber.equals("P3")) {
             _stage.addAction(getWoodshopScene());
         }
-        else if (partNum.equals("P4")) {
+        else if (currentPartNumber.equals("P4")) {
             _stage.addAction(getOutsideInnScene());
         }
-        else if (partNum.equals("Leave")) {
+        else if (currentPartNumber.equals("Leave")) {
             _stage.addAction(getLeave());
         }
+        else if (currentPartNumber.equals("Sword")) {
+            _stage.addAction(getSwordScene());
+        }
+        else if (currentPartNumber.equals("Mace")) {
+            _stage.addAction(getMaceScene());
+        }
+        else if (currentPartNumber.equals("Staff")) {
+            _stage.addAction(getStaffScene());
+        }
+        else if (currentPartNumber.equals("Dagger")) {
+            _stage.addAction(getDaggerScene());
+        }
+        else if (currentPartNumber.equals("P5")) {
+            _stage.addAction(getSetupScene05());
+        }
 
-        // This will be an interaction
-        //_stage.addAction(getSwordScene());
         // This will be a goal
         //P5
         //_stage.addAction(getSetupScene05());

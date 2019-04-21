@@ -356,7 +356,8 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             Gdx.input.setInputProcessor(_multiplexer);
         }
 
-        _mapMgr.setPlayer(_player);
+        //todo: I don't think _player is needed in the BattleScreen.
+        //_mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
 
         party1 = new AnimatedImage();
@@ -2408,10 +2409,10 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     @Override
     public void dispose() {
-        if( _player != null ){
-            _player.unregisterObservers();
-            _player.dispose();
-        }
+        //if( _player != null ){
+        //    _player.unregisterObservers();
+        //    _player.dispose();
+        //}
 
         if( _mapRenderer != null ){
             _mapRenderer.dispose();

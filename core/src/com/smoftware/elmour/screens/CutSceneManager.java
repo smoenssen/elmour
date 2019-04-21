@@ -1,6 +1,5 @@
 package com.smoftware.elmour.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
@@ -11,7 +10,7 @@ import com.smoftware.elmour.profile.ProfileManager;
  * Created by steve on 4/14/19.
  */
 
-public class CutSceneManager implements ComponentObserver {
+public class CutSceneManager extends CutSceneSubject implements ComponentObserver {
     private static final String TAG = CutSceneManager.class.getSimpleName();
 
     public final static float FADE_OUT_TIME = 0.5f;
@@ -31,13 +30,21 @@ public class CutSceneManager implements ComponentObserver {
     public void onNotify(String value, ComponentEvent event) {
         switch (event) {
             case CUTSCENE_ACTIVATED:
-                if (!isFadingIn) {
-                    if (!getSetScreenTimer(value).isScheduled()) {
-                        // delay here so game screen has a chance to fade out
-                        Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
-                    }
+                // check to see if this cutscene should be kicked off
+                CutSceneObserver.CutSceneStatus status = ProfileManager.getInstance().getProperty(value, CutSceneObserver.CutSceneStatus.class);
 
-                    isFadingIn = true;
+                if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+                    ProfileManager.getInstance().setProperty(value, CutSceneObserver.CutSceneStatus.STARTED);
+
+                    //if (!isFadingIn) {
+                        if (!getSetScreenTimer(value).isScheduled()) {
+                            // delay here so game screen has a chance to fade out
+                            Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
+                        }
+
+                    //    isFadingIn = true;
+                    //}
+                    notify(value, CutSceneObserver.CutSceneStatus.STARTED);
                 }
                 break;
         }

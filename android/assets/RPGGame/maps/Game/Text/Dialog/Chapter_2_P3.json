@@ -20,13 +20,13 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "There should be backpacks there.\nI'll cover any costs this time, but after that, \nyou'll need to buy it on your own."
+		dialog: "There should be backpacks there.\nI^ll cover any costs this time, but after that, \nyou^ll need to buy it on your own."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n19: {
 		id: n19
-		dialog: If I were to point it out it would certainly make\na crisis. That's the last thing I need to deal with.
+		dialog: If I were to point it out it would certainly make\na crisis. That^s the last thing I need to deal with.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -38,13 +38,13 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: "So you noticed too, I just assumed that you\ndidn't.§\nYou just walked to the counter and ignored it."
+		dialog: "So you noticed too, I just assumed that you\ndidn^t.§\nYou just walked to the counter and ignored it."
 		data: Me
 		type: NPC
 	}
 	n4: {
 		id: n4
-		dialog: "We'll need a lot, enough for a couple nights."
+		dialog: "We^ll need a lot, enough for a couple nights."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -74,7 +74,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "We'll need firewood for our travels. After all,\nwe won't be returning to Elmour for quite\nsome time."
+		dialog: "We^ll need firewood for our travels. After all,\nwe won^t be returning to Elmour for quite\nsome time."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

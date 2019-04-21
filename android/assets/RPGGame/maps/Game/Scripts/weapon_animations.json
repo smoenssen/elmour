@@ -1976,7 +1976,7 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
-		animationType: KNUCKLE1_LEFT
+		animationType: KNUCKLES1_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Weapons/Weapons.png
 		]

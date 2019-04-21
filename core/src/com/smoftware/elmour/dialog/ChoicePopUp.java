@@ -110,7 +110,7 @@ public class ChoicePopUp extends Window {
 
         String fullText = "";
         for (String line : lines) {
-            fullText += line.replace('©', '\'');
+            fullText += line.replace('^', '\'');
         }
 
         textArea.setText(fullText, true);

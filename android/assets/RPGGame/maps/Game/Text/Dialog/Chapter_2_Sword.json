@@ -38,7 +38,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "Something with power that doesn't slow you\ndown? A wise decision, but are you sure?"
+		dialog: "Something with power that doesn^t slow you\ndown? A wise decision, but are you sure?"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

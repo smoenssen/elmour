@@ -39,6 +39,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+
         switch(event){
             case PROFILE_LOADED:
                 String currentMap = profileManager.getProperty("currentMapType", String.class);
@@ -91,7 +92,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 }
                 break;
             case SAVING_PROFILE:
-                if( _currentMap != null ){
+                if( _currentMap != null && _player != null ){
                     profileManager.setProperty("currentMapType", _currentMap._currentMapType.toString());
                     profileManager.setProperty("previousMapType", _currentMap.getPreviousMapType());
                     profileManager.setProperty("playerCurrentPosition", _player.getCurrentPosition());
@@ -195,7 +196,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             }
         }
 
-        _player.registerObserver(this);
+        if (_player != null)
+            _player.registerObserver(this);
     }
 
 

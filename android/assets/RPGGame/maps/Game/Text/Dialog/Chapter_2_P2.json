@@ -2,7 +2,7 @@
 conversations: {
 	n32: {
 		id: n32
-		dialog: Let me know when you've decided.
+		dialog: Let me know when you^ve decided.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -32,7 +32,7 @@ conversations: {
 	}
 	n27: {
 		id: n27
-		dialog: Try it somewhere else.§\nWe don't know how powerfull it is.
+		dialog: Try it somewhere else.§\nWe don^t know how powerfull it is.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -44,7 +44,7 @@ conversations: {
 	}
 	n25: {
 		id: n25
-		dialog: Don't do it in here!
+		dialog: Don^t do it in here!
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -56,13 +56,13 @@ conversations: {
 	}
 	n23: {
 		id: n23
-		dialog: That’s water. It's pronounced 'shuǐ.'
+		dialog: That’s water. It^s pronounced ^shuǐ.^
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n22: {
 		id: n22
-		dialog: "Hey, {CHARACTER_2}, you wouldn't\nhappen to know what this says, would you?"
+		dialog: "Hey, {CHARACTER_2}, you wouldn^t\nhappen to know what this says, would you?"
 		data: Me
 		type: NPC
 	}
@@ -110,13 +110,13 @@ conversations: {
 	}
 	n14: {
 		id: n14
-		dialog: That's what I -
+		dialog: That^s what I -
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n13: {
 		id: n13
-		dialog: Aren't the lands pretty safe though?
+		dialog: Aren^t the lands pretty safe though?
 		data: Justin
 		type: NPC
 	}
@@ -152,7 +152,7 @@ conversations: {
 	}
 	n70: {
 		id: n70
-		dialog: I'd pick another weapon to go along with the book.¶\nEvery mage needs a backup weapon after all!§\nEach weapon has it's pros and cons.
+		dialog: I^d pick another weapon to go along with the book.¶\nEvery mage needs a backup weapon after all!§\nEach weapon has it^s pros and cons.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -356,7 +356,7 @@ conversations: {
 	}
 	n4: {
 		id: n4
-		dialog: "Who's that, {CHARACTER_2}? Is that your\nlover?"
+		dialog: "Who^s that, {CHARACTER_2}? Is that your\nlover?"
 		data: Justin
 		type: NPC
 	}
@@ -368,19 +368,19 @@ conversations: {
 	}
 	n2: {
 		id: n2
-		dialog: "Yeah, I guess you're right.§\nI'll handle negotiations, so there's no reason\nto panic about money."
+		dialog: "Yeah, I guess you^re right.§\nI^ll handle negotiations, so there^s no reason\nto panic about money."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n1: {
 		id: n1
-		dialog: "It won't hurt to at least be prepared, right?"
+		dialog: "It won^t hurt to at least be prepared, right?"
 		data: Me
 		type: NPC
 	}
 	n0: {
 		id: n0
-		dialog: "You really want a weapon, don't you?"
+		dialog: "You really want a weapon, don^t you?"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -666,7 +666,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n23
 			destinationId: n31
-			choicePhrase: Don©t try it.
+			choicePhrase: Don^t try it.
 		}
 	]
 	n55: [

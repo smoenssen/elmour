@@ -38,7 +38,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: Let's walk around this map!
+		dialog: Let^s walk around this map!
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -89,7 +89,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n3
-			choicePhrase: Let©s not.
+			choicePhrase: Let^s not.
 		}
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice

@@ -8,7 +8,7 @@ conversations: {
 	}
 	n5: {
 		id: n5
-		dialog: "Something that'll help your magical capabilities.\nSounds like it'll go well with the book, but\nare you sure?"
+		dialog: "Something that^ll help your magical capabilities.\nSounds like it^ll go well with the book, but\nare you sure?"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

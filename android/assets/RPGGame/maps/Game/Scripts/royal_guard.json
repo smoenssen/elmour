@@ -439,7 +439,7 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
-		animationType: KNUCKLE_LEFT
+		animationType: KNUCKLES_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]
@@ -458,7 +458,7 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
-		animationType: KNUCKLE_RIGHT
+		animationType: KNUCKLES_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Royal_Guard/Royal_Guard.png
 		]

@@ -62,7 +62,7 @@ conversations: {
 	}
 	n90: {
 		id: n90
-		dialog: Well... I don't know...
+		dialog: Well... I don^t know...
 		data: Me
 		type: NPC
 	}
@@ -92,7 +92,7 @@ conversations: {
 	}
 	n115: {
 		id: n115
-		dialog: NO! You're not coming!§\nYou have a country to run!
+		dialog: NO! You^re not coming!§\nYou have a country to run!
 		data: Me
 		type: NPC
 	}
@@ -134,7 +134,7 @@ conversations: {
 	}
 	n28: {
 		id: n28
-		dialog: "My name is {CHARACTER_1}.§\nMind telling me your's?"
+		dialog: "My name is {CHARACTER_1}.§\nMind telling me your^s?"
 		data: Me
 		type: NPC
 	}
@@ -158,7 +158,7 @@ conversations: {
 	}
 	n24: {
 		id: n24
-		dialog: What's going on?
+		dialog: What^s going on?
 		data: Girl
 		type: NPC
 	}
@@ -182,7 +182,7 @@ conversations: {
 	}
 	n22: {
 		id: n22
-		dialog: I must've passed out. That's the only\nexplanation I can think of.
+		dialog: I must^ve passed out. That^s the only\nexplanation I can think of.
 		data: My Thoughts
 		type: NPC
 	}
@@ -230,7 +230,7 @@ conversations: {
 	}
 	n82: {
 		id: n82
-		dialog: We're in China. How do you not know that?
+		dialog: We^re in China. How do you not know that?
 		data: Girl
 		type: NPC
 	}
@@ -290,13 +290,13 @@ conversations: {
 	}
 	n102: {
 		id: n102
-		dialog: I'll help you anyways. Maybe you'll change\nyour mind.
+		dialog: I^ll help you anyways. Maybe you^ll change\nyour mind.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n19: {
 		id: n19
-		dialog: This is China? I can't say that it looks like it.
+		dialog: This is China? I can^t say that it looks like it.
 		data: My Thoughts
 		type: NPC
 	}
@@ -308,7 +308,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: We're in... uh... where are we?
+		dialog: We^re in... uh... where are we?
 		data: Me
 		type: NPC
 	}
@@ -338,7 +338,7 @@ conversations: {
 	}
 	n13: {
 		id: n13
-		dialog: "I know you're not here to raid my castle!¶\nNo idiot would go throught the front gates to\nexit the castles.§\nNot to mention, you obviously aren't from\naround here."
+		dialog: "I know you^re not here to raid my castle!¶\nNo idiot would go throught the front gates to\nexit the castles.§\nNot to mention, you obviously aren^t from\naround here."
 		data: Girl
 		type: NPC
 	}
@@ -368,7 +368,7 @@ conversations: {
 	}
 	n10: {
 		id: n10
-		dialog: "I'm not here to raid your castle... frankly, I \ndon't even know why I'm here.§\nI don't even know where 'here' is."
+		dialog: "I^m not here to raid your castle... frankly, I \ndon^t even know why I^m here.§\nI don^t even know where ^here^ is."
 		data: Me
 		type: NPC
 	}
@@ -392,7 +392,7 @@ conversations: {
 	}
 	n72: {
 		id: n72
-		dialog: What? You've only just arrived!
+		dialog: What? You^ve only just arrived!
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -416,19 +416,19 @@ conversations: {
 	}
 	n68: {
 		id: n68
-		dialog: We shouldn't need them: the lands are pretty\nsafe.
+		dialog: We shouldn^t need them: the lands are pretty\nsafe.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n67: {
 		id: n67
-		dialog: "Well, let's go!"
+		dialog: "Well, let^s go!"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n66: {
 		id: n66
-		dialog: Shouldn't we get weapons?
+		dialog: Shouldn^t we get weapons?
 		data: Me
 		type: NPC
 	}
@@ -446,19 +446,19 @@ conversations: {
 	}
 	n63: {
 		id: n63
-		dialog: They've started on a bad note for me.
+		dialog: They^ve started on a bad note for me.
 		data: Me
 		type: NPC
 	}
 	n62: {
 		id: n62
-		dialog: That's what the Royal Guard is for.
+		dialog: That^s what the Royal Guard is for.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n61: {
 		id: n61
-		dialog: So whose going to run the country while \nyou're away?
+		dialog: So whose going to run the country while \nyou^re away?
 		data: Me
 		type: NPC
 	}
@@ -482,7 +482,7 @@ conversations: {
 	}
 	n57: {
 		id: n57
-		dialog: "Oh, you're not going alone."
+		dialog: "Oh, you^re not going alone."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -500,25 +500,25 @@ conversations: {
 	}
 	n49: {
 		id: n49
-		dialog: You really are strange. It's the town that we're\nin right now.
+		dialog: You really are strange. It^s the town that we^re\nin right now.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n48: {
 		id: n48
-		dialog: "By the way, what's Elmour?"
+		dialog: "By the way, what^s Elmour?"
 		data: Me
 		type: NPC
 	}
 	n47: {
 		id: n47
-		dialog: Well then it's a deal!
+		dialog: Well then it^s a deal!
 		data: Me
 		type: NPC
 	}
 	n46: {
 		id: n46
-		dialog: No need to worry about that.¶\nYou'll know how to get back when the time comes.
+		dialog: No need to worry about that.¶\nYou^ll know how to get back when the time comes.
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -530,7 +530,7 @@ conversations: {
 	}
 	n44: {
 		id: n44
-		dialog: That's mean!
+		dialog: That^s mean!
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -542,13 +542,13 @@ conversations: {
 	}
 	n41: {
 		id: n41
-		dialog: "There is, but I'll only tell you if you promise me\none thing - you'll visit Elmour again."
+		dialog: "There is, but I^ll only tell you if you promise me\none thing - you^ll visit Elmour again."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n40: {
 		id: n40
-		dialog: "I don’t know why, but they've been acting\nstrange recently."
+		dialog: "I don’t know why, but they^ve been acting\nstrange recently."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -578,7 +578,7 @@ conversations: {
 	}
 	n2: {
 		id: n2
-		dialog: W-what's going on!?
+		dialog: W-what^s going on!?
 		data: My Thoughts
 		type: NPC
 	}
@@ -608,13 +608,13 @@ conversations: {
 	}
 	n37: {
 		id: n37
-		dialog: What? You've only just arrived!
+		dialog: What? You^ve only just arrived!
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n34: {
 		id: n34
-		dialog: "Yep, that’s my name.§\nPrincess {CHARACTER_2}, but you can just\ncall me {CHARACTER_2},\nI'm not one for honorifics.§\nI am in charge of these lands."
+		dialog: "Yep, that’s my name.§\nPrincess {CHARACTER_2}, but you can just\ncall me {CHARACTER_2},\nI^m not one for honorifics.§\nI am in charge of these lands."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
@@ -777,7 +777,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n114
 			destinationId: n111
-			choicePhrase: You mean I could©ve just left as soon as I \ncame?
+			choicePhrase: You mean I could^ve just left as soon as I \ncame?
 		}
 	]
 	n113: [
@@ -1103,7 +1103,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n14
 			destinationId: n11
-			choicePhrase: I don©t know...
+			choicePhrase: I don^t know...
 		}
 	]
 	n79: [
@@ -1197,7 +1197,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I©ve only just arrived, and I©ve been attacked\nby your guards twice."
+			choicePhrase: "I^ve only just arrived, and I^ve been attacked\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1521,7 +1521,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n6
 			destinationId: n13
-			choicePhrase: "I©m raiding this castle, what else?"
+			choicePhrase: "I^m raiding this castle, what else?"
 		}
 	]
 	n5: [
@@ -1615,7 +1615,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I©ve only just arrived, and I©ve been attacked\nby your guards twice."
+			choicePhrase: "I^ve only just arrived, and I^ve been attacked\nby your guards twice."
 		}
 	]
 	n36: [

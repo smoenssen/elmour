@@ -14,7 +14,7 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "Maximum power output. That'll help a lot,\nbut are you sure?"
+		dialog: "Maximum power output. That^ll help a lot,\nbut are you sure?"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

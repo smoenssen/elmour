@@ -459,7 +459,8 @@ public final class Utility {
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
 					//node.data = label.getText().replace('\n', ' ').replace("  ", " ");
-					node.data = label.getText();
+					String temp = label.getText().replace('\'', '^'); // single apostrophe
+					node.data = temp;
 
 					// type
 					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
@@ -544,7 +545,7 @@ public final class Utility {
 			if (node.type == ConversationNode.NodeType.CHOICE) {
 				// set choice phrase for this node
 				// replace special characters that need to be re-interpreted in ChoicePopUp
-				String temp = node.data.replace('\'', '©'); // single apostrophe
+				String temp = node.data.replace('\'', '^'); // single apostrophe
 				choice.setChoicePhrase(temp);
 
 				// next node must be an NPC so get its id, otherwise throw exception

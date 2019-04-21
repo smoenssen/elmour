@@ -92,7 +92,7 @@ conversations: {
 	}
 	n11: {
 		id: n11
-		dialog: "I believe we are all ready. Everything that we \ndidn't have, I have packed."
+		dialog: "I believe we are all ready. Everything that we \ndidn^t have, I have packed."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

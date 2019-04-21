@@ -501,10 +501,12 @@ public class PopUp extends Window implements PopUpSubject {
 		return textArea.getLineStrings();
 	}
 
-	private void processLine(String line) {
-		Gdx.app.log(TAG, String.format("line.length() = %d", line.length()));
+	private void processLine(String lineInput) {
+		Gdx.app.log(TAG, String.format("line.length() = %d", lineInput.length()));
 
 		char currentChar;
+
+		String line = lineInput.replace('^', '\'');	// replace '^' with apostrophe
 
 		// display line char by char for next two lines
 		String currentTextBeforeNextLine = currentVisibleText;
