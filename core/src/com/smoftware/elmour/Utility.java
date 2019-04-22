@@ -385,8 +385,8 @@ public final class Utility {
 
 			if (fileType.equalsIgnoreCase("graphml")) {
 				String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
-				String outpuFileName = "RPGGame/maps/Game/Text/Dialog/" + filename + ".json";
-				parseConversationXMLFile("", entry.path(), outpuFileName);
+				String outputFileName = "RPGGame/maps/Game/Text/Dialog/" + filename + ".json";
+				parseConversationXMLFile("", entry.path(), outputFileName);
 			}
 		}
 	}
@@ -555,14 +555,14 @@ public final class Utility {
 					choice.setDestinationId(nextNode.id);
 				}
 				else {
-					try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
+					try { throw new Exception("Unexpected node type in choice: " + node.type.toString()); } catch (Exception e) { e.printStackTrace(); }
 				}
 			}
 			else if (node.type == ConversationNode.NodeType.NPC || node.type == ConversationNode.NodeType.ACTION) {
 				choice.setChoicePhrase(ConversationGraphObserver.ConversationCommandEvent.NO_CHOICE.toString());
 			}
 			else {
-				try { throw new Exception("Unexpected node type"); } catch (Exception e) { e.printStackTrace(); }
+				try { throw new Exception("Unexpected node type: " + node.type.toString()); } catch (Exception e) { e.printStackTrace(); }
 			}
 
 			ArrayList<ConversationChoice> choices = associatedChoices.get(rootNode.id);

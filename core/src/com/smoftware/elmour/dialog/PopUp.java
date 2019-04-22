@@ -274,6 +274,22 @@ public class PopUp extends Window implements PopUpSubject {
 		String type = conversation.getType();
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			if (fullText.contains("EXIT_CONVERSATION")) {
+				// EXIT_CONVERSATION should only be used in cut scenes
+				// so send EXIT_CUTSCENE notification
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+			}
+			else {
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
+			}
+
+			// return false to indicate not to interact with this node
+			return false;
+		}
+
+		/*
+		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
 			if (fullText.equals("EXIT_CHAT")) {
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT);
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT, conversationID);
@@ -290,6 +306,7 @@ public class PopUp extends Window implements PopUpSubject {
 			// return false to indicate not to interact with this node
 			return false;
 		}
+		*/
 
 		return true;
 	}

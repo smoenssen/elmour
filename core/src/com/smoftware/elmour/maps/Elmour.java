@@ -29,9 +29,9 @@ public class Elmour extends Map {
         }
 
         //Special cases
-        Entity char1 = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CHARACTER_1);
-        initSpecialEntityPosition(char1);
-        mapEntities.add(char1);
+        //Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.OPHION);
+        //initSpecialEntityPosition(ophion);
+        //mapEntities.add(ophion);
     }
 
     @Override

@@ -11,3 +11,7 @@ Allow apostrophes in conversation popups: use copyright symbol
 Compass sign is broken with paragraph line feed
 
 Ben's phone 1440 x 2960 or 1080 x 2220
+
+Ben
+---
+ophion.json: entityID should be OPHION

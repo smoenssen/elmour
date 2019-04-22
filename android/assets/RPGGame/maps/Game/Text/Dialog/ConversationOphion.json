@@ -1,0 +1,83 @@
+{
+conversations: {
+	n6: {
+		id: n6
+		dialog: Thank you!!
+		data: Ophion
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: "Wow, thanks a lot, loser!!"
+		data: Ophion
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: EXIT_CHAT
+		data: null
+		type: ACTION
+	}
+	n1: {
+		id: n1
+		dialog: ACCEPT_QUEST
+		data: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: I^ve lost my teddy bear or whatever!§\r\nCould you find him and bring him back to me?
+		data: Ophion
+		type: NPC
+	}
+}
+associatedChoices: {
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n6
+			choicePhrase: Yes.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n5
+			choicePhrase: No.
+		}
+	]
+}
+currentConversationID: n0
+}

@@ -1,9 +1,9 @@
 {
-entityID : Character_1
+entityID : OPHION
 displayName : "Ophion"
 state : IDLE
 direction : DOWN
-conversationConfigPath : "conversations/testing.json"
+conversationConfigPath : "RPGGame/maps/Game/Text/Dialog/ConversationOphion.json"
 questConfigPath : ""
 currentQuestID : ""
 entityProperties: {
