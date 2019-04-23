@@ -14,3 +14,31 @@ TARGET_LOCATION is name of map
 
 Questions:
 Should we have a split window for Quest and associated quest tasks to show what has been done and what still needs to be done?
+
+
+----------------------------------------
+if quest hasn't started {
+	Check what chapter player is on
+	if current chapter < minimum chapter {
+		display normal dialog
+	}
+	else {
+		display quest specific cut scene
+		if player accepts quest
+			start quest
+	}
+}
+else if quest is active {
+	if player talks to quest giver {
+		display quest specific dialog
+	}
+
+	if player talks to other person involved with quest {
+		display quest specific dialog or cut scene
+	}
+}
+else if quest has completed {
+	if player talks to quest giver or other person that was involved with quest {
+		display special post-quest dialog
+}
+----------------------------------------
