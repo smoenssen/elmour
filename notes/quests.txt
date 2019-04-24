@@ -23,7 +23,7 @@ if quest hasn't started {
 		display normal dialog
 	}
 	else {
-		display quest specific cut scene
+		display pre-quest specific cut scene
 		if player accepts quest
 			start quest
 	}
@@ -42,6 +42,13 @@ else if quest has completed {
 		display special post-quest dialog
 }
 ----------------------------------------
+
+Notes:
+The quest giver needs to support more than one quest, but not simultaneous quests.
+I.e., one quest with a particular NPC needs to be completed before another can be started with that NPC.
+Same for other NPC involved with quest.
+So, need to keep track of current quest ID with each NPC in profile manager (remove this from EntityConfig)
+When ACCEPT_QUEST is received, that's when questConfigPath is loaded. Need to combine this with EXIT_CUTSCENE.
 
 To add quest:
 Create CutSceneQuest<name> copy of CutSceneQuest1

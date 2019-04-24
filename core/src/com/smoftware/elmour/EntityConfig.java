@@ -72,6 +72,16 @@ public class EntityConfig {
         public int probability;
     }
 
+    public enum ConversationType {
+        NORMAL_DIALOG, PRE_QUEST_CUTSCENE, ACTIVE_QUEST_DIALOG, ACTIVE_QUEST_CUTSCENE, POST_QUEST_DIALOG
+    }
+
+    public static class ConversationConfig {
+        int chapter;
+        ConversationType type;
+        String config;  // Depending on type, config can be path to .json config file or cut scene name
+    }
+
     EntityConfig(){
         animationConfig = new Array<AnimationConfig>();
         entityProperties = new ObjectMap<String, String>();
