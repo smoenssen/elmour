@@ -15,7 +15,6 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
 
     public final static float FADE_OUT_TIME = 0.5f;
     public final static String CUTSCENE_PREFIX = "CUTSCENE_";
-    private boolean isFadingIn = false;
 
     private Entity player;
     private ElmourGame game;
@@ -36,14 +35,11 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
                 if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
                     ProfileManager.getInstance().setProperty(value, CutSceneObserver.CutSceneStatus.STARTED);
 
-                    //if (!isFadingIn) {
-                        if (!getSetScreenTimer(value).isScheduled()) {
-                            // delay here so game screen has a chance to fade out
-                            Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
-                        }
+                    if (!getSetScreenTimer(value).isScheduled()) {
+                        // delay here so game screen has a chance to fade out
+                        Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
+                    }
 
-                    //    isFadingIn = true;
-                    //}
                     notify(value, CutSceneObserver.CutSceneStatus.STARTED);
                 }
                 break;
@@ -63,7 +59,6 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
                 }
 
                 game.setScreen(game.getScreenType(ElmourGame.ScreenType.valueOf(sa[0])));
-                isFadingIn = false;
             }
         };
     }

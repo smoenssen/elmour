@@ -13,6 +13,7 @@ import com.smoftware.elmour.screens.CreditScreen;
 import com.smoftware.elmour.screens.CutSceneChapter2;
 import com.smoftware.elmour.screens.CutSceneChapter1;
 import com.smoftware.elmour.screens.ChapterSplashScreen;
+import com.smoftware.elmour.screens.CutSceneQuest1;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
@@ -52,6 +53,8 @@ public class ElmourGame extends Game {
 	private static CutSceneChapter1 cutSceneChapter1;
 	private static CutSceneChapter2 cutSceneChapter2;
 
+	private static CutSceneQuest1 cutSceneQuest1;
+
 	public static enum ScreenType{
 		BattleScreen,
 		SplashScreen,
@@ -62,6 +65,7 @@ public class ElmourGame extends Game {
 		ChapterSplashScreen,
 		Chapter1Screen,
 		Chapter2Screen,
+		Quest1Screen,
 		Credits
 	}
 
@@ -79,6 +83,8 @@ public class ElmourGame extends Game {
 				return cutSceneChapter1;
 			case Chapter2Screen:
 				return cutSceneChapter2;
+			case Quest1Screen:
+				return cutSceneQuest1;
 			case GameOver:
 				return _gameOverScreen;
 			case Credits:
@@ -130,6 +136,7 @@ public class ElmourGame extends Game {
 		cutSceneChapter1 = new CutSceneChapter1(this, _mainGameScreen._playerHUD);
 		cutSceneChapter2 = new CutSceneChapter2(this, _mainGameScreen._playerHUD);
 
+		cutSceneQuest1 = new CutSceneQuest1(this, _mainGameScreen._playerHUD);
 
 		partyList = new Array<>();
 
@@ -209,6 +216,7 @@ public class ElmourGame extends Game {
 		battleScreen.dispose();
 		cutSceneChapter1.dispose();
 		cutSceneChapter2.dispose();
+		cutSceneQuest1.dispose();
 	}
 
 }
