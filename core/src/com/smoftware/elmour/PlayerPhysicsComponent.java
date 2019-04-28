@@ -303,6 +303,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 mapMgr.setCurrentSelectedMapEntity(npc);
                 Gdx.app.log(TAG, "sending LOAD_CONVERSATION");
                 notify(_json.toJson(npc.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+                notify(npc, ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
                 isLoadConversationMsgSent = true;
                 isNPCColliding = true;
             }

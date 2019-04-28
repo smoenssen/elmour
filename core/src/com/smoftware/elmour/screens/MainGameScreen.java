@@ -138,7 +138,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
             //_player.registerObserver(this);
             _playerHUD.addInventoryObserver(this);
-            cutSceneManager = new CutSceneManager(_game, _player);
+            cutSceneManager = new CutSceneManager(_game, _player, _playerHUD);
         }
 
         if (_player != null) {

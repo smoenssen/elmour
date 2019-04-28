@@ -3,9 +3,42 @@ entityID : OPHION
 displayName : "Ophion"
 state : IDLE
 direction : DOWN
+conversationConfigs : [
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: NORMAL_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/OphionNormalDialog.json"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		chapter: 1
+		type: PRE_QUEST_CUTSCENE
+		config: "Quest1Screen_PreQuest"
+		questConfigPath: "RPGGame/maps/Game/Quests/GetTeddyBear.json"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/OphionActiveQuestDialog.json"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_CUTSCENE
+		config: "CutSceneQuest1_Active"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: POST_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/OphionPostQuestDialog.json"
+	}
+]
 conversationConfigPath : "RPGGame/maps/Game/Text/Dialog/ConversationOphion.json"
-questConfigPath : ""
-currentQuestID : ""
+questConfigPaths : [
+	{
+		class: java.lang.String
+		value: RPGGame/maps/Game/Quests/GetTeddyBear.json
+	}
+]
 entityProperties: {
 	HP: {
 		class: java.lang.String

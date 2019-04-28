@@ -19,6 +19,8 @@ public class EntityConfig {
     private String entityID;
     private String conversationConfigPath;
     private String questConfigPath;
+    private Array<String> questConfigPaths;
+    private Array<ConversationConfig> conversationConfigs;
     private String currentQuestID;
     private InventoryElement.WeaponType preferredWeaponType;
     private ObjectMap<String, String> entityProperties;
@@ -77,48 +79,41 @@ public class EntityConfig {
     }
 
     public static class ConversationConfig {
-        int chapter;
-        ConversationType type;
-        String config;  // Depending on type, config can be path to .json config file or cut scene name
+        public int chapter;
+        public ConversationType type;
+        public String config;          // Depending on type, config can be path to .json config file, cut scene name
+        public String questConfigPath; // This is only used if type is PRE_QUEST_CUTSCENE
     }
 
     EntityConfig(){
-        animationConfig = new Array<AnimationConfig>();
-        entityProperties = new ObjectMap<String, String>();
-        rewardItems = new Array<ItemReward>();
-        entityAbilities = new Array<EntityAbility>();
+        animationConfig = new Array<>();
+        entityProperties = new ObjectMap<>();
+        rewardItems = new Array<>();
+        entityAbilities = new Array<>();
         spellPowerElementIDs = new Array<>();
+        questConfigPaths = new Array<>();
+        conversationConfigs = new Array<>();
         preferredWeaponType = InventoryElement.WeaponType.NONE;
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
 
-        /* Test code to write to Json file
-        EntityAbility ability = new EntityAbility();
-        ability.name = "Fire";
-        ability.numTurnsTilReset = 5;
-        ability.level = 3;
-        ability.maxHP = 15;
-        ability.priority = 1;
-        entityAbilities.add(ability);
-
-        EntityAbility ability2 = new EntityAbility();
-        ability2.name = "Thunder";
-        ability2.numTurnsTilReset = 43;
-        ability2.level = 1;
-        ability2.maxHP = 10;
-        ability2.priority = 2;
-        entityAbilities.add(ability2);
+        //Test code to write to Json file
+        ConversationConfig config = new ConversationConfig();
+        config.chapter = 1;
+        config.type = ConversationType.PRE_QUEST_CUTSCENE;
+        config.config = "config.json";
+        config.questConfigPath = "questConfig.json";
+        conversationConfigs.add(config);;
 
         Json _json = new Json();
-        String fileData = _json.prettyPrint(_json.toJson(entityAbilities));
+        String fileData = _json.prettyPrint(_json.toJson(conversationConfigs));
 
         if( Gdx.files.isLocalStorageAvailable() ) {
             FileHandle file = Gdx.files.local("test.json");
-            String encodedString = fileData;//Base64Coder.encodeString(fileData);
-            file.writeString(encodedString, false);
+            file.writeString(fileData, false);
         }
-        */
+
 /*
         spellPowerElementIDs.add(SpellPowerElement.ElementID.EARTH);
         spellPowerElementIDs.add(SpellPowerElement.ElementID.WATER);
@@ -145,20 +140,26 @@ public class EntityConfig {
         currentQuestID = config.getCurrentQuestID();
         preferredWeaponType = config.getPreferredWeaponType();
 
-        animationConfig = new Array<AnimationConfig>();
+        animationConfig = new Array<>();
         animationConfig.addAll(config.getAnimationConfig());
 
-        entityProperties = new ObjectMap<String, String>();
+        entityProperties = new ObjectMap<>();
         entityProperties.putAll(config.entityProperties);
 
-        rewardItems = new Array<ItemReward>();
+        rewardItems = new Array<>();
         rewardItems.addAll(config.getRewardItems());
 
-        spellPowerElementIDs = new Array<SpellPowerElement.ElementID>();
+        spellPowerElementIDs = new Array<>();
         spellPowerElementIDs.addAll(config.getSpellPowerElementIDs());
 
+        questConfigPaths = new Array<>();
+        questConfigPaths.addAll(config.getQuestConfigPaths());
+
+        conversationConfigs = new Array<>();
+        conversationConfigs.addAll(config.getConversationConfigs());
+
         if (turnEffectList == null)
-            turnEffectList = new Array<InventoryElement.EffectItem>();
+            turnEffectList = new Array<>();
     }
 
     public int getTurnEffectListSize() { return turnEffectList.size; }
@@ -204,6 +205,10 @@ public class EntityConfig {
     }
 
     public void setQuestConfigPath(String questConfigPath) { this.questConfigPath = questConfigPath; }
+
+    public Array<String> getQuestConfigPaths() { return questConfigPaths; }
+
+    public Array<ConversationConfig> getConversationConfigs() { return conversationConfigs; }
 
     public String getConversationConfigPath() {
         return conversationConfigPath;

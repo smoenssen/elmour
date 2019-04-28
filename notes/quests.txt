@@ -44,10 +44,9 @@ else if quest has completed {
 ----------------------------------------
 
 Notes:
-The quest giver needs to support more than one quest, but not simultaneous quests.
-I.e., one quest with a particular NPC needs to be completed before another can be started with that NPC.
-Same for other NPC involved with quest.
-So, need to keep track of current quest ID with each NPC in profile manager (remove this from EntityConfig)
+Need to support more than one quest being active at a time, but only one quest per NPC
+Need to keep track of current quest ID with each NPC in profile manager. (remove this from EntityConfig)
+Remove questConfigPaths?
 When ACCEPT_QUEST is received, that's when questConfigPath is loaded. Need to combine this with EXIT_CUTSCENE.
 
 To add quest:

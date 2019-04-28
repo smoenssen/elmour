@@ -21,6 +21,8 @@ public class TarpingTown extends Map {
     TarpingTown(){
         super(MapFactory.MapType.TARPING_TOWN, mapPath);
 
+        json = new Json();
+
     }
 
     @Override

@@ -23,8 +23,13 @@ public class QuestGraph {
     private String questTitle;
     private String questID;
     private boolean isQuestComplete;
+    private int chapter;
     private int goldReward;
     private int xpReward;
+
+    public void setChapter(int chapter) { this.chapter = chapter; }
+
+    public int getChapter() { return chapter; }
 
     public int getGoldReward() {
         return goldReward;

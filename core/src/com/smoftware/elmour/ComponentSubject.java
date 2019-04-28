@@ -28,4 +28,10 @@ public class ComponentSubject {
             observer.onNotify(value, event);
         }
     }
+
+    protected void notify(final Entity entity, ComponentObserver.ComponentEvent event){
+        for(ComponentObserver observer: _observers){
+            observer.onNotify(entity, event);
+        }
+    }
 }

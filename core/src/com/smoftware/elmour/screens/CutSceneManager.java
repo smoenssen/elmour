@@ -4,6 +4,8 @@ import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**
@@ -18,31 +20,57 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
 
     private Entity player;
     private ElmourGame game;
+    private PlayerHUD playerHUD;
 
-    public CutSceneManager(final ElmourGame game, final Entity player) {
+    public CutSceneManager(final ElmourGame game, final Entity player, final PlayerHUD playerHUD) {
         this.game = game;
         this.player = player;
         this.player.registerObserver(this);
+        this.playerHUD = playerHUD;
     }
 
     @Override
     public void onNotify(String value, ComponentEvent event) {
         switch (event) {
             case CUTSCENE_ACTIVATED:
-                // check to see if this cutscene should be kicked off
-                CutSceneObserver.CutSceneStatus status = ProfileManager.getInstance().getProperty(value, CutSceneObserver.CutSceneStatus.class);
-
-                if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
-                    ProfileManager.getInstance().setProperty(value, CutSceneObserver.CutSceneStatus.STARTED);
-
-                    if (!getSetScreenTimer(value).isScheduled()) {
-                        // delay here so game screen has a chance to fade out
-                        Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
-                    }
-
-                    notify(value, CutSceneObserver.CutSceneStatus.STARTED);
-                }
+                startCutScene(value);
                 break;
+        }
+    }
+
+    @Override
+    public void onNotify(Entity entity, ComponentEvent event) {
+        switch (event) {
+            case LOAD_CONVERSATION:
+                // get current chapter and check to see if cut scene should be kicked off
+                Integer chapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                EntityConfig.ConversationConfig conversationConfig = playerHUD.getConversationConfigForNPC(chapter, entity);
+
+                if (conversationConfig != null) {
+                    switch (conversationConfig.type) {
+                        case PRE_QUEST_CUTSCENE:
+                        case ACTIVE_QUEST_CUTSCENE:
+                            // config contains cut scene string
+                            startCutScene(conversationConfig.config);
+                            break;
+                    }
+                }
+        }
+    }
+
+    private void startCutScene(String value) {
+        // check to see if this cut scene should be kicked off
+        CutSceneObserver.CutSceneStatus status = ProfileManager.getInstance().getProperty(value, CutSceneObserver.CutSceneStatus.class);
+
+        if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            ProfileManager.getInstance().setProperty(value, CutSceneObserver.CutSceneStatus.STARTED);
+
+            if (!getSetScreenTimer(value).isScheduled()) {
+                // delay here so game screen has a chance to fade out
+                Timer.schedule(getSetScreenTimer(value), FADE_OUT_TIME);
+            }
+
+            notify(value, CutSceneObserver.CutSceneStatus.STARTED);
         }
     }
 

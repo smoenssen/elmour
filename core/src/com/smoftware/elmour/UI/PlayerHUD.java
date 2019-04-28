@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -33,6 +32,7 @@ import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityConfig.ConversationConfig;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -62,7 +62,6 @@ import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public class PlayerHUD implements Screen, AudioSubject,
@@ -1060,6 +1059,62 @@ public class PlayerHUD implements Screen, AudioSubject,
         return (name.contains("SWITCH"));
     }
 
+    public ConversationConfig getConversationConfigForNPC(int currentChapter, Entity npc) {
+        EntityConfig.ConversationConfig conversationConfig = null;
+        EntityConfig config = npc.getEntityConfig();
+        Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
+
+        // see if there are any active or completed quests for this NPC
+        String questID = ProfileManager.getInstance().getProperty(npc.getEntityConfig().getEntityID() + "QuestID", String.class);
+
+        if (questID != null) {
+            QuestGraph questGraph = _questUI.getQuestByID(questID);
+            if (questGraph != null) {
+                if (questGraph.isQuestComplete()) {
+                    // get post-quest dialog from config
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.POST_QUEST_DIALOG);
+                }
+                else {
+                    // get active quest dialog or active quest cut scene
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
+                    if (conversationConfig == null) {
+                        conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
+                    }
+                }
+            }
+        }
+
+        if (conversationConfig == null) {
+            // no active or completed quests or post-quest dialog
+            // so see if there is an available quest for this chapter
+            conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
+            if (conversationConfig != null) {
+                if (currentChapter < conversationConfig.chapter) {
+                    // no quest available, just show normal dialog
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.NORMAL_DIALOG);
+                }
+            }
+            else {
+                // no quest available, just show normal dialog
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.NORMAL_DIALOG);
+            }
+        }
+
+        return conversationConfig;
+    }
+
+    private ConversationConfig getConversationConfig(Array<ConversationConfig> npcConversationConfigs, EntityConfig.ConversationType type) {
+        ConversationConfig conversationConfig = null;
+
+        for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
+            if (npcQuestConfig.type == type) {
+                return npcQuestConfig;
+            }
+        }
+
+        return conversationConfig;
+    }
+
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
@@ -1103,12 +1158,18 @@ public class PlayerHUD implements Screen, AudioSubject,
                 profileManager.setProperty("currentPlayerMP", 0 );
                 profileManager.setProperty("currentPlayerMPMax", 0 );
                 profileManager.setProperty("currentTime", 0);
+                profileManager.setProperty("currentChapter", 1);
                 profileManager.setProperty("CHARACTER_1", "Apollo");
                 profileManager.setProperty("CHARACTER_2", "Isabell");
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onNotify(Entity entity, ComponentEvent event) {
+
     }
 
     @Override
@@ -1125,17 +1186,31 @@ public class PlayerHUD implements Screen, AudioSubject,
                     else {
                         Gdx.app.log(TAG, "Loading conversation");
                         Entity npc = _mapMgr.getCurrentSelectedMapEntity();
-                        EntityConfig config = npc.getEntityConfig();
-/*
-                        //Check to see if there is a version loading into properties
-                        if (config.getItemTypeID().equalsIgnoreCase(InventoryItem.ItemTypeID.NONE.toString())) {
-                            EntityConfig configReturnProperty = ProfileManager.getInstance().getProperty(config.getEntityID(), EntityConfig.class);
-                            if (configReturnProperty != null) {
-                                config = configReturnProperty;
+
+                        // get current chapter and check to see what type of conversation should be kicked off
+                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                        ConversationConfig conversationConfig = getConversationConfigForNPC(currentChapter, npc);
+
+                        if (conversationConfig != null) {
+                            switch (conversationConfig.type) {
+                                case NORMAL_DIALOG:
+                                case ACTIVE_QUEST_DIALOG:
+                                case POST_QUEST_DIALOG:
+                                    // config contains conversation .json file path
+                                    loadEntityConversationFromJson(npc, conversationConfig.config);
+                                    break;
+                                case PRE_QUEST_CUTSCENE:
+                                case ACTIVE_QUEST_CUTSCENE:
+                                    // config contains cut scene string. CutSceneManager will handle it.
+                                    break;
                             }
                         }
-*/
-                        loadConversationFromConfig(config);
+                        //todo: eventually the else case will be obsolete and should be removed
+                        else {
+                            // just load normal dialog from config
+                            EntityConfig config = npc.getEntityConfig();
+                            loadConversationFromConfig(config);
+                        }
                     }
                 }
                 break;
@@ -1308,6 +1383,12 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
             }
         }
+    }
+
+    private void loadEntityConversationFromJson(Entity entity, String jsonFilePath) {
+        isCurrentConversationDone = false;
+        conversationPopUp.loadEntityConversationFromJson(entity, jsonFilePath);
+        conversationPopUp.getCurrentConversationGraph().addObserver(this);
     }
 
     private void loadConversationFromConfig(EntityConfig config) {

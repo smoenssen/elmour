@@ -21,6 +21,8 @@ public class GrassTemple extends Map {
     GrassTemple(){
         super(MapFactory.MapType.GRASS_TEMPLE, mapPath);
 
+        json = new Json();
+
     }
 
     @Override

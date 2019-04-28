@@ -1,5 +1,7 @@
 package com.smoftware.elmour.tests;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestTask;
@@ -21,63 +23,44 @@ public class QuestGraphTest {
         _questTasks = new Hashtable<String, QuestTask>();
         _graph = new QuestGraph();
 
-        _graph.setQuestTitle("Exploring Elmour");
-        _graph.setQuestID("ExploreElmour");
+        _graph.setQuestTitle("Get Teddy Bear");
+        _graph.setQuestID("GetTeddyBear");
+        _graph.setChapter(1);
         _graph.setQuestComplete(false);
 
-        QuestTask q0 = new QuestTask();
-        q0.setId("GoExplore");
-        q0.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q0.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE, "RPGGame/maps/Game/Text/Dialog/GoExploreQuestReturn.json");
-        q0.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "Elmour");
-        q0.setQuestType(QuestTask.QuestType.RETURN);
-        q0.setTaskPhrase("Go explore!");
-
         QuestTask q1 = new QuestTask();
-        q1.setId("Armory");
+        q1.setId("ReturnTeddyBear");
         q1.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "Elmour");
-        q1.setQuestType(QuestTask.QuestType.DISCOVER);
-        q1.setTaskPhrase("Go to the Armory");
+        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "MAP1");
+        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE, "OPHION");
+        q1.setQuestType(QuestTask.QuestType.RETURN);
+        q1.setTaskPhrase("Return teddy bear");
 
         QuestTask q2 = new QuestTask();
-        q2.setId("Woodshop");
+        q2.setId("FindTeddyBear");
         q2.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "Elmour");
-        q2.setQuestType(QuestTask.QuestType.DISCOVER);
-        q2.setTaskPhrase("Go to the Wood Shop");
+        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "COMPASS");
+        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE, "JUSTIN");
+        q2.setQuestType(QuestTask.QuestType.FETCH);
+        q2.setTaskPhrase("Find teddy bear");
 
-        QuestTask q3 = new QuestTask();
-        q3.setId("Foodcourt");
-        q3.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q3.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "Elmour");
-        q3.setQuestType(QuestTask.QuestType.DISCOVER);
-        q3.setTaskPhrase("Go to the Food Court");
-
-        _questTasks.put(q0.getId(), q0);
         _questTasks.put(q1.getId(), q1);
         _questTasks.put(q2.getId(), q2);
-        _questTasks.put(q3.getId(), q3);
 
         _graph.setTasks(_questTasks);
 
         QuestTaskDependency qDep1 = new QuestTaskDependency();
-        qDep1.setSourceId(q0.getId());
-        qDep1.setDestinationId(q1.getId());
-
-        QuestTaskDependency qDep2 = new QuestTaskDependency();
-        qDep2.setSourceId(q0.getId());
-        qDep2.setDestinationId(q2.getId());
-
-        QuestTaskDependency qDep3 = new QuestTaskDependency();
-        qDep3.setSourceId(q0.getId());
-        qDep3.setDestinationId(q3.getId());
+        qDep1.setSourceId(q1.getId());
+        qDep1.setDestinationId(q2.getId());
 
         _graph.addDependency(qDep1);
-        _graph.addDependency(qDep2);
-        _graph.addDependency(qDep3);
 
-        System.out.println(_json.prettyPrint(_graph));
+        String fileData = _json.prettyPrint(_graph);
+
+        if( Gdx.files.isLocalStorageAvailable() ) {
+            FileHandle file = Gdx.files.local("RPGGame/maps/Game/Quests/GetTeddyBear.json");
+            file.writeString(fileData, false);
+        }
 
         _questTasks.clear();
         _graph.clear();

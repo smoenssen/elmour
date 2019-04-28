@@ -14,8 +14,8 @@ conversations: {
 	}
 	n4: {
 		id: n4
-		dialog: EXIT_CHAT
-		data: null
+		dialog: EXIT_CONVERSATION_1
+		data: Q1;MAP1
 		type: ACTION
 	}
 	n1: {

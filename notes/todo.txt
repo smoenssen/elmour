@@ -16,6 +16,8 @@ Only write certain cutscene status to profile
 
 Add weapon to inventory when selected from chapter 2 cut scene
 
+Where possible, use json.toJson() to send in notifications and json.fromJson() to receive
+
 Move functions/variables to CutSceneBase:
 followActor
 setCameraPosition

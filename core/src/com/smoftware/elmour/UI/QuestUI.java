@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityConfig.ConversationConfig;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -105,6 +108,15 @@ public class QuestUI extends Window {
         _quests.add(graph);
         updateQuestItemList();
         return graph;
+    }
+
+    public QuestGraph getQuestGraphFromConfig(String questConfigPath){
+        if( questConfigPath.isEmpty() || !Gdx.files.internal(questConfigPath).exists() ){
+            Gdx.app.debug(TAG, "Quest file does not exist!");
+            return null;
+        }
+
+        return _json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
     }
 
     public boolean isQuestReadyForReturn(String questID){

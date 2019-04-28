@@ -23,6 +23,8 @@ public class Map2 extends Map {
     Map2(){
         super(MapFactory.MapType.MAP2, mapPath);
 
+        json = new Json();
+
         interaction = Entity.Interaction.NONE;
         switchEnabled = false; //todo: get this from profile
     }

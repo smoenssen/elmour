@@ -83,16 +83,17 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.MAP1);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(10, 20.5f);
+                float yPos = 8.5f;
+                setCameraPosition(10, yPos);
                 keepCamInMap = true;
 
                 ophion.setVisible(true);
-                ophion.setPosition(3, 20.5f);
+                ophion.setPosition(10, yPos);
                 ophion.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 ophion.setCurrentDirection(Entity.Direction.RIGHT);
 
                 character1.setVisible(true);
-                character1.setPosition(4, 20.5f);
+                character1.setPosition(11, yPos);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character1.setCurrentDirection(Entity.Direction.LEFT);
 
@@ -150,7 +151,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                         new Runnable() {
                             @Override
                             public void run() {
-                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/ConversationOphion.json", thisScreen);
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/OphionQuestDialog.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
                             }
@@ -165,9 +166,9 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
 
         currentPartNumber = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Quest1Screen.toString(), String.class);
 
-        if (currentPartNumber == null || currentPartNumber.equals("")) {
+        //if (currentPartNumber == null || currentPartNumber.equals("")) {
             _stage.addAction(getQuestOpeningScene());
-        }
+        //}
         /*
         else if (currentPartNumber.equals("P2")) {
             _stage.addAction(getOutsideArmoryScene());

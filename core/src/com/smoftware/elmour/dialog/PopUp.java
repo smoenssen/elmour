@@ -211,6 +211,11 @@ public class PopUp extends Window implements PopUpSubject {
 		loadConversationFromJson(fullFilenamePath);
 	}
 
+	public void loadEntityConversationFromJson(Entity entity, String jsonFilePath) {
+		currentEntityID = entity.getEntityConfig().getEntityID();
+		loadConversationFromJson(jsonFilePath);
+	}
+
 	public void loadConversationFromJson(String jsonFilePath) {
 		this.getTitleLabel().setText("");
 
@@ -279,10 +284,9 @@ public class PopUp extends Window implements PopUpSubject {
 				// so send EXIT_CUTSCENE notification
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
 			}
-			else {
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
-			}
+
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
 
 			// return false to indicate not to interact with this node
 			return false;

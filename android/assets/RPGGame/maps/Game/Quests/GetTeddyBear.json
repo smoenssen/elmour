@@ -1,0 +1,55 @@
+{
+questTasks: {
+	FindTeddyBear: {
+		taskProperties: {
+			TARGET_LOCATION: {
+				class: java.lang.String
+				value: COMPASS
+			}
+			TARGET_TYPE: {
+				class: java.lang.String
+				value: JUSTIN
+			}
+			IS_TASK_COMPLETE: {
+				class: java.lang.String
+				value: "false"
+			}
+		}
+		id: FindTeddyBear
+		taskPhrase: Find teddy bear
+		questType: FETCH
+	}
+	ReturnTeddyBear: {
+		taskProperties: {
+			TARGET_LOCATION: {
+				class: java.lang.String
+				value: MAP1
+			}
+			TARGET_TYPE: {
+				class: java.lang.String
+				value: OPHION
+			}
+			IS_TASK_COMPLETE: {
+				class: java.lang.String
+				value: "false"
+			}
+		}
+		id: ReturnTeddyBear
+		taskPhrase: Return teddy bear
+		questType: RETURN
+	}
+}
+questTaskDependencies: {
+	ReturnTeddyBear: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: ReturnTeddyBear
+			destinationId: FindTeddyBear
+		}
+	]
+	FindTeddyBear: []
+}
+questTitle: Get Teddy Bear
+questID: GetTeddyBear
+chapter: 1
+}

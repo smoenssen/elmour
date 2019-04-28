@@ -21,6 +21,8 @@ public class WeaponsRoom extends Map {
     WeaponsRoom(){
         super(MapFactory.MapType.WEAPONS_ROOM, mapPath);
 
+        json = new Json();
+
     }
 
     @Override

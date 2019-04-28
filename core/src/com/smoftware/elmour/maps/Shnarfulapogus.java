@@ -21,6 +21,8 @@ public class Shnarfulapogus extends Map {
     Shnarfulapogus(){
         super(MapFactory.MapType.SHNARFULAPOGUS, mapPath);
 
+        json = new Json();
+
     }
 
     @Override
