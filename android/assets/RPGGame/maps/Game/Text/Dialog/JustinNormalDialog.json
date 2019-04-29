@@ -2,14 +2,14 @@
 conversations: {
 	n1: {
 		id: n1
-		dialog: EXIT_CONVERSATION_1
-		data: LEFT;ELMOUR
+		dialog: EXIT_CHAT
+		data: null
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: "We still haven^t gotten everything that we need.§\r\nRemember, we need weapons, food, and\r\nfirewood."
-		data: "{CHARACTER_2}"
+		dialog: What^s up bro?
+		data: Ophion
 		type: NPC
 	}
 }

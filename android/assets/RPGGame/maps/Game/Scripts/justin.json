@@ -3,6 +3,28 @@ entityID : Justin
 displayName : "Justin"
 state : IDLE
 direction : DOWN
+conversationConfigs : [
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: NORMAL_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/JustinNormalDialog.json"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/JustinActiveQuestDialog.json"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_CUTSCENE
+		config: "CutSceneQuest1_ActiveJustin"
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: POST_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/JustinPostQuestDialog.json"
+	}
+]
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""

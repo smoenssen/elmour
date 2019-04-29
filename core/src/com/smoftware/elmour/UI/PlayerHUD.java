@@ -33,6 +33,7 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityConfig.ConversationConfig;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
@@ -1115,6 +1116,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         return conversationConfig;
     }
 
+    public void setQuestTaskComplete(String questID, String questTaskID) {
+        _questUI.questTaskComplete(questID, questTaskID);
+        updateEntityObservers();
+    }
+
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
@@ -1258,8 +1264,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 String questID = string[0];
                 String questTaskID = string[1];
 
-                _questUI.questTaskComplete(questID, questTaskID);
-                updateEntityObservers();
+                setQuestTaskComplete(questID, questTaskID);
                 break;
             case ENEMY_SPAWN_LOCATION_CHANGED:
                 Gdx.app.debug(TAG, "ENEMY_SPAWN_LOCATION_CHANGED");
@@ -1419,6 +1424,25 @@ public class PlayerHUD implements Screen, AudioSubject,
         _mapMgr.clearCurrentSelectedMapEntity();
     }
 
+    public void acceptQuest(String questID, EntityFactory.EntityName entityName) {
+        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        if (entity == null) {
+            return;
+        }
+
+        EntityConfig config = entity.getEntityConfig();
+        QuestGraph questGraph = _questUI.loadQuest(config.getQuestConfigPath());
+
+        if( questGraph != null ){
+            ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + "QuestID", questID);
+            //Update conversation dialog
+            //config.setConversationConfigPath(QuestUI.RETURN_QUEST);
+            //config.setCurrentQuestID(questGraph.getQuestID());
+            //ProfileManager.getInstance().setProperty(config.getEntityID(), config);
+            updateEntityObservers();
+        }
+    }
+
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
@@ -1427,6 +1451,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 handleExitConversation();
                 break;
             case ACCEPT_QUEST:
+                //todo: this should never get called unless we need to support accepting quests in a normal conversation
+                /*
                 Entity currentlySelectedEntity = _mapMgr.getCurrentSelectedMapEntity();
                 if( currentlySelectedEntity == null ){
                     break;
@@ -1444,6 +1470,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
 
                 _mapMgr.clearCurrentSelectedMapEntity();
+                */
                 break;
             case RETURN_QUEST:
                 Entity returnEntity = _mapMgr.getCurrentSelectedMapEntity();

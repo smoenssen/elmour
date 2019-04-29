@@ -30,6 +30,8 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     private static final String TAG = CutSceneQuest1.class.getSimpleName();
 
     CutSceneQuest1 thisScreen;
+    String questID;
+    EntityFactory.EntityName questGiver;
     String currentPartNumber;
 
     private Action setupQuestOpeningScene;
@@ -44,6 +46,8 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     public CutSceneQuest1(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
+        questID = "GetTeddyBear";
+        questGiver = EntityFactory.EntityName.OPHION;
         currentPartNumber = "";
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
@@ -102,6 +106,16 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
         };
     }
 
+    private void fadeToMainScreen() {
+        _stage.addAction(Actions.sequence(
+                new setFading(true),
+                Actions.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor)),
+                Actions.delay(1),
+                Actions.addAction(_switchScreenToMainAction)
+                )
+        );
+    }
+
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent action, String data) {
         Gdx.app.log(TAG, "Got notification " + action.toString());
@@ -114,17 +128,17 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
             case WAIT_1000:
                 _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 1000);
                 break;
-            case WAIT_10000:
-                _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 10000);
+            case ACCEPT_QUEST:
+                _playerHUD.acceptQuest(questID, questGiver);
+                fadeToMainScreen();
                 break;
             case EXIT_CONVERSATION_1:
-                _stage.addAction(Actions.sequence(
-                        new setFading(true),
-                        Actions.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor)),
-                        Actions.delay(1),
-                        Actions.addAction(_switchScreenToMainAction)
-                        )
-                );
+                fadeToMainScreen();
+                break;
+            case EXIT_CONVERSATION_2:
+                _playerHUD.setQuestTaskComplete(questID, "FindTeddyBear");
+                fadeToMainScreen();
+                break;
         }
     }
 
@@ -166,13 +180,12 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
 
         currentPartNumber = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Quest1Screen.toString(), String.class);
 
-        //if (currentPartNumber == null || currentPartNumber.equals("")) {
+        if (currentPartNumber.equals("PreQuestOphion")) {
             _stage.addAction(getQuestOpeningScene());
-        //}
-        /*
-        else if (currentPartNumber.equals("P2")) {
-            _stage.addAction(getOutsideArmoryScene());
-        }*/
+        }
+        else if (currentPartNumber.equals("ActiveQuestJustin")) {
+            _stage.addAction(getQuestOpeningScene());
+        }
 
         ProfileManager.getInstance().addObserver(_mapMgr);
         _playerHUD.setCutScene(true);

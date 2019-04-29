@@ -13,8 +13,7 @@ conversationConfigs : [
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		chapter: 1
 		type: PRE_QUEST_CUTSCENE
-		config: "Quest1Screen_PreQuest"
-		questConfigPath: "RPGGame/maps/Game/Quests/GetTeddyBear.json"
+		config: "Quest1Screen_PreQuestOphion"
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
@@ -33,12 +32,7 @@ conversationConfigs : [
 	}
 ]
 conversationConfigPath : "RPGGame/maps/Game/Text/Dialog/ConversationOphion.json"
-questConfigPaths : [
-	{
-		class: java.lang.String
-		value: RPGGame/maps/Game/Quests/GetTeddyBear.json
-	}
-]
+questConfigPath : "RPGGame/maps/Game/Quests/GetTeddyBear.json"
 entityProperties: {
 	HP: {
 		class: java.lang.String

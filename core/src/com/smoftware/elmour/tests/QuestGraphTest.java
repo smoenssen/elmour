@@ -27,6 +27,8 @@ public class QuestGraphTest {
         _graph.setQuestID("GetTeddyBear");
         _graph.setChapter(1);
         _graph.setQuestComplete(false);
+        _graph.setGoldReward(20);
+        _graph.setXpReward(5);
 
         QuestTask q1 = new QuestTask();
         q1.setId("ReturnTeddyBear");

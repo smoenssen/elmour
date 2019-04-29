@@ -21,12 +21,12 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: ACCEPT_QUEST
-		data: null
+		data: Q1;MAP1
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: I^ve lost my teddy bear or whatever!§\nCould you find him and bring him back to me?
+		dialog: I^ve lost my teddy bear or whatever!§\r\nCould you find him and bring him back to me?
 		data: Ophion
 		type: NPC
 	}

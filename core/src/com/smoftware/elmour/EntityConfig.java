@@ -19,7 +19,6 @@ public class EntityConfig {
     private String entityID;
     private String conversationConfigPath;
     private String questConfigPath;
-    private Array<String> questConfigPaths;
     private Array<ConversationConfig> conversationConfigs;
     private String currentQuestID;
     private InventoryElement.WeaponType preferredWeaponType;
@@ -82,7 +81,6 @@ public class EntityConfig {
         public int chapter;
         public ConversationType type;
         public String config;          // Depending on type, config can be path to .json config file, cut scene name
-        public String questConfigPath; // This is only used if type is PRE_QUEST_CUTSCENE
     }
 
     EntityConfig(){
@@ -91,22 +89,19 @@ public class EntityConfig {
         rewardItems = new Array<>();
         entityAbilities = new Array<>();
         spellPowerElementIDs = new Array<>();
-        questConfigPaths = new Array<>();
         conversationConfigs = new Array<>();
         preferredWeaponType = InventoryElement.WeaponType.NONE;
 
         if (turnEffectList == null)
             turnEffectList = new Array<InventoryElement.EffectItem>();
-
+/*
         //Test code to write to Json file
         ConversationConfig config = new ConversationConfig();
         config.chapter = 1;
         config.type = ConversationType.PRE_QUEST_CUTSCENE;
         config.config = "config.json";
-        config.questConfigPath = "questConfig.json";
         conversationConfigs.add(config);;
-/*
-        // for testing writing to .json file
+
         Json _json = new Json();
         String fileData = _json.prettyPrint(_json.toJson(conversationConfigs));
 
@@ -151,9 +146,6 @@ public class EntityConfig {
 
         spellPowerElementIDs = new Array<>();
         spellPowerElementIDs.addAll(config.getSpellPowerElementIDs());
-
-        questConfigPaths = new Array<>();
-        questConfigPaths.addAll(config.getQuestConfigPaths());
 
         conversationConfigs = new Array<>();
         conversationConfigs.addAll(config.getConversationConfigs());
@@ -205,8 +197,6 @@ public class EntityConfig {
     }
 
     public void setQuestConfigPath(String questConfigPath) { this.questConfigPath = questConfigPath; }
-
-    public Array<String> getQuestConfigPaths() { return questConfigPaths; }
 
     public Array<ConversationConfig> getConversationConfigs() { return conversationConfigs; }
 
