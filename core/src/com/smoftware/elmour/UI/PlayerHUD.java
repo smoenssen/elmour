@@ -1409,7 +1409,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         conversationPopUp.getCurrentConversationGraph().addObserver(graphObserver);
     }
 
-    private void handleExitConversation() {
+    private void handleExitConversation(ConversationCommandEvent event) {
         nextConversationId = null;
         isCurrentConversationDone = true;
         conversationPopUp.endConversation();
@@ -1420,8 +1420,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         choicePopUp2.clear();
         choicePopUp3.clear();
         choicePopUp4.clear();
-        isExitingConversation = true;
         _mapMgr.clearCurrentSelectedMapEntity();
+
+        if (event == ConversationCommandEvent.EXIT_CHAT) {
+            isExitingConversation = true;
+        }
     }
 
     public void acceptQuest(String questID, EntityFactory.EntityName entityName) {
@@ -1448,7 +1451,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
         switch(event) {
             case EXIT_CHAT:
-                handleExitConversation();
+                handleExitConversation(event);
                 break;
             case ACCEPT_QUEST:
                 //todo: this should never get called unless we need to support accepting quests in a normal conversation
@@ -1509,7 +1512,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event, String data) {
         switch(event) {
             case EXIT_CUTSCENE:
-                handleExitConversation();
+                handleExitConversation(event);
 
                 // Load map and position player at correct start position.
                 // data contains <PLAYER_START_ + extension>;<Map name>[;<Direction>[;<Character name>]]

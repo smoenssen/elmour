@@ -32,7 +32,7 @@
   <image source="Game/Pop_Ups/Rocks/Rock_Water/Rock_Water.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="187" source="Animated_Tiles/Waterfall.tsx"/>
- <layer name="Tile Layer 1" width="40" height="60" visible="0">
+ <layer name="Tile Layer 1" width="40" height="60">
   <data encoding="csv">
 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,

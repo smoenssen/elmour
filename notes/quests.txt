@@ -50,6 +50,7 @@ Remove conversationConfigPath from EntityConfig because conversationConfigs arra
 Remove questConfigPath from EntityConfig because this will be sent in from cut scene.
 When ACCEPT_QUEST is received, that's when questConfigPath is loaded.
 Whenever quest status changes, updateEntityObservers() needs to be called.
+Need to add dependencies between quests.
 
 To add quest:
 Create CutSceneQuest<name> copy of CutSceneQuest1
