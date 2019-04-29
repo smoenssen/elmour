@@ -242,7 +242,45 @@ public class PopUp extends Window implements PopUpSubject {
 		Conversation conversation = graph.getConversationByID(conversationID);
 		if( conversation == null ) return false;
 		graph.setCurrentConversation(conversationID);
-		fullText = conversation.getDialog();
+
+		String nodeText = conversation.getDialog();
+		String type = conversation.getType();
+
+		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			if (nodeText.contains("EXIT_CONVERSATION")) {
+				// EXIT_CONVERSATION should only be used in cut scenes
+				// so send EXIT_CUTSCENE notification
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+			}
+
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
+
+			// return false to indicate not to interact with this node
+			return false;
+		}
+
+		/*
+		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			if (nodeText.equals("EXIT_CHAT")) {
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT);
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT, conversationID);
+			}
+			else if (nodeText.contains("EXIT_CONVERSATION")) {
+				// EXIT_CONVERSATION should only be used in cut scenes
+				// so send EXIT_CUTSCENE notification
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+			}
+
+			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
+			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
+
+			// return false to indicate not to interact with this node
+			return false;
+		}
+		*/
+
+		fullText = nodeText;
 
 		// Remove new line characters to fix issue with yEd formatting.
 		// Instead, ¶ is being used to indicate actual new lines.
@@ -275,42 +313,6 @@ public class PopUp extends Window implements PopUpSubject {
 
 		// Split the fulltext into the separate sections to display
 		fullTextSections = fullText.split("§");
-
-		String type = conversation.getType();
-
-		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (fullText.contains("EXIT_CONVERSATION")) {
-				// EXIT_CONVERSATION should only be used in cut scenes
-				// so send EXIT_CUTSCENE notification
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
-			}
-
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
-
-			// return false to indicate not to interact with this node
-			return false;
-		}
-
-		/*
-		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (fullText.equals("EXIT_CHAT")) {
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT);
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT, conversationID);
-			}
-			else if (fullText.contains("EXIT_CONVERSATION")) {
-				// EXIT_CONVERSATION should only be used in cut scenes
-				// so send EXIT_CUTSCENE notification
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
-			}
-
-			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText));
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(fullText), conversationID);
-
-			// return false to indicate not to interact with this node
-			return false;
-		}
-		*/
 
 		return true;
 	}

@@ -2,10 +2,6 @@
 questTasks: {
 	FindTeddyBear: {
 		taskProperties: {
-			TARGET_LOCATION: {
-				class: java.lang.String
-				value: COMPASS
-			}
 			TARGET_TYPE: {
 				class: java.lang.String
 				value: JUSTIN
@@ -14,6 +10,10 @@ questTasks: {
 				class: java.lang.String
 				value: "false"
 			}
+			TARGET_LOCATION: {
+				class: java.lang.String
+				value: COMPASS
+			}
 		}
 		id: FindTeddyBear
 		taskPhrase: Find teddy bear
@@ -21,10 +21,6 @@ questTasks: {
 	}
 	ReturnTeddyBear: {
 		taskProperties: {
-			TARGET_LOCATION: {
-				class: java.lang.String
-				value: MAP1
-			}
 			TARGET_TYPE: {
 				class: java.lang.String
 				value: OPHION
@@ -32,6 +28,10 @@ questTasks: {
 			IS_TASK_COMPLETE: {
 				class: java.lang.String
 				value: "false"
+			}
+			TARGET_LOCATION: {
+				class: java.lang.String
+				value: MAP1
 			}
 		}
 		id: ReturnTeddyBear

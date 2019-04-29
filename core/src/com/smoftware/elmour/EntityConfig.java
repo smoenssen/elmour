@@ -105,7 +105,8 @@ public class EntityConfig {
         config.config = "config.json";
         config.questConfigPath = "questConfig.json";
         conversationConfigs.add(config);;
-
+/*
+        // for testing writing to .json file
         Json _json = new Json();
         String fileData = _json.prettyPrint(_json.toJson(conversationConfigs));
 
@@ -114,7 +115,6 @@ public class EntityConfig {
             file.writeString(fileData, false);
         }
 
-/*
         spellPowerElementIDs.add(SpellPowerElement.ElementID.EARTH);
         spellPowerElementIDs.add(SpellPowerElement.ElementID.WATER);
         spellPowerElementIDs.add(SpellPowerElement.ElementID.FIRE);
