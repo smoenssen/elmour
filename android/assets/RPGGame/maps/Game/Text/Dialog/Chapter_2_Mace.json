@@ -14,19 +14,19 @@ conversations: {
 	}
 	n6: {
 		id: n6
-		dialog: "Maximum power output. That^ll help a lot,\nbut are you sure?"
+		dialog: "Maximum power output. That^ll help a lot,\r\nbut are you sure?"
 		data: "{CHARACTER_2}"
 		type: NPC
 	}
 	n5: {
 		id: n5
-		dialog: Come back anytime!\n(Preferably with money...)
+		dialog: Come back anytime!\r\n(Preferably with money...)
 		data: Justin
 		type: NPC
 	}
 	n4: {
 		id: n4
-		dialog: "No pressure. Remember, we can always get\na different weapon later."
+		dialog: "No pressure. Remember, we can always get\r\na different weapon later."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

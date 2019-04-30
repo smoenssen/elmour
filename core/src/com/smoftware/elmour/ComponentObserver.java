@@ -16,5 +16,5 @@ public interface ComponentObserver {
 
     void onNotify(final String value, ComponentEvent event);
 
-    void onNotify(final Entity entity, ComponentEvent event);
+    void onNotify(final Entity entity, String value, ComponentEvent event);
 }

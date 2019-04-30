@@ -8,27 +8,32 @@ conversationConfigs : [
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/OphionNormalDialog.json"
+		questID: GetTeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		chapter: 1
 		type: PRE_QUEST_CUTSCENE
 		config: "Quest1Screen_PreQuestOphion"
+		questID: GetTeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/OphionActiveQuestDialog.json"
+		questID: GetTeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE
 		config: "CutSceneQuest1_Active"
+		questID: GetTeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/OphionPostQuestDialog.json"
+		questID: GetTeddyBear
 	}
 ]
 conversationConfigPath : "RPGGame/maps/Game/Text/Dialog/ConversationOphion.json"

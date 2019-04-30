@@ -1060,7 +1060,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         return (name.contains("SWITCH"));
     }
 
-    public ConversationConfig getConversationConfigForNPC(int currentChapter, Entity npc) {
+    public ConversationConfig getConversationConfigForNPC(int currentChapter, Entity npc, String [] questAndTaskIDs) {
         EntityConfig.ConversationConfig conversationConfig = null;
         EntityConfig config = npc.getEntityConfig();
         Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
@@ -1076,6 +1076,16 @@ public class PlayerHUD implements Screen, AudioSubject,
                     conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.POST_QUEST_DIALOG);
                 }
                 else {
+                    // see if this NPC has a quest task dialog or quest task cut scene
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.QUEST_TASK_DIALOG);
+                    if (conversationConfig == null) {
+                        conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.QUEST_TASK_CUTSCENE);
+                    }
+
+                    if (conversationConfig != null) {
+                        String questTask = ProfileManager.getInstance().getProperty(npc.getEntityConfig().getEntityID() + "QuestTask", String.class);
+                    }
+
                     // get active quest dialog or active quest cut scene
                     conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
                     if (conversationConfig == null) {
@@ -1114,6 +1124,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         return conversationConfig;
+    }
+
+    public void setQuestTaskStarted(String questID, String questTaskID) {
+        _questUI.questTaskStarted(questID, questTaskID);
+        updateEntityObservers();
     }
 
     public void setQuestTaskComplete(String questID, String questTaskID) {
@@ -1174,7 +1189,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void onNotify(Entity entity, ComponentEvent event) {
+    public void onNotify(Entity entity, String value, ComponentEvent event) {
 
     }
 
@@ -1192,10 +1207,11 @@ public class PlayerHUD implements Screen, AudioSubject,
                     else {
                         Gdx.app.log(TAG, "Loading conversation");
                         Entity npc = _mapMgr.getCurrentSelectedMapEntity();
+                        String [] questAndTaskIDs = value.split(";");
 
                         // get current chapter and check to see what type of conversation should be kicked off
                         Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                        ConversationConfig conversationConfig = getConversationConfigForNPC(currentChapter, npc);
+                        ConversationConfig conversationConfig = getConversationConfigForNPC(currentChapter, npc, questAndTaskIDs);
 
                         if (conversationConfig != null) {
                             switch (conversationConfig.type) {

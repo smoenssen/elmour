@@ -29,9 +29,9 @@ public class ComponentSubject {
         }
     }
 
-    protected void notify(final Entity entity, ComponentObserver.ComponentEvent event){
+    protected void notify(final Entity entity, final String value, ComponentObserver.ComponentEvent event){
         for(ComponentObserver observer: _observers){
-            observer.onNotify(entity, event);
+            observer.onNotify(entity, value, event);
         }
     }
 }

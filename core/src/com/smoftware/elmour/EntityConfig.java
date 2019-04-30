@@ -74,13 +74,14 @@ public class EntityConfig {
     }
 
     public enum ConversationType {
-        NORMAL_DIALOG, PRE_QUEST_CUTSCENE, ACTIVE_QUEST_DIALOG, ACTIVE_QUEST_CUTSCENE, POST_QUEST_DIALOG
+        NORMAL_DIALOG, PRE_QUEST_CUTSCENE, QUEST_TASK_DIALOG, QUEST_TASK_CUTSCENE, ACTIVE_QUEST_DIALOG, ACTIVE_QUEST_CUTSCENE, POST_QUEST_DIALOG
     }
 
     public static class ConversationConfig {
         public int chapter;
         public ConversationType type;
-        public String config;          // Depending on type, config can be path to .json config file, cut scene name
+        public String config;          // Depending on type, config can be path to .json config file or cut scene name
+        public String questID;
     }
 
     EntityConfig(){

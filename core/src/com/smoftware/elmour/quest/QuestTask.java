@@ -1,10 +1,8 @@
 package com.smoftware.elmour.quest;
 
-import com.badlogic.gdx.utils.ObjectMap;
-
 public class QuestTask {
 
-    public static enum QuestType{
+    public static enum QuestTaskType {
         FETCH,
         KILL,
         DELIVERY,
@@ -14,86 +12,58 @@ public class QuestTask {
         DISCOVER
     }
 
-    public static enum QuestTaskPropertyType{
-        IS_TASK_COMPLETE,
-        TARGET_TYPE,
-        TARGET_NUM,
-        TARGET_LOCATION,
-        NONE
+    public static enum QuestTaskStatus {
+        NOT_STARTED,
+        STARTED,
+        COMPLETE
     }
 
-    private ObjectMap<QuestTaskPropertyType, Object> taskProperties;
     private String id;
+    private QuestTaskType questTaskType;
+    private QuestTaskStatus questTaskStatus;
+    private String targetType;
+    private String targetLocation;
     private String taskPhrase;
-    private QuestType questType;
+    private int targetNumber;
 
-    public QuestTask(){
-        taskProperties = new ObjectMap<QuestTaskPropertyType, Object>();
-    }
+    public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
-    public void setId(String id){
-        this.id = id;
-    }
+    public void setId(String id){ this.id = id; }
 
-    public String getTaskPhrase() {
-        return taskPhrase;
-    }
+    public String getTaskPhrase() { return taskPhrase; }
 
-    public void setTaskPhrase(String taskPhrase) {
-        this.taskPhrase = taskPhrase;
-    }
+    public void setTaskPhrase(String taskPhrase) { this.taskPhrase = taskPhrase; }
 
-    public QuestType getQuestType() {
-        return questType;
-    }
+    public QuestTaskType getQuestTaskType() { return questTaskType; }
 
-    public void setQuestType(QuestType questType) {
-        this.questType = questType;
-    }
+    public void setQuestTaskType(QuestTaskType questTaskType) { this.questTaskType = questTaskType; }
 
-    public ObjectMap<QuestTaskPropertyType, Object> getTaskProperties() {
-        return taskProperties;
-    }
+    public QuestTaskStatus getQuestTaskStatus() { return questTaskStatus; }
 
-    public void setTaskProperties(ObjectMap<QuestTaskPropertyType, Object> taskProperties) {
-        this.taskProperties = taskProperties;
-    }
+    public void setQuestTaskStatus(QuestTaskStatus status) { questTaskStatus = status; }
 
-    public boolean isTaskComplete(){
-        if( !taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE) ){
-            setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-            return false;
-        }
-        String val = taskProperties.get(QuestTaskPropertyType.IS_TASK_COMPLETE).toString();
-        return Boolean.parseBoolean(val);
-    }
+    public String getTargetLocation() { return targetLocation; }
 
-    public void setTaskComplete(){
-        setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE, "true");
-    }
+    public void setTargetLocation(String location) { targetLocation = location; }
 
-    public void resetAllProperties(){
-        taskProperties.put(QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-    }
+    public String getTargetType() { return targetType; }
 
-    public void setPropertyValue(QuestTaskPropertyType key, String value){
-        taskProperties.put(key, value);
-    }
+    public void setTargetType(String type) { targetType = type; }
 
-    public String getPropertyValue(QuestTaskPropertyType key){
-        Object propertyVal = taskProperties.get(key);
-        if( propertyVal == null ) return new String();
-        return propertyVal.toString();
-    }
+    public void setTargetNumber(int number) { targetNumber = number; }
 
-    public String toString(){
-        return taskPhrase;
-    }
+    public int getTargetNumber() { return targetNumber; }
 
+    // convenience functions
+    public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }
 
+    public boolean isTaskComplete(){ return questTaskStatus == QuestTaskStatus.COMPLETE; }
 
+    public void setTaskStarted() { questTaskStatus = QuestTaskStatus.STARTED; }
+
+    public void setTaskComplete() { questTaskStatus = QuestTaskStatus.COMPLETE; }
+
+    public String toString(){ return taskPhrase; }
 }

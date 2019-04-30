@@ -8,7 +8,7 @@ conversations: {
 	}
 	n8: {
 		id: n8
-		dialog: Why do I feel like there is something familiar \nabout this book?
+		dialog: Why do I feel like there is something familiar \r\nabout this book?
 		data: My Thoughts
 		type: NPC
 	}
@@ -92,7 +92,7 @@ conversations: {
 	}
 	n11: {
 		id: n11
-		dialog: "I believe we are all ready. Everything that we \ndidn^t have, I have packed."
+		dialog: "I believe we are all ready. Everything that we \r\ndidn^t have, I have packed."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

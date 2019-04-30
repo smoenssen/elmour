@@ -32,18 +32,18 @@ public class QuestGraphTest {
 
         QuestTask q1 = new QuestTask();
         q1.setId("ReturnTeddyBear");
-        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "MAP1");
-        q1.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE, "OPHION");
-        q1.setQuestType(QuestTask.QuestType.RETURN);
+        q1.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
+        q1.setTargetLocation("MAP1");
+        q1.setTargetType("OPHION");
+        q1.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
         q1.setTaskPhrase("Return teddy bear");
 
         QuestTask q2 = new QuestTask();
         q2.setId("FindTeddyBear");
-        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.IS_TASK_COMPLETE, "false");
-        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION, "COMPASS");
-        q2.setPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE, "JUSTIN");
-        q2.setQuestType(QuestTask.QuestType.FETCH);
+        q2.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
+        q2.setTargetLocation("COMPASS");
+        q2.setTargetType("JUSTIN");
+        q2.setQuestTaskType(QuestTask.QuestTaskType.FETCH);
         q2.setTaskPhrase("Find teddy bear");
 
         _questTasks.put(q1.getId(), q1);
@@ -58,6 +58,8 @@ public class QuestGraphTest {
         _graph.addDependency(qDep1);
 
         String fileData = _json.prettyPrint(_graph);
+
+        Gdx.app.log("TAG", fileData);
 
         if( Gdx.files.isLocalStorageAvailable() ) {
             FileHandle file = Gdx.files.local("RPGGame/maps/Game/Quests/GetTeddyBear.json");

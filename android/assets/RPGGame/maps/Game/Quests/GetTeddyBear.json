@@ -1,42 +1,20 @@
 {
 questTasks: {
 	FindTeddyBear: {
-		taskProperties: {
-			TARGET_TYPE: {
-				class: java.lang.String
-				value: JUSTIN
-			}
-			IS_TASK_COMPLETE: {
-				class: java.lang.String
-				value: "false"
-			}
-			TARGET_LOCATION: {
-				class: java.lang.String
-				value: COMPASS
-			}
-		}
 		id: FindTeddyBear
+		questTaskType: FETCH
+		questTaskStatus: NOT_STARTED
+		targetType: JUSTIN
+		targetLocation: COMPASS
 		taskPhrase: Find teddy bear
-		questType: FETCH
 	}
 	ReturnTeddyBear: {
-		taskProperties: {
-			TARGET_TYPE: {
-				class: java.lang.String
-				value: OPHION
-			}
-			IS_TASK_COMPLETE: {
-				class: java.lang.String
-				value: "false"
-			}
-			TARGET_LOCATION: {
-				class: java.lang.String
-				value: MAP1
-			}
-		}
 		id: ReturnTeddyBear
+		questTaskType: RETURN
+		questTaskStatus: NOT_STARTED
+		targetType: OPHION
+		targetLocation: MAP1
 		taskPhrase: Return teddy bear
-		questType: RETURN
 	}
 }
 questTaskDependencies: {

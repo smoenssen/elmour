@@ -301,9 +301,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             if (npc != null) {
                 npc.sendMessage(MESSAGE.ENTITY_SELECTED);
                 mapMgr.setCurrentSelectedMapEntity(npc);
+
+                String taskIDs = "";
+                object = checkCollisionWithInteractionLayer(mapMgr);
+                if (object != null) {
+                    taskIDs = (String) object.getProperties().get("taskIDs");
+                }
+
                 Gdx.app.log(TAG, "sending LOAD_CONVERSATION");
-                notify(_json.toJson(npc.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
-                notify(npc, ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+                notify(taskIDs, ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+                notify(npc, taskIDs, ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+
                 isLoadConversationMsgSent = true;
                 isNPCColliding = true;
             }

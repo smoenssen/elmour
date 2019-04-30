@@ -81,6 +81,18 @@ public class QuestUI extends Window {
         );
     }
 
+    public void questTaskStarted(String questID, String questTaskID){
+        for( QuestGraph questGraph: _quests ){
+            if( questGraph.getQuestID().equalsIgnoreCase(questID)){
+                if( questGraph.isQuestTaskAvailable(questTaskID) ){
+                    questGraph.setQuestTaskStarted(questTaskID);
+                }else{
+                    return;
+                }
+            }
+        }
+    }
+
     public void questTaskComplete(String questID, String questTaskID){
         for( QuestGraph questGraph: _quests ){
             if( questGraph.getQuestID().equalsIgnoreCase(questID)){

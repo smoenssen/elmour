@@ -39,12 +39,14 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
     }
 
     @Override
-    public void onNotify(Entity entity, ComponentEvent event) {
+    public void onNotify(Entity entity, String value, ComponentEvent event) {
         switch (event) {
             case LOAD_CONVERSATION:
+                String [] questAndTaskIDs = value.split(";");
+
                 // get current chapter and check to see if cut scene should be kicked off
                 Integer chapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                EntityConfig.ConversationConfig conversationConfig = playerHUD.getConversationConfigForNPC(chapter, entity);
+                EntityConfig.ConversationConfig conversationConfig = playerHUD.getConversationConfigForNPC(chapter, entity, questAndTaskIDs);
 
                 if (conversationConfig != null) {
                     switch (conversationConfig.type) {

@@ -453,7 +453,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     @Override
-    public void onNotify(Entity entity, ComponentEvent event) {
+    public void onNotify(Entity entity, String value, ComponentEvent event) {
 
     }
 }

@@ -180,7 +180,7 @@ public class QuestGraph {
                 return false;
             }
             if( !task.isTaskComplete() ){
-                if( task.getQuestType().equals(QuestTask.QuestType.RETURN) ){
+                if( task.getQuestTaskType().equals(QuestTask.QuestTaskType.RETURN) ){
                     readyTask = task;
                 }else{
                     return false;
@@ -207,6 +207,12 @@ public class QuestGraph {
         return true;
     }
 
+    public void setQuestTaskStarted(String id){
+        QuestTask task = getQuestTaskByID(id);
+        if( task == null) return;
+        task.setTaskStarted();
+    }
+
     public void setQuestTaskComplete(String id){
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return;
@@ -222,14 +228,14 @@ public class QuestGraph {
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION);
+            String taskLocation = questTask.getTargetLocation();
             if (taskLocation == null ||
                     taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
-            switch (questTask.getQuestType()) {
+            switch (questTask.getQuestTaskType()) {
                 case FETCH:
-                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE);
+                    String taskConfig = questTask.getTargetType();
                     if( taskConfig == null || taskConfig.isEmpty() ) break;
                     EntityConfig config = Entity.getEntityConfig(taskConfig);
 
@@ -240,7 +246,7 @@ public class QuestGraph {
                     if( questItemPositions.size == 0 ){
                         questTask.setTaskComplete();
                         Gdx.app.debug(TAG, "TASK : " + questTask.getId() + " is complete of Quest: " + questID);
-                        Gdx.app.debug(TAG, "INFO : " + QuestTask.QuestTaskPropertyType.TARGET_TYPE.toString());
+                        Gdx.app.debug(TAG, "INFO : " + questTask.getTargetType());
                     }
                     break;
                 case KILL:
@@ -268,16 +274,16 @@ public class QuestGraph {
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION);
+            String taskLocation = questTask.getTargetLocation();
             if (     taskLocation == null ||
                      taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
-            switch (questTask.getQuestType()) {
+            switch (questTask.getQuestTaskType()) {
                 case FETCH:
                     Array<Entity> questEntities = new Array<Entity>();
                     Array<Vector2> positions = mapMgr.getQuestItemSpawnPositions(questID, questTask.getId());
-                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE);
+                    String taskConfig = questTask.getTargetType();
                     if( taskConfig == null || taskConfig.isEmpty() ) break;
                     EntityConfig config = Entity.getEntityConfig(taskConfig);
 

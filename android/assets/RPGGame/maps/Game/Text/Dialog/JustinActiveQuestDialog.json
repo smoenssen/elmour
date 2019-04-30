@@ -9,7 +9,7 @@ conversations: {
 	n0: {
 		id: n0
 		dialog: You should really return that teddy bear.
-		data: Ophion
+		data: Justin
 		type: NPC
 	}
 }
