@@ -54,6 +54,7 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.quest.QuestTask;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.sfx.ClockActor;
@@ -84,8 +85,6 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Entity _player;
 
     private QuestUI _questUI;
-    //private BattleUI _battleUI;
-    //private SignPopUp signPopUp;
     private PopUp signPopUp;
 
     private boolean battleScreenTransitionTriggered = false;
@@ -1060,6 +1059,84 @@ public class PlayerHUD implements Screen, AudioSubject,
         return (name.contains("SWITCH"));
     }
 
+    public String getAvailableQuestTask(String npcName, String [] questAndTaskIDs) {
+        for (String questInfo : questAndTaskIDs) {
+            // questInfo is in the form <questID|<questTask1,questTask2...>
+            String [] quest = questInfo.split("|");
+            String [] questTasks = quest[1].split(",");
+            String questID = quest[0];
+            QuestGraph questGraph = _questUI.getQuestByID(questID);
+
+            // first deal with quests that are in progress
+            if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
+                // this quest is in progress
+                // see if there is an available task for this NPC
+                for (String taskID : questTasks) {
+                    if (questGraph.isQuestTaskAvailable(taskID)){
+                        return questID + "|" + taskID;
+                    }
+                }
+            }
+            else {
+                Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                if (currentChapter < questGraph.getChapter()) {
+                    // this quest has not been started and is available
+                    // see if there is an available task for this NPC
+                    for (String taskID : questTasks) {
+                        if (questGraph.isQuestTaskAvailable(taskID)){
+                            return questID + "|" + taskID;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public ConversationConfig getConversationConfigForNPC(Entity npc, String value) {
+        String [] questAndTaskIDs = value.split(";");
+        EntityConfig.ConversationConfig conversationConfig = null;
+        EntityConfig config = npc.getEntityConfig();
+        Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
+
+        String questIdTaskID = getAvailableQuestTask(config.getEntityID(), questAndTaskIDs);
+        String [] sa = questIdTaskID.split("|");
+        String questID = sa[0];
+        String taskID = sa[1];
+
+        if (taskID == null) {
+            // no available tasks
+            // try to get latest configuration for this NPC from profile
+            conversationConfig = ProfileManager.getInstance().getProperty(
+                                        config.getEntityID() + ConversationConfig.class.getSimpleName(), ConversationConfig.class);
+            if (conversationConfig == null) {
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.NORMAL_DIALOG);
+            }
+        }
+        else {
+            // handle available task
+            QuestGraph questGraph = _questUI.getQuestByID(questID);
+            QuestTask task = questGraph.getQuestTaskByID(taskID);
+            if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
+                // get quest task dialog or quest task cut scene
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.QUEST_TASK_DIALOG);
+                if (conversationConfig == null) {
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.QUEST_TASK_CUTSCENE);
+                }
+            }
+            else {
+                // get active quest dialog or active quest cut scene
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
+                if (conversationConfig == null) {
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
+                }
+            }
+        }
+
+        return conversationConfig;
+    }
+    /*
     public ConversationConfig getConversationConfigForNPC(int currentChapter, Entity npc, String [] questAndTaskIDs) {
         EntityConfig.ConversationConfig conversationConfig = null;
         EntityConfig config = npc.getEntityConfig();
@@ -1113,7 +1190,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         return conversationConfig;
     }
-
+*/
     private ConversationConfig getConversationConfig(Array<ConversationConfig> npcConversationConfigs, EntityConfig.ConversationType type) {
         ConversationConfig conversationConfig = null;
 
@@ -1207,22 +1284,24 @@ public class PlayerHUD implements Screen, AudioSubject,
                     else {
                         Gdx.app.log(TAG, "Loading conversation");
                         Entity npc = _mapMgr.getCurrentSelectedMapEntity();
-                        String [] questAndTaskIDs = value.split(";");
 
-                        // get current chapter and check to see what type of conversation should be kicked off
-                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                        ConversationConfig conversationConfig = getConversationConfigForNPC(currentChapter, npc, questAndTaskIDs);
+                        // check to see what type of conversation should be kicked off
+                        ConversationConfig conversationConfig = getConversationConfigForNPC( npc, value);
 
                         if (conversationConfig != null) {
                             switch (conversationConfig.type) {
                                 case NORMAL_DIALOG:
                                 case ACTIVE_QUEST_DIALOG:
                                 case POST_QUEST_DIALOG:
+                                case QUEST_TASK_DIALOG:
                                     // config contains conversation .json file path
                                     loadEntityConversationFromJson(npc, conversationConfig.config);
+                                    ProfileManager.getInstance().setProperty(
+                                            npc.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
                                     break;
                                 case PRE_QUEST_CUTSCENE:
                                 case ACTIVE_QUEST_CUTSCENE:
+                                case QUEST_TASK_CUTSCENE:
                                     // config contains cut scene string. CutSceneManager will handle it.
                                     break;
                             }
@@ -1453,7 +1532,9 @@ public class PlayerHUD implements Screen, AudioSubject,
         QuestGraph questGraph = _questUI.loadQuest(config.getQuestConfigPath());
 
         if( questGraph != null ){
-            ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + "QuestID", questID);
+            // save full quest graph for quests that are in progress
+            questGraph.setQuestStatus(QuestGraph.QuestStatus.IN_PROGRESS);
+            ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + questID, questGraph);
             //Update conversation dialog
             //config.setConversationConfigPath(QuestUI.RETURN_QUEST);
             //config.setCurrentQuestID(questGraph.getQuestID());

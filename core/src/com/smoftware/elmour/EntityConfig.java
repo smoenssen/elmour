@@ -78,7 +78,6 @@ public class EntityConfig {
     }
 
     public static class ConversationConfig {
-        public int chapter;
         public ConversationType type;
         public String config;          // Depending on type, config can be path to .json config file or cut scene name
         public String questID;
@@ -98,7 +97,6 @@ public class EntityConfig {
 /*
         //Test code to write to Json file
         ConversationConfig config = new ConversationConfig();
-        config.chapter = 1;
         config.type = ConversationType.PRE_QUEST_CUTSCENE;
         config.config = "config.json";
         conversationConfigs.add(config);;

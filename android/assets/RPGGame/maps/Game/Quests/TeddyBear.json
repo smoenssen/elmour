@@ -27,8 +27,9 @@ questTaskDependencies: {
 	]
 	FindTeddyBear: []
 }
-questTitle: Get Teddy Bear
-questID: GetTeddyBear
+questTitle: Get My Teddy Bear
+questID: TeddyBear
+questStatus: NOT_STARTED
 chapter: 1
 goldReward: 20
 xpReward: 5

@@ -46,12 +46,14 @@ else if quest has completed {
 ----------------------------------------
 
 ****** PROFILE
-****** save quests that are in progress or complete along with their tasks
+****** save full quest graphs that are in progress
+****** save quests that are complete just as questIDs
 ****** save latest config TYPE for each NPC
 
 
-taskID = getAvailableQuestTask)
+taskID = getAvailableQuestTask()
 if taskID is null {
+	// no available tasks
 	get the latest config TYPE from profile
 	if there is a TYPE found in profile {
 		set to config TYPE to what was found in profile
@@ -64,14 +66,13 @@ else {
 	// handle available task
 	if taskID has not been started {
 		set TYPE to QUEST_TASK_DIALOG or QUEST_TASK_CUTSCENE
-		set taskID to started (not sure to do this here or elsewhere)
 	}
 	else {
 		set TYPE to ACTIVE_QUEST_DIALOG or ACTIVE_QUEST_CUTSCENE
 	}
 }
 
-getAvailableQuestTask
+getAvailableQuestTask()
 --------------------------
 Get current chapter of player
 Get all possible questID : taskID lists for the NPC interacted with
@@ -80,36 +81,24 @@ for each questID {
 	// first deal with quests that are in progress
 	if this questID is in progress {
 		for each taskID for this questID {
-			if this taskID has not been started {
-				check dependencies for this taskID
-				if this taskID has no open dependencies {
-					return taskID
-				}
-				else {
-					do nothing
-				}
-			}
-			else {
+			if isQuestTaskAvailable() {
 				return taskID
 			}
-		} // end for each taskID
+		}
 	}
 	else {
 		if current chapter < minimum chapter {
 			// this quest has not been started and is available
 			for each taskID for this questID {
-				check dependencies for this taskID
-				if this taskID has no open dependencies {
+				if isQuestTaskAvailable() {
 					return taskID
-				}
-				else {
-					do nothing
 				}
 			} // end for each taskID
 		}
 		else {
 			// do nothing
 		}
+	}
 } // end for each questID
 
 if got this far, then return null

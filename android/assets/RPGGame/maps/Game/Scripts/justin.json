@@ -8,37 +8,37 @@ conversationConfigs : [
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/JustinNormalDialog.json"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: QUEST_TASK_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/JustinQuestTaskDialog.json"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: QUEST_TASK_CUTSCENE
 		config: "CutSceneQuest1_TaskJustin"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/JustinActiveQuestDialog.json"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE
 		config: "CutSceneQuest1_ActiveJustin"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/JustinPostQuestDialog.json"
-		questID: GetTeddyBear
+		questID: TeddyBear
 	}
 ]
 conversationConfigPath : "conversations/testing.json"

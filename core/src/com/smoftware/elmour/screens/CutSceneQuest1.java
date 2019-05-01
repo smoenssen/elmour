@@ -46,7 +46,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     public CutSceneQuest1(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
-        questID = "GetTeddyBear";
+        questID = "TeddyBear";
         questGiver = EntityFactory.EntityName.OPHION;
         currentPartNumber = "";
 

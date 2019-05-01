@@ -143,7 +143,7 @@ public class QuestUI extends Window {
         if( graph == null ) return false;
 
         if( graph.updateQuestForReturn() ){
-            graph.setQuestComplete(true);
+            graph.setQuestComplete();
         }else{
             return false;
         }

@@ -23,10 +23,10 @@ public class QuestGraphTest {
         _questTasks = new Hashtable<String, QuestTask>();
         _graph = new QuestGraph();
 
-        _graph.setQuestTitle("Get Teddy Bear");
-        _graph.setQuestID("GetTeddyBear");
+        _graph.setQuestTitle("Get My Teddy Bear");
+        _graph.setQuestID("TeddyBear");
         _graph.setChapter(1);
-        _graph.setQuestComplete(false);
+        _graph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
         _graph.setGoldReward(20);
         _graph.setXpReward(5);
 
@@ -62,7 +62,7 @@ public class QuestGraphTest {
         Gdx.app.log("TAG", fileData);
 
         if( Gdx.files.isLocalStorageAvailable() ) {
-            FileHandle file = Gdx.files.local("RPGGame/maps/Game/Quests/GetTeddyBear.json");
+            FileHandle file = Gdx.files.local("RPGGame/maps/Game/Quests/TeddyBear.json");
             file.writeString(fileData, false);
         }
 

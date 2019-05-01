@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
+import com.smoftware.elmour.EntityConfig.ConversationConfig;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -18,11 +20,14 @@ import java.util.Set;
 public class QuestGraph {
     private static final String TAG = QuestGraph.class.getSimpleName();
 
+    public enum QuestStatus { NOT_STARTED, IN_PROGRESS, COMPLETE }
+
     private Hashtable<String, QuestTask> questTasks;
     private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
     private String questTitle;
     private String questID;
     private boolean isQuestComplete;
+    private QuestStatus questStatus;
     private int chapter;
     private int goldReward;
     private int xpReward;
@@ -47,13 +52,9 @@ public class QuestGraph {
         this.xpReward = xpReward;
     }
 
-    public boolean isQuestComplete() {
-        return isQuestComplete;
-    }
+    public void setQuestStatus(QuestStatus questStatus) { this.questStatus = questStatus; }
 
-    public void setQuestComplete(boolean isQuestComplete) {
-        this.isQuestComplete = isQuestComplete;
-    }
+    public QuestStatus getQuestStatus() { return questStatus; }
 
     public String getQuestID() {
         return questID;
@@ -69,6 +70,35 @@ public class QuestGraph {
 
     public void setQuestTitle(String questTitle) {
         this.questTitle = questTitle;
+    }
+
+    public boolean isQuestComplete() { return questStatus == QuestStatus.COMPLETE; }
+
+    public void setQuestComplete() {
+        questStatus = QuestStatus.COMPLETE;
+
+        // need to set all associated NPCs to post-quest dialog for this quest
+        ArrayList<QuestTask> tasks = getAllQuestTasks();
+        for( QuestTask task: tasks ){
+            String targetType = task.getTargetType();
+            Entity entity;
+
+            try {
+                entity = EntityFactory.getInstance().getEntityByName(targetType);
+            }
+            catch (NullPointerException e) {
+                continue;
+            }
+
+            Array<ConversationConfig> conversationConfigs = entity.getEntityConfig().getConversationConfigs();
+            for (ConversationConfig conversationConfig : conversationConfigs) {
+                if (conversationConfig.type == EntityConfig.ConversationType.POST_QUEST_DIALOG) {
+                    ProfileManager.getInstance().setProperty(
+                            entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                    break;
+                }
+            }
+        }
     }
 
     public boolean areAllTasksComplete(){
