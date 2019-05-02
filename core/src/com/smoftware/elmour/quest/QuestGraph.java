@@ -26,6 +26,7 @@ public class QuestGraph {
     private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
     private String questTitle;
     private String questID;
+    private String questGiver;
     private boolean isQuestComplete;
     private QuestStatus questStatus;
     private int chapter;
@@ -56,13 +57,15 @@ public class QuestGraph {
 
     public QuestStatus getQuestStatus() { return questStatus; }
 
-    public String getQuestID() {
-        return questID;
-    }
+    public String getQuestID() { return questID; }
 
     public void setQuestID(String questID) {
         this.questID = questID;
     }
+
+    public String getQuestGiver() { return questGiver; }
+
+    public void setQuestGiver(String questGiver) { this.questGiver = questGiver; }
 
     public String getQuestTitle() {
         return questTitle;

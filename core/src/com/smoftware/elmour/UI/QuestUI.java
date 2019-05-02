@@ -200,6 +200,7 @@ public class QuestUI extends Window {
         _listTasks.setSelectedIndex(-1);
     }
 
+    //todo quest
     public void initQuests(MapManager mapMgr){
         mapMgr.clearAllMapQuestEntities();
 
@@ -212,6 +213,7 @@ public class QuestUI extends Window {
         ProfileManager.getInstance().setProperty("playerQuests", _quests);
     }
 
+    //todo quest
     public void updateQuests(MapManager mapMgr){
         for( QuestGraph quest : _quests ){
             if( !quest.isQuestComplete() ){

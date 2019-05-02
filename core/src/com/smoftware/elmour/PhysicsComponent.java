@@ -318,6 +318,38 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return false;
     }
 
+    protected MapObject checkCollisionWithSpawnsLayerObject(MapManager mapMgr){
+        MapLayer mapSpawnsLayer =  mapMgr.getSpawnsLayer();
+
+        if( mapSpawnsLayer == null ){
+            return null;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapSpawnsLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+
+                // Check distance from center points of rectangles
+                float objectCenterX = rectangle.x + (rectangle.getWidth() / 2);
+                float objectCenterY = rectangle.y + (rectangle.getHeight() / 2);
+                float playerCenterX = _boundingBox.x + (_boundingBox.getWidth() / 2);
+                float playerCenterY = _boundingBox.y + (_boundingBox.getHeight() / 2);
+                _selectionRay.set(playerCenterX, playerCenterY, 0.0f, objectCenterX, objectCenterY, 0.0f);
+                selectionAngle = (new Vector2(objectCenterX, objectCenterY)).sub(new Vector2(playerCenterX, playerCenterY)).angle();
+                float distance =  _selectionRay.origin.dst(_selectionRay.direction);
+
+                if( distance <= _selectRayMaximumDistance ){
+                    // We have a valid selection
+                    return object;
+                }
+            }
+        }
+
+        return null;
+    }
+
     protected MapObject checkCollisionWithInteractionLayer(MapManager mapMgr){
         MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
 

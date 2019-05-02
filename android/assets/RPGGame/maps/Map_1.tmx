@@ -32,7 +32,7 @@
   <image source="Game/Pop_Ups/Rocks/Rock_Water/Rock_Water.png" width="32" height="32"/>
  </tileset>
  <tileset firstgid="187" source="Animated_Tiles/Waterfall.tsx"/>
- <layer name="Tile Layer 1" width="40" height="60" visible="0">
+ <layer name="Tile Layer 1" width="40" height="60">
   <data encoding="csv">
 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
 11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
@@ -814,7 +814,7 @@
   <object id="588" name="OPHION" x="159" y="804" width="16" height="16">
    <properties>
     <property name="chapters" value="1-5"/>
-    <property name="taskIDs" value="TeddyBear|ReturnTeddyBear"/>
+    <property name="taskIDs" value="TeddyBear::ReturnTeddyBear"/>
    </properties>
   </object>
   <object id="589" x="-106" y="785"/>

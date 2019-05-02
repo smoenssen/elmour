@@ -303,7 +303,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 mapMgr.setCurrentSelectedMapEntity(npc);
 
                 String taskIDs = "";
-                object = checkCollisionWithInteractionLayer(mapMgr);
+                object = checkCollisionWithSpawnsLayerObject(mapMgr);
                 if (object != null) {
                     taskIDs = (String) object.getProperties().get("taskIDs");
                 }

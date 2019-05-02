@@ -25,6 +25,7 @@ public class QuestGraphTest {
 
         _graph.setQuestTitle("Get My Teddy Bear");
         _graph.setQuestID("TeddyBear");
+        _graph.setQuestGiver("OPHION");
         _graph.setChapter(1);
         _graph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
         _graph.setGoldReward(20);

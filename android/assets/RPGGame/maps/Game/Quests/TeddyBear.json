@@ -29,6 +29,7 @@ questTaskDependencies: {
 }
 questTitle: Get My Teddy Bear
 questID: TeddyBear
+questGiver: OPHION
 questStatus: NOT_STARTED
 chapter: 1
 goldReward: 20

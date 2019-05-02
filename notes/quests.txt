@@ -116,7 +116,7 @@ Notes:
 Need to support more than one quest being active at a time, but only one quest per NPC
 Need to keep track of current quest ID with each NPC in profile manager.
 Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
-Remove questConfigPath from EntityConfig because this will be sent in from cut scene.
+Remove questConfigPath from EntityConfig because this will be handled in QuestList
 When ACCEPT_QUEST is received, that's when questConfigPath is loaded.
 Whenever quest status changes, updateEntityObservers() needs to be called.
 Need to add dependencies between quests.
