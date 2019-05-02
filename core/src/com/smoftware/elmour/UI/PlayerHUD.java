@@ -446,6 +446,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(screenSwipe10);
         _stage.addActor(_questUI);
         _stage.addActor(_messageBoxUI);
+        _stage.addActor(menuButtonDown);
+        _stage.addActor(menuButton);
         _stage.addActor(signPopUp);
         _stage.addActor(conversationPopUp);
         _stage.addActor(popUpLabel);
@@ -453,8 +455,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(choicePopUp2);
         _stage.addActor(choicePopUp3);
         _stage.addActor(choicePopUp4);
-        _stage.addActor(menuButtonDown);
-        _stage.addActor(menuButton);
         _stage.addActor(partyButton);
         _stage.addActor(inventoryButton);
         _stage.addActor(optionsButton);
@@ -484,6 +484,18 @@ public class PlayerHUD implements Screen, AudioSubject,
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
+        conversationPopUp.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                doConversation();
+            }
+        });
+
         menuButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -1074,6 +1086,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                         return questID + QuestList.QUEST_DELIMITER + taskID;
                     }
                 }
+
+                if (npcName.equals(questGraph.getQuestGiver())) {
+                    return questID + QuestList.QUEST_DELIMITER  + "QUEST_GIVER";
+                }
             }
             else {
                 Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
@@ -1103,10 +1119,16 @@ public class PlayerHUD implements Screen, AudioSubject,
         EntityConfig config = npc.getEntityConfig();
         Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
 
+        //conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.NORMAL_DIALOG);
+        String questID = null;
+        String taskID = null;
         String questIdTaskID = getAvailableQuestTask(config.getEntityID(), questAndTaskIDs);
-        String [] sa = questIdTaskID.split(QuestList.QUEST_DELIMITER);
-        String questID = sa[0];
-        String taskID = sa[1];
+
+        if (questIdTaskID != null) {
+            String[] sa = questIdTaskID.split(QuestList.QUEST_DELIMITER);
+            questID = sa[0];
+            taskID = sa[1];
+        }
 
         if (taskID == null) {
             // no available tasks
@@ -1119,7 +1141,17 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
         else {
             if (taskID.equals("QUEST_GIVER")) {
-                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
+                QuestGraph questGraph = questList.getQuestByID(questID);
+                if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
+                    // get active quest dialog or active quest cut scene
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
+                    if (conversationConfig == null) {
+                        conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
+                    }
+                }
+                else {
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
+                }
             }
             else {
                 // handle available task
@@ -1230,6 +1262,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             case LOAD_CONVERSATION:
                 // this is only done at the beginning of a conversation graph
                 if (isCurrentConversationDone) {
+                    //todo: why is isExitingConversation necessary? It is causing issues with main game play with dialog and cut scenes
                     if (isExitingConversation) {
                         Gdx.app.log(TAG, "Exiting conversation");
                         isExitingConversation = false;
@@ -1278,6 +1311,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Gdx.app.log(TAG, "SHOW_CONVERSATION");
                     if (configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                         doConversation();
+                        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_POPUP);
                     }
                 }
                 break;
@@ -1287,6 +1321,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     popUpLabel.setVisible(false);
                     conversationPopUp.hide();
                     conversationPopUp.getCurrentConversationGraph().removeObserver(this);
+                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
                 }
                 break;
             case DID_INITIAL_INTERACTION:
@@ -1404,6 +1439,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             else {
                 conversationPopUp.hide();
                 popUpLabel.setVisible(false);
+                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
             }
         }
 
@@ -1424,6 +1460,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
                 }
                 conversationPopUp.hide();
+                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
                 popUpLabel.setVisible(false);
                 isThereAnActiveHiddenChoice = false;
             }
@@ -1433,6 +1470,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CHAT)) {
                     conversationPopUp.hide();
                     popUpLabel.setVisible(false);
+                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
                 }
             }
         }
@@ -1471,8 +1509,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         _mapMgr.clearCurrentSelectedMapEntity();
 
         if (event == ConversationCommandEvent.EXIT_CHAT) {
-            isExitingConversation = true;
+            //isExitingConversation = true;
         }
+
+        notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
     }
 
     public void acceptQuest(String questID, EntityFactory.EntityName entityName) {
@@ -1482,7 +1522,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         EntityConfig config = entity.getEntityConfig();
-        QuestGraph questGraph = _questUI.loadQuest(config.getQuestConfigPath());
+        //QuestGraph questGraph = _questUI.loadQuest(config.getQuestConfigPath());
+        QuestGraph questGraph = questList.getQuestByID(questID);
 
         if (questGraph != null) {
             // save full quest graph for quests that are in progress
@@ -1766,6 +1807,11 @@ public class PlayerHUD implements Screen, AudioSubject,
             Vector2 shakeCoords = _shakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
+        }
+
+        if (Gdx.input.justTouched()) {
+            int x;
+            x=0;
         }
 
         if (battleScreenTransitionTriggered) {

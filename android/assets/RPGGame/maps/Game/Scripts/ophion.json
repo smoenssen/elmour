@@ -22,12 +22,12 @@ conversationConfigs : [
 		config: "RPGGame/maps/Game/Text/Dialog/OphionActiveQuestDialog.json"
 		questID: TeddyBear
 	}
-	{
+	/*{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE
 		config: "CutSceneQuest1_Active"
 		questID: TeddyBear
-	}
+	}*/
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG

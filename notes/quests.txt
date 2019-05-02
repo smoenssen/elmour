@@ -135,3 +135,6 @@ ElmourGame
   Add to dispose()
   Add ScreenType
   Add case in getScreenType
+
+  Use EXIT_CONVERSATION in cut scenes
+  Use EXIT_CHAT in normal dialog

@@ -16,24 +16,24 @@ conversationConfigs : [
 		config: "RPGGame/maps/Game/Text/Dialog/JustinQuestTaskDialog.json"
 		questID: TeddyBear
 	}
-	{
+	/*{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: QUEST_TASK_CUTSCENE
 		config: "CutSceneQuest1_TaskJustin"
 		questID: TeddyBear
-	}
+	}*/
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/JustinActiveQuestDialog.json"
 		questID: TeddyBear
 	}
-	{
+	/*{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE
 		config: "CutSceneQuest1_ActiveJustin"
 		questID: TeddyBear
-	}
+	}*/
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG

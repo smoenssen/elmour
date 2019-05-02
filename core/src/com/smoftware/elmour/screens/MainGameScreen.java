@@ -18,7 +18,6 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.Component;
-import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
@@ -26,6 +25,7 @@ import com.smoftware.elmour.PlayerInputComponent;
 import com.smoftware.elmour.UI.InventoryHudObserver;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.UI.PlayerHudObserver;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -36,7 +36,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
-public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, CutSceneObserver {
+public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, CutSceneObserver, PlayerHudObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
     //private final float V_WIDTH = 12;//2.4f;//srm
@@ -136,7 +136,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 Gdx.input.setInputProcessor(_multiplexer);
             }
 
-            //_player.registerObserver(this);
+            _playerHUD.addObserver(this);
             _playerHUD.addInventoryObserver(this);
             cutSceneManager = new CutSceneManager(_game, _player, _playerHUD);
         }
@@ -562,6 +562,18 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 }
                 break;
             case DONE:
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(PlayerHudEvent event) {
+        switch (event) {
+            case SHOWING_POPUP:
+                mobileControls.hide();
+                break;
+            case HIDING_POPUP:
+                mobileControls.show();
                 break;
         }
     }

@@ -8,7 +8,7 @@ conversations: {
 	}
 	n1: {
 		id: n1
-		dialog: EXIT_CONVERSATION_2
+		dialog: EXIT_CHAT
 		data: null
 		type: ACTION
 	}

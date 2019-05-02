@@ -7,14 +7,16 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.profile.ProfileObserver;
 
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Created by steve on 5/1/19.
  */
 
-public class QuestList {
+public class QuestList implements ProfileObserver {
     private static final String TAG = com.smoftware.elmour.quest.QuestList.class.getSimpleName();
 
     public enum QuestID {
@@ -27,6 +29,7 @@ public class QuestList {
     public static final String QUEST_DELIMITER = "::";
     public static final String TASK_DELIMITER = ",";
 
+    //todo QUESTS
     public static final String TEDDY_BEAR_CONFIG = "RPGGame/maps/Game/Quests/TeddyBear.json";
 
     private Json json;
@@ -35,7 +38,9 @@ public class QuestList {
     public QuestList() {
         json = new Json();
         quests = new Hashtable<>();
+        ProfileManager.getInstance().addObserver(this);
 
+        //todo QUESTS
         quests.put(QuestID.TeddyBear, getQuestGraph(TEDDY_BEAR_CONFIG));
     }
 
@@ -136,5 +141,47 @@ public class QuestList {
         ProfileManager.getInstance().setProperty("playerQuests", quests);
     }
 */
+
+    @Override
+    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+        Array<QuestID> completedQuests;
+
+        switch (event) {
+            case PROFILE_LOADED:
+                // get all quests that are in progress or complete from profile and update the internal list
+                for (Map.Entry<QuestID, QuestGraph> entry : quests.entrySet()) {
+                    QuestID questID = entry.getKey();
+
+                    QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID.toString(), QuestGraph.class);
+                    if (questGraphInProfile != null) {
+                        quests.put(questID, questGraphInProfile);
+                    }
+                }
+
+                completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                for (QuestID completedQuest : completedQuests) {
+                    QuestGraph completedQuestGraph = quests.get(completedQuest);
+                    completedQuestGraph.setQuestComplete();
+                }
+
+                break;
+            case SAVING_PROFILE:
+                // write all quests that are in progress or complete to profile
+                for (Map.Entry<QuestID, QuestGraph> entry : quests.entrySet()) {
+                    QuestID questID = entry.getKey();
+                    QuestGraph questGraph = entry.getValue();
+
+                    if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
+                        ProfileManager.getInstance().setProperty(questID.toString(), questGraph);
+                    }
+                    else if (questGraph.isQuestComplete()) {
+                        completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                        completedQuests.add(questID);
+                        ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
+                    }
+                }
+                break;
+        }
+    }
 }
 

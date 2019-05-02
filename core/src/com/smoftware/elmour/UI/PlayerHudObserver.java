@@ -2,7 +2,8 @@ package com.smoftware.elmour.UI;
 
 public interface PlayerHudObserver {
     enum PlayerHudEvent {
-        //not used currently
+        SHOWING_POPUP,
+        HIDING_POPUP
     }
 
     void onNotify(PlayerHudEvent event);
