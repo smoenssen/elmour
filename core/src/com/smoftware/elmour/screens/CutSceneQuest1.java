@@ -135,10 +135,6 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
             case EXIT_CONVERSATION_1:
                 fadeToMainScreen();
                 break;
-            case EXIT_CONVERSATION_2:
-                _playerHUD.setQuestTaskComplete(questID, "FindTeddyBear");
-                fadeToMainScreen();
-                break;
         }
     }
 

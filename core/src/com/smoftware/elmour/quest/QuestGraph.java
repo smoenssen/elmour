@@ -81,6 +81,8 @@ public class QuestGraph {
         questStatus = QuestStatus.COMPLETE;
 
         // need to set all associated NPCs to post-quest dialog for this quest
+        // this is so the NPC will display the correct dialog long after
+        // the quest has been completed
         ArrayList<QuestTask> tasks = getAllQuestTasks();
         for( QuestTask task: tasks ){
             String targetType = task.getTargetType();

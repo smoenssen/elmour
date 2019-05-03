@@ -8,8 +8,8 @@ conversations: {
 	}
 	n1: {
 		id: n1
-		dialog: EXIT_CHAT
-		data: null
+		dialog: TASK_COMPLETE
+		data: TeddyBear::FindTeddyBear
 		type: ACTION
 	}
 	n0: {

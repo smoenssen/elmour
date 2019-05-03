@@ -811,7 +811,12 @@
  <objectgroup name="SPAWNS_LAYER">
   <object id="469" name="PLAYER_START" x="618" y="48" width="16" height="16"/>
   <object id="478" name="PLAYER_START" x="159" y="938" width="32" height="16"/>
-  <object id="588" name="OPHION" x="159" y="804" width="16" height="16"/>
+  <object id="588" name="OPHION" x="159" y="804" width="16" height="16">
+   <properties>
+    <property name="chapters" value="1-5"/>
+    <property name="taskIDs" value="TeddyBear::ReturnTeddyBear"/>
+   </properties>
+  </object>
   <object id="589" x="-106" y="785"/>
   <object id="590" name="PLAYER_START_Q1" x="180" y="804" width="16" height="16"/>
  </objectgroup>

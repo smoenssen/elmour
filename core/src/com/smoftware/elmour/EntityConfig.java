@@ -74,7 +74,15 @@ public class EntityConfig {
     }
 
     public enum ConversationType {
-        NORMAL_DIALOG, PRE_QUEST_CUTSCENE, QUEST_TASK_DIALOG, QUEST_TASK_CUTSCENE, ACTIVE_QUEST_DIALOG, ACTIVE_QUEST_CUTSCENE, POST_QUEST_DIALOG
+        NORMAL_DIALOG,
+        PRE_QUEST_CUTSCENE,
+        QUEST_TASK_DIALOG,
+        QUEST_TASK_CUTSCENE,
+        ACTIVE_QUEST_DIALOG,
+        ACTIVE_QUEST_CUTSCENE,
+        RETURN_QUEST_DIALOG,
+        RETURN_QUEST_CUTSCENE,
+        POST_QUEST_DIALOG
     }
 
     public static class ConversationConfig {

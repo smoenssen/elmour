@@ -1,0 +1,27 @@
+{
+conversations: {
+	n1: {
+		id: n1
+		dialog: TASK_COMPLETE
+		data: TeddyBear::ReturnTeddyBear
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: You found my teddy bear! Let me repay you with 20 dibs.
+		data: Ophion
+		type: NPC
+	}
+}
+associatedChoices: {
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

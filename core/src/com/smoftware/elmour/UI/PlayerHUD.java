@@ -41,6 +41,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.battle.BattleObserver;
 import com.smoftware.elmour.dialog.ChoicePopUp;
+import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
@@ -1088,7 +1089,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
 
                 if (npcName.equals(questGraph.getQuestGiver())) {
-                    return questID + QuestList.QUEST_DELIMITER  + "QUEST_GIVER";
+                    return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
                 }
             }
             else {
@@ -1096,7 +1097,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (currentChapter >= questGraph.getChapter()) {
                     // this quest has not been started and is available
                     if (npcName.equals(questGraph.getQuestGiver())) {
-                        return questID + QuestList.QUEST_DELIMITER  + "QUEST_GIVER";
+                        return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
                     }
                     /*
                     // see if there is an available task for this NPC
@@ -1114,7 +1115,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public ConversationConfig getConversationConfigForNPC(Entity npc, String value) {
-        String [] questAndTaskIDs = value.split(";");
+        String [] questAndTaskIDs = value.split(QuestList.QUEST_TASK_DELIMITER);
         EntityConfig.ConversationConfig conversationConfig = null;
         EntityConfig config = npc.getEntityConfig();
         Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
@@ -1140,7 +1141,17 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
         }
         else {
-            if (taskID.equals("QUEST_GIVER")) {
+            if (questList.getQuestByID(questID).isQuestComplete()) {
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.POST_QUEST_DIALOG);
+            }
+            else if (questList.isQuestReadyForReturn(questID)) {
+                // get return quest dialog or return quest cut scene
+                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.RETURN_QUEST_DIALOG);
+                if (conversationConfig == null) {
+                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.RETURN_QUEST_CUTSCENE);
+                }
+            }
+            else if (taskID.equals(QuestList.QUEST_GIVER)) {
                 QuestGraph questGraph = questList.getQuestByID(questID);
                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                     // get active quest dialog or active quest cut scene
@@ -1278,6 +1289,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                             switch (conversationConfig.type) {
                                 case NORMAL_DIALOG:
                                 case ACTIVE_QUEST_DIALOG:
+                                case RETURN_QUEST_DIALOG:
                                 case POST_QUEST_DIALOG:
                                 case QUEST_TASK_DIALOG:
                                     // config contains conversation .json file path
@@ -1623,6 +1635,48 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 //todo: handle changing character if sa[3] parameter exists
                 
+                break;
+            case TASK_COMPLETE:
+                String coversationID = data;
+                Conversation conversation = graph.getConversationByID(coversationID);
+
+                if (conversation != null ) {
+                    String questTaskID = conversation.getData();
+                    String [] quest = questTaskID.split(QuestList.QUEST_DELIMITER);
+                    QuestGraph questGraph = questList.getQuestByID(quest[0]);
+                    QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
+                    questTask.setTaskComplete();
+
+                    // update the associated NPC conversation config based on current status
+                    String targetType = questTask.getTargetType();
+                    Entity entity;
+
+                    try {
+                        entity = EntityFactory.getInstance().getEntityByName(targetType);
+                        if (entity != null) {
+                            EntityConfig.ConversationConfig conversationConfig = null;
+                            EntityConfig config = entity.getEntityConfig();
+                            Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
+
+                            if (questGraph.isQuestComplete()) {
+                                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.POST_QUEST_DIALOG);
+                            }
+                            else {
+                                conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
+                                if (conversationConfig == null) {
+                                    conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
+                                }
+                            }
+
+                            ProfileManager.getInstance().setProperty(
+                                    entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                        }
+                    }
+                    catch (NullPointerException e) {
+                    }
+                }
+
+                handleExitConversation(event);
                 break;
         }
     }

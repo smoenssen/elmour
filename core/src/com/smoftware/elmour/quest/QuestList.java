@@ -28,6 +28,7 @@ public class QuestList implements ProfileObserver {
     public static final String QUEST_TASK_DELIMITER = ";";
     public static final String QUEST_DELIMITER = "::";
     public static final String TASK_DELIMITER = ",";
+    public static final String QUEST_GIVER = "QUEST_GIVER";
 
     //todo QUESTS
     public static final String TEDDY_BEAR_CONFIG = "RPGGame/maps/Game/Quests/TeddyBear.json";
@@ -105,12 +106,18 @@ public class QuestList implements ProfileObserver {
         QuestGraph graph = getQuestByID(questID);
         if (graph == null) return false;
 
+        if (!graph.updateQuestForReturn()) {
+            return false;
+        }
+
+        /*
         if (graph.updateQuestForReturn()) {
             graph.setQuestComplete();
         }
         else {
             return false;
         }
+        */
         return true;
     }
 
@@ -159,9 +166,11 @@ public class QuestList implements ProfileObserver {
                 }
 
                 completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
-                for (QuestID completedQuest : completedQuests) {
-                    QuestGraph completedQuestGraph = quests.get(completedQuest);
-                    completedQuestGraph.setQuestComplete();
+                if (completedQuests != null) {
+                    for (QuestID completedQuest : completedQuests) {
+                        QuestGraph completedQuestGraph = quests.get(completedQuest);
+                        completedQuestGraph.setQuestComplete();
+                    }
                 }
 
                 break;
@@ -176,6 +185,9 @@ public class QuestList implements ProfileObserver {
                     }
                     else if (questGraph.isQuestComplete()) {
                         completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                        if (completedQuests == null) {
+                            completedQuests = new Array<>();
+                        }
                         completedQuests.add(questID);
                         ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
                     }
