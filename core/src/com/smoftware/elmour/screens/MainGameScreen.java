@@ -570,10 +570,14 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     public void onNotify(PlayerHudEvent event) {
         switch (event) {
             case SHOWING_POPUP:
-                mobileControls.hide();
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.hide();
+                }
                 break;
             case HIDING_POPUP:
-                mobileControls.show();
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.show();
+                }
                 break;
         }
     }

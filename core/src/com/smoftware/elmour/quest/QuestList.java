@@ -190,6 +190,7 @@ public class QuestList implements ProfileObserver {
                         }
                         completedQuests.add(questID);
                         ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
+                        ProfileManager.getInstance().removeProperty(questID.toString());
                     }
                 }
                 break;

@@ -8,7 +8,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "We still haven^t gotten everything that we need.§\r\nRemember, we need weapons, food, and\r\nfirewood."
+		dialog: "We still haven^t gotten everything that we need.§\nRemember, we need weapons, food, and\nfirewood."
 		data: "{CHARACTER_2}"
 		type: NPC
 	}

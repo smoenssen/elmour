@@ -26,7 +26,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: I^ve lost my teddy bear or whatever!§\r\nCould you find him and bring him back to me?
+		dialog: I^ve lost my teddy bear or whatever!§\nCould you find him and bring him back to me?
 		data: Ophion
 		type: NPC
 	}

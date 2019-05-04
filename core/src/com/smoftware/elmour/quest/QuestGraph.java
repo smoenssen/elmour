@@ -227,7 +227,13 @@ public class QuestGraph {
         return true;
     }
 
+    public boolean isQuestTaskComplete(String id) {
+        QuestTask task = getQuestTaskByID(id);
+        return task.isTaskComplete();
+    }
+
     public boolean isQuestTaskAvailable(String id){
+        // A task is available if it has no dependencies
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return false;
         ArrayList<QuestTaskDependency> list = questTaskDependencies.get(id);

@@ -482,6 +482,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _player.registerObserver(this);
         //_battleUI.getCurrentState().addObserver(this);
         signPopUp.addObserver(this);
+        conversationPopUp.addObserver(this);
         this.addObserver(AudioManager.getInstance());
 
         //Listeners
@@ -1081,9 +1082,9 @@ public class PlayerHUD implements Screen, AudioSubject,
             // first deal with quests that are in progress
             if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                 // this quest is in progress
-                // see if there is an available task for this NPC
+                // see if there is an available task for this NPC (meaning no dependencies) and it is not complete
                 for (String taskID : questTasks) {
-                    if (questGraph.isQuestTaskAvailable(taskID)){
+                    if (questGraph.isQuestTaskAvailable(taskID) && !questGraph.isQuestTaskComplete(taskID)){
                         return questID + QuestList.QUEST_DELIMITER + taskID;
                     }
                 }
@@ -1120,7 +1121,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         EntityConfig config = npc.getEntityConfig();
         Array<ConversationConfig> npcConversationConfigs = config.getConversationConfigs();
 
-        //conversationConfig = getConversationConfig(npcConversationConfigs, EntityConfig.ConversationType.NORMAL_DIALOG);
         String questID = null;
         String taskID = null;
         String questIdTaskID = getAvailableQuestTask(config.getEntityID(), questAndTaskIDs);
@@ -1215,7 +1215,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         switch(event){
             case PROFILE_LOADED:
                 boolean firstTime = profileManager.getIsNewProfile();
-
+/*
                 if( firstTime ){
                     _questUI.setQuests(new Array<QuestGraph>());
 
@@ -1223,7 +1223,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Array<QuestGraph> quests = profileManager.getProperty("playerQuests", Array.class);
                     _questUI.setQuests(quests);
                 }
-
+*/
                 break;
             case SAVING_PROFILE:
                 /*
@@ -1242,7 +1242,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
             case CLEAR_CURRENT_PROFILE:
                 // set default profile
-                profileManager.setProperty("playerQuests", new Array<QuestGraph>());
+                //profileManager.setProperty("playerQuests", new Array<QuestGraph>());
                 profileManager.setProperty("currentPlayerGP", 0 );
                 profileManager.setProperty("currentPlayerLevel",0 );
                 profileManager.setProperty("currentPlayerXP", 0 );
@@ -1540,7 +1540,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (questGraph != null) {
             // save full quest graph for quests that are in progress
             questGraph.setQuestStatus(QuestGraph.QuestStatus.IN_PROGRESS);
-            ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + questID, questGraph);
+            //ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID() + questID, questGraph);
             //Update conversation dialog
             //config.setConversationConfigPath(QuestUI.RETURN_QUEST);
             //config.setCurrentQuestID(questGraph.getQuestID());
@@ -1646,6 +1646,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                     QuestGraph questGraph = questList.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
                     questTask.setTaskComplete();
+
+                    if (questGraph.areAllTasksComplete()) {
+                        questGraph.setQuestComplete();
+                    }
 
                     // update the associated NPC conversation config based on current status
                     String targetType = questTask.getTargetType();
