@@ -24,6 +24,7 @@ public class QuestGraph {
 
     private Hashtable<String, QuestTask> questTasks;
     private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
+    public String yedNodeId;
     private String questTitle;
     private String questID;
     private String questGiver;

@@ -1,7 +1,6 @@
 {
 questTasks: {
 	FindTeddyBear: {
-		yedNodeId: n1::n1
 		id: FindTeddyBear
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
@@ -10,7 +9,6 @@ questTasks: {
 		taskPhrase: Find teddy bear
 	}
 	ReturnTeddyBear: {
-		yedNodeId: n1::n0
 		id: ReturnTeddyBear
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
@@ -29,7 +27,6 @@ questTaskDependencies: {
 	]
 	FindTeddyBear: []
 }
-yedNodeId: n1
 questTitle: Get My Teddy Bear
 questID: TeddyBear
 questGiver: OPHION

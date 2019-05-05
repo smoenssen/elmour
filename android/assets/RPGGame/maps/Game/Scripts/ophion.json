@@ -35,8 +35,6 @@ conversationConfigs : [
 		questID: TeddyBear
 	}
 ]
-conversationConfigPath : "RPGGame/maps/Game/Text/Dialog/ConversationOphion.json"
-questConfigPath : "RPGGame/maps/Game/Quests/TeddyBear.json"
 entityProperties: {
 	HP: {
 		class: java.lang.String

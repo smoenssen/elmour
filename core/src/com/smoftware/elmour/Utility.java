@@ -26,11 +26,16 @@ import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.dialog.ConversationNode;
+import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.quest.QuestList;
+import com.smoftware.elmour.quest.QuestTask;
+import com.smoftware.elmour.quest.QuestTaskDependency;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
 
 public final class Utility {
 	public static final AssetManager _assetManager = new AssetManager();
@@ -376,6 +381,180 @@ public final class Utility {
 		return texture;
 	}
 
+	public static void parseQuestXMLFile(String inputFileName) {
+
+		Hashtable<String, Conversation> conversations = new Hashtable<>();
+		Hashtable<String, ArrayList<ConversationChoice>> associatedChoices = new Hashtable<>();
+
+		XmlReader xml = new XmlReader();
+		XmlReader.Element xml_element = null;
+		try {
+			xml_element = xml.parse(Gdx.files.internal(inputFileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		XmlReader.Element graph = xml_element.getChildByName("graph");
+
+		// build node graph
+		Hashtable<String, QuestGraph> questGraphs = buildQuestNodeGraph(graph);
+
+		for (Map.Entry<String, QuestGraph> entry : questGraphs.entrySet()) {
+			String questID = entry.getKey();
+			QuestGraph questGraph = entry.getValue();
+
+			String outputFileName = "RPGGame/maps/Game/Quests/" + questID + ".json";
+			FileHandle outFile = Gdx.files.local(outputFileName);
+			outFile.writeString(questGraph.toJson(), false);
+		}
+	}
+
+	private static Hashtable<String, QuestGraph> buildQuestNodeGraph(XmlReader.Element graph) {
+		Hashtable<String, QuestGraph> nodes = new Hashtable<>();
+
+		// id
+		Iterator iterator_node = graph.getChildrenByName("node").iterator();
+		while(iterator_node.hasNext()){
+			QuestGraph questGraph = new QuestGraph();
+			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
+			questGraph.yedNodeId = node_element.getAttribute("id");
+
+			// Quest data
+			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
+			while(iterator_data.hasNext()) {
+				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
+				String key = data_element.getAttribute("key");
+
+				if (key.equals("d4")) {
+					// Data URL is quest title
+					questGraph.setQuestTitle(data_element.getText());
+				}
+				else if (key.equals("d5")) {
+					// Data Description is in the form <Minimum chapter>;<Quest giver>;<Gold>;<XP>
+					String [] sa = data_element.getText().split(";");
+					questGraph.setChapter(Integer.parseInt(sa[0]));
+					questGraph.setQuestGiver(sa[1]);
+					questGraph.setGoldReward(Integer.parseInt(sa[2]));
+					questGraph.setXpReward(Integer.parseInt(sa[3]));
+				}
+				else if (key.equals("d6")) {
+					XmlReader.Element ProxyAutoBoundsNode = data_element.getChildByName("y:ProxyAutoBoundsNode");
+					XmlReader.Element Realizers = ProxyAutoBoundsNode.getChildByName("y:Realizers");
+					XmlReader.Element GroupNode = Realizers.getChildByName("y:GroupNode");
+					XmlReader.Element NodeLabel = GroupNode.getChildByName("y:NodeLabel");
+
+					String label = NodeLabel.getText();
+
+					if (!label.equals("Folder 1")) {
+						questGraph.setQuestID(label);
+
+						// got everything we need from this node
+						break;
+					}
+				}
+			}
+
+			// Quest tasks
+			Hashtable<String, QuestTask> questTasks = new Hashtable<>();
+			XmlReader.Element graph_element = node_element.getChildByName("graph");
+
+			Iterator iterator_node2 = graph_element.getChildrenByName("node").iterator();
+
+			while (iterator_node2.hasNext()) {
+				QuestTask taskNode = new QuestTask();
+				XmlReader.Element node2_element = (XmlReader.Element) iterator_node2.next();
+				taskNode.yedNodeId = node2_element.getAttribute("id");
+
+				//XmlReader.Element data2_element = (XmlReader.Element)iterator_node2.next();
+				Iterator iterator_data2 = node2_element.getChildrenByName("data").iterator();
+
+				while (iterator_data2.hasNext()) {
+					XmlReader.Element data_element = (XmlReader.Element) iterator_data2.next();
+					String key = data_element.getAttribute("key");
+
+					if (key.equals("d4")) {
+						// Data URL is quest task phrase
+						taskNode.setTaskPhrase(data_element.getText());
+					} else if (key.equals("d5")) {
+						// Data Description is in the form <Target Type>;<Target Location>;<Target Number>
+						String[] sa = data_element.getText().split(";");
+						taskNode.setTargetType(sa[0]);
+						taskNode.setTargetLocation(sa[1]);
+						if (sa.length > 2)
+							taskNode.setTargetNumber(Integer.parseInt(sa[2]));
+					} else if (key.equals("d6")) {
+						XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
+						XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
+
+						// task ID
+						taskNode.setId(label.getText());
+
+						// quest task type
+						XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
+						String color = fill.getAttribute("color");
+
+						if (color.equalsIgnoreCase("#cc99ff"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.FETCH);
+						else if (color.equalsIgnoreCase("#ff0000"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.KILL);
+						else if (color.equalsIgnoreCase("#c0c0c0"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.DELIVERY);
+						else if (color.equalsIgnoreCase("#3366ff"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.GUARD);
+						else if (color.equalsIgnoreCase("#33cccc"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.ESCORT);
+						else if (color.equalsIgnoreCase("#ffcc00"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
+						else if (color.equalsIgnoreCase("#00ff00"))
+							taskNode.setQuestTaskType(QuestTask.QuestTaskType.DISCOVER);
+					}
+				}
+
+				taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
+				questTasks.put(taskNode.getId(), taskNode);
+				//break;
+			}
+
+			questGraph.setTasks(questTasks);
+
+			// now add edge information (dependencies)
+			Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+			while(iterator_edge.hasNext()){
+				XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+				String source = edge_element.getAttribute("source");
+				String target = edge_element.getAttribute("target");
+
+				QuestTaskDependency qDep = new QuestTaskDependency();
+				String sourceID = getTaskID(questTasks, source);
+				String destinationID = getTaskID(questTasks, target);
+
+				if (sourceID != null && destinationID != null) {
+					qDep.setSourceId(sourceID);
+					qDep.setDestinationId(destinationID);
+
+					questGraph.addDependency(qDep);
+				}
+			}
+
+			questGraph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
+			nodes.put(questGraph.getQuestID(), questGraph);
+		}
+
+		return nodes;
+	}
+
+	private static String getTaskID(Hashtable<String, QuestTask> questTasks, String yedId) {
+		for (Map.Entry<String, QuestTask> entry : questTasks.entrySet()) {
+			String taskID = entry.getKey();
+			QuestTask questTask = entry.getValue();
+
+			if (questTask.yedNodeId.equals(yedId)) {
+				return taskID;
+			}
+		}
+		return null;
+	}
+
 	public static void parseAllConversationXMLFiles() {
 		FileHandle dirHandle = Gdx.files.internal("RPGGame/maps/Game/Text/Dialog");
 
@@ -518,7 +697,7 @@ public final class Utility {
 		Conversation conversation = new Conversation();
 		conversation.setId(rootId);
 		conversation.setType(rootNode.type.toString());
-		conversation.setDialog(rootNode.data);
+		conversation.setDialog(fixWindowsLineReturns(rootNode.data));
 		conversation.setData(rootNode.character);
 		conversations.put(rootId, conversation);
 
@@ -585,6 +764,10 @@ public final class Utility {
 			// recursive call for the current node
 			buildConversations(graph, nodes, node.id, conversations, associatedChoices);
 		}
+	}
+
+	private static String fixWindowsLineReturns(String text) {
+		return text.replace("\r\n", "\n");
 	}
 
 	public static boolean overlapRectangles(Rectangle r1, Rectangle r2) {

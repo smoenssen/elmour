@@ -113,16 +113,16 @@ if this questID is complete {
 ----------------------------------------
 
 Notes:
-Need to support more than one quest being active at a time, but only one quest per NPC
+DONE - Need to support more than one quest being active at a time, but only one quest per NPC
 Need to keep track of current quest ID with each NPC in profile manager.
 Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
 Remove questConfigPath from EntityConfig because this will be handled in QuestList
-When ACCEPT_QUEST is received, that's when questConfigPath is loaded.
 Whenever quest status changes, updateEntityObservers() needs to be called.
 Need to add dependencies between quests.
 On map, NPC spawn locations will have a chapters range that it can spawn.
 
-To add quest:
+To add quest
+------------
 Create CutSceneQuest<name> copy of CutSceneQuest1
   Update all instances of CutSceneQuest1
   Update questID and questGiver
@@ -138,9 +138,82 @@ ElmourGame
 
 Map
 ---
+	Add character spawn object on SPAWNS_LAYER
+	Add "chapters" under Custom Properties - this is the chapter range for quest, e.g., 1-5
+	Add "taskIDs" under Custom Properties - this is the list of quest tasks in the form <Quest ID>::<Task ID list separated by commas>
+		The QuestID::TaskID lists are separated by semi-colons
+		e.g., TeddyBear::FindTeddyBear,AnotherTeddyBearTask;AnotherQuestID::YetAnotherTask
 
-yEd
----
+yEd for quest conversations
+---------------------------
   Use EXIT_CONVERSATION in cut scenes
   Use EXIT_CHAT in normal dialog
   Use TASK_COMPLETE in task dialog, which includes data <questID::taskID>
+
+Character .json files
+---------------------
+	Remove conversationConfigPath
+	Remove questConfigPath
+	Add all possible conversationConfigs for quests. Possible conversation types for configs so far are:
+		NORMAL_DIALOG,
+		PRE_QUEST_CUTSCENE,
+		QUEST_TASK_DIALOG,
+		QUEST_TASK_CUTSCENE,
+		ACTIVE_QUEST_DIALOG,
+		ACTIVE_QUEST_CUTSCENE,
+		RETURN_QUEST_DIALOG,
+		RETURN_QUEST_CUTSCENE,
+		POST_QUEST_DIALOG
+
+Example conversationConfigs in timmy.json file:
+	conversationConfigs : [
+		{
+			class: com.smoftware.elmour.EntityConfig$ConversationConfig
+			type: NORMAL_DIALOG
+			config: "RPGGame/maps/Game/Text/Dialog/TimmyNormalDialog.json"
+			questID: TeddyBear
+		}
+		{
+			class: com.smoftware.elmour.EntityConfig$ConversationConfig
+			type: PRE_QUEST_CUTSCENE
+			config: "Quest1Screen_PreQuestTimmy"
+			questID: TeddyBear
+		}
+		{
+			class: com.smoftware.elmour.EntityConfig$ConversationConfig
+			type: ACTIVE_QUEST_DIALOG
+			config: "RPGGame/maps/Game/Text/Dialog/TimmyActiveQuestDialog.json"
+			questID: TeddyBear
+		}
+		{
+			class: com.smoftware.elmour.EntityConfig$ConversationConfig
+			type: RETURN_QUEST_CUTSCENE
+			config: "Quest1Screen_ReturnQuestTimmy"
+			questID: TeddyBear
+		}
+		{
+			class: com.smoftware.elmour.EntityConfig$ConversationConfig
+			type: POST_QUEST_DIALOG
+			config: "RPGGame/maps/Game/Text/Dialog/TimmyPostQuestDialog.json"
+			questID: TeddyBear
+		}
+	]
+
+yEd for quest graphs
+--------------------
+Color = task types
+	FETCH			= cc99ff
+	KILL			= ff0000
+	DELIVERY	= c0c0c0
+	GUARD			= 3366ff
+	ESCORT		= 33cccc
+	RETURN		= ffcc00
+	DISCOVER	= 00ff00
+Text = task ID
+Phrase = URL
+Description will be <Target Type>;<Target Location>;<Target Number>
+
+Quests will be Groups
+URL = Quest Title
+Text = Quest ID
+Description = <Minimum chapter>;<Quest giver>;<Gold>;<XP>

@@ -107,6 +107,8 @@ public class ElmourGame extends Game {
 		*/
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
+		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
+
 		// set width and height to fill screen
 		if (isAndroid()) {
 			V_WIDTH = 512;
@@ -140,7 +142,7 @@ public class ElmourGame extends Game {
 
 		partyList = new Array<>();
 
-		Utility.parseAllConversationXMLFiles();
+		//Utility.parseAllConversationXMLFiles();
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
@@ -160,8 +162,8 @@ public class ElmourGame extends Game {
 		}
 		////////////////*/
 
-		QuestGraphTest questGraphTest = new QuestGraphTest();
-		questGraphTest.main(null);
+		//QuestGraphTest questGraphTest = new QuestGraphTest();
+		//questGraphTest.main(null);
 	}
 
 	public void setChapterScreen(final int chapterNum) {

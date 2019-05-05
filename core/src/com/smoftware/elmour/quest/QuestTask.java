@@ -18,6 +18,7 @@ public class QuestTask {
         COMPLETE
     }
 
+    public String yedNodeId;
     private String id;
     private QuestTaskType questTaskType;
     private QuestTaskStatus questTaskStatus;
