@@ -41,7 +41,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 11
+		value: 10
 	}
 	ACC: {
 		class: java.lang.String
@@ -450,17 +450,18 @@ animationConfig: [
 			frameDuration: 0.75
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: SPELL_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Character_1/Character_1.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 4
 			}
 			{
-				x: 5
+				x: 4
 				y: 5
 			}
 		]
@@ -469,17 +470,18 @@ animationConfig: [
 			frameDuration: 0.75
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: SPELL_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Character_1/Character_1.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 6
 			}
 			{
-				x: 5
+				x: 4
 				y: 7
 			}
 		]

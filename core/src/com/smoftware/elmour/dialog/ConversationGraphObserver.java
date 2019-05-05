@@ -52,6 +52,7 @@ public interface ConversationGraphObserver {
         CHAR1_TEAR,
         START_LEAVING,
         STOP_LEAVING,
+
         //Chapter 2
         //P1
         PAN_TO_ARMORY,
@@ -101,6 +102,14 @@ public interface ConversationGraphObserver {
         CHAR2_TO_CASTLE,
         CHAR1_LOOK_AT_BOOK,
         CHAR2_RETURNS,
+
+        //Chapter 3
+        //P1
+        CHAR1_BOOK,
+        CHAR2_STAND_BACK,
+        THUNDER,
+        RAT_GETS_UP,
+        RAT_ATTACK,
 
 
 
