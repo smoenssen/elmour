@@ -518,7 +518,7 @@ public final class Utility {
 		Conversation conversation = new Conversation();
 		conversation.setId(rootId);
 		conversation.setType(rootNode.type.toString());
-		conversation.setDialog(rootNode.data);
+		conversation.setDialog(fixWindowsLineReturns(rootNode.data));
 		conversation.setData(rootNode.character);
 		conversations.put(rootId, conversation);
 
@@ -585,6 +585,10 @@ public final class Utility {
 			// recursive call for the current node
 			buildConversations(graph, nodes, node.id, conversations, associatedChoices);
 		}
+	}
+
+	private static String fixWindowsLineReturns(String text) {
+		return text.replace("\r\n", "\n");
 	}
 
 	public static boolean overlapRectangles(Rectangle r1, Rectangle r2) {

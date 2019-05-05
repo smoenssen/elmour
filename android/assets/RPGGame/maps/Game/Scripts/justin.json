@@ -3,44 +3,6 @@ entityID : Justin
 displayName : "Justin"
 state : IDLE
 direction : DOWN
-conversationConfigs : [
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/JustinNormalDialog.json"
-		questID: TeddyBear
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: QUEST_TASK_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/JustinQuestTaskDialog.json"
-		questID: TeddyBear
-	}
-	/*{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: QUEST_TASK_CUTSCENE
-		config: "CutSceneQuest1_TaskJustin"
-		questID: TeddyBear
-	}*/
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/JustinActiveQuestDialog.json"
-		questID: TeddyBear
-	}
-	/*{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_CUTSCENE
-		config: "CutSceneQuest1_ActiveJustin"
-		questID: TeddyBear
-	}*/
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: POST_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/JustinPostQuestDialog.json"
-		questID: TeddyBear
-	}
-]
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
 currentQuestID : ""
@@ -448,17 +410,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 0
 			}
 			{
-				x: 5
+				x: 4
 				y: 1
 			}
 		]
@@ -467,17 +430,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Justin/Justin.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 2
 			}
 			{
-				x: 5
+				x: 4
 				y: 3
 			}
 		]

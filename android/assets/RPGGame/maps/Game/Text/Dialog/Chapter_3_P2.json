@@ -1,0 +1,307 @@
+{
+conversations: {
+	n9: {
+		id: n9
+		dialog: ATTACK_RAT
+		data: null
+		type: ACTION
+	}
+	n8: {
+		id: n8
+		dialog: Now you need to choose which enemy you\nwish to attack. There^s only one this time.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n7: {
+		id: n7
+		dialog: TAP_ATTACK
+		data: null
+		type: ACTION
+	}
+	n6: {
+		id: n6
+		dialog: "Once you do that, you can choose whether\nyou want to fight with your weapon, or\ncast a spell or some other power.§\nLet^s go with the latter first."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: USE_SALMON
+		data: null
+		type: ACTION
+	}
+	n5: {
+		id: n5
+		dialog: TAP_FIGHT
+		data: null
+		type: ACTION
+	}
+	n18: {
+		id: n18
+		dialog: "By pressing the A button, you can then select\nwho you want to use it on."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: You see this button right here?§\nNo?§\nWell that doesn^t matter. All you have to do is\ntap it.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n17: {
+		id: n17
+		dialog: CHAR2_GOTO_A
+		data: null
+		type: ACTION
+	}
+	n3: {
+		id: n3
+		dialog: CHAR2_GOTO_FIGHT
+		data: null
+		type: ACTION
+	}
+	n2: {
+		id: n2
+		dialog: Wait... You don^t even know how to do that?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n16: {
+		id: n16
+		dialog: "Using salmon will not only heal you by 5 HP,\nbut it will also increase your attack stat by\n2 percent for 3 turns.§\nIt may not seem like much, but there are\neven better items out there. I even heard\nthat one doubles your attack stat."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: WAIT_1000
+		data: null
+		type: ACTION
+	}
+	n15: {
+		id: n15
+		dialog: HIGHLIGHT_SALMON
+		data: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: I guess I was wrong in saying that there\nwouldn^t be any monsters.§\nAll you have to do is take that weapon we got\nearlier and attack the rat with it.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n14: {
+		id: n14
+		dialog: "This is the inventory button. You probably\ndon^t see this one either, but if you tap it,\nyou can choose what item you want to\nuse in battle.§\nCertain foods give different benefits.\nFor example..."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n13: {
+		id: n13
+		dialog: CHAR2_GOTO_INVENTORY
+		data: null
+		type: ACTION
+	}
+	n12: {
+		id: n12
+		dialog: RAT_ATTACKS
+		data: null
+		type: ACTION
+	}
+	n11: {
+		id: n11
+		dialog: "Once everybody has attacked, the turn ends.§\nThis is useful to know when buffs and\ndebuffs have been given to you or a party\nmember."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n10: {
+		id: n10
+		dialog: "Now that you^ve attacked, the rat will attack\nyou."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n21: {
+		id: n21
+		dialog: EXIT_CONVERSATION_3
+		data: null
+		type: ACTION
+	}
+	n20: {
+		id: n20
+		dialog: Now show me what you learned by defeating\nthis rat!
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+}
+associatedChoices: {
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n17: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n14
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

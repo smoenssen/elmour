@@ -1,0 +1,315 @@
+{
+conversations: {
+	n9: {
+		id: n9
+		dialog: RAT_ATTACK
+		data: null
+		type: ACTION
+	}
+	n8: {
+		id: n8
+		dialog: "OK, what about this one?"
+		data: Me
+		type: NPC
+	}
+	n7: {
+		id: n7
+		dialog: RAT_GETS_UP
+		data: null
+		type: ACTION
+	}
+	n6: {
+		id: n6
+		dialog: Uh... well... it was just a rat... right?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: EXIT_CONVERSATION_1
+		data: null
+		type: ACTION
+	}
+	n5: {
+		id: n5
+		dialog: THUNDER
+		data: null
+		type: ACTION
+	}
+	n4: {
+		id: n4
+		dialog: Léi!
+		data: Me
+		type: NPC
+	}
+	n18: {
+		id: n18
+		dialog: EXIT_CONVERSATION_2
+		data: null
+		type: ACTION
+	}
+	n17: {
+		id: n17
+		dialog: "OK, prove it."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n16: {
+		id: n16
+		dialog: Nice to know that I^m doing this with a\ncomplete amature.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: What about this one?
+		data: Me
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: That one means thunder.¶\nIt^s pronounced léi.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n13: {
+		id: n13
+		dialog: You know how to fight right?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n12: {
+		id: n12
+		dialog: I guess we should finish it off.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n11: {
+		id: n11
+		dialog: ...wants to kill us...
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n10: {
+		id: n10
+		dialog: That one...
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: CHAR2_LOOK_RIGHT
+		data: null
+		type: ACTION
+	}
+	n22: {
+		id: n22
+		dialog: CHAR2_LOOK_LEFT
+		data: null
+		type: ACTION
+	}
+	n21: {
+		id: n21
+		dialog: CHAR2_LOOK_LEFT
+		data: null
+		type: ACTION
+	}
+	n20: {
+		id: n20
+		dialog: Well... I^ll teach you. Make sure to pay\nattention!
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+}
+associatedChoices: {
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n17: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n23
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n0
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n4
+			choicePhrase: Cast it.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n8
+			choicePhrase: Don^t cast it.
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n16
+			choicePhrase: Yes.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n17
+			choicePhrase: No.
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n1
+}

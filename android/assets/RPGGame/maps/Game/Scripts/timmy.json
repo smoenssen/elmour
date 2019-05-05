@@ -1,0 +1,87 @@
+{
+entityID : Timmy
+state : IDLE
+direction : DOWN
+conversationConfigPath : "conversations/testing.json"
+questConfigPath : ""
+currentQuestID : ""
+animationConfig: [
+	{
+	    frameDuration: 0.15
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Timmy/Timmy.png
+		]
+		gridPoints: [
+			{
+				x: 5
+				y: 0
+			}
+			{
+				x: 5
+				y: 1
+			}
+			{
+		    x: 5
+				y: 0
+			}
+			{
+		    x: 5
+				y: 2
+			}
+		]
+	}
+	{
+	    frameDuration: 0.15
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Timmy/Timmy.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Timmy/Timmy.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 1
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Timmy/Timmy.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 2
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Timmy/Timmy.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 3
+			}
+		]
+	}
+]
+}
