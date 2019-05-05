@@ -1976,6 +1976,7 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES1_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Weapons/Weapons.png
@@ -1988,6 +1989,26 @@ animationConfig: [
 			{
 				x: 24
 				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.0333
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: KNUCKLES1_RIGHT
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Weapons/Weapons.png
+		]
+		gridPoints: [
+			{
+				x: 24
+				y: 2
+			}
+			{
+				x: 24
+				y: 3
 			}
 		]
 	}

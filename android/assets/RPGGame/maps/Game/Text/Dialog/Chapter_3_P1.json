@@ -1,0 +1,385 @@
+{
+conversations: {
+	n9: {
+		id: n9
+		dialog: That one...
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n8: {
+		id: n8
+		dialog: RAT_ATTACK
+		data: null
+		type: ACTION
+	}
+	n7: {
+		id: n7
+		dialog: "OK, what about this one?"
+		data: Me
+		type: NPC
+	}
+	n6: {
+		id: n6
+		dialog: RAT_GETS_UP
+		data: null
+		type: ACTION
+	}
+	n19: {
+		id: n19
+		dialog: Well... I^ll teach you. Make sure to pay\nattention!
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: Uh... well... it was just a rat... right?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n18: {
+		id: n18
+		dialog: EXIT_CONVERSATION_1
+		data: null
+		type: ACTION
+	}
+	n4: {
+		id: n4
+		dialog: THUNDER
+		data: null
+		type: ACTION
+	}
+	n17: {
+		id: n17
+		dialog: EXIT_CONVERSATION_2
+		data: null
+		type: ACTION
+	}
+	n3: {
+		id: n3
+		dialog: Léi!
+		data: Me
+		type: NPC
+	}
+	n16: {
+		id: n16
+		dialog: "OK, prove it."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n15: {
+		id: n15
+		dialog: Nice to know that I^m doing this with a\ncomplete amature.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: That one means thunder.\n¶It^s pronounced léi.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n12: {
+		id: n12
+		dialog: You know how to fight right?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n11: {
+		id: n11
+		dialog: I guess we should finish it off.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n10: {
+		id: n10
+		dialog: ...wants to kill us...
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n28: {
+		id: n28
+		dialog: CHAR2_LOOK_DOWN
+		data: null
+		type: ACTION
+	}
+	n27: {
+		id: n27
+		dialog: "OK, stand back."
+		data: Me
+		type: NPC
+	}
+	n26: {
+		id: n26
+		dialog: CHAR2_STAND_BACK
+		data: null
+		type: ACTION
+	}
+	n25: {
+		id: n25
+		dialog: CHAR1_BOOK
+		data: null
+		type: ACTION
+	}
+	n24: {
+		id: n24
+		dialog: What does this spell mean?
+		data: Me
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: I just was curious about this book...
+		data: Me
+		type: NPC
+	}
+	n22: {
+		id: n22
+		dialog: What^s the matter?
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n21: {
+		id: n21
+		dialog: CHAR2_LOOK_RIGHT
+		data: null
+		type: ACTION
+	}
+	n20: {
+		id: n20
+		dialog: CHAR2_LOOK_LEFT
+		data: null
+		type: ACTION
+	}
+}
+associatedChoices: {
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n27
+			choicePhrase: Cast it.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n7
+			choicePhrase: Don^t cast it.
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n15
+			choicePhrase: No.
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n16
+			choicePhrase: Yes.
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n28
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n27: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n27
+			destinationId: n26
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n26: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n26
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n24
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n0
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n23
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n22
+}

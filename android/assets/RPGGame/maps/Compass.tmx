@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="31" height="31" tilewidth="16" tileheight="16" infinite="0" nextobjectid="73">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="31" height="31" tilewidth="16" tileheight="16" nextobjectid="70">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -92,7 +92,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="ZSHADOWDOWN" width="31" height="31" locked="1">
+ <layer name="ZSHADOWDOWN" width="31" height="31" visible="0" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -162,7 +162,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="ZDOWN" width="31" height="31" locked="1">
+ <layer name="ZDOWN" width="31" height="31" visible="0" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -284,13 +284,6 @@
   <object id="53" name="PLAYER_START" x="6" y="224" width="16" height="48"/>
   <object id="54" name="PLAYER_START" x="224" y="6" width="48" height="16"/>
   <object id="55" name="PLAYER_START" x="224" y="474" width="48" height="16"/>
-  <object id="70" name="Justin" x="233" y="56" width="16" height="16">
-   <properties>
-    <property name="chapters" value="1-5"/>
-    <property name="taskIDs" value="TeddyBear::FindTeddyBear"/>
-   </properties>
-  </object>
-  <object id="72" name="PLAYER_START_Q1" x="232.727" y="27.1818" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="56" name="Elmour" x="495" y="180" width="1" height="123"/>

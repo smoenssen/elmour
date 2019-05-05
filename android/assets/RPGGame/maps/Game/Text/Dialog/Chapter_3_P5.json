@@ -1,0 +1,69 @@
+{
+conversations: {
+	n4: {
+		id: n4
+		dialog: EXIT_CONVERSATION_6
+		data: null
+		type: ACTION
+	}
+	n3: {
+		id: n3
+		dialog: "{CHARACTER_2}!!!"
+		data: Me
+		type: NPC
+	}
+	n2: {
+		id: n2
+		dialog: GIANT_ATTACK
+		data: null
+		type: ACTION
+	}
+	n1: {
+		id: n1
+		dialog: That was kind of fun.§\nIt^s been a while since I last fought.
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: We did it!
+		data: Me
+		type: NPC
+	}
+}
+associatedChoices: {
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

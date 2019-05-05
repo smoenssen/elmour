@@ -272,7 +272,7 @@ conversations: {
 	}
 	n50: {
 		id: n50
-		dialog: EXIT_CONVERSATION_2
+		dialog: EXIT_CONVERSATION_1
 		data: C2_P2;WEAPONS_ROOM
 		type: ACTION
 	}

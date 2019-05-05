@@ -31,6 +31,10 @@ public class EntityFactory {
         STEVE,
         STEVE2,
         STEVE3,
+
+        //Enemies
+        RAT,
+
         SHADOW1, SHADOW2, SHADOW3, SHADOW4, SHADOW5, SHADOW6, SHADOW7, SHADOW8, SHADOW9, SHADOW10,
         HIT,
         WEAPON_ANIMATIONS,
@@ -73,6 +77,9 @@ public class EntityFactory {
     public static String STEVE_CONFIG = "RPGGame/maps/Game/Scripts/steve.json";
     public static String STEVE2_CONFIG = "RPGGame/maps/Game/Scripts/steve2.json";
     public static String STEVE3_CONFIG = "RPGGame/maps/Game/Scripts/steve3.json";
+
+    //Enemies
+    public static String RAT_CONFIG = "RPGGame/maps/Game/Scripts/rat.json";
 
     public static String HIT_CONFIG = "RPGGame/maps/Game/Scripts/hit.json";
     public static String WEAPON_ANIMATIONS_CONFIG = "RPGGame/maps/Game/Scripts/weapon_animations.json";
@@ -140,6 +147,9 @@ public class EntityFactory {
         entities.put(EntityName.STEVE.toString(), Entity.loadEntityConfigByPath(STEVE_CONFIG));
         entities.put(EntityName.STEVE2.toString(), Entity.loadEntityConfigByPath(STEVE2_CONFIG));
         entities.put(EntityName.STEVE3.toString(), Entity.loadEntityConfigByPath(STEVE3_CONFIG));
+
+        //Enemies
+        entities.put(EntityName.RAT.toString(), Entity.loadEntityConfigByPath(RAT_CONFIG));
 
         entities.put(EntityName.HIT.toString(), Entity.loadEntityConfigByPath(HIT_CONFIG));
         entities.put(EntityName.WEAPON_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(WEAPON_ANIMATIONS_CONFIG));

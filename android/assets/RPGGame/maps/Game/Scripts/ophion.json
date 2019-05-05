@@ -1,5 +1,5 @@
 {
-entityID : OPHION
+entityID : Ophion
 displayName : "Ophion"
 state : IDLE
 direction : DOWN
@@ -439,17 +439,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 0
 			}
 			{
-				x: 5
+				x: 4
 				y: 1
 			}
 		]
@@ -458,17 +459,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Ophion/Ophion.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 2
 			}
 			{
-				x: 5
+				x: 4
 				y: 3
 			}
 		]
