@@ -9,6 +9,7 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -20,18 +21,27 @@ public class QuestList implements ProfileObserver {
     private static final String TAG = com.smoftware.elmour.quest.QuestList.class.getSimpleName();
 
     public enum QuestID {
-        TeddyBear
+        TeddyBear,
+        BuyDogs,
+        DogsQuest,
+        DogsQuest2,
+        DogsQuest3
     }
 
     private Hashtable<QuestID, QuestGraph> quests;
+    private Hashtable<String, Array<QuestDependency>> questDependencies;
 
     public static final String QUEST_TASK_DELIMITER = ";";
     public static final String QUEST_DELIMITER = "::";
     public static final String TASK_DELIMITER = ",";
     public static final String QUEST_GIVER = "QUEST_GIVER";
 
-    //todo QUESTS
+    //todo: Add QUESTS here
     public static final String TEDDY_BEAR_CONFIG = "RPGGame/maps/Game/Quests/TeddyBear.json";
+    public static final String DOGS_QUEST_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest.json";
+    public static final String DOGS_QUEST2_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest2.json";
+    public static final String DOGS_QUEST3_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest3.json";
+    public static final String BUY_DOGS = "RPGGame/maps/Game/Quests/BuyDogs.json";
 
     private Json json;
     //private Array<QuestGraph> quests;
@@ -40,9 +50,31 @@ public class QuestList implements ProfileObserver {
         json = new Json();
         quests = new Hashtable<>();
         ProfileManager.getInstance().addObserver(this);
+        questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
 
-        //todo QUESTS
+        //todo: Add QUESTS here
         quests.put(QuestID.TeddyBear, getQuestGraph(TEDDY_BEAR_CONFIG));
+        quests.put(QuestID.DogsQuest, getQuestGraph(DOGS_QUEST_CONFIG));
+        quests.put(QuestID.DogsQuest2, getQuestGraph(DOGS_QUEST2_CONFIG));
+        quests.put(QuestID.DogsQuest3, getQuestGraph(DOGS_QUEST3_CONFIG));
+        quests.put(QuestID.BuyDogs, getQuestGraph(BUY_DOGS));
+
+        // TEST CODE ////////////////////////////////////////
+        boolean available = isQuestAvailable("TeddyBear");
+        available = isQuestAvailable("DogsQuest2");
+        available = isQuestAvailable("DogsQuest3");
+        QuestGraph myQuest = getQuestByID("BuyDogs");
+        myQuest.setQuestComplete();
+        available = isQuestAvailable("DogsQuest2");
+        available = isQuestAvailable("DogsQuest3");
+        available = isQuestAvailable("DogsQuest");
+        myQuest = getQuestByID("DogsQuest2");
+        myQuest.setQuestComplete();
+        available = isQuestAvailable("DogsQuest");
+        myQuest = getQuestByID("DogsQuest3");
+        myQuest.setQuestComplete();
+        available = isQuestAvailable("DogsQuest");
+        ///////////////////////////////////////////////////////
     }
 
     public void questTaskStarted(String questID, String questTaskID) {
@@ -62,31 +94,6 @@ public class QuestList implements ProfileObserver {
             }
         }
     }
-/*
-    public void loadAllQuestsForMap(MapManager mapMgr) {
-        MapLayer mapSpawnsLayer =  mapMgr.getSpawnsLayer();
-
-        if (mapSpawnsLayer == null) { return; }
-
-        for( MapObject object : mapSpawnsLayer.getObjects()) {
-            if (object != null) {
-                String taskIDs = (String) object.getProperties().get("taskIDs");
-
-                if (taskIDs != null) {
-                    String[] questAndTaskIDs = taskIDs.split(QUEST_TASK_DELIMITER);
-
-                    for (String questAndTaskID : questAndTaskIDs) {
-                        String[] quests = questAndTaskID.split(QUEST_DELIMITER);
-
-                        if (getQuestByID(quests[0]) == null) {
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-*/
 
     public QuestGraph getQuestGraph(String questConfigPath){
         if (questConfigPath.isEmpty() || !Gdx.files.internal(questConfigPath).exists()) {
@@ -110,14 +117,22 @@ public class QuestList implements ProfileObserver {
             return false;
         }
 
-        /*
-        if (graph.updateQuestForReturn()) {
-            graph.setQuestComplete();
+        return true;
+    }
+
+    public boolean isQuestAvailable(String id){
+        // A quest is available if it has no dependencies
+        Array<QuestDependency> dependencies = questDependencies.get(id);
+
+        if (dependencies == null) return true;
+
+        for (QuestDependency questDependency : dependencies) {
+            QuestGraph depQuest = getQuestByID(questDependency.getDestinationId());
+            if (depQuest == null || depQuest.isQuestComplete()) continue;
+            if (questDependency.getSourceId().equalsIgnoreCase(id)) {
+                return false;
+            }
         }
-        else {
-            return false;
-        }
-        */
         return true;
     }
 

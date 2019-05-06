@@ -112,8 +112,6 @@ public class ElmourGame extends Game {
 		*/
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
-
 		// set width and height to fill screen
 		if (isAndroid()) {
 			V_WIDTH = 512;
@@ -148,6 +146,7 @@ public class ElmourGame extends Game {
 
 		partyList = new Array<>();
 
+		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
 		//Utility.parseAllConversationXMLFiles();
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 

@@ -20,12 +20,15 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.dialog.ConversationNode;
+import com.smoftware.elmour.quest.QuestDependency;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestList;
 import com.smoftware.elmour.quest.QuestTask;
@@ -407,6 +410,12 @@ public final class Utility {
 			FileHandle outFile = Gdx.files.local(outputFileName);
 			outFile.writeString(questGraph.toJson(), false);
 		}
+
+		// build quest dependency graph
+		Json json = new Json();
+		Hashtable<String, Array<QuestDependency>> questDependencies = buildQuestDependencyGraph(graph);
+		FileHandle outFile = Gdx.files.local("RPGGame/maps/Game/Quests/QuestDependencies.json");
+		outFile.writeString(json.prettyPrint(questDependencies), false);
 	}
 
 	private static Hashtable<String, QuestGraph> buildQuestNodeGraph(XmlReader.Element graph) {
@@ -553,6 +562,79 @@ public final class Utility {
 			}
 		}
 		return null;
+	}
+
+	private static Hashtable<String,  Array<QuestDependency>> buildQuestDependencyGraph(XmlReader.Element graph) {
+		Hashtable<String,  Array<QuestDependency>> questDependencies = new Hashtable<>();
+		Hashtable<String, String> yedQuestIDMap = new Hashtable<>();
+
+		// yEd id
+		Iterator iterator_node = graph.getChildrenByName("node").iterator();
+		while(iterator_node.hasNext()){
+			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
+			String yedNodeId = node_element.getAttribute("id");
+
+			// data has quest ID
+			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
+			while(iterator_data.hasNext()) {
+				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
+				String key = data_element.getAttribute("key");
+
+				if (key.equals("d6")) {
+					XmlReader.Element ProxyAutoBoundsNode = data_element.getChildByName("y:ProxyAutoBoundsNode");
+					XmlReader.Element Realizers = ProxyAutoBoundsNode.getChildByName("y:Realizers");
+					XmlReader.Element GroupNode = Realizers.getChildByName("y:GroupNode");
+					XmlReader.Element NodeLabel = GroupNode.getChildByName("y:NodeLabel");
+
+					String label = NodeLabel.getText();
+
+					if (!label.equals("Folder 1")) {
+						yedQuestIDMap.put(yedNodeId, label);
+
+						// got everything we need from this node
+						break;
+					}
+				}
+			}
+
+			// now add edge information (dependencies)
+			Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+			while(iterator_edge.hasNext()){
+				XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+				String source = edge_element.getAttribute("source");
+				String target = edge_element.getAttribute("target");
+
+				QuestDependency qDep = new QuestDependency();
+				String sourceID = yedQuestIDMap.get(source);
+				String destinationID = yedQuestIDMap.get(target);
+
+				if (sourceID != null && destinationID != null) {
+					qDep.setSourceId(sourceID);
+					qDep.setDestinationId(destinationID);
+
+					Array<QuestDependency> dependencies = questDependencies.get(sourceID);
+					if (dependencies == null) {
+						dependencies = new Array<>();
+					}
+
+					// don't add duplicates
+					boolean inList = false;
+					for (QuestDependency dependency : dependencies) {
+						if (dependency.getSourceId().equals(qDep.getSourceId()) && dependency.getDestinationId().equals(qDep.getDestinationId())) {
+							inList = true;
+							break;
+						}
+					}
+
+					if (!inList) {
+						dependencies.add(qDep);
+						questDependencies.put(sourceID, dependencies);
+					}
+				}
+			}
+		}
+
+		return questDependencies;
 	}
 
 	public static void parseAllConversationXMLFiles() {

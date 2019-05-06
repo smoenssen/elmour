@@ -17,33 +17,6 @@ Should we have a split window for Quest and associated quest tasks to show what 
 
 
 ----------------------------------------
-if quest hasn't started {
-	Check what chapter player is on
-	if current chapter < minimum chapter {
-		display normal dialog
-	}
-	else {
-		display pre-quest specific cut scene
-		if player accepts quest
-			start quest
-	}
-}
-else if quest is active {
-	if player talks to quest giver {
-		display quest specific dialog
-	}
-
-	if player talks to other person involved with quest {
-		display quest specific dialog or cut scene
-	}
-}
-else if quest has completed {
-	if player talks to quest giver or other person that was involved with quest {
-		display special post-quest dialog
-}
-----------------------------------------
-
-----------------------------------------
 
 ****** PROFILE
 ****** save full quest graphs that are in progress
@@ -138,11 +111,15 @@ ElmourGame
 
 Map
 ---
-	Add character spawn object on SPAWNS_LAYER
-	Add "chapters" under Custom Properties - this is the chapter range for quest, e.g., 1-5
-	Add "taskIDs" under Custom Properties - this is the list of quest tasks in the form <Quest ID>::<Task ID list separated by commas>
-		The QuestID::TaskID lists are separated by semi-colons
-		e.g., TeddyBear::FindTeddyBear,AnotherTeddyBearTask;AnotherQuestID::YetAnotherTask
+	- For quests launched by interacting with NPC
+		Add character spawn object on SPAWNS_LAYER
+		Add "chapters" under Custom Properties - this is the chapter range for quest, e.g., 1-5
+		Add "taskIDs" under Custom Properties - this is the list of quest tasks in the form <Quest ID>::<Task ID list separated by commas>
+			The QuestID::TaskID lists are separated by semi-colons
+			e.g., TeddyBear::FindTeddyBear,AnotherTeddyBearTask;AnotherQuestID::YetAnotherTask
+	- For quests launched by discovering a map area
+		Add object to MAP_QUEST_DISCOVER_LAYER
+		Add "chapters" and "taskIDs" under Custom Properties (see above)
 
 yEd for quest conversations
 ---------------------------

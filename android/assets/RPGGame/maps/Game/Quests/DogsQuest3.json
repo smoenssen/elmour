@@ -1,7 +1,7 @@
 {
 questTasks: {
 	FindElliot: {
-		yedNodeId: n4::n1
+		yedNodeId: n3::n1
 		id: FindElliot
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
@@ -10,7 +10,7 @@ questTasks: {
 		taskPhrase: Find Elliot
 	}
 	ReturnTheDogs: {
-		yedNodeId: n4::n0
+		yedNodeId: n3::n0
 		id: ReturnTheDogs
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
@@ -19,7 +19,7 @@ questTasks: {
 		taskPhrase: Return the dogs
 	}
 	FindSeymour: {
-		yedNodeId: n4::n2
+		yedNodeId: n3::n2
 		id: FindSeymour
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
@@ -44,9 +44,9 @@ questTaskDependencies: {
 	]
 	FindSeymour: []
 }
-yedNodeId: n4
+yedNodeId: n3
 questTitle: The Dogs
-questID: DogsQuest
+questID: DogsQuest3
 questGiver: OPHION
 questStatus: NOT_STARTED
 chapter: 1
