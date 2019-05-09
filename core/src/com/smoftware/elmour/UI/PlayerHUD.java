@@ -1097,7 +1097,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
                 if (currentChapter >= questGraph.getChapter()) {
                     // this quest has not been started and is available
-                    if (npcName.equals(questGraph.getQuestGiver())) {
+                    if (npcName.equalsIgnoreCase(questGraph.getQuestGiver())) {
                         return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
                     }
                     /*

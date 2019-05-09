@@ -185,7 +185,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                         new Runnable() {
                             @Override
                             public void run() {
-                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/OphionQuestDialog.json", thisScreen);
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/TeddyBear/OphionQuestDialog.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
                             }
