@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -147,7 +148,7 @@ public class ElmourGame extends Game {
 		partyList = new Array<>();
 
 		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
-		//Utility.parseAllConversationXMLFiles();
+		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text/Dialog/DogsQuest");
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.

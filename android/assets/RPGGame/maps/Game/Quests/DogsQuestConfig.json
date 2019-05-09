@@ -1,0 +1,5 @@
+{
+    config: Quest1Screen_DogsQuestOpen
+    questID: DogsQuest
+    type: PRE_QUEST_CUTSCENE
+}

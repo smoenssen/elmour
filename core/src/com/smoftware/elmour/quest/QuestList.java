@@ -39,9 +39,6 @@ public class QuestList implements ProfileObserver {
     //todo: Add QUESTS here
     public static final String TEDDY_BEAR_CONFIG = "RPGGame/maps/Game/Quests/TeddyBear.json";
     public static final String DOGS_QUEST_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest.json";
-    public static final String DOGS_QUEST2_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest2.json";
-    public static final String DOGS_QUEST3_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest3.json";
-    public static final String BUY_DOGS = "RPGGame/maps/Game/Quests/BuyDogs.json";
 
     private Json json;
     //private Array<QuestGraph> quests;
@@ -55,26 +52,7 @@ public class QuestList implements ProfileObserver {
         //todo: Add QUESTS here
         quests.put(QuestID.TeddyBear, getQuestGraph(TEDDY_BEAR_CONFIG));
         quests.put(QuestID.DogsQuest, getQuestGraph(DOGS_QUEST_CONFIG));
-        quests.put(QuestID.DogsQuest2, getQuestGraph(DOGS_QUEST2_CONFIG));
-        quests.put(QuestID.DogsQuest3, getQuestGraph(DOGS_QUEST3_CONFIG));
-        quests.put(QuestID.BuyDogs, getQuestGraph(BUY_DOGS));
 
-        // TEST CODE ////////////////////////////////////////
-        boolean available = isQuestAvailable("TeddyBear");
-        available = isQuestAvailable("DogsQuest2");
-        available = isQuestAvailable("DogsQuest3");
-        QuestGraph myQuest = getQuestByID("BuyDogs");
-        myQuest.setQuestComplete();
-        available = isQuestAvailable("DogsQuest2");
-        available = isQuestAvailable("DogsQuest3");
-        available = isQuestAvailable("DogsQuest");
-        myQuest = getQuestByID("DogsQuest2");
-        myQuest.setQuestComplete();
-        available = isQuestAvailable("DogsQuest");
-        myQuest = getQuestByID("DogsQuest3");
-        myQuest.setQuestComplete();
-        available = isQuestAvailable("DogsQuest");
-        ///////////////////////////////////////////////////////
     }
 
     public void questTaskStarted(String questID, String questTaskID) {

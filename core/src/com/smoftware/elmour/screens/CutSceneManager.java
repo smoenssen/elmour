@@ -1,5 +1,7 @@
 package com.smoftware.elmour.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
@@ -34,6 +36,11 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
         switch (event) {
             case CUTSCENE_ACTIVATED:
                 startCutScene(value);
+                break;
+            case CONVERSATION_CONFIG:
+                Json json = new Json();
+                EntityConfig.ConversationConfig conversationConfig = json.fromJson(EntityConfig.ConversationConfig.class, Gdx.files.internal(value));
+                startCutScene(conversationConfig.config);
                 break;
         }
     }

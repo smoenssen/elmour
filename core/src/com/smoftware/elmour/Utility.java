@@ -637,8 +637,8 @@ public final class Utility {
 		return questDependencies;
 	}
 
-	public static void parseAllConversationXMLFiles() {
-		FileHandle dirHandle = Gdx.files.internal("RPGGame/maps/Game/Text/Dialog");
+	public static void parseAllConversationXMLFiles(String folderName) {
+		FileHandle dirHandle = Gdx.files.internal(folderName);
 
 		for (FileHandle entry: dirHandle.list()) {
 			String inputFileName = entry.file().getName();
@@ -646,7 +646,7 @@ public final class Utility {
 
 			if (fileType.equalsIgnoreCase("graphml")) {
 				String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
-				String outputFileName = "RPGGame/maps/Game/Text/Dialog/" + filename + ".json";
+				String outputFileName = folderName + "/" + filename + ".json";
 				parseConversationXMLFile("", entry.path(), outputFileName);
 			}
 		}

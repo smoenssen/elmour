@@ -7,32 +7,56 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/OphionNormalDialog.json"
+		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/OphionNormalDialog.json"
 		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: PRE_QUEST_CUTSCENE
-		config: "Quest1Screen_PreQuestOphion"
+		config: "Quest1Screen_TeddyBearQuestOpen"
 		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/OphionActiveQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/OphionActiveQuestDialog.json"
 		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: RETURN_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/OphionReturnQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/OphionReturnQuestDialog.json"
 		questID: TeddyBear
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/OphionPostQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/OphionPostQuestDialog.json"
 		questID: TeddyBear
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: NORMAL_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/OphionNormalDialog.json"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: QUEST_TASK_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/OphionQuestTaskDialog.json"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/OphionActiveQuestDialog.json"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: POST_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/OphionPostQuestDialog.json"
+		questID: DogsQuest
 	}
 ]
 entityProperties: {

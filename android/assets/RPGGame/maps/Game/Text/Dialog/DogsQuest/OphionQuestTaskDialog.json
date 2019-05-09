@@ -1,0 +1,41 @@
+{
+conversations: {
+	n2: {
+		id: n2
+		dialog: Thanks man.
+		data: Me
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: TASK_COMPLETE
+		data: TeddyBear::FindTeddyBear
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: Are you looking for a dog named Elliot? Here you go.
+		data: Justin
+		type: NPC
+	}
+}
+associatedChoices: {
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

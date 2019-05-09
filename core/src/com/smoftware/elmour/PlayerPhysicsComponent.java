@@ -578,19 +578,26 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 if (_boundingBox.overlaps(rectangle) ){
                     String questID = object.getName();
                     String questTaskID = (String)object.getProperties().get("taskID");
-                    String val = questID + MESSAGE_TOKEN + questTaskID;
+                    String conversationConfig = (String)object.getProperties().get("conversationConfig");
+                    String val = questID + MESSAGE_TOKEN + questTaskID + MESSAGE_TOKEN;
 
-                    if( questID == null ) {
-                        return false;
+                    if (conversationConfig != null) {
+                        notify(conversationConfig, ComponentObserver.ComponentEvent.CONVERSATION_CONFIG);
+                    }
+                    else {
+                        if (questID == null) {
+                            return false;
+                        }
+
+                        if (_previousDiscovery.equalsIgnoreCase(val)) {
+                            return true;
+                        } else {
+                            _previousDiscovery = val;
+                        }
+
+                        notify(_json.toJson(val), ComponentObserver.ComponentEvent.QUEST_LOCATION_DISCOVERED);
                     }
 
-                    if( _previousDiscovery.equalsIgnoreCase(val) ){
-                        return true;
-                    }else{
-                        _previousDiscovery = val;
-                    }
-
-                    notify(_json.toJson(val), ComponentObserver.ComponentEvent.QUEST_LOCATION_DISCOVERED);
                     Gdx.app.debug(TAG, "Discover Area Activated");
                     return true;
                 }

@@ -31,13 +31,14 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
 
     CutSceneQuest1 thisScreen;
     String questID;
-    EntityFactory.EntityName questGiver;
     String currentPartNumber;
 
     private Action setupQuestOpeningScene;
+    private Action setupDogsQuestOpeningScene;
 
     private AnimatedImage character1;
     private AnimatedImage ophion;
+    private AnimatedImage carmen;
 
     private AnimatedImage camactor;
     private AnimatedImage misc;
@@ -46,12 +47,11 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     public CutSceneQuest1(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
-        questID = "TeddyBear";
-        questGiver = EntityFactory.EntityName.OPHION;
         currentPartNumber = "";
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         ophion = getAnimatedImage(EntityFactory.EntityName.OPHION);
+        carmen = getAnimatedImage(EntityFactory.EntityName.CARMEN);
 
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
         misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
@@ -104,6 +104,30 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                 followActor(character1);
             }
         };
+
+        setupDogsQuestOpeningScene = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.COMPASS);
+                _mapMgr.disableCurrentmapMusic();
+                float yPos = 8.5f;
+                setCameraPosition(10, yPos);
+                keepCamInMap = true;
+
+                carmen.setVisible(true);
+                carmen.setPosition(10, yPos);
+                carmen.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                carmen.setCurrentDirection(Entity.Direction.RIGHT);
+
+                character1.setVisible(true);
+                character1.setPosition(11, yPos);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.LEFT);
+
+                followActor(character1);
+            }
+        };
     }
 
     private void fadeToMainScreen() {
@@ -129,7 +153,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                 _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 1000);
                 break;
             case ACCEPT_QUEST:
-                _playerHUD.acceptQuest(questID, questGiver);
+                _playerHUD.acceptQuest(questID);
                 fadeToMainScreen();
                 break;
             case EXIT_CONVERSATION_1:
@@ -150,7 +174,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     public void onNotify(String value, ConversationCommandEvent event) {
     }
 
-    private Action getQuestOpeningScene() {
+    private Action getTeddyBearQuestOpeningScene() {
         setupQuestOpeningScene.reset();
         return Actions.sequence(
                 Actions.addAction(setupQuestOpeningScene),
@@ -170,17 +194,39 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
         );
     }
 
+    private Action getDogsQuestOpeningScene() {
+        setupDogsQuestOpeningScene.reset();
+        return Actions.sequence(
+                Actions.addAction(setupDogsQuestOpeningScene),
+                new setFading(true),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 3), _transitionActor),
+                Actions.delay(2),
+                Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/DogsQuest/DogsQuestDialog.json", thisScreen);
+                                _playerHUD.doConversation();
+                                // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
+                            }
+                        }),
+                Actions.delay(3)
+        );
+    }
+
     @Override
     public void show() {
         baseShow();
 
         currentPartNumber = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.Quest1Screen.toString(), String.class);
 
-        if (currentPartNumber.equals("PreQuestOphion")) {
-            _stage.addAction(getQuestOpeningScene());
+        if (currentPartNumber.equals("TeddyBearQuestOpen")) {
+            questID = "TeddyBear";
+            _stage.addAction(getTeddyBearQuestOpeningScene());
         }
-        else if (currentPartNumber.equals("ActiveQuestJustin")) {
-            _stage.addAction(getQuestOpeningScene());
+        else if (currentPartNumber.equals("DogsQuestOpen")) {
+            questID = "DogsQuest";
+            _stage.addAction(getDogsQuestOpeningScene());
         }
 
         ProfileManager.getInstance().addObserver(_mapMgr);

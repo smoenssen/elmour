@@ -1,0 +1,27 @@
+{
+conversations: {
+	n1: {
+		id: n1
+		dialog: EXIT_CHAT
+		data: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: You should really return Elliot.
+		data: Justin
+		type: NPC
+	}
+}
+associatedChoices: {
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

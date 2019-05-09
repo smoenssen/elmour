@@ -34,6 +34,10 @@ public class Compass extends Map {
         Entity justin = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
         initSpecialEntityPosition(justin);
         mapEntities.add(justin);
+
+        Entity carmen = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.CARMEN);
+        initSpecialEntityPosition(carmen);
+        mapEntities.add(carmen);
     }
 
     @Override
