@@ -1074,8 +1074,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     public String getAvailableQuestTask(String npcName, String [] questAndTaskIDs) {
         for (String questInfo : questAndTaskIDs) {
             // questInfo is in the form <questID|<questTask1,questTask2...>
-            String [] quest = questInfo.split(QuestList.QUEST_DELIMITER);
-            String [] questTasks = quest[1].split(",");
+            String[] quest = questInfo.split(QuestList.QUEST_DELIMITER);
+            String[] questTasks = quest[1].split(",");
             String questID = quest[0];
             QuestGraph questGraph = questList.getQuestByID(questID);
 
@@ -1084,30 +1084,29 @@ public class PlayerHUD implements Screen, AudioSubject,
                 // this quest is in progress
                 // see if there is an available task for this NPC (meaning no dependencies) and it is not complete
                 for (String taskID : questTasks) {
-                    if (questGraph.isQuestTaskAvailable(taskID) && !questGraph.isQuestTaskComplete(taskID)){
+                    if (questGraph.isQuestTaskAvailable(taskID) && !questGraph.isQuestTaskComplete(taskID)) {
                         return questID + QuestList.QUEST_DELIMITER + taskID;
                     }
                 }
 
                 if (npcName.equals(questGraph.getQuestGiver())) {
-                    return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
+                    return questID + QuestList.QUEST_DELIMITER + QuestList.QUEST_GIVER;
                 }
             }
-            else {
-                Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                if (currentChapter >= questGraph.getChapter()) {
-                    // this quest has not been started and is available
-                    if (npcName.equalsIgnoreCase(questGraph.getQuestGiver())) {
-                        return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
-                    }
-                    /*
-                    // see if there is an available task for this NPC
-                    for (String taskID : questTasks) {
-                        if (questGraph.isQuestTaskAvailable(taskID)){
-                            return questID + QuestList.QUEST_DELIMITER + taskID;
-                        }
-                    }
-                    */
+        }
+
+        // if got here, then no quests in progress for this NPC
+        // so see if this NPC is a quest giver
+        for (String questInfo : questAndTaskIDs) {
+            String[] quest = questInfo.split(QuestList.QUEST_DELIMITER);
+            String questID = quest[0];
+            QuestGraph questGraph = questList.getQuestByID(questID);
+
+            Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+            if (currentChapter >= questGraph.getChapter()) {
+                // this quest has not been started and is available
+                if (npcName.equalsIgnoreCase(questGraph.getQuestGiver())) {
+                    return questID + QuestList.QUEST_DELIMITER  + QuestList.QUEST_GIVER;
                 }
             }
         }
