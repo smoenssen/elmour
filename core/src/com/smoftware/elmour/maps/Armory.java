@@ -75,18 +75,4 @@ public class Armory extends Map {
         interaction = Entity.Interaction.NONE;
     }
 
-    private void initSpecialEntityPosition(Entity entity){
-        Vector2 position = new Vector2(0,0);
-
-        if( _specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID()) ) {
-            position = _specialNPCStartPositions.get(entity.getEntityConfig().getEntityID());
-        }
-        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
-
-        //Overwrite default if special config is found
-        EntityConfig entityConfig = ProfileManager.getInstance().getProperty(entity.getEntityConfig().getEntityID(), EntityConfig.class);
-        if( entityConfig != null ){
-            entity.setEntityConfig(entityConfig);
-        }
-    }
 }

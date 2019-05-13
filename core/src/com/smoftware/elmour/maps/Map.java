@@ -11,11 +11,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.Component;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
+import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
 import java.util.Hashtable;
@@ -643,6 +646,21 @@ public abstract class Map extends MapSubject implements AudioSubject{
             }
 
             _playerStart =  _closestPlayerStartPosition.cpy();
+        }
+    }
+
+    public void initSpecialEntityPosition(Entity entity){
+        Vector2 position = new Vector2(0,0);
+
+        if( _specialNPCStartPositions.containsKey(entity.getEntityConfig().getEntityID()) ) {
+            position = _specialNPCStartPositions.get(entity.getEntityConfig().getEntityID());
+        }
+        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
+
+        //Overwrite default if special config is found
+        EntityConfig entityConfig = ProfileManager.getInstance().getProperty(entity.getEntityConfig().getEntityID(), EntityConfig.class);
+        if( entityConfig != null ){
+            entity.setEntityConfig(entityConfig);
         }
     }
 

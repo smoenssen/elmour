@@ -7,8 +7,7 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/JustinNormalDialog.json"
-		questID: TeddyBear
+		config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/JustinNormalDialog.json"
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
@@ -39,12 +38,6 @@ conversationConfigs : [
 		type: POST_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/JustinPostQuestDialog.json"
 		questID: TeddyBear
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/JustinNormalDialog.json"
-		questID: DogsQuest
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig

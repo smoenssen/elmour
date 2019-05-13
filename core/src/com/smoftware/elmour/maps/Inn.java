@@ -62,7 +62,7 @@ public class Inn extends Map {
     public void handleInteractionFinished() {
         interaction = Entity.Interaction.NONE;
     }
-
+/*
     private void initSpecialEntityPosition(Entity entity){
         Vector2 position = new Vector2(0,0);
 
@@ -76,5 +76,5 @@ public class Inn extends Map {
         if( entityConfig != null ){
             entity.setEntityConfig(entityConfig);
         }
-    }
+    }*/
 }

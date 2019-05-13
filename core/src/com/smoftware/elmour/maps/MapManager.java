@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.sfx.ClockActor;
@@ -90,6 +91,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
                 if (lastSavedShadowZLayer != null) {
                     MapFactory.getMap(_currentMap.getCurrentMapType()).setShadowZLayer(lastSavedShadowZLayer);
                 }
+
+                Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                setNPCSpawnEntitiesByChapter(currentChapter);
+
                 break;
             case SAVING_PROFILE:
                 if( _currentMap != null && _player != null ){
@@ -166,7 +171,44 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         _currentMap = map;
         _mapChanged = true;
         clearCurrentSelectedMapEntity();
+
+        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+        if (currentChapter != null) {
+            setNPCSpawnEntitiesByChapter(currentChapter);
+        }
+
         Gdx.app.debug(TAG, "Player Start: (" + _currentMap.getPlayerStart().x + "," + _currentMap.getPlayerStart().y + ")");
+    }
+
+    public void setNPCSpawnEntitiesByChapter(int currentChapter) {
+        MapLayer spawnsLayer = _currentMap.getSpawnsLayer();
+        _currentMap.getMapEntities().clear();
+
+        for (MapObject object: spawnsLayer.getObjects()) {
+            String chapters = (String)object.getProperties().get("chapters");
+            if (chapters != null) {
+                String [] sa = chapters.split("-");
+                int minChapter = Integer.parseInt(sa[0].trim());
+                int maxChapter = 0x7fffffff;
+                if (sa.length > 1) {
+                    maxChapter = Integer.parseInt(sa[1].trim());
+                }
+
+                if (currentChapter >= minChapter && currentChapter <= maxChapter) {
+                    Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
+                    _currentMap.getMapEntities().add(entity);
+                    _currentMap.initSpecialEntityPosition(entity);
+                }
+            }
+            else {
+                String name = object.getName();
+                if (name != null && !name.contains("PLAYER_START") && !name.contains("NPC_START")) {
+                    Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
+                    _currentMap.getMapEntities().add(entity);
+                    _currentMap.initSpecialEntityPosition(entity);
+                }
+            }
+        }
     }
 
     public void unregisterCurrentMapEntityObservers(){

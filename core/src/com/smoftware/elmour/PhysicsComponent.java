@@ -340,9 +340,12 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
                 selectionAngle = (new Vector2(objectCenterX, objectCenterY)).sub(new Vector2(playerCenterX, playerCenterY)).angle();
                 float distance =  _selectionRay.origin.dst(_selectionRay.direction);
 
-                if( distance <= _selectRayMaximumDistance ){
-                    // We have a valid selection
-                    return object;
+                String name = object.getName();
+                if (name != null && !name.contains("PLAYER_START") && !name.contains("NPC_START")) {
+                    if (distance <= _selectRayMaximumDistance) {
+                        // We have a valid selection
+                        return object;
+                    }
                 }
             }
         }

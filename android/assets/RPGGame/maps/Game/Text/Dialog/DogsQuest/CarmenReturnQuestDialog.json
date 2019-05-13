@@ -3,7 +3,7 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: TASK_COMPLETE
-		data: TeddyBear::ReturnTeddyBear
+		data: DogsQuest::ReturnTheDogs
 		type: ACTION
 	}
 	n0: {

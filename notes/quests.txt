@@ -16,77 +16,14 @@ Questions:
 Should we have a split window for Quest and associated quest tasks to show what has been done and what still needs to be done?
 
 
-----------------------------------------
-
 ****** PROFILE
 ****** save full quest graphs that are in progress
 ****** save quests that are complete just as questIDs
 ****** save latest config TYPE for each NPC
 
 
-taskID = getAvailableQuestTask()
-if taskID is null {
-	// no available tasks
-	get the latest config TYPE from profile
-	if there is a TYPE found in profile {
-		set to config TYPE to what was found in profile
-	}
-	else {
-		set TYPE to NORMAL_DIALOG
-	}
-}
-else {
-	// handle available task
-	if taskID has not been started {
-		set TYPE to QUEST_TASK_DIALOG or QUEST_TASK_CUTSCENE
-	}
-	else {
-		set TYPE to ACTIVE_QUEST_DIALOG or ACTIVE_QUEST_CUTSCENE
-	}
-}
-
-getAvailableQuestTask()
---------------------------
-Get current chapter of player
-Get all possible questID : taskID lists for the NPC interacted with
-
-for each questID {
-	// first deal with quests that are in progress
-	if this questID is in progress {
-		for each taskID for this questID {
-			if isQuestTaskAvailable() {
-				return taskID
-			}
-		}
-	}
-	else {
-		if current chapter < minimum chapter {
-			// this quest has not been started and is available
-			for each taskID for this questID {
-				if isQuestTaskAvailable() {
-					return taskID
-				}
-			} // end for each taskID
-		}
-		else {
-			// do nothing
-		}
-	}
-} // end for each questID
-
-if got this far, then return null
----------------------------------------
-
-// TODO: this will need to be done elsewhere by writing
-//       latest config TYPE to profile for each NPC involved
-//       based on completed quest
-if this questID is complete {
-	set to POST_QUEST_DIALOG
-}
-----------------------------------------
-
 Notes:
-DONE - Need to support more than one quest being active at a time, but only one quest per NPC
+DONE - Need to support more than one quest being active at a time, but only one open quest per NPC
 Need to keep track of current quest ID with each NPC in profile manager.
 Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
 Remove questConfigPath from EntityConfig because this will be handled in QuestList

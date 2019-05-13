@@ -3,13 +3,13 @@ conversations: {
 	n6: {
 		id: n6
 		dialog: Thank you!!
-		data: Ophion
+		data: Carmen
 		type: NPC
 	}
 	n5: {
 		id: n5
 		dialog: "Wow, thanks a lot, loser!!"
-		data: Ophion
+		data: Carmen
 		type: NPC
 	}
 	n4: {

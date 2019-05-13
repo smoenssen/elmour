@@ -49,20 +49,22 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
     public void onNotify(Entity entity, String value, ComponentEvent event) {
         switch (event) {
             case LOAD_CONVERSATION:
-                // check to see if cut scene should be kicked off
-                EntityConfig.ConversationConfig conversationConfig = playerHUD.getConversationConfigForNPC(entity, value);
+                if (value != null) {
+                    // check to see if cut scene should be kicked off
+                    EntityConfig.ConversationConfig conversationConfig = playerHUD.getConversationConfigForNPC(entity, value);
 
-                if (conversationConfig != null) {
-                    switch (conversationConfig.type) {
-                        case PRE_QUEST_CUTSCENE:
-                        case ACTIVE_QUEST_CUTSCENE:
-                        case RETURN_QUEST_CUTSCENE:
-                        case QUEST_TASK_CUTSCENE:
-                            // config contains cut scene string
-                            startCutScene(conversationConfig.config);
-                            ProfileManager.getInstance().setProperty(
-                                    entity.getEntityConfig().getEntityID() + EntityConfig.ConversationConfig.class.getSimpleName(), conversationConfig);
-                            break;
+                    if (conversationConfig != null) {
+                        switch (conversationConfig.type) {
+                            case PRE_QUEST_CUTSCENE:
+                            case ACTIVE_QUEST_CUTSCENE:
+                            case RETURN_QUEST_CUTSCENE:
+                            case QUEST_TASK_CUTSCENE:
+                                // config contains cut scene string
+                                startCutScene(conversationConfig.config);
+                                ProfileManager.getInstance().setProperty(
+                                        entity.getEntityConfig().getEntityID() + EntityConfig.ConversationConfig.class.getSimpleName(), conversationConfig);
+                                break;
+                        }
                     }
                 }
         }

@@ -9,7 +9,7 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: TASK_COMPLETE
-		data: TeddyBear::FindTeddyBear
+		data: DogsQuest::FindElliot
 		type: ACTION
 	}
 	n0: {

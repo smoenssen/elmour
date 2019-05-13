@@ -67,6 +67,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
 
         _stage.addActor(character1);
         _stage.addActor(ophion);
+        _stage.addActor(carmen);
 
         _stage.addActor(camactor);
         _stage.addActor(misc);
@@ -111,19 +112,21 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.COMPASS);
                 _mapMgr.disableCurrentmapMusic();
-                float yPos = 8.5f;
+                float yPos = 3.5f;
                 setCameraPosition(10, yPos);
                 keepCamInMap = true;
 
+                ophion.setVisible(false);
+
                 carmen.setVisible(true);
-                carmen.setPosition(10, yPos);
+                carmen.setPosition(15.5f, yPos);
                 carmen.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                carmen.setCurrentDirection(Entity.Direction.RIGHT);
+                carmen.setCurrentDirection(Entity.Direction.LEFT);
 
                 character1.setVisible(true);
-                character1.setPosition(11, yPos);
+                character1.setPosition(14.5f, yPos);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
-                character1.setCurrentDirection(Entity.Direction.LEFT);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
 
                 followActor(character1);
             }

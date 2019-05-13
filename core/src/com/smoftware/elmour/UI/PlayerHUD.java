@@ -1089,9 +1089,11 @@ public class PlayerHUD implements Screen, AudioSubject,
                     }
                 }
 
-                if (npcName.equals(questGraph.getQuestGiver())) {
+                if (npcName.equalsIgnoreCase(questGraph.getQuestGiver())) {
                     return questID + QuestList.QUEST_DELIMITER + QuestList.QUEST_GIVER;
                 }
+
+                return null;
             }
         }
 
@@ -1190,7 +1192,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         ConversationConfig conversationConfig = null;
 
         for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
-            if (npcQuestConfig.questID.equals(questID) && npcQuestConfig.type == type) {
+            if (questID == null && npcQuestConfig.type == type) {
+                return npcQuestConfig;
+            }
+            else if (npcQuestConfig.questID != null && npcQuestConfig.questID.equals(questID) && npcQuestConfig.type == type) {
                 return npcQuestConfig;
             }
         }
@@ -1278,36 +1283,38 @@ public class PlayerHUD implements Screen, AudioSubject,
                         isExitingConversation = false;
                     }
                     else {
-                        Gdx.app.log(TAG, "Loading conversation");
-                        Entity npc = _mapMgr.getCurrentSelectedMapEntity();
+                        if (value != null) {
+                            Gdx.app.log(TAG, "Loading conversation");
+                            Entity npc = _mapMgr.getCurrentSelectedMapEntity();
 
-                        // check to see what type of conversation should be kicked off
-                        ConversationConfig conversationConfig = getConversationConfigForNPC(npc, value);
+                            // check to see what type of conversation should be kicked off
+                            ConversationConfig conversationConfig = getConversationConfigForNPC(npc, value);
 
-                        if (conversationConfig != null) {
-                            switch (conversationConfig.type) {
-                                case NORMAL_DIALOG:
-                                case ACTIVE_QUEST_DIALOG:
-                                case RETURN_QUEST_DIALOG:
-                                case POST_QUEST_DIALOG:
-                                case QUEST_TASK_DIALOG:
-                                    // config contains conversation .json file path
-                                    loadEntityConversationFromJson(npc, conversationConfig.config);
-                                    ProfileManager.getInstance().setProperty(
-                                            npc.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
-                                    break;
-                                case PRE_QUEST_CUTSCENE:
-                                case ACTIVE_QUEST_CUTSCENE:
-                                case QUEST_TASK_CUTSCENE:
-                                    // config contains cut scene string. CutSceneManager will handle it.
-                                    break;
+                            if (conversationConfig != null) {
+                                switch (conversationConfig.type) {
+                                    case NORMAL_DIALOG:
+                                    case ACTIVE_QUEST_DIALOG:
+                                    case RETURN_QUEST_DIALOG:
+                                    case POST_QUEST_DIALOG:
+                                    case QUEST_TASK_DIALOG:
+                                        // config contains conversation .json file path
+                                        loadEntityConversationFromJson(npc, conversationConfig.config);
+                                        ProfileManager.getInstance().setProperty(
+                                                npc.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                                        break;
+                                    case PRE_QUEST_CUTSCENE:
+                                    case ACTIVE_QUEST_CUTSCENE:
+                                    case QUEST_TASK_CUTSCENE:
+                                        // config contains cut scene string. CutSceneManager will handle it.
+                                        break;
+                                }
                             }
-                        }
-                        //todo: eventually the else case will be obsolete and should be removed
-                        else {
-                            // just load normal dialog from config
-                            EntityConfig config = npc.getEntityConfig();
-                            loadConversationFromConfig(config);
+                            //todo: eventually the else case will be obsolete and should be removed
+                            else {
+                                // just load normal dialog from config
+                                EntityConfig config = npc.getEntityConfig();
+                                loadConversationFromConfig(config);
+                            }
                         }
                     }
                 }
