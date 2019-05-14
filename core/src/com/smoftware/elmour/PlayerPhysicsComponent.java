@@ -576,6 +576,21 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 rectangle = ((RectangleMapObject)object).getRectangle();
 
                 if (_boundingBox.overlaps(rectangle) ){
+                    String chapters = (String)object.getProperties().get("chapters");
+                    if (chapters != null) {
+                        String [] sa = chapters.split("-");
+                        int minChapter = Integer.parseInt(sa[0].trim());
+                        int maxChapter = 0x7fffffff;
+                        if (sa.length > 1) {
+                            maxChapter = Integer.parseInt(sa[1].trim());
+                        }
+
+                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                        if (currentChapter < minChapter || currentChapter > maxChapter) {
+                            return false;
+                        }
+                    }
+
                     String questID = object.getName();
                     String questTaskID = (String)object.getProperties().get("taskID");
                     String conversationConfig = (String)object.getProperties().get("conversationConfig");

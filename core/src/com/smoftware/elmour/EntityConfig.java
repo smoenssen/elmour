@@ -17,10 +17,7 @@ public class EntityConfig {
     private Entity.State state = Entity.State.IDLE;
     private Entity.Direction direction = Entity.Direction.DOWN;
     private String entityID;
-    private String conversationConfigPath;
-    private String questConfigPath;
     private Array<ConversationConfig> conversationConfigs;
-    private String currentQuestID;
     private InventoryElement.WeaponType preferredWeaponType;
     private ObjectMap<String, String> entityProperties;
     private String entityBoundsName;
@@ -89,6 +86,7 @@ public class EntityConfig {
         public ConversationType type;
         public String config;          // Depending on type, config can be path to .json config file or cut scene name
         public String questID;
+        public String chapters;        // Used only for NORMAL_DIALOG type
     }
 
     EntityConfig(){
@@ -137,9 +135,6 @@ public class EntityConfig {
         entityID = config.getEntityID();
         displayName = config.getDisplayName();
         entityBoundsName = config.getEntityBoundsName();
-        conversationConfigPath = config.getConversationConfigPath();
-        questConfigPath = config.getQuestConfigPath();
-        currentQuestID = config.getCurrentQuestID();
         preferredWeaponType = config.getPreferredWeaponType();
 
         animationConfig = new Array<>();
@@ -193,25 +188,7 @@ public class EntityConfig {
 
     public void setPreferredWeaponType(InventoryElement.WeaponType preferredWeaponType) { this.preferredWeaponType = preferredWeaponType; }
 
-    public String getCurrentQuestID() { return currentQuestID; }
-
-    public void setCurrentQuestID(String currentQuestID) {
-        this.currentQuestID = currentQuestID;
-    }
-
-    public String getQuestConfigPath() {
-        return questConfigPath;
-    }
-
-    public void setQuestConfigPath(String questConfigPath) { this.questConfigPath = questConfigPath; }
-
     public Array<ConversationConfig> getConversationConfigs() { return conversationConfigs; }
-
-    public String getConversationConfigPath() {
-        return conversationConfigPath;
-    }
-
-    public void setConversationConfigPath(String conversationConfigPath) { this.conversationConfigPath = conversationConfigPath; }
 
     public String getEntityID() {
         return entityID;

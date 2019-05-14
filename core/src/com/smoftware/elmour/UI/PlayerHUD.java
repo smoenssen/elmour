@@ -1192,7 +1192,25 @@ public class PlayerHUD implements Screen, AudioSubject,
         ConversationConfig conversationConfig = null;
 
         for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
-            if (questID == null && npcQuestConfig.type == type) {
+            if (type == EntityConfig.ConversationType.NORMAL_DIALOG) {
+                int minChapter = 1;
+                int maxChapter = 0x7fffffff;
+                if (npcQuestConfig.chapters != null) {
+                    String [] sa = npcQuestConfig.chapters.split("-");
+                    if (sa.length > 0) {
+                        minChapter = Integer.parseInt(sa[0].trim());
+                    }
+                    if (sa.length > 1) {
+                        maxChapter = Integer.parseInt(sa[1].trim());
+                    }
+                }
+
+                Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                if (currentChapter >= minChapter && currentChapter > maxChapter) {
+                    return npcQuestConfig;
+                }
+            }
+            else if (questID == null && npcQuestConfig.type == type) {
                 return npcQuestConfig;
             }
             else if (npcQuestConfig.questID != null && npcQuestConfig.questID.equals(questID) && npcQuestConfig.type == type) {
@@ -1309,11 +1327,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                         break;
                                 }
                             }
-                            //todo: eventually the else case will be obsolete and should be removed
                             else {
-                                // just load normal dialog from config
-                                EntityConfig config = npc.getEntityConfig();
-                                loadConversationFromConfig(config);
+                                Gdx.app.error(TAG, "ConversationConfig is null for " + npc.getEntityConfig().getEntityID());
                             }
                         }
                     }
@@ -1506,12 +1521,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         conversationPopUp.getCurrentConversationGraph().addObserver(this);
     }
 
-    private void loadConversationFromConfig(EntityConfig config) {
-        isCurrentConversationDone = false;
-        conversationPopUp.loadConversationFromConfig(config);
-        conversationPopUp.getCurrentConversationGraph().addObserver(this);
-    }
-
     public void loadConversationForCutScene(String jsonFilePath, ConversationGraphObserver graphObserver) {
         isCurrentConversationDone = false;
         conversationPopUp.loadConversationFromJson(jsonFilePath);
@@ -1579,6 +1588,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 */
                 break;
             case RETURN_QUEST:
+                //todo: this should never get called unless we need to support return quests in a normal conversation
+                /*
                 Entity returnEntity = _mapMgr.getCurrentSelectedMapEntity();
                 if( returnEntity == null ){
                     break;
@@ -1602,7 +1613,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
 
                 _mapMgr.clearCurrentSelectedMapEntity();
-
+                */
                 break;
             case NONE:
                 break;

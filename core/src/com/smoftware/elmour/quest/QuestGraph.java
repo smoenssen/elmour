@@ -323,6 +323,7 @@ public class QuestGraph {
 
             switch (questTask.getQuestTaskType()) {
                 case FETCH:
+                    /*
                     Array<Entity> questEntities = new Array<Entity>();
                     Array<Vector2> positions = mapMgr.getQuestItemSpawnPositions(questID, questTask.getId());
                     String taskConfig = questTask.getTargetType();
@@ -349,6 +350,7 @@ public class QuestGraph {
 
                     mapMgr.addMapQuestEntities(questEntities);
                     ProfileManager.getInstance().setProperty(config.getEntityID(), questItemPositions);
+                    */
                     break;
                 case KILL:
                     break;

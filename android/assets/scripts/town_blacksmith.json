@@ -4,7 +4,6 @@ state : IMMOBILE
 direction : DOWN
 conversationConfigPath : "conversations/testing.json"
 questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 inventory : [
 	{

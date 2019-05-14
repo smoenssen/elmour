@@ -3,9 +3,6 @@ entityID : Royal_Guard
 displayName : "Royal Guard"
 state : IDLE
 direction : DOWN
-conversationConfigPath : "conversations/testing.json"
-questConfigPath : ""
-currentQuestID : ""
 preferredWeaponType : SWORD
 entityProperties: {
 	HP: {

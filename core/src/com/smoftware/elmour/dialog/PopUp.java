@@ -205,12 +205,6 @@ public class PopUp extends Window implements PopUpSubject {
 		return currentEntityID;
 	}
 
-	public void loadConversationFromConfig(EntityConfig entityConfig){
-		String fullFilenamePath = entityConfig.getConversationConfigPath();
-		currentEntityID = entityConfig.getEntityID();
-		loadConversationFromJson(fullFilenamePath);
-	}
-
 	public void loadEntityConversationFromJson(Entity entity, String jsonFilePath) {
 		currentEntityID = entity.getEntityConfig().getEntityID();
 		loadConversationFromJson(jsonFilePath);
@@ -247,8 +241,8 @@ public class PopUp extends Window implements PopUpSubject {
 		String type = conversation.getType();
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (nodeText.contains("EXIT_CONVERSATION") || nodeText.contains("ACCEPT_QUEST")) {
-				// EXIT_CONVERSATION and ACCEPT_QUEST should only be used in cut scenes
+			if (nodeText.contains("EXIT_CONVERSATION") || nodeText.contains("ACCEPT_QUEST") || nodeText.contains("DECLINE_QUEST")) {
+				// EXIT_CONVERSATION and ACCEPT_QUEST and DECLINE_QUEST should only be used in cut scenes
 				// so send EXIT_CUTSCENE notification
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
 			}

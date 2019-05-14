@@ -2,9 +2,6 @@
 entityID : PLAYER
 state : IDLE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 animationConfig: [
 	{
 		frameDuration: 0.15

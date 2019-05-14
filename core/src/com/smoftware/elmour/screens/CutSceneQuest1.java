@@ -159,7 +159,9 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
                 _playerHUD.acceptQuest(questID);
                 fadeToMainScreen();
                 break;
-            case EXIT_CONVERSATION_1:
+            case DECLINE_QUEST:
+                String cutsceneName = ElmourGame.ScreenType.Quest1Screen.toString() + "_" + currentPartNumber;
+                ProfileManager.getInstance().setProperty(cutsceneName, CutSceneObserver.CutSceneStatus.NOT_STARTED);
                 fadeToMainScreen();
                 break;
         }

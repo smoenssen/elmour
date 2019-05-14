@@ -2,9 +2,6 @@
 entityID : Timmy
 state : IDLE
 direction : DOWN
-conversationConfigPath : "conversations/testing.json"
-questConfigPath : ""
-currentQuestID : ""
 animationConfig: [
 	{
 	    frameDuration: 0.15

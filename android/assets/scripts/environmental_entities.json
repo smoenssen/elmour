@@ -3,9 +3,6 @@
 entityID : FIRE
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{

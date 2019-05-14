@@ -17,6 +17,7 @@ public interface ConversationGraphObserver {
         CHARACTER_NAME,
         PLAYER_RESPONSE,
         ACCEPT_QUEST,
+        DECLINE_QUEST,
         TASK_COMPLETE,
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,

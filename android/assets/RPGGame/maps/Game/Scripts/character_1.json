@@ -3,9 +3,6 @@ entityID : Character_1
 displayName : "Apollo"
 state : IDLE
 direction : DOWN
-conversationConfigPath : "conversations/testing.json"
-questConfigPath : ""
-currentQuestID : ""
 entityProperties: {
 	HP: {
 		class: java.lang.String

@@ -13,7 +13,10 @@ TARGET_TYPE is path to .json config file (for RETURN quests or FETCH type quests
 TARGET_LOCATION is name of map
 
 Questions:
-Should we have a split window for Quest and associated quest tasks to show what has been done and what still needs to be done?
+We need a split window for Quest and associated quest tasks to show what has been done and what still needs to be done.
+Where will this be launched from?
+Do we need a QuestItem class to define quest items that will be displayed in inventory? Will there be sprites for them?
+What are non-quest items?
 
 
 ****** PROFILE
@@ -24,12 +27,23 @@ Should we have a split window for Quest and associated quest tasks to show what 
 
 Notes:
 DONE - Need to support more than one quest being active at a time, but only one open quest per NPC
-Need to keep track of current quest ID with each NPC in profile manager.
-Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
-Remove questConfigPath from EntityConfig because this will be handled in QuestList
-Whenever quest status changes, updateEntityObservers() needs to be called.
-Need to add dependencies between quests.
-On map, NPC spawn locations will have a chapters range that it can spawn.
+DONE - Need to keep track of current quest ID with each NPC in profile manager.
+DONE - Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
+DONE - Remove questConfigPath from EntityConfig because this will be handled in QuestList
+DONE - Remove currentQuestID from EntityConfig
+Whenever quest status changes, updateEntityObservers() needs to be called (?)
+DONE - Need to add dependencies between quests.
+DONE - On map, NPC spawn locations will have a chapters range that it can spawn.
+Remove targetLocation from QuestTask?
+Rename targetType to targetEntity?
+DONE - Add chapter range to normal dialog
+
+Ben
+---
+Remove the following from .json files for characters:
+	conversationConfigPath
+	questConfigPath
+	currentQuestID
 
 To add quest
 ------------
@@ -84,7 +98,7 @@ Example conversationConfigs in timmy.json file:
 		{
 			class: com.smoftware.elmour.EntityConfig$ConversationConfig
 			type: NORMAL_DIALOG
-			config: "RPGGame/maps/Game/Text/Dialog/TimmyNormalDialog.json"
+			config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/TimmyNormalDialog.json"
 			questID: TeddyBear
 		}
 		{
@@ -96,7 +110,7 @@ Example conversationConfigs in timmy.json file:
 		{
 			class: com.smoftware.elmour.EntityConfig$ConversationConfig
 			type: ACTIVE_QUEST_DIALOG
-			config: "RPGGame/maps/Game/Text/Dialog/TimmyActiveQuestDialog.json"
+			config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/TimmyActiveQuestDialog.json"
 			questID: TeddyBear
 		}
 		{
@@ -108,7 +122,7 @@ Example conversationConfigs in timmy.json file:
 		{
 			class: com.smoftware.elmour.EntityConfig$ConversationConfig
 			type: POST_QUEST_DIALOG
-			config: "RPGGame/maps/Game/Text/Dialog/TimmyPostQuestDialog.json"
+			config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/TimmyPostQuestDialog.json"
 			questID: TeddyBear
 		}
 	]

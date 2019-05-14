@@ -3,9 +3,6 @@ entityID : Steve3
 displayName : "Steve3"
 state : IDLE
 direction : DOWN
-conversationConfigPath : "conversations/testing.json"
-questConfigPath : ""
-currentQuestID : ""
 preferredWeaponType : STAFF
 entityProperties: {
 	HP: {

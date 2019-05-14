@@ -2,9 +2,6 @@
 entityID : TOWN_INNKEEPER
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{

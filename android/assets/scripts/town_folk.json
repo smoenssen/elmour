@@ -3,9 +3,6 @@
 entityID : TOWN_FOLK1
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : "conversations/conversation004.json"
-questConfigPath : "quests/quest002.json"
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -52,9 +49,6 @@ animationConfig: [
 entityID : TOWN_FOLK2
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : "conversations/conversation006.json"
-questConfigPath : "quests/quest003.json"
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -101,9 +95,6 @@ animationConfig: [
 entityID : TOWN_FOLK3
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -150,9 +141,6 @@ animationConfig: [
 entityID : TOWN_FOLK4
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : "conversations/conversation007.json"
-questConfigPath : "quests/quest001.json"
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -199,9 +187,6 @@ animationConfig: [
 entityID : TOWN_FOLK5
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -248,9 +233,6 @@ animationConfig: [
 entityID : TOWN_FOLK6
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -297,9 +279,6 @@ animationConfig: [
 entityID : TOWN_FOLK7
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -346,9 +325,6 @@ animationConfig: [
 entityID : TOWN_FOLK8
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -395,9 +371,6 @@ animationConfig: [
 entityID : TOWN_FOLK9
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -444,9 +417,6 @@ animationConfig: [
 entityID : TOWN_FOLK10
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : "conversations/conversation001.json"
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -493,9 +463,6 @@ animationConfig: [
 entityID : TOWN_FOLK11
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -542,9 +509,6 @@ animationConfig: [
 entityID : TOWN_FOLK12
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -591,9 +555,6 @@ animationConfig: [
 entityID : TOWN_FOLK13
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -640,9 +601,6 @@ animationConfig: [
 entityID : TOWN_FOLK14
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{
@@ -689,9 +647,6 @@ animationConfig: [
 entityID : TOWN_FOLK15
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: NONE
 animationConfig: [
 	{

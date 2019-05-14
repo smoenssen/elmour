@@ -2,9 +2,6 @@
 entityID : QUEST003_TASK002
 state : IMMOBILE
 direction : DOWN
-conversationConfigPath : "conversations/conversation005.json"
-questConfigPath : ""
-currentQuestID : ""
 itemTypeID: BABY001
 inventory : [
 	]
