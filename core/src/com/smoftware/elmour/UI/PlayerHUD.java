@@ -87,7 +87,6 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Camera _camera;
     private Entity _player;
 
-    private QuestList questList;
     private QuestUI _questUI;
     private PopUp signPopUp;
 
@@ -227,8 +226,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         _questUI.setPosition(0, _stage.getHeight() / 2);
         _questUI.setWidth(_stage.getWidth());
         _questUI.setHeight(_stage.getHeight() / 2);
-
-        questList = new QuestList();
 
         signPopUp = new PopUp(PopUp.PopUpType.SIGN);
         if (ElmourGame.isAndroid()) {
@@ -1113,7 +1110,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             String[] quest = questInfo.split(QuestList.QUEST_DELIMITER);
             String[] questTasks = quest[1].split(",");
             String questID = quest[0];
-            QuestGraph questGraph = questList.getQuestByID(questID);
+            QuestGraph questGraph = questHUD.getQuestByID(questID);
 
             // first deal with quests that are in progress
             if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
@@ -1138,7 +1135,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         for (String questInfo : questAndTaskIDs) {
             String[] quest = questInfo.split(QuestList.QUEST_DELIMITER);
             String questID = quest[0];
-            QuestGraph questGraph = questList.getQuestByID(questID);
+            QuestGraph questGraph = questHUD.getQuestByID(questID);
 
             Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
             if (currentChapter >= questGraph.getChapter()) {
@@ -1178,10 +1175,10 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
         }
         else {
-            if (questList.getQuestByID(questID).isQuestComplete()) {
+            if (questHUD.getQuestByID(questID).isQuestComplete()) {
                 conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.POST_QUEST_DIALOG);
             }
-            else if (questList.isQuestReadyForReturn(questID)) {
+            else if (questHUD.isQuestReadyForReturn(questID)) {
                 // get return quest dialog or return quest cut scene
                 conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.RETURN_QUEST_DIALOG);
                 if (conversationConfig == null) {
@@ -1189,7 +1186,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
             }
             else if (taskID.equals(QuestList.QUEST_GIVER)) {
-                QuestGraph questGraph = questList.getQuestByID(questID);
+                QuestGraph questGraph = questHUD.getQuestByID(questID);
                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                     // get active quest dialog or active quest cut scene
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
@@ -1203,7 +1200,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
             else {
                 // handle available task
-                QuestGraph questGraph = questList.getQuestByID(questID);
+                QuestGraph questGraph = questHUD.getQuestByID(questID);
                 QuestTask task = questGraph.getQuestTaskByID(taskID);
                 if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
                     // get quest task dialog or quest task cut scene
@@ -1258,12 +1255,12 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public void setQuestTaskStarted(String questID, String questTaskID) {
-        questList.questTaskStarted(questID, questTaskID);
+        questHUD.setQuestTaskStarted(questID, questTaskID);
         updateEntityObservers();
     }
 
     public void setQuestTaskComplete(String questID, String questTaskID) {
-        questList.questTaskComplete(questID, questTaskID);
+        questHUD.setQuestTaskComplete(questID, questTaskID);
         updateEntityObservers();
     }
 
@@ -1585,7 +1582,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public void acceptQuest(String questID) {
-        QuestGraph questGraph = questList.getQuestByID(questID);
+        QuestGraph questGraph = questHUD.getQuestByID(questID);
 
         if (questGraph != null) {
             // save full quest graph for quests that are in progress
@@ -1690,7 +1687,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (conversation != null ) {
                     String questTaskID = conversation.getData();
                     String [] quest = questTaskID.split(QuestList.QUEST_DELIMITER);
-                    QuestGraph questGraph = questList.getQuestByID(quest[0]);
+                    QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
                     questTask.setTaskComplete();
 

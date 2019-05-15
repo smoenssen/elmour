@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.quest.QuestList;
 
 /**
  * Created by steve on 5/14/19.
@@ -23,6 +25,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private ElmourGame game;
     private Stage stage;
     private Array<QuestHudObserver> observers;
+    private QuestList questList;
 
     private TextButton closeButton;
 
@@ -48,6 +51,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         this.game = game;
         this.stage = stage;
         observers = new Array<>();
+        questList = new QuestList();
 
         groupQuests = new WidgetGroup();
         groupTasks = new WidgetGroup();
@@ -166,6 +170,23 @@ public class QuestHUD implements Screen, QuestHudSubject {
         }
     }
     */
+
+    public QuestGraph getQuestByID(String questID) {
+        return questList.getQuestByID(questID);
+    }
+
+    public boolean isQuestReadyForReturn(String questID) {
+        return questList.isQuestReadyForReturn(questID);
+    }
+
+    public void setQuestTaskStarted(String questID, String questTaskID) {
+        questList.questTaskStarted(questID, questTaskID);
+    }
+
+    public void setQuestTaskComplete(String questID, String questTaskID) {
+        questList.questTaskComplete(questID, questTaskID);
+    }
+
     @Override
     public void show() {
         stage.addActor(listsTable);
