@@ -77,7 +77,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 PopUpObserver,
                                 InputDialogSubject,
                                 PlayerHudSubject,
-                                InventoryHudObserver {
+                                InventoryHudObserver,
+                                QuestHudObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -130,6 +131,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private int numberOfMenuItems;
     private TextButton partyButton;
     private TextButton inventoryButton;
+    private TextButton questsButton;
     private TextButton optionsButton;
     private TextButton saveButton;
     private TextButton debugButton;
@@ -155,6 +157,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private ClockActor _clock;
 
     private InventoryHUD inventoryHUD;
+    private QuestHUD questHUD;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -178,9 +181,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         _shakeCam = new ShakeCamera(0, 0, 30.0f);
 
         inventoryHUD = new InventoryHUD(this.game, _stage);
+        questHUD = new QuestHUD(this.game, _stage);
 
         game.battleState.addObserver(this);
         inventoryHUD.addObserver(this);
+        questHUD.addObserver(this);
         ProfileManager.getInstance().addObserver(this);
 
         _json = new Json();
@@ -302,6 +307,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         partyButton = new TextButton("Party", Utility.ELMOUR_UI_SKIN);
         inventoryButton = new TextButton("Inventory", Utility.ELMOUR_UI_SKIN);
+        questsButton = new TextButton("Quests", Utility.ELMOUR_UI_SKIN);
         optionsButton = new TextButton("Options", Utility.ELMOUR_UI_SKIN);
         saveButton = new TextButton("Save", Utility.ELMOUR_UI_SKIN);
         debugButton = new TextButton("Debug", Utility.ELMOUR_UI_SKIN);
@@ -340,10 +346,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
-        optionsButton.setWidth(menuItemWidth);
-        optionsButton.setHeight(menuItemHeight);
-        optionsButton.setPosition(menuItemX, menuItemY);
-        optionsButton.setVisible(false);
+        questsButton.setWidth(menuItemWidth);
+        questsButton.setHeight(menuItemHeight);
+        questsButton.setPosition(menuItemX, menuItemY);
+        questsButton.setVisible(false);
 
         adjustInventoryButton.setWidth(menuItemWidth);
         adjustInventoryButton.setHeight(menuItemHeight);
@@ -351,10 +357,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustInventoryButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
-        saveButton.setWidth(menuItemWidth);
-        saveButton.setHeight(menuItemHeight);
-        saveButton.setPosition(menuItemX, menuItemY);
-        saveButton.setVisible(false);
+        optionsButton.setWidth(menuItemWidth);
+        optionsButton.setHeight(menuItemHeight);
+        optionsButton.setPosition(menuItemX, menuItemY);
+        optionsButton.setVisible(false);
 
         adjustSpellsPowersButton.setWidth(menuItemWidth);
         adjustSpellsPowersButton.setHeight(menuItemHeight);
@@ -362,15 +368,21 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustSpellsPowersButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
-        debugButton.setWidth(menuItemWidth);
-        debugButton.setHeight(menuItemHeight);
-        debugButton.setPosition(menuItemX, menuItemY);
-        debugButton.setVisible(false);
+        saveButton.setWidth(menuItemWidth);
+        saveButton.setHeight(menuItemHeight);
+        saveButton.setPosition(menuItemX, menuItemY);
+        saveButton.setVisible(false);
 
         parseXMLButton.setWidth(menuItemWidth);
         parseXMLButton.setHeight(menuItemHeight);
         parseXMLButton.setPosition(menuItemX, menuItemY);
         parseXMLButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        debugButton.setWidth(menuItemWidth);
+        debugButton.setHeight(menuItemHeight);
+        debugButton.setPosition(menuItemX, menuItemY);
+        debugButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -458,6 +470,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(choicePopUp4);
         _stage.addActor(partyButton);
         _stage.addActor(inventoryButton);
+        _stage.addActor(questsButton);
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
 
@@ -551,6 +564,23 @@ public class PlayerHUD implements Screen, AudioSubject,
                                             }
                                         }
                                     }
+        );
+
+        questsButton.addListener(new ClickListener() {
+                                    @Override
+                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                        Gdx.app.log(TAG, "party button up");
+                                        if (touchPointIsInButton(questsButton)) {
+                                            hideMenu(true);
+                                            showQuestHUD();
+                                        }
+                                    }
+                                }
         );
 
         optionsButton.addListener(new ClickListener() {
@@ -743,6 +773,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private void hideMenu(boolean setVisibleFlag) {
         partyButton.setVisible(false);
         inventoryButton.setVisible(false);
+        questsButton.setVisible(false);
         optionsButton.setVisible(false);
         saveButton.setVisible(false);
         debugButton.setVisible(false);
@@ -763,6 +794,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private void showMenu() {
         partyButton.setVisible(true);
         inventoryButton.setVisible(true);
+        questsButton.setVisible(true);
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
         debugButton.setVisible(true);
@@ -772,6 +804,10 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private void showInventoryHUD() {
         inventoryHUD.show();
+    }
+
+    private void showQuestHUD() {
+        questHUD.show();
     }
 
     private boolean touchPointIsInButton(TextButton button) {
@@ -2185,6 +2221,14 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryHUD.removeObserver(observer);
     }
 
+    public void addQuestObserver(QuestHudObserver observer) {
+        questHUD.addObserver(observer);
+    }
+
+    public void removeQuestObserver(QuestHudObserver observer) {
+        questHUD.removeObserver(observer);
+    }
+
     @Override
     public void notify(PlayerHudObserver.PlayerHudEvent event) {
         for(PlayerHudObserver observer: playerHudObservers){
@@ -2257,6 +2301,18 @@ public class PlayerHUD implements Screen, AudioSubject,
                 menuButton.setVisible(false);
                 break;
             case INVENTORY_HUD_HIDDEN:
+                menuButton.setVisible(true);
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(QuestHudEvent event) {
+        switch (event) {
+            case QUEST_HUD_SHOWN:
+                menuButton.setVisible(false);
+                break;
+            case QUEST_HUD_HIDDEN:
                 menuButton.setVisible(true);
                 break;
         }

@@ -26,6 +26,7 @@ import com.smoftware.elmour.UI.InventoryHudObserver;
 import com.smoftware.elmour.UI.MobileControls;
 import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.UI.PlayerHudObserver;
+import com.smoftware.elmour.UI.QuestHudObserver;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
@@ -36,7 +37,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
-public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, CutSceneObserver, PlayerHudObserver {
+public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, QuestHudObserver, CutSceneObserver, PlayerHudObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
 
     //private final float V_WIDTH = 12;//2.4f;//srm
@@ -138,6 +139,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
             _playerHUD.addObserver(this);
             _playerHUD.addInventoryObserver(this);
+            _playerHUD.addQuestObserver(this);
             cutSceneManager = new CutSceneManager(_game, _player, _playerHUD);
         }
 
@@ -534,6 +536,22 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 }
                 break;
             case INVENTORY_HUD_SHOWN:
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.hide();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(QuestHudEvent event) {
+        switch (event) {
+            case QUEST_HUD_HIDDEN:
+                if (ElmourGame.isAndroid()) {
+                    mobileControls.show();
+                }
+                break;
+            case QUEST_HUD_SHOWN:
                 if (ElmourGame.isAndroid()) {
                     mobileControls.hide();
                 }
