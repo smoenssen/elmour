@@ -95,6 +95,16 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	chapter_title: {
+		font: myFontChapterTitle
+		fontColor: white
+		background: transparent
+	}
+	chapter_title_subtext: {
+		font: myFontChapterTitleSubtext
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {

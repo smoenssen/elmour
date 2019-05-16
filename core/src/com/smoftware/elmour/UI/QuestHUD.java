@@ -14,6 +14,9 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestList;
+import com.smoftware.elmour.quest.QuestTask;
+
+import java.util.ArrayList;
 
 /**
  * Created by steve on 5/14/19.
@@ -68,6 +71,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         labelTasks = new TextButton("Tasks", Utility.ELMOUR_UI_SKIN, "battle");
         labelTasks.setTouchable(Touchable.disabled);
         taskListView = new MyTextButtonList<>(Utility.ELMOUR_UI_SKIN);
+        taskListView.setTouchable(Touchable.disabled);
         taskScrollPaneList = new ScrollPane(taskListView);
         taskBackground = new MyTextArea("", Utility.ELMOUR_UI_SKIN, "battle");
         taskBackground.setTouchable(Touchable.disabled);
@@ -89,12 +93,12 @@ public class QuestHUD implements Screen, QuestHudSubject {
         // also need to set position then +2
         questBackground.setSize(questListWidth, listHeight - labelHeight + 4);
         questBackground.setY(labelHeight - 2);
-        questScrollPaneList.setSize(questListWidth - 2, listHeight - labelHeight - listTopPadding - (2 * labelHeight) - 2);
+        questScrollPaneList.setSize(questListWidth - 2, listHeight - listTopPadding - labelHeight);
         questScrollPaneList.setX(2);
         questScrollPaneList.setY(2 + labelHeight);
 
         taskBackground.setSize(taskListWidth, listHeight + 2);
-        taskScrollPaneList.setSize(taskListWidth - 4, listHeight - listTopPadding - labelHeight - 2);
+        taskScrollPaneList.setSize(taskListWidth - 4, listHeight - listTopPadding);
         taskScrollPaneList.setX(2);
         taskScrollPaneList.setY(2);
 
@@ -129,47 +133,53 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                         }
                                     }
         );
-    }
-/*
-    private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, PartyInventoryItem partyInventoryItem) {
-        InventoryElement element = partyInventoryItem.getElement();
-        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
-        TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
-        button.setUserObject(partyInventoryItem);
 
-        if (list.getItems().size == 0) {
+        questListView.addListener(new ClickListener() {
+                                       @Override
+                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                           return true;
+                                       }
+
+                                       @Override
+                                       public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                           TextButton selectedItem = questListView.getSelected();
+                                           QuestGraph questGraph = (QuestGraph)selectedItem.getUserObject();
+                                           setTaskListViewItems(questGraph.getAllQuestTasks());
+                                       }
+                                   }
+        );
+    }
+
+    private void addQuestListViewItem(QuestGraph questGraph) {
+        TextButton button = new TextButton("       " + questGraph.getQuestTitle(), Utility.ELMOUR_UI_SKIN, "tree_node");
+        button.setUserObject(questGraph);
+
+        if (questListView.getItems().size == 0) {
             // hack to get scrolling to work (need to add array if first item being added)
             TextButton[] buttons = new TextButton[1];
             buttons[0] = button;
-            list.setItems(buttons);
-            list.setSelectedIndex(-1);
+            questListView.setItems(buttons);
+            questListView.setSelectedIndex(-1);
         }
         else {
-            TextButton inventoryItem = null;
-
-            // see if there is already an existing inventory item in list
-            for (TextButton iterator : list.getItems()) {
-                PartyInventoryItem item = (PartyInventoryItem) iterator.getUserObject();
-                if (partyInventoryItem.getElement().id.equals(item.getElement().id)) {
-                    inventoryItem = iterator;
-                    break;
-                }
-            }
-
-            if (inventoryItem != null) {
-                // update existing item
-                inventoryItem.setText(description);
-            }
-            else {
-                // add new item
-                list.getItems().add(button);
-                list.layout();
-                scrollPane.layout();
-
-            }
+            // add new item
+            questListView.getItems().add(button);
+            questListView.layout();
+            questScrollPaneList.layout();
         }
     }
-    */
+
+    private void setTaskListViewItems(ArrayList<QuestTask> taskList) {
+        taskListView.clearItems();
+
+        for (QuestTask questTask : taskList) {
+            TextButton button = new TextButton(questTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "tree_node");
+            taskListView.getItems().add(button);
+        }
+
+        taskListView.layout();
+        taskScrollPaneList.layout();
+    }
 
     public QuestGraph getQuestByID(String questID) {
         return questList.getQuestByID(questID);
@@ -191,6 +201,12 @@ public class QuestHUD implements Screen, QuestHudSubject {
     public void show() {
         stage.addActor(listsTable);
         notify(QuestHudObserver.QuestHudEvent.QUEST_HUD_SHOWN);
+
+        QuestGraph questGraph = questList.getQuestByID("TeddyBear");
+        addQuestListViewItem(questGraph);
+
+        QuestGraph questGraph2 = questList.getQuestByID("DogsQuest");
+        addQuestListViewItem(questGraph2);
     }
 
     @Override
