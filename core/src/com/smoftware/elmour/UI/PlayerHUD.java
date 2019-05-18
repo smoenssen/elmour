@@ -571,7 +571,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                        Gdx.app.log(TAG, "party button up");
+                                        Gdx.app.log(TAG, "quests button up");
                                         if (touchPointIsInButton(questsButton)) {
                                             hideMenu(true);
                                             showQuestHUD();

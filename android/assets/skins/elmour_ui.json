@@ -105,6 +105,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	grayed_out: {
+		font: myFontGrayVerySmall
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
@@ -112,6 +117,14 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		fontColorSelected: white
 		fontColorUnselected: white
 		selection: selection
+		background: lightGray
+	}
+	selectBox: {
+		font: myFontSmall
+		fontColorSelected: white
+		fontColorUnselected: white
+		selection: selection
+		background: lightGray
 	}
 }
 com.smoftware.elmour.UI.MyTextButtonList$ListStyle: {
@@ -139,7 +152,10 @@ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
 		hScrollKnob: default-round-large
 		vScroll: default-scroll
 		vScrollKnob: default-round-large
-	},
+	}
+	selectBox: {
+		background: selectBox
+	}
 	inventoryPane: {
 		hScroll: default-scroll
 		hScrollKnob: default-round-large
@@ -151,9 +167,9 @@ com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	default: {
 		font: myFontSmall
 		fontColor: white
-		background: default-select
-		scrollStyle: default
-		listStyle: default
+		background: selectBox
+		scrollStyle: selectBox
+		listStyle: selectBox
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {

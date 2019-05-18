@@ -163,6 +163,15 @@ public final class Utility {
 
 		BitmapFont fontRed = generator.generateFont(parameter);
 
+		// GRAY TEXT VERY SMALL
+		parameter.shadowOffsetX = 1;
+		parameter.shadowOffsetY = 1;
+		parameter.size = myFontVerySmallSize;
+		parameter.color = new Color(0x909090ff);
+		parameter.shadowColor = Color.WHITE;
+
+		BitmapFont fontGrayVerySmall = generator.generateFont(parameter);
+
 		// CHAPTER TITLE TEXT
 		if (Gdx.app.getType() == Application.ApplicationType.Android) {
 			parameter.shadowOffsetX = 1;
@@ -195,7 +204,7 @@ public final class Utility {
 
 		parameter.size = myFontSize;
 		parameter.color = Color.GRAY;
-		parameter.shadowColor = Color.BLACK;
+		parameter.shadowColor = Color.WHITE;
 
 		BitmapFont fontChapterTitleSubtext = generator.generateFont(parameter);
 
@@ -206,6 +215,7 @@ public final class Utility {
 		ELMOUR_UI_SKIN.add("myFontVerySmall", fontVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSuperSmall", fontSuperSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontRed", fontRed, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontGrayVerySmall", fontGrayVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontChapterTitle", fontChapterTitle, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontChapterTitleSubtext", fontChapterTitleSubtext, BitmapFont.class);
 		ELMOUR_UI_SKIN.addRegions(new TextureAtlas(Gdx.files.internal(ELMOUR_TEXTURE_ATLAS_PATH)));
