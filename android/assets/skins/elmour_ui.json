@@ -60,6 +60,18 @@ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
 		fontColor: white
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+	default: {
+		font: myFontVerySmall
+		up: transparent
+		down: transparent_button_down
+	}
+	force_down: {
+		font: myFontVerySmall
+		up: transparent_button_down
+		down: transparent_button_down
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: myFontSmall

@@ -475,6 +475,19 @@ atlasData: {
 			tintName: null
 			name: lightGray
 		}
+		{
+			file: "/home/steve/AndroidStudioProjects/elmour/elmour/android/assets/skins/default/raw/transparent_button_down.9.png"
+			bgColor: {
+				r: 0
+				g: 0
+				b: 0
+				a: 1
+			}
+			visible: true
+			tint: null
+			tintName: null
+			name: transparent_button_down
+		}
 	]
 }
 jsonData: {
@@ -1081,7 +1094,7 @@ jsonData: {
 						type: com.badlogic.gdx.graphics.g2d.BitmapFont
 						name: font
 						optional: false
-						value: null
+						value: default-font
 					}
 					fontColor: {
 						class: com.ray3k.skincomposer.data.StyleProperty
@@ -1130,14 +1143,14 @@ jsonData: {
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: up
 						optional: true
-						value: null
+						value: transparent
 					}
 					down: {
 						class: com.ray3k.skincomposer.data.StyleProperty
 						type: com.badlogic.gdx.scenes.scene2d.utils.Drawable
 						name: down
 						optional: true
-						value: null
+						value: transparent_button_down
 					}
 					over: {
 						class: com.ray3k.skincomposer.data.StyleProperty

@@ -23,7 +23,7 @@ label_tab
   index: -1
 lightGray
   rotate: false
-  xy: 177, 173
+  xy: 170, 168
   size: 3, 3
   split: 0, 0, 0, 0
   orig: 3, 3
@@ -84,6 +84,14 @@ transparent
   orig: 16, 16
   offset: 0, 0
   index: -1
+transparent_button_down
+  rotate: false
+  xy: 1, 17
+  size: 16, 16
+  split: 0, 0, 0, 0
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
 tree_minus_triangle
   rotate: false
   xy: 30, 66
@@ -100,14 +108,14 @@ tree_plus_triangle
   index: -1
 check-off
   rotate: false
-  xy: 1, 19
+  xy: 1, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 check-on
   rotate: false
-  xy: 53, 86
+  xy: 17, 1
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
@@ -211,7 +219,7 @@ default-select
   index: -1
 default-select-selection
   rotate: false
-  xy: 30, 51
+  xy: 19, 28
   size: 3, 3
   split: 1, 1, 1, 1
   orig: 3, 3
@@ -242,7 +250,7 @@ default-splitpane
   index: -1
 default-splitpane-vertical
   rotate: false
-  xy: 40, 59
+  xy: 30, 49
   size: 3, 5
   split: 0, 0, 0, 5
   orig: 3, 5
@@ -258,21 +266,21 @@ default-window
   index: -1
 tree-minus
   rotate: false
-  xy: 154, 162
+  xy: 53, 86
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 tree-plus
   rotate: false
-  xy: 1, 3
+  xy: 154, 162
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 170, 168
+  xy: 40, 61
   size: 3, 3
   orig: 3, 3
   offset: 0, 0

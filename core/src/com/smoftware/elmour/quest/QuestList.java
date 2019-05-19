@@ -12,6 +12,7 @@ import com.smoftware.elmour.profile.ProfileObserver;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by steve on 5/1/19.
@@ -29,6 +30,7 @@ public class QuestList implements ProfileObserver {
     }
 
     private Hashtable<QuestID, QuestGraph> quests;
+    private Hashtable<String, String> questTitleMap;
     private Hashtable<String, Array<QuestDependency>> questDependencies;
 
     public static final String QUEST_TASK_DELIMITER = ";";
@@ -46,6 +48,7 @@ public class QuestList implements ProfileObserver {
     public QuestList() {
         json = new Json();
         quests = new Hashtable<>();
+        questTitleMap = new Hashtable<>();
         ProfileManager.getInstance().addObserver(this);
         questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
 
@@ -53,6 +56,15 @@ public class QuestList implements ProfileObserver {
         quests.put(QuestID.TeddyBear, getQuestGraph(TEDDY_BEAR_CONFIG));
         quests.put(QuestID.DogsQuest, getQuestGraph(DOGS_QUEST_CONFIG));
 
+        buildQuestTitleMap();
+    }
+
+    private void buildQuestTitleMap() {
+        Set<QuestID> keys = quests.keySet();
+        for (QuestID id: keys) {
+            QuestGraph questGraph = getQuestByID(id.toString());
+            questTitleMap.put(questGraph.getQuestTitle(), id.toString());
+        }
     }
 
     public void questTaskStarted(String questID, String questTaskID) {
@@ -117,6 +129,22 @@ public class QuestList implements ProfileObserver {
     public QuestGraph getQuestByID(String questID) {
         return quests.get(QuestID.valueOf(questID));
     }
+
+    public QuestGraph getQuestByQuestTitle(String title) {
+        return getQuestByID(questTitleMap.get(title));
+    }
+
+    public ArrayList<String> getAllQuestIDs() {
+        ArrayList<String> questIDs = new ArrayList<>();
+
+        Set<QuestID> keys = quests.keySet();
+        for (QuestID id: keys) {
+            questIDs.add(id.toString());
+        }
+
+        return questIDs;
+    }
+
 /*
     //todo?
     public void initQuests(MapManager mapMgr){
