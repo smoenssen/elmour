@@ -2,7 +2,7 @@ package com.smoftware.elmour.quest;
 
 public class QuestTask {
 
-    public static enum QuestTaskType {
+    public enum QuestTaskType {
         FETCH,
         KILL,
         DELIVERY,
@@ -12,7 +12,7 @@ public class QuestTask {
         DISCOVER
     }
 
-    public static enum QuestTaskStatus {
+    public enum QuestTaskStatus {
         NOT_STARTED,
         STARTED,
         COMPLETE
@@ -26,8 +26,14 @@ public class QuestTask {
     private String targetLocation;
     private String taskPhrase;
     private int targetNumber;
+    private SubQuests subQuests;
+    private QuestList subQuestList;
 
-    public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
+    public QuestTask() {
+        /* defaulting variables here could mess up serialization to .json */
+        subQuests = new SubQuests();
+        subQuestList = new QuestList(subQuests.getQuests());
+    }
 
     public String getId() { return id; }
 
@@ -56,6 +62,8 @@ public class QuestTask {
     public void setTargetNumber(int number) { targetNumber = number; }
 
     public int getTargetNumber() { return targetNumber; }
+
+    public QuestList getSubQuestList() { return subQuestList; }
 
     // convenience functions
     public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }

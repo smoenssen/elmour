@@ -21,14 +21,6 @@ import java.util.Set;
 public class QuestList implements ProfileObserver {
     private static final String TAG = com.smoftware.elmour.quest.QuestList.class.getSimpleName();
 
-    public enum QuestID {
-        TeddyBear,
-        BuyDogs,
-        DogsQuest,
-        DogsQuest2,
-        DogsQuest3
-    }
-
     private Hashtable<QuestID, QuestGraph> quests;
     private Hashtable<String, String> questTitleMap;
     private Hashtable<String, Array<QuestDependency>> questDependencies;
@@ -38,24 +30,14 @@ public class QuestList implements ProfileObserver {
     public static final String TASK_DELIMITER = ",";
     public static final String QUEST_GIVER = "QUEST_GIVER";
 
-    //todo: Add QUESTS here
-    public static final String TEDDY_BEAR_CONFIG = "RPGGame/maps/Game/Quests/TeddyBear.json";
-    public static final String DOGS_QUEST_CONFIG = "RPGGame/maps/Game/Quests/DogsQuest.json";
-
     private Json json;
-    //private Array<QuestGraph> quests;
 
-    public QuestList() {
+    public QuestList(Hashtable<QuestID, QuestGraph> quests) {
         json = new Json();
-        quests = new Hashtable<>();
+        this.quests = quests;
         questTitleMap = new Hashtable<>();
         ProfileManager.getInstance().addObserver(this);
         questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
-
-        //todo: Add QUESTS here
-        quests.put(QuestID.TeddyBear, getQuestGraph(TEDDY_BEAR_CONFIG));
-        quests.put(QuestID.DogsQuest, getQuestGraph(DOGS_QUEST_CONFIG));
-
         buildQuestTitleMap();
     }
 

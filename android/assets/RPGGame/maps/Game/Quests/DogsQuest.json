@@ -8,6 +8,15 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Find Elliot
+		subQuests: {
+			json: {}
+		}
+		subQuestList: {
+			quests: {}
+			questTitleMap: {}
+			questDependencies: {}
+			json: {}
+		}
 	}
 	ReturnTheDogs: {
 		yedNodeId: n1::n0
@@ -17,6 +26,15 @@ questTasks: {
 		targetType: CARMEN
 		targetLocation: COMPASS
 		taskPhrase: Return the dogs
+		subQuests: {
+			json: {}
+		}
+		subQuestList: {
+			quests: {}
+			questTitleMap: {}
+			questDependencies: {}
+			json: {}
+		}
 	}
 	FindSeymour: {
 		yedNodeId: n1::n2
@@ -26,6 +44,15 @@ questTasks: {
 		targetType: JUSTIN
 		targetLocation: COMPASS
 		taskPhrase: Find Seymour
+		subQuests: {
+			json: {}
+		}
+		subQuestList: {
+			quests: {}
+			questTitleMap: {}
+			questDependencies: {}
+			json: {}
+		}
 	}
 }
 questTaskDependencies: {
@@ -34,12 +61,12 @@ questTaskDependencies: {
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindSeymour
+			destinationId: FindElliot
 		}
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindElliot
+			destinationId: FindSeymour
 		}
 	]
 	FindSeymour: []

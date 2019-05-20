@@ -123,6 +123,8 @@ public class ElmourGame extends Game {
 			V_HEIGHT = Gdx.graphics.getHeight();
 		}
 
+		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
+
 		float width = (float) Gdx.graphics.getWidth();
 		float height = (float) Gdx.graphics.getHeight();
 		ASPECT_RATIO = (float) Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();

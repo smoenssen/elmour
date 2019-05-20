@@ -22,6 +22,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
@@ -30,7 +31,6 @@ import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.dialog.ConversationNode;
 import com.smoftware.elmour.quest.QuestDependency;
 import com.smoftware.elmour.quest.QuestGraph;
-import com.smoftware.elmour.quest.QuestList;
 import com.smoftware.elmour.quest.QuestTask;
 import com.smoftware.elmour.quest.QuestTaskDependency;
 
@@ -434,132 +434,157 @@ public final class Utility {
 		// id
 		Iterator iterator_node = graph.getChildrenByName("node").iterator();
 		while(iterator_node.hasNext()){
-			QuestGraph questGraph = new QuestGraph();
 			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
-			questGraph.yedNodeId = node_element.getAttribute("id");
 
-			// Quest data
-			Iterator iterator_data = node_element.getChildrenByName("data").iterator();
-			while(iterator_data.hasNext()) {
-				XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
-				String key = data_element.getAttribute("key");
+			QuestGraph questGraph = getQuestData(node_element);
 
-				if (key.equals("d4")) {
-					// Data URL is quest title
-					questGraph.setQuestTitle(data_element.getText());
-				}
-				else if (key.equals("d5")) {
-					// Data Description is in the form <Minimum chapter>;<Quest giver>;<Gold>;<XP>
-					String [] sa = data_element.getText().split(";");
-					questGraph.setChapter(Integer.parseInt(sa[0]));
-					questGraph.setQuestGiver(sa[1]);
-					questGraph.setGoldReward(Integer.parseInt(sa[2]));
-					questGraph.setXpReward(Integer.parseInt(sa[3]));
-				}
-				else if (key.equals("d6")) {
-					XmlReader.Element ProxyAutoBoundsNode = data_element.getChildByName("y:ProxyAutoBoundsNode");
-					XmlReader.Element Realizers = ProxyAutoBoundsNode.getChildByName("y:Realizers");
-					XmlReader.Element GroupNode = Realizers.getChildByName("y:GroupNode");
-					XmlReader.Element NodeLabel = GroupNode.getChildByName("y:NodeLabel");
-
-					String label = NodeLabel.getText();
-
-					if (!label.equals("Folder 1")) {
-						questGraph.setQuestID(label);
-
-						// got everything we need from this node
-						break;
-					}
-				}
-			}
-
-			// Quest tasks
-			Hashtable<String, QuestTask> questTasks = new Hashtable<>();
-			XmlReader.Element graph_element = node_element.getChildByName("graph");
-
-			Iterator iterator_node2 = graph_element.getChildrenByName("node").iterator();
-
-			while (iterator_node2.hasNext()) {
-				QuestTask taskNode = new QuestTask();
-				XmlReader.Element node2_element = (XmlReader.Element) iterator_node2.next();
-				taskNode.yedNodeId = node2_element.getAttribute("id");
-
-				//XmlReader.Element data2_element = (XmlReader.Element)iterator_node2.next();
-				Iterator iterator_data2 = node2_element.getChildrenByName("data").iterator();
-
-				while (iterator_data2.hasNext()) {
-					XmlReader.Element data_element = (XmlReader.Element) iterator_data2.next();
-					String key = data_element.getAttribute("key");
-
-					if (key.equals("d4")) {
-						// Data URL is quest task phrase
-						taskNode.setTaskPhrase(data_element.getText());
-					} else if (key.equals("d5")) {
-						// Data Description is in the form <Target Type>;<Target Location>;<Target Number>
-						String[] sa = data_element.getText().split(";");
-						taskNode.setTargetType(sa[0]);
-						taskNode.setTargetLocation(sa[1]);
-						if (sa.length > 2)
-							taskNode.setTargetNumber(Integer.parseInt(sa[2]));
-					} else if (key.equals("d6")) {
-						XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
-						XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
-
-						// task ID
-						taskNode.setId(label.getText());
-
-						// quest task type
-						XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
-						String color = fill.getAttribute("color");
-
-						if (color.equalsIgnoreCase("#cc99ff"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.FETCH);
-						else if (color.equalsIgnoreCase("#ff0000"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.KILL);
-						else if (color.equalsIgnoreCase("#c0c0c0"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.DELIVERY);
-						else if (color.equalsIgnoreCase("#3366ff"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.GUARD);
-						else if (color.equalsIgnoreCase("#33cccc"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.ESCORT);
-						else if (color.equalsIgnoreCase("#ffcc00"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
-						else if (color.equalsIgnoreCase("#00ff00"))
-							taskNode.setQuestTaskType(QuestTask.QuestTaskType.DISCOVER);
-					}
-				}
-
-				taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
-				questTasks.put(taskNode.getId(), taskNode);
-				//break;
-			}
+			Hashtable<String, QuestTask> questTasks = getQuestTasks(node_element);
 
 			questGraph.setTasks(questTasks);
 
-			// now add edge information (dependencies)
-			Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
-			while(iterator_edge.hasNext()){
-				XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
-				String source = edge_element.getAttribute("source");
-				String target = edge_element.getAttribute("target");
-
-				QuestTaskDependency qDep = new QuestTaskDependency();
-				String sourceID = getTaskID(questTasks, source);
-				String destinationID = getTaskID(questTasks, target);
-
-				if (sourceID != null && destinationID != null) {
-					qDep.setSourceId(sourceID);
-					qDep.setDestinationId(destinationID);
-
-					questGraph.addDependency(qDep);
-				}
-			}
+			setTaskDependencies(graph, questGraph, questTasks);
 
 			questGraph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
+
 			nodes.put(questGraph.getQuestID(), questGraph);
 		}
 
 		return nodes;
+	}
+
+	private static QuestGraph getQuestData(XmlReader.Element node_element) {
+		QuestGraph questGraph = new QuestGraph();
+		questGraph.yedNodeId = node_element.getAttribute("id");
+
+		// Quest data
+		Iterator iterator_data = node_element.getChildrenByName("data").iterator();
+		while(iterator_data.hasNext()) {
+			XmlReader.Element data_element = (XmlReader.Element)iterator_data.next();
+			String key = data_element.getAttribute("key");
+
+			if (key.equals("d4")) {
+				// Data URL is quest title
+				questGraph.setQuestTitle(data_element.getText());
+			}
+			else if (key.equals("d5")) {
+				// Data Description is in the form <Minimum chapter>;<Quest giver>;<Gold>;<XP>
+				String [] sa = data_element.getText().split(";");
+				questGraph.setChapter(Integer.parseInt(sa[0]));
+				questGraph.setQuestGiver(sa[1]);
+				questGraph.setGoldReward(Integer.parseInt(sa[2]));
+				questGraph.setXpReward(Integer.parseInt(sa[3]));
+			}
+			else if (key.equals("d6")) {
+				XmlReader.Element ProxyAutoBoundsNode = data_element.getChildByName("y:ProxyAutoBoundsNode");
+				XmlReader.Element Realizers = ProxyAutoBoundsNode.getChildByName("y:Realizers");
+				XmlReader.Element GroupNode = Realizers.getChildByName("y:GroupNode");
+				XmlReader.Element NodeLabel = GroupNode.getChildByName("y:NodeLabel");
+
+				String label = NodeLabel.getText();
+
+				if (!label.equals("Folder 1")) {
+					questGraph.setQuestID(label);
+
+					// got everything we need from this node
+					break;
+				}
+			}
+		}
+
+		return questGraph;
+	}
+
+	private static Hashtable<String, QuestTask> getQuestTasks(XmlReader.Element node_element) {
+		// Quest tasks
+		Hashtable<String, QuestTask> questTasks = new Hashtable<>();
+		XmlReader.Element graph_element = node_element.getChildByName("graph");
+
+		Iterator iterator_node2 = graph_element.getChildrenByName("node").iterator();
+
+		while (iterator_node2.hasNext()) {
+			QuestTask taskNode = new QuestTask();
+			XmlReader.Element node2_element = (XmlReader.Element) iterator_node2.next();
+			taskNode.yedNodeId = node2_element.getAttribute("id");
+
+			ObjectMap<String, String> attributes = node2_element.getAttributes();
+			if (attributes.get("yfiles.foldertype") != null) {
+				String foldertype = node2_element.getAttribute("yfiles.foldertype");
+				if (foldertype != null && foldertype.equals("group")) {
+					// This task is a sub-quest
+					continue;
+				}
+			}
+
+			Iterator iterator_data2 = node2_element.getChildrenByName("data").iterator();
+
+			while (iterator_data2.hasNext()) {
+				XmlReader.Element data_element = (XmlReader.Element) iterator_data2.next();
+				String key = data_element.getAttribute("key");
+
+				if (key.equals("d4")) {
+					// Data URL is quest task phrase
+					taskNode.setTaskPhrase(data_element.getText());
+				} else if (key.equals("d5")) {
+					// Data Description is in the form <Target Type>;<Target Location>;<Target Number>
+					String[] sa = data_element.getText().split(";");
+					taskNode.setTargetType(sa[0]);
+					taskNode.setTargetLocation(sa[1]);
+					if (sa.length > 2)
+						taskNode.setTargetNumber(Integer.parseInt(sa[2]));
+				} else if (key.equals("d6")) {
+					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
+					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
+
+					// task ID
+					taskNode.setId(label.getText());
+
+					// quest task type
+					XmlReader.Element fill = shapeNode.getChildByName("y:Fill");
+					String color = fill.getAttribute("color");
+
+					if (color.equalsIgnoreCase("#cc99ff"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.FETCH);
+					else if (color.equalsIgnoreCase("#ff0000"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.KILL);
+					else if (color.equalsIgnoreCase("#c0c0c0"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.DELIVERY);
+					else if (color.equalsIgnoreCase("#3366ff"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.GUARD);
+					else if (color.equalsIgnoreCase("#33cccc"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.ESCORT);
+					else if (color.equalsIgnoreCase("#ffcc00"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
+					else if (color.equalsIgnoreCase("#00ff00"))
+						taskNode.setQuestTaskType(QuestTask.QuestTaskType.DISCOVER);
+				}
+			}
+
+			taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
+			questTasks.put(taskNode.getId(), taskNode);
+			//break;
+		}
+		return questTasks;
+	}
+
+	private static void setTaskDependencies(XmlReader.Element graph, QuestGraph questGraph, Hashtable<String, QuestTask> questTasks) {
+		// now add edge information (dependencies)
+		Iterator iterator_edge = graph.getChildrenByName("edge").iterator();
+		while(iterator_edge.hasNext()){
+            XmlReader.Element edge_element = (XmlReader.Element)iterator_edge.next();
+            String source = edge_element.getAttribute("source");
+            String target = edge_element.getAttribute("target");
+
+            QuestTaskDependency qDep = new QuestTaskDependency();
+            String sourceID = getTaskID(questTasks, source);
+            String destinationID = getTaskID(questTasks, target);
+
+            if (sourceID != null && destinationID != null) {
+                qDep.setSourceId(sourceID);
+                qDep.setDestinationId(destinationID);
+
+                questGraph.addDependency(qDep);
+            }
+        }
 	}
 
 	private static String getTaskID(Hashtable<String, QuestTask> questTasks, String yedId) {
