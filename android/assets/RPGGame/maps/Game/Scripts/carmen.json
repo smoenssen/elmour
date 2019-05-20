@@ -3,37 +3,6 @@ entityID : Carmen
 displayName : "Carmen"
 state : IDLE
 direction : DOWN
-conversationConfigs : [
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/CarmenNormalDialog.json"
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: PRE_QUEST_CUTSCENE
-		config: "Quest1Screen_DogsQuestOpen"
-		questID: DogsQuest
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenActiveQuestDialog.json"
-		questID: DogsQuest
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: RETURN_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenReturnQuestDialog.json"
-		questID: DogsQuest
-	}
-	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: POST_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenPostQuestDialog.json"
-		questID: DogsQuest
-	}
-]
 entityProperties: {
 	HP: {
 		class: java.lang.String

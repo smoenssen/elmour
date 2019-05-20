@@ -95,7 +95,7 @@ public class Entity {
 
 		FALL_DOWN, FALL_LEFT, FALL_RIGHT, FALL_UP, REACH_LEFT, REACH_RIGHT, LAY_DOWN,
 
-		STEEL_DOOR_OPEN, BOOK_STAND,
+		STEEL_DOOR_OPEN, BOOK_STAND, CLONING_DEVICE_SCAN, CLONING_DEVICE_UP, CLONING_DEVICE_DOWN,
 
 		THINK, FORCEFIELD, SLEEP_LOOP, THINK_LOOP, BOOK, BOOK_CLOSE,
 		LOVE_ON, SHOCK_ON, QUESTION_ON, SLEEP_ON, SMUG_ON, HAPPY_ON, VERY_HAPPY_ON, NEUTRAL_ON, SAD_ON, CRY_ON, TEAR_ON, ANGER_ON, THINK_ON,
@@ -313,6 +313,10 @@ public class Entity {
 		Portal_Room {
 			@Override
 			public String toString() { return "Portal_Room"; }
+		},
+		T1DOOR4 {
+			@Override
+			public String toString() { return "T1DOOR4"; }
 		},
 		WEAPONS_ROOM {
 			@Override

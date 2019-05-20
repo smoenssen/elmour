@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="12" height="11" tilewidth="16" tileheight="16" nextobjectid="19">
+ <tileset firstgid="1" name="Cloning_Device" tilewidth="16" tileheight="16" tilecount="12" columns="4">
+  <image source="../Game/Pop_Ups/Cloning_Device/Cloning_Device.png" width="64" height="48"/>
+ </tileset>
+ <tileset firstgid="13" name="Lab_Floor" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Floor.png" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="22" name="Lab_Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Border.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="24" name="Lab_Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+  <image source="../Game/Tiles/Inside/Carpet/Lab_Carpet.png" width="16" height="16"/>
+ </tileset>
+ <tileset firstgid="25" source="../Animated_Tiles/Lab_Comp.tsx"/>
+ <tileset firstgid="41" name="Lab_Table" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Table.png" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="50" name="Lab_Wall" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Wall.png" width="16" height="32"/>
+ </tileset>
+ <tileset firstgid="52" name="Lab_Tank" tilewidth="16" tileheight="16" tilecount="9" columns="3">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Tank.png" width="48" height="48"/>
+ </tileset>
+ <tileset firstgid="61" name="Lab_Control" tilewidth="16" tileheight="16" tilecount="12" columns="3">
+  <image source="../Game/Tiles/Inside/Lab_Insides/Lab_Control.png" width="48" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="12" height="11">
+  <data encoding="csv">
+22,50,50,50,50,50,50,50,50,50,50,3221225494,
+22,51,51,51,51,51,51,51,51,51,51,3221225494,
+22,14,14,15,13,14,14,15,13,14,14,3221225494,
+22,17,17,18,16,17,17,18,16,17,17,3221225494,
+22,20,20,21,19,20,20,21,19,20,20,3221225494,
+22,14,13,14,14,15,13,14,14,15,13,3221225494,
+22,16,16,17,17,18,16,17,17,18,16,3221225494,
+22,20,19,20,20,21,19,20,20,21,19,3221225494,
+22,14,14,15,13,14,14,15,13,14,14,3221225494,
+22,17,17,18,16,17,17,18,16,17,17,3221225494,
+1610612759,1610612758,1610612758,1610612758,1610612758,1610612758,1610612758,1610612758,1610612758,1610612758,1610612758,3221225495
+</data>
+ </layer>
+ <layer name="Higher" width="12" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,1,2,3,4,0,0,0,0,
+0,44,45,46,5,6,7,8,55,56,57,0,
+0,47,48,49,9,10,11,12,58,59,60,0,
+0,0,0,0,0,61,62,63,0,0,0,0,
+0,0,0,0,0,64,65,66,0,0,0,0,
+0,0,0,0,0,67,0,0,0,0,0,0,
+0,0,0,0,0,70,0,0,0,0,0,0,
+0,0,0,24,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZSHADOWDOWN" width="12" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Highest" width="12" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,41,42,43,0,0,0,0,0,0,0,0,
+0,29,30,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,68,69,0,0,0,0,
+0,0,0,0,0,0,71,72,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="ZDOWN" width="12" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Even Higher" width="12" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,25,26,0,0,0,0,0,52,53,54,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="COLLISION_LAYER">
+  <object id="1" x="0" y="0" width="16" height="176"/>
+  <object id="2" x="16" y="160" width="160" height="16"/>
+  <object id="3" x="176" y="0" width="16" height="176"/>
+  <object id="4" x="16" y="0" width="160" height="32"/>
+  <object id="8" x="100" y="112" width="24" height="20"/>
+  <object id="9" x="16" y="45" width="34" height="22"/>
+  <object id="10" x="74" y="59" width="44" height="21"/>
+  <object id="11" x="74" y="48" width="44" height="2"/>
+  <object id="12" x="74" y="49">
+   <polyline points="0,0 -4,4"/>
+  </object>
+  <object id="13" x="74" y="59">
+   <polyline points="0,0 -4,4"/>
+  </object>
+  <object id="14" x="118" y="49">
+   <polyline points="0,0 4,4"/>
+  </object>
+  <object id="15" x="118" y="59">
+   <polyline points="0,0 4,4"/>
+  </object>
+  <object id="16" x="70" y="63" width="4" height="1"/>
+  <object id="17" x="118" y="63" width="4" height="1"/>
+  <object id="18" x="139" y="45" width="26" height="31"/>
+ </objectgroup>
+ <objectgroup name="SPAWNS_LAYER">
+  <object id="6" name="PLAYER_START" x="48" y="141" width="16" height="12"/>
+ </objectgroup>
+ <objectgroup name="Z_GATES"/>
+ <objectgroup name="INTERACTION">
+  <object id="7" name="EXIT" x="48" y="154" width="16" height="6"/>
+ </objectgroup>
+</map>

@@ -1,12 +1,12 @@
 {
-entityID : Justin
-displayName : "Justin"
+entityID : Rick
+displayName : "Rick"
 state : IDLE
 direction : DOWN
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 30
+		value: 25
 	}
 	HP_MAX: {
 		class: java.lang.String
@@ -14,7 +14,7 @@ entityProperties: {
 	}
 	MP: {
 		class: java.lang.String
-		value: 11
+		value: 12
 	}
 	MP_MAX: {
 		class: java.lang.String
@@ -22,7 +22,7 @@ entityProperties: {
 	}
 	ATK: {
 		class: java.lang.String
-		value: 5
+		value: 12
 	}
 	MATK: {
 		class: java.lang.String
@@ -58,7 +58,7 @@ animationConfig: [
 	    frameDuration: 0.15
 		animationType: IDLE
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -83,7 +83,7 @@ animationConfig: [
 	    frameDuration: 0.15
 		animationType: WALK_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -108,7 +108,7 @@ animationConfig: [
 		frameDuration: 0.15
 		animationType: WALK_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -133,7 +133,7 @@ animationConfig: [
 		frameDuration: 0.15
 		animationType: WALK_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -158,7 +158,7 @@ animationConfig: [
 		frameDuration: 0.15
 		animationType: WALK_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -183,7 +183,7 @@ animationConfig: [
 			frameDuration: 0.10
 		animationType: RUN_DOWN
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -208,7 +208,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_LEFT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -233,7 +233,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_RIGHT
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -258,7 +258,7 @@ animationConfig: [
 		frameDuration: 0.10
 		animationType: RUN_UP
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Justin/Justin.png
+			RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -285,7 +285,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -312,7 +312,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLUNT_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -339,7 +339,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: STAB_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -374,7 +374,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: STAB_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -410,7 +410,7 @@ animationConfig: [
 			looping : false
 		animationType: KNUCKLES_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -430,7 +430,7 @@ animationConfig: [
 			looping : false
 		animationType: KNUCKLES_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -447,17 +447,18 @@ animationConfig: [
 			frameDuration: 0.75
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: SPELL_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 4
 			}
 			{
-				x: 5
+				x: 4
 				y: 5
 			}
 		]
@@ -466,17 +467,18 @@ animationConfig: [
 			frameDuration: 0.75
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: SPELL_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 6
 			}
 			{
-				x: 5
+				x: 4
 				y: 7
 			}
 		]
@@ -487,7 +489,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_LEFT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
@@ -514,7 +516,7 @@ animationConfig: [
 			frameHeight : 16
 		animationType: BLOCK_RIGHT
 		texturePaths: [
-				RPGGame/maps/Game/Characters/Justin/Justin.png
+				RPGGame/maps/Game/Characters/NPC/Rick/Rick.png
 		]
 		gridPoints: [
 			{
