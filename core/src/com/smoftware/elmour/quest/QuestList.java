@@ -21,7 +21,7 @@ import java.util.Set;
 public class QuestList implements ProfileObserver {
     private static final String TAG = com.smoftware.elmour.quest.QuestList.class.getSimpleName();
 
-    private Hashtable<QuestID, QuestGraph> quests;
+    private Hashtable<Quest.ID, QuestGraph> quests;
     private Hashtable<String, String> questTitleMap;
     private Hashtable<String, Array<QuestDependency>> questDependencies;
 
@@ -32,7 +32,15 @@ public class QuestList implements ProfileObserver {
 
     private Json json;
 
-    public QuestList(Hashtable<QuestID, QuestGraph> quests) {
+    public QuestList() {
+        json = new Json();
+        quests = new Hashtable<>();
+        questTitleMap = new Hashtable<>();
+        ProfileManager.getInstance().addObserver(this);
+        questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
+    }
+
+    public QuestList(Hashtable<Quest.ID, QuestGraph> quests) {
         json = new Json();
         this.quests = quests;
         questTitleMap = new Hashtable<>();
@@ -42,15 +50,15 @@ public class QuestList implements ProfileObserver {
     }
 
     private void buildQuestTitleMap() {
-        Set<QuestID> keys = quests.keySet();
-        for (QuestID id: keys) {
+        Set<Quest.ID> keys = quests.keySet();
+        for (Quest.ID id: keys) {
             QuestGraph questGraph = getQuestByID(id.toString());
             questTitleMap.put(questGraph.getQuestTitle(), id.toString());
         }
     }
 
     public void questTaskStarted(String questID, String questTaskID) {
-        QuestGraph questGraph = quests.get(QuestID.valueOf(questID));
+        QuestGraph questGraph = quests.get(Quest.ID.valueOf(questID));
         if (questGraph != null) {
             if (questGraph.isQuestTaskAvailable(questTaskID)) {
                 questGraph.setQuestTaskStarted(questTaskID);
@@ -59,7 +67,7 @@ public class QuestList implements ProfileObserver {
     }
 
     public void questTaskComplete(String questID, String questTaskID){
-        QuestGraph questGraph = quests.get(QuestID.valueOf(questID));
+        QuestGraph questGraph = quests.get(Quest.ID.valueOf(questID));
         if (questGraph != null) {
             if (questGraph.isQuestTaskAvailable(questTaskID)) {
                 questGraph.setQuestTaskComplete(questTaskID);
@@ -109,7 +117,7 @@ public class QuestList implements ProfileObserver {
     }
 
     public QuestGraph getQuestByID(String questID) {
-        return quests.get(QuestID.valueOf(questID));
+        return quests.get(Quest.ID.valueOf(questID));
     }
 
     public QuestGraph getQuestByQuestTitle(String title) {
@@ -119,12 +127,17 @@ public class QuestList implements ProfileObserver {
     public ArrayList<String> getAllQuestIDs() {
         ArrayList<String> questIDs = new ArrayList<>();
 
-        Set<QuestID> keys = quests.keySet();
-        for (QuestID id: keys) {
+        Set<Quest.ID> keys = quests.keySet();
+        for (Quest.ID id: keys) {
             questIDs.add(id.toString());
         }
 
         return questIDs;
+    }
+
+    public void addQuest(QuestGraph questGraph) {
+        quests.put(Quest.ID.valueOf(questGraph.getQuestID()), questGraph);
+        questTitleMap.put(questGraph.getQuestTitle(), questGraph.getQuestID());
     }
 
 /*
@@ -154,13 +167,13 @@ public class QuestList implements ProfileObserver {
 
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
-        Array<QuestID> completedQuests;
+        Array<Quest.ID> completedQuests;
 
         switch (event) {
             case PROFILE_LOADED:
                 // get all quests that are in progress or complete from profile and update the internal list
-                for (Map.Entry<QuestID, QuestGraph> entry : quests.entrySet()) {
-                    QuestID questID = entry.getKey();
+                for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
+                    Quest.ID questID = entry.getKey();
 
                     QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID.toString(), QuestGraph.class);
                     if (questGraphInProfile != null) {
@@ -170,7 +183,7 @@ public class QuestList implements ProfileObserver {
 
                 completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
                 if (completedQuests != null) {
-                    for (QuestID completedQuest : completedQuests) {
+                    for (Quest.ID completedQuest : completedQuests) {
                         QuestGraph completedQuestGraph = quests.get(completedQuest);
                         completedQuestGraph.setQuestComplete();
                     }
@@ -179,8 +192,8 @@ public class QuestList implements ProfileObserver {
                 break;
             case SAVING_PROFILE:
                 // write all quests that are in progress or complete to profile
-                for (Map.Entry<QuestID, QuestGraph> entry : quests.entrySet()) {
-                    QuestID questID = entry.getKey();
+                for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
+                    Quest.ID questID = entry.getKey();
                     QuestGraph questGraph = entry.getValue();
 
                     if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {

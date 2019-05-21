@@ -435,21 +435,24 @@ public final class Utility {
 		Iterator iterator_node = graph.getChildrenByName("node").iterator();
 		while(iterator_node.hasNext()){
 			XmlReader.Element node_element = (XmlReader.Element)iterator_node.next();
-
-			QuestGraph questGraph = getQuestData(node_element);
-
-			Hashtable<String, QuestTask> questTasks = getQuestTasks(node_element);
-
-			questGraph.setTasks(questTasks);
-
-			setTaskDependencies(graph, questGraph, questTasks);
-
-			questGraph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
-
+			QuestGraph questGraph = getQuestGraph(graph, node_element);
 			nodes.put(questGraph.getQuestID(), questGraph);
 		}
 
 		return nodes;
+	}
+
+	private static QuestGraph getQuestGraph(XmlReader.Element graph, XmlReader.Element node_element) {
+		QuestGraph questGraph = getQuestData(node_element);
+
+		Hashtable<String, QuestTask> questTasks = getQuestTasks(graph, node_element);
+
+		questGraph.setTasks(questTasks);
+
+		setTaskDependencies(graph, questGraph, questTasks);
+
+		questGraph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
+		return questGraph;
 	}
 
 	private static QuestGraph getQuestData(XmlReader.Element node_element) {
@@ -494,7 +497,7 @@ public final class Utility {
 		return questGraph;
 	}
 
-	private static Hashtable<String, QuestTask> getQuestTasks(XmlReader.Element node_element) {
+	private static Hashtable<String, QuestTask> getQuestTasks(XmlReader.Element graph, XmlReader.Element node_element) {
 		// Quest tasks
 		Hashtable<String, QuestTask> questTasks = new Hashtable<>();
 		XmlReader.Element graph_element = node_element.getChildByName("graph");
@@ -503,6 +506,7 @@ public final class Utility {
 
 		while (iterator_node2.hasNext()) {
 			QuestTask taskNode = new QuestTask();
+			boolean taskHasSubQuest = false;
 			XmlReader.Element node2_element = (XmlReader.Element) iterator_node2.next();
 			taskNode.yedNodeId = node2_element.getAttribute("id");
 
@@ -511,6 +515,12 @@ public final class Utility {
 				String foldertype = node2_element.getAttribute("yfiles.foldertype");
 				if (foldertype != null && foldertype.equals("group")) {
 					// This task is a sub-quest
+					QuestGraph subQuestGraph = getQuestGraph(graph, node2_element);
+					taskNode.addSubQuest(subQuestGraph);
+					taskNode.setId(subQuestGraph.getQuestID());
+					taskNode.setTargetType(QuestTask.QuestTaskType.QUEST.toString());
+					taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
+					questTasks.put(taskNode.getId(), taskNode);
 					continue;
 				}
 			}

@@ -9,7 +9,8 @@ public class QuestTask {
         GUARD,
         ESCORT,
         RETURN,
-        DISCOVER
+        DISCOVER,
+        QUEST
     }
 
     public enum QuestTaskStatus {
@@ -26,13 +27,11 @@ public class QuestTask {
     private String targetLocation;
     private String taskPhrase;
     private int targetNumber;
-    private SubQuests subQuests;
     private QuestList subQuestList;
 
     public QuestTask() {
         /* defaulting variables here could mess up serialization to .json */
-        subQuests = new SubQuests();
-        subQuestList = new QuestList(subQuests.getQuests());
+        subQuestList = new QuestList();
     }
 
     public String getId() { return id; }
@@ -64,6 +63,9 @@ public class QuestTask {
     public int getTargetNumber() { return targetNumber; }
 
     public QuestList getSubQuestList() { return subQuestList; }
+
+    public void addSubQuest(QuestGraph questGraph) {
+        subQuestList.addQuest(questGraph); }
 
     // convenience functions
     public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }

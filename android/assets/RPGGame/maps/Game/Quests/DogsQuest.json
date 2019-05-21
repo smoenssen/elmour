@@ -8,13 +8,7 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Find Elliot
-		subQuests: {
-			json: {}
-		}
 		subQuestList: {
-			quests: {}
-			questTitleMap: {}
-			questDependencies: {}
 			json: {}
 		}
 	}
@@ -26,13 +20,7 @@ questTasks: {
 		targetType: CARMEN
 		targetLocation: COMPASS
 		taskPhrase: Return the dogs
-		subQuests: {
-			json: {}
-		}
 		subQuestList: {
-			quests: {}
-			questTitleMap: {}
-			questDependencies: {}
 			json: {}
 		}
 	}
@@ -44,13 +32,7 @@ questTasks: {
 		targetType: JUSTIN
 		targetLocation: COMPASS
 		taskPhrase: Find Seymour
-		subQuests: {
-			json: {}
-		}
 		subQuestList: {
-			quests: {}
-			questTitleMap: {}
-			questDependencies: {}
 			json: {}
 		}
 	}

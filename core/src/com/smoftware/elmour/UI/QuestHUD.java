@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -22,7 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
-import com.smoftware.elmour.quest.MainQuests;
+import com.smoftware.elmour.quest.Quest;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestList;
 import com.smoftware.elmour.quest.QuestTask;
@@ -86,7 +85,6 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private float taskListHeight;
 
     private Table mainTable;
-    private MainQuests mainQuests;
 
     ImageTextButton selectedImageTextButton;
 
@@ -109,8 +107,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         this.stage = stage;
         observers = new Array<>();
 
-        mainQuests = new MainQuests();
-        questList = new QuestList(mainQuests.getQuests());
+        questList = new QuestList(Quest.getAllMainQuestGraphs());
 
         float sortPanelHeight = 40;
         float labelHeight = 35;

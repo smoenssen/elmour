@@ -1,5 +1,78 @@
 {
 questTasks: {
+	GetWires: {
+		yedNodeId: n2::n2
+		id: GetWires
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		subQuestList: {
+			quests: {
+				GetWires: {
+					questTasks: {
+						TalkToJustin: {
+							yedNodeId: n2::n2::n0
+							id: TalkToJustin
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Talk to Justin
+							subQuestList: {
+								json: {}
+							}
+						}
+						GetMaterials: {
+							yedNodeId: n2::n2::n1
+							id: GetMaterials
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get 5 ft of Wires
+							subQuestList: {
+								json: {}
+							}
+						}
+						GiveJustinMaterials: {
+							yedNodeId: n2::n2::n2
+							id: GiveJustinMaterials
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Give Justin materials
+							subQuestList: {
+								json: {}
+							}
+						}
+					}
+					questTaskDependencies: {
+						GetMaterials: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GetMaterials
+								destinationId: TalkToJustin
+							}
+						]
+						GiveJustinMaterials: []
+						TalkToJustin: []
+					}
+					yedNodeId: n2::n2
+					questTitle: Get 5ft. of wire
+					questID: GetWires
+					questGiver: OPHION
+					questStatus: NOT_STARTED
+					chapter: 1
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Get 5ft. of wire: GetWires
+			}
+			json: {}
+		}
+	}
 	GetCDs: {
 		yedNodeId: n2::n0
 		id: GetCDs
@@ -8,13 +81,7 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Get CDs
-		subQuests: {
-			json: {}
-		}
 		subQuestList: {
-			quests: {}
-			questTitleMap: {}
-			questDependencies: {}
 			json: {}
 		}
 	}
@@ -26,13 +93,7 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
-		subQuests: {
-			json: {}
-		}
 		subQuestList: {
-			quests: {}
-			questTitleMap: {}
-			questDependencies: {}
 			json: {}
 		}
 	}
@@ -44,7 +105,13 @@ questTaskDependencies: {
 			sourceId: GiveRickSupplies
 			destinationId: GetCDs
 		}
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GiveRickSupplies
+			destinationId: GetWires
+		}
 	]
+	GetWires: []
 	GetCDs: []
 }
 yedNodeId: n2
