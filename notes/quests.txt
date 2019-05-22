@@ -60,12 +60,14 @@ Create CutSceneQuest<name> copy of CutSceneQuest1
   Update ElmourGame.ScreenType.*
   Update MapFactory.MapType in show()
   Update .json file paths for conversations
-ElmourGame
+ElmourGame.java
   Add private static variables
   Create new in create()
   Add to dispose()
   Add ScreenType
   Add case in getScreenType
+Quest.java
+	Add to public enum ID and to map in mainQuests OR subQuests (not both)
 
 Map
 ---

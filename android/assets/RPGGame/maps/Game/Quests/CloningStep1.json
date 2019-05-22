@@ -54,7 +54,13 @@ questTasks: {
 								destinationId: TalkToJustin
 							}
 						]
-						GiveJustinMaterials: []
+						GiveJustinMaterials: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GiveJustinMaterials
+								destinationId: GetMaterials
+							}
+						]
 						TalkToJustin: []
 					}
 					yedNodeId: n2::n2

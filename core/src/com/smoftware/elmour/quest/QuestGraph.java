@@ -172,13 +172,17 @@ public class QuestGraph {
     public void addDependency(QuestTaskDependency questTaskDependency){
         ArrayList<QuestTaskDependency> list = questTaskDependencies.get(questTaskDependency.getSourceId());
         if( list == null) return;
+/*
+        //todo: doesCycleExist has a bug so don't use it if we can get away without it.
+        //      Have seen issues when parsing yEd graphs that are correct
+        //      doesCycleExist assumes dependencies are added from top down
 
         //Will not add if creates cycles
         if( doesCycleExist(questTaskDependency) ){
             //System.out.println("Cycle exists! Not adding");
             return;
         }
-
+*/
         list.add(questTaskDependency);
     }
 

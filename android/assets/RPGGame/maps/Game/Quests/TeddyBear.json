@@ -1,5 +1,17 @@
 {
 questTasks: {
+	FindTeddyBear2: {
+		yedNodeId: n0::n2
+		id: FindTeddyBear2
+		questTaskType: FETCH
+		questTaskStatus: NOT_STARTED
+		targetType: JUSTIN
+		targetLocation: COMPASS
+		taskPhrase: Find teddy bear2
+		subQuestList: {
+			json: {}
+		}
+	}
 	FindTeddyBear: {
 		yedNodeId: n0::n1
 		id: FindTeddyBear
@@ -26,6 +38,7 @@ questTasks: {
 	}
 }
 questTaskDependencies: {
+	FindTeddyBear2: []
 	ReturnTeddyBear: [
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
@@ -33,7 +46,13 @@ questTaskDependencies: {
 			destinationId: FindTeddyBear
 		}
 	]
-	FindTeddyBear: []
+	FindTeddyBear: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: FindTeddyBear
+			destinationId: FindTeddyBear2
+		}
+	]
 }
 yedNodeId: n0
 questTitle: Get My Teddy Bear
