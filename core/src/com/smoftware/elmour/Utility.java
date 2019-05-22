@@ -518,6 +518,7 @@ public final class Utility {
 					QuestGraph subQuestGraph = getQuestGraph(graph, node2_element);
 					taskNode.addSubQuest(subQuestGraph);
 					taskNode.setId(subQuestGraph.getQuestID());
+					taskNode.setTaskPhrase(subQuestGraph.getQuestTitle());
 					taskNode.setTargetType(QuestTask.QuestTaskType.QUEST.toString());
 					taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
 					questTasks.put(taskNode.getId(), taskNode);

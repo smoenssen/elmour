@@ -8,9 +8,6 @@ questTasks: {
 		targetType: JUSTIN
 		targetLocation: COMPASS
 		taskPhrase: Find teddy bear2
-		subQuestList: {
-			json: {}
-		}
 	}
 	FindTeddyBear: {
 		yedNodeId: n0::n1
@@ -20,9 +17,6 @@ questTasks: {
 		targetType: JUSTIN
 		targetLocation: COMPASS
 		taskPhrase: Find teddy bear
-		subQuestList: {
-			json: {}
-		}
 	}
 	ReturnTeddyBear: {
 		yedNodeId: n0::n0
@@ -32,9 +26,6 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Return teddy bear
-		subQuestList: {
-			json: {}
-		}
 	}
 }
 questTaskDependencies: {

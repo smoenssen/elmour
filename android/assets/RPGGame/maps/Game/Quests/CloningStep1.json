@@ -5,6 +5,7 @@ questTasks: {
 		id: GetWires
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
+		taskPhrase: Get 5ft. of wire
 		subQuestList: {
 			quests: {
 				GetWires: {
@@ -17,9 +18,6 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Talk to Justin
-							subQuestList: {
-								json: {}
-							}
 						}
 						GetMaterials: {
 							yedNodeId: n2::n2::n1
@@ -29,9 +27,6 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Get 5 ft of Wires
-							subQuestList: {
-								json: {}
-							}
 						}
 						GiveJustinMaterials: {
 							yedNodeId: n2::n2::n2
@@ -41,9 +36,6 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Give Justin materials
-							subQuestList: {
-								json: {}
-							}
 						}
 					}
 					questTaskDependencies: {
@@ -77,6 +69,7 @@ questTasks: {
 				Get 5ft. of wire: GetWires
 			}
 			json: {}
+			isSubQuestList: true
 		}
 	}
 	GetCDs: {
@@ -87,9 +80,6 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Get CDs
-		subQuestList: {
-			json: {}
-		}
 	}
 	GiveRickSupplies: {
 		yedNodeId: n2::n1
@@ -99,9 +89,6 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
-		subQuestList: {
-			json: {}
-		}
 	}
 }
 questTaskDependencies: {

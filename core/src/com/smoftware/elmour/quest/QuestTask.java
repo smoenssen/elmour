@@ -29,10 +29,7 @@ public class QuestTask {
     private int targetNumber;
     private QuestList subQuestList;
 
-    public QuestTask() {
-        /* defaulting variables here could mess up serialization to .json */
-        subQuestList = new QuestList();
-    }
+    public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
 
     public String getId() { return id; }
 
@@ -65,6 +62,10 @@ public class QuestTask {
     public QuestList getSubQuestList() { return subQuestList; }
 
     public void addSubQuest(QuestGraph questGraph) {
+        if (subQuestList == null) {
+            subQuestList = new QuestList(true);
+        }
+
         subQuestList.addQuest(questGraph); }
 
     // convenience functions

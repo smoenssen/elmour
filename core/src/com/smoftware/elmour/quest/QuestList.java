@@ -31,22 +31,31 @@ public class QuestList implements ProfileObserver {
     public static final String QUEST_GIVER = "QUEST_GIVER";
 
     private Json json;
+    private boolean isSubQuestList = false;
 
     public QuestList() {
-        json = new Json();
-        quests = new Hashtable<>();
-        questTitleMap = new Hashtable<>();
-        ProfileManager.getInstance().addObserver(this);
-        questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
+        create(true);
+        this.isSubQuestList = false;
     }
 
-    public QuestList(Hashtable<Quest.ID, QuestGraph> quests) {
-        json = new Json();
+    public QuestList(boolean isSubQuestList) {
+        create(true);
+        this.isSubQuestList = isSubQuestList;
+    }
+
+    public QuestList(Hashtable<Quest.ID, QuestGraph> quests, boolean isSubQuestList) {
+        create(false);
         this.quests = quests;
+        this.isSubQuestList = isSubQuestList;
+        buildQuestTitleMap();
+    }
+
+    private void create(boolean createQuestsHashtable) {
+        if (createQuestsHashtable) quests = new Hashtable<>();
+        json = new Json();
         questTitleMap = new Hashtable<>();
         ProfileManager.getInstance().addObserver(this);
         questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
-        buildQuestTitleMap();
     }
 
     private void buildQuestTitleMap() {
@@ -171,42 +180,45 @@ public class QuestList implements ProfileObserver {
 
         switch (event) {
             case PROFILE_LOADED:
-                // get all quests that are in progress or complete from profile and update the internal list
-                for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
-                    Quest.ID questID = entry.getKey();
+                if (!isSubQuestList) {
+                    // get all main quests that are in progress or complete from profile and update the internal list
+                    for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
+                        Quest.ID questID = entry.getKey();
 
-                    QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID.toString(), QuestGraph.class);
-                    if (questGraphInProfile != null) {
-                        quests.put(questID, questGraphInProfile);
+                        QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID.toString(), QuestGraph.class);
+                        if (questGraphInProfile != null) {
+                            quests.put(questID, questGraphInProfile);
+                        }
                     }
-                }
 
-                completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
-                if (completedQuests != null) {
-                    for (Quest.ID completedQuest : completedQuests) {
-                        QuestGraph completedQuestGraph = quests.get(completedQuest);
-                        completedQuestGraph.setQuestComplete();
+                    completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                    if (completedQuests != null) {
+                        for (Quest.ID completedQuest : completedQuests) {
+                            QuestGraph completedQuestGraph = quests.get(completedQuest);
+                            completedQuestGraph.setQuestComplete();
+                        }
                     }
                 }
 
                 break;
             case SAVING_PROFILE:
-                // write all quests that are in progress or complete to profile
-                for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
-                    Quest.ID questID = entry.getKey();
-                    QuestGraph questGraph = entry.getValue();
+                if (!isSubQuestList) {
+                    // write all main quests that are in progress or complete to profile
+                    for (Map.Entry<Quest.ID, QuestGraph> entry : quests.entrySet()) {
+                        Quest.ID questID = entry.getKey();
+                        QuestGraph questGraph = entry.getValue();
 
-                    if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
-                        ProfileManager.getInstance().setProperty(questID.toString(), questGraph);
-                    }
-                    else if (questGraph.isQuestComplete()) {
-                        completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
-                        if (completedQuests == null) {
-                            completedQuests = new Array<>();
+                        if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
+                            ProfileManager.getInstance().setProperty(questID.toString(), questGraph);
+                        } else if (questGraph.isQuestComplete()) {
+                            completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                            if (completedQuests == null) {
+                                completedQuests = new Array<>();
+                            }
+                            completedQuests.add(questID);
+                            ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
+                            ProfileManager.getInstance().removeProperty(questID.toString());
                         }
-                        completedQuests.add(questID);
-                        ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
-                        ProfileManager.getInstance().removeProperty(questID.toString());
                     }
                 }
                 break;

@@ -107,7 +107,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         this.stage = stage;
         observers = new Array<>();
 
-        questList = new QuestList(Quest.getAllMainQuestGraphs());
+        questList = new QuestList(Quest.getAllMainQuestGraphs(), false);
 
         float sortPanelHeight = 40;
         float labelHeight = 35;
@@ -257,6 +257,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
         mainTable.pack();
         mainTable.setPosition(margin, margin);
         //mainTable.debugAll();
+
+        show();
 
         labelQuests.addListener(new ClickListener() {
                                     @Override
@@ -629,6 +631,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         for(int i=0;i<1;i++) {
             for (QuestTask questTask : taskList) {
                 Image bullet;
+                Image bullet2;
                 Label text;
 
                 if (questTask.isTaskComplete()) {
@@ -649,6 +652,33 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 taskTableView.add(text).pad(5).width(taskListWidth - 30);
 
                 usedSpace += text.getHeight();
+
+                QuestList subQuestList = questTask.getSubQuestList();
+                if (subQuestList != null) {
+                    QuestGraph questGraph = subQuestList.getQuestByQuestTitle(questTask.getId());
+
+                    for (QuestTask subQuestTask : questGraph.getAllQuestTasks()) {
+                        if (subQuestTask.isTaskComplete()) {
+                            bullet2 = new Image(new Texture("graphics/blackCheckmark.png"));
+                            text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                        } else {
+                            bullet2 = new Image(new Texture("graphics/bullet2.png"));
+                            text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "battle");
+                        }
+
+                        text.setWrap(true);
+                        text.setWidth(taskListWidth - 30);
+                        text.setAlignment(Align.topLeft);
+                        text.pack();
+
+                        float leftIndent = 10;
+                        taskTableView.row().align(Align.top).width(taskListWidth - leftIndent).height(text.getHeight()).expandY().fillY();
+                        taskTableView.add(bullet2).align(Align.top).pad(7, 9 + leftIndent, 0, 2).width(16).height(16);
+                        taskTableView.add(text).pad(5).width(taskListWidth - leftIndent - 30);
+
+                        usedSpace += text.getHeight();
+                    }
+                }
             }
         }
 

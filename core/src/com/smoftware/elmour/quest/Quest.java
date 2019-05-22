@@ -27,6 +27,7 @@ public class Quest {
 
         map.put(ID.DogsQuest, "RPGGame/maps/Game/Quests/DogsQuest.json");
         map.put(ID.TeddyBear, "RPGGame/maps/Game/Quests/TeddyBear.json");
+        map.put(ID.CloningStep1, "RPGGame/maps/Game/Quests/CloningStep1.json");
 
         mainQuests = Collections.unmodifiableMap(map);
     }
