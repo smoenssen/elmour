@@ -668,9 +668,9 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 text.setAlignment(Align.topLeft);
                 text.pack();
 
-                taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY().fillX();
+                taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY();
                 taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                taskTableView.add(text).pad(5).width(taskListWidth - 30).colspan(2);
+                taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
 
                 usedSpace += text.getHeight();
 
@@ -693,21 +693,27 @@ public class QuestHUD implements Screen, QuestHudSubject {
                         }
 
                         text.setWrap(true);
-                        text.setWidth(taskListWidth - 30);
+                        text.setWidth(taskListWidth - 60);
                         text.setAlignment(Align.topLeft);
                         text.pack();
 
                         subTable.row().align(Align.top).width(taskListWidth).height(text.getHeight()).expandY().fillY();
-                        subTable.add(subBullet).align(Align.top).pad(7, 20, 0, 2).width(16).height(16);
-                        subTable.add(text).pad(5).width(taskListWidth - 30);
+                        subTable.add(subBullet).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
+                        subTable.add(text).pad(5).width(taskListWidth - 65);
 
                         usedSpace += text.getHeight();
                     }
+/*
+                    Image blank = new Image(new Texture("graphics/blank_16x16.png"));
+                    //taskTableView.row().align(Align.top).expandY().fillY().fillX();
+                    taskTableView.row().align(Align.top).expandY().fillY();
+                    taskTableView.add(blank).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
+                    taskTableView.add(subTable).width(taskListWidth - 60);//.fillX();*/
 
                     taskTableView.row().colspan(2);
-                    taskTableView.add(subTable).width(taskListWidth - 30).padLeft(30);
+                    taskTableView.add(subTable).width(taskListWidth - 30).padLeft(0);
 
-                    usedSpace += 30;
+                    usedSpace += 50;
                 }
 
             }
@@ -736,6 +742,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         taskTableView.layout();
         taskScrollPaneList.layout();
+
+        taskTableView.debug();
     }
 
     public QuestGraph getQuestByID(String questID) {

@@ -243,6 +243,11 @@ questTaskDependencies: {
 			sourceId: GiveRickSupplies
 			destinationId: GetWires
 		}
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GiveRickSupplies
+			destinationId: GetSomethings
+		}
 	]
 	GetSomethings: []
 	GetWires2: []
