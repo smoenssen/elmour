@@ -67,7 +67,7 @@ ElmourGame.java
   Add ScreenType
   Add case in getScreenType
 Quest.java
-	Add to public enum ID and to map in mainQuests OR subQuests (not both)
+	Add quest ID and json path to quests array
 
 Map
 ---

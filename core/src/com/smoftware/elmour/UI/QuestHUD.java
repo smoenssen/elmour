@@ -102,12 +102,33 @@ public class QuestHUD implements Screen, QuestHudSubject {
         }
     }
 
+    public class TaskDependencyComparator implements Comparator<QuestTask> {
+        QuestGraph questGraph;
+
+        public TaskDependencyComparator(QuestGraph questGraph) {
+            this.questGraph = questGraph;
+        }
+
+        @Override
+        public int compare(QuestTask arg0, QuestTask arg1) {
+            if (questGraph.doesTask1DependOnTask2(arg0, arg1)) {
+                return 1;
+            }
+            else if (questGraph.doesTask1DependOnTask2(arg1, arg0)) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        }
+    }
+
     public QuestHUD(final ElmourGame game, Stage stage) {
         this.game = game;
         this.stage = stage;
         observers = new Array<>();
 
-        questList = new QuestList(Quest.getAllMainQuestGraphs(), false);
+        questList = new QuestList(Quest.getAllQuestGraphs(), false);
 
         float sortPanelHeight = 40;
         float labelHeight = 35;
@@ -406,7 +427,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", ImageTextButton.ImageTextButtonStyle.class));
 
                                                QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
-                                               setTaskListViewItems(questGraph.getAllQuestTasks());
+                                               setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
                                            }
                                        }
         );
@@ -621,17 +642,18 @@ public class QuestHUD implements Screen, QuestHudSubject {
         }
     }
 
-    private void setTaskListViewItems(ArrayList<QuestTask> taskList) {
+    private void setTaskListViewItems(ArrayList<QuestTask> taskList, String questID) {
         taskTableView.clear();
 
         float usedSpace = 16;
 
-        //todo: order tasks by dependencies
+        // Order tasks by dependencies
+        Collections.sort(taskList, new TaskDependencyComparator(questList.getQuestByID(questID)));
 
         for(int i=0;i<1;i++) {
             for (QuestTask questTask : taskList) {
                 Image bullet;
-                Image bullet2;
+                Image subBullet;
                 Label text;
 
                 if (questTask.isTaskComplete()) {
@@ -643,26 +665,30 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 }
 
                 text.setWrap(true);
-                text.setWidth(taskListWidth - 30);
                 text.setAlignment(Align.topLeft);
                 text.pack();
 
-                taskTableView.row().align(Align.top).width(taskListWidth).height(text.getHeight()).expandY().fillY();
+                taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY().fillX();
                 taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                taskTableView.add(text).pad(5).width(taskListWidth - 30);
+                taskTableView.add(text).pad(5).width(taskListWidth - 30).colspan(2);
 
                 usedSpace += text.getHeight();
 
                 QuestList subQuestList = questTask.getSubQuestList();
                 if (subQuestList != null) {
-                    QuestGraph questGraph = subQuestList.getQuestByQuestTitle(questTask.getId());
+                    QuestGraph questGraph = subQuestList.getQuestByID(questTask.getId());
+                    Table subTable = new Table();
+                    ArrayList<QuestTask> subQuestTaskList = questGraph.getAllQuestTasks();
 
-                    for (QuestTask subQuestTask : questGraph.getAllQuestTasks()) {
+                    // Order tasks by dependencies
+                    Collections.sort(subQuestTaskList, new TaskDependencyComparator(questGraph));
+
+                    for (QuestTask subQuestTask : subQuestTaskList) {
                         if (subQuestTask.isTaskComplete()) {
-                            bullet2 = new Image(new Texture("graphics/blackCheckmark.png"));
+                            subBullet = new Image(new Texture("graphics/blackCheckmark.png"));
                             text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "grayed_out");
                         } else {
-                            bullet2 = new Image(new Texture("graphics/bullet2.png"));
+                            subBullet = new Image(new Texture("graphics/bullet2.png"));
                             text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "battle");
                         }
 
@@ -671,14 +697,19 @@ public class QuestHUD implements Screen, QuestHudSubject {
                         text.setAlignment(Align.topLeft);
                         text.pack();
 
-                        float leftIndent = 10;
-                        taskTableView.row().align(Align.top).width(taskListWidth - leftIndent).height(text.getHeight()).expandY().fillY();
-                        taskTableView.add(bullet2).align(Align.top).pad(7, 9 + leftIndent, 0, 2).width(16).height(16);
-                        taskTableView.add(text).pad(5).width(taskListWidth - leftIndent - 30);
+                        subTable.row().align(Align.top).width(taskListWidth).height(text.getHeight()).expandY().fillY();
+                        subTable.add(subBullet).align(Align.top).pad(7, 20, 0, 2).width(16).height(16);
+                        subTable.add(text).pad(5).width(taskListWidth - 30);
 
                         usedSpace += text.getHeight();
                     }
+
+                    taskTableView.row().colspan(2);
+                    taskTableView.add(subTable).width(taskListWidth - 30).padLeft(30);
+
+                    usedSpace += 30;
                 }
+
             }
         }
 

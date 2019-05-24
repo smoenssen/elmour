@@ -90,8 +90,81 @@ questTasks: {
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
 	}
+	GetWires2: {
+		yedNodeId: n2::n3
+		id: GetWires2
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		taskPhrase: Get 25ft. of wire
+		subQuestList: {
+			quests: {
+				GetWires2: {
+					questTasks: {
+						TalkToJaxon: {
+							yedNodeId: n2::n3::n0
+							id: TalkToJaxon
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Talk to Jaxon
+						}
+						GiveJaxonMaterials2: {
+							yedNodeId: n2::n3::n2
+							id: GiveJaxonMaterials2
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Give Jaxon materials
+						}
+						GetMaterials2: {
+							yedNodeId: n2::n3::n1
+							id: GetMaterials2
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get 25 ft of Wires
+						}
+					}
+					questTaskDependencies: {
+						GiveJaxonMaterials2: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GiveJaxonMaterials2
+								destinationId: GetMaterials2
+							}
+						]
+						GetMaterials2: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GetMaterials2
+								destinationId: TalkToJaxon
+							}
+						]
+						TalkToJaxon: []
+					}
+					yedNodeId: n2::n3
+					questTitle: Get 25ft. of wire
+					questID: GetWires2
+					questGiver: OPHION
+					questStatus: NOT_STARTED
+					chapter: 1
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Get 25ft. of wire: GetWires2
+			}
+			json: {}
+			isSubQuestList: true
+		}
+	}
 }
 questTaskDependencies: {
+	GetWires2: []
 	GiveRickSupplies: [
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
@@ -104,7 +177,13 @@ questTaskDependencies: {
 			destinationId: GetWires
 		}
 	]
-	GetWires: []
+	GetWires: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GetWires
+			destinationId: GetWires2
+		}
+	]
 	GetCDs: []
 }
 yedNodeId: n2

@@ -149,7 +149,6 @@ public class ElmourGame extends Game {
 
 		partyList = new Array<>();
 
-		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
 		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text/Dialog/DogsQuest");
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 

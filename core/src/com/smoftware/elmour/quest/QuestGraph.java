@@ -186,6 +186,7 @@ public class QuestGraph {
         list.add(questTaskDependency);
     }
 
+    //todo: remove?
     public boolean doesCycleExist(QuestTaskDependency questTaskDep){
         Set<String> keys = questTasks.keySet();
         for( String id: keys ){
@@ -195,6 +196,24 @@ public class QuestGraph {
                     return true;
                 }
             }
+        return false;
+    }
+
+    public boolean doesTask1DependOnTask2(QuestTask task1, QuestTask task2) {
+        // recursive check to see if there is a path from task1 to task2
+        ArrayList<QuestTaskDependency> list = questTaskDependencies.get(task1.getId());
+
+        if (list == null) return false;
+
+        for (QuestTaskDependency dep : list) {
+            if (dep.getDestinationId().equals(task2.getId())) {
+                return true;
+            }
+            else if (doesTask1DependOnTask2(getQuestTaskByID(dep.getDestinationId()), task2)) {
+                return true;
+            }
+        }
+
         return false;
     }
 
