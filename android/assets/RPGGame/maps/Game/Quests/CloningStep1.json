@@ -90,6 +90,66 @@ questTasks: {
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
 	}
+	GetSomethings: {
+		yedNodeId: n2::n4
+		id: GetSomethings
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		taskPhrase: Get a Bunch of Somethings
+		subQuestList: {
+			quests: {
+				GetSomethings: {
+					questTasks: {
+						GetSomething3: {
+							yedNodeId: n2::n4::n2
+							id: GetSomething3
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get Something 3
+						}
+						GetSomething2: {
+							yedNodeId: n2::n4::n1
+							id: GetSomething2
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get Something 2
+						}
+						GetSomething1: {
+							yedNodeId: n2::n4::n0
+							id: GetSomething1
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get Something 1
+						}
+					}
+					questTaskDependencies: {
+						GetSomething3: []
+						GetSomething2: []
+						GetSomething1: []
+					}
+					yedNodeId: n2::n4
+					questTitle: Get a Bunch of Somethings
+					questID: GetSomethings
+					questGiver: OPHION
+					questStatus: NOT_STARTED
+					chapter: 1
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Get a Bunch of Somethings: GetSomethings
+			}
+			json: {}
+			isSubQuestList: true
+		}
+	}
 	GetWires2: {
 		yedNodeId: n2::n3
 		id: GetWires2
@@ -164,7 +224,14 @@ questTasks: {
 	}
 }
 questTaskDependencies: {
-	GetWires2: []
+	GetWires: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GetWires
+			destinationId: GetWires2
+		}
+	]
+	GetCDs: []
 	GiveRickSupplies: [
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
@@ -177,14 +244,8 @@ questTaskDependencies: {
 			destinationId: GetWires
 		}
 	]
-	GetWires: [
-		{
-			class: com.smoftware.elmour.quest.QuestTaskDependency
-			sourceId: GetWires
-			destinationId: GetWires2
-		}
-	]
-	GetCDs: []
+	GetSomethings: []
+	GetWires2: []
 }
 yedNodeId: n2
 questTitle: Cloning step 1
