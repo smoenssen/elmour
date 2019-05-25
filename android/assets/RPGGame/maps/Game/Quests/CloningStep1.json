@@ -27,6 +27,7 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Get 5 ft of Wires
+							isSpoiler: true
 						}
 						GiveJustinMaterials: {
 							yedNodeId: n2::n2::n2
@@ -89,6 +90,7 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
+		isSpoiler: true
 	}
 	GetSomethings: {
 		yedNodeId: n2::n4
@@ -103,7 +105,7 @@ questTasks: {
 						GetSomething3: {
 							yedNodeId: n2::n4::n2
 							id: GetSomething3
-							questTaskType: RETURN
+							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
 							targetType: OPHION
 							targetLocation: MAP1
@@ -112,7 +114,7 @@ questTasks: {
 						GetSomething2: {
 							yedNodeId: n2::n4::n1
 							id: GetSomething2
-							questTaskType: RETURN
+							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
 							targetType: OPHION
 							targetLocation: MAP1
@@ -121,7 +123,7 @@ questTasks: {
 						GetSomething1: {
 							yedNodeId: n2::n4::n0
 							id: GetSomething1
-							questTaskType: RETURN
+							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
 							targetType: OPHION
 							targetLocation: MAP1
@@ -186,6 +188,7 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Get 25 ft of Wires
+							isSpoiler: true
 						}
 					}
 					questTaskDependencies: {

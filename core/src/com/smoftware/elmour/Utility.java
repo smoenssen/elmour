@@ -567,6 +567,11 @@ public final class Utility {
 						taskNode.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
 					else if (color.equalsIgnoreCase("#00ff00"))
 						taskNode.setQuestTaskType(QuestTask.QuestTaskType.DISCOVER);
+
+					// check if spoiler (ellipses are spoilers)
+					XmlReader.Element shape = shapeNode.getChildByName("y:Shape");
+					String type = shape.getAttribute("type");
+					taskNode.setIsSpoiler(type.equals("ellipse"));
 				}
 			}
 
@@ -687,13 +692,18 @@ public final class Utility {
 		FileHandle dirHandle = Gdx.files.internal(folderName);
 
 		for (FileHandle entry: dirHandle.list()) {
-			String inputFileName = entry.file().getName();
-			String fileType = inputFileName.substring(inputFileName.lastIndexOf('.') + 1);
+			if (entry.isDirectory()) {
+				parseAllConversationXMLFiles(entry.path());
+			}
+			else {
+				String inputFileName = entry.file().getName();
+				String fileType = inputFileName.substring(inputFileName.lastIndexOf('.') + 1);
 
-			if (fileType.equalsIgnoreCase("graphml")) {
-				String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
-				String outputFileName = folderName + "/" + filename + ".json";
-				parseConversationXMLFile("", entry.path(), outputFileName);
+				if (fileType.equalsIgnoreCase("graphml")) {
+					String filename = inputFileName.substring(0, inputFileName.lastIndexOf('.'));
+					String outputFileName = folderName + "/" + filename + ".json";
+					parseConversationXMLFile("", entry.path(), outputFileName);
+				}
 			}
 		}
 	}

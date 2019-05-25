@@ -1,4 +1,4 @@
-package com.smoftware.elmour.screens;
+package com.smoftware.elmour.screens.chapters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -18,15 +18,17 @@ import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.screens.CutSceneBase;
+import com.smoftware.elmour.screens.CutSceneObserver;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphObserver {
-    private static final String TAG = CutSceneChapter2.class.getSimpleName();
+public class Chapter2 extends CutSceneBase implements ConversationGraphObserver {
+    private static final String TAG = Chapter2.class.getSimpleName();
 
-    CutSceneChapter2 thisScreen;
+    Chapter2 thisScreen;
     String currentPartNumber;
 
     private Action setupScene01;
@@ -51,7 +53,7 @@ public class CutSceneChapter2 extends CutSceneBase implements ConversationGraphO
     private AnimatedImage misc;
     private AnimatedImage misc2;
 
-    public CutSceneChapter2(ElmourGame game, PlayerHUD playerHUD) {
+    public Chapter2(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
         currentPartNumber = "";

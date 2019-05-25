@@ -3,6 +3,7 @@
 battle chance calculation and count down
 apply spell effect list
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)
+force uppercase for specialNPCStartPositions checks so case sensitivity is ignored for entity spawn position
 
 On Android, how to allow inventory item at bottom of list to be swapped with one at top, using scrolling
 

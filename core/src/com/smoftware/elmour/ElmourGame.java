@@ -5,22 +5,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;
-import com.smoftware.elmour.screens.CutSceneChapter2;
-import com.smoftware.elmour.screens.CutSceneChapter1;
+import com.smoftware.elmour.screens.chapters.Chapter2;
+import com.smoftware.elmour.screens.chapters.Chapter1;
 import com.smoftware.elmour.screens.ChapterSplashScreen;
-import com.smoftware.elmour.screens.CutSceneChapter3;
-import com.smoftware.elmour.screens.CutSceneQuest1;
+import com.smoftware.elmour.screens.chapters.Chapter3;
+import com.smoftware.elmour.screens.quests.Quest1;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
 import com.smoftware.elmour.screens.StartScreen;
-import com.smoftware.elmour.tests.QuestGraphTest;
 
 
 /* NOTES
@@ -52,11 +50,11 @@ public class ElmourGame extends Game {
 	private static GameOverScreen _gameOverScreen;
 	private static CreditScreen _creditScreen;
 	private static BattleScreen battleScreen;
-	private static CutSceneChapter1 cutSceneChapter1;
-	private static CutSceneChapter2 cutSceneChapter2;
-	private static CutSceneChapter3 cutSceneChapter3;
+	private static Chapter1 Chapter1;
+	private static Chapter2 Chapter2;
+	private static Chapter3 Chapter3;
 
-	private static CutSceneQuest1 cutSceneQuest1;
+	private static Quest1 quest1;
 
 	public static enum ScreenType{
 		BattleScreen,
@@ -84,13 +82,13 @@ public class ElmourGame extends Game {
 			case MainGame:
 				return _mainGameScreen;
 			case Chapter1Screen:
-				return cutSceneChapter1;
+				return Chapter1;
 			case Chapter2Screen:
-				return cutSceneChapter2;
+				return Chapter2;
 			case Chapter3Screen:
-				return cutSceneChapter3;
+				return Chapter3;
 			case Quest1Screen:
-				return cutSceneQuest1;
+				return quest1;
 			case GameOver:
 				return _gameOverScreen;
 			case Credits:
@@ -141,21 +139,21 @@ public class ElmourGame extends Game {
 		_gameOverScreen = new GameOverScreen(this);
 		_creditScreen = new CreditScreen(this);
 		battleScreen = new BattleScreen(this);
-		cutSceneChapter1 = new CutSceneChapter1(this, _mainGameScreen._playerHUD);
-		cutSceneChapter2 = new CutSceneChapter2(this, _mainGameScreen._playerHUD);
-		cutSceneChapter3 = new CutSceneChapter3(this, _mainGameScreen._playerHUD);
+		Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
+		Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
+		Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
 
-		cutSceneQuest1 = new CutSceneQuest1(this, _mainGameScreen._playerHUD);
+		quest1 = new Quest1(this, _mainGameScreen._playerHUD);
 
 		partyList = new Array<>();
 
-		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text/Dialog/DogsQuest");
+		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text/Dialog");
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
 		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-		//setScreen(cutSceneChapter1);
-		//setScreen(cutSceneChapter2);
+		//setScreen(Chapter1);
+		//setScreen(Chapter2);
 
 		setScreen(splashScreen);
 
@@ -223,10 +221,10 @@ public class ElmourGame extends Game {
 		_gameOverScreen.dispose();
 		_creditScreen.dispose();
 		battleScreen.dispose();
-		cutSceneChapter1.dispose();
-		cutSceneChapter2.dispose();
-		cutSceneChapter3.dispose();
-		cutSceneQuest1.dispose();
+		Chapter1.dispose();
+		Chapter2.dispose();
+		Chapter3.dispose();
+		quest1.dispose();
 	}
 
 }

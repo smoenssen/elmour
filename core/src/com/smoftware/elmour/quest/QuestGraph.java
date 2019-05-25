@@ -199,6 +199,51 @@ public class QuestGraph {
         return false;
     }
 
+    public ArrayList<QuestTask> getVisibleTaskList(ArrayList<QuestTask> taskList) {
+        // Set list to available or completed tasks up until and not including a spoiler that has not been completed
+        // Note: List has already been sorted by dependency
+        ArrayList<QuestTask> visibleTaskList = new ArrayList<>();
+
+        for (QuestTask questTask : taskList) {
+            if (questTask.isTaskComplete()) {
+                visibleTaskList.add(questTask);
+            }
+            else if (!questTask.isSpoiler() && isNoIncompleteSpoilerDownStream(questTask)) {
+                visibleTaskList.add(questTask);
+            }
+        }
+
+        return  visibleTaskList;
+    }
+
+    public boolean isNoIncompleteSpoilerDownStream(QuestTask questTask) {
+        ArrayList<QuestTaskDependency> depList = questTaskDependencies.get(questTask.getId());
+
+        if (depList == null) return true;
+
+        for (QuestTaskDependency dep : depList) {
+            QuestTask destQuestTask = getQuestTaskByID(dep.getDestinationId());
+            if (destQuestTask.isSpoiler() && !destQuestTask.isTaskComplete()) {
+                return false;
+            }
+            else if (destQuestTask.getSubQuestList() != null) {
+                QuestList subQuestList = destQuestTask.getSubQuestList();
+
+                QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+                ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+
+                for (QuestTask subQuestTask : subQuestTaskList) {
+                    //return isNoIncompleteSpoilerDownStream(subQuestTask);
+                }
+            }
+            else {
+                return isNoIncompleteSpoilerDownStream(destQuestTask);
+            }
+        }
+
+        return  true;
+    }
+
     public boolean doesTask1DependOnTask2(QuestTask task1, QuestTask task2) {
         // recursive check to see if there is a path from task1 to task2
         ArrayList<QuestTaskDependency> list = questTaskDependencies.get(task1.getId());

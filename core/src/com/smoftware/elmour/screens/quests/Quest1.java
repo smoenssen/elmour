@@ -1,4 +1,4 @@
-package com.smoftware.elmour.screens;
+package com.smoftware.elmour.screens.quests;
 
 /**
  * Created by steve on 4/23/19.
@@ -22,14 +22,16 @@ import com.smoftware.elmour.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.screens.CutSceneBase;
+import com.smoftware.elmour.screens.CutSceneObserver;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 
 import java.util.ArrayList;
 
-public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObserver {
-    private static final String TAG = CutSceneQuest1.class.getSimpleName();
+public class Quest1 extends CutSceneBase implements ConversationGraphObserver {
+    private static final String TAG = Quest1.class.getSimpleName();
 
-    CutSceneQuest1 thisScreen;
+    Quest1 thisScreen;
     String questID;
     String currentPartNumber;
 
@@ -44,7 +46,7 @@ public class CutSceneQuest1 extends CutSceneBase implements ConversationGraphObs
     private AnimatedImage misc;
     private AnimatedImage misc2;
 
-    public CutSceneQuest1(ElmourGame game, PlayerHUD playerHUD) {
+    public Quest1(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
         thisScreen = this;
         currentPartNumber = "";

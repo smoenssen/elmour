@@ -115,7 +115,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 return 1;
             }
             else if (questGraph.doesTask1DependOnTask2(arg1, arg0)) {
-                return -1;
+                return 1;
             }
             else {
                 return 0;
@@ -279,7 +279,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         mainTable.setPosition(margin, margin);
         //mainTable.debugAll();
 
-        show();
+        //show();
 
         labelQuests.addListener(new ClickListener() {
                                     @Override
@@ -649,6 +649,11 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         // Order tasks by dependencies
         Collections.sort(taskList, new TaskDependencyComparator(questList.getQuestByID(questID)));
+        Collections.reverse(taskList);
+
+        // Only show available or completed tasks
+        QuestGraph questGraph = questList.getQuestByID(questID);
+        taskList = questGraph.getVisibleTaskList(taskList);
 
         for(int i=0;i<1;i++) {
             for (QuestTask questTask : taskList) {
@@ -676,12 +681,16 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
                 QuestList subQuestList = questTask.getSubQuestList();
                 if (subQuestList != null) {
-                    QuestGraph questGraph = subQuestList.getQuestByID(questTask.getId());
+                    QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
                     Table subTable = new Table();
-                    ArrayList<QuestTask> subQuestTaskList = questGraph.getAllQuestTasks();
+                    ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
 
                     // Order tasks by dependencies
-                    Collections.sort(subQuestTaskList, new TaskDependencyComparator(questGraph));
+                    Collections.sort(subQuestTaskList, new TaskDependencyComparator(subQuestGraph));
+                    Collections.reverse(subQuestTaskList);
+
+                    // Only show available or completed tasks
+                    subQuestTaskList = subQuestGraph.getVisibleTaskList(subQuestTaskList);
 
                     for (QuestTask subQuestTask : subQuestTaskList) {
                         if (subQuestTask.isTaskComplete()) {
@@ -693,27 +702,23 @@ public class QuestHUD implements Screen, QuestHudSubject {
                         }
 
                         text.setWrap(true);
-                        text.setWidth(taskListWidth - 60);
+                        text.setWidth(taskListWidth - 40);
                         text.setAlignment(Align.topLeft);
                         text.pack();
 
-                        subTable.row().align(Align.top).width(taskListWidth).height(text.getHeight()).expandY().fillY();
-                        subTable.add(subBullet).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                        subTable.add(text).pad(5).width(taskListWidth - 65);
+                        subTable.row().align(Align.top).width(taskListWidth - 40).expandY().fillY();
+                        subTable.add(subBullet).align(Align.top).pad(7, 9, 5, 2).width(16).height(16);
+                        subTable.add(text).pad(5).width(taskListWidth - 40);
 
                         usedSpace += text.getHeight();
                     }
-/*
+
                     Image blank = new Image(new Texture("graphics/blank_16x16.png"));
-                    //taskTableView.row().align(Align.top).expandY().fillY().fillX();
                     taskTableView.row().align(Align.top).expandY().fillY();
                     taskTableView.add(blank).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                    taskTableView.add(subTable).width(taskListWidth - 60);//.fillX();*/
+                    taskTableView.add(subTable).width(taskListWidth - 40);
 
-                    taskTableView.row().colspan(2);
-                    taskTableView.add(subTable).width(taskListWidth - 30).padLeft(0);
-
-                    usedSpace += 50;
+                    usedSpace += 30;
                 }
 
             }
@@ -722,7 +727,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         // hack to fill in dummy rows to get first row at top of scroll panel, otherwise table is vertically centered
         float remainingSpace = taskListHeight - usedSpace;
 
-        if (remainingSpace > 0) {
+        if (remainingSpace > 3) {
             taskScrollPaneList.setScrollingDisabled(true, true);
 
             int numDummyRowsNeeded = (int) (remainingSpace / 23);//dummyText.getHeight());
@@ -737,13 +742,13 @@ public class QuestHUD implements Screen, QuestHudSubject {
             }
         }
         else {
-            taskScrollPaneList.setScrollingDisabled(false, false);
+            taskScrollPaneList.setScrollingDisabled(true, false);
         }
 
         taskTableView.layout();
         taskScrollPaneList.layout();
 
-        taskTableView.debug();
+        //taskTableView.debug();
     }
 
     public QuestGraph getQuestByID(String questID) {

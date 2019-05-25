@@ -48,7 +48,7 @@ public class StartScreen  extends GameScreen {
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
 
-        Image title = new Image(new Texture("graphics/black_rectangle.png"));
+        Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
         float menuItemWidth = stage.getWidth() / 3f;

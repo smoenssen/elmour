@@ -27,6 +27,7 @@ public class QuestTask {
     private String targetLocation;
     private String taskPhrase;
     private int targetNumber;
+    private boolean isSpoiler;
     private QuestList subQuestList;
 
     public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
@@ -58,6 +59,10 @@ public class QuestTask {
     public void setTargetNumber(int number) { targetNumber = number; }
 
     public int getTargetNumber() { return targetNumber; }
+
+    public void setIsSpoiler(boolean isSpoiler) { this.isSpoiler = isSpoiler; }
+
+    public boolean isSpoiler() { return isSpoiler; }
 
     public QuestList getSubQuestList() { return subQuestList; }
 

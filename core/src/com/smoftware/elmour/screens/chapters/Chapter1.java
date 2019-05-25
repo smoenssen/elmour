@@ -1,4 +1,4 @@
-package com.smoftware.elmour.screens;
+package com.smoftware.elmour.screens.chapters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,15 +22,16 @@ import com.smoftware.elmour.dialog.InputDialogObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.screens.CutSceneBase;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
-public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphObserver, InputDialogObserver {
-    private static final String TAG = CutSceneChapter1.class.getSimpleName();
+public class Chapter1 extends CutSceneBase implements ConversationGraphObserver, InputDialogObserver {
+    private static final String TAG = Chapter1.class.getSimpleName();
 
-    CutSceneChapter1 thisScreen;
+    Chapter1 thisScreen;
 
     private Action setupScene01;
     private Action setupCastleChaseScene;
@@ -55,7 +56,7 @@ public class CutSceneChapter1 extends CutSceneBase implements ConversationGraphO
     private Image blackBarLeft;
     private Image blackBarRight;
 
-    public CutSceneChapter1(ElmourGame game, PlayerHUD playerHUD){
+    public Chapter1(ElmourGame game, PlayerHUD playerHUD){
         super(game, playerHUD);
         thisScreen = this;
 

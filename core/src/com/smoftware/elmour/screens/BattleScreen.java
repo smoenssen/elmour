@@ -2402,7 +2402,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     @Override
     public void resume() {
-        //setGameState(CutSceneChapter2.GameState.RUNNING);
+        //setGameState(Chapter2.GameState.RUNNING);
         if (battleHUD != null)
             battleHUD.resume();
     }
