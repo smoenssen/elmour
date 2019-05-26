@@ -1,0 +1,391 @@
+{
+conversations: {
+	n8: {
+		id: n8
+		dialog: "Oh? Do you need something?\n§I^m kind of in the middle of an experiment, so\nif it^s not important, could you leave."
+		data: Rick
+		type: NPC
+	}
+	n7: {
+		id: n7
+		dialog: RICK_SPOT_CHAR
+		data: null
+		type: ACTION
+	}
+	n6: {
+		id: n6
+		dialog: But to fix that...\n§I^ll need a preposterous amount of materials.
+		data: Rick
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: "If you would be so kind as to ignore my\nbluntness from earlier, I am in need of some\nmaterials."
+		data: Rick
+		type: NPC
+	}
+	n5: {
+		id: n5
+		dialog: RICK_WALK_AROUND
+		data: null
+		type: ACTION
+	}
+	n18: {
+		id: n18
+		dialog: RICK_WALK_RIGHT
+		data: null
+		type: ACTION
+	}
+	n4: {
+		id: n4
+		dialog: Ahah!\n§That must be it!
+		data: Rick
+		type: NPC
+	}
+	n17: {
+		id: n17
+		dialog: DECLINE_QUEST
+		data: Cloning1;T1DOOR4
+		type: ACTION
+	}
+	n3: {
+		id: n3
+		dialog: RICK_THINK
+		data: null
+		type: ACTION
+	}
+	n2: {
+		id: n2
+		dialog: Why is it not...?
+		data: Rick
+		type: NPC
+	}
+	n16: {
+		id: n16
+		dialog: I guess it can^t be helped.\n¶I^ll need your help.
+		data: Rick
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: RICK_WALK_TO_COMP
+		data: null
+		type: ACTION
+	}
+	n15: {
+		id: n15
+		dialog: RICK_THINK
+		data: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: All right!\n§Here we go! Let trial number 74... begin!
+		data: Rick
+		type: NPC
+	}
+	n14: {
+		id: n14
+		dialog: I hate asking people for help.
+		data: Rick
+		type: NPC
+	}
+	n13: {
+		id: n13
+		dialog: RICK_LOOK_AWAY
+		data: null
+		type: ACTION
+	}
+	n12: {
+		id: n12
+		dialog: ...
+		data: Rick
+		type: NPC
+	}
+	n11: {
+		id: n11
+		dialog: That would be for the best.
+		data: Rick
+		type: NPC
+	}
+	n29: {
+		id: n29
+		dialog: RICK_FAILURE
+		data: null
+		type: ACTION
+	}
+	n28: {
+		id: n28
+		dialog: Again!?
+		data: Rick
+		type: NPC
+	}
+	n27: {
+		id: n27
+		dialog: ACCEPT_QUEST
+		data: Cloning1;T1DOOR4
+		type: ACTION
+	}
+	n26: {
+		id: n26
+		dialog: Well...\n§Could you also help find the keys that are\nmissing?\n§There should be three of them.
+		data: Rick
+		type: NPC
+	}
+	n25: {
+		id: n25
+		dialog: RICK_DESTROY_KEYBOARD
+		data: null
+		type: ACTION
+	}
+	n24: {
+		id: n24
+		dialog: Sweet!\n§Could you get me about 30ft. of wires along\nwith two CDs?\n§That would be all.
+		data: Rick
+		type: NPC
+	}
+	n23: {
+		id: n23
+		dialog: DECLINE_QUEST
+		data: Cloning1;T1DOOR4
+		type: ACTION
+	}
+	n22: {
+		id: n22
+		dialog: "OK, jerk!"
+		data: Rick
+		type: NPC
+	}
+}
+associatedChoices: {
+	n9: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n12
+			choicePhrase: Do you need help?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n11
+			choicePhrase: I guess I^ll leave then.
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n24
+			choicePhrase: What do you need me to get?
+		}
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n22
+			choicePhrase: I don^t think that will be possible.
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n5
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n14
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n29: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n29
+			destinationId: n28
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n26: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n26
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n26
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n22: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n22
+			destinationId: n23
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n24
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

@@ -18,7 +18,7 @@ public class Quest {
     static {
         Map<String, String> map = new HashMap<>();
 
-        map.put("CloningStep1", "RPGGame/maps/Game/Quests/CloningStep1.json");
+        map.put("CloningMaterials", "RPGGame/maps/Game/Quests/CloningMaterials.json");
         map.put("DogsQuest",    "RPGGame/maps/Game/Quests/DogsQuest.json");
         map.put("TeddyBear",    "RPGGame/maps/Game/Quests/TeddyBear.json");
 

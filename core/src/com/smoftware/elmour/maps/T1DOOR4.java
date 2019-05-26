@@ -28,6 +28,11 @@ public class T1DOOR4 extends Map {
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
             mapEntities.add(entity);
         }
+
+        //Special cases
+        Entity rick = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.RICK);
+        initSpecialEntityPosition(rick);
+        mapEntities.add(rick);
     }
 
     @Override

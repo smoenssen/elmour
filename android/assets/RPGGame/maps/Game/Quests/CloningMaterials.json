@@ -1,0 +1,263 @@
+{
+questTasks: {
+	FindButtons: {
+		yedNodeId: n2::n4
+		id: FindButtons
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		taskPhrase: Find All Three Buttons
+		subQuestList: {
+			quests: {
+				FindButtons: {
+					questTasks: {
+						FindButton1: {
+							yedNodeId: n2::n4::n0
+							id: FindButton1
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: T1DOOR4
+							taskPhrase: Find a Missing Button
+						}
+						FindButton3: {
+							yedNodeId: n2::n4::n2
+							id: FindButton3
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: T1DOOR4
+							taskPhrase: Find a Missing Button
+						}
+						FindButton2: {
+							yedNodeId: n2::n4::n1
+							id: FindButton2
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: T1DOOR4
+							taskPhrase: Find a Missing Button
+						}
+					}
+					questTaskDependencies: {
+						FindButton3: []
+						FindButton2: []
+						FindButton1: []
+					}
+					yedNodeId: n2::n4
+					questTitle: Find All Three Buttons
+					questID: FindButtons
+					questGiver: RICK
+					questStatus: NOT_STARTED
+					chapter: 1
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Find All Three Buttons: FindButtons
+			}
+			json: {}
+			isSubQuestList: true
+		}
+	}
+	GetWires1: {
+		yedNodeId: n2::n3
+		id: GetWires1
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		taskPhrase: Get 30ft. of Wires
+		subQuestList: {
+			quests: {
+				GetWires1: {
+					questTasks: {
+						GiveJaxonMaterials: {
+							yedNodeId: n2::n3::n2
+							id: GiveJaxonMaterials
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: JAXON
+							targetLocation: ARMORY
+							taskPhrase: Bring Jaxon the Materials
+						}
+						TalkToJaxon: {
+							yedNodeId: n2::n3::n0
+							id: TalkToJaxon
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: JAXON
+							targetLocation: ARMORY
+							taskPhrase: Talk to Jaxon
+						}
+						GetMaterials1: {
+							yedNodeId: n2::n3::n1
+							id: GetMaterials1
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get "Mystery Materials"
+						}
+					}
+					questTaskDependencies: {
+						GetMaterials1: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GetMaterials1
+								destinationId: TalkToJaxon
+							}
+						]
+						TalkToJaxon: []
+						GiveJaxonMaterials: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GiveJaxonMaterials
+								destinationId: GetMaterials1
+							}
+						]
+					}
+					yedNodeId: n2::n3
+					questTitle: Get 30ft. of Wires
+					questID: GetWires1
+					questGiver: RICK
+					questStatus: NOT_STARTED
+					chapter: 3
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Get 30ft. of Wires: GetWires1
+			}
+			json: {}
+			isSubQuestList: true
+		}
+	}
+	GetCDs: {
+		yedNodeId: n2::n0
+		id: GetCDs
+		questTaskType: FETCH
+		questTaskStatus: NOT_STARTED
+		targetType: OPHION
+		targetLocation: MAP1
+		taskPhrase: Get CDs
+	}
+	GiveRickSupplies: {
+		yedNodeId: n2::n1
+		id: GiveRickSupplies
+		questTaskType: RETURN
+		questTaskStatus: NOT_STARTED
+		targetType: OPHION
+		targetLocation: MAP1
+		taskPhrase: Give Rick supplies
+	}
+	GetWires2: {
+		yedNodeId: n2::n2
+		id: GetWires2
+		questTaskStatus: NOT_STARTED
+		targetType: QUEST
+		taskPhrase: Get 5ft. of wire
+		subQuestList: {
+			quests: {
+				GetWires2: {
+					questTasks: {
+						TalkToJustin: {
+							yedNodeId: n2::n2::n0
+							id: TalkToJustin
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: JUSTIN
+							targetLocation: ARMORY
+							taskPhrase: Talk to Justin
+						}
+						GetMaterials2: {
+							yedNodeId: n2::n2::n1
+							id: GetMaterials2
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetType: OPHION
+							targetLocation: MAP1
+							taskPhrase: Get a Lead Pipe
+						}
+						GiveJustinMaterials: {
+							yedNodeId: n2::n2::n2
+							id: GiveJustinMaterials
+							questTaskType: RETURN
+							questTaskStatus: NOT_STARTED
+							targetType: JUSTIN
+							targetLocation: ARMORY
+							taskPhrase: Give Justin the Lead Pipe
+						}
+					}
+					questTaskDependencies: {
+						GetMaterials2: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GetMaterials2
+								destinationId: TalkToJustin
+							}
+						]
+						GiveJustinMaterials: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GiveJustinMaterials
+								destinationId: GetMaterials2
+							}
+						]
+						TalkToJustin: []
+					}
+					yedNodeId: n2::n2
+					questTitle: Get 5ft. of wire
+					questID: GetWires2
+					questGiver: JUSTIN
+					questStatus: NOT_STARTED
+					chapter: 1
+					goldReward: 20
+					xpReward: 5
+				}
+			}
+			questTitleMap: {
+				Get 5ft. of wire: GetWires2
+			}
+			json: {}
+			isSubQuestList: true
+		}
+	}
+}
+questTaskDependencies: {
+	GetWires1: []
+	FindButtons: []
+	GetCDs: []
+	GiveRickSupplies: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GiveRickSupplies
+			destinationId: GetCDs
+		}
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GiveRickSupplies
+			destinationId: FindButtons
+		}
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GiveRickSupplies
+			destinationId: GetWires2
+		}
+	]
+	GetWires2: [
+		{
+			class: com.smoftware.elmour.quest.QuestTaskDependency
+			sourceId: GetWires2
+			destinationId: GetWires1
+		}
+	]
+}
+yedNodeId: n2
+questTitle: Materials for Cloning
+questID: CloningMaterials
+questGiver: RICK
+questStatus: NOT_STARTED
+chapter: 3
+goldReward: 20
+xpReward: 5
+}

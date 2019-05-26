@@ -7,7 +7,7 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/CarmenNormalDialog.json"
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/CarmenNormalDialog.json"
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
@@ -18,19 +18,19 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenActiveQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenActiveQuestDialog.json"
 		questID: DogsQuest
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: RETURN_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenReturnQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenReturnQuestDialog.json"
 		questID: DogsQuest
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Dialog/DogsQuest/CarmenPostQuestDialog.json"
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenPostQuestDialog.json"
 		questID: DogsQuest
 	}
 ]

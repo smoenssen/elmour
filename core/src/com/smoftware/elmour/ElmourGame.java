@@ -14,6 +14,7 @@ import com.smoftware.elmour.screens.chapters.Chapter2;
 import com.smoftware.elmour.screens.chapters.Chapter1;
 import com.smoftware.elmour.screens.ChapterSplashScreen;
 import com.smoftware.elmour.screens.chapters.Chapter3;
+import com.smoftware.elmour.screens.quests.CloningQuest;
 import com.smoftware.elmour.screens.quests.Quest1;
 import com.smoftware.elmour.screens.GameOverScreen;
 import com.smoftware.elmour.screens.MainGameScreen;
@@ -55,6 +56,7 @@ public class ElmourGame extends Game {
 	private static Chapter3 Chapter3;
 
 	private static Quest1 quest1;
+	private static CloningQuest cloningQuest;
 
 	public static enum ScreenType{
 		BattleScreen,
@@ -68,6 +70,9 @@ public class ElmourGame extends Game {
 		Chapter2Screen,
 		Chapter3Screen,
 		Quest1Screen,
+
+		CloningQuestScreen,
+
 		Credits
 	}
 
@@ -89,6 +94,8 @@ public class ElmourGame extends Game {
 				return Chapter3;
 			case Quest1Screen:
 				return quest1;
+			case CloningQuestScreen:
+				return cloningQuest;
 			case GameOver:
 				return _gameOverScreen;
 			case Credits:
@@ -144,10 +151,11 @@ public class ElmourGame extends Game {
 		Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
 
 		quest1 = new Quest1(this, _mainGameScreen._playerHUD);
+		cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
 
 		partyList = new Array<>();
 
-		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text/Dialog");
+		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text");
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
@@ -181,6 +189,9 @@ public class ElmourGame extends Game {
 				break;
 			case 2:
 				chapterSplashScreen = new ChapterSplashScreen(this, ScreenType.Chapter2Screen, chapterNum, "The Slow Rush for Supplies");
+				break;
+			case 3:
+				chapterSplashScreen = new ChapterSplashScreen(this, ScreenType.Chapter3Screen, chapterNum, "First Casualty of War");
 				break;
 		}
 
@@ -225,6 +236,7 @@ public class ElmourGame extends Game {
 		Chapter2.dispose();
 		Chapter3.dispose();
 		quest1.dispose();
+		cloningQuest.dispose();
 	}
 
 }
