@@ -1239,7 +1239,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
 
                 Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                if (currentChapter >= minChapter && currentChapter < maxChapter) {
+                if (currentChapter >= minChapter && currentChapter <= maxChapter) {
                     return npcQuestConfig;
                 }
             }

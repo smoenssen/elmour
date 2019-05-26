@@ -201,6 +201,7 @@ public class QuestGraph {
 
     public ArrayList<QuestTask> getVisibleTaskList(ArrayList<QuestTask> taskList) {
         // Set list to available or completed tasks up until and not including a spoiler that has not been completed
+        // Also don't show any sub quests if they have dependencies that aren't completed
         // Note: List has already been sorted by dependency
         ArrayList<QuestTask> visibleTaskList = new ArrayList<>();
 
@@ -208,7 +209,7 @@ public class QuestGraph {
             if (questTask.isTaskComplete()) {
                 visibleTaskList.add(questTask);
             }
-            else if (!questTask.isSpoiler() && isNoIncompleteSpoilerDownStream(questTask)) {
+            else if (!questTask.isSpoiler() && isNoIncompleteSpoilerDownStream(questTask) && taskIsSubQuestTaskThatHasNoIncompleteDependency(questTask)) {
                 visibleTaskList.add(questTask);
             }
         }
@@ -216,7 +217,7 @@ public class QuestGraph {
         return  visibleTaskList;
     }
 
-    public boolean isNoIncompleteSpoilerDownStream(QuestTask questTask) {
+    private boolean isNoIncompleteSpoilerDownStream(QuestTask questTask) {
         ArrayList<QuestTaskDependency> depList = questTaskDependencies.get(questTask.getId());
 
         if (depList == null) return true;
@@ -230,10 +231,13 @@ public class QuestGraph {
                 QuestList subQuestList = destQuestTask.getSubQuestList();
 
                 QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
-                ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
 
-                for (QuestTask subQuestTask : subQuestTaskList) {
-                    //return isNoIncompleteSpoilerDownStream(subQuestTask);
+                if (subQuestGraph != null) {
+                    ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+
+                    for (QuestTask subQuestTask : subQuestTaskList) {
+                        return isNoIncompleteSpoilerDownStream(subQuestTask);
+                    }
                 }
             }
             else {
@@ -242,6 +246,24 @@ public class QuestGraph {
         }
 
         return  true;
+    }
+
+    private boolean taskIsSubQuestTaskThatHasNoIncompleteDependency(QuestTask questTask) {
+        if (questTask.getSubQuestList() != null) {
+            // this is a sub quest
+            ArrayList<QuestTaskDependency> depList = questTaskDependencies.get(questTask.getId());
+
+            if (depList == null) return true;
+
+            for (QuestTaskDependency dep : depList) {
+                QuestTask destQuestTask = getQuestTaskByID(dep.getDestinationId());
+                if (!destQuestTask.isTaskComplete()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public boolean doesTask1DependOnTask2(QuestTask task1, QuestTask task2) {

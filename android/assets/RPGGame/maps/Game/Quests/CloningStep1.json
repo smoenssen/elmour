@@ -157,7 +157,7 @@ questTasks: {
 		id: GetWires2
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
-		taskPhrase: Get 25ft. of wire
+		taskPhrase: Get 30ft. of wire;Get 25 ft. of wire
 		subQuestList: {
 			quests: {
 				GetWires2: {
@@ -209,7 +209,7 @@ questTasks: {
 						TalkToJaxon: []
 					}
 					yedNodeId: n2::n3
-					questTitle: Get 25ft. of wire
+					questTitle: Get 30ft. of wire;Get 25 ft. of wire
 					questID: GetWires2
 					questGiver: OPHION
 					questStatus: NOT_STARTED
@@ -219,7 +219,7 @@ questTasks: {
 				}
 			}
 			questTitleMap: {
-				Get 25ft. of wire: GetWires2
+				Get 30ft. of wire;Get 25 ft. of wire: GetWires2
 			}
 			json: {}
 			isSubQuestList: true

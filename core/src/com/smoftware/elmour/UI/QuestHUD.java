@@ -663,10 +663,10 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
                 if (questTask.isTaskComplete()) {
                     bullet = new Image(new Texture("graphics/blackCheckmark.png"));
-                    text = new Label(questTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                    text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
                 } else {
                     bullet = new Image(new Texture("graphics/bullet.png"));
-                    text = new Label(questTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "battle");
+                    text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
                 }
 
                 text.setWrap(true);
@@ -695,10 +695,10 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     for (QuestTask subQuestTask : subQuestTaskList) {
                         if (subQuestTask.isTaskComplete()) {
                             subBullet = new Image(new Texture("graphics/blackCheckmark.png"));
-                            text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                            text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
                         } else {
                             subBullet = new Image(new Texture("graphics/bullet2.png"));
-                            text = new Label(subQuestTask.getTaskPhrase(), Utility.ELMOUR_UI_SKIN, "battle");
+                            text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "battle");
                         }
 
                         text.setWrap(true);
@@ -749,6 +749,23 @@ public class QuestHUD implements Screen, QuestHudSubject {
         taskScrollPaneList.layout();
 
         //taskTableView.debug();
+    }
+
+    private String getTaskText(QuestTask questTask) {
+        String taskPhrase = questTask.getTaskPhrase();
+        String [] sa = taskPhrase.split(";");
+
+        if (sa.length > 1) {
+            if (questTask.isTaskComplete()) {
+                return sa[1];
+            }
+            else {
+                return sa[0];
+            }
+        }
+        else {
+            return taskPhrase;
+        }
     }
 
     public QuestGraph getQuestByID(String questID) {

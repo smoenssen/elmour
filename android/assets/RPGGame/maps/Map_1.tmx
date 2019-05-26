@@ -813,7 +813,7 @@
   <object id="478" name="PLAYER_START" x="159" y="938" width="32" height="16"/>
   <object id="588" name="Ophion" x="159" y="804" width="16" height="16">
    <properties>
-    <property name="chapters" value="1-5"/>
+    <property name="chapters" value="1-6"/>
     <property name="taskIDs" value="TeddyBear::ReturnTeddyBear;DogsQuest::FindElliot"/>
    </properties>
   </object>
