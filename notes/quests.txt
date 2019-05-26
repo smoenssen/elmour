@@ -56,7 +56,7 @@ To add quest
 ------------
 Create CutSceneQuest<name> copy of CutSceneQuest1
   Update all instances of CutSceneQuest1
-  Update questID and questGiver
+  Update questID
   Update ElmourGame.ScreenType.*
   Update MapFactory.MapType in show()
   Update .json file paths for conversations

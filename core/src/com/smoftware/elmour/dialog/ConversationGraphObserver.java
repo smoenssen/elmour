@@ -113,6 +113,9 @@ public interface ConversationGraphObserver {
         RAT_ATTACK,
 
 
+        //Quests
+        //Cloning Quest
+        RICK_WALK_TO_COMP,
 
         WALK_AROUND_TOWN,
 

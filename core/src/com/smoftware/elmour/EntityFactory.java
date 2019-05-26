@@ -33,6 +33,9 @@ public class EntityFactory {
         STEVE2,
         STEVE3,
 
+        //Quests
+        RICK,
+
         //Enemies
         RAT,
 
@@ -78,6 +81,9 @@ public class EntityFactory {
     public static String STEVE_CONFIG = "RPGGame/maps/Game/Scripts/steve.json";
     public static String STEVE2_CONFIG = "RPGGame/maps/Game/Scripts/steve2.json";
     public static String STEVE3_CONFIG = "RPGGame/maps/Game/Scripts/steve3.json";
+
+    //Quests
+    public static String RICK_CONFIG = "RPGGame/maps/Game/Scripts/rick.json";
 
     //Enemies
     public static String RAT_CONFIG = "RPGGame/maps/Game/Scripts/rat.json";
@@ -148,6 +154,9 @@ public class EntityFactory {
         entities.put(EntityName.STEVE.toString(), Entity.loadEntityConfigByPath(STEVE_CONFIG));
         entities.put(EntityName.STEVE2.toString(), Entity.loadEntityConfigByPath(STEVE2_CONFIG));
         entities.put(EntityName.STEVE3.toString(), Entity.loadEntityConfigByPath(STEVE3_CONFIG));
+
+        //Quests
+        entities.put(EntityName.RICK.toString(), Entity.loadEntityConfigByPath(RICK_CONFIG));
 
         //Enemies
         entities.put(EntityName.RAT.toString(), Entity.loadEntityConfigByPath(RAT_CONFIG));
