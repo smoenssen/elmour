@@ -37,6 +37,7 @@ import java.util.Comparator;
 public class QuestHUD implements Screen, QuestHudSubject {
     private static final String TAG = QuestHUD.class.getSimpleName();
 
+    private final String NO_QUESTS_AVAILABLE = "No quests available";
     private final String SORT_BY_QUEST_NAME = " Sort by quest name";
     private final String SORT_BY_ORDER_OBTAINED = " Sort by order obtained";
     private final String SHOW_COMPLETED = " Show completed quests";
@@ -53,6 +54,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private Stage stage;
     private Array<QuestHudObserver> observers;
     private QuestList questList;
+    private QuestList visibleQuestList;
 
     private Image downButton;
     private Image upButton;
@@ -88,17 +90,55 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
     ImageTextButton selectedImageTextButton;
 
-    public class QuestComparatorAscending implements Comparator<String> {
+    public class QuestNameComparatorAscending implements Comparator<String> {
         @Override
         public int compare(String arg0, String arg1) {
-            return arg0.compareTo(arg1);
+            String questTitle0 = questList.getQuestByID(arg0).toString();
+            String questTitle1 = questList.getQuestByID(arg1).toString();
+            return questTitle0.compareTo(questTitle1);
         }
     }
 
-    public class QuestComparatorDescending implements Comparator<String> {
+    public class QuestNameComparatorDescending implements Comparator<String> {
         @Override
         public int compare(String arg0, String arg1) {
-            return  arg0.compareTo(arg1) * -1;
+            String questTitle0 = questList.getQuestByID(arg0).toString();
+            String questTitle1 = questList.getQuestByID(arg1).toString();
+            return  questTitle0.compareTo(questTitle1) * -1;
+        }
+    }
+
+    public class QuestTimestampComparatorAscending implements Comparator<QuestGraph> {
+        @Override
+        public int compare(QuestGraph arg0, QuestGraph arg1) {
+            long timestamp0 = arg0.getTimestamp();
+            long timestamp1 = arg1.getTimestamp();
+            if (timestamp0 > timestamp1) {
+                return 1;
+            }
+            else if (timestamp0 == timestamp1) {
+                return 0;
+            }
+            else {
+                return -1;
+            }
+        }
+    }
+
+    public class QuestTimestampComparatorDescending implements Comparator<QuestGraph> {
+        @Override
+        public int compare(QuestGraph arg0, QuestGraph arg1) {
+            long timestamp0 = arg0.getTimestamp();
+            long timestamp1 = arg1.getTimestamp();
+            if (timestamp0 > timestamp1) {
+                return -1;
+            }
+            else if (timestamp0 == timestamp1) {
+                return 0;
+            }
+            else {
+                return 1;
+            }
         }
     }
 
@@ -129,6 +169,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         observers = new Array<>();
 
         questList = new QuestList(Quest.getAllQuestGraphs(), false);
+        visibleQuestList = new QuestList();
 
         float sortPanelHeight = 40;
         float labelHeight = 35;
@@ -414,7 +455,13 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                                if (selectedImageTextButton != null) {
                                                    // deselect previous button
-                                                   selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("default", ImageTextButton.ImageTextButtonStyle.class));
+                                                   QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
+                                                   if (questGraph.isQuestComplete()) {
+                                                       selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("grayed_out", ImageTextButton.ImageTextButtonStyle.class));
+                                                   }
+                                                   else {
+                                                       selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("default", ImageTextButton.ImageTextButtonStyle.class));
+                                                   }
                                                }
 
                                                if (event.getTarget() instanceof Label) {
@@ -424,9 +471,15 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                    selectedImageTextButton = (ImageTextButton) event.getTarget();
                                                }
 
-                                               selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", ImageTextButton.ImageTextButtonStyle.class));
-
                                                QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
+
+                                               if (questGraph.isQuestComplete()) {
+                                                   selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down_grayed_out", ImageTextButton.ImageTextButtonStyle.class));
+                                               }
+                                               else {
+                                                   selectedImageTextButton.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", ImageTextButton.ImageTextButtonStyle.class));
+                                               }
+
                                                setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
                                            }
                                        }
@@ -443,6 +496,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         sortByPreference = ProfileManager.getInstance().getProperty(SORT_QUEST_BY_PREFERENCE, String.class);
         if (sortByPreference == null) {
             sortByPreference = SORT_BY_QUEST_NAME;
+            ProfileManager.getInstance().setProperty(SORT_QUEST_BY_PREFERENCE, sortByPreference);
         }
 
         sortingSelectBox.setSelected(sortByPreference);
@@ -451,6 +505,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         showQuestsPreference = ProfileManager.getInstance().getProperty(SHOW_QUEST_PREFERENCE, String.class);
         if (showQuestsPreference == null) {
             showQuestsPreference = SHOW_ALL_QUESTS;
+            ProfileManager.getInstance().setProperty(SHOW_QUEST_PREFERENCE, showQuestsPreference);
         }
 
         showQuestsSelectBox.setSelected(showQuestsPreference);
@@ -459,6 +514,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         sortOrderPreference = ProfileManager.getInstance().getProperty(SORT_QUEST_ORDER_PREFERENCE, String.class);
         if (sortOrderPreference == null) {
             sortOrderPreference = SORT_ORDER_ASCENDING;
+            ProfileManager.getInstance().setProperty(SORT_QUEST_ORDER_PREFERENCE, sortOrderPreference);
         }
 
         if (sortOrderPreference.equals(SORT_ORDER_ASCENDING)) {
@@ -469,136 +525,102 @@ public class QuestHUD implements Screen, QuestHudSubject {
             upButton.setVisible(true);
             downButton.setVisible(false);
         }
+
+        // Now sort the list!
+        sortQuestList();
     }
 
     private void sortQuestList() {
-        ArrayList<String> strings = questList.getAllQuestIDs();
+        questListTableView.clearChildren();
+        taskTableView.clearChildren();
 
-        if (sortByPreference.equals(SORT_BY_QUEST_NAME)) {
-            if (sortOrderPreference.equals(SORT_ORDER_ASCENDING))
-                Collections.sort(strings, new QuestComparatorAscending());
-            else
-                Collections.sort(strings, new QuestComparatorDescending());
+        visibleQuestList.clear();
+        setQuestListItems(questList.getAllQuestIDsInProgressOrComplete());
+
+        if (visibleQuestList.size() == 0) {
+            ImageTextButton button = new ImageTextButton(NO_QUESTS_AVAILABLE, Utility.ELMOUR_UI_SKIN);
+            button.align(Align.center);
+            button.setTouchable(Touchable.disabled);
+            questListTableView.add(button);
         }
-        else if (sortByPreference.equals(SORT_BY_ORDER_OBTAINED)) {
+        else {
+            ArrayList<String> strings = new ArrayList<>();
 
-        }
+            if (sortByPreference.equals(SORT_BY_QUEST_NAME)) {
+                strings = visibleQuestList.getAllQuestIDs();
+                if (sortOrderPreference.equals(SORT_ORDER_ASCENDING))
+                    Collections.sort(strings, new QuestNameComparatorAscending());
+                else
+                    Collections.sort(strings, new QuestNameComparatorDescending());
+            } else if (sortByPreference.equals(SORT_BY_ORDER_OBTAINED)) {
+                ArrayList<QuestGraph> questGraphs = visibleQuestList.getAllQuestGraphs();
+                if (sortOrderPreference.equals(SORT_ORDER_ASCENDING))
+                    Collections.sort(questGraphs, new QuestTimestampComparatorAscending());
+                else
+                    Collections.sort(questGraphs, new QuestTimestampComparatorDescending());
 
-        ArrayList<String> questIDs = new ArrayList<>();
+                for (QuestGraph questGraph : questGraphs) {
+                    strings.add(questGraph.getQuestID());
+                }
+            }
 
-        if (showQuestsPreference.equals(SHOW_NOT_COMPLETED)) {
-            for (String string : strings) {
-                if (string.trim().length() > 0) {
-                    QuestGraph questGraph = questList.getQuestByID(string);
-                    if (!questGraph.isQuestComplete()) {
+            ArrayList<String> questIDs = new ArrayList<>();
+
+            if (showQuestsPreference.equals(SHOW_NOT_COMPLETED)) {
+                for (String string : strings) {
+                    if (string.trim().length() > 0) {
+                        QuestGraph questGraph = questList.getQuestByID(string);
+                        if (!questGraph.isQuestComplete()) {
+                            questIDs.add(questGraph.getQuestID());
+                        }
+                    }
+                }
+            } else if (showQuestsPreference.equals(SHOW_COMPLETED)) {
+                for (String string : strings) {
+                    if (string.trim().length() > 0) {
+                        QuestGraph questGraph = questList.getQuestByID(string);
+                        if (questGraph.isQuestComplete()) {
+                            questIDs.add(questGraph.getQuestID());
+                        }
+                    }
+                }
+            } else if (showQuestsPreference.equals(SHOW_ALL_QUESTS)) {
+                for (String string : strings) {
+                    if (string.trim().length() > 0) {
+                        QuestGraph questGraph = questList.getQuestByID(string);
                         questIDs.add(questGraph.getQuestID());
                     }
                 }
             }
+
+            setQuestListItems(questIDs);
+
+            questScrollPaneList.layout();
         }
-        else if (showQuestsPreference.equals(SHOW_COMPLETED)) {
-            for (String string : strings) {
-                if (string.trim().length() > 0) {
-                    QuestGraph questGraph = questList.getQuestByID(string);
-                    if (questGraph.isQuestComplete()) {
-                        questIDs.add(questGraph.getQuestID());
-                    }
-                }
-            }
-        }
-        else if (showQuestsPreference.equals(SHOW_ALL_QUESTS)) {
-            for (String string : strings) {
-                if (string.trim().length() > 0) {
-                    QuestGraph questGraph = questList.getQuestByID(string);
-                    questIDs.add(questGraph.getQuestID());
-                }
-            }
-        }
-
-        setQuestListItems(questIDs);
-
-        questScrollPaneList.layout();
-/*
-        ArrayList<String> strings = new ArrayList<>();
-
-        Array<Cell> cells = questListTableView.getCells();
-        for (Cell cell : cells) {
-            String string = cell.toString();
-            String [] sa = string.split(":");
-            if (sa.length > 1 && sa[1].trim().length() > 0) {
-                strings.add(sa[1].trim());
-            }
-        }
-
-        if (cells.size == 0) {
-            return;
-        }
-
-
-        if (sortByPreference.equals(SORT_BY_QUEST_NAME)) {
-            if (sortOrderPreference.equals(SORT_ORDER_ASCENDING))
-                Collections.sort(strings, new QuestComparatorAscending());
-            else
-                Collections.sort(strings, new QuestComparatorDescending());
-        }
-        else if (sortByPreference.equals(SORT_BY_ORDER_OBTAINED)) {
-
-        }
-
-        ArrayList<String> questIDs = new ArrayList<>();
-
-        if (showQuestsPreference.equals(SHOW_NOT_COMPLETED)) {
-            for (String string : strings) {
-                if (!string.isEmpty()) {
-                    QuestGraph questGraph = questList.getQuestByQuestTitle(string);
-                    if (!questGraph.isQuestComplete()) {
-                        questIDs.add(questGraph.getQuestID());
-                    }
-                }
-            }
-        }
-        else if (showQuestsPreference.equals(SHOW_COMPLETED)) {
-            for (String string : strings) {
-                if (!string.isEmpty()) {
-                    QuestGraph questGraph = questList.getQuestByQuestTitle(string);
-                    if (questGraph.isQuestComplete()) {
-                        questIDs.add(questGraph.getQuestID());
-                    }
-                }
-            }
-        }
-        else if (showQuestsPreference.equals(SHOW_ALL_QUESTS)) {
-            for (String string : strings) {
-                if (!string.isEmpty()) {
-                    QuestGraph questGraph = questList.getQuestByQuestTitle(string);
-                    questIDs.add(questGraph.getQuestID());
-                }
-            }
-        }
-
-        setQuestListItems(questIDs);
-
-        questScrollPaneList.layout();*/
     }
 
     private void addQuestListViewItem(QuestGraph questGraph) {
         Image noCheck = new Image(new Texture("graphics/noCheckmark.png"));
         Image check = new Image(new Texture("graphics/blackCheckmark.png"));
-        check.setSize(32, 32);
+        check.setSize(16, 16);
 
-        ImageTextButton button = new ImageTextButton(questGraph.getQuestTitle(), Utility.ELMOUR_UI_SKIN);
-        button.setUserObject(questGraph);
-        button.align(Align.left);
+        ImageTextButton button;
 
-        button.clearChildren();
 
         if (questGraph.isQuestComplete()) {
+            button = new ImageTextButton(questGraph.getQuestTitle(), Utility.ELMOUR_UI_SKIN, "grayed_out");
+            button.align(Align.left);
+            button.clearChildren();
             button.add(check).pad(5);
         }
         else {
+            button = new ImageTextButton(questGraph.getQuestTitle(), Utility.ELMOUR_UI_SKIN);
+            button.align(Align.left);
+            button.clearChildren();
             button.add(noCheck).pad(5);
         }
 
+        button.setUserObject(questGraph);
         button.add(button.getLabel());
 
         questListTableView.row().width(questListWidth);
@@ -606,10 +628,13 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         questListTableView.layout();
         questScrollPaneList.layout();
+
+        visibleQuestList.addQuest(questGraph);
     }
 
     private void setQuestListItems(ArrayList<String> items) {
         questListTableView.clearChildren();
+        visibleQuestList.clear();
 
         for (int i=0; i<1; i++) {
             for (String questID : items) {
@@ -660,13 +685,16 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 Image bullet;
                 Image subBullet;
                 Label text;
+                float bulletSize;
 
-                if (questTask.isTaskComplete()) {
+                if (questTask.isTaskComplete() || questGraph.isQuestComplete()) {
                     bullet = new Image(new Texture("graphics/blackCheckmark.png"));
                     text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                    bulletSize = 12;
                 } else {
                     bullet = new Image(new Texture("graphics/bullet.png"));
                     text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
+                    bulletSize = 16;
                 }
 
                 text.setWrap(true);
@@ -674,7 +702,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 text.pack();
 
                 taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY();
-                taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
+                taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(bulletSize).height(bulletSize);
                 taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
 
                 usedSpace += text.getHeight();
@@ -789,9 +817,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
         stage.addActor(mainTable);
         notify(QuestHudObserver.QuestHudEvent.QUEST_HUD_SHOWN);
 
+        setQuestListItems(questList.getAllQuestIDsInProgressOrComplete());
         getSortingPreferences();
-        setQuestListItems(questList.getAllQuestIDs());
-        sortQuestList();
     }
 
     @Override

@@ -71,6 +71,16 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 		up: transparent_button_down
 		down: transparent_button_down
 	}
+	grayed_out: {
+		font: myFontGrayVerySmall
+		up: transparent
+		down: transparent_button_down
+	}
+	force_down_grayed_out: {
+		font: myFontGrayVerySmall
+		up: transparent_button_down
+		down: transparent_button_down
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {

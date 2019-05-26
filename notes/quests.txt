@@ -13,18 +13,8 @@ TARGET_TYPE is path to .json config file (for RETURN quests or FETCH type quests
 TARGET_LOCATION is name of map
 
 Questions:
-We need a split window for Quest and associated quest tasks to show what has been done and what still needs to be done.
-Where will this be launched from?
 Do we need a QuestItem class to define quest items that will be displayed in inventory? Will there be sprites for them?
 What are non-quest items?
-
-Quest Thunder
--------------
-Only show tasks that are available
-Then show tasks in the order they have been completed
-Allow sorting of quests by order obtained or alphabetical (arrows?)
-Allow filtering of completed/not completed
-Task list should be wrappable and bullet list
 
 ****** PROFILE
 ****** save full quest graphs that are in progress

@@ -24,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -1587,6 +1588,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (questGraph != null) {
             // save full quest graph for quests that are in progress
             questGraph.setQuestStatus(QuestGraph.QuestStatus.IN_PROGRESS);
+            questGraph.setTimestamp(TimeUtils.millis());
             updateEntityObservers();
         }
     }

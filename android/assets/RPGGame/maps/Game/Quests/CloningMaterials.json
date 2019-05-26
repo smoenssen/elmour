@@ -3,6 +3,7 @@ questTasks: {
 	FindButtons: {
 		yedNodeId: n2::n4
 		id: FindButtons
+		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
 		taskPhrase: Find All Three Buttons
@@ -63,9 +64,10 @@ questTasks: {
 	GetWires1: {
 		yedNodeId: n2::n3
 		id: GetWires1
+		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
-		taskPhrase: Get 30ft. of Wires
+		taskPhrase: Get 30ft. of wire;Get 25 ft. of wire
 		subQuestList: {
 			quests: {
 				GetWires1: {
@@ -96,6 +98,7 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Get "Mystery Materials"
+							isSpoiler: true
 						}
 					}
 					questTaskDependencies: {
@@ -116,17 +119,17 @@ questTasks: {
 						]
 					}
 					yedNodeId: n2::n3
-					questTitle: Get 30ft. of Wires
+					questTitle: Get 30ft. of wire;Get 25 ft. of wire
 					questID: GetWires1
-					questGiver: RICK
+					questGiver: OPHION
 					questStatus: NOT_STARTED
-					chapter: 3
+					chapter: 1
 					goldReward: 20
 					xpReward: 5
 				}
 			}
 			questTitleMap: {
-				Get 30ft. of Wires: GetWires1
+				Get 30ft. of wire;Get 25 ft. of wire: GetWires1
 			}
 			json: {}
 			isSubQuestList: true
@@ -149,10 +152,12 @@ questTasks: {
 		targetType: OPHION
 		targetLocation: MAP1
 		taskPhrase: Give Rick supplies
+		isSpoiler: true
 	}
 	GetWires2: {
 		yedNodeId: n2::n2
 		id: GetWires2
+		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
 		taskPhrase: Get 5ft. of wire
@@ -177,6 +182,7 @@ questTasks: {
 							targetType: OPHION
 							targetLocation: MAP1
 							taskPhrase: Get a Lead Pipe
+							isSpoiler: true
 						}
 						GiveJustinMaterials: {
 							yedNodeId: n2::n2::n2

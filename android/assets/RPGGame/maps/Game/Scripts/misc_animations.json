@@ -1306,7 +1306,7 @@ animationConfig: [
 			frameHeight : 48
 		animationType: CLONING_TANK_BLINK
 		texturePaths: [
-			RPGGame/maps/Game/Tiles/Inside/Lab_Insides/LAB_TANK.png
+			RPGGame/maps/Game/Tiles/Inside/Lab_Insides/Lab_Tank.png
 		]
 		gridPoints: [
 			{

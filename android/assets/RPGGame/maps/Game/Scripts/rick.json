@@ -12,7 +12,7 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: PRE_QUEST_CUTSCENE
-		config: "CloningQuest_CloningMaterialsOpen"
+		config: "CloningQuestScreen_CloningMaterialsOpen"
 		questID: CloningMaterials
 	}
 	{

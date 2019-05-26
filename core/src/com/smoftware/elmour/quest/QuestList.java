@@ -58,6 +58,15 @@ public class QuestList implements ProfileObserver {
         questDependencies = json.fromJson(Hashtable.class, Gdx.files.internal("RPGGame/maps/Game/Quests/QuestDependencies.json"));
     }
 
+    public void clear() {
+        quests.clear();
+        questTitleMap.clear();
+    }
+
+    public int size() {
+        return quests.size();
+    }
+
     private void buildQuestTitleMap() {
         Set<String> keys = quests.keySet();
         for (String id: keys) {
@@ -143,6 +152,43 @@ public class QuestList implements ProfileObserver {
 
         return questIDs;
     }
+/*
+    public ArrayList<String> getAllQuestTitles() {
+        ArrayList<String> questTitles = new ArrayList<>();
+
+        Set<String> keys = quests.keySet();
+        for (String id: keys) {
+            QuestGraph questGraph = quests.get(id);
+            questTitles.add(questGraph.getQuestTitle());
+        }
+
+        return questTitles;
+    }
+*/
+    public ArrayList<String> getAllQuestIDsInProgressOrComplete() {
+        ArrayList<String> questIDs = new ArrayList<>();
+
+        Set<String> keys = quests.keySet();
+        for (String id: keys) {
+            QuestGraph questGraph = getQuestByID(id);
+            if ((questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) || questGraph.isQuestComplete()) {
+                questIDs.add(id.toString());
+            }
+        }
+
+        return questIDs;
+    }
+
+    public ArrayList<QuestGraph> getAllQuestGraphs() {
+        ArrayList<QuestGraph> questGraphs = new ArrayList<>();
+
+        Set<String> keys = quests.keySet();
+        for (String id: keys) {
+            questGraphs.add(getQuestByID(id));
+        }
+
+        return questGraphs;
+    }
 
     public void addQuest(QuestGraph questGraph) {
         quests.put(questGraph.getQuestID(), questGraph);
@@ -174,28 +220,36 @@ public class QuestList implements ProfileObserver {
     }
 */
 
+    public static class CompletedQuest {
+        public String questID;
+        public long timestamp;
+    }
+
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
-        Array<String> completedQuests;
+        Array<CompletedQuest> completedQuests;
 
         switch (event) {
             case PROFILE_LOADED:
                 if (!isSubQuestList) {
-                    // get all main quests that are in progress or complete from profile and update the internal list
-                    for (Map.Entry<String, QuestGraph> entry : quests.entrySet()) {
-                        String questID = entry.getKey();
+                    if (quests.size() > 0) {
+                        // get all main quests that are in progress or complete from profile and update the internal list
+                        for (Map.Entry<String, QuestGraph> entry : quests.entrySet()) {
+                            String questID = entry.getKey();
 
-                        QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID, QuestGraph.class);
-                        if (questGraphInProfile != null) {
-                            quests.put(questID, questGraphInProfile);
+                            QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID, QuestGraph.class);
+                            if (questGraphInProfile != null) {
+                                quests.put(questID, questGraphInProfile);
+                            }
                         }
-                    }
 
-                    completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
-                    if (completedQuests != null) {
-                        for (String completedQuest : completedQuests) {
-                            QuestGraph completedQuestGraph = quests.get(completedQuest);
-                            completedQuestGraph.setQuestComplete();
+                        completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                        if (completedQuests != null) {
+                            for (CompletedQuest completedQuest : completedQuests) {
+                                QuestGraph completedQuestGraph = quests.get(completedQuest.questID);
+                                completedQuestGraph.setTimestamp(completedQuest.timestamp);
+                                completedQuestGraph.setQuestComplete();
+                            }
                         }
                     }
                 }
@@ -203,21 +257,26 @@ public class QuestList implements ProfileObserver {
                 break;
             case SAVING_PROFILE:
                 if (!isSubQuestList) {
-                    // write all main quests that are in progress or complete to profile
-                    for (Map.Entry<String, QuestGraph> entry : quests.entrySet()) {
-                        String questID = entry.getKey();
-                        QuestGraph questGraph = entry.getValue();
+                    if (quests.size() > 0) {
+                        // write all main quests that are in progress or complete to profile
+                        for (Map.Entry<String, QuestGraph> entry : quests.entrySet()) {
+                            String questID = entry.getKey();
+                            QuestGraph questGraph = entry.getValue();
 
-                        if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
-                            ProfileManager.getInstance().setProperty(questID, questGraph);
-                        } else if (questGraph.isQuestComplete()) {
-                            completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
-                            if (completedQuests == null) {
-                                completedQuests = new Array<>();
+                            if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
+                                ProfileManager.getInstance().setProperty(questID, questGraph);
+                            } else if (questGraph.isQuestComplete()) {
+                                completedQuests = ProfileManager.getInstance().getProperty("CompletedQuests", Array.class);
+                                if (completedQuests == null) {
+                                    completedQuests = new Array<>();
+                                }
+                                CompletedQuest completedQuest = new CompletedQuest();
+                                completedQuest.questID = questID;
+                                completedQuest.timestamp = questGraph.getTimestamp();
+                                completedQuests.add(completedQuest);
+                                ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
+                                ProfileManager.getInstance().removeProperty(questID);
                             }
-                            completedQuests.add(questID);
-                            ProfileManager.getInstance().setProperty("CompletedQuests", completedQuests);
-                            ProfileManager.getInstance().removeProperty(questID);
                         }
                     }
                 }

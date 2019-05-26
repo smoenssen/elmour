@@ -613,7 +613,6 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         notify(_json.toJson(val), ComponentObserver.ComponentEvent.QUEST_LOCATION_DISCOVERED);
                     }
 
-                    Gdx.app.debug(TAG, "Discover Area Activated");
                     return true;
                 }
             }

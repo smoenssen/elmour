@@ -140,8 +140,11 @@ public abstract class Map extends MapSubject implements AudioSubject{
         if( Utility.isAssetLoaded(fullMapPath) ) {
             _currentMap = Utility.getMapAsset(fullMapPath);
         }else{
-            Gdx.app.debug(TAG, "Map not loaded");
-            return;
+            try {
+                throw new Exception("Map not found: " + fullMapPath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         _collisionLayer = _currentMap.getLayers().get(COLLISION_LAYER);

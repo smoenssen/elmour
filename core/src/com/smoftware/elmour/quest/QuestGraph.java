@@ -33,6 +33,7 @@ public class QuestGraph {
     private int chapter;
     private int goldReward;
     private int xpReward;
+    private long timestamp;
 
     public void setChapter(int chapter) { this.chapter = chapter; }
 
@@ -75,6 +76,10 @@ public class QuestGraph {
     public void setQuestTitle(String questTitle) {
         this.questTitle = questTitle;
     }
+
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+
+    public long getTimestamp() { return timestamp; }
 
     public boolean isQuestComplete() { return questStatus == QuestStatus.COMPLETE; }
 

@@ -520,6 +520,7 @@ public final class Utility {
 					taskNode.setId(subQuestGraph.getQuestID());
 					taskNode.setTaskPhrase(subQuestGraph.getQuestTitle());
 					taskNode.setTargetType(QuestTask.QuestTaskType.QUEST.toString());
+					taskNode.setQuestTaskType(QuestTask.QuestTaskType.QUEST);
 					taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
 					questTasks.put(taskNode.getId(), taskNode);
 					continue;
