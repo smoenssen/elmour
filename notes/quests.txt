@@ -23,6 +23,7 @@ Rename targetType to targetEntity?
 Todo:
 -----
 Need to support talking to NPC more than once during quest, depending on what tasks have been complete
+Need to support spawning items after a specific quest is started.
 
 Ben
 ---
