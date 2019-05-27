@@ -333,8 +333,8 @@
           </graph>
         </node>
         <node id="n2::n3" yfiles.foldertype="group">
-          <data key="d4"><![CDATA[Get 30ft. of wire;Get 25 ft. of wire]]></data>
-          <data key="d5"><![CDATA[1;OPHION;20;5]]></data>
+          <data key="d4"><![CDATA[Get 30ft. of Wire;Get 25ft. of Wire]]></data>
+          <data key="d5"><![CDATA[1;JAXON;20;5]]></data>
           <data key="d6">
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">

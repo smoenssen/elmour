@@ -25,6 +25,7 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.CutSceneBase;
 import com.smoftware.elmour.screens.CutSceneObserver;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
+import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
     private AnimatedImage camactor;
     private AnimatedImage misc;
     private AnimatedImage misc2;
+    private AnimatedImage misc3;
 
     public CloningQuest(ElmourGame game, PlayerHUD playerHUD) {
         super(game, playerHUD);
@@ -54,18 +56,21 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
         character1 = getAnimatedImage(EntityFactory.EntityName.CHARACTER_1);
         rick = getAnimatedImage(EntityFactory.EntityName.RICK);
-        justin = getAnimatedImage(EntityFactory.EntityName.CARMEN);
-        jaxon = getAnimatedImage(EntityFactory.EntityName.CARMEN);
+        justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
+        jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON_1);
 
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
         misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
         misc2 = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
+        misc3 = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
 
         camactor.setVisible(false);
         misc.setVisible(false);
         misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
         misc2.setVisible(false);
         misc2.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
+        misc3.setVisible(false);
+        misc3.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
 
         _followingActor.setPosition(0, 0);
 
@@ -77,6 +82,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         _stage.addActor(camactor);
         _stage.addActor(misc);
         _stage.addActor(misc2);
+        _stage.addActor(misc3);
         _stage.addActor(_transitionActor);
 
         //Actions
@@ -93,15 +99,16 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 _playerHUD.hideMessage();
                 _mapMgr.loadMap(MapFactory.MapType.T1DOOR4);
                 _mapMgr.disableCurrentmapMusic();
-                setCameraPosition(5, 4);
+                setCameraPosition(6, 5);
+                keepCamInMap = false;
 
                 rick.setVisible(true);
-                rick.setPosition(6.5f, 2);
+                rick.setPosition(6.5f, 2.5f);
                 rick.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 rick.setCurrentDirection(Entity.Direction.UP);
 
                 character1.setVisible(false);
-                character1.setPosition(3, 1);
+                character1.setPosition(3, 1.33f);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character1.setCurrentDirection(Entity.Direction.UP);
 
@@ -111,7 +118,13 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
                 misc2.setVisible(false);
                 misc2.setPosition(8, 6);
-                misc2.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                misc2.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+
+                misc3.setVisible(false);
+                misc3.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+
+                justin.setVisible(false);
+                jaxon.setVisible(false);
             }
         };
     }
@@ -138,9 +151,211 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             case WAIT_1000:
                 _playerHUD.doConversation(graph.getNextConversationIDFromChoice(conversationId, 0), 1000);
                 break;
+            case RICK_FAILURE:
+                if( shakeCam == null ){
+                    shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
+                            0.02f,
+                            0.3f,
+                            0.05f,
+                            0.0125f,
+                            0.98f,
+                            0.99f,
+                            0.2f);
+                }
+                _stage.addAction(Actions.sequence(
+
+                        Actions.delay(oneBlockTime * 1),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.PUSH_BUTTON),
+                        Actions.delay(oneBlockTime * 4),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        myActions.new shakeCam(shakeCam),
+                        Actions.delay(oneBlockTime * 4),
+
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.CLONING_COMP_BLINK),
+                        myActions.new setCharacterVisible(misc2, true),
+                        myActions.new setWalkDirection(misc2, Entity.AnimationType.CLONING_TANK_BLINK),
+
+                        Actions.delay(oneBlockTime * 5),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
             case RICK_WALK_TO_COMP:
-                _playerHUD.acceptQuest(questID);
-                fadeToMainScreen();
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(3.5f, 2.5f, oneBlockTime * 3), rick),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveTo(1.5f, 6.5f, oneBlockTime * 4), rick),
+                        Actions.delay(oneBlockTime * 4),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_THINK:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        Actions.addAction(Actions.moveTo(rick.getX() + emoteX, rick.getY() + emoteY), misc3),
+
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.THINK),
+
+                        myActions.new setCharacterVisible(misc3, true),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_LOOP),
+                        Actions.delay(2.1f),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc3, false),
+
+                        myActions.new setCharacterVisible(character1, true),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(rick, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+
+                        myActions.new setCharacterVisible(misc3, true),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_LOOP),
+                        Actions.delay(2.1f),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc3, false),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_WALK_AROUND:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(1.5f, 0, oneBlockTime * 3), rick),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setIdleDirection(rick, Entity.Direction.RIGHT),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.THINK),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_SPOT_CHAR:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        Actions.addAction(Actions.moveTo(rick.getX() + emoteX, rick.getY() + emoteY), misc3),
+
+                        myActions.new setIdleDirection(rick, Entity.Direction.DOWN),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        myActions.new setCharacterVisible(misc3, true),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.SHOCK_ON),
+                        Actions.delay(emoteOn),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.SHOCK_OFF),
+                        Actions.delay(emoteOff),
+                        myActions.new setCharacterVisible(misc3, false),
+
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_LOOK_AWAY:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(rick, Entity.Direction.UP),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_LOOK_DOWN:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setIdleDirection(rick, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_WALK_DOWN:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -2, oneBlockTime * 4), rick),
+                        Actions.delay(oneBlockTime * 4),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case RICK_DESTROY_KEYBOARD:
+                    shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
+                            0.02f,
+                            0.4f,
+                            0.4f,
+                            0.0125f,
+                            0.7f,
+                            0.7f,
+                            0.2f);
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveTo(rick.getX() + 1, 2.5f, oneBlockTime * 3), rick),
+                        Actions.delay(oneBlockTime * 3),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveTo(6.5f, 2.5f, oneBlockTime * 3), rick),
+                        myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
+
+                        Actions.delay(oneBlockTime * 3),
+
+                        myActions.new setIdleDirection(rick, Entity.Direction.UP),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.PUSH_BUTTON),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setCharacterVisible(misc, false),
+                        myActions.new setCharacterVisible(misc2, false),
+                        Actions.delay(oneBlockTime * 2),
+
+                        Actions.addAction(Actions.moveTo(6.5f, 3), misc),
+                        Actions.addAction(Actions.moveTo(6.5f, 3), misc2),
+                        Actions.addAction(Actions.moveTo(6.5f, 3), misc3),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.HIDDEN_ITEM_FULL),
+                        myActions.new setWalkDirection(misc2, Entity.AnimationType.HIDDEN_ITEM_FULL),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.HIDDEN_ITEM_FULL),
+
+                        myActions.new shakeCam(shakeCam),
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setCharacterVisible(misc2, true),
+                        myActions.new setCharacterVisible(misc3, true),
+                        Actions.addAction(Actions.moveBy(-5, 10, oneBlockTime * 3), misc),
+                        Actions.addAction(Actions.moveBy(0, 15, oneBlockTime * 3), misc2),
+                        Actions.addAction(Actions.moveBy(5, 10, oneBlockTime * 3), misc3),
+                        myActions.new setWalkDirection(rick, Entity.AnimationType.IDLE),
+
+                        Actions.delay(oneBlockTime * 5),
+                        myActions.new setIdleDirection(rick, Entity.Direction.LEFT),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
                 break;
 
 
@@ -181,7 +396,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                         new Runnable() {
                             @Override
                             public void run() {
-                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/CloningMaterials/CloningMaterialsDialog.json", thisScreen);
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Quest_Dialog/CloningMaterials/CloningMaterialsDialog.json", thisScreen);
                                 _playerHUD.doConversation();
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
                             }
@@ -196,7 +411,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
         currentPartNumber = ProfileManager.getInstance().getProperty(ElmourGame.ScreenType.CloningQuestScreen.toString(), String.class);
 
-        if (currentPartNumber.equals("CloningQuestOpen")) {
+        if (currentPartNumber.equals("CloningMaterialsOpen")) {
             questID = "CloningMaterials";
             _stage.addAction(getCloningMaterialsOpeningScene());
         }

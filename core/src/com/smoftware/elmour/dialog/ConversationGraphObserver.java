@@ -115,7 +115,16 @@ public interface ConversationGraphObserver {
 
         //Quests
         //Cloning Quest
+        RICK_FAILURE,
         RICK_WALK_TO_COMP,
+        RICK_THINK,
+        RICK_WALK_AROUND,
+        RICK_SPOT_CHAR,
+        RICK_LOOK_AWAY,
+        RICK_LOOK_DOWN,
+        RICK_WALK_DOWN,
+        RICK_DESTROY_KEYBOARD,
+
 
         WALK_AROUND_TOWN,
 

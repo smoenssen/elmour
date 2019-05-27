@@ -67,7 +67,7 @@ questTasks: {
 		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
 		targetType: QUEST
-		taskPhrase: Get 30ft. of wire;Get 25 ft. of wire
+		taskPhrase: Get 30ft. of Wire;Get 25ft. of Wire
 		subQuestList: {
 			quests: {
 				GetWires1: {
@@ -119,9 +119,9 @@ questTasks: {
 						]
 					}
 					yedNodeId: n2::n3
-					questTitle: Get 30ft. of wire;Get 25 ft. of wire
+					questTitle: Get 30ft. of Wire;Get 25ft. of Wire
 					questID: GetWires1
-					questGiver: OPHION
+					questGiver: JAXON
 					questStatus: NOT_STARTED
 					chapter: 1
 					goldReward: 20
@@ -129,7 +129,7 @@ questTasks: {
 				}
 			}
 			questTitleMap: {
-				Get 30ft. of wire;Get 25 ft. of wire: GetWires1
+				Get 30ft. of Wire;Get 25ft. of Wire: GetWires1
 			}
 			json: {}
 			isSubQuestList: true
