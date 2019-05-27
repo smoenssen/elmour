@@ -811,13 +811,6 @@
  <objectgroup name="SPAWNS_LAYER">
   <object id="469" name="PLAYER_START" x="618" y="48" width="16" height="16"/>
   <object id="478" name="PLAYER_START" x="159" y="938" width="32" height="16"/>
-  <object id="588" name="Ophion" x="159" y="804" width="16" height="16">
-   <properties>
-    <property name="chapters" value="1-6"/>
-    <property name="taskIDs" value="TeddyBear::ReturnTeddyBear;DogsQuest::FindElliot"/>
-   </properties>
-  </object>
-  <object id="590" name="PLAYER_START_Q1" x="180" y="804" width="16" height="16"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="167" name="MAP2" x="639" y="16" width="1" height="82"/>

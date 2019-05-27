@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="46">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="47">
  <tileset firstgid="1" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
  </tileset>
@@ -98,6 +98,12 @@
  <objectgroup name="SPAWNS_LAYER">
   <object id="39" name="PLAYER_START" x="64" y="125" width="16" height="12"/>
   <object id="45" name="PLAYER_START_WEAPONS_ROOM" x="112" y="41" width="16" height="12"/>
+  <object id="46" name="Jaxon_1" x="56" y="32" width="16" height="16">
+   <properties>
+    <property name="chapters" value="1-25"/>
+    <property name="taskIDs" value="CloningMatierials::TalkToJaxon"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">

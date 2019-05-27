@@ -32,7 +32,7 @@ conversations: {
 	}
 	n18: {
 		id: n18
-		dialog: RICK_WALK_RIGHT
+		dialog: RICK_WALK_DOWN
 		data: null
 		type: ACTION
 	}
@@ -45,7 +45,7 @@ conversations: {
 	n17: {
 		id: n17
 		dialog: DECLINE_QUEST
-		data: Cloning1;T1DOOR4
+		data: CLONING1;ELMOUR
 		type: ACTION
 	}
 	n3: {
@@ -62,7 +62,7 @@ conversations: {
 	}
 	n16: {
 		id: n16
-		dialog: I guess it can^t be helped.\n¶I^ll need your help.
+		dialog: I guess it was inevitable...\n¶I require your aid.
 		data: Rick
 		type: NPC
 	}
@@ -74,7 +74,7 @@ conversations: {
 	}
 	n15: {
 		id: n15
-		dialog: RICK_THINK
+		dialog: RICK_LOOK_DOWN
 		data: null
 		type: ACTION
 	}
@@ -128,7 +128,7 @@ conversations: {
 	}
 	n26: {
 		id: n26
-		dialog: Well...\n§Could you also help find the keys that are\nmissing?\n§There should be three of them.
+		dialog: "Well...\n§Could you also help find the keys that are\nnow missing?\n§There should be... three of them.\n§Please, and thank you!"
 		data: Rick
 		type: NPC
 	}
@@ -140,14 +140,14 @@ conversations: {
 	}
 	n24: {
 		id: n24
-		dialog: Sweet!\n§Could you get me about 30ft. of wires along\nwith two CDs?\n§That would be all.
+		dialog: Sweet!\n§Could you get me about 30ft. of wire along\nwith two CDs?\n§That would be all.
 		data: Rick
 		type: NPC
 	}
 	n23: {
 		id: n23
 		dialog: DECLINE_QUEST
-		data: Cloning1;T1DOOR4
+		data: CLONING1;ELMOUR
 		type: ACTION
 	}
 	n22: {

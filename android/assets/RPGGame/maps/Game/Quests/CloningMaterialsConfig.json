@@ -1,0 +1,5 @@
+{
+    config: "CloningQuestScreen_CloningMaterialsOpen"
+    questID: CloningMaterials
+    type: PRE_QUEST_CUTSCENE
+}

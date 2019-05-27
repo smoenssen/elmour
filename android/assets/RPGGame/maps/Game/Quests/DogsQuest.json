@@ -34,12 +34,12 @@ questTaskDependencies: {
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindElliot
+			destinationId: FindSeymour
 		}
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindSeymour
+			destinationId: FindElliot
 		}
 	]
 	FindSeymour: []

@@ -724,6 +724,73 @@ animationConfig: [
 		]
 	}
 	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: IDEA_ON
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 9
+				y: 0
+			}
+			{
+				x: 9
+				y: 1
+			}
+		]
+	}
+	{
+			frameDuration: 0.7
+			frameWidth : 16
+			frameHeight : 16
+		animationType: IDEA_LOOP
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 9
+				y: 2
+			}
+			{
+				x: 9
+				y: 3
+			}
+		]
+	}
+	{
+			frameDuration: 0.025
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: IDEA_OFF
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Emotes/Emotes.png
+		]
+		gridPoints: [
+			{
+				x: 9
+				y: 1
+			}
+			{
+				x: 9
+				y: 0
+			}
+			{
+				x: 0
+				y: 0
+			}
+		]
+	}
+	{
 			frameDuration: 0.125
 			frameWidth : 16
 			frameHeight : 16
@@ -1232,8 +1299,8 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.125
-			frameWidth : 16
-			frameHeight : 16
+			frameWidth : 32
+			frameHeight : 32
 		animationType: CLONING_COMP
 		texturePaths: [
 			RPGGame/maps/Game/Tiles/Inside/Lab_Insides/Lab_Comp.png
@@ -1259,7 +1326,7 @@ animationConfig: [
 	}
 	{
 			frameDuration: 0.125
-			frameWidth : 16
+			frameWidth : 32
 			frameHeight : 32
 		animationType: CLONING_COMP_BLINK
 		texturePaths: [
@@ -1316,6 +1383,76 @@ animationConfig: [
 			{
 				x: 0
 				y: 0
+			}
+		]
+	}
+	{
+			frameDuration: 0.25
+			frameWidth : 16
+			frameHeight : 16
+		animationType: HIDDEN_ITEM
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Hidden_Item/Hidden_Item.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 2
+			}
+			{
+				x: 1
+				y: 0
+			}
+			{
+				x: 1
+				y: 1
+			}
+			{
+				x: 1
+				y: 2
+			}
+		]
+	}
+	{
+			frameDuration: 0.25
+			frameWidth : 16
+			frameHeight : 16
+		animationType: HIDDEN_ITEM_FULL
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Hidden_Item/Hidden_Item.png
+		]
+		gridPoints: [
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+			{
+				x: 2
+				y: 2
+			}
+			{
+				x: 3
+				y: 0
+			}
+			{
+				x: 3
+				y: 1
+			}
+			{
+				x: 3
+				y: 2
 			}
 		]
 	}
