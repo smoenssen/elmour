@@ -5,7 +5,7 @@ questTasks: {
 		id: FindTeddyBear
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetType: JUSTIN
+		targetType: TEDDY_BEAR
 		targetLocation: COMPASS
 		taskPhrase: Find teddy bear
 	}

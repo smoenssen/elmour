@@ -585,7 +585,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     }
 
     @Override
-    public void onNotify(PlayerHudEvent event) {
+    public void onNotify(PlayerHudEvent event, String value) {
         switch (event) {
             case SHOWING_POPUP:
                 if (ElmourGame.isAndroid()) {

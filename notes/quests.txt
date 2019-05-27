@@ -16,24 +16,13 @@ Questions:
 Do we need a QuestItem class to define quest items that will be displayed in inventory? Will there be sprites for them?
 What are non-quest items?
 
-****** PROFILE
-****** save full quest graphs that are in progress
-****** save quests that are complete just as questIDs
-****** save latest config TYPE for each NPC
-
-
 Notes:
-DONE - Need to support more than one quest being active at a time, but only one open quest per NPC
-DONE - Need to keep track of current quest ID with each NPC in profile manager.
-DONE - Remove conversationConfigPath from EntityConfig because conversationConfigs array is now used.
-DONE - Remove questConfigPath from EntityConfig because this will be handled in QuestList
-DONE - Remove currentQuestID from EntityConfig
-Whenever quest status changes, updateEntityObservers() needs to be called (?)
-DONE - Need to add dependencies between quests.
-DONE - On map, NPC spawn locations will have a chapters range that it can spawn.
 Remove targetLocation from QuestTask?
 Rename targetType to targetEntity?
-DONE - Add chapter range to normal dialog
+
+Todo:
+-----
+Need to support talking to NPC more than once during quest, depending on what tasks have been complete
 
 Ben
 ---

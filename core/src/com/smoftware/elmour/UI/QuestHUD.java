@@ -411,7 +411,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
                                             String selection = sortingSelectBox.getSelected();
                                             if (selection != null) {
-                                                sortByPreference = selection;
+                                                setSortByPreference(selection);
                                                 sortQuestList();
                                             }
                                         }
@@ -425,7 +425,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
                                             String selection = showQuestsSelectBox.getSelected();
                                             if (selection != null) {
-                                                showQuestsPreference = selection;
+                                                setShowQuestsPreference(selection);
                                                 sortQuestList();
                                             }
                                         }
@@ -489,6 +489,16 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private void setSortingOrder(String sortingOrder) {
         sortOrderPreference = sortingOrder;
         ProfileManager.getInstance().setProperty(SORT_QUEST_ORDER_PREFERENCE, sortOrderPreference);
+    }
+
+    private void setSortByPreference(String sortBy) {
+        sortByPreference = sortBy;
+        ProfileManager.getInstance().setProperty(SORT_QUEST_BY_PREFERENCE, sortByPreference);
+    }
+
+    private void setShowQuestsPreference(String showQuests) {
+        showQuestsPreference = showQuests;
+        ProfileManager.getInstance().setProperty(SHOW_QUEST_PREFERENCE, showQuestsPreference);
     }
 
     private void getSortingPreferences() {

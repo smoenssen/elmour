@@ -36,6 +36,8 @@ import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityConfig.ConversationConfig;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.KeyItem;
+import com.smoftware.elmour.KeyItemFactory;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -1378,7 +1380,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Gdx.app.log(TAG, "SHOW_CONVERSATION");
                     if (configShow.getEntityID().equalsIgnoreCase(conversationPopUp.getCurrentEntityID())) {
                         doConversation();
-                        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_POPUP);
+                        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_POPUP, "");
                     }
                 }
                 break;
@@ -1388,7 +1390,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     popUpLabel.setVisible(false);
                     conversationPopUp.hide();
                     conversationPopUp.getCurrentConversationGraph().removeObserver(this);
-                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
+                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
                 }
                 break;
             case DID_INITIAL_INTERACTION:
@@ -1512,7 +1514,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             else {
                 conversationPopUp.hide();
                 popUpLabel.setVisible(false);
-                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
+                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
             }
         }
 
@@ -1533,7 +1535,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
                 }
                 conversationPopUp.hide();
-                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
+                notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
                 popUpLabel.setVisible(false);
                 isThereAnActiveHiddenChoice = false;
             }
@@ -1543,7 +1545,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CHAT)) {
                     conversationPopUp.hide();
                     popUpLabel.setVisible(false);
-                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
+                    notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
                 }
             }
         }
@@ -1579,7 +1581,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             //isExitingConversation = true;
         }
 
-        notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP);
+        notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
     }
 
     public void acceptQuest(String questID) {
@@ -1692,6 +1694,12 @@ public class PlayerHUD implements Screen, AudioSubject,
                     QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
                     questTask.setTaskComplete();
+
+                    switch (questTask.getQuestTaskType()) {
+                        case FETCH:
+                            notify(PlayerHudObserver.PlayerHudEvent.KEY_ITEM_FETCHED, questTask.getTargetType());
+                            break;
+                    }
 
                     if (questGraph.areAllTasksComplete()) {
                         questGraph.setQuestComplete();
@@ -2229,9 +2237,9 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     @Override
-    public void notify(PlayerHudObserver.PlayerHudEvent event) {
+    public void notify(PlayerHudObserver.PlayerHudEvent event, String value) {
         for(PlayerHudObserver observer: playerHudObservers){
-            observer.onNotify(event);
+            observer.onNotify(event, value);
         }
     }
 

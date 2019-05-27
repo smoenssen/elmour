@@ -372,6 +372,8 @@ public class QuestGraph {
 
             switch (questTask.getQuestTaskType()) {
                 case FETCH:
+                    //todo: not used?
+                    /*
                     String taskConfig = questTask.getTargetType();
                     if( taskConfig == null || taskConfig.isEmpty() ) break;
                     EntityConfig config = Entity.getEntityConfig(taskConfig);
@@ -385,6 +387,7 @@ public class QuestGraph {
                         Gdx.app.debug(TAG, "TASK : " + questTask.getId() + " is complete of Quest: " + questID);
                         Gdx.app.debug(TAG, "INFO : " + questTask.getTargetType());
                     }
+                    */
                     break;
                 case KILL:
                     break;
@@ -418,6 +421,7 @@ public class QuestGraph {
 
             switch (questTask.getQuestTaskType()) {
                 case FETCH:
+                    //todo: not used?
                     /*
                     Array<Entity> questEntities = new Array<Entity>();
                     Array<Vector2> positions = mapMgr.getQuestItemSpawnPositions(questID, questTask.getId());

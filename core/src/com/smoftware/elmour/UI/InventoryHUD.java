@@ -19,6 +19,8 @@ import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.KeyItem;
+import com.smoftware.elmour.KeyItemFactory;
 import com.smoftware.elmour.PartyInventory;
 import com.smoftware.elmour.PartyInventoryItem;
 import com.smoftware.elmour.PartyInventoryObserver;
@@ -31,7 +33,7 @@ import com.smoftware.elmour.profile.ProfileObserver;
  * Created by steve on 2/10/19.
  */
 
-public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver {
+public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver, PlayerHudObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
     enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
@@ -1587,5 +1589,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
             inventoryItem.setText(description);
             inventoryItem.setUserObject(partyInventoryItem);
         }
+    }
+
+    @Override
+    public void onNotify(PlayerHudEvent event, String value) {
+        KeyItem.ID itemID = KeyItem.ID.valueOf(value);
+        KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
     }
 }
