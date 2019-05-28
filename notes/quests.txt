@@ -76,8 +76,12 @@ Character .json files
 		PRE_QUEST_CUTSCENE,
 		QUEST_TASK_DIALOG,
 		QUEST_TASK_CUTSCENE,
-		ACTIVE_QUEST_DIALOG,
-		ACTIVE_QUEST_CUTSCENE,
+		ACTIVE_QUEST_DIALOG1,
+		ACTIVE_QUEST_DIALOG2,
+		ACTIVE_QUEST_DIALOG3,
+		ACTIVE_QUEST_CUTSCENE1,
+		ACTIVE_QUEST_CUTSCENE2,
+		ACTIVE_QUEST_CUTSCENE3,
 		RETURN_QUEST_DIALOG,
 		RETURN_QUEST_CUTSCENE,
 		POST_QUEST_DIALOG
@@ -98,7 +102,7 @@ Example conversationConfigs in timmy.json file:
 		}
 		{
 			class: com.smoftware.elmour.EntityConfig$ConversationConfig
-			type: ACTIVE_QUEST_DIALOG
+			type: ACTIVE_QUEST_DIALOG1
 			config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/TimmyActiveQuestDialog.json"
 			questID: TeddyBear
 		}
@@ -128,7 +132,7 @@ Color = task types
 	DISCOVER	= 00ff00
 Text = task ID
 Phrase = URL
-Description will be <Target Type>;<Target Location>;<Target Number>
+Description will be <Target Type>;<ConversationType>;<Target Number>
 
 Quests will be Groups
 URL = Quest Title

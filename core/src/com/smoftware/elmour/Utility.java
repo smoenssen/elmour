@@ -537,10 +537,10 @@ public final class Utility {
 					// Data URL is quest task phrase
 					taskNode.setTaskPhrase(data_element.getText());
 				} else if (key.equals("d5")) {
-					// Data Description is in the form <Target Type>;<Target Location>;<Target Number>
+					// Data Description is in the form <Target Type>;<ConversationType>;<Target Number>
 					String[] sa = data_element.getText().split(";");
 					taskNode.setTargetType(sa[0]);
-					taskNode.setTargetLocation(sa[1]);
+					taskNode.setConversationType(EntityConfig.ConversationType.valueOf(sa[1]));
 					if (sa.length > 2)
 						taskNode.setTargetNumber(Integer.parseInt(sa[2]));
 				} else if (key.equals("d6")) {

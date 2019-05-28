@@ -1178,24 +1178,20 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
         }
         else {
+            QuestGraph questGraph = questHUD.getQuestByID(questID);
+            QuestTask task = questGraph.getQuestTaskByID(taskID);
+
             if (questHUD.getQuestByID(questID).isQuestComplete()) {
                 conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.POST_QUEST_DIALOG);
             }
             else if (questHUD.isQuestReadyForReturn(questID)) {
                 // get return quest dialog or return quest cut scene
-                conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.RETURN_QUEST_DIALOG);
-                if (conversationConfig == null) {
-                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.RETURN_QUEST_CUTSCENE);
-                }
+                conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
             }
             else if (taskID.equals(QuestList.QUEST_GIVER)) {
-                QuestGraph questGraph = questHUD.getQuestByID(questID);
                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                     // get active quest dialog or active quest cut scene
-                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
-                    if (conversationConfig == null) {
-                        conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
-                    }
+                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
                 }
                 else {
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
@@ -1203,8 +1199,6 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
             else {
                 // handle available task
-                QuestGraph questGraph = questHUD.getQuestByID(questID);
-                QuestTask task = questGraph.getQuestTaskByID(taskID);
                 if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
                     // get quest task dialog or quest task cut scene
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.QUEST_TASK_DIALOG);
@@ -1213,10 +1207,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     }
                 } else {
                     // get active quest dialog or active quest cut scene
-                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
-                    if (conversationConfig == null) {
-                        conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
-                    }
+                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
                 }
             }
         }
@@ -1347,7 +1338,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                             if (conversationConfig != null) {
                                 switch (conversationConfig.type) {
                                     case NORMAL_DIALOG:
-                                    case ACTIVE_QUEST_DIALOG:
+                                    case ACTIVE_QUEST_DIALOG1:
+                                    case ACTIVE_QUEST_DIALOG2:
+                                    case ACTIVE_QUEST_DIALOG3:
                                     case RETURN_QUEST_DIALOG:
                                     case POST_QUEST_DIALOG:
                                     case QUEST_TASK_DIALOG:
@@ -1357,7 +1350,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                                                 npc.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
                                         break;
                                     case PRE_QUEST_CUTSCENE:
-                                    case ACTIVE_QUEST_CUTSCENE:
+                                    case ACTIVE_QUEST_CUTSCENE1:
+                                    case ACTIVE_QUEST_CUTSCENE2:
+                                    case ACTIVE_QUEST_CUTSCENE3:
                                     case QUEST_TASK_CUTSCENE:
                                         // config contains cut scene string. CutSceneManager will handle it.
                                         break;
@@ -1720,10 +1715,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), EntityConfig.ConversationType.POST_QUEST_DIALOG);
                             }
                             else {
-                                conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG);
-                                if (conversationConfig == null) {
-                                    conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), EntityConfig.ConversationType.ACTIVE_QUEST_CUTSCENE);
-                                }
+                                conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), questTask.getConversationType());
                             }
 
                             ProfileManager.getInstance().setProperty(

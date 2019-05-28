@@ -17,7 +17,7 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG
+		type: ACTIVE_QUEST_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenActiveQuestDialog.json"
 		questID: DogsQuest
 	}

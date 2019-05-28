@@ -23,13 +23,13 @@ conversationConfigs : [
 	}*/
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG
+		type: ACTIVE_QUEST_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/JustinActiveQuestDialog.json"
 		questID: TeddyBear
 	}
 	/*{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_CUTSCENE
+		type: ACTIVE_QUEST_CUTSCENE1
 		config: "CutSceneQuest1_ActiveJustin"
 		questID: TeddyBear
 	}*/
@@ -47,7 +47,7 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG
+		type: ACTIVE_QUEST_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/JustinActiveQuestDialog.json"
 		questID: DogsQuest
 	}

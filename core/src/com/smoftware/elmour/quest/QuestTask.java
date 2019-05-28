@@ -1,5 +1,7 @@
 package com.smoftware.elmour.quest;
 
+import com.smoftware.elmour.EntityConfig;
+
 public class QuestTask {
 
     public enum QuestTaskType {
@@ -24,7 +26,8 @@ public class QuestTask {
     private QuestTaskType questTaskType;
     private QuestTaskStatus questTaskStatus;
     private String targetType;
-    private String targetLocation;
+    private String targetLocation;  //todo: remove
+    private EntityConfig.ConversationType conversationType;
     private String taskPhrase;
     private int targetNumber;
     private boolean isSpoiler;
@@ -51,6 +54,10 @@ public class QuestTask {
     public String getTargetLocation() { return targetLocation; }
 
     public void setTargetLocation(String location) { targetLocation = location; }
+
+    public EntityConfig.ConversationType getConversationType() { return conversationType; }
+
+    public void setConversationType(EntityConfig.ConversationType conversationType) { this.conversationType = conversationType; }
 
     public String getTargetType() { return targetType; }
 

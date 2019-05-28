@@ -56,7 +56,9 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
                     if (conversationConfig != null) {
                         switch (conversationConfig.type) {
                             case PRE_QUEST_CUTSCENE:
-                            case ACTIVE_QUEST_CUTSCENE:
+                            case ACTIVE_QUEST_CUTSCENE1:
+                            case ACTIVE_QUEST_CUTSCENE2:
+                            case ACTIVE_QUEST_CUTSCENE3:
                             case RETURN_QUEST_CUTSCENE:
                             case QUEST_TASK_CUTSCENE:
                                 // config contains cut scene string
