@@ -62,7 +62,7 @@ conversations: {
 	}
 	n16: {
 		id: n16
-		dialog: I guess it was inevitable...\n¶I require your aid.
+		dialog: I suppose it was inevitable...\n¶I require your aid.
 		data: Rick
 		type: NPC
 	}

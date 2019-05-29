@@ -34,16 +34,14 @@ public class QuestGraphTest {
         QuestTask q1 = new QuestTask();
         q1.setId("ReturnTeddyBear");
         q1.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
-        q1.setTargetLocation("MAP1");
-        q1.setTargetType("OPHION");
+        q1.setTargetEntity("OPHION");
         q1.setQuestTaskType(QuestTask.QuestTaskType.RETURN);
         q1.setTaskPhrase("Return teddy bear");
 
         QuestTask q2 = new QuestTask();
         q2.setId("FindTeddyBear");
         q2.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
-        q2.setTargetLocation("COMPASS");
-        q2.setTargetType("JUSTIN");
+        q2.setTargetEntity("JUSTIN");
         q2.setQuestTaskType(QuestTask.QuestTaskType.FETCH);
         q2.setTaskPhrase("Find teddy bear");
 

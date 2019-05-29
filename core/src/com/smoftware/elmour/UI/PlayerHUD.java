@@ -1692,7 +1692,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                     switch (questTask.getQuestTaskType()) {
                         case FETCH:
-                            notify(PlayerHudObserver.PlayerHudEvent.KEY_ITEM_FETCHED, questTask.getTargetType());
+                            notify(PlayerHudObserver.PlayerHudEvent.KEY_ITEM_FETCHED, questTask.getTargetEntity());
                             break;
                     }
 
@@ -1701,11 +1701,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                     }
 
                     // update the associated NPC conversation config based on current status
-                    String targetType = questTask.getTargetType();
-                    Entity entity;
-
                     try {
-                        entity = EntityFactory.getInstance().getEntityByName(targetType);
+                        Entity entity = EntityFactory.getInstance().getEntityByName(questTask.getTargetEntity());
                         if (entity != null) {
                             EntityConfig.ConversationConfig conversationConfig = null;
                             EntityConfig config = entity.getEntityConfig();

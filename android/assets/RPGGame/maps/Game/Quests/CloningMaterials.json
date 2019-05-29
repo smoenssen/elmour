@@ -5,7 +5,7 @@ questTasks: {
 		id: FindButtons
 		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
-		targetType: QUEST
+		targetEntity: QUEST
 		taskPhrase: Find All Three Buttons
 		subQuestList: {
 			quests: {
@@ -16,8 +16,8 @@ questTasks: {
 							id: FindButton1
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetType: OPHION
-							targetLocation: T1DOOR4
+							targetEntity: OPHION
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
 						}
 						FindButton3: {
@@ -25,8 +25,8 @@ questTasks: {
 							id: FindButton3
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetType: OPHION
-							targetLocation: T1DOOR4
+							targetEntity: OPHION
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
 						}
 						FindButton2: {
@@ -34,8 +34,8 @@ questTasks: {
 							id: FindButton2
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetType: OPHION
-							targetLocation: T1DOOR4
+							targetEntity: OPHION
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
 						}
 					}
@@ -66,7 +66,7 @@ questTasks: {
 		id: GetWires1
 		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
-		targetType: QUEST
+		targetEntity: QUEST
 		taskPhrase: Get 30ft. of Wire;Get 25ft. of Wire
 		subQuestList: {
 			quests: {
@@ -77,8 +77,8 @@ questTasks: {
 							id: GiveJaxonMaterials
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetType: JAXON
-							targetLocation: ARMORY
+							targetEntity: JAXON
+							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
 						}
 						TalkToJaxon: {
@@ -86,8 +86,8 @@ questTasks: {
 							id: TalkToJaxon
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetType: JAXON
-							targetLocation: ARMORY
+							targetEntity: JAXON
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Talk to Jaxon
 						}
 						GetMaterials1: {
@@ -95,8 +95,8 @@ questTasks: {
 							id: GetMaterials1
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetType: OPHION
-							targetLocation: MAP1
+							targetEntity: OPHION
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get "Mystery Materials"
 							isSpoiler: true
 						}
@@ -140,8 +140,8 @@ questTasks: {
 		id: GetCDs
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetType: OPHION
-		targetLocation: MAP1
+		targetEntity: OPHION
+		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 	}
 	GiveRickSupplies: {
@@ -149,8 +149,8 @@ questTasks: {
 		id: GiveRickSupplies
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
-		targetType: OPHION
-		targetLocation: MAP1
+		targetEntity: RIDK
+		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Give Rick supplies
 		isSpoiler: true
 	}
@@ -159,7 +159,7 @@ questTasks: {
 		id: GetWires2
 		questTaskType: QUEST
 		questTaskStatus: NOT_STARTED
-		targetType: QUEST
+		targetEntity: QUEST
 		taskPhrase: Get 5ft. of wire
 		subQuestList: {
 			quests: {
@@ -170,8 +170,8 @@ questTasks: {
 							id: TalkToJustin
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetType: JUSTIN
-							targetLocation: ARMORY
+							targetEntity: JUSTIN
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Talk to Justin
 						}
 						GetMaterials2: {
@@ -179,8 +179,8 @@ questTasks: {
 							id: GetMaterials2
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetType: OPHION
-							targetLocation: MAP1
+							targetEntity: OPHION
+							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get a Lead Pipe
 							isSpoiler: true
 						}
@@ -189,8 +189,8 @@ questTasks: {
 							id: GiveJustinMaterials
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetType: JUSTIN
-							targetLocation: ARMORY
+							targetEntity: JUSTIN
+							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Give Justin the Lead Pipe
 						}
 					}

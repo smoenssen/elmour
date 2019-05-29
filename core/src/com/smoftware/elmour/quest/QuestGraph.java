@@ -91,11 +91,10 @@ public class QuestGraph {
         // the quest has been completed
         ArrayList<QuestTask> tasks = getAllQuestTasks();
         for( QuestTask task: tasks ){
-            String targetType = task.getTargetType();
             Entity entity;
 
             try {
-                entity = EntityFactory.getInstance().getEntityByName(targetType);
+                entity = EntityFactory.getInstance().getEntityByName(task.getTargetEntity());
             }
             catch (NullPointerException e) {
                 continue;
@@ -364,12 +363,12 @@ public class QuestGraph {
 
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
-
+/*
             String taskLocation = questTask.getTargetLocation();
             if (taskLocation == null ||
                     taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
-
+*/
             switch (questTask.getQuestTaskType()) {
                 case FETCH:
                     //todo: not used?
@@ -413,12 +412,12 @@ public class QuestGraph {
 
             //We first want to make sure the task is available and is relevant to current location
             if (!isQuestTaskAvailable(questTask.getId())) continue;
-
+/*
             String taskLocation = questTask.getTargetLocation();
             if (     taskLocation == null ||
                      taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
-
+*/
             switch (questTask.getQuestTaskType()) {
                 case FETCH:
                     //todo: not used?

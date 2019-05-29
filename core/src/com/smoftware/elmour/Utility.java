@@ -519,7 +519,7 @@ public final class Utility {
 					taskNode.addSubQuest(subQuestGraph);
 					taskNode.setId(subQuestGraph.getQuestID());
 					taskNode.setTaskPhrase(subQuestGraph.getQuestTitle());
-					taskNode.setTargetType(QuestTask.QuestTaskType.QUEST.toString());
+					taskNode.setTargetEntity(QuestTask.QuestTaskType.QUEST.toString());	//todo: is target entity for sub-quest necessary?
 					taskNode.setQuestTaskType(QuestTask.QuestTaskType.QUEST);
 					taskNode.setQuestTaskStatus(QuestTask.QuestTaskStatus.NOT_STARTED);
 					questTasks.put(taskNode.getId(), taskNode);
@@ -537,9 +537,9 @@ public final class Utility {
 					// Data URL is quest task phrase
 					taskNode.setTaskPhrase(data_element.getText());
 				} else if (key.equals("d5")) {
-					// Data Description is in the form <Target Type>;<ConversationType>;<Target Number>
+					// Data Description is in the form <Entity>;<ConversationType>;<Target Number>
 					String[] sa = data_element.getText().split(";");
-					taskNode.setTargetType(sa[0]);
+					taskNode.setTargetEntity(sa[0]);
 					taskNode.setConversationType(EntityConfig.ConversationType.valueOf(sa[1]));
 					if (sa.length > 2)
 						taskNode.setTargetNumber(Integer.parseInt(sa[2]));

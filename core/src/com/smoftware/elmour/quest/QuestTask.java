@@ -25,8 +25,7 @@ public class QuestTask {
     private String id;
     private QuestTaskType questTaskType;
     private QuestTaskStatus questTaskStatus;
-    private String targetType;
-    private String targetLocation;  //todo: remove
+    private String targetEntity;
     private EntityConfig.ConversationType conversationType;
     private String taskPhrase;
     private int targetNumber;
@@ -51,17 +50,13 @@ public class QuestTask {
 
     public void setQuestTaskStatus(QuestTaskStatus status) { questTaskStatus = status; }
 
-    public String getTargetLocation() { return targetLocation; }
-
-    public void setTargetLocation(String location) { targetLocation = location; }
-
     public EntityConfig.ConversationType getConversationType() { return conversationType; }
 
     public void setConversationType(EntityConfig.ConversationType conversationType) { this.conversationType = conversationType; }
 
-    public String getTargetType() { return targetType; }
+    public String getTargetEntity() { return targetEntity; }
 
-    public void setTargetType(String type) { targetType = type; }
+    public void setTargetEntity(String entity) { targetEntity = entity; }
 
     public void setTargetNumber(int number) { targetNumber = number; }
 
