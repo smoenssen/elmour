@@ -132,7 +132,7 @@ Color = task types
 	DISCOVER	= 00ff00
 Text = task ID
 Phrase = URL
-Description will be <Target Type>;<ConversationType>;<Target Number>
+Description will be <Target Entity>;<ConversationType>;<Target Number>
 
 Quests will be Groups
 URL = Quest Title

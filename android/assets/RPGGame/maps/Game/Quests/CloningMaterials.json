@@ -149,7 +149,7 @@ questTasks: {
 		id: GiveRickSupplies
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
-		targetEntity: RIDK
+		targetEntity: RICK
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Give Rick supplies
 		isSpoiler: true
