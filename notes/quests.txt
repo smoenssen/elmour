@@ -133,6 +133,7 @@ Color = task types
 Text = task ID
 Phrase = URL
 Description will be <Target Entity>;<ConversationType>;<Target Number>
+	For FETCH "Target Entity" is the KeyItem ID
 
 Quests will be Groups
 URL = Quest Title

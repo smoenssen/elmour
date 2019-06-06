@@ -5,6 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.UI.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -174,7 +175,19 @@ public class ElmourGame extends Game {
 			setScreen(getScreenType(ElmourGame.ScreenType.MainGame));
 		}
 		////////////////*/
-
+		/*
+		Json json = new Json();
+		Array<KeyItem> array = new Array<>();
+		KeyItem keyItem = new KeyItem();
+		keyItem.id = KeyItem.ID.TEDDY_BEAR;
+		keyItem.category = KeyItem.Category.QUEST;
+		keyItem.name = "Teddy Bear";
+		keyItem.summary = "Used for reassurance";
+		keyItem.imagePath = "graphics/tedd_bear.png";
+		array.add(keyItem);
+		String output = json.prettyPrint(json.toJson(array));
+		Gdx.app.log("TAG", output);
+		*/
 		//QuestGraphTest questGraphTest = new QuestGraphTest();
 		//questGraphTest.main(null);
 	}

@@ -534,7 +534,7 @@ public final class Utility {
 				String key = data_element.getAttribute("key");
 
 				if (key.equals("d4")) {
-					// Data URL is quest task phrase
+					// Data URL is quest task phrase, or in the case of a TASK_COMPLETE it is the KeyItem ID
 					taskNode.setTaskPhrase(data_element.getText());
 				} else if (key.equals("d5")) {
 					// Data Description is in the form <Entity>;<ConversationType>;<Target Number>

@@ -1692,6 +1692,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                     switch (questTask.getQuestTaskType()) {
                         case FETCH:
+                            //	For FETCH "Target Entity" is the KeyItem ID
                             notify(PlayerHudObserver.PlayerHudEvent.KEY_ITEM_FETCHED, questTask.getTargetEntity());
                             break;
                     }

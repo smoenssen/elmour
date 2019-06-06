@@ -1593,7 +1593,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     @Override
     public void onNotify(PlayerHudEvent event, String value) {
-        KeyItem.ID itemID = KeyItem.ID.valueOf(value);
-        KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
+        switch (event) {
+            case KEY_ITEM_FETCHED:
+                KeyItem.ID itemID = KeyItem.ID.valueOf(value);
+                KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
+                break;
+        }
     }
 }
