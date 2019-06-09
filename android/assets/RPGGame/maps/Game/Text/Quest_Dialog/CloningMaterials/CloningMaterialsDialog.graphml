@@ -319,7 +319,7 @@ if it's not important, could you leave.<y:LabelModel>
           <y:Geometry height="30.0" width="157.53518440761923" x="1272.6951844076202" y="442.82149197229774"/>
           <y:Fill color="#00FF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.08203125" x="1.7265765788094996" y="-1.701171875">I suppose it was inevitable...
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="154.08203125" x="1.726576578809727" y="-1.701171875">I suppose it was inevitable...
 ¶I require your aid.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -469,12 +469,15 @@ materials.<y:LabelModel>
       <data key="d5"><![CDATA[Rick]]></data>
       <data key="d6">
         <y:ShapeNode>
-          <y:Geometry height="60.0" width="252.14851774095268" x="1958.5007376304782" y="502.82149197229774"/>
+          <y:Geometry height="120.0" width="252.14851774095268" x="1958.5007376304782" y="447.0"/>
           <y:Fill color="#00FF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="236.1484375" x="8.000040120476342" y="-1.40234375">Sweet!
-§Could you get me about 30ft. of wire along
-with two CDs?
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="106.908203125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="226.10546875" x="13.021524495476342" y="6.5458984375">Sweet!
+§Could you get me about 30ft. of wire
+along with two CDs?
+§The Armory should have some wire, and
+the CDs... maybe somewhere in
+Shnarfulapogus.
 §That would be all.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
@@ -819,17 +822,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e21" source="n20" target="n24">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-15.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e22" source="n24" target="n25">
+    <edge id="e21" source="n24" target="n25">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -839,7 +832,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e23" source="n25" target="n26">
+    <edge id="e22" source="n25" target="n26">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -852,7 +845,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e24" source="n26" target="n27">
+    <edge id="e23" source="n26" target="n27">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -862,7 +855,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e25" source="n0" target="n29">
+    <edge id="e24" source="n0" target="n29">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -874,7 +867,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e26" source="n29" target="n28">
+    <edge id="e25" source="n29" target="n28">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -884,7 +877,7 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e27" source="n28" target="n1">
+    <edge id="e26" source="n28" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -894,11 +887,21 @@ now missing?
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e28" source="n14" target="n15">
-      <data key="d9"/>
+    <edge id="e27" source="n14" target="n15">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-21.42350374331545" ty="5.159891984917067"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e28" source="n20" target="n24">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="72.18895549879721" sy="-0.9853648332615421" tx="-113.44671668812043" ty="9.836127139036194"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

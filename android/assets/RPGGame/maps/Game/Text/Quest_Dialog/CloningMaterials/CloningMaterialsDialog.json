@@ -140,7 +140,7 @@ conversations: {
 	}
 	n24: {
 		id: n24
-		dialog: Sweet!\n§Could you get me about 30ft. of wire along\nwith two CDs?\n§That would be all.
+		dialog: "Sweet!\n§Could you get me about 30ft. of wire\nalong with two CDs?\n§The Armory should have some wire, and\nthe CDs... maybe somewhere in\nShnarfulapogus.\n§That would be all."
 		data: Rick
 		type: NPC
 	}

@@ -77,7 +77,7 @@ questTasks: {
 							id: GiveJaxonMaterials
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetEntity: JAXON
+							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
 						}
@@ -86,8 +86,8 @@ questTasks: {
 							id: TalkToJaxon
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetEntity: JAXON
-							conversationType: ACTIVE_QUEST_DIALOG1
+							targetEntity: JAXON_1
+							conversationType: ACTIVE_QUEST_CUTSCENE1
 							taskPhrase: Talk to Jaxon
 						}
 						GetMaterials1: {
@@ -121,7 +121,7 @@ questTasks: {
 					yedNodeId: n2::n3
 					questTitle: Get 30ft. of Wire;Get 25ft. of Wire
 					questID: GetWires1
-					questGiver: JAXON
+					questGiver: JAXON_1
 					questStatus: NOT_STARTED
 					chapter: 1
 					goldReward: 20

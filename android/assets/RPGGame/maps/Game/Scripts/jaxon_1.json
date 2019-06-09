@@ -17,6 +17,12 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_CUTSCENE1
+		config: "CloningQuestScreen_TTJaxon"
+		questID: CloningMaterials
+	}
+	{
+		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: RETURN_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/OphionReturnQuestDialog.json"
 		questID: CloningMaterials

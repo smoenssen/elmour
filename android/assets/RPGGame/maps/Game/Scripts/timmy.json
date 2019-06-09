@@ -16,7 +16,7 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG1
+		type: ACTIVE_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/OphionActiveQuestDialog.json"
 		questID: TeddyBear
 	}
@@ -42,7 +42,7 @@ conversationConfigs : [
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/OphionActiveQuestDialog.json"
-		questID: DogsQuest1
+		questID: DogsQuest
 	}
 	{
 		class: com.smoftware.elmour.EntityConfig$ConversationConfig

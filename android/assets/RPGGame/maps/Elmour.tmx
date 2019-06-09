@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="70" height="42" tilewidth="16" tileheight="16" nextobjectid="175">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="70" height="42" tilewidth="16" tileheight="16" nextobjectid="177">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -412,11 +412,11 @@
   <object id="104" name="Docks" x="1119" y="276" width="1" height="123"/>
  </objectgroup>
  <objectgroup name="CUTSCENE_LAYER">
-  <object id="154" name="Chapter2Screen_P2" x="400" y="272" width="48" height="16"/>
+  <object id="154" name="Chapter2Screen_P2" x="352" y="272" width="48" height="16"/>
   <object id="157" name="Chapter2Screen_P4" x="768" y="272" width="48" height="16"/>
   <object id="158" name="Chapter2Screen_P3" x="896" y="176" width="16" height="100"/>
   <object id="160" name="Chapter2Screen_P3" x="896" y="276" width="145" height="11"/>
-  <object id="163" name="Chapter2Screen_Leave" x="1" y="276" width="31" height="123"/>
+  <object id="163" name="Chapter2Screen_Leave" x="32" y="399" width="31" height="123"/>
  </objectgroup>
  <objectgroup name="Z_GATES">
   <object id="112" name="ZDOWN" x="6" y="320" width="16" height="32"/>

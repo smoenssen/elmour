@@ -334,7 +334,7 @@
         </node>
         <node id="n2::n3" yfiles.foldertype="group">
           <data key="d4"><![CDATA[Get 30ft. of Wire;Get 25ft. of Wire]]></data>
-          <data key="d5"><![CDATA[1;JAXON;20;5]]></data>
+          <data key="d5"><![CDATA[1;JAXON_1;20;5]]></data>
           <data key="d6">
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
@@ -365,7 +365,7 @@
           <graph edgedefault="directed" id="n2::n3:">
             <node id="n2::n3::n0">
               <data key="d4"><![CDATA[Talk to Jaxon]]></data>
-              <data key="d5"><![CDATA[JAXON;ACTIVE_QUEST_DIALOG1;]]></data>
+              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_CUTSCENE1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="74.79999999999995" x="783.8921315509027" y="-186.0"/>
@@ -403,7 +403,7 @@
             </node>
             <node id="n2::n3::n2">
               <data key="d4"><![CDATA[Bring Jaxon the Materials]]></data>
-              <data key="d5"><![CDATA[JAXON;ACTIVE_QUEST_DIALOG2;]]></data>
+              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_DIALOG2;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="118.0" x="481.5" y="-186.0"/>

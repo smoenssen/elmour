@@ -1,26 +1,12 @@
 [
 {
 	class: com.smoftware.elmour.KeyItem
-	id: TEDDY_BEAR
-	name: Teddy Bear
-	category: QUEST
-	summary: Teddy bears make you feel happy.
-	imagePath: graphics/teddy_bear.png
-}
-{
-	class: com.smoftware.elmour.KeyItem
-	id: GRASS_TEMPLE_KEY
 	name: Grass Temple Key
-	category: NON_QUEST
 	summary: Opens a door somewhere.
-	imagePath: graphics/teddy_bear.png
 }
 {
 	class: com.smoftware.elmour.KeyItem
-	id: EMERALD
 	name: Emerald
-	category: NON_QUEST
 	summary: The first of the five Gems.
-	imagePath: graphics/teddy_bear.png
 }
 ]

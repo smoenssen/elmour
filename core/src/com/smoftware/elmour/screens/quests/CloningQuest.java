@@ -37,6 +37,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
     String currentPartNumber;
 
     private Action cloningMaterialsOpeningScene;
+    private Action cloningMaterialsTTJaxon;
     private Action setupDogsQuestOpeningScene;
 
     private AnimatedImage character1;
@@ -127,7 +128,46 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 jaxon.setVisible(false);
             }
         };
+
+        cloningMaterialsTTJaxon = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.T1DOOR4);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(4.5f, 5);
+                keepCamInMap = false;
+
+                rick.setVisible(false);
+
+                character1.setVisible(true);
+                character1.setPosition(2.5f, 7.1f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                misc.setVisible(false);
+
+                misc2.setVisible(false);
+
+                misc3.setVisible(false);
+
+                justin.setVisible(true);
+                justin.setPosition(4.5f, 7.1f);
+                justin.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                justin.setCurrentDirection(Entity.Direction.DOWN);
+
+                jaxon.setVisible(true);
+                jaxon.setPosition(3.5f, 7.1f);
+                jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                jaxon.setCurrentDirection(Entity.Direction.LEFT);
+
+                camactor.setPosition(4.5f, 5);
+
+                followActor(camactor);
+            }
+        };
     }
+
 
     private void fadeToMainScreen() {
         _stage.addAction(Actions.sequence(
@@ -224,7 +264,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                         myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_ON),
                         Actions.delay(0.24f),
                         myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_LOOP),
-                        Actions.delay(2.1f),
+                        Actions.delay(1.4f),
                         myActions.new setWalkDirection(misc3, Entity.AnimationType.IDEA_OFF),
                         Actions.delay(0.075f),
                         myActions.new setCharacterVisible(misc3, false),
@@ -357,6 +397,30 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                         )
                 );
                 break;
+            case ZOOM_IN:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.WALK_RIGHT),
+
+                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime), character1),
+                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime), jaxon),
+                        Actions.addAction(Actions.moveTo(character1.getX() - 0.5f, character1.getY(), oneBlockTime * 0.5f), camactor),
+
+                        new setZoomRate(-0.05f),
+                        Actions.delay(oneBlockTime * 0.5f),
+                        new setZoomRate(0),
+
+
+                        Actions.delay(oneBlockTime * 0.5f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
 
 
 
@@ -405,6 +469,27 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         );
     }
 
+    private Action getTTJaxon() {
+        cloningMaterialsTTJaxon.reset();
+        return Actions.sequence(
+                Actions.addAction(cloningMaterialsTTJaxon),
+                new setFading(true),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
+                Actions.delay(2),
+                Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Quest_Dialog/CloningMaterials/CloningMaterialsTTJaxon.json", thisScreen);
+                                _playerHUD.doConversation();
+                                // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
+                            }
+                        }),
+                Actions.delay(2)
+        );
+    }
+
+
     @Override
     public void show() {
         baseShow();
@@ -415,9 +500,9 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             questID = "CloningMaterials";
             _stage.addAction(getCloningMaterialsOpeningScene());
         }
-        else if (currentPartNumber.equals("DogsQuestOpen")) {
-            questID = "DogsQuest";
-            _stage.addAction(getCloningMaterialsOpeningScene());
+        else if (currentPartNumber.equals("TTJaxon")) {
+            questID = "CloningMaterials";
+            _stage.addAction(getTTJaxon());
         }
 
         ProfileManager.getInstance().addObserver(_mapMgr);

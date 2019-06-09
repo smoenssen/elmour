@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="12" height="11" tilewidth="16" tileheight="16" nextobjectid="25">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="12" height="11" tilewidth="16" tileheight="16" nextobjectid="27">
  <tileset firstgid="1" name="Cloning_Device" tilewidth="16" tileheight="16" tilecount="12" columns="4">
   <image source="../Game/Pop_Ups/Cloning_Device/Cloning_Device.png" width="64" height="48"/>
  </tileset>
@@ -166,6 +166,9 @@
     <property name="taskIDs" value="CloningMaterials::GiveRickSupplies"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="PORTAL_LAYER">
+  <object id="25" name="Elmour" x="16" y="96" width="1" height="16"/>
  </objectgroup>
  <objectgroup name="MAP_QUEST_DISCOVER_LAYER">
   <object id="23" name="Cloning Part 1" x="32" y="128" width="48" height="32">
