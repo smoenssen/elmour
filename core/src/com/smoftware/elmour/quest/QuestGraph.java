@@ -144,6 +144,7 @@ public class QuestGraph {
         questTaskDependencies.clear();
     }
 
+    /*
     public boolean isValid(String taskID){
         QuestTask questTask = questTasks.get(taskID);
         if( questTask == null ) return false;
@@ -171,6 +172,33 @@ public class QuestGraph {
             return null;
         }
         return questTasks.get(id);
+    }
+*/
+
+    public QuestTask getQuestTaskByID(String id){
+        QuestTask questTask = questTasks.get(id);
+
+        if (questTask != null) {
+            return questTask;
+        }
+        else {
+            // search all sub quest list tasks
+            ArrayList<QuestTask> tasks = getAllQuestTasks();
+            for (QuestTask task: tasks) {
+                QuestList subQuestList = task.getSubQuestList();
+                if (subQuestList != null) {
+                    ArrayList<QuestGraph> questGraphs = subQuestList.getAllQuestGraphs();
+                    for (QuestGraph questGraph : questGraphs) {
+                        questTask = questGraph.getQuestTaskByID(id);
+                        if (questTask != null) {
+                            return questTask;
+                        }
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 
     public void addDependency(QuestTaskDependency questTaskDependency){
