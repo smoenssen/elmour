@@ -1191,7 +1191,12 @@ public class PlayerHUD implements Screen, AudioSubject,
             else if (taskID.equals(QuestList.QUEST_GIVER)) {
                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                     // get active quest dialog or active quest cut scene
-                    conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
+                    if (task != null) {
+                        conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
+                    }
+                    else {
+                        conversationConfig = getActiveConversationConfigForQuest(npcConversationConfigs, questID);
+                    }
                 }
                 else {
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
@@ -1242,6 +1247,20 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
             else if (npcQuestConfig.questID != null && npcQuestConfig.questID.equals(questID) && npcQuestConfig.type == type) {
                 return npcQuestConfig;
+            }
+        }
+
+        return conversationConfig;
+    }
+
+    private ConversationConfig getActiveConversationConfigForQuest(Array<ConversationConfig> npcConversationConfigs, String questID) {
+        ConversationConfig conversationConfig = null;
+
+        for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
+            if (npcQuestConfig.type.toString().contains("ACTIVE_QUEST")) {
+                if (npcQuestConfig.questID.equals(questID)) {
+                    conversationConfig = npcQuestConfig;
+                }
             }
         }
 
@@ -1693,7 +1712,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                     switch (questTask.getQuestTaskType()) {
                         case FETCH:
                             //	For FETCH "Target Entity" is the KeyItem ID
-                            notify(PlayerHudObserver.PlayerHudEvent.KEY_ITEM_FETCHED, questTask.getTargetEntity());
+                            KeyItem.ID itemID = KeyItem.ID.valueOf(questTask.getTargetEntity());
+                            KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
+                            inventoryHUD.addKeyItem(keyItem);
                             break;
                     }
 

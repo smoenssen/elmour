@@ -33,7 +33,7 @@ import com.smoftware.elmour.profile.ProfileObserver;
  * Created by steve on 2/10/19.
  */
 
-public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver, PlayerHudObserver {
+public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
     enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
@@ -1569,6 +1569,47 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         }
     }
 
+    private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, KeyItem keyItem) {
+        /*
+        InventoryElement element = partyInventoryItem.getElement();
+        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
+        TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
+        button.setUserObject(partyInventoryItem);
+
+        if (list.getItems().size == 0) {
+            // hack to get scrolling to work (need to add array if first item being added)
+            TextButton[] buttons = new TextButton[1];
+            buttons[0] = button;
+            list.setItems(buttons);
+            list.setSelectedIndex(-1);
+        }
+        else {
+            TextButton inventoryItem = null;
+
+            // see if there is already an existing inventory item in list
+            for (TextButton iterator : list.getItems()) {
+                PartyInventoryItem item = (PartyInventoryItem) iterator.getUserObject();
+                if (partyInventoryItem.getElement().id.equals(item.getElement().id)) {
+                    inventoryItem = iterator;
+                    break;
+                }
+            }
+
+            if (inventoryItem != null) {
+                // update existing item
+                inventoryItem.setText(description);
+            }
+            else {
+                // add new item
+                list.getItems().add(button);
+                list.layout();
+                scrollPane.layout();
+
+            }
+        }
+        */
+    }
+
     private void updateListViewItem(MyTextButtonList<TextButton> list, PartyInventoryItem partyInventoryItem) {
         InventoryElement element = partyInventoryItem.getElement();
         String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
@@ -1591,13 +1632,14 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         }
     }
 
-    @Override
-    public void onNotify(PlayerHudEvent event, String value) {
-        switch (event) {
-            case KEY_ITEM_FETCHED:
-                KeyItem.ID itemID = KeyItem.ID.valueOf(value);
-                KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
+    public void addKeyItem(KeyItem item) {
+        switch (item.category) {
+            case QUEST:
+                addListViewItem(questListView, questScrollPaneList, item);
+                break;
+            case NON_QUEST:
                 break;
         }
     }
+
 }
