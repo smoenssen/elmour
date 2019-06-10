@@ -31,6 +31,7 @@ public class QuestTask {
     private int targetNumber;
     private boolean isSpoiler;
     private QuestList subQuestList;
+    private String parentQuestId;
 
     public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
 
@@ -73,7 +74,12 @@ public class QuestTask {
             subQuestList = new QuestList(true);
         }
 
-        subQuestList.addQuest(questGraph); }
+        subQuestList.addQuest(questGraph);
+    }
+
+    public void setParentQuestId(String questTaskId) { parentQuestId = questTaskId; }
+
+    public String getParentQuestId() { return parentQuestId; }
 
     // convenience functions
     public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }

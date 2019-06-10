@@ -25,6 +25,9 @@ Todo:
 Need to support talking to NPC more than once during quest, depending on what tasks have been complete
 Need to support spawning items after a specific quest is started.
 
+add post-task to .json and to yEd task
+save latest current dialog to .sav file, which might also be post-quest dialog
+
 Ben
 ---
 Remove the following from .json files for characters:

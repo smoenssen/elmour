@@ -1,7 +1,5 @@
 package com.smoftware.elmour.quest;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
@@ -355,17 +353,55 @@ public class QuestGraph {
         return task.isTaskComplete();
     }
 
+    private QuestGraph getQuestGraph(String questID) {
+        ArrayList<QuestTask> tasks = getAllQuestTasks();
+        for (QuestTask task: tasks) {
+            QuestList subQuestList = task.getSubQuestList();
+            if (subQuestList != null) {
+                ArrayList<QuestGraph> questGraphs = subQuestList.getAllQuestGraphs();
+                for (QuestGraph questGraph : questGraphs) {
+                    if (questGraph.getQuestID().equals(questID)) {
+                        return questGraph;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
     public boolean isQuestTaskAvailable(String id){
         // A task is available if it has no dependencies
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return false;
         ArrayList<QuestTaskDependency> list = questTaskDependencies.get(id);
 
-        for(QuestTaskDependency dep: list){
-            QuestTask depTask = getQuestTaskByID(dep.getDestinationId());
-            if( depTask == null || depTask.isTaskComplete() ) continue;
-            if( dep.getSourceId().equalsIgnoreCase(id) ){
-                return false;
+        if (list != null) {
+            return isQuestTaskAvailable(id, list);
+        }
+        else {
+            // check for sub quest list dependencies
+            String parentQuestId = task.getParentQuestId();
+            if (parentQuestId != null) {
+                QuestGraph subQuestGraph = getQuestGraph(parentQuestId);
+                list = subQuestGraph.questTaskDependencies.get(id);
+                return isQuestTaskAvailable(id, list);
+            }
+            else {
+                return true;
+            }
+        }
+    }
+
+    public boolean isQuestTaskAvailable(String taskId, ArrayList<QuestTaskDependency> depList) {
+        // A task is available if it has no dependencies
+        if (depList != null) {
+            for (QuestTaskDependency dep : depList) {
+                QuestTask depTask = getQuestTaskByID(dep.getDestinationId());
+                if (depTask == null || depTask.isTaskComplete()) continue;
+                if (dep.getSourceId().equalsIgnoreCase(taskId)) {
+                    return false;
+                }
             }
         }
         return true;

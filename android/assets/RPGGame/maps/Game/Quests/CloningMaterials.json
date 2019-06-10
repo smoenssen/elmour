@@ -19,6 +19,7 @@ questTasks: {
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
+							parentQuestId: FindButtons
 						}
 						FindButton3: {
 							yedNodeId: n2::n4::n2
@@ -28,6 +29,7 @@ questTasks: {
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
+							parentQuestId: FindButtons
 						}
 						FindButton2: {
 							yedNodeId: n2::n4::n1
@@ -37,6 +39,7 @@ questTasks: {
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Missing Button
+							parentQuestId: FindButtons
 						}
 					}
 					questTaskDependencies: {
@@ -80,6 +83,7 @@ questTasks: {
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
+							parentQuestId: GetWires1
 						}
 						TalkToJaxon: {
 							yedNodeId: n2::n3::n0
@@ -89,6 +93,7 @@ questTasks: {
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_CUTSCENE1
 							taskPhrase: Talk to Jaxon
+							parentQuestId: GetWires1
 						}
 						GetMaterials1: {
 							yedNodeId: n2::n3::n1
@@ -99,6 +104,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get "Mystery Materials"
 							isSpoiler: true
+							parentQuestId: GetWires1
 						}
 					}
 					questTaskDependencies: {
@@ -173,6 +179,7 @@ questTasks: {
 							targetEntity: JUSTIN
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Talk to Justin
+							parentQuestId: GetWires2
 						}
 						GetMaterials2: {
 							yedNodeId: n2::n2::n1
@@ -183,6 +190,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get a Lead Pipe
 							isSpoiler: true
+							parentQuestId: GetWires2
 						}
 						GiveJustinMaterials: {
 							yedNodeId: n2::n2::n2
@@ -192,6 +200,7 @@ questTasks: {
 							targetEntity: JUSTIN
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Give Justin the Lead Pipe
+							parentQuestId: GetWires2
 						}
 					}
 					questTaskDependencies: {

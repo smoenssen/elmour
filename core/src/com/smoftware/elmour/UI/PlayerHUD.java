@@ -1203,12 +1203,16 @@ public class PlayerHUD implements Screen, AudioSubject,
                 }
             }
             else {
+                // todo: handle post-task, think about renaming "ACTIVE_QUEST..." since if task is not started, but quest is active, incorrect case is entered below
                 // handle available task
                 if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
                     // get quest task dialog or quest task cut scene
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.QUEST_TASK_DIALOG);
                     if (conversationConfig == null) {
                         conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.QUEST_TASK_CUTSCENE);
+                    }
+                    if (conversationConfig == null) {
+                        conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
                     }
                 } else {
                     // get active quest dialog or active quest cut scene

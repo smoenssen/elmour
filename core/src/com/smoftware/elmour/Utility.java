@@ -516,6 +516,12 @@ public final class Utility {
 				if (foldertype != null && foldertype.equals("group")) {
 					// This task is a sub-quest
 					QuestGraph subQuestGraph = getQuestGraph(graph, node2_element);
+
+					ArrayList<QuestTask> tasks = subQuestGraph.getAllQuestTasks();
+					for (QuestTask task : tasks) {
+						task.setParentQuestId(subQuestGraph.getQuestID());
+					}
+
 					taskNode.addSubQuest(subQuestGraph);
 					taskNode.setId(subQuestGraph.getQuestID());
 					taskNode.setTaskPhrase(subQuestGraph.getQuestTitle());
