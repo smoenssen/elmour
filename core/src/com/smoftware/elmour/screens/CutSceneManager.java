@@ -63,8 +63,7 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
                             case QUEST_TASK_CUTSCENE:
                                 // config contains cut scene string
                                 startCutScene(conversationConfig.config);
-                                ProfileManager.getInstance().setProperty(
-                                        entity.getEntityConfig().getEntityID() + EntityConfig.ConversationConfig.class.getSimpleName(), conversationConfig);
+                                PlayerHUD.saveLatestEntityConversationConfig(entity, conversationConfig);
                                 break;
                         }
                     }

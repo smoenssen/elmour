@@ -1171,8 +1171,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (taskID == null) {
             // no available tasks
             // try to get latest configuration for this NPC from profile
-            conversationConfig = ProfileManager.getInstance().getProperty(
-                                        config.getEntityID() + ConversationConfig.class.getSimpleName(), ConversationConfig.class);
+            conversationConfig = getLatestEntityConversationConfig(npc);
+
             if (conversationConfig == null) {
                 conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.NORMAL_DIALOG);
             }
@@ -1255,6 +1255,16 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         return conversationConfig;
+    }
+
+    public static void saveLatestEntityConversationConfig(Entity entity, ConversationConfig conversationConfig) {
+        ProfileManager.getInstance().setProperty(
+                entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+    }
+
+    public static ConversationConfig getLatestEntityConversationConfig(Entity entity) {
+        return ProfileManager.getInstance().getProperty(
+                entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), ConversationConfig.class);
     }
 
     private ConversationConfig getActiveConversationConfigForQuest(Array<ConversationConfig> npcConversationConfigs, String questID) {
@@ -1369,8 +1379,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                     case QUEST_TASK_DIALOG:
                                         // config contains conversation .json file path
                                         loadEntityConversationFromJson(npc, conversationConfig.config);
-                                        ProfileManager.getInstance().setProperty(
-                                                npc.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                                        saveLatestEntityConversationConfig(npc, conversationConfig);
                                         break;
                                     case PRE_QUEST_CUTSCENE:
                                     case ACTIVE_QUEST_CUTSCENE1:
@@ -1741,8 +1750,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), questTask.getConversationType());
                             }
 
-                            ProfileManager.getInstance().setProperty(
-                                    entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                            saveLatestEntityConversationConfig(entity, conversationConfig);
                         }
                     }
                     catch (NullPointerException e) {

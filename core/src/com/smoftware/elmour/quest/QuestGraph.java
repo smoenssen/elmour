@@ -6,6 +6,7 @@ import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityConfig.ConversationConfig;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.UI.PlayerHUD;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 
@@ -101,8 +102,7 @@ public class QuestGraph {
             Array<ConversationConfig> conversationConfigs = entity.getEntityConfig().getConversationConfigs();
             for (ConversationConfig conversationConfig : conversationConfigs) {
                 if (conversationConfig.type == EntityConfig.ConversationType.POST_QUEST_DIALOG) {
-                    ProfileManager.getInstance().setProperty(
-                            entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), conversationConfig);
+                    PlayerHUD.saveLatestEntityConversationConfig(entity, conversationConfig);
                     break;
                 }
             }
