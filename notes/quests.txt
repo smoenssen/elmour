@@ -12,21 +12,22 @@ taskProperties:
 TARGET_TYPE is path to .json config file (for RETURN quests or FETCH type quests on QUEST_ITEM_SPAWN_LAYER)
 TARGET_LOCATION is name of map
 
-Questions:
-Do we need a QuestItem class to define quest items that will be displayed in inventory? Will there be sprites for them?
-What are non-quest items?
-
 Notes:
 Remove targetLocation from QuestTask?
-Rename targetType to targetEntity?
+Usage of targetEntity:
+	search for getTargetEntity
+	used for KeyItem.ID for FETCH tasks
+	used for Entity ID in QuestGraph::setQuestComplete and PlayerHUD::OnNotify::TASK_COMPLETE for saveLatestEntityConversationConfig
+	Is it correct to set all conversation configs to POST_QUEST_DIALOG in setQuestComplete?
+	In PlayerHUD::OnNotify::TASK_COMPLETE shouldn't call saveLatestEntityConversationConfig for FETCH tasks (and maybe others?)
 
 Todo:
 -----
 Need to support talking to NPC more than once during quest, depending on what tasks have been complete
 Need to support spawning items after a specific quest is started.
-
-add post-task to .json and to yEd task
-save latest current dialog to .sav file, which might also be post-quest dialog
+Need to support different active quest dialogs depending on what tasks have been completed
+	- add post-task to .json and to yEd task
+	- Save latest current dialog to .sav file, which might also be post-quest dialog
 
 Ben
 ---
@@ -87,7 +88,10 @@ Character .json files
 		ACTIVE_QUEST_CUTSCENE3,
 		RETURN_QUEST_DIALOG,
 		RETURN_QUEST_CUTSCENE,
-		POST_QUEST_DIALOG
+		POST_QUEST_DIALOG,
+    POST_TASK_DIALOG1,
+    POST_TASK_DIALOG2,
+    POST_TASK_DIALOG3
 
 Example conversationConfigs in timmy.json file:
 	conversationConfigs : [

@@ -83,7 +83,10 @@ public class EntityConfig {
         ACTIVE_QUEST_CUTSCENE3,
         RETURN_QUEST_DIALOG,
         RETURN_QUEST_CUTSCENE,
-        POST_QUEST_DIALOG
+        POST_QUEST_DIALOG,
+        POST_TASK_DIALOG1,
+        POST_TASK_DIALOG2,
+        POST_TASK_DIALOG3
     }
 
     public static class ConversationConfig {
