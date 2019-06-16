@@ -124,6 +124,9 @@ public class EntityFactory {
         }
 */
 
+        // Time how long it takes to load all config files into memory
+        long start = System.nanoTime();
+
         // Process config files with arrays
         Array<EntityConfig> statArrowConfigs = Entity.getEntityConfigs(STATUS_ARROW_CONFIGS);
         for( EntityConfig config: statArrowConfigs){
@@ -165,6 +168,11 @@ public class EntityFactory {
         entities.put(EntityName.WEAPON_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(WEAPON_ANIMATIONS_CONFIG));
         entities.put(EntityName.MISC_ANIMATIONS.toString(), Entity.loadEntityConfigByPath(MISC_ANIMATIONS_CONFIG));
         entities.put(EntityName.BACKPACK.toString(), Entity.loadEntityConfigByPath(BACKPACK_CONFIG));
+
+        long end = System.nanoTime();
+        long elapsedNanoSeconds = end - start;
+        float elapsedMilliSeconds = (float)elapsedNanoSeconds * 0.000001f;
+        Gdx.app.log(TAG, "Loaded all config files in " + elapsedMilliSeconds + " ms");
 
 /*
         entities.put(EntityName.TOWN_GUARD_WALKING.toString(), Entity.loadEntityConfigByPath(TOWN_GUARD_WALKING_CONFIG));

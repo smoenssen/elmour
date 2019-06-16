@@ -20,14 +20,12 @@ Usage of targetEntity:
 	used for Entity ID in QuestGraph::setQuestComplete and PlayerHUD::OnNotify::TASK_COMPLETE for saveLatestEntityConversationConfig
 	Is it correct to set all conversation configs to POST_QUEST_DIALOG in setQuestComplete?
 	In PlayerHUD::OnNotify::TASK_COMPLETE shouldn't call saveLatestEntityConversationConfig for FETCH tasks (and maybe others?)
+Post task conversation type:
+	When task is complete, and if there is a post task dialog, save post task dialog to profile for the NPC
 
 Todo:
 -----
-Need to support talking to NPC more than once during quest, depending on what tasks have been complete
 Need to support spawning items after a specific quest is started.
-Need to support different active quest dialogs depending on what tasks have been completed
-	- add post-task to .json and to yEd task
-	- Save latest current dialog to .sav file, which might also be post-quest dialog
 
 Ben
 ---
@@ -35,6 +33,7 @@ Remove the following from .json files for characters:
 	conversationConfigPath
 	questConfigPath
 	currentQuestID
+Find Buttons sub-quest could be reduced to a single task with a target number of 3
 
 To add quest
 ------------
@@ -139,8 +138,10 @@ Color = task types
 	DISCOVER	= 00ff00
 Text = task ID
 Phrase = URL
-Description will be <Target Entity>;<ConversationType>;<Target Number>
+Description will be <Target Entity>;<ConversationType>;<Post Task ConversationType>;<Target Number>
 	For FETCH "Target Entity" is the KeyItem ID
+	The last two are optional, but if you want a Target Number but not Post Task ConversationType, then you still need the extra semi-colon:
+		e.g., OPHION;ACTIVE_QUEST_DIALOG1;;5
 
 Quests will be Groups
 URL = Quest Title

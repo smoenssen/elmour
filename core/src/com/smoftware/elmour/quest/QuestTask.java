@@ -27,6 +27,7 @@ public class QuestTask {
     private QuestTaskStatus questTaskStatus;
     private String targetEntity;
     private EntityConfig.ConversationType conversationType;
+    private EntityConfig.ConversationType postTaskConversationType;
     private String taskPhrase;
     private int targetNumber;
     private boolean isSpoiler;
@@ -54,6 +55,10 @@ public class QuestTask {
     public EntityConfig.ConversationType getConversationType() { return conversationType; }
 
     public void setConversationType(EntityConfig.ConversationType conversationType) { this.conversationType = conversationType; }
+
+    public EntityConfig.ConversationType getPostTaskConversationType() { return postTaskConversationType; }
+
+    public void setPostTaskConversationType(EntityConfig.ConversationType postTaskConversationType) { this.postTaskConversationType = postTaskConversationType; }
 
     public String getTargetEntity() { return targetEntity; }
 

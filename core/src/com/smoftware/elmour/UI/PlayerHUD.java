@@ -1747,7 +1747,12 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), EntityConfig.ConversationType.POST_QUEST_DIALOG);
                             }
                             else {
-                                conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), questTask.getConversationType());
+                                if (questTask.getPostTaskConversationType() != null) {
+                                    conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), questTask.getPostTaskConversationType());
+                                }
+                                else {
+                                    conversationConfig = getConversationConfig(npcConversationConfigs, questGraph.getQuestID(), questTask.getConversationType());
+                                }
                             }
 
                             saveLatestEntityConversationConfig(entity, conversationConfig);

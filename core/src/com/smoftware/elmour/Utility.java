@@ -543,12 +543,14 @@ public final class Utility {
 					// Data URL is quest task phrase, or in the case of a TASK_COMPLETE it is the KeyItem ID
 					taskNode.setTaskPhrase(data_element.getText());
 				} else if (key.equals("d5")) {
-					// Data Description is in the form <Entity>;<ConversationType>;<Target Number>
-					String[] sa = data_element.getText().split(";");
+					// Data Description is in the form <Target Entity>;<ConversationType>;<Post task ConversationType>;<Target Number>
+					String[] sa = data_element.getText().split(";", 4);
 					taskNode.setTargetEntity(sa[0]);
 					taskNode.setConversationType(EntityConfig.ConversationType.valueOf(sa[1]));
-					if (sa.length > 2)
-						taskNode.setTargetNumber(Integer.parseInt(sa[2]));
+					if (sa.length > 2 && !sa[2].equals(""))
+						taskNode.setPostTaskConversationType(EntityConfig.ConversationType.valueOf(sa[2]));
+					if (sa.length > 3 && !sa[3].equals(""))
+						taskNode.setTargetNumber(Integer.parseInt(sa[3]));
 				} else if (key.equals("d6")) {
 					XmlReader.Element shapeNode = data_element.getChildByName("y:ShapeNode");
 					XmlReader.Element label = shapeNode.getChildByName("y:NodeLabel");
@@ -979,5 +981,17 @@ public final class Utility {
 		if (value > iVal)
 			iVal++;
 		return iVal;
+	}
+
+	public static boolean isNullOrEmpty(String s) {
+		if (s == null) {
+			return true;
+		}
+		else if (s.isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
