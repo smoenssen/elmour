@@ -1,12 +1,26 @@
 [
 {
 	class: com.smoftware.elmour.KeyItem
+	id: GRASS_TEMPLE_KEY
+	category: NON_QUEST
 	name: Grass Temple Key
 	summary: Opens a door somewhere.
+	imagePath: ""
 }
 {
 	class: com.smoftware.elmour.KeyItem
+	id: EMERALD
+	category: NON_QUEST
 	name: Emerald
 	summary: The first of the five Gems.
+	imagePath: ""
+}
+{
+	class: com.smoftware.elmour.KeyItem
+	id: TEDDY_BEAR
+	category: QUEST
+	name: Teddy Bear
+	summary: The first of the five Gems.
+	imagePath: "graphics/teddy_bear.png"
 }
 ]
