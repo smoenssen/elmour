@@ -82,7 +82,6 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_DIALOG2
-							postTaskConversationType: POST_TASK_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
 							parentQuestId: GetWires1
 						}
@@ -92,8 +91,7 @@ questTasks: {
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
-							conversationType: ACTIVE_QUEST_DIALOG1
-							postTaskConversationType: POST_TASK_DIALOG1
+							conversationType: ACTIVE_QUEST_CUTSCENE1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
 						}

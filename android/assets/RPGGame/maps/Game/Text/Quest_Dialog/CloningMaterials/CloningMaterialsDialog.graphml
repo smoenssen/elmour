@@ -514,9 +514,9 @@ Shnarfulapogus.
           <y:Geometry height="94.17850802770226" width="235.1351844076196" x="1967.007404297145" y="648.6429839445955"/>
           <y:Fill color="#00FF00" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="230.810546875" x="2.162318766309909" y="8.336324326351132">Well...
-§Could you also help find the keys that are
-now missing?
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="77.505859375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="212.130859375" x="11.502162516309909" y="8.336324326351132">Well...
+§Could you also help find the computer
+keys that are now missing?
 §There should be... three of them.
 §Please, and thank you!<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -898,7 +898,6 @@ now missing?
       </data>
     </edge>
     <edge id="e28" source="n20" target="n24">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="72.18895549879721" sy="-0.9853648332615421" tx="-113.44671668812043" ty="9.836127139036194"/>
