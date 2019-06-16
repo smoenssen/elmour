@@ -128,7 +128,7 @@ conversations: {
 	}
 	n26: {
 		id: n26
-		dialog: "Well...\n§Could you also help find the keys that are\nnow missing?\n§There should be... three of them.\n§Please, and thank you!"
+		dialog: "Well...\n§Could you also help find the computer\nkeys that are now missing?\n§There should be... three of them.\n§Please, and thank you!"
 		data: Rick
 		type: NPC
 	}

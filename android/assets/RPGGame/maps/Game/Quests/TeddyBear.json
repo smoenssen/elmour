@@ -5,8 +5,8 @@ questTasks: {
 		id: FindTeddyBear
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetEntity: TEDDY_BEAR
-		conversationType: ACTIVE_QUEST_DIALOG1
+		targetType: JUSTIN
+		targetLocation: COMPASS
 		taskPhrase: Find teddy bear
 	}
 	ReturnTeddyBear: {
@@ -14,8 +14,8 @@ questTasks: {
 		id: ReturnTeddyBear
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
-		targetEntity: OPHION
-		conversationType: RETURN_QUEST_DIALOG
+		targetType: OPHION
+		targetLocation: MAP1
 		taskPhrase: Return teddy bear
 	}
 }

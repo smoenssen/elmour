@@ -133,7 +133,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.T1DOOR4);
+                _mapMgr.loadMap(MapFactory.MapType.ARMORY);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(4.5f, 5);
                 keepCamInMap = false;
@@ -397,16 +397,18 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                         )
                 );
                 break;
+
+                //TTJAXON
             case ZOOM_IN:
                 _stage.addAction(Actions.sequence(
                         Actions.delay(oneBlockTime),
 
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_RIGHT),
-                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.WALK_RIGHT),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.WALK_LEFT),
 
-                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime), character1),
-                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime), jaxon),
-                        Actions.addAction(Actions.moveTo(character1.getX() - 0.5f, character1.getY(), oneBlockTime * 0.5f), camactor),
+                        Actions.addAction(Actions.moveBy(-0.5f, 0, oneBlockTime), character1),
+                        Actions.addAction(Actions.moveBy(-0.5f, 0, oneBlockTime), jaxon),
+                        Actions.addAction(Actions.moveTo(character1.getX() - 0.25f, character1.getY(), oneBlockTime * 0.5f), camactor),
 
                         new setZoomRate(-0.05f),
                         Actions.delay(oneBlockTime * 0.5f),
@@ -421,6 +423,60 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                         )
                 );
                 break;
+            case CHAR1_TEAR:
+                _stage.addAction(Actions.sequence(
+                        Actions.addAction(Actions.moveTo(character1.getX() + emoteX, character1.getY() + emoteY), misc),
+
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.TEAR_ON),
+                        Actions.delay(0.4f),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.TEAR_OFF),
+                        Actions.delay(0.4f),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case JAXON_LOOK_DOWN:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(jaxon, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case JAXON_LOOK_LEFT:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(jaxon, Entity.Direction.LEFT),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case ZOOM_OUT:
+                _stage.addAction(Actions.sequence(
+                        Actions.addAction(Actions.moveTo(4.5f, 5, oneBlockTime * 0.5f), camactor),
+
+                        new setZoomRate(0.05f),
+                        Actions.delay(oneBlockTime * 0.5f),
+                        new setZoomRate(0),
+
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+
+
 
 
 
