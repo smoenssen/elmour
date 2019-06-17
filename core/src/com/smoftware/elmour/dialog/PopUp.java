@@ -240,6 +240,8 @@ public class PopUp extends Window implements PopUpSubject {
 		String nodeText = conversation.getDialog();
 		String type = conversation.getType();
 
+		boolean nodeTextAlreadySent = false;
+
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
 			if (nodeText.contains("EXIT_CONVERSATION") ||
 					nodeText.contains("ACCEPT_QUEST") ||
@@ -247,7 +249,49 @@ public class PopUp extends Window implements PopUpSubject {
 					nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
 				// EXIT_CONVERSATION and ACCEPT_QUEST and DECLINE_QUEST and TASK_COMPLETE_CUTSCENE should only be used in cut scenes
 				// so send EXIT_CUTSCENE notification
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+				if (nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
+					// need to send node text before exit cutscene
+					//todo: is there a better way?
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
+					nodeTextAlreadySent = true;
+
+					// in this case data all we want are the last 2 parameters
+					String [] sa = conversation.getData().split(";");
+					String spawnLocationMap = sa[1] + ";" + sa[2];
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, spawnLocationMap);
+				}
+				else {
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+				}
+			}
+
+			if (!nodeTextAlreadySent) {
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
+				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
+			}
+
+			// return false to indicate not to interact with this node
+			return false;
+		}
+
+		/*
+		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
+			if (nodeText.contains("EXIT_CONVERSATION") ||
+					nodeText.contains("ACCEPT_QUEST") ||
+					nodeText.contains("DECLINE_QUEST") ||
+					nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
+				// EXIT_CONVERSATION and ACCEPT_QUEST and DECLINE_QUEST and TASK_COMPLETE_CUTSCENE should only be used in cut scenes
+				// so send EXIT_CUTSCENE notification
+				if (nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
+					// in this case data we want is only last 2 parameters
+					String [] sa = conversation.getData().split(";");
+					String spawnLocationMap = sa[1] + ";" + sa[2];
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, spawnLocationMap);
+				}
+				else {
+					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
+				}
 			}
 
 			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
@@ -255,7 +299,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 			// return false to indicate not to interact with this node
 			return false;
-		}
+		}*/
 
 		/*
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {

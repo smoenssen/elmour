@@ -19,6 +19,7 @@ public interface ConversationGraphObserver {
         ACCEPT_QUEST,
         DECLINE_QUEST,
         TASK_COMPLETE,
+        TASK_COMPLETE_CUTSCENE,
         ADD_ENTITY_TO_INVENTORY,
         RETURN_QUEST,
         NO_CHOICE,

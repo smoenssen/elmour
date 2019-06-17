@@ -1712,12 +1712,15 @@ public class PlayerHUD implements Screen, AudioSubject,
                 
                 break;
             case TASK_COMPLETE:
+            case TASK_COMPLETE_CUTSCENE:
                 String coversationID = data;
                 Conversation conversation = graph.getConversationByID(coversationID);
 
                 if (conversation != null ) {
                     String questTaskID = conversation.getData();
-                    String [] quest = questTaskID.split(QuestList.QUEST_DELIMITER);
+                    // need to strip off parameters that are delimited by semi-colons
+                    String [] temp = questTaskID.split(";");
+                    String [] quest = temp[0].split(QuestList.QUEST_DELIMITER);
                     QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
                     questTask.setTaskComplete();

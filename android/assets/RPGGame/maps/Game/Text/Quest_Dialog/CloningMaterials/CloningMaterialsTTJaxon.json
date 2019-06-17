@@ -1,14 +1,14 @@
 {
 conversations: {
-	n9: {
-		id: n9
-		dialog: What do you need?
-		data: Jaxon
-		type: NPC
-	}
 	n8: {
 		id: n8
 		dialog: ZOOM_IN
+		data: null
+		type: ACTION
+	}
+	n22: {
+		id: n22
+		dialog: ZOOM_OUT
 		data: null
 		type: ACTION
 	}
@@ -18,47 +18,17 @@ conversations: {
 		data: Jaxon
 		type: NPC
 	}
-	n6: {
-		id: n6
-		dialog: Exactly!
-		data: Me
-		type: NPC
-	}
-	n19: {
-		id: n19
-		dialog: Could you get it for me?
-		data: Jaxon
-		type: NPC
-	}
-	n5: {
-		id: n5
-		dialog: So you want something that we don^t sell?
-		data: Jaxon
-		type: NPC
-	}
-	n18: {
-		id: n18
-		dialog: "I believe we do, but I was just about to\nleave to get something."
-		data: Jaxon
-		type: NPC
+	n16: {
+		id: n16
+		dialog: TASK_COMPLETE_CUTSCENE
+		data: CloningMaterials::TalkToJaxon;CLONE1;ARMORY
+		type: ACTION
 	}
 	n3: {
 		id: n3
 		dialog: See you there!
 		data: Jaxon
 		type: NPC
-	}
-	n17: {
-		id: n17
-		dialog: CHAR1_TEAR
-		data: null
-		type: ACTION
-	}
-	n16: {
-		id: n16
-		dialog: TASK_COMPLETE
-		data: CloningMaterials::TalkToJaxon
-		type: ACTION
 	}
 	n2: {
 		id: n2
@@ -72,113 +42,19 @@ conversations: {
 		data: Jaxon
 		type: NPC
 	}
-	n14: {
-		id: n14
-		dialog: "Yeah, where is it?"
-		data: Me
-		type: NPC
-	}
 	n0: {
 		id: n0
 		dialog: I^ve been given a specific assignment to\nonly serve people over the counter.
 		data: Jaxon
 		type: NPC
 	}
-	n13: {
-		id: n13
-		dialog: "Well, I^ll have to see if we have any."
-		data: Jaxon
-		type: NPC
-	}
-	n12: {
-		id: n12
-		dialog: WAIT_1000
-		data: null
-		type: ACTION
-	}
-	n11: {
-		id: n11
-		dialog: "Oh, that^s it?"
-		data: Jaxon
-		type: NPC
-	}
-	n10: {
-		id: n10
-		dialog: "I need some wire, about 30 feet of it."
-		data: Me
-		type: NPC
-	}
-	n23: {
-		id: n23
-		dialog: ZOOM_OUT
-		data: null
-		type: ACTION
-	}
-	n22: {
-		id: n22
-		dialog: ZOOM_OUT
-		data: null
-		type: ACTION
-	}
-	n21: {
-		id: n21
-		dialog: JAXON_LOOK_LEFT
-		data: null
-		type: ACTION
-	}
-	n20: {
-		id: n20
-		dialog: JAXON_LOOK_DOWN
-		data: null
-		type: ACTION
-	}
 }
 associatedChoices: {
-	n9: [
+	n15: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n9
-			destinationId: n17
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n8: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n8
-			destinationId: n9
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n7: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n7
-			destinationId: n8
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n6: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n6
-			destinationId: n7
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n19: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n19
-			destinationId: n14
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n5: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n5
-			destinationId: n6
+			sourceId: n15
+			destinationId: n22
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -186,15 +62,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n4
-			destinationId: n5
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n18: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n18
-			destinationId: n21
+			destinationId: n7
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -206,19 +74,11 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n17: [
+	n22: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n17
-			destinationId: n10
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n15: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n15
-			destinationId: n22
+			sourceId: n22
+			destinationId: n16
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -227,14 +87,6 @@ associatedChoices: {
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n1
 			destinationId: n3
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n14: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n14
-			destinationId: n15
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -248,71 +100,23 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
 			sourceId: n0
-			destinationId: n5
+			destinationId: n7
 			choicePhrase: How about a personal request?
 		}
 	]
-	n13: [
+	n8: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n13
-			destinationId: n20
+			sourceId: n8
+			destinationId: n15
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n12: [
+	n7: [
 		{
 			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n12
-			destinationId: n13
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n11: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n11
-			destinationId: n12
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n10: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n10
-			destinationId: n11
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n23: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n23
-			destinationId: n16
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n22: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n22
-			destinationId: n23
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n21: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n21
-			destinationId: n19
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n20: [
-		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
-			sourceId: n20
-			destinationId: n18
+			sourceId: n7
+			destinationId: n8
 			choicePhrase: NO_CHOICE
 		}
 	]
