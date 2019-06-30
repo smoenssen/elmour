@@ -26,6 +26,7 @@ Post task conversation type:
 Todo:
 -----
 Need to support spawning items after a specific quest is started.
+See if two blue graph items can be in a row
 
 Ben
 ---

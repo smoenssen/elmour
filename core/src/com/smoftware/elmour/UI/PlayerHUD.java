@@ -143,7 +143,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton noClipModeButton;
     private TextButton adjustInventoryButton;
     private TextButton adjustSpellsPowersButton;
-    private TextButton parseXMLButton;
+    private TextButton adjustStatsButton;
+    private AdjustStatsUI adjustStatsUI;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -171,6 +172,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
+
+        adjustStatsUI = new AdjustStatsUI(this.game, _stage);
 
         isCutScene = false;
         isEnabled = true;
@@ -316,7 +319,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
         adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
         adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
-        parseXMLButton = new TextButton("Parse XML", Utility.ELMOUR_UI_SKIN);
+        adjustStatsButton = new TextButton("Adjust Stats", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -373,10 +376,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         saveButton.setPosition(menuItemX, menuItemY);
         saveButton.setVisible(false);
 
-        parseXMLButton.setWidth(menuItemWidth);
-        parseXMLButton.setHeight(menuItemHeight);
-        parseXMLButton.setPosition(menuItemX, menuItemY);
-        parseXMLButton.setVisible(false);
+        adjustStatsButton.setWidth(menuItemWidth);
+        adjustStatsButton.setHeight(menuItemHeight);
+        adjustStatsButton.setPosition(menuItemX, menuItemY);
+        adjustStatsButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         debugButton.setWidth(menuItemWidth);
@@ -480,7 +483,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(noClipModeButton);
             _stage.addActor(adjustInventoryButton);
             _stage.addActor(adjustSpellsPowersButton);
-            _stage.addActor(parseXMLButton);
+            _stage.addActor(adjustStatsButton);
         }
 
         //_battleUI.validate();
@@ -634,7 +637,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                         noClipModeButton.setVisible(true);
                                         adjustInventoryButton.setVisible(true);
                                         adjustSpellsPowersButton.setVisible(true);
-                                        parseXMLButton.setVisible(true);
+                                        adjustStatsButton.setVisible(true);
                                         debugMenuIsVisible = true;
                                     }
                                 }
@@ -729,7 +732,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                              }
         );
 
-        parseXMLButton.addListener(new ClickListener() {
+        adjustStatsButton.addListener(new ClickListener() {
 
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -738,7 +741,10 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                                        @Override
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                           //Utility.parseAllConversationXMLFiles();
+                                           if (touchPointIsInButton(adjustStatsButton)) {
+                                               hideDebugMenu();
+                                               adjustStatsUI.requestInput();
+                                           }
                                        }
                                    }
         );
@@ -787,7 +793,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton.setVisible(false);
         adjustInventoryButton.setVisible(false);
         adjustSpellsPowersButton.setVisible(false);
-        parseXMLButton.setVisible(false);
+        adjustStatsButton.setVisible(false);
         debugMenuIsVisible = false;
     }
 
