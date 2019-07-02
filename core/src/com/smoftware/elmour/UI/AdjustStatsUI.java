@@ -54,7 +54,12 @@ public class AdjustStatsUI {
 
         // All of this is needed in order to get a blinking cursor
         MyTextField.TextFieldStyle tStyle = new MyTextField.TextFieldStyle();
-        tStyle.font = Utility.ELMOUR_UI_SKIN.getFont("myFont");
+        if (ElmourGame.isAndroid()) {
+            tStyle.font = Utility.ELMOUR_UI_SKIN.getFont("myFontSuperSmall");
+        }
+        else {
+            tStyle.font = Utility.ELMOUR_UI_SKIN.getFont("myFont");
+        }
         tStyle.fontColor = Color.BLACK;
         tStyle.background = Utility.ELMOUR_UI_SKIN.getDrawable("textbutton");
         tStyle.cursor = Utility.ELMOUR_UI_SKIN.newDrawable("cursor", Color.BLACK);
@@ -158,47 +163,71 @@ public class AdjustStatsUI {
             }
         });
 
-        float btnHeight = 30f;
-        float btnWidth = 100f;
+        float btnHeight;
+        float btnWidth;
+        float topPad;
+        float fieldWidth;
+        float charIdInputFieldWidth;
+
+        if (ElmourGame.isAndroid()) {
+            btnHeight = 15f;
+            btnWidth = 50f;
+            topPad = 2f;
+            fieldWidth = 65;
+            charIdInputFieldWidth = 75;
+        }
+        else {
+            btnHeight = 30f;
+            btnWidth = 100f;
+            topPad = 5f;
+            fieldWidth = 125;
+            charIdInputFieldWidth = 150;
+        }
+
         Table t = new Table();
-        t.row().pad(5, 5, 0, 5);
+        if (ElmourGame.isAndroid()) {
+            t.row().pad(1, 1, 0, 1);
+        }
+        else {
+            t.row().pad(5, 5, 0, 5);
+        }
         // t.debug();
 
         Label label1 = new Label(labelText, Utility.ELMOUR_UI_SKIN, "message_box");
-        dialog.getContentTable().add(label1).padTop(5);
-        dialog.getContentTable().add(inputFieldCharID).width(150).padTop(5);
-        dialog.getContentTable().add(btnGetStats).width(150).padTop(5).colspan(2);
+        dialog.getContentTable().add(label1).padTop(topPad);
+        dialog.getContentTable().add(inputFieldCharID).width(charIdInputFieldWidth).padTop(topPad);
+        dialog.getContentTable().add(btnGetStats).width(charIdInputFieldWidth).padTop(topPad).colspan(2);
 
         dialog.getContentTable().row();
-        addField(dialog, labelHP, inputFieldHP);
-        addField(dialog, labelHP_MAX, inputFieldHP_MAX);
+        addField(dialog, labelHP, inputFieldHP, topPad, fieldWidth);
+        addField(dialog, labelHP_MAX, inputFieldHP_MAX, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelMP, inputFieldMP);
-        addField(dialog, labelMP_MAX, inputFieldMP_MAX);
+        addField(dialog, labelMP, inputFieldMP, topPad, fieldWidth);
+        addField(dialog, labelMP_MAX, inputFieldMP_MAX, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelATK, inputFieldATK);
-        addField(dialog, labelMATK, inputFieldMATK);
+        addField(dialog, labelATK, inputFieldATK, topPad, fieldWidth);
+        addField(dialog, labelMATK, inputFieldMATK, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelDEF, inputFieldDEF);
-        addField(dialog, labelMDEF, inputFieldMDEF);
+        addField(dialog, labelDEF, inputFieldDEF, topPad, fieldWidth);
+        addField(dialog, labelMDEF, inputFieldMDEF, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelSPD, inputFieldSPD);
-        addField(dialog, labelACC, inputFieldACC);
+        addField(dialog, labelSPD, inputFieldSPD, topPad, fieldWidth);
+        addField(dialog, labelACC, inputFieldACC, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelLCK, inputFieldLCK);
-        addField(dialog, labelAVO, inputFieldAVO);
+        addField(dialog, labelLCK, inputFieldLCK, topPad, fieldWidth);
+        addField(dialog, labelAVO, inputFieldAVO, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelLVL, inputFieldLVL);
+        addField(dialog, labelLVL, inputFieldLVL, topPad, fieldWidth);
 
         dialog.getContentTable().row();
-        addField(dialog, labelChapter, inputFieldChapter);
-        addField(dialog, labelDIBS, inputFieldDIBS);
+        addField(dialog, labelChapter, inputFieldChapter, topPad, fieldWidth);
+        addField(dialog, labelDIBS, inputFieldDIBS, topPad, fieldWidth);
 
         //dialog.getContentTable().debugAll();
 
@@ -249,10 +278,7 @@ public class AdjustStatsUI {
         }
     }
 
-    private void addField(Dialog dialog, String label, MyTextField inputField) {
-        float topPad = 5f;
-        float fieldWidth = 125;
-
+    private void addField(Dialog dialog, String label, MyTextField inputField, float topPad, float fieldWidth) {
         Label label2 = new Label(label, Utility.ELMOUR_UI_SKIN, "message_box");
         dialog.getContentTable().add(label2).padTop(topPad).align(Align.right);
         dialog.getContentTable().add(inputField).width(fieldWidth).padTop(topPad).align(Align.left);
@@ -288,8 +314,18 @@ public class AdjustStatsUI {
             }
         });
 
-        float btnHeight = 30f;
-        float btnWidth = 100f;
+        float btnHeight;
+        float btnWidth;
+
+        if (ElmourGame.isAndroid()) {
+            btnHeight = 15f;
+            btnWidth = 50f;
+        }
+        else {
+            btnHeight = 30f;
+            btnWidth = 100f;
+        }
+
         Table t = new Table();
         t.row().pad(5, 5, 0, 5);
         // t.debug();
