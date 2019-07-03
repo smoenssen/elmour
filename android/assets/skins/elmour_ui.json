@@ -132,6 +132,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	message_box_very_small: {
+		font: myFontVerySmall
+		fontColor: white
+		background: transparent
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 	default: {
@@ -229,6 +234,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	}
 	message_box: {
 		font: myFontSmall
+		fontColor: white
+		up: textbutton
+		down: textbutton_down
+	}
+	message_box_very_small: {
+		font: myFontVerySmall
 		fontColor: white
 		up: textbutton
 		down: textbutton_down

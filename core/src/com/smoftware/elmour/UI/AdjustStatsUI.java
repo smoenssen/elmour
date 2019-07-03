@@ -1,6 +1,7 @@
 package com.smoftware.elmour.UI;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -102,10 +103,19 @@ public class AdjustStatsUI {
         final String labelDIBS = "Party Dibs = ";
         final String labelChapter = "Chapter = ";
 
-        TextButton btnGetStats = new TextButton("Get Stats", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnApply = new TextButton("Apply", Utility.ELMOUR_UI_SKIN, "message_box");
-        TextButton btnCancel = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, "message_box");
+        String styleName;
+
+        if (ElmourGame.isAndroid()) {
+            styleName = "message_box_very_small";
+        }
+        else {
+            styleName = "message_box";
+        }
+
+        TextButton btnGetStats = new TextButton("Get Stats", Utility.ELMOUR_UI_SKIN, styleName);
+        TextButton btnOK = new TextButton("OK", Utility.ELMOUR_UI_SKIN, styleName);
+        TextButton btnApply = new TextButton("Apply", Utility.ELMOUR_UI_SKIN, styleName);
+        TextButton btnCancel = new TextButton("Cancel", Utility.ELMOUR_UI_SKIN, styleName);
 
         final Dialog dialog = new Dialog("", Utility.ELMOUR_UI_SKIN, "message_box"){
             @Override
@@ -148,7 +158,6 @@ public class AdjustStatsUI {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 dialog.cancel();
                 dialog.hide();
-                Gdx.input.setOnscreenKeyboardVisible(false);
                 clearStats();
                 return true;
             }
@@ -159,6 +168,7 @@ public class AdjustStatsUI {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String input = inputFieldCharID.getText().toUpperCase();
                 getCharacterStats(input);
+                Gdx.input.setOnscreenKeyboardVisible(false);
                 return true;
             }
         });
@@ -168,13 +178,17 @@ public class AdjustStatsUI {
         float topPad;
         float fieldWidth;
         float charIdInputFieldWidth;
+        float buttonPadTop;
+        float buttonPadBottom;
 
         if (ElmourGame.isAndroid()) {
-            btnHeight = 15f;
+            btnHeight = 20f;
             btnWidth = 50f;
             topPad = 2f;
             fieldWidth = 65;
             charIdInputFieldWidth = 75;
+            buttonPadTop = 5;
+            buttonPadBottom = 2;
         }
         else {
             btnHeight = 30f;
@@ -182,6 +196,8 @@ public class AdjustStatsUI {
             topPad = 5f;
             fieldWidth = 125;
             charIdInputFieldWidth = 150;
+            buttonPadTop = 0;
+            buttonPadBottom = 10;
         }
 
         Table t = new Table();
@@ -193,7 +209,7 @@ public class AdjustStatsUI {
         }
         // t.debug();
 
-        Label label1 = new Label(labelText, Utility.ELMOUR_UI_SKIN, "message_box");
+        Label label1 = new Label(labelText, Utility.ELMOUR_UI_SKIN, styleName);
         dialog.getContentTable().add(label1).padTop(topPad);
         dialog.getContentTable().add(inputFieldCharID).width(charIdInputFieldWidth).padTop(topPad);
         dialog.getContentTable().add(btnGetStats).width(charIdInputFieldWidth).padTop(topPad).colspan(2);
@@ -235,7 +251,8 @@ public class AdjustStatsUI {
         t.add(btnApply).width(btnWidth).height(btnHeight);
         t.add(btnCancel).width(btnWidth).height(btnHeight);
 
-        dialog.getButtonTable().add(t).center().padBottom(10f);
+        dialog.getButtonTable().setHeight(btnHeight);
+        dialog.getButtonTable().add(t).center().padBottom(buttonPadBottom).padTop(buttonPadTop);
         dialog.show(stage).setPosition(stage.getWidth() / 2 - dialog.getWidth() / 2, stage.getHeight() - dialog.getHeight() - 7);
 
         dialog.setName("inputDialog");
@@ -246,6 +263,16 @@ public class AdjustStatsUI {
             Gdx.app.log(TAG, "Setting input processor to PlayerHUD stage in requestInput()");
             Gdx.input.setInputProcessor(stage);
         }
+
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    Gdx.input.setOnscreenKeyboardVisible(false);
+                }
+                return true;
+            }
+        });
     }
 
     private void apply() {
@@ -269,7 +296,6 @@ public class AdjustStatsUI {
         if (validCharacterName) {
             String message = validateInput();
             if (message.isEmpty()) {
-                Gdx.input.setOnscreenKeyboardVisible(false);
                 setCharacterStats();
             }
             else {
@@ -278,9 +304,17 @@ public class AdjustStatsUI {
         }
     }
 
-    private void addField(Dialog dialog, String label, MyTextField inputField, float topPad, float fieldWidth) {
-        Label label2 = new Label(label, Utility.ELMOUR_UI_SKIN, "message_box");
-        dialog.getContentTable().add(label2).padTop(topPad).align(Align.right);
+    private void addField(Dialog dialog, String text, MyTextField inputField, float topPad, float fieldWidth) {
+        Label label;
+
+        if (ElmourGame.isAndroid()) {
+            label = new Label(text, Utility.ELMOUR_UI_SKIN, "message_box_very_small");
+        }
+        else {
+            label = new Label(text, Utility.ELMOUR_UI_SKIN, "message_box");
+        }
+
+        dialog.getContentTable().add(label).padTop(topPad).align(Align.right);
         dialog.getContentTable().add(inputField).width(fieldWidth).padTop(topPad).align(Align.left);
     }
 
@@ -330,8 +364,16 @@ public class AdjustStatsUI {
         t.row().pad(5, 5, 0, 5);
         // t.debug();
 
-        Label label1 = new Label(message, Utility.ELMOUR_UI_SKIN, "message_box");
-        dialog.getContentTable().add(label1).padTop(5f);
+        Label label;
+
+        if (ElmourGame.isAndroid()) {
+            label = new Label(message, Utility.ELMOUR_UI_SKIN, "message_box_very_small");
+        }
+        else {
+            label = new Label(message, Utility.ELMOUR_UI_SKIN, "message_box");
+        }
+
+        dialog.getContentTable().add(label).padTop(5f);
 
         t.add(btnOK).width(btnWidth).height(btnHeight);
 
