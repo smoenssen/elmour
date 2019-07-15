@@ -1541,8 +1541,9 @@ public class PlayerHUD implements Screen, AudioSubject,
         if (nextConversationId != null) {
             if (conversationPopUp.populateConversationDialogById(nextConversationId) == true) {
                 // todo: is this still necessary if not a cut scene
-                if (!isCutScene)
+                if (!isCutScene) {
                     conversationPopUp.interact(false);
+                }
             }
             else {
                 conversationPopUp.hide();
@@ -1552,20 +1553,22 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         // don't interact here if there are choices visible
-        if (numVisibleChoices == 0)
+        if (numVisibleChoices == 0) {
+            Gdx.app.log(TAG, "numVisibleChoices == 0");
             conversationPopUp.interact(false);
+        }
 
         // this sets the popup up for the next destination id if NO_CHOICE is active
         // in this case, choicePopUp1 always holds the next destination id
         if (isThereAnActiveHiddenChoice) {
             nextConversationId = choicePopUp1.getChoice().getDestinationId();
-            Gdx.app.log(TAG, String.format("1-------next conversation id = %s", nextConversationId));
+            Gdx.app.log(TAG, String.format("isThereAnActiveHiddenChoice == true ------- next conversation id = %s", nextConversationId));
             if (conversationPopUp.populateConversationDialogById(nextConversationId) == false) {
                 // if this is a delayed popup, the nextConversationId was already set
                 if (!isDelayedPopUp) {
                     // the current conversation Id is non-interactive, so hide popup and move on to next Id that is in choicePopup1
                     nextConversationId = conversationPopUp.getCurrentConversationGraph().getNextConversationIDFromChoice(nextConversationId, 0);
-                    Gdx.app.log(TAG, String.format("2-------next conversation id = %s", nextConversationId));
+                    Gdx.app.log(TAG, String.format("isDelayedPopUp == false ------- next conversation id = %s", nextConversationId));
                 }
                 conversationPopUp.hide();
                 notify(PlayerHudObserver.PlayerHudEvent.HIDING_POPUP, "");
@@ -1574,6 +1577,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             }
         }
         else if (choicePopUp1.getChoice() != null) {
+            Gdx.app.log(TAG, "choicePopUp1.getChoice() != null");
             if (choicePopUp1.getChoice().getConversationCommandEvent() != null) {
                 if (choicePopUp1.getChoice().getConversationCommandEvent().equals(ConversationCommandEvent.EXIT_CHAT)) {
                     conversationPopUp.hide();

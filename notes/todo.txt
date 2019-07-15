@@ -1,5 +1,6 @@
 
 
+
 battle chance calculation and count down
 apply spell effect list
 using an item animation will walk forward, turn around and show single frame animation (ITEM_LEFT, ITEM_RIGHT)

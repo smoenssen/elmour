@@ -203,9 +203,14 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             else {
                 String name = object.getName();
                 if (name != null && !name.contains("PLAYER_START") && !name.contains("NPC_START")) {
-                    Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
-                    _currentMap.getMapEntities().add(entity);
-                    _currentMap.initSpecialEntityPosition(entity);
+                    try {
+                        Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
+                        _currentMap.getMapEntities().add(entity);
+                        _currentMap.initSpecialEntityPosition(entity);
+                    }
+                    catch (NullPointerException ex) {
+                        Gdx.app.log(TAG, "setNPCSpawnEntitiesByChapter: No entity named " + name + " so ignoring");
+                    }
                 }
             }
         }

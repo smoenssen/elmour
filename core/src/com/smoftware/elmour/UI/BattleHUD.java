@@ -369,21 +369,12 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
         dummyButtonLeft = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
         dummyButtonRight = new TextButton("", Utility.ELMOUR_UI_SKIN, "battle");
 
-        // Desktop
-        menuItemWidth = _stage.getWidth()/5.5f;//115;
-        menuItemHeight = _stage.getHeight()/5.5f;//75;
+        menuItemWidth = _stage.getWidth()/5.5f;
+        menuItemHeight = _stage.getHeight()/5.5f;
         float menuItemX = _stage.getWidth()/4.75f;
         float menuItemY = menuItemHeight;
         float leftTextAreaWidth = menuItemX;
         float selectedItemBannerWidth = 300;
-
-        // Android
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            //menuItemWidth = 95;
-            //menuItemHeight = 57;
-            //menuItemX = _stage.getWidth()/4.75f;
-            //menuItemY = menuItemHeight;
-        }
 
         minBannerWidth = 100;
         selectedItemBannerHeight = 40;
@@ -451,22 +442,20 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
         leftNameTable = new Table();
 
         // Desktop
-        float nameWidth = menuItemWidth;//100;
-        float nameHeight = menuItemHeight/5;//15;
-        float topMargin = 0;
-        float bottomMargin = 5;
-        float leftMargin = 8;
-        float rightMargin = 0;
+        float nameWidth = menuItemWidth;
+        float nameHeight = menuItemHeight / 8;
 
         // Android
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            //nameWidth = 75;
-            //nameHeight = 12;
-            //topMargin = 0;
-            //bottomMargin = 4.5f;
-            //leftMargin = 8;
-            //rightMargin = 0;
+        if (ElmourGame.isAndroid()) {
+            nameWidth = menuItemWidth;
+            nameHeight = menuItemHeight / 5;
         }
+
+        // Common
+        float leftMargin = 8;
+        float rightMargin = 0;
+        float topMargin = MathUtils.clamp((((menuItemHeight * 2) - (nameHeight * 6)) / 6) / 2, 2, 7.5f);
+        float bottomMargin = topMargin * 1.5f;
 
         leftNameTable.row().pad(topMargin, leftMargin, bottomMargin, rightMargin);
         leftNameTable.add(enemy1Name).size(nameWidth, nameHeight);
@@ -482,7 +471,13 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
         leftNameTable.pack();
 
         leftNameTable.setX(3);
-        leftNameTable.setY(4 - menuItemHeight);
+
+        if (ElmourGame.isAndroid()) {
+            leftNameTable.setY(2 - menuItemHeight);
+        }
+        else {
+            leftNameTable.setY(4 - menuItemHeight);
+        }
 
 
         float leftSummaryAreaWidth = leftTextAreaWidth;
@@ -776,22 +771,14 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
 
         // Desktop
         nameWidth = 115;
-        nameHeight = 15;
-        topMargin = 2;
-        bottomMargin = 6.5f;
-        leftMargin = 8;
-        rightMargin = 0;
 
         // Android
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+        if (ElmourGame.isAndroid()) {
             nameWidth = 75;
-            nameHeight = 12;
-            topMargin = 2;
-            bottomMargin = 4.5f;
-            leftMargin = 8;
-            rightMargin = 0;
+            topMargin = topMargin / 2;
         }
 
+        //topMargin = topMargin / 2;
         float spaceBetweenBars = 20;
 
         // layout table
@@ -851,7 +838,13 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
         rightTable.pack();
 
         rightTable.setX(rightTextArea.getX());
-        rightTable.setY(4 - menuItemHeight);
+
+        if (ElmourGame.isAndroid()) {
+            rightTable.setY(2 - menuItemHeight);
+        }
+        else {
+            rightTable.setY(4 - menuItemHeight);
+        }
 
         // height and position of battleWonStatsTextField and battleWonStatsScrollPanel will be set dynamically
         // battleWonStatsTextField is only used as background for the battleWonStatsTable because
@@ -1725,7 +1718,13 @@ public class BattleHUD implements Screen, AudioSubject, BattleControlsObserver, 
 
         stats.setAlignment(Align.center);
         stats.setWidth(barWidth - 2);
-        stats.setPosition(1, -6);
+
+        if (ElmourGame.isAndroid()) {
+            stats.setPosition(1, -6);
+        }
+        else {
+            stats.setPosition(1, -8);
+        }
     }
 
     private float calculateBannerWidth(String text) {

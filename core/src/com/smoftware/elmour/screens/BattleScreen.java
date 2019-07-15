@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -283,7 +284,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     Entity.AnimationType defenderWeaponAnimationType;
 
     private float gravity;
-    private float battleHUDHeight;
+    private float battleHUDHeight = 4.5f;
     private float bounceVelocityY;
     private CopyOnWriteArrayList<BattleBurst> battleBursts; // a thread-safe Arraylist.
     private boolean isMissHit = false;
@@ -3088,11 +3089,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         bb.velocityX = velocityY;
         gravity = -25f;
         bounceVelocityY = 8f;
-
-        if (ElmourGame.isAndroid())
-            battleHUDHeight = 4.45f;
-        else
-            battleHUDHeight = 3.9f;
 
         if (battleType.equals(Entity.BattleEntityType.PARTY))
             bb.velocityX *= -1;

@@ -167,7 +167,14 @@ public class AdjustStatsUI {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String input = inputFieldCharID.getText().toUpperCase();
-                getCharacterStats(input);
+
+                if (!Utility.isNullOrEmpty(input)) {
+                    getCharacterStats(input);
+                }
+                else {
+                    getChapterAndDibsStats();
+                }
+
                 Gdx.input.setOnscreenKeyboardVisible(false);
                 return true;
             }
@@ -280,8 +287,13 @@ public class AdjustStatsUI {
         characterName = characterName.trim().toUpperCase();
         boolean validCharacterName = true;
 
-        if (characterName == null || characterName.isEmpty()) {
-            invalidInputMessage(characterName + "Character ID is empty");
+        if (Utility.isNullOrEmpty(characterName)) {
+            String message = validateChapterAndDibsInput();
+            if (message.isEmpty()) {
+                setChapterAndDibsStats();
+            } else {
+                invalidInputMessage(message);
+            }
         }
         else {
             try {
@@ -291,15 +303,14 @@ public class AdjustStatsUI {
                 invalidInputMessage(characterName + " is not a valid character ID");
                 validCharacterName = false;
             }
-        }
 
-        if (validCharacterName) {
-            String message = validateInput();
-            if (message.isEmpty()) {
-                setCharacterStats();
-            }
-            else {
-                invalidInputMessage(message);
+            if (validCharacterName) {
+                String message = validateInput();
+                if (message.isEmpty()) {
+                    setCharacterStats();
+                } else {
+                    invalidInputMessage(message);
+                }
             }
         }
     }
@@ -431,10 +442,18 @@ public class AdjustStatsUI {
         }
     }
 
+    private void getChapterAndDibsStats() {
+        int value = game.statusUI.getDibsValue();
+        inputFieldDIBS.setText(String.format("%d", value), true);
+
+        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+        inputFieldChapter.setText(String.format("%d", currentChapter), true);
+    }
+
     private void setCharacterStats() {
         if (entity != null) {
-            String value = "";
-            int iVal = 0;
+            String value;
+            int iVal;
 
             value = inputFieldHP.getText();
             iVal = Integer.parseInt(value);
@@ -484,6 +503,18 @@ public class AdjustStatsUI {
         }
     }
 
+    private void setChapterAndDibsStats() {
+        String value;
+        int iVal;
+
+        value = inputFieldDIBS.getText();
+        iVal = Integer.parseInt(value);
+        game.statusUI.setDibsValue(iVal);
+        value = inputFieldChapter.getText();
+        iVal = Integer.parseInt(value);
+        ProfileManager.getInstance().setProperty("currentChapter", iVal);
+    }
+
     private void clearStats() {
         inputFieldHP.setText("", true);
         inputFieldHP_MAX.setText("", true);
@@ -508,39 +539,67 @@ public class AdjustStatsUI {
         String results = "";
         String value = "";
 
+        if (Utility.isNullOrEmpty(inputFieldChapter.getText())) {
+            // just update chapter and dibs
+            try {
+                value = inputFieldDIBS.getText();
+                Integer.parseInt(value);
+                value = inputFieldChapter.getText();
+                Integer.parseInt(value);
+            } catch (NumberFormatException ex) {
+                results = value + " is not an integer";
+            }
+        }
+        else {
+            try {
+                value = inputFieldHP.getText();
+                Integer.parseInt(value);
+                value = inputFieldHP_MAX.getText();
+                Integer.parseInt(value);
+                value = inputFieldMP.getText();
+                Integer.parseInt(value);
+                value = inputFieldMP_MAX.getText();
+                Integer.parseInt(value);
+                value = inputFieldATK.getText();
+                Integer.parseInt(value);
+                value = inputFieldMATK.getText();
+                Integer.parseInt(value);
+                value = inputFieldDEF.getText();
+                Integer.parseInt(value);
+                value = inputFieldMDEF.getText();
+                Integer.parseInt(value);
+                value = inputFieldSPD.getText();
+                Integer.parseInt(value);
+                value = inputFieldACC.getText();
+                Integer.parseInt(value);
+                value = inputFieldLCK.getText();
+                Integer.parseInt(value);
+                value = inputFieldAVO.getText();
+                Integer.parseInt(value);
+                value = inputFieldLVL.getText();
+                Integer.parseInt(value);
+                value = inputFieldDIBS.getText();
+                Integer.parseInt(value);
+                value = inputFieldChapter.getText();
+                Integer.parseInt(value);
+            } catch (NumberFormatException ex) {
+                results = value + " is not an integer";
+            }
+        }
+
+        return results;
+    }
+
+    private String validateChapterAndDibsInput() {
+        String results = "";
+        String value = "";
+
         try {
-            value = inputFieldHP.getText();
-            Integer.parseInt(value);
-            value = inputFieldHP_MAX.getText();
-            Integer.parseInt(value);
-            value = inputFieldMP.getText();
-            Integer.parseInt(value);
-            value = inputFieldMP_MAX.getText();
-            Integer.parseInt(value);
-            value = inputFieldATK.getText();
-            Integer.parseInt(value);
-            value = inputFieldMATK.getText();
-            Integer.parseInt(value);
-            value = inputFieldDEF.getText();
-            Integer.parseInt(value);
-            value = inputFieldMDEF.getText();
-            Integer.parseInt(value);
-            value = inputFieldSPD.getText();
-            Integer.parseInt(value);
-            value = inputFieldACC.getText();
-            Integer.parseInt(value);
-            value = inputFieldLCK.getText();
-            Integer.parseInt(value);
-            value = inputFieldAVO.getText();
-            Integer.parseInt(value);
-            value = inputFieldLVL.getText();
-            Integer.parseInt(value);
             value = inputFieldDIBS.getText();
             Integer.parseInt(value);
             value = inputFieldChapter.getText();
             Integer.parseInt(value);
-        }
-        catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             results = value + " is not an integer";
         }
 

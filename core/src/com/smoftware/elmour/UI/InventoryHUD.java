@@ -1227,7 +1227,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         float rightMargin = 0;
 
         // Android
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+        if (ElmourGame.isAndroid()) {
             nameWidth = 75;
             nameHeight = 10;
             topMargin = 0;

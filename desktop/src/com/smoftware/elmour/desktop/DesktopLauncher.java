@@ -10,8 +10,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 
-		//cfg.width = 1280;
-		//cfg.height = 720;
+		// Galaxy S9
+		//cfg.width = 512;
+		//cfg.height = 266;
 
 		// fullscreen
 		//cfg.fullscreen = true;

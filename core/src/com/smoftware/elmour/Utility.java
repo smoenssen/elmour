@@ -95,7 +95,7 @@ public final class Utility {
 		//fontSign.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// SMALL TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			fontSmallSize = 15;
@@ -112,7 +112,7 @@ public final class Utility {
 		//fontSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// VERY SMALL TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			myFontVerySmallSize = 12;
@@ -129,7 +129,7 @@ public final class Utility {
 		//fontVerySmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// SUPER SMALL TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			myFontSuperSmallSize = 7;
@@ -146,7 +146,7 @@ public final class Utility {
 		//fontSuperSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// RED TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			myFontSize = 16;
@@ -173,7 +173,7 @@ public final class Utility {
 		BitmapFont fontGrayVerySmall = generator.generateFont(parameter);
 
 		// CHAPTER TITLE TEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			myFontSize = 48;
@@ -191,7 +191,7 @@ public final class Utility {
 		BitmapFont fontChapterTitle = generator.generateFont(parameter);
 
 		// CHAPTER TITLE SUBTEXT
-		if (Gdx.app.getType() == Application.ApplicationType.Android) {
+		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
 			myFontSize = 32;
