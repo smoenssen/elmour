@@ -180,7 +180,7 @@
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="367.12939453125" width="437.1921315509027" x="451.5" y="-493.12939453125"/>
+              <y:Geometry height="427.12939453125" width="437.1921315509027" x="451.5" y="-553.12939453125"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="22.37646484375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="437.1921315509027" x="0.0" y="0.0">CloningMaterials</y:NodeLabel>
@@ -249,7 +249,7 @@
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="202.37646484375" width="148.0" x="466.5" y="-455.7529296875"/>
+                  <y:Geometry height="262.37646484375" width="148.0" x="466.5" y="-515.7529296875"/>
                   <y:Fill color="#F5F5F5" transparent="false"/>
                   <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
                   <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="22.37646484375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="148.0" x="0.0" y="0.0">GetWires2</y:NodeLabel>
@@ -274,14 +274,14 @@
           </data>
           <graph edgedefault="directed" id="n2::n2:">
             <node id="n2::n2::n0">
-              <data key="d4"><![CDATA[Talk to Justin]]></data>
+              <data key="d4"><![CDATA[Talk to Tony]]></data>
               <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="74.79999999999995" x="503.1" y="-298.37646484375"/>
                   <y:Fill color="#FFCC00" transparent="false"/>
                   <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="72.021484375" x="1.3892578124999773" y="5.6494140625">TalkToJustin<y:LabelModel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="67.3515625" x="3.7242187499999773" y="5.6494140625">TalkToTony<y:LabelModel>
                       <y:SmartNodeLabelModel distance="4.0"/>
                     </y:LabelModel>
                     <y:ModelParameter>
@@ -293,7 +293,7 @@
               </data>
             </node>
             <node id="n2::n2::n1">
-              <data key="d4"><![CDATA[Get a Lead Pipe]]></data>
+              <data key="d4"><![CDATA[Get Tools From Justin]]></data>
               <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
@@ -312,11 +312,30 @@
               </data>
             </node>
             <node id="n2::n2::n2">
-              <data key="d4"><![CDATA[Give Justin the Lead Pipe]]></data>
+              <data key="d4"><![CDATA[Give Tony the Tools]]></data>
               <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG2;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="118.0" x="481.5" y="-418.37646484375"/>
+                  <y:Fill color="#CC99FF" transparent="false"/>
+                  <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="104.03125" x="6.984375" y="5.6494140625">GiveTonyMaterials<y:LabelModel>
+                      <y:SmartNodeLabelModel distance="4.0"/>
+                    </y:LabelModel>
+                    <y:ModelParameter>
+                      <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
+                    </y:ModelParameter>
+                  </y:NodeLabel>
+                  <y:Shape type="rectangle"/>
+                </y:ShapeNode>
+              </data>
+            </node>
+            <node id="n2::n2::n3">
+              <data key="d4"><![CDATA[Give Justin the Lead Pipe]]></data>
+              <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG2;]]></data>
+              <data key="d6">
+                <y:ShapeNode>
+                  <y:Geometry height="30.0" width="118.0" x="481.5" y="-478.37646484375"/>
                   <y:Fill color="#FFCC00" transparent="false"/>
                   <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
                   <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="108.701171875" x="4.6494140625" y="5.6494140625">GiveJustinMaterials<y:LabelModel>
@@ -533,19 +552,6 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n2::e2" source="n2::n1" target="n2::n2">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-48.91392190493157">
-            <y:Point x="616.0980328877256" y="-403.37646484375"/>
-            <y:Point x="616.0980328877256" y="-403.47861917055656"/>
-          </y:Path>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="standard"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
     <edge id="n2::n2::e0" source="n2::n2::n2" target="n2::n2::n1">
       <data key="d10">
         <y:PolyLineEdge>
@@ -586,7 +592,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="n2::e3" source="n2::n2" target="n2::n3">
+    <edge id="n2::e2" source="n2::n2" target="n2::n3">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-129.59606577545134" ty="0.0"/>
@@ -624,6 +630,28 @@
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="-9.5" y="-219.0"/>
           </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n2::n2::e2" source="n2::n2::n3" target="n2::n2::n2">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="n2::e3" source="n2::n1" target="n2::n2">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-18.811767578125"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>

@@ -52,6 +52,7 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
     private AnimatedImage guard8;
     private AnimatedImage camactor;
     private AnimatedImage misc;
+    private AnimatedImage misc2;
 
     private Image blackBarLeft;
     private Image blackBarRight;
@@ -74,6 +75,7 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
         guard8 = getAnimatedImage(EntityFactory.EntityName.ROYAL_GUARD);
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
         misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
+        misc2 = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
 
         character2.setVisible(false);
         camactor.setVisible(false);
@@ -86,7 +88,9 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
         guard7.setVisible(false);
         guard8.setVisible(false);
         misc.setVisible(false);
+
         misc.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
+        misc2.setCurrentAnimationType(Entity.AnimationType.FORCEFIELD);
 
         blackBarLeft = new Image(new Texture("graphics/black_rectangle.png"));
         blackBarLeft.setVisible(false);
@@ -108,6 +112,7 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
 
         _stage.addActor(camactor);
         _stage.addActor(misc);
+        _stage.addActor(misc2);
         _stage.addActor(blackBarLeft);
         _stage.addActor(blackBarRight);
         _stage.addActor(_transitionActor);
@@ -131,6 +136,9 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
 
                 misc.setPosition(character1.getX() + emoteX, character1.getY() + emoteY);
                 misc.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
+
+                misc2.setPosition(4, 3);
+                misc2.setCurrentAnimationType(Entity.AnimationType.FRYPAN);
             }
         };
 
@@ -430,7 +438,10 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
                         myActions.new setIdleDirection(character1, Entity.Direction.UP),
                         Actions.delay(oneBlockTime * 4),
                         myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
-                        Actions.delay(oneBlockTime * 2),
+                        Actions.delay(oneBlockTime * 1),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.GLITCH_LEFT_IDLE),
+                        Actions.delay(oneBlockTime * 0.875f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
                         Actions.addAction(Actions.moveTo(2 + emoteX, 3 + emoteY), misc),
                         myActions.new setCharacterVisible(misc, true),
@@ -445,13 +456,13 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
                         )
                 );
                 break;
-            case JUMP_BACK:
+            case WALK_BACK:
                 if( shakeCam == null ){
                     shakeCam = new ShakeCamera(_camera.position.x, _camera.position.y,
-                            0.10f,
                             0.05f,
                             0.025f,
                             0.0125f,
+                            0.00625f,
                             0.2f,
                             0.2f,
                             0.2f);
@@ -464,20 +475,34 @@ public class Chapter1 extends CutSceneBase implements ConversationGraphObserver,
                         Actions.delay(0.005f),
                         Actions.addAction(Actions.moveBy(0.05f, 0, 0.0025f), character1),
                         Actions.delay(0.75f),
-                        //Jump
+                        //WALK BACK
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
-                        Actions.addAction(Actions.moveTo(3.25f, 3.75f, 0.1f), character1),
-                        Actions.delay(0.1f),
+                        Actions.addAction(Actions.moveTo(2.5f, 3, 0.5f), character1),
+                        Actions.delay(0.5f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        Actions.delay(1),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(3, 3, 0.5f), character1),
+                        Actions.delay(0.5f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        Actions.delay(1),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(3.25f, 3, 0.25f), character1),
+                        Actions.delay(0.25f),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
 
                         myActions.new shakeCam(shakeCam),
 
-                        myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_LEFT),
+                        /*myActions.new setWalkDirection(character1, Entity.AnimationType.FALL_LEFT),
                         Actions.addAction(Actions.moveBy(-0.5f, -0.25f, oneBlockTime), character1),
                         //Get up
                         Actions.delay(oneBlockTime * 3),
                         myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
-                        Actions.addAction(Actions.moveTo(3, 3.5f), character1),
-                        Actions.delay(oneBlockTime),
+                        Actions.addAction(Actions.moveTo(3, 3.5f), character1),*/
+                        //Frypan
+                        myActions.new setWalkDirection(misc2, Entity.AnimationType.FRYPAN_FALL),
+                        Actions.delay(0.0833f * 7),
+
                         myActions.new setIdleDirection(character1, Entity.Direction.RIGHT),
                         Actions.delay(oneBlockTime * 3),
                         myActions.new setIdleDirection(character1, Entity.Direction.LEFT),

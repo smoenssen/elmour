@@ -26,7 +26,7 @@ public interface ConversationGraphObserver {
         //Chapter 1
         LOOK_AROUND,
         WALK_TO_MIRROR,
-        JUMP_BACK,
+        WALK_BACK,
         CHASE_SEQUENCE,
         GUARDS_SURROUND,
         GUARDS_STOP,

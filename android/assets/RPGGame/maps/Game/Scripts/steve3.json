@@ -7,11 +7,11 @@ preferredWeaponType : STAFF
 entityProperties: {
 	HP: {
 		class: java.lang.String
-		value: 250
+		value: 25
 	}
 	HP_MAX: {
 		class: java.lang.String
-		value: 300
+		value: 30
 	}
 	MP: {
 		class: java.lang.String
@@ -39,7 +39,7 @@ entityProperties: {
 	}
 	SPD: {
 		class: java.lang.String
-		value: 100
+		value: 11
 	}
 	ACC: {
 		class: java.lang.String
@@ -444,17 +444,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_LEFT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 0
 			}
 			{
-				x: 5
+				x: 4
 				y: 1
 			}
 		]
@@ -463,17 +464,18 @@ animationConfig: [
 			frameDuration: 0.0333
 			frameWidth : 16
 			frameHeight : 16
+			looping : false
 		animationType: KNUCKLES_RIGHT
 		texturePaths: [
 				RPGGame/maps/Game/Characters/Steve/Steve.png
 		]
 		gridPoints: [
 			{
-				x: 5
+				x: 4
 				y: 2
 			}
 			{
-				x: 5
+				x: 4
 				y: 3
 			}
 		]
