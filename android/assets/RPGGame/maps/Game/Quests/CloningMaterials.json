@@ -171,14 +171,24 @@ questTasks: {
 			quests: {
 				GetWires2: {
 					questTasks: {
-						TalkToJustin: {
+						GiveTonyMaterials: {
+							yedNodeId: n2::n2::n2
+							id: GiveTonyMaterials
+							questTaskType: FETCH
+							questTaskStatus: NOT_STARTED
+							targetEntity: JUSTIN
+							conversationType: ACTIVE_QUEST_DIALOG2
+							taskPhrase: Give Tony the Tools
+							parentQuestId: GetWires2
+						}
+						TalkToTony: {
 							yedNodeId: n2::n2::n0
-							id: TalkToJustin
+							id: TalkToTony
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
 							targetEntity: JUSTIN
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Talk to Justin
+							taskPhrase: Talk to Tony
 							parentQuestId: GetWires2
 						}
 						GetMaterials2: {
@@ -188,12 +198,12 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Get a Lead Pipe
+							taskPhrase: Get Tools From Justin
 							isSpoiler: true
 							parentQuestId: GetWires2
 						}
 						GiveJustinMaterials: {
-							yedNodeId: n2::n2::n2
+							yedNodeId: n2::n2::n3
 							id: GiveJustinMaterials
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
@@ -204,21 +214,28 @@ questTasks: {
 						}
 					}
 					questTaskDependencies: {
-						GetMaterials2: [
+						GiveTonyMaterials: [
 							{
 								class: com.smoftware.elmour.quest.QuestTaskDependency
-								sourceId: GetMaterials2
-								destinationId: TalkToJustin
+								sourceId: GiveTonyMaterials
+								destinationId: GetMaterials2
 							}
 						]
+						TalkToTony: []
 						GiveJustinMaterials: [
 							{
 								class: com.smoftware.elmour.quest.QuestTaskDependency
 								sourceId: GiveJustinMaterials
-								destinationId: GetMaterials2
+								destinationId: GiveTonyMaterials
 							}
 						]
-						TalkToJustin: []
+						GetMaterials2: [
+							{
+								class: com.smoftware.elmour.quest.QuestTaskDependency
+								sourceId: GetMaterials2
+								destinationId: TalkToTony
+							}
+						]
 					}
 					yedNodeId: n2::n2
 					questTitle: Get 5ft. of wire
