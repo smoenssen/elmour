@@ -71,11 +71,27 @@ public class CutSceneManager extends CutSceneSubject implements ComponentObserve
         }
     }
 
+    public static boolean isQuestCutSceneStarting(String conversationConfigFile) {
+        Json json = new Json();
+        EntityConfig.ConversationConfig conversationConfig = json.fromJson(EntityConfig.ConversationConfig.class, Gdx.files.internal(conversationConfigFile));
+
+        CutSceneObserver.CutSceneStatus status = ProfileManager.getInstance().getProperty(conversationConfig.config, CutSceneObserver.CutSceneStatus.class);
+        return canCutSceneStart(status);
+    }
+
+    private static boolean canCutSceneStart(CutSceneObserver.CutSceneStatus status) {
+        // todo: also need to check if there are any quest dependencies that would prevent the cut scene from starting
+        if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            return true;
+        }
+        else return false;
+    }
+
     private void startCutScene(String value) {
         // check to see if this cut scene should be kicked off
         CutSceneObserver.CutSceneStatus status = ProfileManager.getInstance().getProperty(value, CutSceneObserver.CutSceneStatus.class);
 
-        if (status == null || status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+        if (canCutSceneStart(status)) {
             ProfileManager.getInstance().setProperty(value, CutSceneObserver.CutSceneStatus.STARTED);
 
             if (!getSetScreenTimer(value).isScheduled()) {

@@ -1088,11 +1088,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         _mapMgr.registerCurrentMapEntityObservers(this);
     }
 
-    public void addTransitionToScreen(){
+    public void addTransitionToScreen(float duration){
         _transitionActor.setVisible(true);
         _stage.addAction(
                 Actions.sequence(
-                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 1), _transitionActor)));
+                        Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, duration), _transitionActor)));
     }
 
     public boolean isPlayerComingFromBattle() {

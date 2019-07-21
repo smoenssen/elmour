@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -259,7 +260,13 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
             _mapMgr.setMapChanged(false);
 
-            _playerHUD.addTransitionToScreen();
+            if (_mapMgr.isQuestCutSceneStarting()) {
+                // delay a little so that transition is into cut scene, not map
+                _playerHUD.addTransitionToScreen(2.5f);
+             }
+            else {
+                _playerHUD.addTransitionToScreen(1);
+            }
         }
 
         if (_playerHUD != null)

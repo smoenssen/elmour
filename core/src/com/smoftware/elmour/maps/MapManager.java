@@ -14,8 +14,10 @@ import com.smoftware.elmour.Component;
 import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.PlayerPhysicsComponent;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
+import com.smoftware.elmour.screens.CutSceneManager;
 import com.smoftware.elmour.sfx.ClockActor;
 
 public class MapManager implements ProfileObserver, ComponentObserver {
@@ -437,6 +439,17 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         }
         _currentMap.getMapQuestEntities().removeValue(entity, true);
         ProfileManager.getInstance().setProperty(entity.getEntityConfig().getEntityID(), positions);
+    }
+
+    public boolean isQuestCutSceneStarting() {
+        String conversationConfigFile = PlayerPhysicsComponent.getOverlappingQuestConversationConfig(this, _currentMap.getPlayerStart());
+
+        if (conversationConfigFile != null) {
+            return CutSceneManager.isQuestCutSceneStarting(conversationConfigFile);
+        }
+        else {
+            return false;
+        }
     }
 
     public void clearAllMapQuestEntities(){

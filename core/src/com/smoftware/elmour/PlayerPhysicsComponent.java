@@ -14,6 +14,8 @@ import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.CutSceneManager;
 
+import org.w3c.dom.css.Rect;
+
 public class PlayerPhysicsComponent extends PhysicsComponent {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
@@ -562,7 +564,46 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return messageSent;
     }
 */
-    private boolean updateQuestLayerActivation(com.smoftware.elmour.maps.MapManager mapMgr){
+    public static String getOverlappingQuestConversationConfig(MapManager mapMgr, Vector2 playerStart) {
+        MapLayer mapQuestLayer =  mapMgr.getQuestDiscoverLayer();
+
+        if( mapQuestLayer == null ){
+            return null;
+        }
+
+        Rectangle boundingBox = new Rectangle(playerStart.x, playerStart.y, 14, 5);
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapQuestLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+
+                if (boundingBox.overlaps(rectangle) ){
+                    String chapters = (String)object.getProperties().get("chapters");
+                    if (chapters != null) {
+                        String [] sa = chapters.split("-");
+                        int minChapter = Integer.parseInt(sa[0].trim());
+                        int maxChapter = 0x7fffffff;
+                        if (sa.length > 1) {
+                            maxChapter = Integer.parseInt(sa[1].trim());
+                        }
+
+                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
+                        if (currentChapter < minChapter || currentChapter > maxChapter) {
+                            return null;
+                        }
+                    }
+
+                    String questID = object.getName();
+                    String questTaskID = (String)object.getProperties().get("taskID");
+                    return (String)object.getProperties().get("conversationConfig");
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean updateQuestLayerActivation(MapManager mapMgr){
         MapLayer mapQuestLayer =  mapMgr.getQuestDiscoverLayer();
 
         if( mapQuestLayer == null ){
