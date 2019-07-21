@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.UI.MyTextArea;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -52,6 +51,7 @@ public class PopUp extends Window implements PopUpSubject {
 	private long setVisibleDelay = 0;
 	private PopUpType popUpType;
 	private Object criticalSection;
+	private String lastConversationIdNotified = "";
 
 	public PopUp(PopUpType popUpType) {
 		//Notes:
@@ -240,8 +240,6 @@ public class PopUp extends Window implements PopUpSubject {
 		String nodeText = conversation.getDialog();
 		String type = conversation.getType();
 
-		boolean nodeTextAlreadySent = false;
-
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
 			if (nodeText.contains("EXIT_CONVERSATION") ||
 					nodeText.contains("ACCEPT_QUEST") ||
@@ -254,7 +252,7 @@ public class PopUp extends Window implements PopUpSubject {
 					//todo: is there a better way?
 					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
 					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
-					nodeTextAlreadySent = true;
+					lastConversationIdNotified = conversationID;
 
 					// in this case data all we want are the last 2 parameters
 					String [] sa = conversation.getData().split(";");
@@ -266,60 +264,15 @@ public class PopUp extends Window implements PopUpSubject {
 				}
 			}
 
-			if (!nodeTextAlreadySent) {
+			if (!lastConversationIdNotified.equals(conversationID)) {
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
+				lastConversationIdNotified = conversationID;
 			}
 
 			// return false to indicate not to interact with this node
 			return false;
 		}
-
-		/*
-		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (nodeText.contains("EXIT_CONVERSATION") ||
-					nodeText.contains("ACCEPT_QUEST") ||
-					nodeText.contains("DECLINE_QUEST") ||
-					nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
-				// EXIT_CONVERSATION and ACCEPT_QUEST and DECLINE_QUEST and TASK_COMPLETE_CUTSCENE should only be used in cut scenes
-				// so send EXIT_CUTSCENE notification
-				if (nodeText.equals("TASK_COMPLETE_CUTSCENE")) {
-					// in this case data we want is only last 2 parameters
-					String [] sa = conversation.getData().split(";");
-					String spawnLocationMap = sa[1] + ";" + sa[2];
-					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, spawnLocationMap);
-				}
-				else {
-					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
-				}
-			}
-
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
-
-			// return false to indicate not to interact with this node
-			return false;
-		}*/
-
-		/*
-		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
-			if (nodeText.equals("EXIT_CHAT")) {
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT);
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CHAT, conversationID);
-			}
-			else if (nodeText.contains("EXIT_CONVERSATION")) {
-				// EXIT_CONVERSATION should only be used in cut scenes
-				// so send EXIT_CUTSCENE notification
-				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.EXIT_CUTSCENE, conversation.getData());
-			}
-
-			//graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
-			graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
-
-			// return false to indicate not to interact with this node
-			return false;
-		}
-		*/
 
 		fullText = nodeText;
 
@@ -516,6 +469,7 @@ public class PopUp extends Window implements PopUpSubject {
 				PopUp.this.notify(0, PopUpObserver.PopUpEvent.INTERACTION_THREAD_EXIT);
 				hide();
 				isThreadRunning = false;
+				fullText = "";
 			}
 		};
 
@@ -626,7 +580,7 @@ public class PopUp extends Window implements PopUpSubject {
         }
 	}
 
-	private void showChoices() {
+	public void showChoices() {
 		Gdx.app.log(TAG, "SHOWING CHOICES:");
 		ArrayList<ConversationChoice> choices = graph.getCurrentChoices();
 		if (choices != null) {

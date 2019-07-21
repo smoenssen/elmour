@@ -126,6 +126,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void loadMap(MapFactory.MapType mapType) {
+        loadMap(mapType, false);
+    }
+
+    public void loadMap(MapFactory.MapType mapType, boolean isCutScene) {
         Map map = MapFactory.getMap(mapType);
 
         if (map == null) {
@@ -152,12 +156,14 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         // todo: for INN rooms???
         // Note: mapMgr.setStartPositionFromPreviousMap(<nested room map type>) needs to be called from nested room
         boolean setPreviousMapType = false;
-        if (_currentMap != null &&
-                _currentMap.getCurrentMapType() != MapFactory.MapType.WEAPONS_ROOM) {
-            setPreviousMapType = true;
-        }
-        else if (_currentMap == null) {
-            setPreviousMapType = true;
+
+        if (!isCutScene) {
+            if (_currentMap != null &&
+                    _currentMap.getCurrentMapType() != MapFactory.MapType.WEAPONS_ROOM) {
+                setPreviousMapType = true;
+            } else if (_currentMap == null) {
+                setPreviousMapType = true;
+            }
         }
 
         if (setPreviousMapType) {

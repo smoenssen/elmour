@@ -48,6 +48,7 @@ import com.smoftware.elmour.dialog.Conversation;
 import com.smoftware.elmour.dialog.ConversationChoice;
 import com.smoftware.elmour.dialog.ConversationGraph;
 import com.smoftware.elmour.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.dialog.ConversationNode;
 import com.smoftware.elmour.dialog.InputDialogObserver;
 import com.smoftware.elmour.dialog.InputDialogSubject;
 import com.smoftware.elmour.dialog.PopUpLabel;
@@ -1539,6 +1540,15 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         // this is where all the magic happens
         if (nextConversationId != null) {
+            // check for special handling of ACTION type - this allows two or more ACTION nodes to be strung together
+            Conversation conversation = conversationPopUp.getCurrentConversationGraph().getConversationByID(nextConversationId);
+            if (conversation != null) {
+                if (conversation.getType().equals(ConversationNode.NodeType.ACTION.toString())) {
+                    conversationPopUp.showChoices();
+                    isThereAnActiveHiddenChoice = true;
+                }
+            }
+
             if (conversationPopUp.populateConversationDialogById(nextConversationId) == true) {
                 // todo: is this still necessary if not a cut scene
                 if (!isCutScene) {
@@ -1707,7 +1717,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                 // Default Direction to DOWN
                 // Character name is optional
                 String [] sa = data.split(";");
-                _mapMgr.loadMap(MapFactory.MapType.valueOf(sa[1]));
+                _mapMgr.loadMap(MapFactory.MapType.valueOf(sa[1]), true);
                 _mapMgr.setStartPositionFromPreviousMap(sa[0]);
 
                 Entity.Direction direction = Entity.Direction.DOWN;

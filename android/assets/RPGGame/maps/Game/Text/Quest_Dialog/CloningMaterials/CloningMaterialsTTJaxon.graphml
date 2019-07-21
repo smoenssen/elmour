@@ -661,7 +661,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e20" source="n4" target="n7">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -672,7 +671,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e21" source="n8" target="n15">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

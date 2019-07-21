@@ -98,7 +98,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.T1DOOR4);
+                _mapMgr.loadMap(MapFactory.MapType.T1DOOR4, true);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(6, 5);
                 keepCamInMap = false;
@@ -133,7 +133,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             @Override
             public void run() {
                 _playerHUD.hideMessage();
-                _mapMgr.loadMap(MapFactory.MapType.ARMORY);
+                _mapMgr.loadMap(MapFactory.MapType.ARMORY, true);
                 _mapMgr.disableCurrentmapMusic();
                 setCameraPosition(4.5f, 5);
                 keepCamInMap = false;
@@ -488,6 +488,9 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             case DECLINE_QUEST:
                 String cutsceneName = ElmourGame.ScreenType.CloningQuestScreen.toString() + "_" + currentPartNumber;
                 ProfileManager.getInstance().setProperty(cutsceneName, CutSceneObserver.CutSceneStatus.NOT_STARTED);
+                fadeToMainScreen();
+                break;
+            case TASK_COMPLETE_CUTSCENE:
                 fadeToMainScreen();
                 break;
         }
