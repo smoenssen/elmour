@@ -12,8 +12,6 @@ test stopUsingItem
 handle if character doesn't have a weapon: default to KNUCKLE
 if equipping to character that already has a weapon, the previous weapon just be put back in the inventory
 
-Allow game play after coming out of cutscene - requires spawning in correct location
-
 Only write certain cutscene status to profile
 
 Add weapon to inventory when selected from chapter 2 cut scene

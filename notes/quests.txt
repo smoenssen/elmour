@@ -68,7 +68,7 @@ yEd for quest conversations
 ---------------------------
   Use EXIT_CONVERSATION in cut scenes
   Use EXIT_CHAT in normal dialog
-  Use TASK_COMPLETE in task dialog, which includes data <questID::taskID>
+  Use TASK_COMPLETE or TASK_COMPLETE_CUTSCENE in task dialog, which includes data <questID::taskID>
 
 Character .json files
 ---------------------
@@ -129,13 +129,13 @@ Example conversationConfigs in timmy.json file:
 yEd for quest graphs
 --------------------
 Color = task types
-	FETCH			= cc99ff
-	KILL			= ff0000
-	DELIVERY	= c0c0c0
-	GUARD			= 3366ff
-	ESCORT		= 33cccc
-	RETURN		= ffcc00
-	DISCOVER	= 00ff00
+	FETCH			= cc99ff	(purple)
+	KILL			= ff0000	(red)
+	DELIVERY	= c0c0c0	(gray)
+	GUARD			= 3366ff	(blue)
+	ESCORT		= 33cccc	(turquoise)
+	RETURN		= ffcc00	(gold)
+	DISCOVER	= 00ff00	(green)
 Text = task ID
 Phrase = URL
 Description will be <Target Entity>;<ConversationType>;<Post Task ConversationType>;<Target Number>

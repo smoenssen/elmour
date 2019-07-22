@@ -28,6 +28,7 @@ public class AdjustStatsUI {
     private static final String TAG = AdjustStatsUI.class.getSimpleName();
 
     ElmourGame game;
+    PlayerHUD playerHUD;
     Stage stage;
 
     MyTextField inputFieldCharID;
@@ -49,8 +50,9 @@ public class AdjustStatsUI {
 
     Entity entity = null;
 
-    public AdjustStatsUI(final ElmourGame game, Stage stage) {
+    public AdjustStatsUI(final ElmourGame game, PlayerHUD playerHUD, Stage stage) {
         this.game = game;
+        this.playerHUD = playerHUD;
         this.stage = stage;
 
         // All of this is needed in order to get a blinking cursor
@@ -141,6 +143,7 @@ public class AdjustStatsUI {
                 dialog.cancel();
                 dialog.hide();
                 clearStats();
+                notifyExiting();
                 return true;
             }
         });
@@ -159,6 +162,7 @@ public class AdjustStatsUI {
                 dialog.cancel();
                 dialog.hide();
                 clearStats();
+                notifyExiting();
                 return true;
             }
         });
@@ -170,9 +174,6 @@ public class AdjustStatsUI {
 
                 if (!Utility.isNullOrEmpty(input)) {
                     getCharacterStats(input);
-                }
-                else {
-                    getChapterAndDibsStats();
                 }
 
                 Gdx.input.setOnscreenKeyboardVisible(false);
@@ -270,6 +271,9 @@ public class AdjustStatsUI {
             Gdx.app.log(TAG, "Setting input processor to PlayerHUD stage in requestInput()");
             Gdx.input.setInputProcessor(stage);
         }
+
+        // automatically get chapter and dibs
+        getChapterAndDibsStats();
 
         stage.addListener(new InputListener() {
             @Override
@@ -604,5 +608,9 @@ public class AdjustStatsUI {
         }
 
         return results;
+    }
+
+    private void notifyExiting() {
+        playerHUD.notifyHidingStatsUI();
     }
 }

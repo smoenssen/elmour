@@ -174,7 +174,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
 
-        adjustStatsUI = new AdjustStatsUI(this.game, _stage);
+        adjustStatsUI = new AdjustStatsUI(this.game, this, _stage);
 
         isCutScene = false;
         isEnabled = true;
@@ -634,12 +634,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                     @Override
                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                         hideMenu(true);
-                                        utilityButton.setVisible(true);
-                                        noClipModeButton.setVisible(true);
-                                        adjustInventoryButton.setVisible(true);
-                                        adjustSpellsPowersButton.setVisible(true);
-                                        adjustStatsButton.setVisible(true);
-                                        debugMenuIsVisible = true;
+                                        showDebugMenu();
                                     }
                                 }
         );
@@ -744,6 +739,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                                            if (touchPointIsInButton(adjustStatsButton)) {
                                                hideDebugMenu();
+                                               notifyShowingStatsUI();
                                                adjustStatsUI.requestInput();
                                            }
                                        }
@@ -784,6 +780,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         optionsButton.setVisible(false);
         saveButton.setVisible(false);
         debugButton.setVisible(false);
+        notify(PlayerHudObserver.PlayerHudEvent.HIDING_MENU, "");
 
         if (setVisibleFlag)
             menuIsVisible = false;
@@ -796,6 +793,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustSpellsPowersButton.setVisible(false);
         adjustStatsButton.setVisible(false);
         debugMenuIsVisible = false;
+        notify(PlayerHudObserver.PlayerHudEvent.HIDING_MENU, "");
     }
 
     private void showMenu() {
@@ -805,8 +803,27 @@ public class PlayerHUD implements Screen, AudioSubject,
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
         debugButton.setVisible(true);
+        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_MENU, "");
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
+    }
+
+    private void showDebugMenu() {
+        utilityButton.setVisible(true);
+        noClipModeButton.setVisible(true);
+        adjustInventoryButton.setVisible(true);
+        adjustSpellsPowersButton.setVisible(true);
+        adjustStatsButton.setVisible(true);
+        debugMenuIsVisible = true;
+        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_MENU, "");
+    }
+
+    public void notifyShowingStatsUI() {
+        notify(PlayerHudObserver.PlayerHudEvent.SHOWING_STATS_UI, "");
+    }
+
+    public void notifyHidingStatsUI() {
+        notify(PlayerHudObserver.PlayerHudEvent.HIDING_STATS_UI, "");
     }
 
     private void showInventoryHUD() {
