@@ -10,7 +10,7 @@ On Android, how to allow inventory item at bottom of list to be swapped with one
 
 test stopUsingItem
 handle if character doesn't have a weapon: default to KNUCKLE
-if equipping to character that already has a weapon, the previous weapon just be put back in the inventory
+if equipping to character that already has a weapon, the previous weapon will just be put back in the inventory
 
 Only write certain cutscene status to profile
 
@@ -18,18 +18,3 @@ Add weapon to inventory when selected from chapter 2 cut scene
 
 Where possible, use json.toJson() to send in notifications and json.fromJson() to receive
 
-Move functions/variables to CutSceneBase:
-followActor
-setCameraPosition
-currentPartNumber
-baseResize
-basePause
-baseResume
-baseDispose
-
-Remove from CutSceneBase:
-_player
-
-Remove from inherited cut scenes:
-setGameState(GameState.LOADING);
-Gdx.input.setInputProcessor ?

@@ -138,7 +138,6 @@ public class CutSceneBase extends GameScreen {
     protected boolean keepCamInMap;
     protected boolean isMapRendering;
 
-    protected Entity _player;
     protected PlayerHUD _playerHUD;
 
     protected Actor _followingActor;
@@ -158,6 +157,7 @@ public class CutSceneBase extends GameScreen {
     protected int emoteY = 1;
     protected float zoomRate = 0;
     protected boolean isFading = true;
+    protected String currentPartNumber = "";
     private boolean isFirstTime = true;
 
     public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {
@@ -304,10 +304,51 @@ public class CutSceneBase extends GameScreen {
 
     protected void baseShow() {
         isFading = true;
+        ProfileManager.getInstance().addObserver(_mapMgr);
+        _playerHUD.setCutScene(true);
+        Gdx.input.setInputProcessor(_multiplexer);
+
+        if( _mapRenderer == null ){
+            _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
+        }
     }
 
     protected void baseHide() {
         isFirstTime = true;
+        Gdx.input.setInputProcessor(null);
+    }
+
+    protected void baseResize(int width, int height) {
+        setupViewport(V_WIDTH, V_HEIGHT);
+        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
+        _camera.position.set(lastCameraPosition);
+
+        if (_playerHUD != null)
+            _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+    }
+
+    protected void basePause() {
+        lastCameraPosition = _camera.position.cpy();
+
+        if (_playerHUD != null)
+            _playerHUD.pause();
+    }
+
+    protected void baseResume() {
+        _camera.position.set(lastCameraPosition);
+
+        setGameState(GameState.RUNNING);
+        if (_playerHUD != null)
+            _playerHUD.resume();
+    }
+
+    protected void baseDispose() {
+        if( _mapRenderer != null ){
+            _mapRenderer.dispose();
+        }
+
+        //AudioManager.getInstance().dispose();
+        //MapFactory.clearCache();
     }
 
     protected void baseRender(float delta) {

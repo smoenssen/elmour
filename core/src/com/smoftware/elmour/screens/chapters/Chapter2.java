@@ -29,7 +29,6 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
     private static final String TAG = Chapter2.class.getSimpleName();
 
     Chapter2 thisScreen;
-    String currentPartNumber;
 
     private Action setupScene01;
     private Action setupOutsideArmoryScene;
@@ -1759,102 +1758,44 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
         //P5
         //_stage.addAction(getSetupScene05());
 
-        ProfileManager.getInstance().addObserver(_mapMgr);
-        _playerHUD.setCutScene(true);
-        //if (_playerHUD != null)
-        //    ProfileManager.getInstance().addObserver(_playerHUD);
+        baseShow();
 
-        setGameState(GameState.LOADING);
-
-        //Gdx.input.setInputProcessor(_multiplexer);
-
+        /*
         if( _mapRenderer == null ){
-            ProfileManager.getInstance().setProperty("currentMapType", MapFactory.MapType.ELMOUR.toString());
+            ProfileManager.getInstance().setProperty("currentMapType", MapFactory.MapType.ELMOUR.toString()); //todo: is this necessary?
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
+        */
     }
 
     @Override
     public void hide() {
-        //if( _gameState != GameState.GAME_OVER ){
-        //    setGameState(GameState.SAVING);
-        //}
-
         ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString(), "");
-        Gdx.input.setInputProcessor(null);
-        super.baseHide();
+        baseHide();
     }
 
     @Override
     public void render(float delta) {
         baseRender(delta);
-        //todo: did he fix it?
-        /*Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        _mapRenderer.setView(_camera);
-
-        _mapRenderer.getBatch().enableBlending();
-        _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        if( _mapMgr.hasMapChanged() ){
-            _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
-            _mapMgr.setMapChanged(false);
-        }
-
-        _mapRenderer.render();
-
-        if( !_isCameraFixed ){
-            _camera.position.set(_followingActor.getX() + _followingActor.getWidth()/2, _followingActor.getY(), 0f);
-        }
-        _camera.update();
-
-        _stage.act(delta);
-        _stage.draw();
-
-        _playerHUD.render(delta);*/
-
     }
 
     @Override
     public void resize(int width, int height) {
-        setupViewport(V_WIDTH, V_HEIGHT);
-        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-        _camera.position.set(lastCameraPosition);
-
-        if (_playerHUD != null)
-            _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+        baseResize(width, height);
     }
 
     @Override
     public void pause() {
-        lastCameraPosition = _camera.position.cpy();
-
-        if (_playerHUD != null)
-            _playerHUD.pause();
+        basePause();
     }
 
     @Override
     public void resume() {
-        _camera.position.set(lastCameraPosition);
-
-        setGameState(GameState.RUNNING);
-        if (_playerHUD != null)
-            _playerHUD.resume();
+        baseResume();
     }
 
     @Override
     public void dispose() {
-        if( _player != null ){
-            _player.unregisterObservers();
-            _player.dispose();
-        }
-
-        if( _mapRenderer != null ){
-            _mapRenderer.dispose();
-        }
-
-        AudioManager.getInstance().dispose();
-        MapFactory.clearCache();
+        baseDispose();
     }
 }

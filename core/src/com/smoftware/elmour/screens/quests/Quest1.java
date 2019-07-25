@@ -33,7 +33,6 @@ public class Quest1 extends CutSceneBase implements ConversationGraphObserver {
 
     Quest1 thisScreen;
     String questID;
-    String currentPartNumber;
 
     private Action setupQuestOpeningScene;
     private Action setupDogsQuestOpeningScene;
@@ -236,19 +235,19 @@ public class Quest1 extends CutSceneBase implements ConversationGraphObserver {
             _stage.addAction(getDogsQuestOpeningScene());
         }
 
-        ProfileManager.getInstance().addObserver(_mapMgr);
-        _playerHUD.setCutScene(true);
+        baseShow();
 
+        /*
         if( _mapRenderer == null ){
-            ProfileManager.getInstance().setProperty("currentMapType", MapFactory.MapType.MAP1.toString());
+            ProfileManager.getInstance().setProperty("currentMapType", MapFactory.MapType.MAP1.toString()); //todo: is this necessary?
             _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
+        */
     }
 
     @Override
     public void hide() {
         ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Quest1Screen.toString(), "");
-        Gdx.input.setInputProcessor(null);
         baseHide();
     }
 
@@ -259,39 +258,22 @@ public class Quest1 extends CutSceneBase implements ConversationGraphObserver {
 
     @Override
     public void resize(int width, int height) {
-        setupViewport(V_WIDTH, V_HEIGHT);
-        _camera.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
-        _camera.position.set(lastCameraPosition);
-
-        if (_playerHUD != null)
-            _playerHUD.resize((int) VIEWPORT.physicalWidth, (int) VIEWPORT.physicalHeight);
+        baseResize(width, height);
     }
 
     @Override
     public void pause() {
-        lastCameraPosition = _camera.position.cpy();
-
-        if (_playerHUD != null)
-            _playerHUD.pause();
+        basePause();
     }
 
     @Override
     public void resume() {
-        _camera.position.set(lastCameraPosition);
-
-        setGameState(GameState.RUNNING);
-        if (_playerHUD != null)
-            _playerHUD.resume();
+        baseResume();
     }
 
     @Override
     public void dispose() {
-        if( _mapRenderer != null ){
-            _mapRenderer.dispose();
-        }
-
-        AudioManager.getInstance().dispose();
-        MapFactory.clearCache();
+        baseDispose();
     }
 }
 
