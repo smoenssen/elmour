@@ -47,7 +47,6 @@ public class StartScreen  extends GameScreen {
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
-
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
@@ -139,9 +138,12 @@ public class StartScreen  extends GameScreen {
             @Override
             public void run() {
                 // Do something on the main thread
-                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-                // todo:
-                //game.setChapterScreen(1);
+                if (ElmourGame.DEV_MODE) {
+                    game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                }
+                else {
+                    game.setChapterScreen(1);
+                }
             }
         });
     }

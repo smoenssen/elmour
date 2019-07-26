@@ -29,6 +29,7 @@ import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.maps.Map;
+import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
@@ -354,6 +355,11 @@ public class CutSceneBase extends GameScreen {
     protected void baseRender(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (_mapMgr.getCurrentTiledMap() == null) {
+            // default to avoid crash
+            _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+        }
 
         _mapRenderer.setView(_camera);
 

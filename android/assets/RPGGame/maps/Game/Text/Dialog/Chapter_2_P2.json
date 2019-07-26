@@ -424,7 +424,7 @@ conversations: {
 associatedChoices: {
 	n39: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n39
 			destinationId: n6
 			choicePhrase: NO_CHOICE
@@ -432,7 +432,7 @@ associatedChoices: {
 	]
 	n38: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n38
 			destinationId: n5
 			choicePhrase: NO_CHOICE
@@ -440,7 +440,7 @@ associatedChoices: {
 	]
 	n69: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n69
 			destinationId: n26
 			choicePhrase: NO_CHOICE
@@ -448,7 +448,7 @@ associatedChoices: {
 	]
 	n37: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n22
 			choicePhrase: NO_CHOICE
@@ -456,7 +456,7 @@ associatedChoices: {
 	]
 	n68: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n68
 			destinationId: n25
 			choicePhrase: NO_CHOICE
@@ -464,7 +464,7 @@ associatedChoices: {
 	]
 	n36: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n36
 			destinationId: n20
 			choicePhrase: NO_CHOICE
@@ -472,7 +472,7 @@ associatedChoices: {
 	]
 	n67: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n67
 			destinationId: n64
 			choicePhrase: NO_CHOICE
@@ -480,7 +480,7 @@ associatedChoices: {
 	]
 	n35: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n35
 			destinationId: n19
 			choicePhrase: NO_CHOICE
@@ -488,7 +488,7 @@ associatedChoices: {
 	]
 	n66: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n66
 			destinationId: n63
 			choicePhrase: NO_CHOICE
@@ -496,7 +496,7 @@ associatedChoices: {
 	]
 	n34: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n34
 			destinationId: n3
 			choicePhrase: NO_CHOICE
@@ -504,7 +504,7 @@ associatedChoices: {
 	]
 	n65: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n65
 			destinationId: n62
 			choicePhrase: NO_CHOICE
@@ -512,7 +512,7 @@ associatedChoices: {
 	]
 	n32: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n32
 			destinationId: n50
 			choicePhrase: NO_CHOICE
@@ -520,7 +520,7 @@ associatedChoices: {
 	]
 	n64: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n64
 			destinationId: n59
 			choicePhrase: NO_CHOICE
@@ -528,7 +528,7 @@ associatedChoices: {
 	]
 	n31: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n31
 			destinationId: n71
 			choicePhrase: NO_CHOICE
@@ -536,7 +536,7 @@ associatedChoices: {
 	]
 	n63: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n63
 			destinationId: n67
 			choicePhrase: NO_CHOICE
@@ -544,7 +544,7 @@ associatedChoices: {
 	]
 	n30: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n30
 			destinationId: n31
 			choicePhrase: NO_CHOICE
@@ -552,7 +552,7 @@ associatedChoices: {
 	]
 	n62: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n62
 			destinationId: n66
 			choicePhrase: NO_CHOICE
@@ -560,7 +560,7 @@ associatedChoices: {
 	]
 	n61: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n61
 			destinationId: n60
 			choicePhrase: NO_CHOICE
@@ -568,7 +568,7 @@ associatedChoices: {
 	]
 	n60: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n60
 			destinationId: n65
 			choicePhrase: NO_CHOICE
@@ -576,7 +576,7 @@ associatedChoices: {
 	]
 	n29: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n29
 			destinationId: n30
 			choicePhrase: NO_CHOICE
@@ -585,7 +585,7 @@ associatedChoices: {
 	]
 	n28: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n28
 			destinationId: n29
 			choicePhrase: NO_CHOICE
@@ -593,7 +593,7 @@ associatedChoices: {
 	]
 	n27: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n27
 			destinationId: n28
 			choicePhrase: NO_CHOICE
@@ -601,7 +601,7 @@ associatedChoices: {
 	]
 	n59: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n59
 			destinationId: n57
 			choicePhrase: NO_CHOICE
@@ -609,7 +609,7 @@ associatedChoices: {
 	]
 	n26: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n26
 			destinationId: n27
 			choicePhrase: NO_CHOICE
@@ -617,7 +617,7 @@ associatedChoices: {
 	]
 	n58: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n58
 			destinationId: n56
 			choicePhrase: NO_CHOICE
@@ -625,7 +625,7 @@ associatedChoices: {
 	]
 	n25: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n25
 			destinationId: n69
 			choicePhrase: NO_CHOICE
@@ -633,7 +633,7 @@ associatedChoices: {
 	]
 	n57: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n57
 			destinationId: n36
 			choicePhrase: NO_CHOICE
@@ -641,7 +641,7 @@ associatedChoices: {
 	]
 	n24: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n24
 			destinationId: n68
 			choicePhrase: NO_CHOICE
@@ -649,7 +649,7 @@ associatedChoices: {
 	]
 	n56: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n56
 			destinationId: n61
 			choicePhrase: NO_CHOICE
@@ -657,13 +657,13 @@ associatedChoices: {
 	]
 	n23: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n23
 			destinationId: n24
 			choicePhrase: Try it.
 		}
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n23
 			destinationId: n31
 			choicePhrase: Don^t try it.
@@ -671,7 +671,7 @@ associatedChoices: {
 	]
 	n55: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n55
 			destinationId: n9
 			choicePhrase: NO_CHOICE
@@ -679,7 +679,7 @@ associatedChoices: {
 	]
 	n22: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n22
 			destinationId: n23
 			choicePhrase: NO_CHOICE
@@ -687,7 +687,7 @@ associatedChoices: {
 	]
 	n54: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n54
 			destinationId: n8
 			choicePhrase: NO_CHOICE
@@ -695,7 +695,7 @@ associatedChoices: {
 	]
 	n21: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n21
 			destinationId: n37
 			choicePhrase: NO_CHOICE
@@ -703,7 +703,7 @@ associatedChoices: {
 	]
 	n53: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n53
 			destinationId: n4
 			choicePhrase: NO_CHOICE
@@ -711,7 +711,7 @@ associatedChoices: {
 	]
 	n20: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n20
 			destinationId: n47
 			choicePhrase: NO_CHOICE
@@ -719,7 +719,7 @@ associatedChoices: {
 	]
 	n52: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n52
 			destinationId: n2
 			choicePhrase: NO_CHOICE
@@ -727,7 +727,7 @@ associatedChoices: {
 	]
 	n51: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n51
 			destinationId: n1
 			choicePhrase: NO_CHOICE
@@ -735,7 +735,7 @@ associatedChoices: {
 	]
 	n9: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n9
 			destinationId: n40
 			choicePhrase: NO_CHOICE
@@ -743,7 +743,7 @@ associatedChoices: {
 	]
 	n8: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n8
 			destinationId: n55
 			choicePhrase: NO_CHOICE
@@ -751,7 +751,7 @@ associatedChoices: {
 	]
 	n7: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n7
 			destinationId: n54
 			choicePhrase: NO_CHOICE
@@ -759,7 +759,7 @@ associatedChoices: {
 	]
 	n6: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n6
 			destinationId: n7
 			choicePhrase: NO_CHOICE
@@ -767,7 +767,7 @@ associatedChoices: {
 	]
 	n5: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n5
 			destinationId: n39
 			choicePhrase: NO_CHOICE
@@ -775,7 +775,7 @@ associatedChoices: {
 	]
 	n4: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n4
 			destinationId: n38
 			choicePhrase: NO_CHOICE
@@ -783,7 +783,7 @@ associatedChoices: {
 	]
 	n3: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n3
 			destinationId: n53
 			choicePhrase: NO_CHOICE
@@ -791,7 +791,7 @@ associatedChoices: {
 	]
 	n2: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n2
 			destinationId: n34
 			choicePhrase: NO_CHOICE
@@ -799,7 +799,7 @@ associatedChoices: {
 	]
 	n1: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n1
 			destinationId: n52
 			choicePhrase: NO_CHOICE
@@ -807,7 +807,7 @@ associatedChoices: {
 	]
 	n0: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n51
 			choicePhrase: NO_CHOICE
@@ -815,7 +815,7 @@ associatedChoices: {
 	]
 	n19: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n19
 			destinationId: n58
 			choicePhrase: NO_CHOICE
@@ -823,7 +823,7 @@ associatedChoices: {
 	]
 	n18: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n18
 			destinationId: n35
 			choicePhrase: NO_CHOICE
@@ -831,7 +831,7 @@ associatedChoices: {
 	]
 	n49: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n49
 			destinationId: n31
 			choicePhrase: NO_CHOICE
@@ -839,7 +839,7 @@ associatedChoices: {
 	]
 	n17: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n17
 			destinationId: n18
 			choicePhrase: NO_CHOICE
@@ -847,7 +847,7 @@ associatedChoices: {
 	]
 	n48: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n48
 			destinationId: n24
 			choicePhrase: NO_CHOICE
@@ -855,7 +855,7 @@ associatedChoices: {
 	]
 	n16: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n16
 			destinationId: n42
 			choicePhrase: NO_CHOICE
@@ -863,7 +863,7 @@ associatedChoices: {
 	]
 	n47: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n47
 			destinationId: n21
 			choicePhrase: NO_CHOICE
@@ -871,7 +871,7 @@ associatedChoices: {
 	]
 	n15: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n15
 			destinationId: n16
 			choicePhrase: NO_CHOICE
@@ -879,7 +879,7 @@ associatedChoices: {
 	]
 	n14: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n14
 			destinationId: n15
 			choicePhrase: NO_CHOICE
@@ -887,7 +887,7 @@ associatedChoices: {
 	]
 	n46: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n46
 			destinationId: n17
 			choicePhrase: NO_CHOICE
@@ -895,7 +895,7 @@ associatedChoices: {
 	]
 	n13: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n13
 			destinationId: n14
 			choicePhrase: NO_CHOICE
@@ -903,7 +903,7 @@ associatedChoices: {
 	]
 	n45: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n45
 			destinationId: n46
 			choicePhrase: NO_CHOICE
@@ -911,7 +911,7 @@ associatedChoices: {
 	]
 	n12: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n12
 			destinationId: n41
 			choicePhrase: NO_CHOICE
@@ -919,7 +919,7 @@ associatedChoices: {
 	]
 	n44: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n44
 			destinationId: n45
 			choicePhrase: NO_CHOICE
@@ -927,7 +927,7 @@ associatedChoices: {
 	]
 	n11: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n11
 			destinationId: n12
 			choicePhrase: NO_CHOICE
@@ -935,7 +935,7 @@ associatedChoices: {
 	]
 	n43: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n43
 			destinationId: n44
 			choicePhrase: NO_CHOICE
@@ -943,7 +943,7 @@ associatedChoices: {
 	]
 	n10: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n10
 			destinationId: n11
 			choicePhrase: NO_CHOICE
@@ -951,7 +951,7 @@ associatedChoices: {
 	]
 	n42: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n42
 			destinationId: n43
 			choicePhrase: NO_CHOICE
@@ -959,7 +959,7 @@ associatedChoices: {
 	]
 	n41: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n41
 			destinationId: n13
 			choicePhrase: NO_CHOICE
@@ -967,7 +967,7 @@ associatedChoices: {
 	]
 	n72: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n32
 			choicePhrase: NO_CHOICE
@@ -975,7 +975,7 @@ associatedChoices: {
 	]
 	n40: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n40
 			destinationId: n10
 			choicePhrase: NO_CHOICE
@@ -983,7 +983,7 @@ associatedChoices: {
 	]
 	n71: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n71
 			destinationId: n70
 			choicePhrase: NO_CHOICE
@@ -991,7 +991,7 @@ associatedChoices: {
 	]
 	n70: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n70
 			destinationId: n72
 			choicePhrase: NO_CHOICE

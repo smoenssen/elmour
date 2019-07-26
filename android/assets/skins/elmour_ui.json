@@ -154,7 +154,7 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		background: lightGray
 	}
 }
-com.smoftware.elmour.UI.MyTextButtonList$ListStyle: {
+com.smoftware.elmour.UI.components.MyTextButtonList$ListStyle: {
 	default: {
 		font: myFontVerySmall
 		fontColorSelected: white
@@ -262,7 +262,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		down: textbutton_down
 	}
 }
-com.smoftware.elmour.UI.MyTextField$TextFieldStyle: {
+com.smoftware.elmour.UI.components.MyTextField$TextFieldStyle: {
 	default: {
 		font: myFont
 		fontColor: white

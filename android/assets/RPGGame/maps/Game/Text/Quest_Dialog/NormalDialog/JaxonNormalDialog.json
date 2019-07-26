@@ -16,7 +16,7 @@ conversations: {
 associatedChoices: {
 	n0: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n1
 			choicePhrase: NO_CHOICE

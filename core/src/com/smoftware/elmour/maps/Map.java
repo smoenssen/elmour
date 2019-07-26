@@ -242,12 +242,12 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
         zGatesLayer = _currentMap.getLayers().get(Z_GATES_LAYER);
         if( zGatesLayer == null ){
-            Gdx.app.debug(TAG, "No level gates layerr!");
+            Gdx.app.debug(TAG, "No level gates layer!");
         }
 
         cutsceneLayer = _currentMap.getLayers().get(CUTSCENE_LAYER);
         if( cutsceneLayer == null ){
-            Gdx.app.debug(TAG, "No cut scene layerr!");
+            Gdx.app.debug(TAG, "No cut scene layer!");
         }
 
         _npcStartPositions = getNPCStartPositions();

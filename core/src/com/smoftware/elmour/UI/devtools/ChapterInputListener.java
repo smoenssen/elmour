@@ -32,7 +32,6 @@ public class ChapterInputListener implements Input.TextInputListener {
     public void input(String text) {
         Gdx.app.log(TAG, text);
 
-
         try {
             final int chapterNum = Integer.parseInt(text);
             Gdx.app.postRunnable(new Runnable() {

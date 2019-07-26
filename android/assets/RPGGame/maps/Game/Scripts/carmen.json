@@ -5,30 +5,30 @@ state : IDLE
 direction : DOWN
 conversationConfigs : [
 	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/CarmenNormalDialog.json"
 	}
 	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: PRE_QUEST_CUTSCENE
 		config: "Quest1Screen_DogsQuestOpen"
 		questID: DogsQuest
 	}
 	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenActiveQuestDialog.json"
 		questID: DogsQuest
 	}
 	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: RETURN_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenReturnQuestDialog.json"
 		questID: DogsQuest
 	}
 	{
-		class: com.smoftware.elmour.EntityConfig$ConversationConfig
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: POST_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenPostQuestDialog.json"
 		questID: DogsQuest
