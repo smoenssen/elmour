@@ -1,7 +1,7 @@
 package com.smoftware.elmour.battle;
 
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.inventory.InventoryElement;
 
 public interface BattleObserver {
     public static enum BattleEvent{

@@ -3,7 +3,7 @@ package com.smoftware.elmour.audio;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.Utility;
 
 import java.util.Hashtable;
 

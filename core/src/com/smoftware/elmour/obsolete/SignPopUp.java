@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.UI.MyTextArea;
-import com.smoftware.elmour.dialog.PopUpObserver;
-import com.smoftware.elmour.dialog.PopUpSubject;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.UI.components.MyTextArea;
+import com.smoftware.elmour.UI.dialog.PopUpObserver;
+import com.smoftware.elmour.UI.dialog.PopUpSubject;
+import com.smoftware.elmour.main.Utility;
 
 /**
  * Created by steve on 9/16/17.

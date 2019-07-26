@@ -5,9 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.EntityFactory;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

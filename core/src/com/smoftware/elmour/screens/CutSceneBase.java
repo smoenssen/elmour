@@ -22,13 +22,14 @@ import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.UI.AnimatedImage;
-import com.smoftware.elmour.UI.MyActions;
-import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityFactory;
+import com.smoftware.elmour.UI.graphics.AnimatedImage;
+import com.smoftware.elmour.actions.MyActions;
+import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.maps.Map;
+import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
@@ -354,6 +355,11 @@ public class CutSceneBase extends GameScreen {
     protected void baseRender(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (_mapMgr.getCurrentTiledMap() == null) {
+            // default to avoid crash
+            _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
+        }
 
         _mapRenderer.setView(_camera);
 

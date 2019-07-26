@@ -34,7 +34,7 @@ conversations: {
 associatedChoices: {
 	n6: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n6
 			destinationId: n4
 			choicePhrase: NO_CHOICE
@@ -42,7 +42,7 @@ associatedChoices: {
 	]
 	n5: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n5
 			destinationId: n0
 			choicePhrase: Yes.
@@ -50,7 +50,7 @@ associatedChoices: {
 	]
 	n4: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n4
 			destinationId: n7
 			choicePhrase: NO_CHOICE
@@ -58,7 +58,7 @@ associatedChoices: {
 	]
 	n1: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n1
 			destinationId: n0
 			choicePhrase: NO_CHOICE
@@ -66,7 +66,7 @@ associatedChoices: {
 	]
 	n0: [
 		{
-			class: com.smoftware.elmour.dialog.ConversationChoice
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n6
 			choicePhrase: NO_CHOICE

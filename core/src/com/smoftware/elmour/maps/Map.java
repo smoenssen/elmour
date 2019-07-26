@@ -11,11 +11,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.Component;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.PlayerPhysicsComponent;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.components.Component;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
@@ -243,12 +242,12 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
         zGatesLayer = _currentMap.getLayers().get(Z_GATES_LAYER);
         if( zGatesLayer == null ){
-            Gdx.app.debug(TAG, "No level gates layerr!");
+            Gdx.app.debug(TAG, "No level gates layer!");
         }
 
         cutsceneLayer = _currentMap.getLayers().get(CUTSCENE_LAYER);
         if( cutsceneLayer == null ){
-            Gdx.app.debug(TAG, "No cut scene layerr!");
+            Gdx.app.debug(TAG, "No cut scene layer!");
         }
 
         _npcStartPositions = getNPCStartPositions();

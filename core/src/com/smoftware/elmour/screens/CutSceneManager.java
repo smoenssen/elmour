@@ -3,11 +3,11 @@ package com.smoftware.elmour.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
-import com.smoftware.elmour.ComponentObserver;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.components.ComponentObserver;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**

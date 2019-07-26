@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.UI.ChapterInputListener;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.UI.devtools.ChapterInputListener;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
 
@@ -46,7 +46,6 @@ public class StartScreen  extends GameScreen {
         continueButton = new TextButton("Continue", Utility.ELMOUR_UI_SKIN);
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
-
 
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
@@ -139,9 +138,12 @@ public class StartScreen  extends GameScreen {
             @Override
             public void run() {
                 // Do something on the main thread
-                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
-                // todo:
-                //game.setChapterScreen(1);
+                if (ElmourGame.DEV_MODE) {
+                    game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                }
+                else {
+                    game.setChapterScreen(1);
+                }
             }
         });
     }

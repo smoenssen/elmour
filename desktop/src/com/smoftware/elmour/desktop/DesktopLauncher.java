@@ -4,7 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.main.ElmourGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Utility;
 
 public class CreditScreen extends GameScreen {
     private static String CREDITS_PATH = "licenses/credits.txt";
