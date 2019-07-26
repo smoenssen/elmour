@@ -21,6 +21,7 @@ public class MonsterFactory {
         NONE
     }
 
+    // test
     private static MonsterFactory _instance = null;
     private Hashtable<String, Entity> _entities;
     private Hashtable<String, Array<MonsterEntityType>> monsterGroups;
