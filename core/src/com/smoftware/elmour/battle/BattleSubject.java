@@ -1,8 +1,8 @@
 package com.smoftware.elmour.battle;
 
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.InventoryElement;
+import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.main.InventoryElement;
 
 public class BattleSubject {
     private Array<BattleObserver> _observers;

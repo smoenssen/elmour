@@ -1,14 +1,10 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.smoftware.elmour.Entity.AnimationType;
+import com.smoftware.elmour.main.Entity.AnimationType;
 
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;

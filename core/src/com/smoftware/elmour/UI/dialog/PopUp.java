@@ -5,9 +5,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.main.Entity;
 import com.smoftware.elmour.UI.components.MyTextArea;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;

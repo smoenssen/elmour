@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Utility;
 
 /**
  * Created by steve on 4/6/19.

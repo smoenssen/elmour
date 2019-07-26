@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.Gdx;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -9,9 +9,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static com.smoftware.elmour.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_ADDED;
-import static com.smoftware.elmour.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_REMOVED;
-import static com.smoftware.elmour.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_SWAP;
+import static com.smoftware.elmour.main.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_ADDED;
+import static com.smoftware.elmour.main.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_REMOVED;
+import static com.smoftware.elmour.main.PartyKeysObserver.PartyKeysEvent.KEY_ITEM_SWAP;
 
 /**
  * Created by steve on 6/9/2019.

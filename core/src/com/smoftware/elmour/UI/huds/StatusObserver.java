@@ -1,7 +1,7 @@
 package com.smoftware.elmour.UI.huds;
 
 
-import com.smoftware.elmour.Entity;
+import com.smoftware.elmour.main.Entity;
 
 public interface StatusObserver {
     public static enum StatusEvent {

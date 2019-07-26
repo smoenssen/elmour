@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.InventoryElementFactory;
-import com.smoftware.elmour.PartyInventory;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.InventoryElement;
+import com.smoftware.elmour.main.InventoryElementFactory;
+import com.smoftware.elmour.main.PartyInventory;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.Hashtable;

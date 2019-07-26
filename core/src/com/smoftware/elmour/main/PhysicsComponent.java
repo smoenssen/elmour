@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;

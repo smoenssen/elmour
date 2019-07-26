@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 //todo: good article on Entity Component System architecture (ECS)
 //https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/

@@ -11,12 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityFactory;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.main.EntityFactory;
 import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.UI.components.MyTextField;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**

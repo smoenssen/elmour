@@ -1,9 +1,7 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**

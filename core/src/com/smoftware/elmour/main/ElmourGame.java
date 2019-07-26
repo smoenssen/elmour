@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;

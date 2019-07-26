@@ -3,7 +3,7 @@ package com.smoftware.elmour.UI.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.Utility;
 
 /**
  * Created by steve on 7/7/18.

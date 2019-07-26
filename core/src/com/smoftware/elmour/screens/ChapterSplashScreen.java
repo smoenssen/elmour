@@ -3,15 +3,13 @@ package com.smoftware.elmour.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Utility;
 
 /**
  * Created by steve on 4/6/19.

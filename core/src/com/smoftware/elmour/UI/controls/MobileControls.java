@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.main.ElmourGame;
 
 public class MobileControls extends MobileControlsSubject implements Screen {
     private static final String TAG = MobileControls.class.getSimpleName();

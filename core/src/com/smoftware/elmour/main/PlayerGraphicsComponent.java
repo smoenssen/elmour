@@ -1,23 +1,18 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.EntityConfig.AnimationConfig;
-import com.smoftware.elmour.maps.Map;
+import com.smoftware.elmour.main.EntityConfig.AnimationConfig;
 import com.smoftware.elmour.maps.MapManager;
-import com.smoftware.elmour.profile.ProfileManager;
 
 public class PlayerGraphicsComponent extends GraphicsComponent {
 

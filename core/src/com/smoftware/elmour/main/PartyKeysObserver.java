@@ -1,4 +1,4 @@
-package com.smoftware.elmour;
+package com.smoftware.elmour.main;
 
 public interface PartyKeysObserver {
     public static enum PartyKeysEvent {

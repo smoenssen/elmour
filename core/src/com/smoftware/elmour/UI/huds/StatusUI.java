@@ -3,11 +3,11 @@ package com.smoftware.elmour.UI.huds;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.Entity;
-import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.InventoryElement;
-import com.smoftware.elmour.Utility;
+import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.main.EntityConfig;
+import com.smoftware.elmour.main.EntityFactory;
+import com.smoftware.elmour.main.InventoryElement;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 

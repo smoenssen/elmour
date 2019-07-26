@@ -3,7 +3,7 @@ package com.smoftware.elmour.UI.controls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.smoftware.elmour.ElmourGame;
+import com.smoftware.elmour.main.ElmourGame;
 
 /**
  * Created by moenssr on 8/30/2017.
