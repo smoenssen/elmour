@@ -7,7 +7,7 @@ import com.smoftware.elmour.ComponentObserver;
 import com.smoftware.elmour.ElmourGame;
 import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
-import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.profile.ProfileManager;
 
 /**

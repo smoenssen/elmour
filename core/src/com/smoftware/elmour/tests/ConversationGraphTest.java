@@ -1,9 +1,9 @@
 package com.smoftware.elmour.tests;
 
 
-import com.smoftware.elmour.dialog.Conversation;
-import com.smoftware.elmour.dialog.ConversationChoice;
-import com.smoftware.elmour.dialog.ConversationGraph;
+import com.smoftware.elmour.UI.dialog.Conversation;
+import com.smoftware.elmour.UI.dialog.ConversationChoice;
+import com.smoftware.elmour.UI.dialog.ConversationGraph;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

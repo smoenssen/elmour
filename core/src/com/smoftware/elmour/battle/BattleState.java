@@ -11,7 +11,7 @@ import com.smoftware.elmour.EntityFactory;
 import com.smoftware.elmour.InventoryElement;
 import com.smoftware.elmour.InventoryElementFactory;
 import com.smoftware.elmour.SpellPowerElement;
-import com.smoftware.elmour.UI.StatusObserver;
+import com.smoftware.elmour.UI.huds.StatusObserver;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 

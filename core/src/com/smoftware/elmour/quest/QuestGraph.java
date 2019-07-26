@@ -6,9 +6,8 @@ import com.smoftware.elmour.Entity;
 import com.smoftware.elmour.EntityConfig;
 import com.smoftware.elmour.EntityConfig.ConversationConfig;
 import com.smoftware.elmour.EntityFactory;
-import com.smoftware.elmour.UI.PlayerHUD;
+import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.maps.MapManager;
-import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
 import java.util.Collections;

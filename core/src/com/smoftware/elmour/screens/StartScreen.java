@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.ElmourGame;
-import com.smoftware.elmour.UI.ChapterInputListener;
+import com.smoftware.elmour.UI.devtools.ChapterInputListener;
 import com.smoftware.elmour.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 

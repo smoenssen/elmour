@@ -1,6 +1,5 @@
 package com.smoftware.elmour;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.MusicLoader;
@@ -24,11 +23,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.XmlReader;
-import com.smoftware.elmour.dialog.Conversation;
-import com.smoftware.elmour.dialog.ConversationChoice;
-import com.smoftware.elmour.dialog.ConversationGraph;
-import com.smoftware.elmour.dialog.ConversationGraphObserver;
-import com.smoftware.elmour.dialog.ConversationNode;
+import com.smoftware.elmour.UI.dialog.Conversation;
+import com.smoftware.elmour.UI.dialog.ConversationChoice;
+import com.smoftware.elmour.UI.dialog.ConversationGraph;
+import com.smoftware.elmour.UI.dialog.ConversationGraphObserver;
+import com.smoftware.elmour.UI.dialog.ConversationNode;
 import com.smoftware.elmour.quest.QuestDependency;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestTask;

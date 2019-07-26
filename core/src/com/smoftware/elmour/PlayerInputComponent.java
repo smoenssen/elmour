@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.smoftware.elmour.UI.MobileControlsObserver;
-import com.smoftware.elmour.UI.MobileControlsSubject;
+import com.smoftware.elmour.UI.controls.MobileControlsObserver;
+import com.smoftware.elmour.UI.controls.MobileControlsSubject;
 import com.smoftware.elmour.screens.MainGameScreen;
 
 public class PlayerInputComponent extends InputComponent implements MobileControlsObserver{
