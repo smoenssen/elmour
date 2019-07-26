@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.inventory;
 
 import java.util.Map;
 

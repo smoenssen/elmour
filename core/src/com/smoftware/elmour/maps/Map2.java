@@ -2,7 +2,7 @@ package com.smoftware.elmour.maps;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 

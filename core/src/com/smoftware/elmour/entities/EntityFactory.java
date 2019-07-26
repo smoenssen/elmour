@@ -1,8 +1,15 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.components.Component;
+import com.smoftware.elmour.components.NPCGraphicsComponent;
+import com.smoftware.elmour.components.NPCInputComponent;
+import com.smoftware.elmour.components.NPCPhysicsComponent;
+import com.smoftware.elmour.components.PlayerGraphicsComponent;
+import com.smoftware.elmour.components.PlayerInputComponent;
+import com.smoftware.elmour.components.PlayerPhysicsComponent;
 
 import java.util.Hashtable;
 

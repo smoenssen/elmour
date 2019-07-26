@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -11,7 +11,9 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.main.EntityConfig.AnimationConfig;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.entities.EntityConfig.AnimationConfig;
 import com.smoftware.elmour.maps.MapManager;
 
 public class PlayerGraphicsComponent extends GraphicsComponent {

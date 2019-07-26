@@ -10,8 +10,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Scaling;
-import com.smoftware.elmour.main.Entity;
-import com.smoftware.elmour.main.EntityConfig;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
 import com.smoftware.elmour.maps.Elmour;
 
 public class AnimatedImage extends Image {

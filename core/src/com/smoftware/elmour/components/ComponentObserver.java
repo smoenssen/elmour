@@ -1,4 +1,6 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
+
+import com.smoftware.elmour.entities.Entity;
 
 public interface ComponentObserver {
     public static enum ComponentEvent {

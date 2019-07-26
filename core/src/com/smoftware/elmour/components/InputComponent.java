@@ -1,8 +1,9 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.entities.Entity;
 
 import java.util.HashMap;
 import java.util.Map;

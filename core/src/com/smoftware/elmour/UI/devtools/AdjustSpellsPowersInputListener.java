@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.main.EntityConfig;
-import com.smoftware.elmour.main.EntityFactory;
-import com.smoftware.elmour.main.PartyInventory;
-import com.smoftware.elmour.main.SpellPowerElementFactory;
-import com.smoftware.elmour.main.SpellPowerElement;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.entities.EntityFactory;
+import com.smoftware.elmour.inventory.PartyInventory;
+import com.smoftware.elmour.inventory.SpellPowerElementFactory;
+import com.smoftware.elmour.inventory.SpellPowerElement;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.profile.ProfileManager;
 

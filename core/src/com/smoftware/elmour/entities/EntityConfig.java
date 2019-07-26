@@ -1,10 +1,12 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.entities;
 
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.utils.ObjectMap;
-import com.smoftware.elmour.main.Entity.AnimationType;
+import com.smoftware.elmour.inventory.InventoryElement;
+import com.smoftware.elmour.inventory.SpellPowerElement;
+import com.smoftware.elmour.entities.Entity.AnimationType;
 
 public class EntityConfig {
     private Array<AnimationConfig> animationConfig;

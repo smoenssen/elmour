@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.main.Entity;
-import com.smoftware.elmour.main.EntityConfig;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

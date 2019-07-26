@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.UI.huds.StatusUI;
 import com.smoftware.elmour.battle.BattleState;
+import com.smoftware.elmour.entities.EntityFactory;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.screens.BattleScreen;
 import com.smoftware.elmour.screens.CreditScreen;

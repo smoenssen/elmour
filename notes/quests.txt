@@ -95,31 +95,31 @@ Character .json files
 Example conversationConfigs in timmy.json file:
 	conversationConfigs : [
 		{
-			class: com.smoftware.elmour.main.EntityConfig$ConversationConfig
+			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: NORMAL_DIALOG
 			config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/TimmyNormalDialog.json"
 			questID: TeddyBear
 		}
 		{
-			class: com.smoftware.elmour.main.EntityConfig$ConversationConfig
+			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: PRE_QUEST_CUTSCENE
 			config: "Quest1Screen_PreQuestTimmy"
 			questID: TeddyBear
 		}
 		{
-			class: com.smoftware.elmour.main.EntityConfig$ConversationConfig
+			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: ACTIVE_QUEST_DIALOG1
 			config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/TimmyActiveQuestDialog.json"
 			questID: TeddyBear
 		}
 		{
-			class: com.smoftware.elmour.main.EntityConfig$ConversationConfig
+			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: RETURN_QUEST_CUTSCENE
 			config: "Quest1Screen_ReturnQuestTimmy"
 			questID: TeddyBear
 		}
 		{
-			class: com.smoftware.elmour.main.EntityConfig$ConversationConfig
+			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: POST_QUEST_DIALOG
 			config: "RPGGame/maps/Game/Text/Dialog/TeddyBear/TimmyPostQuestDialog.json"
 			questID: TeddyBear

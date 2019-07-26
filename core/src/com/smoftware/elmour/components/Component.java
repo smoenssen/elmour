@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 
 public interface Component {

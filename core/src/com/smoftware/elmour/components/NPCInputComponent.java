@@ -1,8 +1,10 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.main.ElmourGame;
 
 public class NPCInputComponent extends InputComponent {
     private static final String TAG = NPCInputComponent.class.getSimpleName();
@@ -13,7 +15,7 @@ public class NPCInputComponent extends InputComponent {
 
     long lastTickCount;
 
-    NPCInputComponent(){
+    public NPCInputComponent(){
         _currentDirection = Entity.Direction.getRandomNext();
         _currentState = Entity.State.WALKING;
 

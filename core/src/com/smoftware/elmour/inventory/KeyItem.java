@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.inventory;
 
 /**
  * Created by steve on 5/27/19.

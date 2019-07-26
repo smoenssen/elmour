@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.smoftware.elmour.UI.controls.MobileControlsObserver;
 import com.smoftware.elmour.UI.controls.MobileControlsSubject;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.screens.MainGameScreen;
 
 public class PlayerInputComponent extends InputComponent implements MobileControlsObserver{

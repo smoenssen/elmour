@@ -1,6 +1,7 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.math.Vector2;
+import com.smoftware.elmour.entities.Entity;
 
 public class NPCPhysicsComponent extends PhysicsComponent {
     private static final String TAG = NPCPhysicsComponent.class.getSimpleName();

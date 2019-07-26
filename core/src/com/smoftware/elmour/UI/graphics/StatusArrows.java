@@ -7,9 +7,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.smoftware.elmour.main.Entity;
-import com.smoftware.elmour.main.EntityFactory;
-import com.smoftware.elmour.main.GraphicsComponent;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityFactory;
+import com.smoftware.elmour.components.GraphicsComponent;
 import com.smoftware.elmour.maps.Map;
 
 import java.util.Hashtable;

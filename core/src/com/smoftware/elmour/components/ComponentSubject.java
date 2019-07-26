@@ -1,6 +1,7 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.entities.Entity;
 
 public class ComponentSubject {
     private Array<ComponentObserver> _observers;

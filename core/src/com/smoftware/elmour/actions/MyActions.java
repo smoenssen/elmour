@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.smoftware.elmour.main.ElmourGame;
-import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.UI.components.BattleTextArea;
 import com.smoftware.elmour.UI.components.MyTextField;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;

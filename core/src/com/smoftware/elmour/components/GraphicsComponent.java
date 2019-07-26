@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,6 +9,10 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.entities.EntityFactory;
+import com.smoftware.elmour.main.Utility;
 
 import java.util.Hashtable;
 
@@ -38,6 +42,14 @@ public abstract class GraphicsComponent extends ComponentSubject implements Comp
         shadowAnimations = new Hashtable<>();
         _shapeRenderer = new ShapeRenderer();
         isConversationInProgress = false;
+    }
+
+    public Vector2 getCurrentPosition() {
+        return _currentPosition;
+    }
+
+    public void setCurrentPosition(Vector2 position) {
+        _currentPosition = position;
     }
 
     public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapManager, Batch batch, float delta);

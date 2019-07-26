@@ -1,4 +1,4 @@
-package com.smoftware.elmour.main;
+package com.smoftware.elmour.entities;
 
 //todo: good article on Entity Component System architecture (ECS)
 //https://www.gamedev.net/articles/programming/general-and-gameplay-programming/understanding-component-entity-systems-r3013/
@@ -13,6 +13,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.smoftware.elmour.inventory.InventoryElement;
+import com.smoftware.elmour.inventory.InventoryElementFactory;
+import com.smoftware.elmour.components.Component;
+import com.smoftware.elmour.components.ComponentObserver;
+import com.smoftware.elmour.components.GraphicsComponent;
+import com.smoftware.elmour.components.InputComponent;
+import com.smoftware.elmour.components.PhysicsComponent;
 import com.smoftware.elmour.profile.ProfileManager;
 
 import java.util.ArrayList;
@@ -530,9 +537,9 @@ public class Entity {
 		return _physicsComponent._boundingBox;
 	}
 
-	public Vector2 getCurrentPosition(){ return _graphicsComponent._currentPosition; }
+	public Vector2 getCurrentPosition(){ return _graphicsComponent.getCurrentPosition(); }
 
-	public void setCurrentPosition(Vector2 position) { _graphicsComponent._currentPosition = position; }
+	public void setCurrentPosition(Vector2 position) { _graphicsComponent.setCurrentPosition(position); }
 
 	public Vector2 getNextPosition(){ return _physicsComponent._nextEntityPosition; }
 

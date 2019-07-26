@@ -1,6 +1,6 @@
 package com.smoftware.elmour.quest;
 
-import com.smoftware.elmour.main.EntityConfig;
+import com.smoftware.elmour.entities.EntityConfig;
 
 public class QuestTask {
 

@@ -1,7 +1,7 @@
 package com.smoftware.elmour.UI.huds;
 
 
-import com.smoftware.elmour.main.Entity;
+import com.smoftware.elmour.entities.Entity;
 
 public interface StatusSubject {
     public void addObserver(StatusObserver statusObserver);

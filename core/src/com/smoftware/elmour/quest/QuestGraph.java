@@ -2,10 +2,10 @@ package com.smoftware.elmour.quest;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.smoftware.elmour.main.Entity;
-import com.smoftware.elmour.main.EntityConfig;
-import com.smoftware.elmour.main.EntityConfig.ConversationConfig;
-import com.smoftware.elmour.main.EntityFactory;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.entities.EntityConfig.ConversationConfig;
+import com.smoftware.elmour.entities.EntityFactory;
 import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.maps.MapManager;
 
