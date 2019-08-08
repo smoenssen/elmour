@@ -442,7 +442,16 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 _gameState = GameState.RUNNING;
                 break;
             case LOADING:
+                // Time how long it takes to load profile
+                long start = System.nanoTime();
+
                 ProfileManager.getInstance().loadProfile();
+
+                long end = System.nanoTime();
+                long elapsedNanoSeconds = end - start;
+                float elapsedMilliSeconds = (float)elapsedNanoSeconds * 0.000001f;
+                Gdx.app.log(TAG, "Loaded profile in " + elapsedMilliSeconds + " ms");
+
                 Array<EntityFactory.EntityName> partyList = ProfileManager.getInstance().getProperty("partyList", Array.class);
 
                 if (partyList == null || partyList.size == 0 ) {

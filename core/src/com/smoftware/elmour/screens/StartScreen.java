@@ -15,9 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.graphics.AnimatedImage;
+import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.entities.EntityFactory;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.UI.devtools.ChapterInputListener;
 import com.smoftware.elmour.main.Utility;
+import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.profile.ProfileManager;
 
 
@@ -36,6 +40,8 @@ public class StartScreen  extends GameScreen {
     private TextButton newGameButton;
     private TextButton chapterButton;
 
+    private AnimatedImage misc;
+
     public StartScreen(final ElmourGame game) {
         this.game = game;
         camera = new OrthographicCamera();
@@ -46,6 +52,13 @@ public class StartScreen  extends GameScreen {
         continueButton = new TextButton("Continue", Utility.ELMOUR_UI_SKIN);
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
+
+        misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
+        misc.setCurrentAnimationType(Entity.AnimationType.WAIT_CURSOR);
+        misc.setWidth(32);
+        misc.setHeight(32);
+        misc.setPosition((stage.getWidth() - misc.getWidth()) / 2, (stage.getHeight() - misc.getHeight()) / 2);
+        misc.setVisible(false);
 
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
@@ -70,6 +83,7 @@ public class StartScreen  extends GameScreen {
         stage.addActor(title);
         stage.addActor(continueButton);
         stage.addActor(newGameButton);
+        stage.addActor(misc);
 
         if (ElmourGame.DEV_MODE) {
             menuItemY -= menuItemHeight + 10;
@@ -127,7 +141,41 @@ public class StartScreen  extends GameScreen {
         );
     }
 
+    float d = 0;
+
+    private void startCursorThread2() {
+        Runnable r = new Runnable() {
+            public void run() {
+                while (true) {
+                    d += 0.06;
+                    render(d);
+                }
+            }
+        };
+
+        new Thread(r).start();
+    }
+
+    private void startCursorThread() {
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    d += 0.06f;
+                    render(d);
+                }
+            }
+        });
+    }
+
     private void startNewGame() {
+        misc.setVisible(true);
+        //startCursorThread();
+
+        newGameButton.setVisible(false);
+        continueButton.setVisible(false);
+        chapterButton.setVisible(false);
+
         ProfileManager.getInstance().writeProfileToStorage(ProfileManager.NEW_GAME_PROFILE, "", false);
         ProfileManager.getInstance().setCurrentProfile(ProfileManager.NEW_GAME_PROFILE);
         ProfileManager.getInstance().setIsNewProfile(true);
@@ -211,6 +259,18 @@ public class StartScreen  extends GameScreen {
         stage.addActor(dialog);
     }
 
+    protected AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
+        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        return setEntityAnimation(entity);
+    }
+
+    protected AnimatedImage setEntityAnimation(Entity entity){
+        final AnimatedImage animEntity = new AnimatedImage();
+        animEntity.setEntity(entity);
+        animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
+        return animEntity;
+    }
+
     @Override
     public void render(float delta) {
         if( delta == 0){
@@ -231,6 +291,9 @@ public class StartScreen  extends GameScreen {
 
     @Override
     public void show() {
+        newGameButton.setVisible(true);
+        continueButton.setVisible(true);
+        chapterButton.setVisible(true);
         Gdx.input.setInputProcessor(stage);
     }
 

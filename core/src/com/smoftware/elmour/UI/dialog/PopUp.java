@@ -552,7 +552,8 @@ public class PopUp extends Window implements PopUpSubject {
                 }
 
                 currentVisibleText = currentTextBeforeNextLine + line;
-                currentVisibleText = currentVisibleText.trim();
+                // commented out 7/31/19 to fix issue with words running together
+                // currentVisibleText = currentVisibleText.trim();
                 setTextForUIThread(currentVisibleText, true);
                 Gdx.app.log(TAG, "currentVisibleText = " + currentVisibleText);
                 break;
@@ -560,7 +561,7 @@ public class PopUp extends Window implements PopUpSubject {
                 currentChar = line.charAt(i);
                 //Gdx.app.log(TAG, String.format("line.charAt(i) %c", line.charAt(i)));
 
-                // ignore new line chars since they are not needed here (every line is one its own line),
+                // ignore new line chars since they are not needed here (every line is on its own line),
                 // they are still needed above if interaction is received prematurely to complete the 2 line text area
                 if (currentChar != '\n') {
                     currentVisibleText += currentChar;
