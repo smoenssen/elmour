@@ -23,7 +23,9 @@ public class ProfileSubject {
     }
 
     protected void notify(final ProfileManager profileManager, ProfileObserver.ProfileEvent event){
-        for(ProfileObserver observer: _observers){
+        // can't use an iterator here because it might be nested
+        for (int i = 0; i < _observers.size; i++) {
+            ProfileObserver observer = _observers.get(i);
             observer.onNotify(profileManager, event);
         }
     }
