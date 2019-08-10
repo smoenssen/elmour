@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.components.ComponentObserver;
 import com.smoftware.elmour.main.ElmourGame;
@@ -58,6 +59,7 @@ import com.smoftware.elmour.UI.dialog.InputDialogSubject;
 import com.smoftware.elmour.UI.dialog.PopUpLabel;
 import com.smoftware.elmour.UI.dialog.PopUp;
 import com.smoftware.elmour.UI.dialog.PopUpObserver;
+import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -166,6 +168,9 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private InventoryHUD inventoryHUD;
     private QuestHUD questHUD;
+
+    private AnimatedImage savingAnimation;
+    private MyTextField savingText;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -454,6 +459,21 @@ public class PlayerHUD implements Screen, AudioSubject,
         screenSwipe10.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - swipeBarHeight * 10);
         screenSwipe10.setVisible(false);
 
+        savingAnimation = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
+        savingAnimation.setCurrentAnimationType(Entity.AnimationType.SAVING);
+        savingAnimation.setWidth(32);
+        savingAnimation.setHeight(32);
+        savingAnimation.setPosition((_stage.getWidth() - savingAnimation.getWidth()) / 2, (_stage.getHeight() - savingAnimation.getHeight()) / 2);
+        savingAnimation.setVisible(false);
+
+        savingText = new MyTextField("Saving...", Utility.ELMOUR_UI_SKIN, "battle");
+        savingText.disabled = true;
+        savingText.setWidth(100);
+        savingText.setHeight(30);
+        savingText.setPosition((_stage.getWidth() - savingText.getWidth()) / 2 , _stage.getHeight() / 2 - savingAnimation.getHeight() * 1.5f);
+        savingText.setAlignment(Align.center);
+        savingText.setVisible(false);
+
         //_stage.addActor(_battleUI);
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
@@ -481,6 +501,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(questsButton);
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
+        _stage.addActor(savingAnimation);
+        _stage.addActor(savingText);
 
         if (ElmourGame.DEV_MODE) {
             _stage.addActor(debugButton);
@@ -621,8 +643,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                            if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
                                                confirmOverwrite();
                                            } else {
-                                               ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-                                               ProfileManager.getInstance().saveProfile();
+                                               saveGame();
                                            }
                                        }
                                    }
@@ -760,6 +781,18 @@ public class PlayerHUD implements Screen, AudioSubject,
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_PLAYER_WAND_ATTACK);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_EATING);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_DRINKING);
+    }
+
+    private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
+        Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+        return setEntityAnimation(entity);
+    }
+
+    private AnimatedImage setEntityAnimation(Entity entity){
+        final AnimatedImage animEntity = new AnimatedImage();
+        animEntity.setEntity(entity);
+        animEntity.setSize(animEntity.getWidth() * Map.UNIT_SCALE, animEntity.getHeight() * Map.UNIT_SCALE);
+        return animEntity;
     }
 
     public boolean isPlayerIsInBattle() {
@@ -1056,10 +1089,8 @@ public class PlayerHUD implements Screen, AudioSubject,
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
                 // save profile
-                ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-                ProfileManager.getInstance().saveProfile();
-                dialog.cancel();
-                dialog.hide();
+                dialog.remove();
+                saveGame();
                 return true;
             }
         });
@@ -1068,8 +1099,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
+                dialog.remove();
                 return true;
             }
         });
@@ -1093,6 +1123,13 @@ public class PlayerHUD implements Screen, AudioSubject,
         dialog.setName("confirmDialog");
         _stage.addActor(dialog);
 
+    }
+
+    private void saveGame() {
+        savingAnimation.setVisible(true);
+        savingText.setVisible(true);
+        ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
+        ProfileManager.getInstance().saveProfile();
     }
 
     public Stage getStage() {
@@ -1365,6 +1402,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                 profileManager.setProperty("currentChapter", 1);
                 profileManager.setProperty("CHARACTER_1", "Apollo");
                 profileManager.setProperty("CHARACTER_2", "Isabell");
+                break;
+            case SAVED_PROFILE:
+                savingAnimation.setVisible(false);
+                savingText.setVisible(false);
                 break;
             default:
                 break;
@@ -1991,11 +2032,6 @@ public class PlayerHUD implements Screen, AudioSubject,
             Vector2 shakeCoords = _shakeCam.getNewShakePosition();
             _camera.position.x = shakeCoords.x + _stage.getWidth() / 2;
             _camera.position.y = shakeCoords.y + _stage.getHeight() / 2;
-        }
-
-        if (Gdx.input.justTouched()) {
-            int x;
-            x=0;
         }
 
         if (battleScreenTransitionTriggered) {

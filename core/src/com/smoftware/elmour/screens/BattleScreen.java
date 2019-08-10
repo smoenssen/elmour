@@ -224,6 +224,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private ScreenTransitionActor _transitionActor;
     private Action _switchScreenAction;
     private Action setupBattleScene;
+    private static MapFactory.MapType mapType;
 
     private float characterWidth = 1.0f;
     private float characterHeight = 1.0f;
@@ -301,7 +302,7 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
         _game = game;
         _mapMgr = new MapManager();
-        _mapMgr.loadMap(MapFactory.MapType.GRASS_BATTLE);
+        mapType = MapFactory.MapType.GRASS_BATTLE;
 
         _json = new Json();
 
@@ -2113,8 +2114,14 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
         enemy5Shadow.addAction(Actions.fadeOut(fadeTime));
     }
 
+    public static void setMapType(MapFactory.MapType type) {
+        mapType = type;
+    }
+
     @Override
     public void show() {
+        _mapMgr.loadMap(mapType);
+
         completeAllActions();
 
         _stage.addAction(getBattleSceneAction());

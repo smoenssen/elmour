@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
@@ -40,7 +41,7 @@ public class StartScreen  extends GameScreen {
     private TextButton newGameButton;
     private TextButton chapterButton;
 
-    private AnimatedImage misc;
+    private Label message;
 
     public StartScreen(final ElmourGame game) {
         this.game = game;
@@ -53,15 +54,13 @@ public class StartScreen  extends GameScreen {
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
-        misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
-        misc.setCurrentAnimationType(Entity.AnimationType.WAIT_CURSOR);
-        misc.setWidth(32);
-        misc.setHeight(32);
-        misc.setPosition((stage.getWidth() - misc.getWidth()) / 2, (stage.getHeight() - misc.getHeight()) / 2);
-        misc.setVisible(false);
-
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
+
+        message = new Label("", Utility.ELMOUR_UI_SKIN, "gray_small");
+        message.setAlignment(Align.center);
+        message.setPosition((stage.getWidth() - message.getWidth()) / 2, title.getY() - title.getHeight() / 1.5f);
+        message.setVisible(false);
 
         float menuItemWidth = stage.getWidth() / 3f;
         float menuItemHeight = 45;
@@ -83,7 +82,7 @@ public class StartScreen  extends GameScreen {
         stage.addActor(title);
         stage.addActor(continueButton);
         stage.addActor(newGameButton);
-        stage.addActor(misc);
+        stage.addActor(message);
 
         if (ElmourGame.DEV_MODE) {
             menuItemY -= menuItemHeight + 10;
@@ -102,8 +101,7 @@ public class StartScreen  extends GameScreen {
 
                   @Override
                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                      ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-                      game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+                      continueGame();
                   }
               }
         );
@@ -141,36 +139,27 @@ public class StartScreen  extends GameScreen {
         );
     }
 
-    float d = 0;
+    private void continueGame() {
+        message.setText("Loading saved file...");
+        message.setVisible(true);
 
-    private void startCursorThread2() {
-        Runnable r = new Runnable() {
-            public void run() {
-                while (true) {
-                    d += 0.06;
-                    render(d);
-                }
-            }
-        };
+        newGameButton.setVisible(false);
+        continueButton.setVisible(false);
+        chapterButton.setVisible(false);
 
-        new Thread(r).start();
-    }
+        ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
 
-    private void startCursorThread() {
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
-                while (true) {
-                    d += 0.06f;
-                    render(d);
-                }
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
             }
         });
     }
 
     private void startNewGame() {
-        misc.setVisible(true);
-        //startCursorThread();
+        message.setText("Creating new game...");
+        message.setVisible(true);
 
         newGameButton.setVisible(false);
         continueButton.setVisible(false);
@@ -222,10 +211,8 @@ public class StartScreen  extends GameScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
+                dialog.remove();
                 startNewGame();
-                dialog.cancel();
-                dialog.hide();
-                //dialog.remove();
                 return true;
             }
         });
@@ -234,8 +221,7 @@ public class StartScreen  extends GameScreen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y,
                                      int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
+                dialog.remove();
                 return true;
             }
         });

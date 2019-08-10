@@ -1532,7 +1532,7 @@ animationConfig: [
 		frameWidth : 80
 		frameHeight : 80
 		looping : true
-		animationType: WAIT_CURSOR
+		animationType: SAVING
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Misc/Misc.png
 		]

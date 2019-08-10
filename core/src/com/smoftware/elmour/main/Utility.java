@@ -58,7 +58,7 @@ public final class Utility {
 	private final static String ELMOUR_SKIN_PATH = "skins/elmour_ui.json";
 	public static TextureAtlas ELMOUR_UI_TEXTUREATLAS = new TextureAtlas(ELMOUR_TEXTURE_ATLAS_PATH);
 	public static Skin ELMOUR_UI_SKIN;
-	public static int fontSmallSize;
+	public static int myFontSmallSize;
 	public static int myFontVerySmallSize;
 	public static int myFontSuperSmallSize;
 
@@ -98,15 +98,15 @@ public final class Utility {
 		if (ElmourGame.isAndroid()) {
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			fontSmallSize = 15;
+			myFontSmallSize = 15;
 		}
 		else{
 			parameter.shadowOffsetX = 1;
 			parameter.shadowOffsetY = 1;
-			fontSmallSize = 18;
+			myFontSmallSize = 18;
 		}
 
-		parameter.size = fontSmallSize;
+		parameter.size = myFontSmallSize;
 
 		BitmapFont fontSmall = generator.generateFont(parameter);
 		//fontSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -163,6 +163,15 @@ public final class Utility {
 
 		BitmapFont fontRed = generator.generateFont(parameter);
 
+		// GRAY TEXT SMALL
+		parameter.shadowOffsetX = 1;
+		parameter.shadowOffsetY = 1;
+		parameter.size = myFontSmallSize;
+		parameter.color = new Color(0x909090ff);
+		parameter.shadowColor = Color.BLACK;
+
+		BitmapFont fontGraySmall = generator.generateFont(parameter);
+
 		// GRAY TEXT VERY SMALL
 		parameter.shadowOffsetX = 1;
 		parameter.shadowOffsetY = 1;
@@ -215,6 +224,7 @@ public final class Utility {
 		ELMOUR_UI_SKIN.add("myFontVerySmall", fontVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSuperSmall", fontSuperSmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontRed", fontRed, BitmapFont.class);
+		ELMOUR_UI_SKIN.add("myFontGraySmall", fontGraySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontGrayVerySmall", fontGrayVerySmall, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontChapterTitle", fontChapterTitle, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontChapterTitleSubtext", fontChapterTitleSubtext, BitmapFont.class);
@@ -993,5 +1003,15 @@ public final class Utility {
 		else {
 			return false;
 		}
+	}
+
+	public static long getStartTime() {
+		return System.nanoTime();
+	}
+
+	public static float getElapsedTime(long startNanoTime) {
+		long endNanoTime = System.nanoTime();
+		long elapsedNanoSeconds = endNanoTime - startNanoTime;
+		return (float)elapsedNanoSeconds * 0.000001f;
 	}
 }

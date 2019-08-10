@@ -127,6 +127,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 		fontColor: white
 		background: transparent
 	}
+	gray_small: {
+		font: myFontGraySmall
+		fontColor: white
+		background: transparent
+	}
 	grayed_out: {
 		font: myFontGrayVerySmall
 		fontColor: white

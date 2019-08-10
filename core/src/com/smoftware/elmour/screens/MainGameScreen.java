@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;

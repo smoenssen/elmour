@@ -123,8 +123,23 @@ public class ProfileManager extends ProfileSubject {
     public void saveProfile(){
         notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
         String text = _json.prettyPrint(_json.toJson(_profileProperties));
-        //Gdx.app.log(TAG, text);
-        writeProfileToStorage(_profileName, text, true);
+        saveThread(text);
+    }
+
+    private void saveThread(final String text) {
+        Runnable r = new Runnable() {
+            public void run() {
+                try { Thread.sleep(250); } catch (InterruptedException e) { e.printStackTrace(); }
+                writeProfileToStorage(_profileName, text, true);
+                sendSavedNotification();
+            }
+        };
+
+        new Thread(r).start();
+    }
+
+    private void sendSavedNotification() {
+        notify(this, ProfileObserver.ProfileEvent.SAVED_PROFILE);
     }
 
     public void loadProfile(){
@@ -150,6 +165,8 @@ public class ProfileManager extends ProfileSubject {
             String decodedFile = s;//todo Base64Coder.decodeString(s);
 
             _profileProperties = _json.fromJson(ObjectMap.class, decodedFile);
+
+            try { Thread.sleep(250); } catch (InterruptedException e) { e.printStackTrace(); }
 
             notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
             _isNewProfile = false;
