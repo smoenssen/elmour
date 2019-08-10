@@ -74,7 +74,7 @@ rewardItems: [
 ]
 entityAbilities: [
 {
-	class: com.smoftware.elmour.entities.EntityConfig$EntityAbility
+	class: com.smoftware.elmour.entities.EntityConfig$EntityAbility 
 	name: Fire
 	numTurnsTilReset: 5
 	level: 3

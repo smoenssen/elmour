@@ -129,7 +129,7 @@ public class ProfileManager extends ProfileSubject {
     private void saveThread(final String text) {
         Runnable r = new Runnable() {
             public void run() {
-                try { Thread.sleep(250); } catch (InterruptedException e) { e.printStackTrace(); }
+                try { Thread.sleep(0); } catch (InterruptedException e) { e.printStackTrace(); }
                 writeProfileToStorage(_profileName, text, true);
                 sendSavedNotification();
             }

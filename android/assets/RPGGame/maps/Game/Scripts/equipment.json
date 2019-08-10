@@ -1,6 +1,6 @@
 [
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SWORD1
 	category: BLUNT
 	name: Practice Sword
@@ -19,7 +19,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SWORD2
 	category: BLUNT
 	name: Bone Sword
@@ -38,7 +38,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SWORD3
 	category: BLUNT
 	name: Iron Sword
@@ -57,7 +57,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SWORD4
 	category: BLUNT
 	name: Blood Sword
@@ -76,7 +76,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SWORD5
 	category: BLUNT
 	name: Lightning Sword
@@ -95,7 +95,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MACE1
 	category: BLUNT
 	name: Club
@@ -114,7 +114,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MACE2
 	category: BLUNT
 	name: Bone Mace
@@ -133,7 +133,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MACE3
 	category: BLUNT
 	name: Iron Mace
@@ -152,7 +152,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MACE4
 	category: BLUNT
 	name: Blood Mace
@@ -171,7 +171,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MACE5
 	category: BLUNT
 	name: Lightning Mace
@@ -190,7 +190,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: STAFF1
 	category: BLUNT
 	name: Wooden Staff
@@ -209,7 +209,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: STAFF2
 	category: BLUNT
 	name: Bone Staff
@@ -228,7 +228,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: STAFF3
 	category: BLUNT
 	name: Iron Staff
@@ -247,7 +247,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: STAFF4
 	category: BLUNT
 	name: Blood Staff
@@ -266,7 +266,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: STAFF5
 	category: BLUNT
 	name: Bo Staff
@@ -285,7 +285,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: DAGGER1
 	category: STAB
 	name: Wooden Dagger
@@ -304,7 +304,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: DAGGER2
 	category: STAB
 	name: Bone Dagger
@@ -323,7 +323,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: DAGGER3
 	category: STAB
 	name: Iron Dagger
@@ -342,7 +342,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: DAGGER4
 	category: STAB
 	name: Blood Dagger
@@ -361,7 +361,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: DAGGER5
 	category: STAB
 	name: Lightning Dagger
@@ -380,7 +380,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: KNUCKLES1
 	category: KNUCKLES
 	name: Rings
@@ -403,7 +403,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: KNUCKLES2
 	category: KNUCKLES
 	name: Bone Knuckles
@@ -426,7 +426,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: KNUCKLES3
 	category: KNUCKLES
 	name: Brass Knuckles
@@ -449,7 +449,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HELMET1
 	category: Helmet
 	name: Pot
@@ -468,7 +468,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HELMET2
 	category: Helmet
 	name: Bike Helmet
@@ -483,7 +483,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HELMET3
 	category: Helmet
 	name: Iron Helmet
@@ -498,7 +498,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BREASTPLATE1
 	category: Breastplate
 	name: Cloth Breastplate
@@ -513,7 +513,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BREASTPLATE2
 	category: Breastplate
 	name: Leather Breastplate
@@ -528,7 +528,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BREASTPLATE3
 	category: Breastplate
 	name: Iron Breastplate
@@ -543,7 +543,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: LEGGINGS1
 	category: Leggings
 	name: Cloth Leggings
@@ -562,7 +562,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: LEGGINGS2
 	category: Leggings
 	name: Leather Leggings
@@ -581,7 +581,7 @@
 	]
 }
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: LEGGINGS3
 	category: Leggings
 	name: Cloth Leggings

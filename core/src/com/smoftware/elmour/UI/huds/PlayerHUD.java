@@ -463,17 +463,17 @@ public class PlayerHUD implements Screen, AudioSubject,
         screenSwipe10.setVisible(false);
 
         savingAnimation = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
-        savingAnimation.setCurrentAnimationType(Entity.AnimationType.SAVING);
-        savingAnimation.setWidth(32);
-        savingAnimation.setHeight(32);
-        savingAnimation.setPosition((_stage.getWidth() - savingAnimation.getWidth()) / 2, (_stage.getHeight() - savingAnimation.getHeight()) / 2);
+        savingAnimation.setCurrentAnimationType(Entity.AnimationType.SAVING_LOOP);
+        savingAnimation.setWidth(64);
+        savingAnimation.setHeight(64);
+        savingAnimation.setPosition((_stage.getWidth() - savingAnimation.getWidth()) / 2, (_stage.getHeight() + savingAnimation.getHeight()) / 2);
         savingAnimation.setVisible(false);
 
         savingText = new MyTextField("Saving...", Utility.ELMOUR_UI_SKIN, "battle");
         savingText.disabled = true;
         savingText.setWidth(100);
         savingText.setHeight(30);
-        savingText.setPosition((_stage.getWidth() - savingText.getWidth()) / 2 , _stage.getHeight() / 2 - savingAnimation.getHeight() * 1.5f);
+        savingText.setPosition((_stage.getWidth() - savingText.getWidth()) / 2 , _stage.getHeight() / 2 - savingAnimation.getHeight() / 2);
         savingText.setAlignment(Align.center);
         savingText.setVisible(false);
 
@@ -1133,9 +1133,33 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         _stage.addAction(Actions.sequence(
 
+                Actions.parallel(
+                            myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING),
+                            Actions.run(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            savingAnimation.setWidth(64);
+                                            savingAnimation.setHeight(64);
+                                        }
+                                    }
+                            )
+                        ),
                 myActions.new setCharacterVisible(savingAnimation, true),
-                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING),
-                Actions.delay(5f)
+
+                Actions.delay(0.357f),
+                Actions.parallel(
+                            myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING_LOOP),
+                            Actions.run(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            savingAnimation.setWidth(64);
+                                            savingAnimation.setHeight(64);
+                                        }
+                                    }
+                            )
+                        )
 
                 )
         );

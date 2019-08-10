@@ -1528,13 +1528,13 @@ animationConfig: [
 		]
 	}
 	{
-		frameDuration: 0.08
-		frameWidth : 80
-		frameHeight : 80
-		looping : true
+			frameDuration: 0.1
+			frameWidth : 32
+			frameHeight : 32
+			looping : false
 		animationType: SAVING
 		texturePaths: [
-			RPGGame/maps/Game/Characters/Misc/Misc.png
+			RPGGame/maps/Game/Characters/Progress/Saving.png
 		]
 		gridPoints: [
 			{
@@ -1561,6 +1561,22 @@ animationConfig: [
 				x: 1
 				y: 0
 			}
+		]
+	}
+	{
+			frameDuration: 0.25
+			frameWidth : 32
+			frameHeight : 32
+			looping : true
+		animationType: SAVING_LOOP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/Progress/Saving.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 0
+			}
 			{
 				x: 1
 				y: 1
@@ -1576,6 +1592,18 @@ animationConfig: [
 			{
 				x: 1
 				y: 4
+			}
+			{
+				x: 2
+				y: 0
+			}
+			{
+				x: 2
+				y: 1
+			}
+			{
+				x: 2
+				y: 2
 			}
 		]
 	}

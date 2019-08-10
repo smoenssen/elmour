@@ -1,6 +1,6 @@
 [
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT1
 	category: Consumables
 	name: Rat Meat
@@ -27,7 +27,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT2
 	category: Consumables
 	name: Salmon
@@ -49,7 +49,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT3
 	category: Consumables
 	name: Liver
@@ -73,7 +73,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT4
 	category: Consumables
 	name: Canadian Bacon
@@ -97,7 +97,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT5
 	category: Consumables
 	name: Steak
@@ -121,7 +121,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MEAT6
 	category: Consumables
 	name: Lobster
@@ -145,7 +145,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: VEG1
 	category: Consumables
 	name: Brussels Sprouts
@@ -167,7 +167,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: VEG2
 	category: Consumables
 	name: Broccoli
@@ -191,7 +191,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: VEG3
 	category: Consumables
 	name: Cauliflower
@@ -215,7 +215,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: VEG4
 	category: Consumables
 	name: Carrots
@@ -243,7 +243,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SUGAR1
 	category: Consumables
 	name: White Sugar
@@ -265,7 +265,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SUGAR2
 	category: Consumables
 	name: Brown Sugar
@@ -289,7 +289,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: SUGAR3
 	category: Consumables
 	name: Honey
@@ -313,7 +313,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: FRUIT1
 	category: Consumables
 	name: Apple
@@ -335,7 +335,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: FRUIT2
 	category: Consumables
 	name: Banana
@@ -359,7 +359,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: FRUIT3
 	category: Consumables
 	name: Orange
@@ -383,7 +383,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: CHEESE1
 	category: Consumables
 	name: Mozzarella
@@ -405,7 +405,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: CHEESE2
 	category: Consumables
 	name: Feta
@@ -429,7 +429,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: CHEESE3
 	category: Consumables
 	name: Swiss Cheese
@@ -453,7 +453,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: CHEESE4
 	category: Consumables
 	name: Sharp Cheddar
@@ -477,7 +477,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	category: Consumables
 	id: LCK1
 	name: Lucky Horseshoe
@@ -495,7 +495,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	category: Consumables
 	id: LCK2
 	name: Maneki-neko
@@ -515,7 +515,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: LCK3
 	category: Consumables
 	name: Rabbit's Foot
@@ -539,7 +539,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP1
 	category: Potion
 	name: Mini Health Potion
@@ -555,7 +555,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP2
 	category: Potion
 	name: Lesser Health Potion
@@ -572,7 +572,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP3
 	category: Potion
 	name: Health Potion
@@ -589,7 +589,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP4
 	category: Potion
 	name: Greater Health Potion
@@ -606,7 +606,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP5
 	category: Potion
 	name: Super Health Potion
@@ -623,7 +623,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: HP6
 	category: Potion
 	name: Max Health Potion
@@ -640,7 +640,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP1
 	category: Potion
 	name: Mini Mana Potion
@@ -656,7 +656,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP2
 	category: Potion
 	name: Lesser Mana Potion
@@ -673,7 +673,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP3
 	category: Potion
 	name: Mana Potion
@@ -690,7 +690,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP4
 	category: Potion
 	name: Greater Mana Potion
@@ -707,7 +707,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP5
 	category: Potion
 	name: Super Mana Potion
@@ -724,7 +724,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: MP6
 	category: Potion
 	name: Max Mana Potion
@@ -741,7 +741,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BOTTLE1
 	category: Potion
 	name: Whiskey
@@ -779,7 +779,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BOTTLE2
 	category: Potion
 	name: Potion of Strength
@@ -817,7 +817,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: BOTTLE3
 	category: Potion
 	name: Reverse Potion of Strength
@@ -855,7 +855,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW1
 	category: Throwing
 	name: Throwing Knife
@@ -871,7 +871,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW2
 	category: Throwing
 	name: Throwing Axe
@@ -888,7 +888,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW3
 	category: Throwing
 	name: Grenade
@@ -904,7 +904,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW4
 	category: Throwing
 	name: TNT
@@ -921,7 +921,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW5
 	category: Throwing
 	name: C4
@@ -937,7 +937,7 @@
 }
 
 {
-	class: com.smoftware.elmour.InventoryElement
+	class: com.smoftware.elmour.inventory.InventoryElement
 	id: THROW6
 	category: Throwing
 	name: Mini Nuke
