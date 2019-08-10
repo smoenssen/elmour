@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
+import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.components.ComponentObserver;
 import com.smoftware.elmour.main.ElmourGame;
@@ -169,6 +170,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private InventoryHUD inventoryHUD;
     private QuestHUD questHUD;
 
+    private MyActions myActions;
     private AnimatedImage savingAnimation;
     private MyTextField savingText;
 
@@ -192,6 +194,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         inputDialogObservers = new Array<>();
         playerHudObservers = new Array<>();
         _transitionActor = new ScreenTransitionActor();
+        myActions = new MyActions();
 
         _shakeCam = new ShakeCamera(0, 0, 30.0f);
 
@@ -1126,7 +1129,29 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     private void saveGame() {
-        savingAnimation.setVisible(true);
+        //savingAnimation.setVisible(true);
+
+        _stage.addAction(Actions.sequence(
+
+                myActions.new setCharacterVisible(savingAnimation, true),
+                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING),
+                Actions.delay(5f)
+
+                )
+        );
+        /*
+        _stage.addAction(Actions.sequence(
+
+
+                myActions.new setCharacterVisible(savingAnimation, true),
+                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING),
+                Actions.delay(0.24f),
+                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.THINK_LOOP),
+                Actions.delay(2.1f),
+                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.THINK_OFF)
+
+                )
+        );*/
         savingText.setVisible(true);
         ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
         ProfileManager.getInstance().saveProfile();
