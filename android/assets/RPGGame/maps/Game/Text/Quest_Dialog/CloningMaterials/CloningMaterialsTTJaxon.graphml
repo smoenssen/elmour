@@ -54,6 +54,7 @@ only serve people over the counter.<y:LabelModel>
       </data>
     </node>
     <node id="n2">
+      <data key="d5"><![CDATA[TTJAXON_DECLINE;ARMORY]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="152.6876944403249" x="600.1356516681724" y="559.6429839445955"/>
@@ -264,7 +265,7 @@ only serve people over the counter.<y:LabelModel>
           <y:Geometry height="30.0" width="223.43836881523862" x="1229.8896350361433" y="379.64298394459547"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" raised="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="193.71484375" x="14.861762532619423" y="5.6494140625">Well, I'll have to see if we have any.<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="193.71484375" x="14.861762532619196" y="5.6494140625">Well, I'll have to see if we have any.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -319,7 +320,7 @@ wire.<y:LabelModel>
       </data>
     </node>
     <node id="n16">
-      <data key="d5"><![CDATA[CloningMaterials::TalkToJaxon]]></data>
+      <data key="d5"><![CDATA[CloningMaterials::TalkToJaxon;TTJAXON1;ARMORY]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="186.64769444032515" x="1368.1957337209346" y="709.6429839445955"/>
@@ -577,7 +578,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e13" source="n9" target="n17">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -588,7 +588,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e14" source="n17" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="84.69170214857172" ty="0.0"/>
@@ -599,7 +598,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e15" source="n13" target="n20">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -612,7 +610,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e16" source="n20" target="n18">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -625,7 +622,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e17" source="n21" target="n19">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -638,7 +634,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e18" source="n19" target="n14">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -651,7 +646,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e19" source="n18" target="n21">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -664,7 +658,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e20" source="n15" target="n22">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -675,7 +668,6 @@ leave to get something.<y:LabelModel>
       </data>
     </edge>
     <edge id="e21" source="n22" target="n16">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

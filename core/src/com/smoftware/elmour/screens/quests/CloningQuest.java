@@ -308,6 +308,8 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             case RICK_LOOK_AWAY:
                 _stage.addAction(Actions.sequence(
                         Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(rick, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime * 0.5f),
                         myActions.new setIdleDirection(rick, Entity.Direction.UP),
                         Actions.delay(oneBlockTime),
 
@@ -318,6 +320,8 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
             case RICK_LOOK_DOWN:
                 _stage.addAction(Actions.sequence(
                         Actions.delay(oneBlockTime * 3),
+                        myActions.new setIdleDirection(rick, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime * 0.5f),
                         myActions.new setIdleDirection(rick, Entity.Direction.DOWN),
                         Actions.delay(oneBlockTime),
 
@@ -421,7 +425,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 break;
             case CHAR1_TEAR:
                 _stage.addAction(Actions.sequence(
-                        Actions.addAction(Actions.moveTo(character1.getX() + emoteX, character1.getY() + emoteY), misc),
+                        Actions.addAction(Actions.moveTo(character1.getX() + emoteX - 0.15f, character1.getY() + emoteY), misc),
 
                         myActions.new setCharacterVisible(misc, true),
                         myActions.new setWalkDirection(misc, Entity.AnimationType.TEAR_ON),

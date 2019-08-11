@@ -1,0 +1,264 @@
+{
+entityID : Tony
+displayName : "Tony"
+state : IDLE
+direction : DOWN
+conversationConfigs : [
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: NORMAL_DIALOG
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/CarmenNormalDialog.json"
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: PRE_QUEST_CUTSCENE
+		config: "Quest1Screen_DogsQuestOpen"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_DIALOG1
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenActiveQuestDialog.json"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: RETURN_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenReturnQuestDialog.json"
+		questID: DogsQuest
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: POST_QUEST_DIALOG
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/CarmenPostQuestDialog.json"
+		questID: DogsQuest
+	}
+]
+animationConfig: [
+	{
+	    frameDuration: 0.15
+		animationType: IDLE
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+		    x: 0
+				y: 0
+			}
+			{
+		    x: 0
+				y: 2
+			}
+		]
+	}
+	{
+	    frameDuration: 0.15
+		animationType: WALK_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+			  x: 0
+				y: 0
+			}
+			{
+			  x: 0
+				y: 2
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 3
+			}
+			{
+				x: 0
+				y: 4
+			}
+			{
+		    x: 0
+				y: 3
+			}
+			{
+		    x: 0
+				y: 5
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 6
+			}
+			{
+				x: 0
+				y: 7
+			}
+			{
+		    x: 0
+				y: 6
+			}
+			{
+		    x: 0
+				y: 8
+			}
+		]
+	}
+	{
+		frameDuration: 0.15
+		animationType: WALK_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 9
+			}
+			{
+				x: 0
+				y: 10
+			}
+			{
+		    x: 0
+				y: 9
+			}
+			{
+		    x: 0
+				y: 11
+			}
+		]
+	}
+	{
+			frameDuration: 0.10
+		animationType: RUN_DOWN
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 1
+			}
+			{
+				x: 0
+				y: 0
+			}
+			{
+				x: 0
+				y: 2
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_LEFT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 3
+			}
+			{
+				x: 0
+				y: 4
+			}
+			{
+				x: 0
+				y: 3
+			}
+			{
+				x: 0
+				y: 5
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_RIGHT
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 6
+			}
+			{
+				x: 0
+				y: 7
+			}
+			{
+				x: 0
+				y: 6
+			}
+			{
+				x: 0
+				y: 8
+			}
+		]
+	}
+	{
+		frameDuration: 0.10
+		animationType: RUN_UP
+		texturePaths: [
+			RPGGame/maps/Game/Characters/NPC/Tony/Tony.png
+		]
+		gridPoints: [
+			{
+				x: 0
+				y: 9
+			}
+			{
+				x: 0
+				y: 10
+			}
+			{
+				x: 0
+				y: 9
+			}
+			{
+				x: 0
+				y: 11
+			}
+		]
+	}
+]
+}

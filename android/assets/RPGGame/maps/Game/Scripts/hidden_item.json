@@ -3,10 +3,25 @@ entityID : HIDDEN_ITEM
 state : IDLE
 animationConfig: [
 	{
+			frameDuration: 0.08
+			frameWidth : 80
+			frameHeight : 80
+		animationType: IDLE
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Misc/Misc.png
+		]
+		gridPoints: [
+			{
+				x: 1
+				y: 4
+			}
+		]
+	}
+	{
 			frameDuration: 0.25
 			frameWidth : 16
 			frameHeight : 16
-		animationType: IDLE
+		animationType: HIDDEN_ITEM
 		texturePaths: [
 			RPGGame/maps/Game/Characters/Hidden_Item/Hidden_Item.png
 		]
@@ -37,41 +52,5 @@ animationConfig: [
 			}
 		]
 	}
-	{
-frameDuration: 0.25
-frameWidth : 16
-frameHeight : 16
-animationType: IMMOBILE
-texturePaths: [
-RPGGame/maps/Game/Characters/Hidden_Item/Hidden_Item.png
-]
-gridPoints: [
-{
-x: 2
-y: 0
-}
-{
-x: 2
-y: 1
-}
-{
-x: 2
-y: 2
-}
-{
-x: 3
-y: 0
-}
-{
-x: 3
-y: 1
-}
-{
-x: 3
-y: 2
-}
-]
-}
-
 ]
 }

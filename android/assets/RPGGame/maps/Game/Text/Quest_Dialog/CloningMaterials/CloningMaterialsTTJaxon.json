@@ -57,13 +57,13 @@ conversations: {
 	n16: {
 		id: n16
 		dialog: TASK_COMPLETE_CUTSCENE
-		data: CloningMaterials::TalkToJaxon
+		data: CloningMaterials::TalkToJaxon;TTJAXON1;ARMORY
 		type: ACTION
 	}
 	n2: {
 		id: n2
 		dialog: EXIT_CONVERSATION_1
-		data: null
+		data: TTJAXON_DECLINE;ARMORY
 		type: ACTION
 	}
 	n15: {

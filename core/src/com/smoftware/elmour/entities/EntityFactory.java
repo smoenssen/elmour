@@ -43,6 +43,9 @@ public class EntityFactory {
         //Quests
         RICK,
 
+        //NPCs
+        TONY,
+
         //Enemies
         RAT,
 
@@ -92,6 +95,9 @@ public class EntityFactory {
 
     //Quests
     public static String RICK_CONFIG = "RPGGame/maps/Game/Scripts/rick.json";
+
+    //NPCs
+    public static String TONY_CONFIG = "RPGGame/maps/Game/Scripts/tony.json";
 
     //Enemies
     public static String RAT_CONFIG = "RPGGame/maps/Game/Scripts/rat.json";
@@ -169,6 +175,9 @@ public class EntityFactory {
 
         //Quests
         entities.put(EntityName.RICK.toString(), Entity.loadEntityConfigByPath(RICK_CONFIG));
+
+        //NPCs
+        entities.put(EntityName.TONY.toString(), Entity.loadEntityConfigByPath(TONY_CONFIG));
 
         //Enemies
         entities.put(EntityName.RAT.toString(), Entity.loadEntityConfigByPath(RAT_CONFIG));
