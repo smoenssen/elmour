@@ -90,26 +90,15 @@ public class NPCGraphicsComponent extends GraphicsComponent {
     @Override
     public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, Batch batch, float delta){
         updateAnimations(delta);
-/*
-        if( _isSelected ){
-            drawSelected(entity, mapMgr);
-            mapMgr.setCurrentSelectedMapEntity(entity);
-            if( _sentShowConversationMessage == false){
-                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.SHOW_CONVERSATION);
-                _sentShowConversationMessage = true;
-                _sentHideCoversationMessage = false;
-            }
-        }else{
-            if( _sentHideCoversationMessage == false ){
-                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
-                _sentHideCoversationMessage = true;
-                _sentShowConversationMessage = false;
-            }
+
+        if (_currentFrame != null) {
+            batch.begin();
+            batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);
+            batch.end();
         }
-*/
-        batch.begin();
-        batch.draw(_currentFrame, _currentPosition.x, _currentPosition.y, 1, 1);
-        batch.end();
+        else {
+            Gdx.app.error(TAG, "_currentFrame is null!");
+        }
 
         //Used to graphically debug boundingboxes
         /*

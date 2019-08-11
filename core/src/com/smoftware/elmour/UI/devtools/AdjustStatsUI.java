@@ -139,8 +139,7 @@ public class AdjustStatsUI {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 apply();
-                dialog.cancel();
-                dialog.hide();
+                dialog.remove();
                 clearStats();
                 notifyExiting();
                 return true;
@@ -158,8 +157,7 @@ public class AdjustStatsUI {
         btnCancel.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                dialog.cancel();
-                dialog.hide();
+                dialog.remove();
                 clearStats();
                 notifyExiting();
                 return true;
@@ -266,23 +264,20 @@ public class AdjustStatsUI {
         stage.addActor(dialog);
         stage.setKeyboardFocus(inputFieldCharID);
 
-        if (Gdx.input.getInputProcessor() == null) {
-            Gdx.app.log(TAG, "Setting input processor to PlayerHUD stage in requestInput()");
-            Gdx.input.setInputProcessor(stage);
-        }
-
         // automatically get chapter and dibs
         getChapterAndDibsStats();
 
-        stage.addListener(new InputListener() {
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.ENTER) {
-                    Gdx.input.setOnscreenKeyboardVisible(false);
+        if (ElmourGame.isAndroid()) {
+            stage.addListener(new InputListener() {
+                @Override
+                public boolean keyUp(InputEvent event, int keycode) {
+                    if (keycode == Input.Keys.ENTER) {
+                        Gdx.input.setOnscreenKeyboardVisible(false);
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
+        }
     }
 
     private void apply() {

@@ -63,12 +63,21 @@ Map
 	- For quests launched by discovering a map area
 		Add object to MAP_QUEST_DISCOVER_LAYER
 		Add "chapters" and "taskIDs" under Custom Properties (see above)
+	- For HIDDEN_ITEM on SPAWNS_LAYER
+		Add custom properties:
+			name = entity name
+			configFile = config file path
+			type = quest or nonQuest
+			chapters = range of chapters (optional)
+			- if quest type:
+				taskID = quest ID::task ID
 
 yEd for quest conversations
 ---------------------------
   Use EXIT_CONVERSATION in cut scenes
   Use EXIT_CHAT in normal dialog
-  Use TASK_COMPLETE or TASK_COMPLETE_CUTSCENE in task dialog, which includes data <questID::taskID>
+  Use TASK_COMPLETE in task dialog, which includes data <questID::taskID>
+	Use TASK_COMPLETE_CUTSCENE in task dialog, which includes data <questID::taskID>;<map spawn location>;<map>
 
 Character .json files
 ---------------------

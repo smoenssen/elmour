@@ -33,7 +33,7 @@ public class Map1 extends Map {
         mapEntities.add(blackSmith);
 */
         //Special cases
-        Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.OPHION);
+        Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
         initSpecialEntityPosition(ophion);
         mapEntities.add(ophion);
 

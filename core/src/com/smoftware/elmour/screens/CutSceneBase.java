@@ -251,10 +251,6 @@ public class CutSceneBase extends GameScreen {
                 ProfileManager.getInstance().loadProfile();
                 _gameState = GameState.RUNNING;
                 break;
-            case SAVING:
-                ProfileManager.getInstance().saveProfile();
-                _gameState = GameState.PAUSED;
-                break;
             case PAUSED:
                 if( _gameState == GameState.PAUSED ){
                     _gameState = GameState.RUNNING;

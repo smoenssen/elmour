@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -171,8 +172,12 @@ public class PlayerHUD implements Screen, AudioSubject,
     private QuestHUD questHUD;
 
     private MyActions myActions;
+    private WidgetGroup savingGroup;
     private AnimatedImage savingAnimation;
-    private MyTextField savingText;
+    private Label savingLabel;
+    private MyTextField savingTextArea;
+    private float savingGroupHeight;
+    private float savingDropTime;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -462,20 +467,33 @@ public class PlayerHUD implements Screen, AudioSubject,
         screenSwipe10.setPosition(-screenSwipe6.getWidth(), _stage.getHeight() - swipeBarHeight * 10);
         screenSwipe10.setVisible(false);
 
+        savingGroupHeight = 100;
+        savingDropTime = 0.5f;
+        savingTextArea = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battle");
+        savingTextArea.disabled = true;
+        savingTextArea.setWidth(100);
+        savingTextArea.setHeight(savingGroupHeight);
+        savingTextArea.setPosition((_stage.getWidth() - savingTextArea.getWidth()) / 2 , _stage.getHeight() + 12);
+        savingTextArea.setVisible(true);
+
+        savingLabel = new Label("Saving...", Utility.ELMOUR_UI_SKIN, "battle");
+        savingLabel.setWidth(100);
+        savingLabel.setHeight(40);
+        savingLabel.setAlignment(Align.center);
+        savingLabel.setPosition((_stage.getWidth() - savingTextArea.getWidth()) / 2 , _stage.getHeight() + savingTextArea.getHeight() - savingLabel.getHeight());
+        savingLabel.setVisible(true);
+
         savingAnimation = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
         savingAnimation.setCurrentAnimationType(Entity.AnimationType.SAVING_LOOP);
         savingAnimation.setWidth(64);
         savingAnimation.setHeight(64);
-        savingAnimation.setPosition((_stage.getWidth() - savingAnimation.getWidth()) / 2, (_stage.getHeight() + savingAnimation.getHeight()) / 2);
-        savingAnimation.setVisible(false);
+        savingAnimation.setPosition((_stage.getWidth() - savingAnimation.getWidth()) / 2, _stage.getHeight() + 12);
+        savingAnimation.setVisible(true);
 
-        savingText = new MyTextField("Saving...", Utility.ELMOUR_UI_SKIN, "battle");
-        savingText.disabled = true;
-        savingText.setWidth(100);
-        savingText.setHeight(30);
-        savingText.setPosition((_stage.getWidth() - savingText.getWidth()) / 2 , _stage.getHeight() / 2 - savingAnimation.getHeight() / 2);
-        savingText.setAlignment(Align.center);
-        savingText.setVisible(false);
+        savingGroup = new WidgetGroup();
+        savingGroup.addActor(savingTextArea);
+        savingGroup.addActor(savingLabel);
+        savingGroup.addActor(savingAnimation);
 
         //_stage.addActor(_battleUI);
         _stage.addActor(screenSwipe1);
@@ -504,8 +522,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(questsButton);
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
-        _stage.addActor(savingAnimation);
-        _stage.addActor(savingText);
+        _stage.addActor(savingGroup);
 
         if (ElmourGame.DEV_MODE) {
             _stage.addActor(debugButton);
@@ -1163,20 +1180,9 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 )
         );
-        /*
-        _stage.addAction(Actions.sequence(
 
-
-                myActions.new setCharacterVisible(savingAnimation, true),
-                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.SAVING),
-                Actions.delay(0.24f),
-                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.THINK_LOOP),
-                Actions.delay(2.1f),
-                myActions.new setWalkDirection(savingAnimation, Entity.AnimationType.THINK_OFF)
-
-                )
-        );*/
-        savingText.setVisible(true);
+        savingGroup.addAction(Actions.sizeBy(0, savingGroupHeight, savingDropTime));
+        savingGroup.addAction(Actions.moveBy(0, -savingGroupHeight, savingDropTime));
         ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
         ProfileManager.getInstance().saveProfile();
     }
@@ -1453,8 +1459,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 profileManager.setProperty("CHARACTER_2", "Isabell");
                 break;
             case SAVED_PROFILE:
-                savingAnimation.setVisible(false);
-                savingText.setVisible(false);
+                savingGroup.addAction(Actions.sizeBy(0, -savingGroupHeight, savingDropTime));
+                savingGroup.addAction(Actions.moveBy(0, savingGroupHeight, savingDropTime));
                 break;
             default:
                 break;

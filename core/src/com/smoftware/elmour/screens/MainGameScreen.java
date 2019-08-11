@@ -29,6 +29,7 @@ import com.smoftware.elmour.UI.huds.PlayerHUD;
 import com.smoftware.elmour.UI.huds.PlayerHudObserver;
 import com.smoftware.elmour.UI.huds.QuestHudObserver;
 import com.smoftware.elmour.audio.AudioManager;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
@@ -444,14 +445,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 break;
             case LOADING:
                 // Time how long it takes to load profile
-                long start = System.nanoTime();
+                long start = Utility.getStartTime();
 
                 ProfileManager.getInstance().loadProfile();
 
-                long end = System.nanoTime();
-                long elapsedNanoSeconds = end - start;
-                float elapsedMilliSeconds = (float)elapsedNanoSeconds * 0.000001f;
-                Gdx.app.log(TAG, "Loaded profile in " + elapsedMilliSeconds + " ms");
+                Gdx.app.log(TAG, "Loaded profile in " + Utility.getElapsedTime(start) + " ms");
 
                 Array<EntityFactory.EntityName> partyList = ProfileManager.getInstance().getProperty("partyList", Array.class);
 
@@ -471,10 +469,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 }
 
                 _gameState = GameState.RUNNING;
-                break;
-            case SAVING:
-                ProfileManager.getInstance().saveProfile();
-                _gameState = GameState.PAUSED;
                 break;
             case PAUSED:
                 if( _gameState == GameState.PAUSED ){
