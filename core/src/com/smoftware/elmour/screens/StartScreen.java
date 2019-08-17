@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,6 +25,8 @@ import com.smoftware.elmour.UI.devtools.ChapterInputListener;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.sfx.ParticleEffectActor;
+import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
 
 /**
@@ -43,6 +46,8 @@ public class StartScreen  extends GameScreen {
 
     private Label message;
 
+    private ParticleEffectActor effect;
+
     public StartScreen(final ElmourGame game) {
         this.game = game;
         camera = new OrthographicCamera();
@@ -54,13 +59,17 @@ public class StartScreen  extends GameScreen {
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
-        Image title = new Image(new Texture("graphics/Elmour.png"));
+        Image title = new Image(new Texture("graphics/black_rectangle.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
         message = new Label("", Utility.ELMOUR_UI_SKIN, "gray_small");
         message.setAlignment(Align.center);
         message.setPosition((stage.getWidth() - message.getWidth()) / 2, title.getY() - title.getHeight() / 1.5f);
         message.setVisible(false);
+
+        // Effect pool example: https://github.com/libgdx/libgdx/wiki/2D-ParticleEffects
+        effect = new ParticleEffectActor(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK,
+                                (stage.getWidth() - message.getWidth()) / 2, title.getY() - title.getHeight() / 1.5f));
 
         float menuItemWidth = stage.getWidth() / 3f;
         float menuItemHeight = 45;
@@ -79,10 +88,11 @@ public class StartScreen  extends GameScreen {
         newGameButton.setHeight(menuItemHeight);
         newGameButton.setPosition(menuItemX, menuItemY);
 
-        stage.addActor(title);
-        stage.addActor(continueButton);
-        stage.addActor(newGameButton);
-        stage.addActor(message);
+        //stage.addActor(title);
+        //stage.addActor(continueButton);
+        //stage.addActor(newGameButton);
+        //stage.addActor(message);
+        stage.addActor(effect);
 
         if (ElmourGame.DEV_MODE) {
             menuItemY -= menuItemHeight + 10;
@@ -281,6 +291,8 @@ public class StartScreen  extends GameScreen {
         continueButton.setVisible(true);
         chapterButton.setVisible(true);
         Gdx.input.setInputProcessor(stage);
+
+        effect.getEffect().start();
     }
 
     @Override

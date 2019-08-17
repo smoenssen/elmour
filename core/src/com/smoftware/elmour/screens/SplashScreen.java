@@ -49,7 +49,7 @@ public class SplashScreen extends GameScreen {
         bar.setAnimateDuration(2);
         */
 
-        Image title = new Image(new Texture("graphics/Elmour.png"));
+        Image title = new Image(new Texture("graphics/black_rectangle.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
         Image smoftware = new Image(new Texture("graphics/smoftware.png"));

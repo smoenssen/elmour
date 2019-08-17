@@ -1349,20 +1349,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
             if (type == EntityConfig.ConversationType.NORMAL_DIALOG) {
-                int minChapter = 1;
-                int maxChapter = 0x7fffffff;
-                if (npcQuestConfig.chapters != null) {
-                    String [] sa = npcQuestConfig.chapters.split("-");
-                    if (sa.length > 0) {
-                        minChapter = Integer.parseInt(sa[0].trim());
-                    }
-                    if (sa.length > 1) {
-                        maxChapter = Integer.parseInt(sa[1].trim());
-                    }
-                }
-
-                Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                if (currentChapter >= minChapter && currentChapter <= maxChapter) {
+                if (ProfileManager.getInstance().currentChapterInRange(npcQuestConfig.chapters)) {
                     return npcQuestConfig;
                 }
             }

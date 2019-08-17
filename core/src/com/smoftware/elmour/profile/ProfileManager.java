@@ -185,4 +185,20 @@ public class ProfileManager extends ProfileSubject {
         _profileName = profileName;
     }
 
+    public boolean currentChapterInRange(String chapterRange) {
+        int minChapter = 1;
+        int maxChapter = 0x7fffffff;
+        if (chapterRange != null) {
+            String [] sa = chapterRange.split("-");
+            if (sa.length > 0) {
+                minChapter = Integer.parseInt(sa[0].trim());
+            }
+            if (sa.length > 1) {
+                maxChapter = Integer.parseInt(sa[1].trim());
+            }
+        }
+
+        Integer currentChapter = getProperty("currentChapter", Integer.class);
+        return (currentChapter >= minChapter && currentChapter <= maxChapter);
+    }
 }

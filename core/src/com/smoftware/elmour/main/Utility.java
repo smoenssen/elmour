@@ -29,6 +29,7 @@ import com.smoftware.elmour.UI.dialog.ConversationGraph;
 import com.smoftware.elmour.UI.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.UI.dialog.ConversationNode;
 import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.quest.QuestDependency;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestTask;

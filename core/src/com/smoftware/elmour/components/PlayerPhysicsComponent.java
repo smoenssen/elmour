@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
@@ -580,18 +581,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                 if (boundingBox.overlaps(rectangle) ){
                     String chapters = (String)object.getProperties().get("chapters");
-                    if (chapters != null) {
-                        String [] sa = chapters.split("-");
-                        int minChapter = Integer.parseInt(sa[0].trim());
-                        int maxChapter = 0x7fffffff;
-                        if (sa.length > 1) {
-                            maxChapter = Integer.parseInt(sa[1].trim());
-                        }
-
-                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                        if (currentChapter < minChapter || currentChapter > maxChapter) {
-                            return null;
-                        }
+                    if (!ProfileManager.getInstance().currentChapterInRange(chapters)) {
+                        return null;
                     }
 
                     String questID = object.getName();
@@ -618,18 +609,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                 if (_boundingBox.overlaps(rectangle) ){
                     String chapters = (String)object.getProperties().get("chapters");
-                    if (chapters != null) {
-                        String [] sa = chapters.split("-");
-                        int minChapter = Integer.parseInt(sa[0].trim());
-                        int maxChapter = 0x7fffffff;
-                        if (sa.length > 1) {
-                            maxChapter = Integer.parseInt(sa[1].trim());
-                        }
-
-                        Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
-                        if (currentChapter < minChapter || currentChapter > maxChapter) {
-                            return false;
-                        }
+                    if (!ProfileManager.getInstance().currentChapterInRange(chapters)) {
+                        return false;
                     }
 
                     String questID = object.getName();

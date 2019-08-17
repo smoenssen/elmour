@@ -45,16 +45,16 @@ public class ParticleEffectFactory {
         effect.setPosition(positionX, positionY);
         switch(particleEffectType){
             case CANDLE_FIRE:
-                effect.scaleEffect(.04f);
+                effect.scaleEffect(1.04f);
                 break;
             case LANTERN_FIRE:
-                effect.scaleEffect(.02f);
+                effect.scaleEffect(1.02f);
                 break;
             case LAVA_SMOKE:
-                effect.scaleEffect(.04f);
+                effect.scaleEffect(1.04f);
                 break;
             case WAND_ATTACK:
-                effect.scaleEffect(1.0f);
+                effect.scaleEffect(0.25f);
                 break;
             default:
                 break;

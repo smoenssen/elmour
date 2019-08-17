@@ -48,6 +48,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected final static String NPC_BOUNDS_LAYER = "NPC_BOUNDS";
     protected final static String Z_GATES_LAYER = "Z_GATES";
     protected final static String CUTSCENE_LAYER = "CUTSCENE_LAYER";
+    protected final static String HIDDEN_ITEMS_LAYER = "HIDDEN_ITEMS_LAYER";
 
     public final static String BACKGROUND_LAYER = "Background_Layer";
     public final static String GROUND_LAYER = "Ground_Layer";
@@ -102,6 +103,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected MapLayer npcBoundsLayer = null;
     protected MapLayer zGatesLayer = null;
     protected MapLayer cutsceneLayer = null;
+    protected MapLayer hiddenItemsLayer = null;
 
     protected MapLayer _lightMapDawnLayer = null;
     protected MapLayer _lightMapAfternoonLayer = null;
@@ -114,6 +116,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected Array<Entity> mapEntities;
     protected Array<Entity> _mapQuestEntities;
     protected Array<ParticleEffect> _mapParticleEffects;
+    protected Array<Entity> mapHiddenItemEntities;
 
     protected Entity.Interaction interaction = Entity.Interaction.NONE;
 
@@ -123,6 +126,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
         _observers = new Array<AudioObserver>();
         _mapQuestEntities = new Array<Entity>();
         _mapParticleEffects = new Array<ParticleEffect>();
+        mapHiddenItemEntities = new Array<>();
         _currentMapType = mapType;
         previousInteractionMapType = new Stack<>();
         _playerStart = new Vector2(0,0);
@@ -250,6 +254,11 @@ public abstract class Map extends MapSubject implements AudioSubject{
             Gdx.app.debug(TAG, "No cut scene layer!");
         }
 
+        hiddenItemsLayer = _currentMap.getLayers().get(HIDDEN_ITEMS_LAYER);
+        if( hiddenItemsLayer == null ){
+            Gdx.app.debug(TAG, "No hidden items layer!");
+        }
+
         _npcStartPositions = getNPCStartPositions();
         _specialNPCStartPositions = getSpecialNPCStartPositions();
 
@@ -338,6 +347,38 @@ public abstract class Map extends MapSubject implements AudioSubject{
         return positions;
     }
 
+    public Array<Vector2> getHiddenItemSpawnPositions(String objectName, String objectTaskID) {
+        Array<MapObject> objects = new Array<MapObject>();
+        Array<Vector2> positions = new Array<Vector2>();
+
+        // Notes: Don't add hidden item if:
+        //          quest Id is not active
+        //          task Id is not available
+        //          there is a chapter range and current chapter is not in range
+
+        for( MapObject object: hiddenItemsLayer.getObjects()){
+            String name = object.getName();
+            String taskID = (String)object.getProperties().get("taskID");
+
+            if(        name == null || taskID == null ||
+                    name.isEmpty() || taskID.isEmpty() ||
+                    !name.equalsIgnoreCase(objectName) ||
+                    !taskID.equalsIgnoreCase(objectTaskID)){
+                continue;
+            }
+            //Get center of rectangle
+            float x = ((RectangleMapObject)object).getRectangle().getX();
+            float y = ((RectangleMapObject)object).getRectangle().getY();
+
+            //scale by the unit to convert from map coordinates
+            x *= UNIT_SCALE;
+            y *= UNIT_SCALE;
+
+            positions.add(new Vector2(x,y));
+        }
+        return positions;
+    }
+
     public Array<Entity> getMapEntities(){
         return mapEntities;
     }
@@ -346,13 +387,15 @@ public abstract class Map extends MapSubject implements AudioSubject{
         return _mapQuestEntities;
     }
 
+    public void addMapQuestEntities(Array<Entity> entities){ _mapQuestEntities.addAll(entities); }
+
     public Array<ParticleEffect> getMapParticleEffects(){
         return _mapParticleEffects;
     }
 
-    public void addMapQuestEntities(Array<Entity> entities){
-        _mapQuestEntities.addAll(entities);
-    }
+    public Array<Entity> getMapHiddenItemEntities() { return mapHiddenItemEntities; }
+
+    public void setMapHiddenItemEntities(Array<Entity> entities) { mapHiddenItemEntities.addAll(entities); }
 
     public MapFactory.MapType getCurrentMapType(){
         return _currentMapType;
@@ -389,6 +432,9 @@ public abstract class Map extends MapSubject implements AudioSubject{
         }
         for( int i=0; i < _mapQuestEntities.size; i++){
             _mapQuestEntities.get(i).update(mapMgr, batch, delta);
+        }
+        for( int i=0; i < mapHiddenItemEntities.size; i++){
+            mapHiddenItemEntities.get(i).update(mapMgr, batch, delta);
         }
     }
 
