@@ -41,6 +41,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected boolean isRunning;
     protected boolean isNPC;
     protected boolean isConversationInProgress;
+    protected static boolean isHiddenItemBeingShown;
     private boolean noClipping;
 
     protected Array<Entity> _tempEntities;
@@ -74,6 +75,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         isRunning = false;
         isNPC = false;
         isConversationInProgress = false;
+        isHiddenItemBeingShown = false;
         noClipping = false;
 
         this._boundingBox = new Rectangle();

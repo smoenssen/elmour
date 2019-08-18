@@ -172,6 +172,10 @@ public class PopUp extends Window implements PopUpSubject {
 		//Gdx.app.debug(TAG, "popup interact new state = " + state.toString());
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
 	public boolean isListening() {
 		if (state == State.LISTENING) {
 			Gdx.app.log(TAG, "IS LISTENING");

@@ -69,7 +69,9 @@ Map
 			text = text to display when item is found
 			- if quest type:
 				taskID = quest ID::task ID
-			Note: need to reload hidden items each time map is loaded and whenever quest is started or progresses (send message to maps?)
+			Note: need to reload hidden items each time map is loaded
+			 		- whenever quest is started or progresses
+					- whenever hidden item is found (send message to maps?)
 
 yEd for quest conversations
 ---------------------------

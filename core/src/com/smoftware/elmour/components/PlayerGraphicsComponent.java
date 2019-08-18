@@ -148,7 +148,7 @@ public class PlayerGraphicsComponent extends GraphicsComponent {
         else {
             if (sentHidePopupMessage == false ){
                 notify("", ComponentObserver.ComponentEvent.FINISHED_INTERACTION);
-                sentHidePopupMessage = true;
+                 sentHidePopupMessage = true;
                 sentPopupInitializeMessage = false;
             }
         }

@@ -13,7 +13,7 @@
 	category: NON_QUEST
 	name: Emerald
 	summary: The first of the five Gems.
-	imagePath: ""
+	imagePath: "RPGGame/maps/Game/Icons/Gems/Emerald.png"
 }
 {
 	class: com.smoftware.elmour.inventory.KeyItem

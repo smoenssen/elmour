@@ -429,6 +429,7 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                 isLoadHiddenItemMsgSent = true;
                 isHiddenItemColliding = true;
+                isHiddenItemBeingShown = true;
             }
             else {
                 isHiddenItemColliding = false;
@@ -554,7 +555,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         // Don't allow movement if conversation is in progress
         // NOTE: this is just a fail safe: this function should never get called during a conversation
-        if (!isConversationInProgress) {
+        // Also don't allow movement if a hidden item is being shown
+        if (!isConversationInProgress && !isHiddenItemBeingShown) {
             setNextPositionToCurrent(entity, delta);
 
             Camera camera = mapMgr.getCamera();
@@ -640,6 +642,11 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         return messageSent;
     }
 */
+
+    public static void setHiddenItemBeingShown(boolean beingShown) {
+        isHiddenItemBeingShown = beingShown;
+    }
+
     public static String getOverlappingQuestConversationConfig(MapManager mapMgr, Vector2 playerStart) {
         MapLayer mapQuestLayer =  mapMgr.getQuestDiscoverLayer();
 

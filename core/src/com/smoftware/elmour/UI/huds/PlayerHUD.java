@@ -33,6 +33,7 @@ import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.components.ComponentObserver;
+import com.smoftware.elmour.components.PlayerPhysicsComponent;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityConfig;
@@ -134,6 +135,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private boolean didSendConversationDoneMsg;
     private boolean isCutScene;
     private boolean isEnabled;
+    private boolean hiddenItemAlreadyShown;
+    private boolean hiddenItemAlreadyHidden;
 
     private Image menuButton;
     private Image menuButtonDown;
@@ -317,6 +320,9 @@ public class PlayerHUD implements Screen, AudioSubject,
         isExitingConversation = false;
         didSendConversationBeginMsg = false;
         didSendConversationDoneMsg = false;
+
+        hiddenItemAlreadyShown = false;
+        hiddenItemAlreadyHidden = false;
 
         menuIsVisible = false;
         debugMenuIsVisible = false;
@@ -508,18 +514,19 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemTextArea.disabled = true;
         hiddenItemTextArea.setWidth(100);
         hiddenItemTextArea.setHeight(hiddenItemGroupHeight);
-        hiddenItemTextArea.setPosition((_stage.getWidth() - hiddenItemTextArea.getWidth()) / 2 , _stage.getHeight() + 12);
+        hiddenItemTextArea.setPosition((_stage.getWidth() - hiddenItemTextArea.getWidth()) / 2 , _stage.getHeight());
         hiddenItemTextArea.setVisible(true);
 
-        hiddenItemImage = new Image(new Texture("RPGGame/maps/Game/Icons/Gems/Ruby.png"));
+        hiddenItemImage = new Image(new Texture("graphics/teddy_bear.png"));
         hiddenItemImage.setWidth(64);
         hiddenItemImage.setHeight(64);
-        hiddenItemImage.setPosition((_stage.getWidth() - hiddenItemImage.getWidth()) / 2, _stage.getHeight() + 12);
+        hiddenItemImage.setPosition((_stage.getWidth() - hiddenItemImage.getWidth()) / 2,
+                                     _stage.getHeight() + (((hiddenItemTextArea.getHeight() - hiddenItemImage.getHeight()))/ 2));
         hiddenItemImage.setVisible(true);
 
         hiddenItemGroup = new WidgetGroup();
         hiddenItemGroup.addActor(hiddenItemTextArea);
-        hiddenItemGroup.addActor(savingAnimation);
+        hiddenItemGroup.addActor(hiddenItemImage);
 
         //_stage.addActor(_battleUI);
         _stage.addActor(screenSwipe1);
@@ -1492,7 +1499,6 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     }
 
-    boolean hiddenItemAlreadyShown = false;
     @Override
     public void onNotify(String value, ComponentEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
@@ -1592,9 +1598,12 @@ public class PlayerHUD implements Screen, AudioSubject,
 
                 if (hiddenItemAlreadyShown) {
                     updateMapQuestStatus();
-                    hiddenItemAlreadyShown = false; // reset
-                    hiddenItemGroup.addAction(Actions.sizeBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
-                    hiddenItemGroup.addAction(Actions.moveBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
+
+                    if (!hiddenItemAlreadyHidden) {
+                        hiddenItemGroup.addAction(Actions.sizeBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                        hiddenItemGroup.addAction(Actions.moveBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                        hiddenItemAlreadyHidden = true;
+                    }
                 }
                 else {
                     if (keyItem.category == KeyItem.Category.QUEST) {
@@ -1605,10 +1614,15 @@ public class PlayerHUD implements Screen, AudioSubject,
                     }
 
                     inventoryHUD.addKeyItem(keyItem);
-                    hiddenItemAlreadyShown = true;
-                    hiddenItemGroup.addAction(Actions.sizeBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
-                    hiddenItemGroup.addAction(Actions.moveBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
+
+                    if (!hiddenItemAlreadyShown) {
+                        hiddenItemImage = new Image(new Texture(keyItem.imagePath));
+                        hiddenItemGroup.addAction(Actions.sizeBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                        hiddenItemGroup.addAction(Actions.moveBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                        hiddenItemAlreadyShown = true;
+                    }
                 }
+
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);
@@ -2510,6 +2524,11 @@ public class PlayerHUD implements Screen, AudioSubject,
             case INTERACTION_THREAD_EXIT:
                 // this is necessary to allow player to move again
                 isCurrentConversationDone = true;
+
+                // reset for hidden item
+                hiddenItemAlreadyShown = false;
+                hiddenItemAlreadyHidden = false;
+                PlayerPhysicsComponent.setHiddenItemBeingShown(false);
                 break;
         }
     }
