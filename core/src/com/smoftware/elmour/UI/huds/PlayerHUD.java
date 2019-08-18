@@ -1549,6 +1549,10 @@ public class PlayerHUD implements Screen, AudioSubject,
             case FINISHED_INTERACTION:
                 signPopUp.hide();
                 break;
+            case SHOW_HIDDEN_ITEM:
+                KeyItem keyItem = _json.fromJson(KeyItem.class, value);
+                Gdx.app.log(TAG, "SHOW_HIDDEN_ITEM: " + keyItem.name + " : " + keyItem.text);
+                break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);
                 String questID = string[0];

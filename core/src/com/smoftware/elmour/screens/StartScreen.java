@@ -59,7 +59,7 @@ public class StartScreen  extends GameScreen {
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
-        Image title = new Image(new Texture("graphics/black_rectangle.png"));
+        Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
         message = new Label("", Utility.ELMOUR_UI_SKIN, "gray_small");
@@ -68,8 +68,8 @@ public class StartScreen  extends GameScreen {
         message.setVisible(false);
 
         // Effect pool example: https://github.com/libgdx/libgdx/wiki/2D-ParticleEffects
-        effect = new ParticleEffectActor(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.WAND_ATTACK,
-                                (stage.getWidth() - message.getWidth()) / 2, title.getY() - title.getHeight() / 1.5f));
+        effect = new ParticleEffectActor(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.CANDLE_FIRE,
+                                title.getX() + 75, title.getY() + title.getHeight() - 15));
 
         float menuItemWidth = stage.getWidth() / 3f;
         float menuItemHeight = 45;
@@ -88,10 +88,10 @@ public class StartScreen  extends GameScreen {
         newGameButton.setHeight(menuItemHeight);
         newGameButton.setPosition(menuItemX, menuItemY);
 
-        //stage.addActor(title);
-        //stage.addActor(continueButton);
-        //stage.addActor(newGameButton);
-        //stage.addActor(message);
+        stage.addActor(title);
+        stage.addActor(continueButton);
+        stage.addActor(newGameButton);
+        stage.addActor(message);
         stage.addActor(effect);
 
         if (ElmourGame.DEV_MODE) {

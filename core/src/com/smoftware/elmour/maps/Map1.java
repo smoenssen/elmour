@@ -1,6 +1,7 @@
 package com.smoftware.elmour.maps;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.entities.Entity;
@@ -33,10 +34,17 @@ public class Map1 extends Map {
         mapEntities.add(blackSmith);
 */
         //Special cases
-        Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
+        Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.OPHION);
         initSpecialEntityPosition(ophion);
         mapEntities.add(ophion);
 
+        Array<Vector2> hiddenItemPositions = getHiddenItemSpawnPositions();
+        for( Vector2 position: hiddenItemPositions ){
+            Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
+            entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
+            entity.sendMessage(Component.MESSAGE.CURRENT_STATE, json.toJson(Entity.State.IMMOBILE));
+            mapHiddenItemEntities.add(entity);
+        }
     }
 
     @Override

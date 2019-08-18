@@ -1,6 +1,6 @@
 [
 {
-	class: com.smoftware.elmour.KeyItem
+	class: com.smoftware.elmour.inventory.KeyItem
 	id: GRASS_TEMPLE_KEY
 	category: NON_QUEST
 	name: Grass Temple Key
@@ -8,7 +8,7 @@
 	imagePath: ""
 }
 {
-	class: com.smoftware.elmour.KeyItem
+	class: com.smoftware.elmour.inventory.KeyItem
 	id: EMERALD
 	category: NON_QUEST
 	name: Emerald
@@ -16,11 +16,11 @@
 	imagePath: ""
 }
 {
-	class: com.smoftware.elmour.KeyItem
+	class: com.smoftware.elmour.inventory.KeyItem
 	id: TEDDY_BEAR
 	category: QUEST
 	name: Teddy Bear
-	summary: The first of the five Gems.
+	summary: Timmy's favorite teddy bear
 	imagePath: "graphics/teddy_bear.png"
 }
 ]

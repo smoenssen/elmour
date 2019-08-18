@@ -1,0 +1,1 @@
+/home/steve/AndroidStudioProjects/elmour/elmour/core/gdx-tools-1.9.6/com/badlogic/gdx/tools/particleeditor

@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.inventory.KeyItem;
+import com.smoftware.elmour.inventory.KeyItemFactory;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.MapFactory;
@@ -40,6 +42,12 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean isLoadConversationMsgSent = false;
     private boolean isShowConversationMsgSent = false;
     private boolean isNPCColliding = false;
+
+    private boolean isHiddenItemButtonPressed = false;
+    private boolean isLoadHiddenItemMsgSent = false;
+    private boolean isShowHiddenItemMsgSent = false;
+    private boolean isHiddenItemColliding = false;
+    private KeyItem discoveredHiddenItem = null;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -123,6 +131,18 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                                 //Gdx.app.log(TAG, "sending HIDE_CONVERSATION");
                             }
                         }
+
+                        if (!isShowHiddenItemMsgSent) {
+                            isHiddenItemButtonPressed = true;
+                            // check for collision
+                            if (isHiddenItemColliding) {
+                                isShowHiddenItemMsgSent = true;
+                                notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SHOW_HIDDEN_ITEM);
+                                Gdx.app.log(TAG, "sending SHOW_HIDDEN_ITEM");
+                            } else {
+                                isShowHiddenItemMsgSent = false;
+                            }
+                        }
                     }
                     else if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
                         // button released so reset variables
@@ -130,6 +150,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         isDidInteractiontMsgSent = false;
                         isConversationButtonPressed = false;
                         isShowConversationMsgSent = false;
+                        isHiddenItemButtonPressed = false;
+                        isShowHiddenItemMsgSent = false;
                     }
                 }
 
@@ -236,12 +258,24 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                         }
                     }
 
+                    if (!isShowHiddenItemMsgSent && a_BtnStatus == Entity.A_ButtonAction.PRESSED) {
+                        isHiddenItemButtonPressed = true;
+
+                        if (isHiddenItemColliding) {
+                            isShowHiddenItemMsgSent = true;
+                            notify(_json.toJson(discoveredHiddenItem), ComponentObserver.ComponentEvent.SHOW_HIDDEN_ITEM);
+                            Gdx.app.log(TAG, "sending SHOW_HIDDEN_ITEM");
+                        }
+                    }
+
                     if (a_BtnStatus == Entity.A_ButtonAction.RELEASED) {
                         // button released so reset variables
                         isInteractButtonPressed = false;
                         isDidInteractiontMsgSent = false;
                         isConversationButtonPressed = false;
                         isShowConversationMsgSent = false;
+                        isHiddenItemButtonPressed = false;
+                        isShowHiddenItemMsgSent = false;
                     }
                 }
                 else if (string[0].equalsIgnoreCase(MESSAGE.B_BUTTON_STATUS.toString())) {
@@ -379,12 +413,51 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
 
+        /////////////////////////////////////////
+        //
+        // HIDDEN ITEM HANDLING
+        //
+        if (isHiddenItemButtonPressed && !isLoadHiddenItemMsgSent) {
+            // send message only once per button press
+            object = checkCollisionWithHiddenItemsLayer(mapMgr);
+            if (object != null) {
+                KeyItem.ID id = KeyItem.ID.valueOf((String)object.getProperties().get("id"));
+                discoveredHiddenItem = KeyItemFactory.getInstance().getKeyItem(id);
+                discoveredHiddenItem.text = (String)object.getProperties().get("text");
+
+                isLoadHiddenItemMsgSent = true;
+                isHiddenItemColliding = true;
+            }
+            else {
+                isHiddenItemColliding = false;
+                isLoadHiddenItemMsgSent = false;
+            }
+        }
+        else if (isHiddenItemColliding) {
+            // send message once no longer colliding //todo?
+            if (checkCollisionWithHiddenItemsLayer(mapMgr) == null) {
+                isHiddenItemColliding = false;
+                isLoadHiddenItemMsgSent = false;
+            }
+        }
+        else {
+            isLoadHiddenItemMsgSent = false;
+        }
+
+        /////////////////
+        //
+        // RESET
+        //
         if (!isConversationButtonPressed) {
             isLoadConversationMsgSent = false;
         }
 
         if (!isInteractButtonPressed) {
             isInteractionCollisionMsgSent = false;
+        }
+
+        if (!isHiddenItemButtonPressed) {
+            isLoadHiddenItemMsgSent = false;
         }
 
         ///////////////////////////////////////////////////

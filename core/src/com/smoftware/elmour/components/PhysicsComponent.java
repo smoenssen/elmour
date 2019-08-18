@@ -378,6 +378,29 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         return null;
     }
 
+    protected MapObject checkCollisionWithHiddenItemsLayer(MapManager mapMgr){
+        MapLayer mapMgrHiddenItemsLayer =  mapMgr.getHiddenItemsLayer();
+
+        if( mapMgrHiddenItemsLayer == null ){
+            return null;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapMgrHiddenItemsLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( _boundingBox.overlaps(rectangle) ){
+                    //Collision
+                    //Gdx.app.debug(TAG, "object.getName() = " + object.getName());
+                    return object;
+                }
+            }
+        }
+
+        return null;
+    }
+
     protected float getAngleBetweenPlayerAndInteractionObject(MapManager mapMgr, MapObject interactionObject){
         MapLayer mapInteractionLayer =  mapMgr.getInteractionLayer();
         float angle = 0;

@@ -347,25 +347,26 @@ public abstract class Map extends MapSubject implements AudioSubject{
         return positions;
     }
 
-    public Array<Vector2> getHiddenItemSpawnPositions(String objectName, String objectTaskID) {
+    public Array<Vector2> getHiddenItemSpawnPositions() {
         Array<MapObject> objects = new Array<MapObject>();
         Array<Vector2> positions = new Array<Vector2>();
-
-        // Notes: Don't add hidden item if:
-        //          quest Id is not active
-        //          task Id is not available
-        //          there is a chapter range and current chapter is not in range
 
         for( MapObject object: hiddenItemsLayer.getObjects()){
             String name = object.getName();
             String taskID = (String)object.getProperties().get("taskID");
 
+            // Notes: Don't add hidden item if:
+            //          quest Id is not active
+            //          task Id is not available
+            //          there is a chapter range and current chapter is not in range
+            /*
             if(        name == null || taskID == null ||
                     name.isEmpty() || taskID.isEmpty() ||
                     !name.equalsIgnoreCase(objectName) ||
                     !taskID.equalsIgnoreCase(objectTaskID)){
                 continue;
             }
+            */
             //Get center of rectangle
             float x = ((RectangleMapObject)object).getRectangle().getX();
             float y = ((RectangleMapObject)object).getRectangle().getY();
@@ -481,6 +482,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
     public MapLayer getNpcBoundsLayer () { return npcBoundsLayer; }
 
     public MapLayer getZGatesLayer() { return zGatesLayer; }
+
+    public MapLayer getHiddenItemsLayer() { return hiddenItemsLayer; }
 
     public MapLayer getCutsceneLayer() { return cutsceneLayer; }
 

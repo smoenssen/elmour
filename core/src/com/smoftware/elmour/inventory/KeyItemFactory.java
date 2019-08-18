@@ -25,7 +25,7 @@ public class KeyItemFactory {
     }
 
     private KeyItemFactory() {
-        ArrayList<KeyItem> jsonKeyItemList = _json.fromJson(ArrayList.class, InventoryElement.class, Gdx.files.internal(KEY_ITEMS_JSON));
+        ArrayList<KeyItem> jsonKeyItemList = _json.fromJson(ArrayList.class, KeyItem.class, Gdx.files.internal(KEY_ITEMS_JSON));
         keyItemList = new Hashtable<>();
 
         for (KeyItem keyItem : jsonKeyItemList) {

@@ -310,6 +310,8 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public MapLayer getZGatesLayer(){ return _currentMap.getZGatesLayer(); }
 
+    public MapLayer getHiddenItemsLayer() { return _currentMap.getHiddenItemsLayer(); }
+
     public Array<Vector2> getQuestItemSpawnPositions(String objectName, String objectTaskID) {
         return _currentMap.getQuestItemSpawnPositions(objectName, objectTaskID);
     }

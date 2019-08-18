@@ -63,14 +63,13 @@ Map
 	- For quests launched by discovering a map area
 		Add object to MAP_QUEST_DISCOVER_LAYER
 		Add "chapters" and "taskIDs" under Custom Properties (see above)
-	- For HIDDEN_ITEM on SPAWNS_LAYER
+	- For HIDDEN_ITEM on HIDDEN_ITEMS_LAYER
 		Add custom properties:
-			name = entity name
-			configFile = config file path
-			type = quest or nonQuest
-			chapters = range of chapters (optional)
+			id = KeyItem id
+			text = text to display when item is found
 			- if quest type:
 				taskID = quest ID::task ID
+			Note: need to reload hidden items each time map is loaded and whenever quest is started or progresses (send message to maps?)
 
 yEd for quest conversations
 ---------------------------

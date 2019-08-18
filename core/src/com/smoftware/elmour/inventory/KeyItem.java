@@ -22,6 +22,7 @@ public class KeyItem {
     public String name;
     public String summary;
     public String imagePath;
+    public String text;
 
     public KeyItem() {
         id = ID.NONE;

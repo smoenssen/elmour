@@ -13,6 +13,7 @@ public class ParticleEffectFactory {
         LANTERN_FIRE("sfx/candle.p"),
         LAVA_SMOKE("sfx/smoke.p"),
         WAND_ATTACK("sfx/magic_attack.p"),
+        ENEMY_DEATH("sfx/Enemy_Death"),
         NONE("");
 
         private String _fullFilePath;
@@ -56,6 +57,8 @@ public class ParticleEffectFactory {
             case WAND_ATTACK:
                 effect.scaleEffect(0.25f);
                 break;
+            case ENEMY_DEATH:
+                effect.scaleEffect(1.0f);
             default:
                 break;
         }
