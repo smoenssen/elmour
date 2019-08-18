@@ -238,12 +238,16 @@ public class QuestGraph {
             if (questTask.isTaskComplete()) {
                 visibleTaskList.add(questTask);
             }
-            else if (!questTask.isSpoiler() && isNoIncompleteSpoilerDownStream(questTask) && taskIsSubQuestTaskThatHasNoIncompleteDependency(questTask)) {
+            else if (isTaskVisible(questTask)) {
                 visibleTaskList.add(questTask);
             }
         }
 
         return  visibleTaskList;
+    }
+
+    public boolean isTaskVisible(QuestTask questTask) {
+        return (!questTask.isSpoiler() && isNoIncompleteSpoilerDownStream(questTask) && taskIsSubQuestTaskThatHasNoIncompleteDependency(questTask));
     }
 
     private boolean isNoIncompleteSpoilerDownStream(QuestTask questTask) {

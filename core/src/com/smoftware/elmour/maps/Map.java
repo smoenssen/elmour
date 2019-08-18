@@ -11,14 +11,19 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.smoftware.elmour.UI.huds.QuestHUD;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.entities.EntityFactory;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.audio.AudioSubject;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.quest.QuestGraph;
+import com.smoftware.elmour.quest.QuestList;
+import com.smoftware.elmour.quest.QuestTask;
 import com.smoftware.elmour.sfx.ParticleEffectFactory;
 
 import java.util.Hashtable;
@@ -262,6 +267,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
         _npcStartPositions = getNPCStartPositions();
         _specialNPCStartPositions = getSpecialNPCStartPositions();
 
+        refreshMapHiddenItemEntities();
+
         //Observers
         this.addObserver(AudioManager.getInstance());
     }
@@ -347,7 +354,23 @@ public abstract class Map extends MapSubject implements AudioSubject{
         return positions;
     }
 
+    protected void refreshMapHiddenItemEntities() {
+        mapHiddenItemEntities.clear();
+        Array<Vector2> hiddenItemPositions = getHiddenItemSpawnPositions();
+
+        if (hiddenItemPositions != null) {
+            for (Vector2 position : hiddenItemPositions) {
+                Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
+                entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
+                entity.sendMessage(Component.MESSAGE.CURRENT_STATE, json.toJson(Entity.State.IMMOBILE));
+                mapHiddenItemEntities.add(entity);
+            }
+        }
+    }
+
     public Array<Vector2> getHiddenItemSpawnPositions() {
+        if (hiddenItemsLayer == null) { return null; }
+
         Array<MapObject> objects = new Array<MapObject>();
         Array<Vector2> positions = new Array<Vector2>();
 
@@ -355,18 +378,32 @@ public abstract class Map extends MapSubject implements AudioSubject{
             String name = object.getName();
             String taskID = (String)object.getProperties().get("taskID");
 
-            // Notes: Don't add hidden item if:
-            //          quest Id is not active
-            //          task Id is not available
-            //          there is a chapter range and current chapter is not in range
-            /*
-            if(        name == null || taskID == null ||
-                    name.isEmpty() || taskID.isEmpty() ||
-                    !name.equalsIgnoreCase(objectName) ||
-                    !taskID.equalsIgnoreCase(objectTaskID)){
-                continue;
+            object.setVisible(false);
+
+            if (taskID != null) {
+                // Don't add hidden item if:
+                //          quest Id is not active
+                //          task Id is not available
+                String [] quest = taskID.split(QuestList.QUEST_DELIMITER);
+                QuestGraph questGraph = QuestHUD.getQuestByID(quest[0]);
+                QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
+
+                if (questGraph == null) {
+                    continue;
+                }
+                else if (questGraph.isQuestComplete()) {
+                    continue;
+                }
+                else if (questGraph.getQuestStatus() != QuestGraph.QuestStatus.IN_PROGRESS) {
+                    continue;
+                }
+                else if (questTask.isTaskComplete() || !questGraph.isTaskVisible(questTask)) {
+                    continue;
+                }
             }
-            */
+
+            object.setVisible(true);
+
             //Get center of rectangle
             float x = ((RectangleMapObject)object).getRectangle().getX();
             float y = ((RectangleMapObject)object).getRectangle().getY();

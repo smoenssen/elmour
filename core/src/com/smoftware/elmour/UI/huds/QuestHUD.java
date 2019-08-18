@@ -54,7 +54,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private ElmourGame game;
     private Stage stage;
     private Array<QuestHudObserver> observers;
-    private QuestList questList;
+    private static QuestList questList;
     private QuestList visibleQuestList;
 
     private Image downButton;
@@ -807,7 +807,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         }
     }
 
-    public QuestGraph getQuestByID(String questID) {
+    public static QuestGraph getQuestByID(String questID) {
         return questList.getQuestByID(questID);
     }
 

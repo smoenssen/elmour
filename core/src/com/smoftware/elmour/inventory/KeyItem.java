@@ -22,7 +22,10 @@ public class KeyItem {
     public String name;
     public String summary;
     public String imagePath;
+
+    // These items are not in .json file but set later when hidden item is found
     public String text;
+    public String taskID;
 
     public KeyItem() {
         id = ID.NONE;

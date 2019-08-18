@@ -37,14 +37,6 @@ public class Map1 extends Map {
         Entity ophion = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.OPHION);
         initSpecialEntityPosition(ophion);
         mapEntities.add(ophion);
-
-        Array<Vector2> hiddenItemPositions = getHiddenItemSpawnPositions();
-        for( Vector2 position: hiddenItemPositions ){
-            Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
-            entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
-            entity.sendMessage(Component.MESSAGE.CURRENT_STATE, json.toJson(Entity.State.IMMOBILE));
-            mapHiddenItemEntities.add(entity);
-        }
     }
 
     @Override

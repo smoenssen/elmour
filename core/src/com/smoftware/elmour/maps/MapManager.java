@@ -255,6 +255,9 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             _player.registerObserver(this);
     }
 
+    public void notifyQuestStatusChanged() {
+        _currentMap.refreshMapHiddenItemEntities();
+    }
 
     public void disableCurrentmapMusic(){
         _currentMap.unloadMusic();

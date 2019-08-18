@@ -388,7 +388,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         Rectangle rectangle = null;
 
         for( MapObject object: mapMgrHiddenItemsLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
+            if(object instanceof RectangleMapObject && object.isVisible()) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
                 if( _boundingBox.overlaps(rectangle) ){
                     //Collision

@@ -339,6 +339,18 @@ public class PopUp extends Window implements PopUpSubject {
 		fullTextSections = fullText.split("§");
 	}
 
+	public void setTextForSignInteraction(String text) {
+		fullText = text;
+		setVisibleDelay = 0;
+
+		// Remove new line characters to fix issue with formatting.
+		// Instead, ¶ is being used to indicate actual new lines.
+		fullText = fullText.replace("\n", "");
+
+		// Split the fulltext into the separate sections to display
+		fullTextSections = fullText.split("§");
+	}
+
 	public void endConversation() {
 		isActive = false;
 	}

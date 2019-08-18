@@ -137,10 +137,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                             // check for collision
                             if (isHiddenItemColliding) {
                                 isShowHiddenItemMsgSent = true;
-                                notify(_json.toJson(a_BtnState.toString()), ComponentObserver.ComponentEvent.SHOW_HIDDEN_ITEM);
-                                Gdx.app.log(TAG, "sending SHOW_HIDDEN_ITEM");
-                            } else {
-                                isShowHiddenItemMsgSent = false;
+                                notify(_json.toJson(discoveredHiddenItem), ComponentObserver.ComponentEvent.HIDDEN_ITEM_DISCOVERED);
+                                Gdx.app.log(TAG, "sending HIDDEN_ITEM_DISCOVERED");
                             }
                         }
                     }
@@ -263,8 +261,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
 
                         if (isHiddenItemColliding) {
                             isShowHiddenItemMsgSent = true;
-                            notify(_json.toJson(discoveredHiddenItem), ComponentObserver.ComponentEvent.SHOW_HIDDEN_ITEM);
-                            Gdx.app.log(TAG, "sending SHOW_HIDDEN_ITEM");
+                            notify(_json.toJson(discoveredHiddenItem), ComponentObserver.ComponentEvent.HIDDEN_ITEM_DISCOVERED);
+                            Gdx.app.log(TAG, "sending HIDDEN_ITEM_DISCOVERED");
                         }
                     }
 
@@ -419,11 +417,15 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         //
         if (isHiddenItemButtonPressed && !isLoadHiddenItemMsgSent) {
             // send message only once per button press
-            object = checkCollisionWithHiddenItemsLayer(mapMgr);
+             object = checkCollisionWithHiddenItemsLayer(mapMgr);
             if (object != null) {
                 KeyItem.ID id = KeyItem.ID.valueOf((String)object.getProperties().get("id"));
                 discoveredHiddenItem = KeyItemFactory.getInstance().getKeyItem(id);
                 discoveredHiddenItem.text = (String)object.getProperties().get("text");
+
+                if (discoveredHiddenItem.category == KeyItem.Category.QUEST) {
+                    discoveredHiddenItem.taskID = (String)object.getProperties().get("taskID");
+                }
 
                 isLoadHiddenItemMsgSent = true;
                 isHiddenItemColliding = true;

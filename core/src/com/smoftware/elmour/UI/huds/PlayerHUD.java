@@ -172,12 +172,19 @@ public class PlayerHUD implements Screen, AudioSubject,
     private QuestHUD questHUD;
 
     private MyActions myActions;
+
     private WidgetGroup savingGroup;
     private AnimatedImage savingAnimation;
     private Label savingLabel;
     private MyTextField savingTextArea;
     private float savingGroupHeight;
     private float savingDropTime;
+
+    private WidgetGroup hiddenItemGroup;
+    private Image hiddenItemImage;
+    private MyTextField hiddenItemTextArea;
+    private float hiddenItemGroupHeight;
+    private float hiddenItemGroupDropTime;
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
@@ -495,6 +502,25 @@ public class PlayerHUD implements Screen, AudioSubject,
         savingGroup.addActor(savingLabel);
         savingGroup.addActor(savingAnimation);
 
+        hiddenItemGroupHeight = 100;
+        hiddenItemGroupDropTime = 0.5f;
+        hiddenItemTextArea = new MyTextField("", Utility.ELMOUR_UI_SKIN, "battle");
+        hiddenItemTextArea.disabled = true;
+        hiddenItemTextArea.setWidth(100);
+        hiddenItemTextArea.setHeight(hiddenItemGroupHeight);
+        hiddenItemTextArea.setPosition((_stage.getWidth() - hiddenItemTextArea.getWidth()) / 2 , _stage.getHeight() + 12);
+        hiddenItemTextArea.setVisible(true);
+
+        hiddenItemImage = new Image(new Texture("RPGGame/maps/Game/Icons/Gems/Ruby.png"));
+        hiddenItemImage.setWidth(64);
+        hiddenItemImage.setHeight(64);
+        hiddenItemImage.setPosition((_stage.getWidth() - hiddenItemImage.getWidth()) / 2, _stage.getHeight() + 12);
+        hiddenItemImage.setVisible(true);
+
+        hiddenItemGroup = new WidgetGroup();
+        hiddenItemGroup.addActor(hiddenItemTextArea);
+        hiddenItemGroup.addActor(savingAnimation);
+
         //_stage.addActor(_battleUI);
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
@@ -523,6 +549,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(optionsButton);
         _stage.addActor(saveButton);
         _stage.addActor(savingGroup);
+        _stage.addActor(hiddenItemGroup);
 
         if (ElmourGame.DEV_MODE) {
             _stage.addActor(debugButton);
@@ -1201,6 +1228,10 @@ public class PlayerHUD implements Screen, AudioSubject,
         _mapMgr.registerCurrentMapEntityObservers(this);
     }
 
+    public void updateMapQuestStatus() {
+        _mapMgr.notifyQuestStatusChanged();
+    }
+
     public void addTransitionToScreen(float duration){
         _transitionActor.setVisible(true);
         _stage.addAction(
@@ -1391,11 +1422,13 @@ public class PlayerHUD implements Screen, AudioSubject,
     public void setQuestTaskStarted(String questID, String questTaskID) {
         questHUD.setQuestTaskStarted(questID, questTaskID);
         updateEntityObservers();
+        updateMapQuestStatus();
     }
 
     public void setQuestTaskComplete(String questID, String questTaskID) {
         questHUD.setQuestTaskComplete(questID, questTaskID);
         updateEntityObservers();
+        updateMapQuestStatus();
     }
 
     @Override
@@ -1459,6 +1492,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     }
 
+    boolean hiddenItemAlreadyShown = false;
     @Override
     public void onNotify(String value, ComponentEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());
@@ -1549,9 +1583,32 @@ public class PlayerHUD implements Screen, AudioSubject,
             case FINISHED_INTERACTION:
                 signPopUp.hide();
                 break;
-            case SHOW_HIDDEN_ITEM:
+            case HIDDEN_ITEM_DISCOVERED:
                 KeyItem keyItem = _json.fromJson(KeyItem.class, value);
-                Gdx.app.log(TAG, "SHOW_HIDDEN_ITEM: " + keyItem.name + " : " + keyItem.text);
+                Gdx.app.log(TAG, "HIDDEN_ITEM_DISCOVERED: " + keyItem.name + " : " + keyItem.text);
+
+                signPopUp.setTextForSignInteraction(keyItem.text);
+                signPopUp.interact(false);
+
+                if (hiddenItemAlreadyShown) {
+                    updateMapQuestStatus();
+                    hiddenItemAlreadyShown = false; // reset
+                    hiddenItemGroup.addAction(Actions.sizeBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                    hiddenItemGroup.addAction(Actions.moveBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                }
+                else {
+                    if (keyItem.category == KeyItem.Category.QUEST) {
+                        String[] quest = keyItem.taskID.split(QuestList.QUEST_DELIMITER);
+                        QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
+                        QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
+                        questTask.setTaskComplete();
+                    }
+
+                    inventoryHUD.addKeyItem(keyItem);
+                    hiddenItemAlreadyShown = true;
+                    hiddenItemGroup.addAction(Actions.sizeBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                    hiddenItemGroup.addAction(Actions.moveBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
+                }
                 break;
             case QUEST_LOCATION_DISCOVERED:
                 String[] string = value.split(Component.MESSAGE_TOKEN);
@@ -1747,6 +1804,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             questGraph.setQuestStatus(QuestGraph.QuestStatus.IN_PROGRESS);
             questGraph.setTimestamp(TimeUtils.millis());
             updateEntityObservers();
+            updateMapQuestStatus();
         }
     }
 
@@ -1774,6 +1832,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     config.setCurrentQuestID(questGraph.getQuestID());
                     ProfileManager.getInstance().setProperty(config.getEntityID(), config);
                     updateEntityObservers();
+                    updateMapQuestStatus();
                 }
 
                 _mapMgr.clearCurrentSelectedMapEntity();
@@ -1841,8 +1900,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
             case TASK_COMPLETE:
             case TASK_COMPLETE_CUTSCENE:
-                String coversationID = data;
-                Conversation conversation = graph.getConversationByID(coversationID);
+                String conversationID = data;
+                Conversation conversation = graph.getConversationByID(conversationID);
 
                 if (conversation != null ) {
                     String questTaskID = conversation.getData();

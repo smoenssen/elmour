@@ -7,7 +7,8 @@ package com.smoftware.elmour.UI.huds;
 public interface QuestHudObserver {
     enum QuestHudEvent {
         QUEST_HUD_SHOWN,
-        QUEST_HUD_HIDDEN
+        QUEST_HUD_HIDDEN,
+        QUEST_LIST_UPDATED
     }
 
     void onNotify(QuestHudEvent event);
