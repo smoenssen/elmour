@@ -348,6 +348,13 @@ public class QuestGraph {
         }
         if( readyTask == null ) return false;
         readyTask.setTaskComplete();
+
+        //todo: should this be done here?
+        /*
+        if (areAllTasksComplete()) {
+            setQuestComplete();
+        }
+        */
         return true;
     }
 
@@ -420,6 +427,10 @@ public class QuestGraph {
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return;
         task.setTaskComplete();
+
+        if (areAllTasksComplete()) {
+            setQuestComplete();
+        }
     }
 
     public void update(MapManager mapMgr){

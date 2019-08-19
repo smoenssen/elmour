@@ -179,6 +179,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         _currentMap = map;
         _mapChanged = true;
         clearCurrentSelectedMapEntity();
+        refreshMapHiddenItemEntities();
 
         Integer currentChapter = ProfileManager.getInstance().getProperty("currentChapter", Integer.class);
         if (currentChapter != null) {
@@ -255,7 +256,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
             _player.registerObserver(this);
     }
 
-    public void notifyQuestStatusChanged() {
+    public void refreshMapHiddenItemEntities() {
         _currentMap.refreshMapHiddenItemEntities();
     }
 

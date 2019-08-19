@@ -746,8 +746,8 @@
   </object>
   <object id="591" name="HIDDEN_ITEM" x="208" y="832" width="16" height="16">
    <properties>
-    <property name="id" value="GRASS_TEMPLE_KEY"/>
-    <property name="text" value="You found the Grass Temple key!"/>
+    <property name="id" value="EMERALD"/>
+    <property name="text" value="You found the Emerald!"/>
    </properties>
   </object>
  </objectgroup>

@@ -34,6 +34,7 @@ import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.components.ComponentObserver;
 import com.smoftware.elmour.components.PlayerPhysicsComponent;
+import com.smoftware.elmour.inventory.PartyKeys;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityConfig;
@@ -517,12 +518,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemTextArea.setPosition((_stage.getWidth() - hiddenItemTextArea.getWidth()) / 2 , _stage.getHeight());
         hiddenItemTextArea.setVisible(true);
 
-        hiddenItemImage = new Image(new Texture("graphics/teddy_bear.png"));
-        hiddenItemImage.setWidth(64);
-        hiddenItemImage.setHeight(64);
-        hiddenItemImage.setPosition((_stage.getWidth() - hiddenItemImage.getWidth()) / 2,
-                                     _stage.getHeight() + (((hiddenItemTextArea.getHeight() - hiddenItemImage.getHeight()))/ 2));
-        hiddenItemImage.setVisible(true);
+        // size and position of hiddenItemImage are set in setHiddenItemImage
+        hiddenItemImage = new Image();
 
         hiddenItemGroup = new WidgetGroup();
         hiddenItemGroup.addActor(hiddenItemTextArea);
@@ -1236,7 +1233,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public void updateMapQuestStatus() {
-        _mapMgr.notifyQuestStatusChanged();
+        _mapMgr.refreshMapHiddenItemEntities();
     }
 
     public void addTransitionToScreen(float duration){
@@ -1609,17 +1606,15 @@ public class PlayerHUD implements Screen, AudioSubject,
                     if (keyItem.category == KeyItem.Category.QUEST) {
                         String[] quest = keyItem.taskID.split(QuestList.QUEST_DELIMITER);
                         QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
-                        QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
-                        questTask.setTaskComplete();
+                        questGraph.setQuestTaskComplete(quest[1]);
                     }
 
-                    inventoryHUD.addKeyItem(keyItem);
-
                     if (!hiddenItemAlreadyShown) {
-                        hiddenItemImage = new Image(new Texture(keyItem.imagePath));
+                        setHiddenItemImage(keyItem.imagePath);
                         hiddenItemGroup.addAction(Actions.sizeBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
                         hiddenItemGroup.addAction(Actions.moveBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
                         hiddenItemAlreadyShown = true;
+                        PartyKeys.getInstance().addItem(keyItem, 1,true);
                     }
                 }
 
@@ -1693,6 +1688,16 @@ public class PlayerHUD implements Screen, AudioSubject,
             default:
                 break;
         }
+    }
+
+    private void setHiddenItemImage(String imagePath) {
+        hiddenItemImage.remove();
+        hiddenItemImage = new Image(new Texture(imagePath));
+        hiddenItemImage.setWidth(64);
+        hiddenItemImage.setHeight(64);
+        hiddenItemImage.setPosition((_stage.getWidth() - hiddenItemImage.getWidth()) / 2,
+                _stage.getHeight() + (((hiddenItemTextArea.getHeight() - hiddenItemImage.getHeight()))/ 2));
+        hiddenItemGroup.addActor(hiddenItemImage);
     }
 
     public void switchScreen(final Screen newScreen){
@@ -1924,19 +1929,15 @@ public class PlayerHUD implements Screen, AudioSubject,
                     String [] quest = temp[0].split(QuestList.QUEST_DELIMITER);
                     QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
-                    questTask.setTaskComplete();
+                    questGraph.setQuestTaskComplete(quest[1]);
 
                     switch (questTask.getQuestTaskType()) {
                         case FETCH:
                             //	For FETCH "Target Entity" is the KeyItem ID
                             KeyItem.ID itemID = KeyItem.ID.valueOf(questTask.getTargetEntity());
                             KeyItem keyItem = KeyItemFactory.getInstance().getKeyItem(itemID);
-                            inventoryHUD.addKeyItem(keyItem);
+                            PartyKeys.getInstance().addItem(keyItem, 1, true);
                             break;
-                    }
-
-                    if (questGraph.areAllTasksComplete()) {
-                        questGraph.setQuestComplete();
                     }
 
                     // update the associated NPC conversation config based on current status

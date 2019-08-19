@@ -1,5 +1,6 @@
 package com.smoftware.elmour.quest;
 
+import com.smoftware.elmour.UI.huds.QuestHUD;
 import com.smoftware.elmour.entities.EntityConfig;
 
 public class QuestTask {
@@ -93,8 +94,7 @@ public class QuestTask {
 
     public void setTaskStarted() { questTaskStatus = QuestTaskStatus.STARTED; }
 
-    public void setTaskComplete() {
-        questTaskStatus = QuestTaskStatus.COMPLETE; }
+    public void setTaskComplete() { questTaskStatus = QuestTaskStatus.COMPLETE; }
 
     public String toString(){ return taskPhrase; }
 }

@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.smoftware.elmour.inventory.PartyKeyItem;
+import com.smoftware.elmour.inventory.PartyKeys;
+import com.smoftware.elmour.inventory.PartyKeysObserver;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityFactory;
@@ -34,7 +37,7 @@ import com.smoftware.elmour.profile.ProfileObserver;
  * Created by steve on 2/10/19.
  */
 
-public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, ProfileObserver {
+public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventoryObserver, PartyKeysObserver, ProfileObserver {
     private static final String TAG = InventoryHUD.class.getSimpleName();
 
     enum ButtonState { EQUIPMENT, CONSUMABLES, KEY_ITEMS, EQUIP, NONE }
@@ -173,6 +176,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         partyEntityList = new Array<>();
 
         PartyInventory.getInstance().addObserver(this);
+        PartyKeys.getInstance().addObserver(this);
         ProfileManager.getInstance().addObserver(this);
 
         equipmentListsTable = new Table();
@@ -373,7 +377,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         questBackground.setSize(listWidth, listHeight - labelHeight);
         questScrollPaneList.setSize(listWidth - 4, listHeight - listTopPadding - labelHeight - 2);
         questScrollPaneList.setX(2);
-        questScrollPaneList.setX(4);
+        questScrollPaneList.setY(2);
 
 
         groupNonQuest.addActor(nonQuestBackground);
@@ -1504,6 +1508,34 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     }
 
     @Override
+    public void onNotify(PartyKeyItem partyKeyItem, PartyKeysEvent event) {
+        KeyItem keyItem = partyKeyItem.getKeyItem();
+
+        switch (event) {
+            case KEY_ITEM_ADDED:
+                switch(keyItem.category) {
+                    case QUEST:
+                        addListViewItem(questListView, questScrollPaneList, partyKeyItem);
+                        break;
+                    case NON_QUEST:
+                        addListViewItem(nonQuestListView, nonQuestScrollPaneList, partyKeyItem);
+                        break;
+                }
+                break;
+            case KEY_ITEM_REMOVED:
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(PartyKeyItem item1, PartyKeyItem item2, PartyKeysEvent event) {
+        switch (event) {
+            case KEY_ITEM_SWAP:
+                break;
+        }
+    }
+
+    @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         Gdx.app.log(TAG, "onNotify event = " + event.toString());
 
@@ -1570,12 +1602,11 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         }
     }
 
-    private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, KeyItem keyItem) {
-        /*
-        InventoryElement element = partyInventoryItem.getElement();
-        String description = String.format("%s (%d)", element.name, partyInventoryItem.getQuantityAvailable());
+    private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, PartyKeyItem partyKeyItem) {
+        KeyItem keyItem = partyKeyItem.getKeyItem();
+        String description = String.format("%s (%d)", keyItem.name, partyKeyItem.getQuantity());
         TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
-        button.setUserObject(partyInventoryItem);
+        button.setUserObject(partyKeyItem);
 
         if (list.getItems().size == 0) {
             // hack to get scrolling to work (need to add array if first item being added)
@@ -1589,8 +1620,8 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
             // see if there is already an existing inventory item in list
             for (TextButton iterator : list.getItems()) {
-                PartyInventoryItem item = (PartyInventoryItem) iterator.getUserObject();
-                if (partyInventoryItem.getElement().id.equals(item.getElement().id)) {
+                PartyKeyItem item = (PartyKeyItem) iterator.getUserObject();
+                if (partyKeyItem.getKeyItem().id.equals(item.getKeyItem().id)) {
                     inventoryItem = iterator;
                     break;
                 }
@@ -1608,7 +1639,6 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
             }
         }
-        */
     }
 
     private void updateListViewItem(MyTextButtonList<TextButton> list, PartyInventoryItem partyInventoryItem) {
@@ -1632,15 +1662,4 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
             inventoryItem.setUserObject(partyInventoryItem);
         }
     }
-
-    public void addKeyItem(KeyItem item) {
-        switch (item.category) {
-            case QUEST:
-                addListViewItem(questListView, questScrollPaneList, item);
-                break;
-            case NON_QUEST:
-                break;
-        }
-    }
-
 }
