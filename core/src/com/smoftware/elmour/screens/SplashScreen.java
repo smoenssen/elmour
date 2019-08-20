@@ -1,15 +1,21 @@
 package com.smoftware.elmour.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.main.Utility;
 
 /**
  * Created by moenssr on 1/4/2018.
@@ -23,7 +29,8 @@ public class SplashScreen extends GameScreen {
     private Viewport viewport;
     private float delayTime = 0;
     private boolean splashShowing = true;
-    ProgressBar bar;
+    private ProgressBar bar;
+    private float progressBarWidth;
 
     public SplashScreen(ElmourGame game) {
         this.game = game;
@@ -33,21 +40,35 @@ public class SplashScreen extends GameScreen {
 
         //creation and layout
 
-        /* srm - trying to get a progress bar working
+        // srm - trying to get a progress bar working
+
         Skin skin = new Skin();
         Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
 
+        float margin = 10;
+        progressBarWidth = stage.getWidth() - (2 * margin);
+
         TextureRegionDrawable textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("controllers/menuButton.png"))));
-        ProgressBarStyle barStyle = new ProgressBarStyle(skin.newDrawable("white", Color.DARK_GRAY), textureBar);
+        ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle(skin.newDrawable("white", Color.DARK_GRAY), textureBar);
         barStyle.knobBefore = barStyle.knob;
-        bar = new ProgressBar(0, 10, 0.5f, false, barStyle);
-        bar.setPosition(10, 10);
-        bar.setSize(290, bar.getPrefHeight());
-        bar.setAnimateDuration(2);
-        */
+        bar = new ProgressBar(0, 100, 10, false, barStyle);
+        bar.setPosition(margin, margin);
+        bar.setSize(progressBarWidth, bar.getPrefHeight());
+        //bar.setAnimateDuration(2);
+        //bar.setAnimateDuration(1.6f);
+        //bar.setBounds(10, 10, progressBarWidth, 20);
+
+        start = Utility.getStartTime();
+
+        Utility.loadFonts();
+        numAssets = (float)Utility.numberAssetsQueued();
+
+        Gdx.app.log("TAG", "Loaded fonts in " + Utility.getElapsedTime(start) + " ms");
+
+        start = Utility.getStartTime();
 
         Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
@@ -57,7 +78,12 @@ public class SplashScreen extends GameScreen {
 
         stage.addActor(title);
         stage.addActor(smoftware);
+        stage.addActor(bar);
     }
+
+    long start = 0;
+    boolean fontsLoaded = false;
+    float numAssets = 0;
 
     @Override
     public void render(float delta) {
@@ -71,13 +97,42 @@ public class SplashScreen extends GameScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(delta);
-        stage.draw();
-
         if (splashShowing && (Gdx.input.justTouched() || delayTime > 4f)) {
             game.setScreen(game.getScreenType(ElmourGame.ScreenType.StartScreen));
             splashShowing = false;
         }
+
+        float numAssetsInQueue = (float)Utility.numberAssetsQueued();
+        if (Utility.numberAssetsQueued() > 0) {
+            Utility.updateAssetLoading();
+            float progress = 100 - (numAssetsInQueue/numAssets * 100);
+            Gdx.app.log("TAG", "progress = " + progress);
+            bar.setValue(progress);
+        }
+        else if (!fontsLoaded) {
+            bar.setValue(100);
+
+            Gdx.app.log("TAG", "Finished loading fonts in " + Utility.getElapsedTime(start) + " ms");
+
+            start = Utility.getStartTime();
+            Utility.setFonts();
+            Gdx.app.log("TAG", "Set fonts in " + Utility.getElapsedTime(start) + " ms");
+
+            start = Utility.getStartTime();
+            Utility.initializeElmourUISkin();
+            Gdx.app.log("TAG", "Loaded skin in " + Utility.getElapsedTime(start) + " ms");
+
+            start = Utility.getStartTime();
+            game.loadScreens();
+            Gdx.app.log("TAG", "Loaded screens in " + Utility.getElapsedTime(start) + " ms");
+
+            //game.setScreen(game.getScreenType(ElmourGame.ScreenType.StartScreen));
+
+            fontsLoaded = true;
+        }
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

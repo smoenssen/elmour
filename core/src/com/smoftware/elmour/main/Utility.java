@@ -2,6 +2,7 @@ package com.smoftware.elmour.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.MusicLoader;
 import com.badlogic.gdx.assets.loaders.SoundLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
@@ -63,162 +66,185 @@ public final class Utility {
 	public static int myFontVerySmallSize;
 	public static int myFontSuperSmallSize;
 
-	public static void initializeElmourUISkin() {
+	private static BitmapFont fontSign;
+	private static BitmapFont fontSmall;
+	private static BitmapFont fontVerySmall;
+	private static BitmapFont fontSuperSmall;
+	private static BitmapFont fontRed;
+	private static BitmapFont fontGraySmall;
+	private static BitmapFont fontGrayVerySmall;
+	private static BitmapFont fontChapterTitle;
+	private static BitmapFont fontChapterTitleSubtext;
+
+	public static void loadFonts() {
+		FileHandleResolver resolver = new InternalFileHandleResolver();
+		_assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		_assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
 		//NOTE!!! if elmour_ui.json is generated again, then need to replace instances of default-font with myFont:
 		//	font: myFont
 		//Need to initialize skin before using it because of customized TT myFont that is used in .json
-		ELMOUR_UI_SKIN = new Skin();
-		int myFontSize;
+
+		//int myFontSize;
 
 		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
+		//FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
 		// LARGE TEXT
-		myFontSize = 18;
-		parameter.size = myFontSize;
-		parameter.color = Color.DARK_GRAY;
-		parameter.shadowColor = Color.LIGHT_GRAY;
-		//parameter.gamma = 200f;
-		//parameter.shadowOffsetX = 2;
-		//parameter.shadowOffsetY = 2;
-		BitmapFont fontSign = generator.generateFont(parameter);
-
-		//BitmapFont fontSign = new BitmapFont(Gdx.files.internal("fonts/Test18px.fnt"),
-		//		Gdx.files.internal("fonts/Test18px.png"), false);
-
-		//Gdx.gl.glEnable(GL20.GL_BLEND);
-		//Color color = new Color(0,0,0,0);
-		//fontSign.setColor(color);
-
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontParams.fontFileName = "fonts/9_px.ttf";
+		myFontParams.fontParameters.size = 18;
+		myFontParams.fontParameters.color = Color.DARK_GRAY;
+		myFontParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
+		_assetManager.load("myFont.ttf", BitmapFont.class, myFontParams);
 
 		//NOTE: apply the filter if softer font is desired
 		//fontSign.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
 		// SMALL TEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSmallSize = 15;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSmallSize = 18;
 		}
 
-		parameter.size = myFontSmallSize;
-
-		BitmapFont fontSmall = generator.generateFont(parameter);
-		//fontSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontSmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontSmallParams.fontFileName = "fonts/9_px.ttf";
+		myFontSmallParams.fontParameters.size = myFontSmallSize;
+		myFontSmallParams.fontParameters.color = Color.DARK_GRAY;
+		myFontSmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
+		myFontSmallParams.fontParameters.shadowOffsetX = 1;
+		myFontSmallParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontSmall.ttf", BitmapFont.class, myFontSmallParams);
 
 		// VERY SMALL TEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontVerySmallSize = 12;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontVerySmallSize = 15;
 		}
 
-		parameter.size = myFontVerySmallSize;
-
-		BitmapFont fontVerySmall = generator.generateFont(parameter);
-		//fontVerySmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontVerySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontVerySmallParams.fontFileName = "fonts/9_px.ttf";
+		myFontVerySmallParams.fontParameters.size = myFontVerySmallSize;
+		myFontVerySmallParams.fontParameters.color = Color.DARK_GRAY;
+		myFontVerySmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
+		myFontVerySmallParams.fontParameters.shadowOffsetX = 1;
+		myFontVerySmallParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontVerySmall.ttf", BitmapFont.class, myFontVerySmallParams);
 
 		// SUPER SMALL TEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSuperSmallSize = 7;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSuperSmallSize = 9;
 		}
 
-		parameter.size = myFontSuperSmallSize;
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontSuperSmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontSuperSmallParams.fontFileName = "fonts/9_px.ttf";
+		myFontSuperSmallParams.fontParameters.size = myFontSuperSmallSize;
+		myFontSuperSmallParams.fontParameters.color = Color.DARK_GRAY;
+		myFontSuperSmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
+		myFontSuperSmallParams.fontParameters.shadowOffsetX = 1;
+		myFontSuperSmallParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontSuperSmall.ttf", BitmapFont.class, myFontSuperSmallParams);
 
-		BitmapFont fontSuperSmall = generator.generateFont(parameter);
 		//fontSuperSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+		int myFontSize;
 
 		// RED TEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 16;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 20;
 		}
 
-		parameter.size = myFontSize;
-		parameter.color = Color.RED;
-		parameter.shadowColor = Color.BLACK;
-
-		BitmapFont fontRed = generator.generateFont(parameter);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontRedParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontRedParams.fontFileName = "fonts/9_px.ttf";
+		myFontRedParams.fontParameters.size = myFontSize;
+		myFontRedParams.fontParameters.color = Color.RED;
+		myFontRedParams.fontParameters.shadowColor = Color.BLACK;
+		myFontRedParams.fontParameters.shadowOffsetX = 1;
+		myFontRedParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontRed.ttf", BitmapFont.class, myFontRedParams);
 
 		// GRAY TEXT SMALL
-		parameter.shadowOffsetX = 1;
-		parameter.shadowOffsetY = 1;
-		parameter.size = myFontSmallSize;
-		parameter.color = new Color(0x909090ff);
-		parameter.shadowColor = Color.BLACK;
-
-		BitmapFont fontGraySmall = generator.generateFont(parameter);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontGraySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontGraySmallParams.fontFileName = "fonts/9_px.ttf";
+		myFontGraySmallParams.fontParameters.size = myFontSmallSize;
+		myFontGraySmallParams.fontParameters.color = new Color(0x909090ff);
+		myFontGraySmallParams.fontParameters.shadowColor = Color.BLACK;
+		myFontGraySmallParams.fontParameters.shadowOffsetX = 1;
+		myFontGraySmallParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontGraySmall.ttf", BitmapFont.class, myFontGraySmallParams);
 
 		// GRAY TEXT VERY SMALL
-		parameter.shadowOffsetX = 1;
-		parameter.shadowOffsetY = 1;
-		parameter.size = myFontVerySmallSize;
-		parameter.color = new Color(0x909090ff);
-		parameter.shadowColor = Color.WHITE;
-
-		BitmapFont fontGrayVerySmall = generator.generateFont(parameter);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontGrayVerySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontGrayVerySmallParams.fontFileName = "fonts/9_px.ttf";
+		myFontGrayVerySmallParams.fontParameters.size = myFontVerySmallSize;
+		myFontGrayVerySmallParams.fontParameters.color = new Color(0x909090ff);
+		myFontGrayVerySmallParams.fontParameters.shadowColor = Color.WHITE;
+		myFontGrayVerySmallParams.fontParameters.shadowOffsetX = 1;
+		myFontGrayVerySmallParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontGrayVerySmall.ttf", BitmapFont.class, myFontGrayVerySmallParams);
 
 		// CHAPTER TITLE TEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 48;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 64;
 		}
 
-		parameter.size = myFontSize;
-		parameter.color = Color.WHITE;
-		parameter.shadowColor = Color.BLACK;
-
-		BitmapFont fontChapterTitle = generator.generateFont(parameter);
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontChapterTitleParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontChapterTitleParams.fontFileName = "fonts/9_px.ttf";
+		myFontChapterTitleParams.fontParameters.size = myFontSize;
+		myFontChapterTitleParams.fontParameters.color = Color.WHITE;
+		myFontChapterTitleParams.fontParameters.shadowColor = Color.BLACK;
+		myFontChapterTitleParams.fontParameters.shadowOffsetX = 1;
+		myFontChapterTitleParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontChapterTitle.ttf", BitmapFont.class, myFontChapterTitleParams);
 
 		// CHAPTER TITLE SUBTEXT
 		if (ElmourGame.isAndroid()) {
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 32;
 		}
 		else{
-			parameter.shadowOffsetX = 1;
-			parameter.shadowOffsetY = 1;
 			myFontSize = 36;
 		}
 
-		parameter.size = myFontSize;
-		parameter.color = Color.GRAY;
-		parameter.shadowColor = Color.WHITE;
+		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontChapterTitleSubtextParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		myFontChapterTitleSubtextParams.fontFileName = "fonts/9_px.ttf";
+		myFontChapterTitleSubtextParams.fontParameters.size = myFontSize;
+		myFontChapterTitleSubtextParams.fontParameters.color = Color.GRAY;
+		myFontChapterTitleSubtextParams.fontParameters.shadowColor = Color.BLACK;
+		myFontChapterTitleSubtextParams.fontParameters.shadowOffsetX = 1;
+		myFontChapterTitleSubtextParams.fontParameters.shadowOffsetY = 1;
+		_assetManager.load("myFontChapterTitleSubtext.ttf", BitmapFont.class, myFontChapterTitleSubtextParams);
+	}
 
-		BitmapFont fontChapterTitleSubtext = generator.generateFont(parameter);
+	public static void setFonts() {
+		fontSign = _assetManager.get("myFont.ttf", BitmapFont.class);
+		fontSmall = _assetManager.get("myFontSmall.ttf", BitmapFont.class);
+		fontVerySmall = _assetManager.get("myFontVerySmall.ttf", BitmapFont.class);
+		fontSuperSmall = _assetManager.get("myFontSuperSmall.ttf", BitmapFont.class);
+		fontRed = _assetManager.get("myFontRed.ttf", BitmapFont.class);
+		fontGraySmall = _assetManager.get("myFontGraySmall.ttf", BitmapFont.class);
+		fontGrayVerySmall = _assetManager.get("myFontGrayVerySmall.ttf", BitmapFont.class);
+		fontChapterTitle = _assetManager.get("myFontChapterTitle.ttf", BitmapFont.class);
+		fontChapterTitleSubtext = _assetManager.get("myFontChapterTitleSubtext.ttf", BitmapFont.class);
+	}
 
-		generator.dispose(); // don't forget to dispose to avoid memory leaks!
+	public static void initializeElmourUISkin() {
+		ELMOUR_UI_SKIN = new Skin();
+
+		//generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSmall", fontSmall, BitmapFont.class);
@@ -256,6 +282,8 @@ public final class Utility {
    	public static boolean updateAssetLoading(){
 		return _assetManager.update();
 	}
+
+	public static void finishLoadingAssets() { _assetManager.finishLoading(); }
 
 	public static boolean isAssetLoaded(String fileName){
 	   return _assetManager.isLoaded(fileName);

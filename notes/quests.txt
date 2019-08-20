@@ -23,9 +23,6 @@ Usage of targetEntity:
 Post task conversation type:
 	When task is complete, and if there is a post task dialog, save post task dialog to profile for the NPC
 
-Todo:
------
-Need to support spawning items after a specific quest is started.
 
 Ben
 ---

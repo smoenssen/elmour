@@ -22,6 +22,8 @@ import com.smoftware.elmour.screens.MainGameScreen;
 import com.smoftware.elmour.screens.SplashScreen;
 import com.smoftware.elmour.screens.StartScreen;
 
+import javax.rmi.CORBA.Util;
+
 
 /* NOTES
 	srm - issue with Desktop project not running with Android Studio 3.0 using Gradle-4.1 and android-gradle-plugin:3.0.1
@@ -130,7 +132,9 @@ public class ElmourGame extends Game {
 			V_HEIGHT = Gdx.graphics.getHeight();
 		}
 
-		Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
+		if (DEV_MODE) {
+			Utility.parseQuestXMLFile("RPGGame/maps/Game/Quests/Quests.graphml");
+		}
 
 		float width = (float) Gdx.graphics.getWidth();
 		float height = (float) Gdx.graphics.getHeight();
@@ -139,25 +143,13 @@ public class ElmourGame extends Game {
 
 		Gdx.app.log("tag", String.format("screen width = %d, height = %d", V_WIDTH, V_HEIGHT));
 
-		statusUI = new StatusUI();
-		battleState = new BattleState(this);
-
 		splashScreen = new SplashScreen(this);
-		startScreen = new StartScreen(this);
-		_mainGameScreen = new MainGameScreen(this, true);
-		_gameOverScreen = new GameOverScreen(this);
-		_creditScreen = new CreditScreen(this);
-		battleScreen = new BattleScreen(this);
-		Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
-		Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
-		Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
-
-		quest1 = new Quest1(this, _mainGameScreen._playerHUD);
-		cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
 
 		partyList = new Array<>();
 
-		Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text");
+		if (DEV_MODE) {
+			Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text");
+		}
 		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
@@ -191,6 +183,24 @@ public class ElmourGame extends Game {
 		*/
 		//QuestGraphTest questGraphTest = new QuestGraphTest();
 		//questGraphTest.main(null);
+	}
+
+	public void loadScreens() {
+		statusUI = new StatusUI();
+		battleState = new BattleState(this);
+
+
+		startScreen = new StartScreen(this);
+		_mainGameScreen = new MainGameScreen(this, true);
+		_gameOverScreen = new GameOverScreen(this);
+		_creditScreen = new CreditScreen(this);
+		battleScreen = new BattleScreen(this);
+		Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
+		Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
+		Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
+
+		quest1 = new Quest1(this, _mainGameScreen._playerHUD);
+		cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
 	}
 
 	public void setChapterScreen(final int chapterNum) {
