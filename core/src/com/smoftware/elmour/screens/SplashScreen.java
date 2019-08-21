@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -16,9 +17,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.main.Utility;
-import com.smoftware.elmour.profile.ProfileManager;
-
-import javax.rmi.CORBA.Util;
 
 /**
  * Created by moenssr on 1/4/2018.
@@ -76,6 +74,8 @@ public class SplashScreen extends GameScreen {
         stage.addActor(bar);
     }
 
+    float progress = 0;
+
     @Override
     public void render(float delta) {
         if (delta == 0 || doneWithSplashScreen) {
@@ -102,7 +102,8 @@ public class SplashScreen extends GameScreen {
         if (Utility.numberAssetsQueued() > 0) {
             float totalNumAssetsLeftToLoad = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_PRELOAD_SCREENS;
             Utility.updateAssetLoading();
-            bar.setValue(100 - (totalNumAssetsLeftToLoad/numAssets * 100));
+            progress = MathUtils.clamp(100 - (totalNumAssetsLeftToLoad/numAssets * 100), progress, 100);
+            bar.setValue(progress);
         }
         else if (!fontsLoaded) {
             Utility.setFonts();

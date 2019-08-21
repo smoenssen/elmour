@@ -245,7 +245,10 @@ public final class Utility {
 		ELMOUR_UI_SKIN.add("cursor", new Texture("graphics/black_rectangle.png"));
 	}
 
-	public static void loadMaps() {
+	public static void preLoadMaps() {
+		// just pre-load large maps here
+		//loadMapAsset(LostForest.mapPath);
+
 		loadMapAsset(Armory.mapPath);
 		loadMapAsset(Barren_Room.mapPath);
 		loadMapAsset(Castle.mapPath);
@@ -281,6 +284,7 @@ public final class Utility {
 		loadMapAsset(T1DOOR4.mapPath);
 		loadMapAsset(TarpingTown.mapPath);
 		loadMapAsset(WeaponsRoom.mapPath);
+
 	}
 
 	public static void unloadAsset(String assetFilenamePath){
@@ -326,7 +330,7 @@ public final class Utility {
 			_assetManager.setLoader(TiledMap.class, new TmxMapLoader(_filePathResolver));
 			_assetManager.load(mapFilenamePath, TiledMap.class);
 			//Until we add loading screen, just block until we load the map
-			//_assetManager.finishLoadingAsset(mapFilenamePath);
+			_assetManager.finishLoadingAsset(mapFilenamePath);
 			//Gdx.app.debug(TAG, "Map loaded!: " + mapFilenamePath);
 		}
 		else{
