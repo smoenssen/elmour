@@ -43,15 +43,15 @@ public class SplashScreen extends GameScreen {
         // srm - trying to get a progress bar working
 
         Skin skin = new Skin();
-        Pixmap pixmap = new Pixmap(10, 10, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(16, 16, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
 
-        float margin = 10;
+        float margin = 16;
         progressBarWidth = stage.getWidth() - (2 * margin);
 
-        TextureRegionDrawable textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("controllers/menuButton.png"))));
+        TextureRegionDrawable textureBar = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("graphics/progress_bar.png"))));
         ProgressBar.ProgressBarStyle barStyle = new ProgressBar.ProgressBarStyle(skin.newDrawable("white", Color.DARK_GRAY), textureBar);
         barStyle.knobBefore = barStyle.knob;
         bar = new ProgressBar(0, 100, 10, false, barStyle);
@@ -64,7 +64,7 @@ public class SplashScreen extends GameScreen {
         start = Utility.getStartTime();
 
         Utility.loadFonts();
-        numAssets = (float)Utility.numberAssetsQueued();
+        numAssets = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_SCREENS;
 
         Gdx.app.log("TAG", "Loaded fonts in " + Utility.getElapsedTime(start) + " ms");
 
@@ -83,6 +83,7 @@ public class SplashScreen extends GameScreen {
 
     long start = 0;
     boolean fontsLoaded = false;
+    boolean screensLoaded = false;
     float numAssets = 0;
 
     @Override
@@ -102,7 +103,7 @@ public class SplashScreen extends GameScreen {
             splashShowing = false;
         }
 
-        float numAssetsInQueue = (float)Utility.numberAssetsQueued();
+        float numAssetsInQueue = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_SCREENS;
         if (Utility.numberAssetsQueued() > 0) {
             Utility.updateAssetLoading();
             float progress = 100 - (numAssetsInQueue/numAssets * 100);
@@ -110,7 +111,7 @@ public class SplashScreen extends GameScreen {
             bar.setValue(progress);
         }
         else if (!fontsLoaded) {
-            bar.setValue(100);
+            //bar.setValue(100);
 
             Gdx.app.log("TAG", "Finished loading fonts in " + Utility.getElapsedTime(start) + " ms");
 
@@ -129,6 +130,14 @@ public class SplashScreen extends GameScreen {
             //game.setScreen(game.getScreenType(ElmourGame.ScreenType.StartScreen));
 
             fontsLoaded = true;
+        }
+        else if (!screensLoaded) {
+            if (game.loadNextScreen() > 0) {
+
+            }
+            else {
+                screensLoaded = true;
+            }
         }
 
         stage.act(delta);

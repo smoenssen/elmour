@@ -49,6 +49,8 @@ public class ElmourGame extends Game {
 	public BattleState battleState = null;
 	public StatusUI statusUI;
 
+	private int numScreensLoaded = 0;
+
 	private static SplashScreen splashScreen;
 	private static StartScreen startScreen;
 	private static MainGameScreen _mainGameScreen;
@@ -112,8 +114,6 @@ public class ElmourGame extends Game {
 
 	@Override
 	public void create(){
-		Utility.initializeElmourUISkin();
-
 		/*
 		Application.LOG_NONE: mutes all logging.
 		Application.LOG_DEBUG: logs all messages.
@@ -149,8 +149,8 @@ public class ElmourGame extends Game {
 
 		if (DEV_MODE) {
 			Utility.parseAllConversationXMLFiles("RPGGame/maps/Game/Text");
+			//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 		}
-		//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 
 		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
 		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
@@ -185,10 +185,55 @@ public class ElmourGame extends Game {
 		//questGraphTest.main(null);
 	}
 
+	public final static int NUM_SCREENS = 12;
+
+	public int loadNextScreen() {
+		//TODO: When adding new screens make sure to update NUM_SCREENS
+		switch(numScreensLoaded++) {
+			case 0:
+				statusUI = new StatusUI();
+				break;
+			case 1:
+				battleState = new BattleState(this);
+				break;
+			case 2:
+				startScreen = new StartScreen(this);
+				break;
+			case 3:
+				_mainGameScreen = new MainGameScreen(this, true);
+				break;
+			case 4:
+				_gameOverScreen = new GameOverScreen(this);
+				break;
+			case 5:
+				_creditScreen = new CreditScreen(this);
+				break;
+			case 6:
+				battleScreen = new BattleScreen(this);
+				break;
+			case 7:
+				Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
+				break;
+			case 8:
+				Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
+				break;
+			case 9:
+				Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
+				break;
+			case 10:
+				quest1 = new Quest1(this, _mainGameScreen._playerHUD);
+				break;
+			case 11:
+				cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
+				break;
+		}
+
+		return NUM_SCREENS - numScreensLoaded;
+	}
+
 	public void loadScreens() {
 		statusUI = new StatusUI();
 		battleState = new BattleState(this);
-
 
 		startScreen = new StartScreen(this);
 		_mainGameScreen = new MainGameScreen(this, true);
