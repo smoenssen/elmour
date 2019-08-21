@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Elmour extends Map {
     private static final String TAG = Elmour.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Elmour.tmx";
+    public static String mapPath = "RPGGame/maps/Elmour.tmx";
 
     Elmour(){
         super(MapFactory.MapType.ELMOUR, mapPath);

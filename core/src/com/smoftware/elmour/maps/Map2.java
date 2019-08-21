@@ -14,7 +14,7 @@ public class Map2 extends Map {
 
     private static final String TAG = Map2.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Map_2.tmx";
+    public static String mapPath = "RPGGame/maps/Map_2.tmx";
     private boolean switchEnabled;
 
     Map2(){

@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class DesertTemple extends Map {
     private static final String TAG = DesertTemple.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Desert_Temple.tmx";
+    public static String mapPath = "RPGGame/maps/Desert_Temple.tmx";
 
     DesertTemple(){
         super(MapFactory.MapType.DESERT_TEMPLE, mapPath);

@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class GrassTemple extends Map {
     private static final String TAG = GrassTemple.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Grass_Temple.tmx";
+    public static String mapPath = "RPGGame/maps/Grass_Temple.tmx";
     private Json json;
 
     GrassTemple(){

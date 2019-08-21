@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class GrassBattle extends Map {
     private static final String TAG = GrassBattle.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Battle/Grass_Battle.tmx";
+    public static String mapPath = "RPGGame/maps/Battle/Grass_Battle.tmx";
     private Json json;
 
     GrassBattle(){

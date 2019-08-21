@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class TownMap extends Map{
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
-    private static String mapPath = "maps/town.tmx";
+    public static String mapPath = "maps/town.tmx";
     private Json json;
 
     TownMap(){

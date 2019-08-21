@@ -32,6 +32,41 @@ import com.smoftware.elmour.UI.dialog.ConversationGraph;
 import com.smoftware.elmour.UI.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.UI.dialog.ConversationNode;
 import com.smoftware.elmour.entities.EntityConfig;
+import com.smoftware.elmour.maps.Armory;
+import com.smoftware.elmour.maps.Barren_Room;
+import com.smoftware.elmour.maps.Castle;
+import com.smoftware.elmour.maps.Compass;
+import com.smoftware.elmour.maps.Courtyard;
+import com.smoftware.elmour.maps.DesertTemple;
+import com.smoftware.elmour.maps.Elmour;
+import com.smoftware.elmour.maps.GrassBattle;
+import com.smoftware.elmour.maps.GrassTemple;
+import com.smoftware.elmour.maps.Inn;
+import com.smoftware.elmour.maps.Jerbadia;
+import com.smoftware.elmour.maps.LostForest;
+import com.smoftware.elmour.maps.LostForestA;
+import com.smoftware.elmour.maps.LostForestB;
+import com.smoftware.elmour.maps.LostForestC;
+import com.smoftware.elmour.maps.M6_Cave;
+import com.smoftware.elmour.maps.M6_Cave_A;
+import com.smoftware.elmour.maps.M6_Cave_B;
+import com.smoftware.elmour.maps.Map1;
+import com.smoftware.elmour.maps.Map10;
+import com.smoftware.elmour.maps.Map11;
+import com.smoftware.elmour.maps.Map14;
+import com.smoftware.elmour.maps.Map2;
+import com.smoftware.elmour.maps.Map3;
+import com.smoftware.elmour.maps.Map4;
+import com.smoftware.elmour.maps.Map5;
+import com.smoftware.elmour.maps.Map6;
+import com.smoftware.elmour.maps.Map7;
+import com.smoftware.elmour.maps.Map8;
+import com.smoftware.elmour.maps.Map9;
+import com.smoftware.elmour.maps.Portal_Room;
+import com.smoftware.elmour.maps.Shnarfulapogus;
+import com.smoftware.elmour.maps.T1DOOR4;
+import com.smoftware.elmour.maps.TarpingTown;
+import com.smoftware.elmour.maps.WeaponsRoom;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.quest.QuestDependency;
 import com.smoftware.elmour.quest.QuestGraph;
@@ -83,21 +118,12 @@ public final class Utility {
 
 		//NOTE!!! if elmour_ui.json is generated again, then need to replace instances of default-font with myFont:
 		//	font: myFont
-		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 
-		//int myFontSize;
-
-		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/SFPixelate.ttf"));
-		//FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/9_px.ttf"));
-		//FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		int myFontSize = 18;
 
 		// LARGE TEXT
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontParams.fontFileName = "fonts/9_px.ttf";
-		myFontParams.fontParameters.size = 18;
-		myFontParams.fontParameters.color = Color.DARK_GRAY;
-		myFontParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
-		_assetManager.load("myFont.ttf", BitmapFont.class, myFontParams);
+		_assetManager.load("myFont.ttf", BitmapFont.class,
+				createFont(myFontSize, Color.DARK_GRAY, Color.LIGHT_GRAY, 1, 1));
 
 		//NOTE: apply the filter if softer font is desired
 		//fontSign.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -110,14 +136,8 @@ public final class Utility {
 			myFontSmallSize = 18;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontSmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontSmallParams.fontFileName = "fonts/9_px.ttf";
-		myFontSmallParams.fontParameters.size = myFontSmallSize;
-		myFontSmallParams.fontParameters.color = Color.DARK_GRAY;
-		myFontSmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
-		myFontSmallParams.fontParameters.shadowOffsetX = 1;
-		myFontSmallParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontSmall.ttf", BitmapFont.class, myFontSmallParams);
+		_assetManager.load("myFontSmall.ttf", BitmapFont.class,
+				createFont(myFontSmallSize, Color.DARK_GRAY, Color.LIGHT_GRAY, 1, 1));
 
 		// VERY SMALL TEXT
 		if (ElmourGame.isAndroid()) {
@@ -127,14 +147,8 @@ public final class Utility {
 			myFontVerySmallSize = 15;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontVerySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontVerySmallParams.fontFileName = "fonts/9_px.ttf";
-		myFontVerySmallParams.fontParameters.size = myFontVerySmallSize;
-		myFontVerySmallParams.fontParameters.color = Color.DARK_GRAY;
-		myFontVerySmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
-		myFontVerySmallParams.fontParameters.shadowOffsetX = 1;
-		myFontVerySmallParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontVerySmall.ttf", BitmapFont.class, myFontVerySmallParams);
+		_assetManager.load("myFontVerySmall.ttf", BitmapFont.class,
+				createFont(myFontVerySmallSize, Color.DARK_GRAY, Color.LIGHT_GRAY, 1, 1));
 
 		// SUPER SMALL TEXT
 		if (ElmourGame.isAndroid()) {
@@ -144,18 +158,8 @@ public final class Utility {
 			myFontSuperSmallSize = 9;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontSuperSmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontSuperSmallParams.fontFileName = "fonts/9_px.ttf";
-		myFontSuperSmallParams.fontParameters.size = myFontSuperSmallSize;
-		myFontSuperSmallParams.fontParameters.color = Color.DARK_GRAY;
-		myFontSuperSmallParams.fontParameters.shadowColor = Color.LIGHT_GRAY;
-		myFontSuperSmallParams.fontParameters.shadowOffsetX = 1;
-		myFontSuperSmallParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontSuperSmall.ttf", BitmapFont.class, myFontSuperSmallParams);
-
-		//fontSuperSmall.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-		int myFontSize;
+		_assetManager.load("myFontSuperSmall.ttf", BitmapFont.class,
+				createFont(myFontSuperSmallSize, Color.DARK_GRAY, Color.LIGHT_GRAY, 1, 1));
 
 		// RED TEXT
 		if (ElmourGame.isAndroid()) {
@@ -165,34 +169,16 @@ public final class Utility {
 			myFontSize = 20;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontRedParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontRedParams.fontFileName = "fonts/9_px.ttf";
-		myFontRedParams.fontParameters.size = myFontSize;
-		myFontRedParams.fontParameters.color = Color.RED;
-		myFontRedParams.fontParameters.shadowColor = Color.BLACK;
-		myFontRedParams.fontParameters.shadowOffsetX = 1;
-		myFontRedParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontRed.ttf", BitmapFont.class, myFontRedParams);
+		_assetManager.load("myFontRed.ttf", BitmapFont.class,
+				createFont(myFontSize, Color.RED, Color.BLACK, 1, 1));
 
 		// GRAY TEXT SMALL
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontGraySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontGraySmallParams.fontFileName = "fonts/9_px.ttf";
-		myFontGraySmallParams.fontParameters.size = myFontSmallSize;
-		myFontGraySmallParams.fontParameters.color = new Color(0x909090ff);
-		myFontGraySmallParams.fontParameters.shadowColor = Color.BLACK;
-		myFontGraySmallParams.fontParameters.shadowOffsetX = 1;
-		myFontGraySmallParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontGraySmall.ttf", BitmapFont.class, myFontGraySmallParams);
+		_assetManager.load("myFontGraySmall.ttf", BitmapFont.class,
+				createFont(myFontSmallSize, new Color(0x909090ff), Color.BLACK, 1, 1));
 
 		// GRAY TEXT VERY SMALL
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontGrayVerySmallParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontGrayVerySmallParams.fontFileName = "fonts/9_px.ttf";
-		myFontGrayVerySmallParams.fontParameters.size = myFontVerySmallSize;
-		myFontGrayVerySmallParams.fontParameters.color = new Color(0x909090ff);
-		myFontGrayVerySmallParams.fontParameters.shadowColor = Color.WHITE;
-		myFontGrayVerySmallParams.fontParameters.shadowOffsetX = 1;
-		myFontGrayVerySmallParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontGrayVerySmall.ttf", BitmapFont.class, myFontGrayVerySmallParams);
+		_assetManager.load("myFontGrayVerySmall.ttf", BitmapFont.class,
+				createFont(myFontVerySmallSize, new Color(0x909090ff), Color.WHITE, 1, 1));
 
 		// CHAPTER TITLE TEXT
 		if (ElmourGame.isAndroid()) {
@@ -202,14 +188,8 @@ public final class Utility {
 			myFontSize = 64;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontChapterTitleParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontChapterTitleParams.fontFileName = "fonts/9_px.ttf";
-		myFontChapterTitleParams.fontParameters.size = myFontSize;
-		myFontChapterTitleParams.fontParameters.color = Color.WHITE;
-		myFontChapterTitleParams.fontParameters.shadowColor = Color.BLACK;
-		myFontChapterTitleParams.fontParameters.shadowOffsetX = 1;
-		myFontChapterTitleParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontChapterTitle.ttf", BitmapFont.class, myFontChapterTitleParams);
+		_assetManager.load("myFontChapterTitle.ttf", BitmapFont.class,
+				createFont(myFontSize, Color.WHITE, Color.BLACK, 1, 1));
 
 		// CHAPTER TITLE SUBTEXT
 		if (ElmourGame.isAndroid()) {
@@ -219,14 +199,19 @@ public final class Utility {
 			myFontSize = 36;
 		}
 
-		FreetypeFontLoader.FreeTypeFontLoaderParameter myFontChapterTitleSubtextParams = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-		myFontChapterTitleSubtextParams.fontFileName = "fonts/9_px.ttf";
-		myFontChapterTitleSubtextParams.fontParameters.size = myFontSize;
-		myFontChapterTitleSubtextParams.fontParameters.color = Color.GRAY;
-		myFontChapterTitleSubtextParams.fontParameters.shadowColor = Color.BLACK;
-		myFontChapterTitleSubtextParams.fontParameters.shadowOffsetX = 1;
-		myFontChapterTitleSubtextParams.fontParameters.shadowOffsetY = 1;
-		_assetManager.load("myFontChapterTitleSubtext.ttf", BitmapFont.class, myFontChapterTitleSubtextParams);
+		_assetManager.load("myFontChapterTitleSubtext.ttf", BitmapFont.class,
+				createFont(myFontSize, Color.GRAY, Color.BLACK, 1, 1));
+	}
+
+	private static FreetypeFontLoader.FreeTypeFontLoaderParameter createFont(int size, Color color, Color shadowColor, int shadowOffsetX, int shaodowOffsetY) {
+		FreetypeFontLoader.FreeTypeFontLoaderParameter font = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+		font.fontFileName = "fonts/9_px.ttf";
+		font.fontParameters.size = size;
+		font.fontParameters.color = color;
+		font.fontParameters.shadowColor = shadowColor;
+		font.fontParameters.shadowOffsetX = shadowOffsetX;
+		font.fontParameters.shadowOffsetY = shaodowOffsetY;
+		return font;
 	}
 
 	public static void setFonts() {
@@ -242,9 +227,8 @@ public final class Utility {
 	}
 
 	public static void initializeElmourUISkin() {
+		//Need to initialize skin before using it because of customized TT myFont that is used in .json
 		ELMOUR_UI_SKIN = new Skin();
-
-		//generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		ELMOUR_UI_SKIN.add("myFont", fontSign, BitmapFont.class);
 		ELMOUR_UI_SKIN.add("myFontSmall", fontSmall, BitmapFont.class);
@@ -259,6 +243,44 @@ public final class Utility {
 		ELMOUR_UI_SKIN.load(Gdx.files.internal(ELMOUR_SKIN_PATH));
 
 		ELMOUR_UI_SKIN.add("cursor", new Texture("graphics/black_rectangle.png"));
+	}
+
+	public static void loadMaps() {
+		loadMapAsset(Armory.mapPath);
+		loadMapAsset(Barren_Room.mapPath);
+		loadMapAsset(Castle.mapPath);
+		loadMapAsset(Compass.mapPath);
+		loadMapAsset(Courtyard.mapPath);
+		loadMapAsset(DesertTemple.mapPath);
+		loadMapAsset(Elmour.mapPath);
+		loadMapAsset(GrassBattle.mapPath);
+		loadMapAsset(GrassTemple.mapPath);
+		loadMapAsset(Inn.mapPath);
+		loadMapAsset(Jerbadia.mapPath);
+		loadMapAsset(LostForest.mapPath);
+		loadMapAsset(LostForestA.mapPath);
+		loadMapAsset(LostForestB.mapPath);
+		loadMapAsset(LostForestC.mapPath);
+		loadMapAsset(M6_Cave.mapPath);
+		loadMapAsset(M6_Cave_A.mapPath);
+		loadMapAsset(M6_Cave_B.mapPath);
+		loadMapAsset(Map1.mapPath);
+		loadMapAsset(Map2.mapPath);
+		loadMapAsset(Map3.mapPath);
+		loadMapAsset(Map4.mapPath);
+		loadMapAsset(Map5.mapPath);
+		loadMapAsset(Map6.mapPath);
+		loadMapAsset(Map7.mapPath);
+		loadMapAsset(Map8.mapPath);
+		loadMapAsset(Map9.mapPath);
+		loadMapAsset(Map10.mapPath);
+		loadMapAsset(Map11.mapPath);
+		loadMapAsset(Map14.mapPath);
+		loadMapAsset(Portal_Room.mapPath);
+		loadMapAsset(Shnarfulapogus.mapPath);
+		loadMapAsset(T1DOOR4.mapPath);
+		loadMapAsset(TarpingTown.mapPath);
+		loadMapAsset(WeaponsRoom.mapPath);
 	}
 
 	public static void unloadAsset(String assetFilenamePath){
@@ -304,8 +326,8 @@ public final class Utility {
 			_assetManager.setLoader(TiledMap.class, new TmxMapLoader(_filePathResolver));
 			_assetManager.load(mapFilenamePath, TiledMap.class);
 			//Until we add loading screen, just block until we load the map
-			_assetManager.finishLoadingAsset(mapFilenamePath);
-			Gdx.app.debug(TAG, "Map loaded!: " + mapFilenamePath);
+			//_assetManager.finishLoadingAsset(mapFilenamePath);
+			//Gdx.app.debug(TAG, "Map loaded!: " + mapFilenamePath);
 		}
 		else{
 			Gdx.app.debug(TAG, "Map doesn't exist!: " + mapFilenamePath );

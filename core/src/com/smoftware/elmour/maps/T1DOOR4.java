@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class T1DOOR4 extends Map {
     private static final String TAG = T1DOOR4.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Buildings/T1DOOR4.tmx";
+    public static String mapPath = "RPGGame/maps/Buildings/T1DOOR4.tmx";
 
     T1DOOR4(){
         super(MapFactory.MapType.T1DOOR4, mapPath);

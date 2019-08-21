@@ -95,10 +95,18 @@ public class StartScreen  extends GameScreen {
         stage.addActor(effect);
 
         if (ElmourGame.DEV_MODE) {
-            menuItemY -= menuItemHeight + 10;
-            chapterButton.setWidth(menuItemWidth);
-            chapterButton.setHeight(menuItemHeight);
-            chapterButton.setPosition(menuItemX, menuItemY);
+            if (ElmourGame.isAndroid()) {
+                menuItemX = newGameButton.getX() + newGameButton.getWidth() + 10;
+                chapterButton.setWidth(menuItemWidth);
+                chapterButton.setHeight(menuItemHeight);
+                chapterButton.setPosition(menuItemX, menuItemY);
+            }
+            else {
+                menuItemY -= menuItemHeight + 10;
+                chapterButton.setWidth(menuItemWidth);
+                chapterButton.setHeight(menuItemHeight);
+                chapterButton.setPosition(menuItemX, menuItemY);
+            }
             stage.addActor(chapterButton);
         }
 

@@ -210,7 +210,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
     private ElmourGame _game;
     private InputMultiplexer _multiplexer;
 
-    private Entity _player;
     private BattleHUD battleHUD;
     private BattleControls battleControls;
 
@@ -328,7 +327,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             controllersCam.setToOrtho(false, VIEWPORT.viewportWidth, VIEWPORT.viewportHeight);
             battleControls = new BattleControls(controllersCam);
 
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
@@ -340,7 +338,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             _multiplexer.addProcessor(_stage);
             Gdx.input.setInputProcessor(_multiplexer);
         } else {
-            _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
             _hudCamera = new OrthographicCamera();
             _hudCamera.setToOrtho(false, BattleScreen.VIEWPORT.viewportWidth, BattleScreen.VIEWPORT.viewportHeight);
 
@@ -357,8 +354,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
             Gdx.input.setInputProcessor(_multiplexer);
         }
 
-        //todo: I don't think _player is needed in the BattleScreen.
-        //_mapMgr.setPlayer(_player);
         _mapMgr.setCamera(_camera);
 
         party1 = new AnimatedImage();
@@ -2416,11 +2411,6 @@ public class BattleScreen extends MainGameScreen implements BattleObserver {
 
     @Override
     public void dispose() {
-        //if( _player != null ){
-        //    _player.unregisterObservers();
-        //    _player.dispose();
-        //}
-
         if( _mapRenderer != null ){
             _mapRenderer.dispose();
         }

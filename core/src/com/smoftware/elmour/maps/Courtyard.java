@@ -15,7 +15,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Courtyard extends Map {
     private static final String TAG = Courtyard.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Courtyard.tmx";
+    public static String mapPath = "RPGGame/maps/Courtyard.tmx";
 
     Courtyard(){
         super(MapFactory.MapType.COURTYARD, mapPath);

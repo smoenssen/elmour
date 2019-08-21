@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Shnarfulapogus extends Map {
     private static final String TAG = Shnarfulapogus.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Shnarfulapogus.tmx";
+    public static String mapPath = "RPGGame/maps/Shnarfulapogus.tmx";
     private Json json;
 
     Shnarfulapogus(){

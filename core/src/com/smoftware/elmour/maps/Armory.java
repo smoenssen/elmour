@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Armory extends Map {
     private static final String TAG = Armory.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Armory.tmx";
+    public static String mapPath = "RPGGame/maps/Armory.tmx";
 
     Armory(){
         super(MapFactory.MapType.ARMORY, mapPath);

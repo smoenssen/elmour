@@ -12,7 +12,7 @@ public class Map3 extends Map {
 
     private static final String TAG = Map3.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Map_3.tmx";
+    public static String mapPath = "RPGGame/maps/Map_3.tmx";
     private Json json;
 
     Map3(){

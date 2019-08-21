@@ -40,6 +40,8 @@ public class ElmourGame extends Game {
 	public static int V_HEIGHT;
 	public static float ASPECT_RATIO;
 
+	public final static int NUM_PRELOAD_SCREENS = 7;
+
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
 	//public static boolean isAndroid() { return true; }
 	public static boolean DEV_MODE = true;
@@ -82,36 +84,6 @@ public class ElmourGame extends Game {
 		Credits
 	}
 
-	public Screen getScreenType(ScreenType screenType){
-		switch(screenType){
-			case BattleScreen:
-				return battleScreen;
-			case SplashScreen:
-				return splashScreen;
-			case StartScreen:
-				return startScreen;
-			case MainGame:
-				return _mainGameScreen;
-			case Chapter1Screen:
-				return Chapter1;
-			case Chapter2Screen:
-				return Chapter2;
-			case Chapter3Screen:
-				return Chapter3;
-			case Quest1Screen:
-				return quest1;
-			case CloningQuestScreen:
-				return cloningQuest;
-			case GameOver:
-				return _gameOverScreen;
-			case Credits:
-				return _creditScreen;
-			default:
-				return startScreen;
-		}
-
-	}
-
 	@Override
 	public void create(){
 		/*
@@ -152,43 +124,10 @@ public class ElmourGame extends Game {
 			//Utility.parseConversationXMLFile("n18", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.graphml", "RPGGame/maps/Game/Text/Dialog/Chapter_2_P2.json");
 		}
 
-		// Uncomment the following line for cut scenes. This is needed for previous save profile info.
-		//ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
-		//setScreen(Chapter1);
-		//setScreen(Chapter2);
-
 		setScreen(splashScreen);
-
-		/*//////////////////////////////////////
-		//For testing to go right to game screen //srm
-		FileHandle file = ProfileManager.getInstance().getProfileFile("steve");
-		if (file != null) {
-			ProfileManager.getInstance().setCurrentProfile("steve");
-			//LoadGameScreen.this.notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_TITLE);
-			setScreen(getScreenType(ElmourGame.ScreenType.MainGame));
-		}
-		////////////////*/
-		/*
-		Json json = new Json();
-		Array<KeyItem> array = new Array<>();
-		KeyItem keyItem = new KeyItem();
-		keyItem.id = KeyItem.ID.TEDDY_BEAR;
-		keyItem.category = KeyItem.Category.QUEST;
-		keyItem.name = "Teddy Bear";
-		keyItem.summary = "Used for reassurance";
-		keyItem.imagePath = "graphics/tedd_bear.png";
-		array.add(keyItem);
-		String output = json.prettyPrint(json.toJson(array));
-		Gdx.app.log("TAG", output);
-		*/
-		//QuestGraphTest questGraphTest = new QuestGraphTest();
-		//questGraphTest.main(null);
 	}
 
-	public final static int NUM_SCREENS = 12;
-
-	public int loadNextScreen() {
-		//TODO: When adding new screens make sure to update NUM_SCREENS
+	public int preLoadNextScreen() {
 		switch(numScreensLoaded++) {
 			case 0:
 				statusUI = new StatusUI();
@@ -211,41 +150,54 @@ public class ElmourGame extends Game {
 			case 6:
 				battleScreen = new BattleScreen(this);
 				break;
-			case 7:
-				Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
-				break;
-			case 8:
-				Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
-				break;
-			case 9:
-				Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
-				break;
-			case 10:
-				quest1 = new Quest1(this, _mainGameScreen._playerHUD);
-				break;
-			case 11:
-				cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
-				break;
 		}
 
-		return NUM_SCREENS - numScreensLoaded;
+		return NUM_PRELOAD_SCREENS - numScreensLoaded;
 	}
 
-	public void loadScreens() {
-		statusUI = new StatusUI();
-		battleState = new BattleState(this);
+	public Screen getScreenType(ScreenType screenType){
+		switch(screenType){
+			case BattleScreen:
+				return battleScreen;
+			case SplashScreen:
+				return splashScreen;
+			case StartScreen:
+				return startScreen;
+			case MainGame:
+				return _mainGameScreen;
+			case GameOver:
+				return _gameOverScreen;
+			case Credits:
+				return _creditScreen;
+			case Chapter1Screen:
+				if (Chapter1 == null) {
+					Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
+				}
+				return Chapter1;
+			case Chapter2Screen:
+				if (Chapter2 == null) {
+					Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
+				}
+				return Chapter2;
+			case Chapter3Screen:
+				if (Chapter3 == null) {
+					Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
+				}
+				return Chapter3;
+			case Quest1Screen:
+				if (quest1 == null) {
+					quest1 = new Quest1(this, _mainGameScreen._playerHUD);
+				}
+				return quest1;
+			case CloningQuestScreen:
+				if (cloningQuest == null) {
+					cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
+				}
+				return cloningQuest;
+			default:
+				return startScreen;
+		}
 
-		startScreen = new StartScreen(this);
-		_mainGameScreen = new MainGameScreen(this, true);
-		_gameOverScreen = new GameOverScreen(this);
-		_creditScreen = new CreditScreen(this);
-		battleScreen = new BattleScreen(this);
-		Chapter1 = new Chapter1(this, _mainGameScreen._playerHUD);
-		Chapter2 = new Chapter2(this, _mainGameScreen._playerHUD);
-		Chapter3 = new Chapter3(this, _mainGameScreen._playerHUD);
-
-		quest1 = new Quest1(this, _mainGameScreen._playerHUD);
-		cloningQuest = new CloningQuest(this, _mainGameScreen._playerHUD);
 	}
 
 	public void setChapterScreen(final int chapterNum) {
@@ -301,11 +253,12 @@ public class ElmourGame extends Game {
 		_gameOverScreen.dispose();
 		_creditScreen.dispose();
 		battleScreen.dispose();
-		Chapter1.dispose();
-		Chapter2.dispose();
-		Chapter3.dispose();
-		quest1.dispose();
-		cloningQuest.dispose();
+
+		if (Chapter1 != null) Chapter1.dispose();
+		if (Chapter2 != null) Chapter2.dispose();
+		if (Chapter3 != null) Chapter3.dispose();
+		if (quest1 != null) quest1.dispose();
+		if (cloningQuest != null) cloningQuest.dispose();
 	}
 
 }

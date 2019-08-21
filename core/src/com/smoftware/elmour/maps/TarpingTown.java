@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class TarpingTown extends Map {
     private static final String TAG = TarpingTown.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Tarping_Town.tmx";
+    public static String mapPath = "RPGGame/maps/Tarping_Town.tmx";
     private Json json;
 
     TarpingTown(){

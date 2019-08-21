@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Jerbadia extends Map {
     private static final String TAG = Jerbadia.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Jerbadia.tmx";
+    public static String mapPath = "RPGGame/maps/Jerbadia.tmx";
     private Json json;
 
     Jerbadia(){

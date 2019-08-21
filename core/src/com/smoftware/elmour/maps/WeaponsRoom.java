@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class WeaponsRoom extends Map {
     private static final String TAG = WeaponsRoom.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Weapons_Room.tmx";
+    public static String mapPath = "RPGGame/maps/Weapons_Room.tmx";
     private Json json;
 
     WeaponsRoom(){

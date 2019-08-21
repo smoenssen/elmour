@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Portal_Room extends Map {
     private static final String TAG = Portal_Room.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Castle/Portal_Room.tmx";
+    public static String mapPath = "RPGGame/maps/Castle/Portal_Room.tmx";
     private Json json;
 
     Portal_Room(){

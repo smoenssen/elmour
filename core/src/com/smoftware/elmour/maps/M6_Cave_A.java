@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class M6_Cave_A extends Map {
     private static final String TAG = M6_Cave_A.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Caves/M6_Cave_A.tmx";
+    public static String mapPath = "RPGGame/maps/Caves/M6_Cave_A.tmx";
     private Json json;
 
     M6_Cave_A(){

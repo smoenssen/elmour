@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Compass extends Map {
     private static final String TAG = Compass.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Compass.tmx";
+    public static String mapPath = "RPGGame/maps/Compass.tmx";
     private Json json;
 
     Compass(){

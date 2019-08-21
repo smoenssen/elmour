@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Barren_Room extends Map {
     private static final String TAG = Barren_Room.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Castle/Barren_Room.tmx";
+    public static String mapPath = "RPGGame/maps/Castle/Barren_Room.tmx";
     private Json json;
 
     Barren_Room(){

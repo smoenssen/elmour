@@ -14,7 +14,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class Map10 extends Map {
     private static final String TAG = Map10.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Map_10.tmx";
+    public static String mapPath = "RPGGame/maps/Map_10.tmx";
     private Json json;
 
     Map10(){

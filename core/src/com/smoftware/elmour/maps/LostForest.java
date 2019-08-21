@@ -11,7 +11,7 @@ import com.smoftware.elmour.audio.AudioObserver;
 public class LostForest extends Map {
     private static final String TAG = LostForest.class.getSimpleName();
 
-    private static String mapPath = "RPGGame/maps/Lost_Forest.tmx";
+    public static String mapPath = "RPGGame/maps/Lost_Forest.tmx";
 
     LostForest(){
         super(MapFactory.MapType.LOST_FOREST, mapPath);
