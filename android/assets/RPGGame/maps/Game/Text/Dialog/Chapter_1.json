@@ -777,7 +777,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n114
 			destinationId: n111
-			choicePhrase: You mean I could^ve just left as soon as I \ncame?
+			choicePhrase: You mean I could^ve just left as soon as I \r\ncame?
 		}
 	]
 	n113: [
@@ -1197,7 +1197,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n72
 			destinationId: n40
-			choicePhrase: "I^ve only just arrived, and I^ve been attacked\nby your guards twice."
+			choicePhrase: "I^ve only just arrived, and I^ve been attacked\r\nby your guards twice."
 		}
 	]
 	n71: [
@@ -1615,7 +1615,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n37
 			destinationId: n40
-			choicePhrase: "I^ve only just arrived, and I^ve been attacked\nby your guards twice."
+			choicePhrase: "I^ve only just arrived, and I^ve been attacked\r\nby your guards twice."
 		}
 	]
 	n36: [
@@ -1639,7 +1639,7 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n34
 			destinationId: n37
-			choicePhrase: "Speaking of which, is there anyway that I can\nget off these lands?"
+			choicePhrase: "Speaking of which, is there anyway that I can\r\nget off these lands?"
 		}
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice

@@ -34,7 +34,7 @@ public class SplashScreen extends GameScreen {
     private boolean fontsLoaded = false;
     private boolean screensLoaded = false;
     private boolean doneWithSplashScreen = false;
-    private float numAssets;
+    private float numPreLoadedAssets;
 
     public SplashScreen(ElmourGame game) {
         this.game = game;
@@ -58,12 +58,13 @@ public class SplashScreen extends GameScreen {
         bar.setPosition(margin, margin);
         bar.setSize(progressBarWidth, bar.getPrefHeight());
 
-        Utility.loadFonts();
-        Utility.loadMaps();
-        numAssets = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_PRELOAD_SCREENS;
-        Gdx.app.log("TAG", "numAssets = " + numAssets);
+        Utility.preLoadFonts();
+        Utility.preLoadMaps();
+        //Utility.preLoadSounds();  //todo
+        numPreLoadedAssets = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_PRELOAD_SCREENS;
+        Gdx.app.log("TAG", "numPreLoadedAssets = " + numPreLoadedAssets);
 
-        Image title = new Image(new Texture("graphics/black_rectangle.png"));
+        Image title = new Image(new Texture("graphics/Elmour.png"));
         title.setPosition((stage.getWidth() - title.getWidth()) / 2, stage.getHeight() / 2);
 
         Image smoftware = new Image(new Texture("graphics/smoftware.png"));
@@ -102,8 +103,10 @@ public class SplashScreen extends GameScreen {
         if (Utility.numberAssetsQueued() > 0) {
             float totalNumAssetsLeftToLoad = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_PRELOAD_SCREENS;
             Utility.updateAssetLoading();
-            progress = MathUtils.clamp(100 - (totalNumAssetsLeftToLoad/numAssets * 100), progress, 100);
+            //progress = MathUtils.clamp(100 - (totalNumAssetsLeftToLoad/numPreLoadedAssets * 100), progress, 100);
+            progress = 100 - (totalNumAssetsLeftToLoad/numPreLoadedAssets * 100);
             bar.setValue(progress);
+            Gdx.app.log("Loading Screen", "progress = " + progress);
         }
         else if (!fontsLoaded) {
             Utility.setFonts();
@@ -113,7 +116,7 @@ public class SplashScreen extends GameScreen {
         else if (!screensLoaded) {
             int numScreensLeftToLoad = game.preLoadNextScreen();
             if (numScreensLeftToLoad > 0) {
-                bar.setValue(100 - (numScreensLeftToLoad/numAssets * 100));
+                bar.setValue(100 - (numScreensLeftToLoad/numPreLoadedAssets * 100));
             }
             else {
                 bar.setValue(100);

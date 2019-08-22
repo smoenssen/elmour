@@ -31,6 +31,7 @@ import com.smoftware.elmour.UI.dialog.ConversationChoice;
 import com.smoftware.elmour.UI.dialog.ConversationGraph;
 import com.smoftware.elmour.UI.dialog.ConversationGraphObserver;
 import com.smoftware.elmour.UI.dialog.ConversationNode;
+import com.smoftware.elmour.audio.AudioObserver;
 import com.smoftware.elmour.entities.EntityConfig;
 import com.smoftware.elmour.maps.Armory;
 import com.smoftware.elmour.maps.Barren_Room;
@@ -111,7 +112,7 @@ public final class Utility {
 	private static BitmapFont fontChapterTitle;
 	private static BitmapFont fontChapterTitleSubtext;
 
-	public static void loadFonts() {
+	public static void preLoadFonts() {
 		FileHandleResolver resolver = new InternalFileHandleResolver();
 		_assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		_assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
@@ -247,8 +248,8 @@ public final class Utility {
 
 	public static void preLoadMaps() {
 		// just pre-load large maps here
-		//loadMapAsset(LostForest.mapPath);
-
+		loadMapAsset(LostForest.mapPath);
+/*
 		loadMapAsset(Armory.mapPath);
 		loadMapAsset(Barren_Room.mapPath);
 		loadMapAsset(Castle.mapPath);
@@ -284,7 +285,13 @@ public final class Utility {
 		loadMapAsset(T1DOOR4.mapPath);
 		loadMapAsset(TarpingTown.mapPath);
 		loadMapAsset(WeaponsRoom.mapPath);
+*/
+	}
 
+	public static void preLoadSounds() {
+		for (AudioObserver.AudioTypeEvent sound : AudioObserver.AudioTypeEvent.values()) {
+			loadSoundAsset(sound.getValue());
+		}
 	}
 
 	public static void unloadAsset(String assetFilenamePath){
@@ -366,7 +373,7 @@ public final class Utility {
 			_assetManager.setLoader(Sound.class, new SoundLoader(_filePathResolver));
 			_assetManager.load(soundFilenamePath, Sound.class);
 			//Until we add loading screen, just block until we load the map
-			_assetManager.finishLoadingAsset(soundFilenamePath);
+			//_assetManager.finishLoadingAsset(soundFilenamePath);
 			Gdx.app.debug(TAG, "Sound loaded!: " + soundFilenamePath);
 		}
 		else{
