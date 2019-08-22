@@ -501,7 +501,12 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void registerMapObserver(MapObserver observer) {
-        _currentMap.addObserver(observer);
+        if (_currentMap == null) {
+            Gdx.app.error(TAG, "_currentMap is null!");
+        }
+        else {
+            _currentMap.addObserver(observer);
+        }
     }
 
     public void unregisterMapObserver(MapObserver observer) {

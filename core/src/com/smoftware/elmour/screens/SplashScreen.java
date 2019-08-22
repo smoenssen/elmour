@@ -86,12 +86,12 @@ public class SplashScreen extends GameScreen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // delay used for amount of time to show splash screen after screens are loaded
+        // delay used for amount of time to show splash screen after assets are loaded
         if (screensLoaded) {
             delayTime += delta;
         }
 
-        if (screensLoaded && delayTime > 0.750f) {
+        if (screensLoaded && delayTime > 0.25f) {
             // Uncomment the following lines to go right to cut scenes. This is needed for previous save profile info.
             //ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
             //game.setScreen(game.getScreenType(ElmourGame.ScreenType.Chapter1Screen));
@@ -100,10 +100,9 @@ public class SplashScreen extends GameScreen {
             doneWithSplashScreen = true;
         }
 
-        if (Utility.numberAssetsQueued() > 0) {
+        if (!fontsLoaded && Utility.numberAssetsQueued() > 0) {
             float totalNumAssetsLeftToLoad = (float)Utility.numberAssetsQueued() + ElmourGame.NUM_PRELOAD_SCREENS;
             Utility.updateAssetLoading();
-            //progress = MathUtils.clamp(100 - (totalNumAssetsLeftToLoad/numPreLoadedAssets * 100), progress, 100);
             progress = 100 - (totalNumAssetsLeftToLoad/numPreLoadedAssets * 100);
             bar.setValue(progress);
             Gdx.app.log("Loading Screen", "progress = " + progress);
@@ -116,7 +115,9 @@ public class SplashScreen extends GameScreen {
         else if (!screensLoaded) {
             int numScreensLeftToLoad = game.preLoadNextScreen();
             if (numScreensLeftToLoad > 0) {
-                bar.setValue(100 - (numScreensLeftToLoad/numPreLoadedAssets * 100));
+                progress = 100 - (numScreensLeftToLoad/numPreLoadedAssets * 100);
+                bar.setValue(progress);
+                Gdx.app.log("Loading Screen", "progress = " + progress);
             }
             else {
                 bar.setValue(100);
