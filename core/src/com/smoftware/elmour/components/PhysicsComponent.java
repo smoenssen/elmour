@@ -19,8 +19,9 @@ import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.profile.ProfileObserver;
 
-public abstract class PhysicsComponent extends ComponentSubject implements Component{
+public abstract class PhysicsComponent extends ComponentSubject implements Component, ProfileObserver{
     private static final String TAG = PhysicsComponent.class.getSimpleName();
 
     public abstract void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta);
@@ -42,6 +43,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
     protected boolean isNPC;
     protected boolean isConversationInProgress;
     protected static boolean isHiddenItemBeingShown;
+    protected static boolean isGameSaving;
     private boolean noClipping;
 
     protected Array<Entity> _tempEntities;
@@ -76,6 +78,7 @@ public abstract class PhysicsComponent extends ComponentSubject implements Compo
         isNPC = false;
         isConversationInProgress = false;
         isHiddenItemBeingShown = false;
+        isGameSaving = false;
         noClipping = false;
 
         this._boundingBox = new Rectangle();

@@ -2,6 +2,8 @@ package com.smoftware.elmour.components;
 
 import com.badlogic.gdx.math.Vector2;
 import com.smoftware.elmour.entities.Entity;
+import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.profile.ProfileObserver;
 
 public class NPCPhysicsComponent extends PhysicsComponent {
     private static final String TAG = NPCPhysicsComponent.class.getSimpleName();
@@ -19,6 +21,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
         //initBoundingBoxes(0.4f, 0.15f);
         initBoundingBoxes();
         isNPC = true;
+        ProfileManager.getInstance().addObserver(this);
     }
 
     @Override
@@ -85,7 +88,7 @@ public class NPCPhysicsComponent extends PhysicsComponent {
             entity.sendMessage(MESSAGE.CURRENT_DIRECTION, _json.toJson(_currentDirection));
             //Gdx.app.log(TAG, "current direction = " + _currentDirection.toString());
         }
-        else {
+        else if (!isGameSaving) { // don't move while game is saving
             if (!isCollisionWithMapLayer(entity, mapMgr) &&
                     !isCollisionWithMapEntities(entity, mapMgr) &&
                     (_state == Entity.State.WALKING || _state == Entity.State.RUNNING)) {
@@ -131,5 +134,17 @@ public class NPCPhysicsComponent extends PhysicsComponent {
         }
 
         return false;
+    }
+
+    @Override
+    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+        switch (event) {
+            case SAVING_PROFILE:
+                isGameSaving = true;
+                break;
+            case SAVED_PROFILE:
+                isGameSaving = false;
+                break;
+        }
     }
 }

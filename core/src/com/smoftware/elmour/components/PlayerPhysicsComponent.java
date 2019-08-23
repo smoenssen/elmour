@@ -17,6 +17,7 @@ import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.profile.ProfileManager;
+import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.screens.CutSceneManager;
 
 public class PlayerPhysicsComponent extends PhysicsComponent {
@@ -66,6 +67,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         _previousEnemySpawn = "0";
 
         _mouseSelectCoordinates = new Vector3(0,0,0);
+
+        ProfileManager.getInstance().addObserver(this);
     }
 
     @Override
@@ -555,8 +558,8 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private void updatePosition(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         // Don't allow movement if conversation is in progress
         // NOTE: this is just a fail safe: this function should never get called during a conversation
-        // Also don't allow movement if a hidden item is being shown
-        if (!isConversationInProgress && !isHiddenItemBeingShown) {
+        // Also don't allow movement if a hidden item is being shown or if game is being saved
+        if (!isConversationInProgress && !isHiddenItemBeingShown && !isGameSaving) {
             setNextPositionToCurrent(entity, delta);
 
             Camera camera = mapMgr.getCamera();
@@ -852,5 +855,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onNotify(ProfileManager profileManager, ProfileEvent event) {
+        switch (event) {
+            case SAVING_PROFILE:
+                isGameSaving = true;
+                break;
+            case SAVED_PROFILE:
+                isGameSaving = false;
+                break;
+        }
     }
 }
