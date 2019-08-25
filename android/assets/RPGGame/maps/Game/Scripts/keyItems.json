@@ -13,14 +13,46 @@
 	category: NON_QUEST
 	name: Emerald
 	summary: The first of the five Gems.
-	imagePath: "RPGGame/maps/Game/Icons/Gems/Emerald.png"
+	imagePath: ""
 }
 {
 	class: com.smoftware.elmour.inventory.KeyItem
 	id: TEDDY_BEAR
 	category: QUEST
 	name: Teddy Bear
-	summary: Timmy's favorite teddy bear
+	summary: The first of the five Gems.
 	imagePath: "graphics/teddy_bear.png"
+}
+{
+	class: com.smoftware.elmour.inventory.KeyItem
+	id: CTRL_KEY
+	category: QUEST
+	name: Computer Key
+	summary: The control key for Rick's keyboard.
+	imagePath: "RPGGame/maps/Game/Icons/Quest_Items/Button_1.png"
+}
+{
+	class: com.smoftware.elmour.inventory.KeyItem
+	id: ALT_KEY
+	category: QUEST
+	name: Computer Key
+	summary: The alt key for Rick's keyboard.
+	imagePath: "RPGGame/maps/Game/Icons/Quest_Items/Button_2.png"
+}
+{
+	class: com.smoftware.elmour.inventory.KeyItem
+	id: DEL_KEY
+	category: QUEST
+	name: Computer Key
+	summary: The delete key for Rick's keyboard.
+	imagePath: "RPGGame/maps/Game/Icons/Quest_Items/Button_3.png"
+}
+{
+	class: com.smoftware.elmour.inventory.KeyItem
+	id: MYSTERY_POUCH
+	category: QUEST
+	name: Mysterious Pouch
+	summary: It's probably what Jaxon was looking for... better not open it.
+	imagePath: "RPGGame/maps/Game/Icons/Quest_Items/Mystery_Pouch.png"
 }
 ]

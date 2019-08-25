@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="51">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="10" tilewidth="16" tileheight="16" nextobjectid="52">
  <tileset firstgid="1" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
  </tileset>
@@ -12,10 +12,10 @@
  <tileset firstgid="9" name="Wooden_Wall" tilewidth="16" tileheight="16" tilecount="3" columns="1">
   <image source="Game/Tiles/Inside/Wooden_Wall/Wooden_Wall.png" width="16" height="48"/>
  </tileset>
- <tileset firstgid="12" name="Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
-  <image source="Game/Tiles/Inside/Border.png" width="16" height="32"/>
+ <tileset firstgid="12" name="Border" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Border.png" width="32" height="32"/>
  </tileset>
- <tileset firstgid="14" name="Steel_Door" tilewidth="16" tileheight="16" tilecount="5" columns="5">
+ <tileset firstgid="16" name="Steel_Door" tilewidth="16" tileheight="16" tilecount="5" columns="5">
   <image source="Game/Tiles/Inside/Steel_Door/Steel_Door.png" width="80" height="16"/>
  </tileset>
  <layer name="Tile Layer 1" width="9" height="10">
@@ -29,13 +29,13 @@
 12,2,2,2,2,2,2,2,2147483660,
 12,2,2,2,2,2,2,2,2147483660,
 12,2,2,2,2,2,2,2,2147483660,
-1610612749,1610612748,1610612748,1610612748,1610612748,1610612748,1610612748,1610612748,3221225485
+1610612750,1610612748,1610612748,1610612748,1610612748,1610612748,1610612748,1610612748,3221225486
 </data>
  </layer>
  <layer name="Higher" width="9" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,14,0,
+0,0,0,0,0,0,0,16,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
@@ -113,11 +113,14 @@
   <object id="48" name="PLAYER_START_TTJAXON_DECLINE" x="64" y="80" width="16" height="16"/>
   <object id="50" name="PLAYER_START_TTJAXON1" x="32" y="32" width="16" height="15"/>
  </objectgroup>
+ <objectgroup name="PORTAL_LAYER">
+  <object id="51" name="MAP1" x="96" y="64" width="16" height="16"/>
+ </objectgroup>
  <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="36" name="EXIT" x="64" y="138" width="16" height="6"/>
   <object id="37" name="WEAPONS_ROOM" x="112" y="32" width="16" height="8"/>
-  <object id="41" name="Jaxon_1" x="56" y="63" width="16" height="9"/>
+  <object id="41" name="Jaxon" x="56" y="63" width="16" height="9"/>
   <object id="42" name="Justin" x="72" y="63" width="16" height="9"/>
  </objectgroup>
  <objectgroup name="QUEST_LAYER"/>

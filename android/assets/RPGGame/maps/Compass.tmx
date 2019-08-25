@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="31" height="31" tilewidth="16" tileheight="16" nextobjectid="70">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="31" height="31" tilewidth="16" tileheight="16" nextobjectid="71">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -300,6 +300,15 @@
   <object id="67" name="ZSHADOWDOWN" x="224" y="6" width="48" height="16"/>
   <object id="68" name="ZSHADOWDOWN" x="6" y="224" width="16" height="48"/>
   <object id="69" name="ZSHADOWDOWN" x="224" y="474" width="48" height="16"/>
+ </objectgroup>
+ <objectgroup name="HIDDEN_ITEMS_LAYER">
+  <object id="70" name="HIDDEN_ITEM" x="64" y="64" width="16" height="16">
+   <properties>
+    <property name="id" value="MYSTERY_POUCH"/>
+    <property name="taskID" value="CloningMaterials::GetMaterials1"/>
+    <property name="text" value="You found a mysterious pouch."/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="64" name="COMPASSSIGN1" x="303" y="192" width="18" height="8"/>

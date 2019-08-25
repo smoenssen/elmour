@@ -11,9 +11,11 @@ public class KeyItem {
     }
 
     public enum ID {
-        EMERALD,
-        GRASS_TEMPLE_KEY,
-        TEDDY_BEAR,
+        //Non Quest
+        EMERALD, GRASS_TEMPLE_KEY,
+        //Quest
+        TEDDY_BEAR, CTRL_KEY, ALT_KEY, DEL_KEY, MYSTERY_POUCH,
+
         NONE
     }
 

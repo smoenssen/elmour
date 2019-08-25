@@ -18,7 +18,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 						FindButton3: {
@@ -28,7 +28,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 						FindButton2: {
@@ -38,7 +38,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 					}

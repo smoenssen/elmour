@@ -472,7 +472,7 @@
           </data>
           <graph edgedefault="directed" id="n2::n4:">
             <node id="n2::n4::n0">
-              <data key="d4"><![CDATA[Find a Missing Button]]></data>
+              <data key="d4"><![CDATA[Find a Computer Key]]></data>
               <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
@@ -491,7 +491,7 @@
               </data>
             </node>
             <node id="n2::n4::n1">
-              <data key="d4"><![CDATA[Find a Missing Button]]></data>
+              <data key="d4"><![CDATA[Find a Computer Key]]></data>
               <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
@@ -510,7 +510,7 @@
               </data>
             </node>
             <node id="n2::n4::n2">
-              <data key="d4"><![CDATA[Find a Missing Button]]></data>
+              <data key="d4"><![CDATA[Find a Computer Key]]></data>
               <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
@@ -637,7 +637,6 @@
       </data>
     </edge>
     <edge id="n2::n2::e2" source="n2::n2::n3" target="n2::n2::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -648,7 +647,6 @@
       </data>
     </edge>
     <edge id="n2::e3" source="n2::n1" target="n2::n2">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="-18.811767578125"/>
