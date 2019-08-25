@@ -16,6 +16,9 @@ import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityConfig;
 import com.smoftware.elmour.entities.EntityFactory;
+import com.smoftware.elmour.inventory.KeyItem;
+import com.smoftware.elmour.inventory.PartyKeyItem;
+import com.smoftware.elmour.inventory.PartyKeys;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.audio.AudioManager;
 import com.smoftware.elmour.audio.AudioObserver;
@@ -377,6 +380,7 @@ public abstract class Map extends MapSubject implements AudioSubject{
         for( MapObject object: hiddenItemsLayer.getObjects()){
             String name = object.getName();
             String taskID = (String)object.getProperties().get("taskID");
+            String id = (String)object.getProperties().get("id");
 
             object.setVisible(false);
 
@@ -398,6 +402,14 @@ public abstract class Map extends MapSubject implements AudioSubject{
                     continue;
                 }
                 else if (questTask.isTaskComplete() || !questGraph.isTaskVisible(questTask)) {
+                    continue;
+                }
+            }
+            else if (id != null) {
+                // Don't add item if non-quest item is already in inventory
+                KeyItem.ID keyItemId = KeyItem.ID.valueOf(id);
+                PartyKeyItem keyItem = PartyKeys.getInstance().getItemById(keyItemId);
+                if (keyItem != null) {
                     continue;
                 }
             }

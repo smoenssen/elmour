@@ -117,6 +117,7 @@ public class PopUp extends Window implements PopUpSubject {
 						this.setVisible(true);
 						isActive = true;
 						state = State.LISTENING;
+						lastConversationIdNotified = "";
 						startInteractionThread();
 					}
 					break;
@@ -357,6 +358,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 	public void endConversation() {
 		isActive = false;
+		lastConversationIdNotified = "";
 	}
 
 	private void startInteractionThread() {

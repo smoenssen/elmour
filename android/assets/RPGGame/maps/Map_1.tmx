@@ -736,21 +736,6 @@
 45,46,43,44,45,46,43,44,0,0,0,0,0,0,43,44,45,46,43,44,45,46,43,44,45,46,43,44,45,46,43,44,45,46,43,44,45,46,43,44
 </data>
  </layer>
- <objectgroup name="HIDDEN_ITEMS_LAYER">
-  <object id="590" name="HIDDEN_ITEM" x="159" y="816" width="16" height="16">
-   <properties>
-    <property name="id" value="TEDDY_BEAR"/>
-    <property name="taskID" value="TeddyBear::FindTeddyBear"/>
-    <property name="text" value="You found Timmy's teddy bear!"/>
-   </properties>
-  </object>
-  <object id="591" name="HIDDEN_ITEM" x="208" y="832" width="16" height="16">
-   <properties>
-    <property name="id" value="EMERALD"/>
-    <property name="text" value="You found the Emerald!"/>
-   </properties>
-  </object>
- </objectgroup>
  <objectgroup name="COLLISION_LAYER">
   <object id="29" x="0" y="780" width="136" height="180"/>
   <object id="39" x="224" y="780" width="88" height="20"/>
@@ -830,6 +815,21 @@
    <properties>
     <property name="chapters" value="1-5"/>
     <property name="taskIDs" value="TeddyBear::ReturnTeddyBear"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="HIDDEN_ITEMS_LAYER">
+  <object id="590" name="HIDDEN_ITEM" x="159" y="816" width="16" height="16">
+   <properties>
+    <property name="id" value="TEDDY_BEAR"/>
+    <property name="taskID" value="TeddyBear::FindTeddyBear"/>
+    <property name="text" value="You found Timmy's teddy bear!"/>
+   </properties>
+  </object>
+  <object id="591" name="HIDDEN_ITEM" x="208" y="832" width="16" height="16">
+   <properties>
+    <property name="id" value="EMERALD"/>
+    <property name="text" value="You found the Emerald!"/>
    </properties>
   </object>
  </objectgroup>

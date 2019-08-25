@@ -335,8 +335,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                     TiledMapTileLayer layer = (TiledMapTileLayer)mapLayer;
 
                     // don't render the layer if it's not visible
-                    if (layer.isVisible())
+                    if (layer.isVisible()) {
                         _mapRenderer.renderTileLayer(layer);
+                    }
 
                     // render the character's shadow on the Z tile layer that matches the shadow's current Z layer.
                     // need to make sure the next player position is not colliding since the shadow is rendered before the player.
@@ -348,6 +349,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                                _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta, _player.getNextPosition());
 
                             shadowUpdated = true;
+
+                            // Also render special map entities on the shadow's current Z layer
+                            _mapRenderer.getBatch().end();
+                            _mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
+                            _mapRenderer.getBatch().begin();
                         }
                     }
 
@@ -371,7 +377,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             }
 
             _mapRenderer.getBatch().end();
-            _mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
+
             _mapMgr.updateCurrentMapEffects(_mapMgr, _mapRenderer.getBatch(), delta);
         }
 

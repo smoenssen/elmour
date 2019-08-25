@@ -79,6 +79,10 @@ public class PartyKeys extends PartyKeysSubject {
         return _list.get(keyItem.id);
     }
 
+    public PartyKeyItem getItemById(KeyItem.ID id) {
+        return _list.get(id);
+    }
+
     public void addItem(KeyItem keyItem, int quantity, boolean notify) {
         // add item to list if it doesn't exist, otherwise update the quantity
         PartyKeyItem listItem = _list.get(keyItem.id);

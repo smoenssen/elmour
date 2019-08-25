@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.devtools.GotoMapListener;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.components.Component;
@@ -158,6 +159,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton adjustSpellsPowersButton;
     private TextButton adjustStatsButton;
     private AdjustStatsUI adjustStatsUI;
+    private TextButton gotoMapButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -192,7 +194,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
-    public PlayerHUD(final ElmourGame game, Camera camera, final Entity player, MapManager mapMgr) {
+    public PlayerHUD(final ElmourGame game, Camera camera, final Entity player, final MapManager mapMgr) {
         this.game = game;
         _camera = camera;
         _player = player;
@@ -352,6 +354,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
         adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
         adjustStatsButton = new TextButton("Adjust Stats", Utility.ELMOUR_UI_SKIN);
+        gotoMapButton = new TextButton("Go to map", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -418,6 +421,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         debugButton.setHeight(menuItemHeight);
         debugButton.setPosition(menuItemX, menuItemY);
         debugButton.setVisible(false);
+
+        gotoMapButton.setWidth(menuItemWidth);
+        gotoMapButton.setHeight(menuItemHeight);
+        gotoMapButton.setPosition(menuItemX, menuItemY);
+        gotoMapButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -562,6 +570,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(adjustInventoryButton);
             _stage.addActor(adjustSpellsPowersButton);
             _stage.addActor(adjustStatsButton);
+            _stage.addActor(gotoMapButton);
         }
 
         //_battleUI.validate();
@@ -822,6 +831,25 @@ public class PlayerHUD implements Screen, AudioSubject,
                                    }
         );
 
+        gotoMapButton.addListener(new ClickListener() {
+
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                          if (touchPointIsInButton(gotoMapButton)) {
+                                              hideDebugMenu();
+
+                                              GotoMapListener listener = new GotoMapListener(_stage, mapMgr);
+                                              Gdx.input.getTextInput(listener, "Enter Map Name", "", "");
+                                          }
+                                      }
+                                  }
+        );
+
         //Music/Sound loading
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -880,6 +908,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustInventoryButton.setVisible(false);
         adjustSpellsPowersButton.setVisible(false);
         adjustStatsButton.setVisible(false);
+        gotoMapButton.setVisible(false);
         debugMenuIsVisible = false;
         notify(PlayerHudObserver.PlayerHudEvent.HIDING_MENU, "");
     }
@@ -890,7 +919,9 @@ public class PlayerHUD implements Screen, AudioSubject,
         questsButton.setVisible(true);
         optionsButton.setVisible(true);
         saveButton.setVisible(true);
-        debugButton.setVisible(true);
+        if (ElmourGame.DEV_MODE) {
+            debugButton.setVisible(true);
+        }
         notify(PlayerHudObserver.PlayerHudEvent.SHOWING_MENU, "");
 
         // don't set visible flag to true here, it's done in the touchUp handler of the menu button
@@ -902,6 +933,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustInventoryButton.setVisible(true);
         adjustSpellsPowersButton.setVisible(true);
         adjustStatsButton.setVisible(true);
+        gotoMapButton.setVisible(true);
         debugMenuIsVisible = true;
         notify(PlayerHudObserver.PlayerHudEvent.SHOWING_MENU, "");
     }
@@ -1232,7 +1264,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _mapMgr.registerCurrentMapEntityObservers(this);
     }
 
-    public void updateMapQuestStatus() {
+    public void updateMapHiddenItemStatus() {
         _mapMgr.refreshMapHiddenItemEntities();
     }
 
@@ -1426,13 +1458,13 @@ public class PlayerHUD implements Screen, AudioSubject,
     public void setQuestTaskStarted(String questID, String questTaskID) {
         questHUD.setQuestTaskStarted(questID, questTaskID);
         updateEntityObservers();
-        updateMapQuestStatus();
+        updateMapHiddenItemStatus();
     }
 
     public void setQuestTaskComplete(String questID, String questTaskID) {
         questHUD.setQuestTaskComplete(questID, questTaskID);
         updateEntityObservers();
-        updateMapQuestStatus();
+        updateMapHiddenItemStatus();
     }
 
     @Override
@@ -1594,12 +1626,18 @@ public class PlayerHUD implements Screen, AudioSubject,
                 signPopUp.interact(false);
 
                 if (hiddenItemAlreadyShown) {
-                    updateMapQuestStatus();
+                    if (signPopUp.isDoneWithCurrentNode()) {
+                        // now hidden item can be removed from map
+                        updateMapHiddenItemStatus();
+                    }
 
                     if (!hiddenItemAlreadyHidden) {
                         hiddenItemGroup.addAction(Actions.sizeBy(0, -hiddenItemGroupHeight, hiddenItemGroupDropTime));
                         hiddenItemGroup.addAction(Actions.moveBy(0, hiddenItemGroupHeight, hiddenItemGroupDropTime));
                         hiddenItemAlreadyHidden = true;
+                    } else {
+                        // now hidden item can be removed from map
+                        updateMapHiddenItemStatus();
                     }
                 }
                 else {
@@ -1823,7 +1861,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             questGraph.setQuestStatus(QuestGraph.QuestStatus.IN_PROGRESS);
             questGraph.setTimestamp(TimeUtils.millis());
             updateEntityObservers();
-            updateMapQuestStatus();
+            updateMapHiddenItemStatus();
         }
     }
 
@@ -1851,7 +1889,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                     config.setCurrentQuestID(questGraph.getQuestID());
                     ProfileManager.getInstance().setProperty(config.getEntityID(), config);
                     updateEntityObservers();
-                    updateMapQuestStatus();
+                    updateMapHiddenItemStatus();
                 }
 
                 _mapMgr.clearCurrentSelectedMapEntity();

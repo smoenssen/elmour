@@ -2,11 +2,13 @@ package com.smoftware.elmour.UI.huds;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -151,6 +153,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private WidgetGroup graphicGroup;
     private MyTextArea graphicBackground;
     private AnimatedImage backpack;
+    private Image graphicImage;
 
     // Persistence
     private TextButton lastSelectedConsumablesItem;
@@ -465,6 +468,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                         setLists(ButtonState.EQUIPMENT);
                                         enableAllButtons();
+                                        showBackpack();
                                     }
                                 }
         );
@@ -486,6 +490,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                             setLists(ButtonState.CONSUMABLES);
                                             enableAllButtons();
+                                            showBackpack();
                                         }
                                     }
         );
@@ -507,6 +512,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                             setLists(ButtonState.KEY_ITEMS);
                                             enableAllButtons();
+                                            showBackpack();
                                         }
                                     }
         );
@@ -638,7 +644,16 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
                                        }
                                        else if (buttonName.equals(BTN_NAME_INSPECT)) {
-
+                                           TextButton selectedItem = nonQuestListView.getSelected();
+                                           if (selectedItem == null) {
+                                               selectedItem = questListView.getSelected();
+                                           }
+                                           if (selectedItem != null) {
+                                               PartyKeyItem partyKeyItem = (PartyKeyItem)selectedItem.getUserObject();
+                                               KeyItem keyItem = partyKeyItem.getKeyItem();
+                                               backpack.remove();
+                                               setGraphicImage(keyItem.imagePath);
+                                           }
                                        }
                                        else if (buttonName.equals(BTN_NAME_OK)) {
                                            TextButton selectedCharacter = equipToListView.getSelected();
@@ -945,6 +960,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
         for (EntityFactory.EntityName entityName : partyList) {
             Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
+            entity.setBattleEntityType(Entity.BattleEntityType.PARTY);
             partyEntityList.add(entity);
         }
     }
@@ -959,6 +975,13 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
     private AnimatedImage getAnimatedImage(EntityFactory.EntityName entityName){
         Entity entity = EntityFactory.getInstance().getEntityByName(entityName);
         return setEntityAnimation(entity);
+    }
+
+    private void showBackpack() {
+        if (graphicImage != null) {
+            graphicImage.remove();
+        }
+        graphicGroup.addActor(backpack);
     }
 
     private void buttonCancel() {
@@ -1385,6 +1408,18 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         backpack.setSize(graphicBackground.getWidth() * 2/3, graphicBackground.getWidth() * 2/3);
     }
 
+    private void setGraphicImage(String imagePath) {
+        if (graphicImage != null) {
+            graphicImage.remove();
+        }
+        graphicImage = new Image(new Texture(imagePath));
+        graphicImage.setWidth(graphicBackground.getWidth() * 2/3);
+        graphicImage.setHeight(graphicBackground.getWidth() * 2/3);
+        graphicImage.setPosition((graphicBackground.getX() + (graphicBackground.getWidth() - graphicImage.getWidth())/2),
+                graphicBackground.getY() + (graphicBackground.getHeight() - graphicImage.getHeight())/2);
+        graphicGroup.addActor(graphicImage);
+    }
+
     @Override
     public void show() {
         // initial screen
@@ -1430,6 +1465,7 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
         descTable.remove();
         actionButtonTable.remove();
         graphicGroup.remove();
+        showBackpack();
         notify(InventoryHudObserver.InventoryHudEvent.INVENTORY_HUD_HIDDEN);
     }
 
@@ -1550,6 +1586,9 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
                     // load inventory from profile manager
                     String partyInventoryString = ProfileManager.getInstance().getProperty(PartyInventory.getInstance().PROPERTY_NAME, String.class);
                     PartyInventory.getInstance().setInventoryList(partyInventoryString);
+
+                    String partyKeysString = ProfileManager.getInstance().getProperty(PartyKeys.getInstance().PROPERTY_NAME, String.class);
+                    PartyKeys.getInstance().setKeysList(partyKeysString);
                 }
 
                 break;
@@ -1604,7 +1643,15 @@ public class InventoryHUD implements Screen, InventoryHudSubject, PartyInventory
 
     private void addListViewItem(MyTextButtonList<TextButton> list, ScrollPane scrollPane, PartyKeyItem partyKeyItem) {
         KeyItem keyItem = partyKeyItem.getKeyItem();
-        String description = String.format("%s (%d)", keyItem.name, partyKeyItem.getQuantity());
+        String description;
+
+        if (partyKeyItem.getQuantity() > 1) {
+            description = String.format("%s (%d)", keyItem.name, partyKeyItem.getQuantity());
+        }
+        else {
+            description = keyItem.name;
+        }
+
         TextButton button = new TextButton(description, Utility.ELMOUR_UI_SKIN, "tree_node");
         button.setUserObject(partyKeyItem);
 
