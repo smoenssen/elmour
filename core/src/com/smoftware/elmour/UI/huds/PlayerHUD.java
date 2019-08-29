@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.UI.devtools.GotoMapListener;
+import com.smoftware.elmour.UI.devtools.SaveFileListener;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.actions.MyActions;
 import com.smoftware.elmour.components.Component;
@@ -160,6 +161,7 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton adjustStatsButton;
     private AdjustStatsUI adjustStatsUI;
     private TextButton gotoMapButton;
+    private TextButton saveAsButton;
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -355,6 +357,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
         adjustStatsButton = new TextButton("Adjust Stats", Utility.ELMOUR_UI_SKIN);
         gotoMapButton = new TextButton("Go to map", Utility.ELMOUR_UI_SKIN);
+        saveAsButton = new TextButton("Save as...", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -426,6 +429,12 @@ public class PlayerHUD implements Screen, AudioSubject,
         gotoMapButton.setHeight(menuItemHeight);
         gotoMapButton.setPosition(menuItemX, menuItemY);
         gotoMapButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        saveAsButton.setWidth(menuItemWidth);
+        saveAsButton.setHeight(menuItemHeight);
+        saveAsButton.setPosition(menuItemX, menuItemY);
+        saveAsButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -571,6 +580,7 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(adjustSpellsPowersButton);
             _stage.addActor(adjustStatsButton);
             _stage.addActor(gotoMapButton);
+            _stage.addActor(saveAsButton);
         }
 
         //_battleUI.validate();
@@ -850,6 +860,25 @@ public class PlayerHUD implements Screen, AudioSubject,
                                   }
         );
 
+        saveAsButton.addListener(new ClickListener() {
+
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                          if (touchPointIsInButton(saveAsButton)) {
+                                              hideDebugMenu();
+
+                                              SaveFileListener listener = new SaveFileListener(game, _stage);
+                                              Gdx.input.getTextInput(listener, "Enter File Name", "", "");
+                                          }
+                                      }
+                                  }
+        );
+
         //Music/Sound loading
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_BATTLE);
         notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_LEVEL_UP_FANFARE);
@@ -909,6 +938,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustSpellsPowersButton.setVisible(false);
         adjustStatsButton.setVisible(false);
         gotoMapButton.setVisible(false);
+        saveAsButton.setVisible(false);
         debugMenuIsVisible = false;
         notify(PlayerHudObserver.PlayerHudEvent.HIDING_MENU, "");
     }
@@ -934,6 +964,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         adjustSpellsPowersButton.setVisible(true);
         adjustStatsButton.setVisible(true);
         gotoMapButton.setVisible(true);
+        saveAsButton.setVisible(true);
         debugMenuIsVisible = true;
         notify(PlayerHudObserver.PlayerHudEvent.SHOWING_MENU, "");
     }

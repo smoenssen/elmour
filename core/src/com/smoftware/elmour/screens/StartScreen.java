@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.devtools.LoadSavedFile;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityFactory;
@@ -42,7 +44,12 @@ public class StartScreen  extends GameScreen {
 
     private TextButton continueButton;
     private TextButton newGameButton;
+
+    // Debug
     private TextButton chapterButton;
+    private TextButton loadSaveFileButton;
+    private LoadSavedFile loadSavedFile;
+
 
     private Label message;
 
@@ -50,13 +57,18 @@ public class StartScreen  extends GameScreen {
 
     public StartScreen(final ElmourGame game) {
         this.game = game;
+        final StartScreen startScreen = this;
         camera = new OrthographicCamera();
         viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         stage = new Stage(viewport);
 
+        loadSavedFile = new LoadSavedFile(this.game, stage);
+
         //creation and layout
         continueButton = new TextButton("Continue", Utility.ELMOUR_UI_SKIN);
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
+
+        loadSaveFileButton = new TextButton("Load saved file", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
         Image title = new Image(new Texture("graphics/Elmour.png"));
@@ -80,8 +92,9 @@ public class StartScreen  extends GameScreen {
         continueButton.setHeight(menuItemHeight);
         continueButton.setPosition(menuItemX, menuItemY);
 
-        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE))
+        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
             continueButton.setVisible(false);
+        }
 
         menuItemY -= menuItemHeight + 10;
         newGameButton.setWidth(menuItemWidth);
@@ -95,18 +108,23 @@ public class StartScreen  extends GameScreen {
         stage.addActor(effect);
 
         if (ElmourGame.DEV_MODE) {
-            if (ElmourGame.isAndroid()) {
-                menuItemX = newGameButton.getX() + newGameButton.getWidth() + 10;
-                chapterButton.setWidth(menuItemWidth);
-                chapterButton.setHeight(menuItemHeight);
-                chapterButton.setPosition(menuItemX, menuItemY);
-            }
-            else {
-                menuItemY -= menuItemHeight + 10;
-                chapterButton.setWidth(menuItemWidth);
-                chapterButton.setHeight(menuItemHeight);
-                chapterButton.setPosition(menuItemX, menuItemY);
-            }
+            // Debug buttons
+            float menuPadding = 12;
+            menuItemWidth = stage.getWidth() / 3f;
+            menuItemHeight = MathUtils.clamp(stage.getHeight() / 7.5f, 0, 45);
+            menuItemX = stage.getWidth() - menuItemWidth - menuPadding;
+            menuItemY = stage.getHeight() - menuItemHeight - menuPadding;
+
+            loadSaveFileButton.setWidth(menuItemWidth);
+            loadSaveFileButton.setHeight(menuItemHeight);
+            loadSaveFileButton.setPosition(menuItemX, menuItemY);
+
+            menuItemY -= menuItemHeight - 2;
+            chapterButton.setWidth(menuItemWidth);
+            chapterButton.setHeight(menuItemHeight);
+            chapterButton.setPosition(menuItemX, menuItemY);
+
+            stage.addActor(loadSaveFileButton);
             stage.addActor(chapterButton);
         }
 
@@ -142,6 +160,20 @@ public class StartScreen  extends GameScreen {
                }
         );
 
+        loadSaveFileButton.addListener(new ClickListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                          loadSavedFile = new LoadSavedFile(game, stage);
+                                          loadSavedFile.requestInput(startScreen);
+                                      }
+                                  }
+        );
+
         chapterButton.addListener(new ClickListener() {
                                        @Override
                                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -155,6 +187,24 @@ public class StartScreen  extends GameScreen {
                                        }
                                    }
         );
+    }
+
+    public void continueGameFromSaveFile(String loadSavedFile) {
+        message.setText("Loading custom saved file...");
+        message.setVisible(true);
+
+        newGameButton.setVisible(false);
+        continueButton.setVisible(false);
+        chapterButton.setVisible(false);
+
+        ProfileManager.getInstance().setCurrentProfile(loadSavedFile);
+
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                game.setScreen(game.getScreenType(ElmourGame.ScreenType.MainGame));
+            }
+        });
     }
 
     private void continueGame() {

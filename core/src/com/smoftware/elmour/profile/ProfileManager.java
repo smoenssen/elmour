@@ -23,6 +23,7 @@ public class ProfileManager extends ProfileSubject {
     private static final String SAVEGAME_SUFFIX = ".sav";
     public static final String SAVED_GAME_PROFILE = "saved_game";
     public static final String NEW_GAME_PROFILE = "new_game";
+    public static String CUSTOM_PROFILE = "";
 
 
     private ProfileManager(){
@@ -126,6 +127,12 @@ public class ProfileManager extends ProfileSubject {
         saveThread(text);
     }
 
+    public void saveCustomProfile(String customProfileName) {
+        _profileName = customProfileName;
+        String text = _json.prettyPrint(_json.toJson(_profileProperties));
+        saveThread(text);
+    }
+
     private void saveThread(final String text) {
         Runnable r = new Runnable() {
             public void run() {
@@ -140,6 +147,11 @@ public class ProfileManager extends ProfileSubject {
 
     private void sendSavedNotification() {
         notify(this, ProfileObserver.ProfileEvent.SAVED_PROFILE);
+    }
+
+    public void loadProfile(String profileName) {
+        _profileName = profileName;
+        loadProfile();
     }
 
     public void loadProfile(){
