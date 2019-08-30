@@ -27,9 +27,14 @@ public class SaveFileListener implements Input.TextInputListener {
     }
 
     @Override
-    public void input(String text) {
-        Gdx.app.log(TAG, text);
-        ProfileManager.getInstance().saveCustomProfile(text);
+    public void input(final String text) {
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                // Needs to be on the main thread
+                ProfileManager.getInstance().saveCustomProfile(text);
+            }
+        });
     }
 
     @Override

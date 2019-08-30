@@ -128,6 +128,7 @@ public class ProfileManager extends ProfileSubject {
     }
 
     public void saveCustomProfile(String customProfileName) {
+        notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
         _profileName = customProfileName;
         String text = _json.prettyPrint(_json.toJson(_profileProperties));
         saveThread(text);

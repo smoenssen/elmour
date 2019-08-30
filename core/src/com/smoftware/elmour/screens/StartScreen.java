@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -19,6 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.UI.devtools.LoadSavedFile;
+import com.smoftware.elmour.UI.devtools.ManageSavedFiles;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityFactory;
@@ -46,10 +46,14 @@ public class StartScreen  extends GameScreen {
     private TextButton newGameButton;
 
     // Debug
+    private Image menuButton;
+    private Image menuButtonDown;
+    private boolean debugMenuIsVisible;
     private TextButton chapterButton;
     private TextButton loadSaveFileButton;
     private LoadSavedFile loadSavedFile;
-
+    private TextButton manageSavedFilesButton;
+    private ManageSavedFiles manageSavedFilesUI;
 
     private Label message;
 
@@ -68,6 +72,7 @@ public class StartScreen  extends GameScreen {
         continueButton = new TextButton("Continue", Utility.ELMOUR_UI_SKIN);
         newGameButton = new TextButton("New Game", Utility.ELMOUR_UI_SKIN);
 
+        manageSavedFilesButton = new TextButton("Manage saved files", Utility.ELMOUR_UI_SKIN);
         loadSaveFileButton = new TextButton("Load saved file", Utility.ELMOUR_UI_SKIN);
         chapterButton = new TextButton("Chapter", Utility.ELMOUR_UI_SKIN);
 
@@ -82,6 +87,18 @@ public class StartScreen  extends GameScreen {
         // Effect pool example: https://github.com/libgdx/libgdx/wiki/2D-ParticleEffects
         effect = new ParticleEffectActor(ParticleEffectFactory.getParticleEffect(ParticleEffectFactory.ParticleEffectType.CANDLE_FIRE,
                                 title.getX() + 75, title.getY() + title.getHeight() - 15));
+
+        debugMenuIsVisible = false;
+        float menuBtnWidth = 50;
+        float menuBtnHeight = 20;
+        menuButton = new Image(new Texture("controllers/menuButton.png"));
+        menuButton.setSize(menuBtnWidth, menuBtnHeight);
+        menuButton.setPosition(stage.getWidth() - menuBtnWidth - menuBtnHeight, menuBtnHeight);
+
+        menuButtonDown = new Image(new Texture("controllers/menuButton_down.png"));
+        menuButtonDown.setSize(menuBtnWidth, menuBtnHeight);
+        menuButtonDown.setPosition(stage.getWidth() - menuBtnWidth - menuBtnHeight, menuBtnHeight);
+        menuButtonDown.setVisible(false);
 
         float menuItemWidth = stage.getWidth() / 3f;
         float menuItemHeight = 45;
@@ -110,7 +127,7 @@ public class StartScreen  extends GameScreen {
         if (ElmourGame.DEV_MODE) {
             // Debug buttons
             float menuPadding = 12;
-            menuItemWidth = stage.getWidth() / 3f;
+            menuItemWidth = stage.getWidth() / 2.75f;
             menuItemHeight = MathUtils.clamp(stage.getHeight() / 7.5f, 0, 45);
             menuItemX = stage.getWidth() - menuItemWidth - menuPadding;
             menuItemY = stage.getHeight() - menuItemHeight - menuPadding;
@@ -118,14 +135,26 @@ public class StartScreen  extends GameScreen {
             loadSaveFileButton.setWidth(menuItemWidth);
             loadSaveFileButton.setHeight(menuItemHeight);
             loadSaveFileButton.setPosition(menuItemX, menuItemY);
+            loadSaveFileButton.setVisible(false);
+
+            menuItemY -= menuItemHeight - 2;
+            manageSavedFilesButton.setWidth(menuItemWidth);
+            manageSavedFilesButton.setHeight(menuItemHeight);
+            manageSavedFilesButton.setPosition(menuItemX, menuItemY);
+            manageSavedFilesButton.setVisible(false);
+            manageSavedFilesUI = new ManageSavedFiles(this.game, stage);
 
             menuItemY -= menuItemHeight - 2;
             chapterButton.setWidth(menuItemWidth);
             chapterButton.setHeight(menuItemHeight);
             chapterButton.setPosition(menuItemX, menuItemY);
+            chapterButton.setVisible(false);
 
             stage.addActor(loadSaveFileButton);
+            stage.addActor(manageSavedFilesButton);
             stage.addActor(chapterButton);
+            stage.addActor(menuButtonDown);
+            stage.addActor(menuButton);
         }
 
         //Listeners
@@ -160,6 +189,21 @@ public class StartScreen  extends GameScreen {
                }
         );
 
+        manageSavedFilesButton.addListener(new ClickListener() {
+                                           @Override
+                                           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                               return true;
+                                           }
+
+                                           @Override
+                                           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                               manageSavedFilesUI = new ManageSavedFiles(game, stage);
+                                               manageSavedFilesUI.show();
+                                               hideDebugMenu();
+                                           }
+                                       }
+        );
+
         loadSaveFileButton.addListener(new ClickListener() {
                                       @Override
                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -170,6 +214,7 @@ public class StartScreen  extends GameScreen {
                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                           loadSavedFile = new LoadSavedFile(game, stage);
                                           loadSavedFile.requestInput(startScreen);
+                                          hideDebugMenu();
                                       }
                                   }
         );
@@ -184,9 +229,45 @@ public class StartScreen  extends GameScreen {
                                        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                            ChapterInputListener listener = new ChapterInputListener(game, stage);
                                            Gdx.input.getTextInput(listener, "Enter Chapter Number", "", "");
+                                           hideDebugMenu();
                                        }
                                    }
         );
+
+        menuButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                menuButtonDown.setVisible(true);
+                menuButton.setVisible(false);
+
+                if (!debugMenuIsVisible)
+                    showDebugMenu();
+                else
+                    hideDebugMenu();
+
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                menuButtonDown.setVisible(false);
+                menuButton.setVisible(true);
+                debugMenuIsVisible = !debugMenuIsVisible;
+            }
+        });
+    }
+
+    private void showDebugMenu() {
+        loadSaveFileButton.setVisible(true);
+        manageSavedFilesButton.setVisible(true);
+        chapterButton.setVisible(true);
+    }
+
+    private void hideDebugMenu() {
+        loadSaveFileButton.setVisible(false);
+        manageSavedFilesButton.setVisible(false);
+        chapterButton.setVisible(false);
+        debugMenuIsVisible = false;
     }
 
     public void continueGameFromSaveFile(String loadSavedFile) {
@@ -195,7 +276,8 @@ public class StartScreen  extends GameScreen {
 
         newGameButton.setVisible(false);
         continueButton.setVisible(false);
-        chapterButton.setVisible(false);
+
+        hideDebugMenu();
 
         ProfileManager.getInstance().setCurrentProfile(loadSavedFile);
 
@@ -210,10 +292,9 @@ public class StartScreen  extends GameScreen {
     private void continueGame() {
         message.setText("Loading saved file...");
         message.setVisible(true);
-
         newGameButton.setVisible(false);
         continueButton.setVisible(false);
-        chapterButton.setVisible(false);
+        hideDebugMenu();
 
         ProfileManager.getInstance().setCurrentProfile(ProfileManager.SAVED_GAME_PROFILE);
 
@@ -228,10 +309,9 @@ public class StartScreen  extends GameScreen {
     private void startNewGame() {
         message.setText("Creating new game...");
         message.setVisible(true);
-
         newGameButton.setVisible(false);
         continueButton.setVisible(false);
-        chapterButton.setVisible(false);
+        hideDebugMenu();
 
         ProfileManager.getInstance().writeProfileToStorage(ProfileManager.NEW_GAME_PROFILE, "", false);
         ProfileManager.getInstance().setCurrentProfile(ProfileManager.NEW_GAME_PROFILE);
@@ -347,7 +427,7 @@ public class StartScreen  extends GameScreen {
     public void show() {
         newGameButton.setVisible(true);
         continueButton.setVisible(true);
-        chapterButton.setVisible(true);
+
         Gdx.input.setInputProcessor(stage);
 
         effect.getEffect().start();
