@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -127,6 +128,15 @@ public abstract class Map extends MapSubject implements AudioSubject{
     protected Array<Entity> mapHiddenItemEntities;
 
     protected Entity.Interaction interaction = Entity.Interaction.NONE;
+
+    class HiddenItemEntity {
+        Vector2 spawnPosition;
+        String mapLayerName;
+        public HiddenItemEntity(Vector2 spawnPosition, String mapLayerName) {
+            this.spawnPosition = spawnPosition;
+            this.mapLayerName = mapLayerName;
+        }
+    }
 
     Map( MapFactory.MapType mapType, String fullMapPath){
         json = new Json();
@@ -359,28 +369,29 @@ public abstract class Map extends MapSubject implements AudioSubject{
 
     protected void refreshMapHiddenItemEntities() {
         mapHiddenItemEntities.clear();
-        Array<Vector2> hiddenItemPositions = getHiddenItemSpawnPositions();
+        Array<HiddenItemEntity> hiddenItemEntities = getHiddenItemEntities();
 
-        if (hiddenItemPositions != null) {
-            for (Vector2 position : hiddenItemPositions) {
+        if (hiddenItemEntities != null) {
+            for (HiddenItemEntity hiddenItemEntity : hiddenItemEntities) {
+                Vector2 position = hiddenItemEntity.spawnPosition;
                 Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.HIDDEN_ITEM);
                 entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
                 entity.sendMessage(Component.MESSAGE.CURRENT_STATE, json.toJson(Entity.State.IMMOBILE));
+                entity.setMapLayerName(hiddenItemEntity.mapLayerName);
                 mapHiddenItemEntities.add(entity);
             }
         }
     }
 
-    public Array<Vector2> getHiddenItemSpawnPositions() {
+    public Array<HiddenItemEntity> getHiddenItemEntities() {
         if (hiddenItemsLayer == null) { return null; }
 
-        Array<MapObject> objects = new Array<MapObject>();
-        Array<Vector2> positions = new Array<Vector2>();
+        Array<HiddenItemEntity> hiddenItemEntities = new Array<>();
 
         for( MapObject object: hiddenItemsLayer.getObjects()){
-            String name = object.getName();
             String taskID = (String)object.getProperties().get("taskID");
             String id = (String)object.getProperties().get("id");
+            String mapLayerName = (String)object.getProperties().get("layer");
 
             object.setVisible(false);
 
@@ -424,9 +435,9 @@ public abstract class Map extends MapSubject implements AudioSubject{
             x *= UNIT_SCALE;
             y *= UNIT_SCALE;
 
-            positions.add(new Vector2(x,y));
+            hiddenItemEntities.add(new HiddenItemEntity(new Vector2(x,y), mapLayerName));
         }
-        return positions;
+        return hiddenItemEntities;
     }
 
     public Array<Entity> getMapEntities(){
@@ -483,8 +494,20 @@ public abstract class Map extends MapSubject implements AudioSubject{
         for( int i=0; i < _mapQuestEntities.size; i++){
             _mapQuestEntities.get(i).update(mapMgr, batch, delta);
         }
-        for( int i=0; i < mapHiddenItemEntities.size; i++){
-            mapHiddenItemEntities.get(i).update(mapMgr, batch, delta);
+    }
+
+    protected void updateMapHiddenItems(MapManager mapMgr, TiledMapTileLayer tiledMapTileLayer, Batch batch, float delta) {
+        for( MapObject object: hiddenItemsLayer.getObjects()) {
+            String mapLayerName = (String) object.getProperties().get("layer");
+
+            if (mapLayerName.equals(tiledMapTileLayer.getName())) {
+                for (int i = 0; i < mapHiddenItemEntities.size; i++) {
+                    Entity entity = mapHiddenItemEntities.get(i);
+                    if (entity.getMapLayerName().equals(mapLayerName)) {
+                        entity.update(mapMgr, batch, delta);
+                    }
+                }
+            }
         }
     }
 

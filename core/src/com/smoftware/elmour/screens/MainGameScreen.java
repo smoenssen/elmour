@@ -349,11 +349,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                                _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta, _player.getNextPosition());
 
                             shadowUpdated = true;
-
-                            // Also render special map entities on the shadow's current Z layer
-                            _mapRenderer.getBatch().end();
-                            _mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
-                            _mapRenderer.getBatch().begin();
                         }
                     }
 
@@ -373,6 +368,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                             }
                         }
                     }
+
+                    // Also render special map entities on the shadow's current Z layer
+                    _mapRenderer.getBatch().end();
+                    _mapMgr.updateCurrentMapHiddenItems(_mapMgr, layer, _mapRenderer.getBatch(), delta);
+                    _mapRenderer.getBatch().begin();
                 }
             }
 

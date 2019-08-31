@@ -944,6 +944,7 @@ public final class Utility {
 				// set choice phrase for this node
 				// replace special characters that need to be re-interpreted in ChoicePopUp
 				String temp = node.data.replace('\'', '^'); // single apostrophe
+				temp = fixWindowsLineReturns(temp);
 				choice.setChoicePhrase(temp);
 
 				// next node must be an NPC so get its id, otherwise throw exception

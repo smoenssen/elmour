@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -408,6 +409,10 @@ public class MapManager implements ProfileObserver, ComponentObserver {
 
     public void updateCurrentMapEntities(MapManager mapMgr, Batch batch, float delta){
         _currentMap.updateMapEntities(mapMgr, batch, delta);
+    }
+
+    public void updateCurrentMapHiddenItems(MapManager mapMgr, TiledMapTileLayer layer, Batch batch, float delta) {
+        _currentMap.updateMapHiddenItems(mapMgr, layer, batch, delta);
     }
 
     public void updateCurrentMapEffects(MapManager mapMgr, Batch batch, float delta){

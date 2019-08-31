@@ -1493,6 +1493,9 @@ public class PlayerHUD implements Screen, AudioSubject,
     }
 
     public void setQuestTaskComplete(String questID, String questTaskID) {
+        QuestGraph questGraph = questHUD.getQuestByID(questID);
+        questGraph.setQuestTaskComplete(questTaskID);
+
         questHUD.setQuestTaskComplete(questID, questTaskID);
         updateEntityObservers();
         updateMapHiddenItemStatus();
@@ -1996,9 +1999,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                     // need to strip off parameters that are delimited by semi-colons
                     String [] temp = questTaskID.split(";");
                     String [] quest = temp[0].split(QuestList.QUEST_DELIMITER);
+                    setQuestTaskComplete(quest[0], quest[1]);
+
                     QuestGraph questGraph = questHUD.getQuestByID(quest[0]);
                     QuestTask questTask = questGraph.getQuestTaskByID(quest[1]);
-                    questGraph.setQuestTaskComplete(quest[1]);
 
                     switch (questTask.getQuestTaskType()) {
                         case FETCH:

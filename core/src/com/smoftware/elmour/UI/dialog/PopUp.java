@@ -269,7 +269,7 @@ public class PopUp extends Window implements PopUpSubject {
 				}
 			}
 
-			if (!lastConversationIdNotified.equals(conversationID)) {
+			if (isActive && !lastConversationIdNotified.equals(conversationID)) {
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
 				lastConversationIdNotified = conversationID;

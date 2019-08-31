@@ -353,6 +353,7 @@ public class Entity {
 	private int battlePosition;
 	private boolean isAlive;
 	private InventoryElement enemyWeapon;
+	private String mapLayerName;
 
 	public Entity(Entity entity){
 		set(entity);
@@ -416,6 +417,10 @@ public class Entity {
 	public void setAlive(boolean isAlive) { this.isAlive = isAlive; }
 
 	public boolean isAlive() { return isAlive; }
+
+	public void setMapLayerName(String mapLayerName) { this.mapLayerName = mapLayerName; }
+
+	public String getMapLayerName() { return mapLayerName; }
 
 	public void setWeapon(InventoryElement weapon) {
         if (battleEntityType.equals(BattleEntityType.PARTY)) {

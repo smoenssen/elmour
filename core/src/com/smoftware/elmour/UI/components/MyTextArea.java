@@ -117,21 +117,22 @@ public class MyTextArea extends MyTextField {
         Array<String> strings = new Array<String>();
         String currString = new String();
 
-        int currLineBreak = 1;
-        //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
-        for (int i = 0; i < text.length(); i++) {
-            if (currLineBreak < linesBreak.size) {
-                if (i > 0 && i == linesBreak.get(currLineBreak)) {
-                    // new line
-                    strings.add(currString);
-                    //Gdx.app.log("MyTextArea", String.format("adding currString = %s", currString));
-                    currString = "";
-                    currLineBreak += 2;
-                }
-            }
-
+        try {
+            int currLineBreak = 1;
             //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
-            //Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
+            for (int i = 0; i < text.length(); i++) {
+                if (currLineBreak < linesBreak.size) {
+                    if (i > 0 && i == linesBreak.get(currLineBreak)) {
+                        // new line
+                        strings.add(currString);
+                        //Gdx.app.log("MyTextArea", String.format("adding currString = %s", currString));
+                        currString = "";
+                        currLineBreak += 2;
+                    }
+                }
+
+                //Gdx.app.log("MyTextArea", String.format("text = %s, text.length = %d", text,  text.length()));
+                //Gdx.app.log("MyTextArea", String.format("getting charAt %d", i));
 
             /* KEEP GETTING AN EXCEPTION ON currString += text.charAt(i);
                 java.lang.StringIndexOutOfBoundsException: length=0; index=23
@@ -142,12 +143,16 @@ public class MyTextArea extends MyTextField {
                 at com.smoftware.elmour.UI.dialog.PopUp$1.run(PopUp.java:360)
                 at java.lang.Thread.run(Thread.java:764)
              */
-            if (text.length() > 0)
-                currString += text.charAt(i);
-        }
+                if (text.length() > 0)
+                    currString += text.charAt(i);
+            }
 
-        if (currString.length() > 0)
-            strings.add(currString);
+            if (currString.length() > 0)
+                strings.add(currString);
+        }
+        catch (StringIndexOutOfBoundsException ex) {
+            Gdx.app.error("MyTextArea", "StringIndexOutOfBoundsException caught!! " + ex.getStackTrace());
+        }
 
         return strings;
     }

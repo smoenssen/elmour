@@ -199,6 +199,7 @@ public class StartScreen  extends GameScreen {
                                            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                                manageSavedFilesUI = new ManageSavedFiles(game, stage);
                                                manageSavedFilesUI.show();
+                                               debugMenuIsVisible = false;
                                                hideDebugMenu();
                                            }
                                        }
@@ -214,6 +215,7 @@ public class StartScreen  extends GameScreen {
                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                           loadSavedFile = new LoadSavedFile(game, stage);
                                           loadSavedFile.requestInput(startScreen);
+                                          debugMenuIsVisible = false;
                                           hideDebugMenu();
                                       }
                                   }
@@ -229,6 +231,7 @@ public class StartScreen  extends GameScreen {
                                        public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                            ChapterInputListener listener = new ChapterInputListener(game, stage);
                                            Gdx.input.getTextInput(listener, "Enter Chapter Number", "", "");
+                                           debugMenuIsVisible = false;
                                            hideDebugMenu();
                                        }
                                    }
@@ -267,7 +270,6 @@ public class StartScreen  extends GameScreen {
         loadSaveFileButton.setVisible(false);
         manageSavedFilesButton.setVisible(false);
         chapterButton.setVisible(false);
-        debugMenuIsVisible = false;
     }
 
     public void continueGameFromSaveFile(String loadSavedFile) {
