@@ -1767,12 +1767,6 @@
   <object id="804" name="Lost_Forest_A+2" x="1312" y="534" width="1" height="75"/>
   <object id="805" name="Lost_Forest_C+1" x="1760" y="978" width="48" height="1"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="785" name="ZDOWN" x="3216" y="1872" width="32" height="16"/>
-  <object id="786" name="ZSHADOWDOWN" x="3216" y="1872" width="32" height="16"/>
-  <object id="787" name="ZDOWN" x="3248" y="592" width="32" height="16"/>
-  <object id="788" name="ZSHADOWDOWN" x="3248" y="592" width="32" height="16"/>
- </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="791" name="LFSIGN2" x="863" y="1504" width="18" height="8"/>
   <object id="792" name="LFSIGN1" x="2783" y="1504" width="18" height="8"/>

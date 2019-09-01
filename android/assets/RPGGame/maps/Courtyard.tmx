@@ -165,12 +165,6 @@
   <object id="38" name="Elmour" x="352" y="255" width="32" height="1"/>
   <object id="40" name="Elmour" x="416" y="255" width="32" height="1"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="41" name="ZDOWN" x="240" y="234" width="48" height="16"/>
-  <object id="46" name="ZDOWN" x="54" y="48" width="16" height="16"/>
-  <object id="47" name="ZSHADOWDOWN" x="240" y="234" width="48" height="16"/>
-  <object id="48" name="ZSHADOWDOWN" x="54" y="48" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="43" name="Portal_Room" x="48" y="48" width="8" height="16"/>
   <object id="44" name="Treasury" x="472" y="68" width="8" height="11"/>

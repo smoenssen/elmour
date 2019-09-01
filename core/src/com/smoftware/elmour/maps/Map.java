@@ -497,6 +497,8 @@ public abstract class Map extends MapSubject implements AudioSubject{
     }
 
     protected void updateMapHiddenItems(MapManager mapMgr, TiledMapTileLayer tiledMapTileLayer, Batch batch, float delta) {
+        if (hiddenItemsLayer == null) { return; }
+
         for( MapObject object: hiddenItemsLayer.getObjects()) {
             String mapLayerName = (String) object.getProperties().get("layer");
 

@@ -113,10 +113,6 @@
   <object id="48" name="PLAYER_START_TTJAXON_DECLINE" x="64" y="80" width="16" height="16"/>
   <object id="50" name="PLAYER_START_TTJAXON1" x="32" y="32" width="16" height="15"/>
  </objectgroup>
- <objectgroup name="PORTAL_LAYER">
-  <object id="51" name="MAP1" x="96" y="64" width="16" height="16"/>
- </objectgroup>
- <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="36" name="EXIT" x="64" y="138" width="16" height="6"/>
   <object id="37" name="WEAPONS_ROOM" x="112" y="32" width="16" height="8"/>

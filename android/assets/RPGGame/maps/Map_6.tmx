@@ -491,16 +491,6 @@
   <object id="132" name="M6_CAVE_A+1" x="640" y="448" width="16" height="1"/>
   <object id="133" name="M6_CAVE_A+2" x="272" y="448" width="16" height="1"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="134" name="ZDOWN" x="1024" y="618" width="48" height="16"/>
-  <object id="135" name="ZDOWN" x="640" y="454" width="16" height="16"/>
-  <object id="136" name="ZDOWN" x="272" y="454" width="16" height="16"/>
-  <object id="137" name="ZDOWN" x="6" y="32" width="16" height="48"/>
-  <object id="140" name="ZSHADOWDOWN" x="1024" y="618" width="48" height="16"/>
-  <object id="141" name="ZSHADOWDOWN" x="6" y="32" width="16" height="48"/>
-  <object id="142" name="ZSHADOWDOWN" x="640" y="454" width="16" height="16"/>
-  <object id="143" name="ZSHADOWDOWN" x="272" y="454" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="139" name="M6SIGN1" x="207" y="464" width="18" height="8"/>
  </objectgroup>

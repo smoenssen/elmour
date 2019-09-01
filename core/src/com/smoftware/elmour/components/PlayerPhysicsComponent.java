@@ -322,11 +322,13 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
         // CHECK IF PASSING THROUGH A PLAYER Z_GATE OR SHADOW Z_GATE
         //
         Array<MapObject> objects = checkCollisionWithZGatesLayers(mapMgr);
-        for (MapObject mapObject : objects) {
-            if (mapObject.getName().contains("SHADOW"))
-                MapFactory.getMap(mapMgr.getCurrentMapType()).setShadowZLayer(mapObject.getName());
-            else
-                MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(mapObject.getName());
+        if (objects != null) {
+            for (MapObject mapObject : objects) {
+                if (mapObject.getName().contains("SHADOW"))
+                    MapFactory.getMap(mapMgr.getCurrentMapType()).setShadowZLayer(mapObject.getName());
+                else
+                    MapFactory.getMap(mapMgr.getCurrentMapType()).setPlayerZLayer(mapObject.getName());
+            }
         }
 
         /////////////////////////////////////////

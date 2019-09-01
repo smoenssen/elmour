@@ -1305,16 +1305,6 @@
   <object id="162" name="M6_HIDDEN" x="864" y="1279" width="80" height="1"/>
   <object id="164" name="M6_CAVE_C" x="448" y="447" width="128" height="1"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="165" name="ZDOWN" x="400" y="490" width="16" height="16"/>
-  <object id="166" name="ZDOWN" x="496" y="426" width="32" height="16"/>
-  <object id="167" name="ZDOWN" x="64" y="918" width="16" height="16"/>
-  <object id="168" name="ZDOWN" x="880" y="1258" width="48" height="16"/>
-  <object id="182" name="ZSHADOWDOWN" x="400" y="490" width="16" height="16"/>
-  <object id="183" name="ZSHADOWDOWN" x="496" y="426" width="32" height="16"/>
-  <object id="184" name="ZSHADOWDOWN" x="880" y="1258" width="48" height="16"/>
-  <object id="185" name="ZSHADOWDOWN" x="64" y="918" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="LEDGES">
   <object id="170" name="RIGHT" x="160" y="448" width="16" height="48"/>
  </objectgroup>

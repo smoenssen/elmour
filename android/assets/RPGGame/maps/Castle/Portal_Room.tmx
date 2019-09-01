@@ -165,10 +165,6 @@
   <object id="24" name="Courtyard" x="127" y="128" width="1" height="16"/>
   <object id="36" name="Castle" x="127" y="0" width="1" height="16"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="27" name="ZDOWN" x="106" y="128" width="16" height="16"/>
-  <object id="28" name="ZDOWN" x="64" y="48" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="29" name="Mirror" x="32" y="110" width="6" height="16"/>
  </objectgroup>

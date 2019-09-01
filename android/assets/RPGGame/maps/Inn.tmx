@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="9" height="12" tilewidth="16" tileheight="16" nextobjectid="14">
- <tileset firstgid="1" name="Border" tilewidth="16" tileheight="16" tilecount="2" columns="1">
-  <image source="Game/Tiles/Inside/Border.png" width="16" height="32"/>
+ <tileset firstgid="1" name="Border" tilewidth="16" tileheight="16" tilecount="4" columns="2">
+  <image source="Game/Tiles/Inside/Border.png" width="32" height="32"/>
  </tileset>
- <tileset firstgid="3" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+ <tileset firstgid="5" name="Carpet" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet.png" width="16" height="16"/>
  </tileset>
- <tileset firstgid="4" name="Counter_Inn" tilewidth="16" tileheight="16" tilecount="6" columns="6">
+ <tileset firstgid="6" name="Counter_Inn" tilewidth="16" tileheight="16" tilecount="6" columns="6">
   <image source="Game/Tiles/Inside/Counter/Inn/Counter_Inn.png" width="96" height="16"/>
  </tileset>
- <tileset firstgid="10" name="Chest" tilewidth="16" tileheight="16" tilecount="6" columns="2">
+ <tileset firstgid="12" name="Chest" tilewidth="16" tileheight="16" tilecount="6" columns="2">
   <image source="Game/Pop_Ups/Chests/Chest.png" width="32" height="48"/>
  </tileset>
- <tileset firstgid="16" name="Carpet_Inn" tilewidth="16" tileheight="16" tilecount="1" columns="1">
+ <tileset firstgid="18" name="Carpet_Inn" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="Game/Tiles/Inside/Carpet/Carpet_Inn.png" width="16" height="16"/>
  </tileset>
- <tileset firstgid="17" name="Inn_Wall" tilewidth="16" tileheight="16" tilecount="2" columns="1">
+ <tileset firstgid="19" name="Inn_Wall" tilewidth="16" tileheight="16" tilecount="2" columns="1">
   <image source="Game/Tiles/Inside/Inn_Wall/Inn_Wall.png" width="16" height="32"/>
  </tileset>
  <layer name="Tile Layer 1" width="9" height="12">
   <data encoding="csv">
-1,17,17,17,17,17,17,17,2147483649,
+1,19,19,19,19,19,19,19,2147483649,
+1,20,20,20,20,20,20,20,2147483649,
 1,18,18,18,18,18,18,18,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1,16,16,16,16,16,16,16,2147483649,
-1610612738,1610612737,1610612737,1610612737,1610612737,1610612737,1610612737,1610612737,3221225474
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1,18,18,18,18,18,18,18,2147483649,
+1610612739,1610612737,1610612737,1610612737,1610612737,1610612737,1610612737,1610612737,3221225475
 </data>
  </layer>
  <layer name="Higher" width="9" height="12">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
-0,10,11,12,13,0,12,15,0,
-0,14,13,0,0,10,11,0,0,
+0,12,13,14,15,0,14,17,0,
+0,16,15,0,0,12,13,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
-0,0,0,0,3,0,0,0,0,
+0,0,0,0,5,0,0,0,0,
 0,0,0,0,0,0,0,0,0
 </data>
  </layer>
@@ -73,7 +73,7 @@
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
-0,9,4,5,6,7,8,0,0,
+0,11,6,7,8,9,10,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,
@@ -110,7 +110,6 @@
  <objectgroup name="SPAWNS_LAYER">
   <object id="8" name="PLAYER_START" x="64" y="157" width="16" height="12"/>
  </objectgroup>
- <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="6" name="Diane" x="64" y="95" width="16" height="9"/>
   <object id="10" name="EXIT" x="64" y="170" width="16" height="6"/>

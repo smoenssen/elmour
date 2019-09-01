@@ -418,14 +418,6 @@
   <object id="160" name="Chapter2Screen_P3" x="896" y="276" width="145" height="11"/>
   <object id="163" name="Chapter2Screen_Leave" x="32" y="399" width="31" height="123"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="112" name="ZDOWN" x="6" y="320" width="16" height="32"/>
-  <object id="113" name="ZDOWN" x="592" y="6" width="32" height="16"/>
-  <object id="114" name="ZDOWN" x="1098" y="320" width="16" height="32"/>
-  <object id="127" name="ZSHADOWDOWN" x="6" y="320" width="16" height="32"/>
-  <object id="128" name="ZSHADOWDOWN" x="592" y="6" width="32" height="16"/>
-  <object id="129" name="ZSHADOWDOWN" x="1098" y="320" width="16" height="32"/>
- </objectgroup>
  <objectgroup name="HIDDEN_ITEMS_LAYER">
   <object id="177" name="HIDDEN_ITEM" x="680" y="400" width="16" height="16">
    <properties>

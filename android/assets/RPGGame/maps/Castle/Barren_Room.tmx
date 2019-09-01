@@ -113,7 +113,4 @@
  <objectgroup name="PORTAL_LAYER">
   <object id="8" name="Castle" x="143" y="103" width="1" height="25"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="9" name="ZDOWN" x="122" y="112" width="16" height="16"/>
- </objectgroup>
 </map>

@@ -45,7 +45,13 @@ public class Map3 extends Map {
 
     @Override
     public void handleInteraction(MapManager mapMgr) {
-
+        switch(interaction) {
+            case M3DOOR1:
+                mapMgr.loadMap(MapFactory.MapType.M3DOOR1);
+                mapMgr.setStartPositionFromPreviousMap();
+                interaction = Entity.Interaction.NONE;
+                break;
+        }
     }
 
     @Override

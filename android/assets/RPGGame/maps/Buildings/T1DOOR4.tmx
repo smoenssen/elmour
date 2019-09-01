@@ -176,7 +176,6 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="7" name="EXIT" x="48" y="154" width="16" height="6"/>
  </objectgroup>

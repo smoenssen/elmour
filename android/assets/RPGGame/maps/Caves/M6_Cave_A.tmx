@@ -590,16 +590,6 @@
   <object id="57" name="M6_CAVE_B" x="192" y="416" width="16" height="16"/>
   <object id="58" name="M6_CAVE_B" x="528" y="32" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="60" name="ZDOWN" x="848" y="601" width="32" height="16"/>
-  <object id="61" name="ZDOWN" x="528" y="54" width="16" height="16"/>
-  <object id="63" name="ZDOWN" x="192" y="394" width="16" height="16"/>
-  <object id="64" name="ZDOWN" x="32" y="602" width="16" height="16"/>
-  <object id="112" name="ZSHADOWDOWN" x="848" y="601" width="32" height="16"/>
-  <object id="113" name="ZSHADOWDOWN" x="528" y="54" width="16" height="16"/>
-  <object id="114" name="ZSHADOWDOWN" x="192" y="394" width="16" height="16"/>
-  <object id="115" name="ZSHADOWDOWN" x="32" y="602" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="LEDGES">
   <object id="66" name="RIGHT" x="240" y="80" width="16" height="384"/>
   <object id="67" name="DOWN" x="352" y="160" width="208" height="16"/>

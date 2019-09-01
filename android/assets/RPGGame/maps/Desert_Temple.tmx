@@ -235,10 +235,6 @@
  <objectgroup name="PORTAL_LAYER">
   <object id="43" name="MAP6" x="319" y="272" width="1" height="47"/>
  </objectgroup>
- <objectgroup name="Z_GATES">
-  <object id="45" name="ZDOWN" x="298" y="288" width="16" height="16"/>
-  <object id="46" name="ZSHADOWDOWN" x="298" y="288" width="16" height="16"/>
- </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="48" name="DTDOOR" x="202" y="94" width="30" height="9"/>
  </objectgroup>

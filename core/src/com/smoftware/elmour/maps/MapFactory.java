@@ -41,6 +41,7 @@ public class MapFactory {
         M6_CAVE_B,
         PORTAL_ROOM,
         SHNARFULAPOGUS,
+        M3DOOR1,
         T1DOOR4,
         TARPING_TOWN,
         WEAPONS_ROOM,
@@ -276,6 +277,13 @@ public class MapFactory {
                 if( map == null ){
                     map = new Shnarfulapogus();
                     _mapTable.put(MapType.SHNARFULAPOGUS, map);
+                }
+                break;
+            case M3DOOR1:
+                map = _mapTable.get(MapType.M3DOOR1);
+                if( map == null ){
+                    map = new M3DOOR1();
+                    _mapTable.put(MapType.M3DOOR1, map);
                 }
                 break;
             case T1DOOR4:

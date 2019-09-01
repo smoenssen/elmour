@@ -142,7 +142,6 @@
   <object id="15" name="PLAYER_START_C2_P2" x="160" y="128" width="16" height="16"/>
   <object id="16" name="PLAYER_START_NO" x="120" y="72" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Z_GATES"/>
  <objectgroup name="INTERACTION">
   <object id="12" name="EXIT" x="128" y="170" width="16" height="6"/>
   <object id="13" name="STORAGE_ROOM_SIGN" x="128" y="32" width="16" height="6"/>
