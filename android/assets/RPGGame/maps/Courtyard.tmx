@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="33" height="16" tilewidth="16" tileheight="16" nextobjectid="56">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="33" height="16" tilewidth="16" tileheight="16" nextobjectid="58">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -164,6 +164,16 @@
   <object id="37" name="Elmour" x="208" y="255" width="112" height="1"/>
   <object id="38" name="Elmour" x="352" y="255" width="32" height="1"/>
   <object id="40" name="Elmour" x="416" y="255" width="32" height="1"/>
+ </objectgroup>
+ <objectgroup name="HIDDEN_ITEMS_LAYER">
+  <object id="57" name="HIDDEN_ITEM" x="256" y="144" width="16" height="16">
+   <properties>
+    <property name="id" value="DEL_KEY"/>
+    <property name="layer" value="ZSHADOWDOWN"/>
+    <property name="taskID" value="CloningMaterials::FindButton3"/>
+    <property name="text" value="You found a computer key."/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="43" name="Portal_Room" x="48" y="48" width="8" height="16"/>

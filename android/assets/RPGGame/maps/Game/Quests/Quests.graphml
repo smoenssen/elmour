@@ -206,7 +206,7 @@
       <graph edgedefault="directed" id="n2:">
         <node id="n2::n0">
           <data key="d4"><![CDATA[Get CDs]]></data>
-          <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
+          <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;;2]]></data>
           <data key="d6">
             <y:ShapeNode>
               <y:Geometry height="30.0" width="65.19999999999993" x="659.0960657754514" y="-298.37646484375"/>
@@ -275,7 +275,7 @@
           <graph edgedefault="directed" id="n2::n2:">
             <node id="n2::n2::n0">
               <data key="d4"><![CDATA[Talk to Tony]]></data>
-              <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG1;]]></data>
+              <data key="d5"><![CDATA[TONY;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="74.79999999999995" x="503.1" y="-298.37646484375"/>
@@ -294,7 +294,7 @@
             </node>
             <node id="n2::n2::n1">
               <data key="d4"><![CDATA[Get Tools From Justin]]></data>
-              <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;]]></data>
+              <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG1;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="83.39117381818181" x="498.8044130909091" y="-358.37646484375"/>
@@ -313,7 +313,7 @@
             </node>
             <node id="n2::n2::n2">
               <data key="d4"><![CDATA[Give Tony the Tools]]></data>
-              <data key="d5"><![CDATA[JUSTIN;ACTIVE_QUEST_DIALOG2;]]></data>
+              <data key="d5"><![CDATA[TONY;ACTIVE_QUEST_DIALOG2;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="118.0" x="481.5" y="-418.37646484375"/>
@@ -384,7 +384,7 @@
           <graph edgedefault="directed" id="n2::n3:">
             <node id="n2::n3::n0">
               <data key="d4"><![CDATA[Talk to Jaxon]]></data>
-              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_CUTSCENE1;]]></data>
+              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_CUTSCENE1;ACTIVE_QUEST_DIALOG1]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="74.79999999999995" x="783.8921315509027" y="-186.0"/>
@@ -421,7 +421,7 @@
             </node>
             <node id="n2::n3::n2">
               <data key="d4"><![CDATA[Bring Jaxon the Materials]]></data>
-              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_DIALOG2;]]></data>
+              <data key="d5"><![CDATA[JAXON_1;ACTIVE_QUEST_CUTSCENE2;]]></data>
               <data key="d6">
                 <y:ShapeNode>
                   <y:Geometry height="30.0" width="118.0" x="481.5" y="-186.0"/>

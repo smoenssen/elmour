@@ -127,6 +127,13 @@ public interface ConversationGraphObserver {
         RICK_DESTROY_KEYBOARD,
 
         JAXON_LOOK_LEFT,
+        JAXON_LOOK_AROUND,
+        JAXON_TAKE_BAG,
+        JAXON_THINK,
+        JUSTIN_ENTER,
+        JAXON_LOOK_AT_JUSTIN,
+        JUSTIN_WALK_DOWN,
+        JUSTIN_LOOK_AWAY,
 
 
         WALK_AROUND_TOWN,

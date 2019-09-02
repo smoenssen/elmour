@@ -11,14 +11,20 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_DIALOG1
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/OphionActiveQuestDialog.json"
+		type: POST_TASK_DIALOG1
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/Cloning_Quest/JaxonPostTaskDialog1.json"
 		questID: CloningMaterials
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE1
 		config: "CloningQuestScreen_TTJaxon"
+		questID: CloningMaterials
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: ACTIVE_QUEST_CUTSCENE2
+		config: "CloningQuestScreen_GiveJaxonMaterials"
 		questID: CloningMaterials
 	}
 	{
@@ -563,6 +569,26 @@ animationConfig: [
 			{
 				x: 0
 				y: 4
+			}
+		]
+	}
+	{
+			frameDuration: 0.08
+			frameWidth : 16
+			frameHeight : 16
+			looping : false
+		animationType: THINK
+		texturePaths: [
+				RPGGame/maps/Game/Characters/Misc/Misc.png
+		]
+		gridPoints: [
+			{
+				x: 10
+				y: 21
+			}
+			{
+				x: 10
+				y: 22
 			}
 		]
 	}
