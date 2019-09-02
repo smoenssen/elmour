@@ -65,11 +65,6 @@ public class T1DOOR4 extends Map {
                     interaction = Entity.Interaction.NONE;
                 }
                 break;
-            case WEAPONS_ROOM:
-                mapMgr.loadMap(MapFactory.MapType.WEAPONS_ROOM);
-                mapMgr.setStartPositionFromPreviousMap();
-                interaction = Entity.Interaction.NONE;
-                break;
         }
     }
 

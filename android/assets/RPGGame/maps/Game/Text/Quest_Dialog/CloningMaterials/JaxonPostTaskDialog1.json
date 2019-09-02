@@ -3,13 +3,13 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: EXIT_CHAT
-		data: null
+		data: TTJAXON_DECLINE;ARMORY
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: Thanks again for getting my teddy bear.
-		data: Ophion
+		dialog: Come back when you have the bag.
+		data: Jaxon
 		type: NPC
 	}
 }

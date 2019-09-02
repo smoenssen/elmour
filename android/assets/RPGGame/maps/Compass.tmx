@@ -327,9 +327,10 @@
   <object id="59" name="MAP7" x="192" y="495" width="112" height="1"/>
  </objectgroup>
  <objectgroup name="HIDDEN_ITEMS_LAYER">
-  <object id="70" name="HIDDEN_ITEM" x="64" y="64" width="16" height="16">
+  <object id="70" name="HIDDEN_ITEM" x="56" y="53" width="16" height="16">
    <properties>
     <property name="id" value="MYSTERY_POUCH"/>
+    <property name="layer" value="ZSHADOWDOWN"/>
     <property name="taskID" value="CloningMaterials::GetMaterials1"/>
     <property name="text" value="You found a mysterious pouch."/>
    </properties>

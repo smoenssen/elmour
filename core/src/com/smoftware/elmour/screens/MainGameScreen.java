@@ -349,6 +349,10 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                                _player.updateShadow(_mapMgr, _mapRenderer.getBatch(), delta, _player.getNextPosition());
 
                             shadowUpdated = true;
+
+                            _mapRenderer.getBatch().end();
+                            _mapMgr.updateCurrentMapEntities(_mapMgr, _mapRenderer.getBatch(), delta);
+                            _mapRenderer.getBatch().begin();
                         }
                     }
 

@@ -28,9 +28,9 @@ public class M3DOOR1 extends Map {
         }
 
         //Special cases
-        Entity rick = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.RICK);
-        initSpecialEntityPosition(rick);
-        mapEntities.add(rick);
+        Entity tony = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.TONY);
+        initSpecialEntityPosition(tony);
+        mapEntities.add(tony);
     }
 
     @Override
@@ -60,15 +60,17 @@ public class M3DOOR1 extends Map {
         switch(interaction) {
             case EXIT:
                 if (previousMapType != null) {
-                    mapMgr.loadMap(previousMapType);
-                    mapMgr.setStartPositionFromPreviousMap();
+                    mapMgr.loadMap(MapFactory.MapType.MAP3);
+                    mapMgr.setStartPostionByNameExtension("1");
                     interaction = Entity.Interaction.NONE;
                 }
                 break;
-            case WEAPONS_ROOM:
-                mapMgr.loadMap(MapFactory.MapType.WEAPONS_ROOM);
-                mapMgr.setStartPositionFromPreviousMap();
-                interaction = Entity.Interaction.NONE;
+            case EXIT2:
+                if (previousMapType != null) {
+                    mapMgr.loadMap(MapFactory.MapType.MAP3);
+                    mapMgr.setStartPostionByNameExtension("2");
+                    interaction = Entity.Interaction.NONE;
+                }
                 break;
         }
     }

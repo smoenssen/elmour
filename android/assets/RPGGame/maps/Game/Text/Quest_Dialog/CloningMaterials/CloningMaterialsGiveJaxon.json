@@ -24,11 +24,23 @@ conversations: {
 		data: Jaxon
 		type: NPC
 	}
+	n19: {
+		id: n19
+		dialog: TASK_COMPLETE_CUTSCENE
+		data: CloningMaterials::GiveJaxonMaterials;TTJAXON1;ARMORY
+		type: ACTION
+	}
 	n5: {
 		id: n5
 		dialog: JAXON_TAKE_BAG
 		data: null
 		type: ACTION
+	}
+	n18: {
+		id: n18
+		dialog: "I^ve contacted Tony to fetch me one, so all\nyou have to do is find him and tell him I sent\nyou.\n§Then the wire is your^s."
+		data: Justin
+		type: NPC
 	}
 	n4: {
 		id: n4
@@ -36,15 +48,45 @@ conversations: {
 		data: Jaxon
 		type: NPC
 	}
+	n17: {
+		id: n17
+		dialog: JUSTIN_LOOK_AWAY
+		data: null
+		type: ACTION
+	}
 	n3: {
 		id: n3
 		dialog: JAXON_LOOK_AROUND
 		data: null
 		type: ACTION
 	}
+	n16: {
+		id: n16
+		dialog: It^ll be simple.\n§All you have to do is get me a lead pipe.\n¶That^s it.
+		data: Justin
+		type: NPC
+	}
 	n2: {
 		id: n2
 		dialog: Nevermind about that.\n§There^s a problem.
+		data: Jaxon
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: "Yeah, but what^s in it?"
+		data: Me
+		type: NPC
+	}
+	n15: {
+		id: n15
+		dialog: "I overheard you two earlier, and I thought,\n^hey, I want somebody to run an errand for\nme.^\n§So I took most of the wire."
+		data: Justin
+		type: NPC
+	}
+	n0: {
+		id: n0
+		dialog: "Oh, hey, have you brought back the bag?"
 		data: Jaxon
 		type: NPC
 	}
@@ -54,22 +96,10 @@ conversations: {
 		data: null
 		type: ACTION
 	}
-	n1: {
-		id: n1
-		dialog: "Yeah, but what^s in it?"
-		data: Me
-		type: NPC
-	}
 	n13: {
 		id: n13
 		dialog: I have it.
 		data: Justin
-		type: NPC
-	}
-	n0: {
-		id: n0
-		dialog: "Oh, hey, have you brought back the bag?"
-		data: Jaxon
 		type: NPC
 	}
 	n12: {
@@ -88,6 +118,12 @@ conversations: {
 		id: n10
 		dialog: That^s because we do have more wire.
 		data: Justin
+		type: NPC
+	}
+	n20: {
+		id: n20
+		dialog: Gave Jaxon mysterious bag.
+		data: null
 		type: NPC
 	}
 }
@@ -128,7 +164,15 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n5
-			destinationId: n6
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n19
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -140,11 +184,27 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n17: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n3: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n3
 			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n17
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -164,11 +224,11 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n13: [
+	n15: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
-			sourceId: n13
-			destinationId: n14
+			sourceId: n15
+			destinationId: n16
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -177,6 +237,22 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n0
 			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n14
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -201,6 +277,14 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n10
 			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n6
 			choicePhrase: NO_CHOICE
 		}
 	]
