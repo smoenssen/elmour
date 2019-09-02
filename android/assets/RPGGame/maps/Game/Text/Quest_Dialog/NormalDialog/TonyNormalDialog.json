@@ -1,0 +1,27 @@
+{
+conversations: {
+	n1: {
+		id: n1
+		dialog: EXIT_CHAT
+		data: TTJAXON_DECLINE;ARMORY
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: "It^s all fun and games ^til you get hurt out\nhere.\n§If you need to rest, let me know.\n¶Just know that it won^t be free.\n§...\n§What? I^ve gotta get dibs somehow!"
+		data: Tony
+		type: NPC
+	}
+}
+associatedChoices: {
+	n0: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

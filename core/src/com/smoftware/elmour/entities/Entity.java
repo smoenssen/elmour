@@ -172,6 +172,10 @@ public class Entity {
 			@Override
 			public String toString() { return "EXIT"; }
 		},
+		EXIT2 {
+			@Override
+			public String toString() { return "EXIT2"; }
+		},
 		GTDOOR {
 			@Override
 			public String toString() { return "GTDOOR"; }
@@ -236,6 +240,10 @@ public class Entity {
 		M3DOOR1 {
 			@Override
 			public String toString() { return "M3DOOR1"; }
+		},
+		M3DOOR2 {
+			@Override
+			public String toString() { return "M3DOOR2"; }
 		},
 		M4DOOR1 {
 			@Override

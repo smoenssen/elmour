@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="120" tilewidth="16" tileheight="16" nextobjectid="554">
+<map version="1.0" tiledversion="2017.07.25" orientation="orthogonal" renderorder="right-down" width="40" height="120" tilewidth="16" tileheight="16" nextobjectid="560">
  <tileset firstgid="1" name="Stone_Brick_to_Grass" tilewidth="16" tileheight="16" tilecount="36" columns="6">
   <image source="Game/Tiles/Outside/Stone_Brick/Stone_Brick_to_Grass/Stone_Brick_to_Grass.png" width="96" height="96"/>
  </tileset>
@@ -2089,6 +2089,8 @@
  <objectgroup name="SPAWNS_LAYER">
   <object id="371" name="PLAYER_START" x="6" y="1872" width="16" height="16"/>
   <object id="373" name="PLAYER_START" x="576" y="6" width="32" height="16"/>
+  <object id="557" name="PLAYER_START+2" x="130" y="272" width="13" height="7"/>
+  <object id="558" name="PLAYER_START+1" x="119" y="343" width="13" height="9"/>
  </objectgroup>
  <objectgroup name="PORTAL_LAYER">
   <object id="364" name="Grass_Temple" x="544" y="0" width="89" height="1"/>
@@ -2187,11 +2189,12 @@
   <object id="548" name="ZUP" x="8" y="384" width="178" height="1"/>
   <object id="550" name="ZUP" x="185" y="117" width="1" height="267"/>
   <object id="552" name="ZUP" x="32" y="117" width="153" height="1"/>
-  <object id="553" name="ZUP" x="129" y="264" width="15" height="3"/>
+  <object id="553" name="ZUP" x="129" y="272" width="15" height="7"/>
  </objectgroup>
  <objectgroup name="INTERACTION">
   <object id="286" name="M3DOOR1" x="119" y="333" width="13" height="9"/>
   <object id="369" name="M3SIGN1" x="415" y="864" width="18" height="8"/>
+  <object id="556" name="M3DOOR2" x="130" y="264" width="13" height="8"/>
  </objectgroup>
  <objectgroup name="WATERFALL_OBSTACLE" visible="0">
   <object id="185" x="260" y="1120" width="88" height="112"/>

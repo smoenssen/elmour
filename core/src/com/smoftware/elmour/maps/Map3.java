@@ -48,7 +48,12 @@ public class Map3 extends Map {
         switch(interaction) {
             case M3DOOR1:
                 mapMgr.loadMap(MapFactory.MapType.M3DOOR1);
-                mapMgr.setStartPositionFromPreviousMap();
+                mapMgr.setStartPostionByNameExtension("1");
+                interaction = Entity.Interaction.NONE;
+                break;
+            case M3DOOR2:
+                mapMgr.loadMap(MapFactory.MapType.M3DOOR1);
+                mapMgr.setStartPostionByNameExtension("2");
                 interaction = Entity.Interaction.NONE;
                 break;
         }

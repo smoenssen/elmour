@@ -105,9 +105,9 @@ Character .json files
 		RETURN_QUEST_DIALOG,
 		RETURN_QUEST_CUTSCENE,
 		POST_QUEST_DIALOG,
-    POST_TASK_DIALOG1,
-    POST_TASK_DIALOG2,
-    POST_TASK_DIALOG3
+    		POST_TASK_DIALOG1,
+    		POST_TASK_DIALOG2,
+   		POST_TASK_DIALOG3
 
 Example conversationConfigs in timmy.json file:
 	conversationConfigs : [

@@ -35,6 +35,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
     private Action cloningMaterialsOpeningScene;
     private Action cloningMaterialsTTJaxon;
+    private Action cloningMaterialsGiveJaxonMaterials;
     private Action setupDogsQuestOpeningScene;
 
     private AnimatedImage character1;
@@ -150,6 +151,44 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
                 justin.setVisible(true);
                 justin.setPosition(4.5f, 7.1f);
+                justin.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                justin.setCurrentDirection(Entity.Direction.DOWN);
+
+                jaxon.setVisible(true);
+                jaxon.setPosition(3.5f, 7.1f);
+                jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                jaxon.setCurrentDirection(Entity.Direction.LEFT);
+
+                camactor.setPosition(4.5f, 5);
+
+                followActor(camactor);
+            }
+        };
+
+        cloningMaterialsGiveJaxonMaterials = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.ARMORY, true);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(4.5f, 5);
+                keepCamInMap = false;
+
+                rick.setVisible(false);
+
+                character1.setVisible(true);
+                character1.setPosition(2.5f, 7.1f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.RIGHT);
+
+                misc.setVisible(false);
+
+                misc2.setVisible(false);
+
+                misc3.setVisible(false);
+
+                justin.setVisible(false);
+                justin.setPosition(7, 7.3f);
                 justin.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 justin.setCurrentDirection(Entity.Direction.DOWN);
 
@@ -477,6 +516,116 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
                 break;
 
+            //GiveJaxonMaterials
+            case JAXON_LOOK_AROUND:
+                _stage.addAction(Actions.sequence(
+                        myActions.new setIdleDirection(jaxon, Entity.Direction.DOWN),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+
+                break;
+            case JAXON_TAKE_BAG:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(jaxon, Entity.Direction.LEFT),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(-0.4f, 0, oneBlockTime), jaxon),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.KNUCKLES_LEFT),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(0.4f, 0, oneBlockTime), jaxon),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case JAXON_THINK:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        Actions.addAction(Actions.moveTo(jaxon.getX() + emoteX, jaxon.getY() + emoteY), misc3),
+
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.THINK),
+
+                        myActions.new setCharacterVisible(misc3, true),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_ON),
+                        Actions.delay(0.24f),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_LOOP),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case JUSTIN_ENTER:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setWalkDirection(misc3, Entity.AnimationType.THINK_OFF),
+                        Actions.delay(0.075f),
+                        myActions.new setCharacterVisible(misc3, false),
+
+                        Actions.delay(oneBlockTime),
+                        myActions.new setCharacterVisible(justin, true),
+                        Actions.delay(oneBlockTime * 2),
+                        myActions.new setIdleDirection(justin, Entity.Direction.LEFT),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case JAXON_LOOK_AT_JUSTIN:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(jaxon, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 0.5f),
+                        myActions.new setIdleDirection(jaxon, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case JUSTIN_WALK_DOWN:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(justin, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -1.8f, oneBlockTime * 2.7f), justin),
+                        Actions.delay(oneBlockTime * 2.7f),
+
+                        myActions.new setWalkDirection(justin, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(-4, 0, oneBlockTime * 6), justin),
+                        Actions.delay(oneBlockTime * 6),
+                        myActions.new setIdleDirection(justin, Entity.Direction.UP),
+                        myActions.new setWalkDirection(justin, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case JUSTIN_LOOK_AWAY:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(justin, Entity.Direction.DOWN),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+
+
+
 
 
 
@@ -555,6 +704,25 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         );
     }
 
+    private Action getGiveJaxonMaterials() {
+        cloningMaterialsGiveJaxonMaterials.reset();
+        return Actions.sequence(
+                Actions.addAction(cloningMaterialsGiveJaxonMaterials),
+                new setFading(true),
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
+                Actions.delay(2),
+                Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Quest_Dialog/CloningMaterials/CloningMaterialsGiveJaxon.json", thisScreen);
+                                _playerHUD.doConversation();
+                                // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
+                            }
+                        }),
+                Actions.delay(2)
+        );
+    }
 
     @Override
     public void show() {
@@ -569,6 +737,10 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         else if (currentPartNumber.equals("TTJaxon")) {
             questID = "CloningMaterials";
             _stage.addAction(getTTJaxon());
+        }
+        else if (currentPartNumber.equals("GiveJaxonMaterials")) {
+            questID = "CloningMaterials";
+            _stage.addAction(getGiveJaxonMaterials());
         }
 
         baseShow();

@@ -81,7 +81,7 @@ questTasks: {
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
-							conversationType: ACTIVE_QUEST_DIALOG2
+							conversationType: ACTIVE_QUEST_CUTSCENE2
 							taskPhrase: Bring Jaxon the Materials
 							parentQuestId: GetWires1
 						}
@@ -92,6 +92,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_CUTSCENE1
+							postTaskConversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
 						}
@@ -147,6 +148,7 @@ questTasks: {
 		targetEntity: OPHION
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
+		targetNumber: 2
 	}
 	GiveRickSupplies: {
 		yedNodeId: n2::n1
@@ -174,7 +176,7 @@ questTasks: {
 							id: GiveTonyMaterials
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetEntity: JUSTIN
+							targetEntity: TONY
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Give Tony the Tools
 							parentQuestId: GetWires2
@@ -184,7 +186,7 @@ questTasks: {
 							id: TalkToTony
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
-							targetEntity: JUSTIN
+							targetEntity: TONY
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Talk to Tony
 							parentQuestId: GetWires2
@@ -194,7 +196,7 @@ questTasks: {
 							id: GetMaterials2
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetEntity: OPHION
+							targetEntity: JUSTIN
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get Tools From Justin
 							isSpoiler: true
