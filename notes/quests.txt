@@ -27,6 +27,12 @@ Issues
 ------
 Issue with coming out of TASK_COMPLETE_CUTSCENE that was initiated with a conversation (e.g., Talk to Jaxon then can't leave Armory)
 
+Todo:
+-----
+Add chapter range to NORMAL_DIALOG
+After (sub)quest is complete, check to see if alternate title should be displayed
+Subquest should have checkmark in questHUD when all tasks are complete
+
 Ben
 ---
 Remove the following from .json files for characters:
@@ -109,7 +115,7 @@ Example conversationConfigs in timmy.json file:
 			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig
 			type: NORMAL_DIALOG
 			config: "RPGGame/maps/Game/Text/Dialog/NormalDialog/TimmyNormalDialog.json"
-			questID: TeddyBear
+			chapters: 1-3
 		}
 		{
 			class: com.smoftware.elmour.entity.EntityConfig$ConversationConfig

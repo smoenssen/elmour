@@ -81,6 +81,7 @@ import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -196,6 +197,23 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     private static final String INVENTORY_FULL = "Your inventory is full!";
 
+    class ConversationConfigOverride {
+        EntityConfig.ConversationType conversationType;
+        String questID;
+
+        ConversationConfigOverride(EntityConfig.ConversationType conversationType) {
+            this.conversationType = conversationType;
+            this.questID = null;
+        }
+
+        ConversationConfigOverride(EntityConfig.ConversationType conversationType, String questID) {
+            this.conversationType = conversationType;
+            this.questID = questID;
+        }
+    }
+
+    private Hashtable<EntityFactory.EntityName, ConversationConfigOverride> entityConversationConfigOverrideMap;
+
     public PlayerHUD(final ElmourGame game, Camera camera, final Entity player, final MapManager mapMgr) {
         this.game = game;
         _camera = camera;
@@ -204,6 +222,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
+
+        entityConversationConfigOverrideMap = new Hashtable<>();
 
         adjustStatsUI = new AdjustStatsUI(this.game, this, _stage);
 
@@ -1410,13 +1430,16 @@ public class PlayerHUD implements Screen, AudioSubject,
                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.IN_PROGRESS) {
                     // get active quest dialog or active quest cut scene
                     if (task != null) {
-                        conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
+                        //todo: remove this if not needed
+                        //conversationConfig = getConversationConfig(npcConversationConfigs, questID, task.getConversationType());
+                        throw new RuntimeException("Unexpected situation!");
                     }
-                    else {
-                        conversationConfig = getActiveConversationConfigForQuest(npcConversationConfigs, questID);
-                    }
+
+                    EntityFactory.EntityName npcName = EntityFactory.EntityName.valueOf(config.getEntityID().toUpperCase());
+                    conversationConfig = getActiveConversationConfigForQuest(npcName, npcConversationConfigs, questID);
                 }
                 else {
+                    // kick off pre-quest cut scene for this quest giver
                     conversationConfig = getConversationConfig(npcConversationConfigs, questID, EntityConfig.ConversationType.PRE_QUEST_CUTSCENE);
                 }
             }
@@ -1472,8 +1495,39 @@ public class PlayerHUD implements Screen, AudioSubject,
                 entity.getEntityConfig().getEntityID() + ConversationConfig.class.getSimpleName(), ConversationConfig.class);
     }
 
-    private ConversationConfig getActiveConversationConfigForQuest(Array<ConversationConfig> npcConversationConfigs, String questID) {
+    private ConversationConfig getActiveConversationConfigForQuest(EntityFactory.EntityName npcName,
+                                                                   Array<ConversationConfig> npcConversationConfigs,
+                                                                   String questID) {
         ConversationConfig conversationConfig = null;
+
+        ConversationConfigOverride override = entityConversationConfigOverrideMap.get(npcName);
+
+        if (override == null) {
+            throw new RuntimeException("Active quest config not set for NPC " + npcName.toString() + ", quest ID " + questID);
+        }
+
+        if (override.questID == null) {
+            // use NORMAL_DIALOG
+            if (override.conversationType != EntityConfig.ConversationType.NORMAL_DIALOG) {
+                throw new RuntimeException("Expected NORMAL_DIALOG to be set for NPC " + npcName.toString() + ", quest ID " + questID);
+            }
+
+            for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
+                if (npcQuestConfig.type == EntityConfig.ConversationType.NORMAL_DIALOG) {
+                    if (ProfileManager.getInstance().currentChapterInRange(npcQuestConfig.chapters)) {
+                        conversationConfig = npcQuestConfig;
+                    }
+                }
+            }
+        }
+        else {
+            // use ACTIVE_DIALOG
+            if (!override.questID.equals(questID) || !override.conversationType.toString().contains("ACTIVE_QUEST")) {
+                throw new RuntimeException("Expected ACTIVE_QUEST to be set for NPC " + npcName.toString() + ", quest ID " + questID);
+            }
+        }
+
+        //TODO
 
         for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
             if (npcQuestConfig.type.toString().contains("ACTIVE_QUEST")) {
@@ -1484,6 +1538,18 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
 
         return conversationConfig;
+    }
+
+    public void setActiveConversationConfigForQuest(EntityFactory.EntityName entityName, String questID, EntityConfig.ConversationType conversationType) {
+        entityConversationConfigOverrideMap.put(entityName, new ConversationConfigOverride(conversationType, questID));
+    }
+
+    public void setNormalDialog(EntityFactory.EntityName entityName) {
+        entityConversationConfigOverrideMap.put(entityName, new ConversationConfigOverride(EntityConfig.ConversationType.NORMAL_DIALOG));
+    }
+
+    public void clearConversationConfig(EntityFactory.EntityName entityName) {
+        entityConversationConfigOverrideMap.remove(entityName);
     }
 
     public void setQuestTaskStarted(String questID, String questTaskID) {

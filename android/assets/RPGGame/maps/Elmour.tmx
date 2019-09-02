@@ -422,6 +422,7 @@
   <object id="177" name="HIDDEN_ITEM" x="680" y="400" width="16" height="16">
    <properties>
     <property name="id" value="CTRL_KEY"/>
+    <property name="layer" value="ZSHADOWDOWN"/>
     <property name="taskID" value="CloningMaterials::FindButton1"/>
     <property name="text" value="You found a computer key."/>
    </properties>

@@ -244,6 +244,7 @@ public class PopUp extends Window implements PopUpSubject {
 
 		String nodeText = conversation.getDialog();
 		String type = conversation.getType();
+		boolean messageAlreadySent = false;
 
 		if (type.equals(ConversationNode.NodeType.ACTION.toString())) {
 			if (nodeText.contains("EXIT_CONVERSATION") ||
@@ -258,6 +259,7 @@ public class PopUp extends Window implements PopUpSubject {
 					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
 					graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
 					lastConversationIdNotified = conversationID;
+					messageAlreadySent = true;
 
 					// in this case data all we want are the last 2 parameters
 					String [] sa = conversation.getData().split(";");
@@ -269,7 +271,7 @@ public class PopUp extends Window implements PopUpSubject {
 				}
 			}
 
-			if (isActive && !lastConversationIdNotified.equals(conversationID)) {
+			if (!messageAlreadySent && !lastConversationIdNotified.equals(conversationID)) {
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText));
 				graph.notify(graph, ConversationGraphObserver.ConversationCommandEvent.valueOf(nodeText), conversationID);
 				lastConversationIdNotified = conversationID;

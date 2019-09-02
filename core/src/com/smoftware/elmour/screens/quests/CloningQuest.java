@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.smoftware.elmour.entities.EntityConfig;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityFactory;
@@ -491,6 +492,12 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 fadeToMainScreen();
                 break;
             case TASK_COMPLETE_CUTSCENE:
+                if (currentPartNumber.equals("CloningMaterialsOpen")) {
+                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.RICK, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG1);
+                }
+                else if (currentPartNumber.equals("TTJaxon")) {
+
+                }
                 fadeToMainScreen();
                 break;
         }

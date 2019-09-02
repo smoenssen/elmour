@@ -18,7 +18,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Computer Key
+							taskPhrase: Find a Missing Button
 							parentQuestId: FindButtons
 						}
 						FindButton3: {
@@ -28,7 +28,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Computer Key
+							taskPhrase: Find a Missing Button
 							parentQuestId: FindButtons
 						}
 						FindButton2: {
@@ -38,7 +38,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Computer Key
+							taskPhrase: Find a Missing Button
 							parentQuestId: FindButtons
 						}
 					}
@@ -100,8 +100,6 @@ questTasks: {
 							id: GetMaterials1
 							questTaskType: FETCH
 							questTaskStatus: NOT_STARTED
-							targetEntity: OPHION
-							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Get "Mystery Materials"
 							isSpoiler: true
 							parentQuestId: GetWires1
