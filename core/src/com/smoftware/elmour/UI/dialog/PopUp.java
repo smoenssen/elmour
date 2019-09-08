@@ -520,6 +520,7 @@ public class PopUp extends Window implements PopUpSubject {
             //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", textArea.getLines()));
             pause(50);
 
+            //todo: is this where all exceptions happen?
             numLines = textArea.getLines();
             //Gdx.app.log(TAG, String.format("textArea.getLines() = %d", numLines));
 

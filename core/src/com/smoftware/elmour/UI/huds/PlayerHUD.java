@@ -79,6 +79,7 @@ import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+import com.smoftware.elmour.tests.MyTextAreaTest;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -103,6 +104,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private Viewport _viewport;
     private Camera _camera;
     private Entity _player;
+
+    private PlayerHUD thisPlayerHUD;
 
     private QuestUI _questUI;
     private PopUp signPopUp;
@@ -222,6 +225,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         _viewport = new FitViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT, camera);
         _stage = new Stage(_viewport);
         //_stage.setDebugAll(true);
+
+        thisPlayerHUD = this;
 
         entityConversationConfigOverrideMap = new Hashtable<>();
 
@@ -766,6 +771,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           if (touchPointIsInButton(utilityButton)) {
                                               hideDebugMenu();
 
+                                              MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
+                                              test.run();
+                                            /*
                                               FileHandle file = Gdx.files.local("Ben.csv");
 
                                               for (int i = 0; i < 1000; i++) {
@@ -781,6 +789,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                                   Gdx.app.log(TAG, output);
                                                   file.writeString(output, true);
                                               }
+                                              */
                                           }
                                       }
                                   }

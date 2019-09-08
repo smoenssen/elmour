@@ -633,6 +633,11 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
 
             case ACCEPT_QUEST:
                 _playerHUD.acceptQuest(questID);
+
+                if (questID.equals("CloningMaterials")) {
+                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.RICK, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG1);
+                }
+
                 fadeToMainScreen();
                 break;
             case DECLINE_QUEST:
@@ -642,7 +647,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 break;
             case TASK_COMPLETE_CUTSCENE:
                 if (currentPartNumber.equals("CloningMaterialsOpen")) {
-                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.RICK, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG1);
+
                 }
                 else if (currentPartNumber.equals("TTJaxon")) {
 
