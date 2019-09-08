@@ -53,6 +53,7 @@ public class MyTextAreaTest implements ConversationGraphObserver {
         return new Timer.Task() {
             @Override
             public void run() {
+                Gdx.app.log(TAG, "******** RUNNING TEST - CYCLE NUMBER " + (numCycles + 1) + " ********");
                 playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/MyTextAreaTest.json", thisMyTextAreatTest);
                 playerHUD.doConversation();
                 interactionThread();
@@ -100,6 +101,7 @@ public class MyTextAreaTest implements ConversationGraphObserver {
         switch(event) {
             case EXIT_CHAT:
                 numCycles++;
+                Gdx.app.log(TAG, "******** END TEST - CYCLE NUMBER " + numCycles + " ********");
                 if (numCycles > numTimesToRunTest) {
                     running = false;
                 }

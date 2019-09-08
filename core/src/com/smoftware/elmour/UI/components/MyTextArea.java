@@ -290,6 +290,10 @@ public class MyTextArea extends MyTextField {
         float offsetY = 0;
         for (int i = firstLineShowing * 2; i < (firstLineShowing + linesShowing) * 2 && i < linesBreak.size; i += 2) {
             // todo: have seen StringIndexOutOfBoundsException thrown here
+            /* Was able to reproduce this issue by running MyTextAreaTest with the following values:
+                private float interactionDelayTime = 1.0f;
+                private float restartTestDelayTime = 2.0f;
+             */
             try {
                 // (at com.badlogic.gdx.graphics.g2d.GlyphLayout.setText(GlyphLayout.java:113))
                 font.draw(batch, displayText, x, y + offsetY + adjustOffsetY, linesBreak.items[i], linesBreak.items[i + 1], 0, Align.left, false);
