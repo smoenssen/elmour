@@ -45,6 +45,7 @@ public class ElmourGame extends Game {
 	public static boolean isAndroid() { return Gdx.app.getType() == Application.ApplicationType.Android; }
 	//public static boolean isAndroid() { return true; }
 	public static boolean DEV_MODE = true;
+	public static boolean QUIET_MODE = false;
 
 	private Array<EntityFactory.EntityName> partyList;
 

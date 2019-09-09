@@ -118,7 +118,9 @@ public class StartScreen  extends GameScreen {
         newGameButton.setHeight(menuItemHeight);
         newGameButton.setPosition(menuItemX, menuItemY);
 
-        stage.addActor(title);
+        if (!ElmourGame.QUIET_MODE) {
+            stage.addActor(title);
+        }
         stage.addActor(continueButton);
         stage.addActor(newGameButton);
         stage.addActor(message);

@@ -70,9 +70,11 @@ public class SplashScreen extends GameScreen {
         Image smoftware = new Image(new Texture("graphics/smoftware.png"));
         smoftware.setPosition((stage.getWidth() - smoftware.getWidth()) / 2, 50);
 
-        stage.addActor(title);
-        stage.addActor(smoftware);
-        stage.addActor(bar);
+        if (!ElmourGame.QUIET_MODE) {
+            stage.addActor(title);
+            stage.addActor(smoftware);
+            stage.addActor(bar);
+        }
     }
 
     float progress = 0;

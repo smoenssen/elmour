@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
@@ -38,6 +40,7 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+import com.smoftware.elmour.tests.MyTextAreaTest;
 
 public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, QuestHudObserver, CutSceneObserver, PlayerHudObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
@@ -85,6 +88,8 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     private MobileControls mobileControls;
     private CutSceneManager cutSceneManager;
     //private boolean isFadingOut = false;
+
+    private Image blackScreen;
 
     public MainGameScreen(ElmourGame game, boolean createPlayerHUD){
         _game = game;
@@ -151,6 +156,12 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         _mapMgr.setCamera(_camera);
 
+        blackScreen = new Image(new Texture("graphics/black_rectangle.png"));
+        blackScreen.setWidth(stage.getWidth());
+        blackScreen.setHeight(stage.getHeight());
+        blackScreen.setPosition(0, 0);
+        blackScreen.setVisible(true);
+
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
     }
 
@@ -204,6 +215,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         _transitionActor = new ScreenTransitionActor();
         stage.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 0), _transitionActor));
         stage.addActor(_transitionActor);
+
+        //MyTextAreaTest test = new MyTextAreaTest(_playerHUD);
+        //test.run();
     }
 
     @Override
@@ -405,6 +419,12 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         stage.act(delta);
         stage.draw();
+
+        if (ElmourGame.QUIET_MODE) {
+            _mapRenderer.getBatch().begin();
+            blackScreen.draw(_mapRenderer.getBatch(), 1);
+            _mapRenderer.getBatch().end();
+        }
     }
 
     @Override

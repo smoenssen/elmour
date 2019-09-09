@@ -19,7 +19,10 @@ public class MyTextAreaTest implements ConversationGraphObserver {
 
     private PlayerHUD playerHUD;
     private boolean running = false;
+    private boolean paused = false;
     private MyTextAreaTest thisMyTextAreatTest;
+    private Thread interactionThread;
+    private boolean interactionThreadExited = false;
 
     private int numCycles = 0;
     private int numTimesToRunTest = 5;
@@ -56,12 +59,18 @@ public class MyTextAreaTest implements ConversationGraphObserver {
                 Gdx.app.log(TAG, "******** RUNNING TEST - CYCLE NUMBER " + (numCycles + 1) + " ********");
                 playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/MyTextAreaTest.json", thisMyTextAreatTest);
                 playerHUD.doConversation();
-                interactionThread();
+
+                if (!paused) {
+                    startInteractionThread();
+                }
+                else {
+                    paused = false;
+                }
             }
         };
     }
 
-    private void interactionThread() {
+    private void startInteractionThread() {
         running = true;
 
         Runnable r = new Runnable() {
@@ -73,20 +82,26 @@ public class MyTextAreaTest implements ConversationGraphObserver {
                         e.printStackTrace();
                     }
 
-                    playerHUD.doConversation();
-                    /*
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            // On the main thread
-                            playerHUD.doConversation();
-                        }
-                    });*/
+                    if (!paused) {
+                        //playerHUD.doConversation();
+
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                // On the main thread
+                                playerHUD.doConversation();
+                            }
+                        });
+                    }
                 }
+
+                interactionThreadExited = true;
+                Gdx.app.log(TAG, "InteractionThread exiting...");
             }
         };
 
-        new Thread(r).start();
+        interactionThread = new Thread(r);
+        interactionThread.start();
     }
 
     @Override
@@ -106,6 +121,8 @@ public class MyTextAreaTest implements ConversationGraphObserver {
                     running = false;
                 }
                 else {
+                    paused = true;
+
                     if (!runTest().isScheduled()) {
                         Timer.schedule(runTest(), restartTestDelayTime);
                     }
