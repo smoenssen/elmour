@@ -701,7 +701,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 if (questTask.isTaskComplete() || questGraph.isQuestComplete()) {
                     bullet = new Image(new Texture("graphics/blackCheckmark.png"));
                     text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
-                    bulletSize = 12;
+                    bulletSize = 16;
                 } else {
                     bullet = new Image(new Texture("graphics/bullet.png"));
                     text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");

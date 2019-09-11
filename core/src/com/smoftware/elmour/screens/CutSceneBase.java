@@ -306,7 +306,7 @@ public class CutSceneBase extends GameScreen {
         Gdx.input.setInputProcessor(_multiplexer);
 
         if( _mapRenderer == null ){
-            _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
+            _mapRenderer = new OrthogonalTiledMapRenderer(_mapMgr.getCurrentTiledMapForCutScene(), Map.UNIT_SCALE);
         }
     }
 

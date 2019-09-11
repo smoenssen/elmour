@@ -433,6 +433,15 @@ public class QuestGraph {
         if( task == null) return;
         task.setTaskComplete();
 
+        // see if this task belongs to a sub-quest, and if so set sub-quest task complete if necessary
+        String parentQuestId = task.getParentQuestId();
+        if (parentQuestId != null) {
+            QuestGraph parentQuest = getQuestGraph(parentQuestId);
+            if (parentQuest.areAllTasksComplete()) {
+                setQuestTaskComplete(parentQuestId);
+            }
+        }
+
         if (areAllTasksComplete()) {
             setQuestComplete();
         }

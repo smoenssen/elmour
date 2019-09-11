@@ -25,21 +25,16 @@ Post task conversation type:
 
 Issues
 ------
-Issue with coming out of TASK_COMPLETE_CUTSCENE that was initiated with a conversation (e.g., Talk to Jaxon then can't leave Armory)
+None
 
 Todo:
 -----
 Add chapter range to NORMAL_DIALOG
-After (sub)quest is complete, check to see if alternate title should be displayed
-Subquest should have checkmark in questHUD when all tasks are complete
+Add hint to tasks?
 
 Ben
 ---
-Remove the following from .json files for characters:
-	conversationConfigPath
-	questConfigPath
-	currentQuestID
-Find Buttons sub-quest could be reduced to a single task with a target number of 3
+None
 
 To add quest
 ------------

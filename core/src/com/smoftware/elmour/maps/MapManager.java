@@ -352,6 +352,19 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         return _currentMap.getCurrentTiledMap();
     }
 
+    public TiledMap getCurrentTiledMapForCutScene(){
+        if( _currentMap == null ) {
+            String currentMapType = ProfileManager.getInstance().getProperty("currentMapType", String.class);
+            if (currentMapType != null) {
+                loadMap(MapFactory.MapType.valueOf(currentMapType), true);
+            }
+            else {
+                return null;
+            }
+        }
+        return _currentMap.getCurrentTiledMap();
+    }
+
     public MapLayer getPreviousLightMapLayer(){
         return _previousLightMap;
     }
