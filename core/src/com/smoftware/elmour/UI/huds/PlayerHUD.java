@@ -79,6 +79,7 @@ import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+import com.smoftware.elmour.sfx.ShockWave;
 import com.smoftware.elmour.tests.MyTextAreaTest;
 
 import java.util.ArrayList;
@@ -567,7 +568,16 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemGroup.addActor(hiddenItemTextArea);
         hiddenItemGroup.addActor(hiddenItemImage);
 
-        //_stage.addActor(_battleUI);
+        /*//////////////////////
+        Texture texture = new Texture("background.jpg");
+        Image image1 = new Image(texture);
+        image1.setPosition(0,0);
+        image1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+        ShockWave.getInstance().addActor(image1);
+        _stage.addActor(ShockWave.getInstance());
+        *///////////////////////////
+
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
         _stage.addActor(screenSwipe3);
@@ -771,8 +781,10 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           if (touchPointIsInButton(utilityButton)) {
                                               hideDebugMenu();
 
-                                              MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
-                                              test.run();
+                                              //MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
+                                              //test.run();
+
+                                              ShockWave.getInstance().start(0, 0);
                                             /*
                                               FileHandle file = Gdx.files.local("Ben.csv");
 

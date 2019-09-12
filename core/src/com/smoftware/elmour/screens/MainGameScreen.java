@@ -40,6 +40,7 @@ import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
+import com.smoftware.elmour.sfx.ShockWave;
 import com.smoftware.elmour.tests.MyTextAreaTest;
 
 public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, QuestHudObserver, CutSceneObserver, PlayerHudObserver {
@@ -234,6 +235,14 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
     @Override
     public void render(float delta) {
+/*
+        boolean b = true;
+        if (b) {
+            _playerHUD.render(delta);
+            return;
+        }
+*/
+
         if( _gameState == GameState.GAME_OVER ){
             _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.GameOver));
         }
