@@ -1,6 +1,7 @@
 package com.smoftware.elmour.tests;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.smoftware.elmour.UI.dialog.ConversationChoice;
 import com.smoftware.elmour.UI.dialog.ConversationGraph;
@@ -25,9 +26,9 @@ public class MyTextAreaTest implements ConversationGraphObserver {
     private boolean interactionThreadExited = false;
 
     private int numCycles = 0;
-    private int numTimesToRunTest = 5;
-    private float interactionDelayTime = 1.0f;
-    private float restartTestDelayTime = 2.0f;
+    private int numTimesToRunTest = 100;
+    private float interactionDelayTime = 0.5f;
+    private float restartTestDelayTime = 1.0f;
 
     public MyTextAreaTest(PlayerHUD playerHUD) {
         this.playerHUD = playerHUD;
@@ -56,7 +57,9 @@ public class MyTextAreaTest implements ConversationGraphObserver {
         return new Timer.Task() {
             @Override
             public void run() {
+                restartTestDelayTime = MathUtils.random(0.1f, 2.0f);
                 Gdx.app.log(TAG, "******** RUNNING TEST - CYCLE NUMBER " + (numCycles + 1) + " ********");
+                Gdx.app.log(TAG, "restartTestDelayTime = " + restartTestDelayTime);
                 playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Dialog/MyTextAreaTest.json", thisMyTextAreatTest);
                 playerHUD.doConversation();
 
@@ -76,6 +79,11 @@ public class MyTextAreaTest implements ConversationGraphObserver {
         Runnable r = new Runnable() {
             public void run() {
                 while (running) {
+                    if (!paused) {
+                        interactionDelayTime = MathUtils.random(0.1f, 1.0f);
+                        Gdx.app.log(TAG, "/////////////////////// interactionDelayTime = " + interactionDelayTime);
+                    }
+
                     try {
                         Thread.sleep((int)(interactionDelayTime * 1000));
                     } catch (InterruptedException e) {
