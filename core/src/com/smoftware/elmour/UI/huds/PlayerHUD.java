@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -568,15 +569,15 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemGroup.addActor(hiddenItemTextArea);
         hiddenItemGroup.addActor(hiddenItemImage);
 
-        /*//////////////////////
-        Texture texture = new Texture("background.jpg");
+        ///////////////////////
+        Texture texture = new Texture("Untitled.jpg");
         Image image1 = new Image(texture);
         image1.setPosition(0,0);
         image1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
-        ShockWave.getInstance().addActor(image1);
+        //_stage.addActor(image1);
         _stage.addActor(ShockWave.getInstance());
-        *///////////////////////////
+        ///////////////////////////
 
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
@@ -784,7 +785,17 @@ public class PlayerHUD implements Screen, AudioSubject,
                                               //MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
                                               //test.run();
 
-                                              ShockWave.getInstance().start(0, 0);
+                                              Texture texture = new Texture("Untitled.jpg");
+                                              Image image1 = new Image(texture);
+                                              image1.setPosition(0,0);
+                                              image1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+                                              //ShockWave.getInstance().addActor(image1);
+
+                                              Pixmap pixmap = Utility.getScreenshot(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+                                              ShockWave.getInstance().setImage(pixmap);
+                                              pixmap.dispose();
+
+                                              ShockWave.getInstance().start(ElmourGame.V_WIDTH/2, ElmourGame.V_HEIGHT/2);
                                             /*
                                               FileHandle file = Gdx.files.local("Ben.csv");
 
