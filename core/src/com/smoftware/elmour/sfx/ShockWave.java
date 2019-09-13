@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.smoftware.elmour.main.ElmourGame;
 
 public class ShockWave extends Group {
 
@@ -21,6 +23,7 @@ public class ShockWave extends Group {
     private String fragmentShader ;
     private ShaderProgram shaderProgram;
     private float time;
+    private Texture texture;
 
     private boolean disabled;
 
@@ -41,10 +44,10 @@ public class ShockWave extends Group {
         time = 0;
         vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
         fragmentShader = Gdx.files.internal("shaders/fragment.glsl").readString();
-        shaderProgram = new ShaderProgram(vertexShader,fragmentShader);
+        shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
         shaderProgram.pedantic = false;
 
-        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(),Gdx.graphics.getHeight(), true);
+        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 
     public void start(float posX,float posY){
@@ -57,10 +60,19 @@ public class ShockWave extends Group {
                 disabled = true;
             }
         });
-        this.addAction(Actions.delay(1,enable));
-        disabled=false;
+        this.addAction(Actions.delay(1, enable));
+        disabled = false;
         time = 0;
 
+    }
+
+    public void setImage(Pixmap pixmap) {
+        Texture texture = new Texture(pixmap);
+        Image image1 = new Image(texture);
+        image1.setPosition(0,0);
+        // this one is necessary
+        image1.setSize(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
+        addActor(image1);
     }
 
     @Override
@@ -77,6 +89,7 @@ public class ShockWave extends Group {
         else {
             batch.end();
             batch.flush();
+
             fbo.begin();
             batch.begin();
             Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -85,18 +98,21 @@ public class ShockWave extends Group {
             batch.end();
             batch.flush();
             fbo.end();
+
             batch.begin();
             batch.setShader(shaderProgram);
             Vector2 v = new Vector2(shockWavePositionX, shockWavePositionY);
-            v.x = v.x / Gdx.graphics.getWidth();
-            v.y = v.y / Gdx.graphics.getHeight();
+            v.x = v.x / ElmourGame.V_WIDTH;
+            v.y = v.y / ElmourGame.V_HEIGHT;
+            //shaderProgram.setUniformf("screenSize", ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
             shaderProgram.setUniformf("time", time);
             shaderProgram.setUniformf("center", v);
             Texture texture = fbo.getColorBufferTexture();
             TextureRegion textureRegion = new TextureRegion(texture);
             // and.... FLIP!  V (vertical) only
             textureRegion.flip(false, true);
-            batch.draw(textureRegion, 0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            // this one is necessary
+            batch.draw(textureRegion, 0,0, ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
             batch.setShader(null);
         }
     }

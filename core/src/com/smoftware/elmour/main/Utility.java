@@ -11,6 +11,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -25,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.XmlReader;
 import com.smoftware.elmour.UI.dialog.Conversation;
 import com.smoftware.elmour.UI.dialog.ConversationChoice;
@@ -75,6 +78,7 @@ import com.smoftware.elmour.quest.QuestTask;
 import com.smoftware.elmour.quest.QuestTaskDependency;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -1076,5 +1080,75 @@ public final class Utility {
 		long endNanoTime = System.nanoTime();
 		long elapsedNanoSeconds = endNanoTime - startNanoTime;
 		return (float)elapsedNanoSeconds * 0.000001f;
+	}
+
+	public static Pixmap getScreenshot(int x, int y, int w, int h, boolean yDown){
+		// android 2076 x 1080
+		// desktop 640 x 480
+		final Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(x, y, w, h);
+
+		if (yDown) {
+			// Flip the pixmap upside down
+			/*
+			ByteBuffer pixels = pixmap.getPixels();
+			int numBytes = w * h * 4;
+			byte[] lines = new byte[numBytes];
+			int numBytesPerLine = w * 4;
+			for (int i = 0; i < h; i++) {
+				pixels.position((h - i - 1) * numBytesPerLine);
+				pixels.get(lines, i * numBytesPerLine, numBytesPerLine);
+			}
+			pixels.clear();
+			pixels.put(lines);
+			*/
+			Pixmap flipped = flipPixmap(pixmap);
+			pixmap.dispose();
+			return flipped;
+		}
+
+		return pixmap;
+	}
+
+	public static Pixmap flipPixmap(Pixmap src) {
+		final int width = src.getWidth();
+		final int height = src.getHeight();
+		Pixmap flipped = new Pixmap(width, height, src.getFormat());
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				//flipped.drawPixel(x, y, src.getPixel(width - x - 1, y));
+				flipped.drawPixel(x, y, src.getPixel(x, height - y - 1));
+			}
+		}
+		return flipped;
+	}
+
+	public static Pixmap getScreenshot2(int x, int y, int w, int h,
+										boolean yDown) {
+
+		Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
+
+		final Pixmap pixmap1 = new Pixmap(w, h, Pixmap.Format.RGBA8888);
+		ByteBuffer pixels1 = pixmap1.getPixels();
+		Gdx.gl.glReadPixels(x, y, w, h, GL20.GL_RGBA, GL20.GL_UNSIGNED_BYTE,
+				pixels1);
+
+		Pixmap pixmap = pixmap1;
+
+		if (yDown) {
+			// Flip the pixmap upside down
+			ByteBuffer pixels = pixmap.getPixels();
+			int numBytes = w * h * 4;
+			byte[] lines = new byte[numBytes];
+			int numBytesPerLine = w * 4;
+			for (int i = 0; i < h; i++) {
+				pixels.position((h - i - 1) * numBytesPerLine);
+				pixels.get(lines, i * numBytesPerLine, numBytesPerLine);
+			}
+			pixels.clear();
+			pixels.put(lines);
+		}
+
+		return pixmap;
 	}
 }
