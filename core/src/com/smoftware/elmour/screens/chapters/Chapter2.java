@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.smoftware.elmour.entities.EntityConfig;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
 import com.smoftware.elmour.entities.EntityFactory;
@@ -1338,6 +1339,8 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
             case EXIT_CONVERSATION_5:
                 if (currentPartNumber.equals("Sword") || currentPartNumber.equals("Staff") || currentPartNumber.equals("Mace") || currentPartNumber.equals("Dagger")) {
                     setWeaponIsSelected();
+                    _playerHUD.setNormalDialog(EntityFactory.EntityName.JUSTIN);
+                    _playerHUD.setNormalDialog(EntityFactory.EntityName.JAXON_1);
                 }
 
                 _stage.addAction(Actions.sequence(
@@ -1382,6 +1385,11 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
 
                 break;
             case EXIT_CONVERSATION_1:
+                if (currentPartNumber.equals("P2")) {
+                    _playerHUD.setNormalDialog(EntityFactory.EntityName.JUSTIN, EntityConfig.ConversationType.NORMAL_DIALOG1);
+                    _playerHUD.setNormalDialog(EntityFactory.EntityName.JAXON_1, EntityConfig.ConversationType.NORMAL_DIALOG1);
+                }
+
                 _stage.addAction(Actions.sequence(
                         new setFading(true),
                         Actions.addAction(Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_OUT, 1), _transitionActor)),

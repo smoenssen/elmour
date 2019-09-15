@@ -1503,7 +1503,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         ConversationConfig conversationConfig = null;
 
         for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
-            if (type == EntityConfig.ConversationType.NORMAL_DIALOG) {
+            if (type.toString().contains(EntityConfig.ConversationType.NORMAL_DIALOG.toString())) {
                 if (ProfileManager.getInstance().currentChapterInRange(npcQuestConfig.chapters)) {
                     return npcQuestConfig;
                 }
@@ -1542,12 +1542,12 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         if (override.questID == null) {
             // use NORMAL_DIALOG
-            if (override.conversationType != EntityConfig.ConversationType.NORMAL_DIALOG) {
-                throw new RuntimeException("Expected NORMAL_DIALOG to be set for NPC " + npcName.toString() + ", quest ID " + questID);
+            if (!override.conversationType.toString().contains(EntityConfig.ConversationType.NORMAL_DIALOG.toString())) {
+                throw new RuntimeException("Expected a NORMAL_DIALOG to be set for NPC " + npcName.toString() + ", quest ID " + questID);
             }
 
             for (ConversationConfig npcQuestConfig : npcConversationConfigs) {
-                if (npcQuestConfig.type == EntityConfig.ConversationType.NORMAL_DIALOG) {
+                if (npcQuestConfig.type.toString().contains(EntityConfig.ConversationType.NORMAL_DIALOG.toString())) {
                     if (ProfileManager.getInstance().currentChapterInRange(npcQuestConfig.chapters)) {
                         conversationConfig = npcQuestConfig;
                     }
@@ -1580,6 +1580,14 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     public void setNormalDialog(EntityFactory.EntityName entityName) {
         entityConversationConfigOverrideMap.put(entityName, new ConversationConfigOverride(EntityConfig.ConversationType.NORMAL_DIALOG));
+    }
+
+    public void setNormalDialog(EntityFactory.EntityName entityName, EntityConfig.ConversationType normalDialogType) {
+        if (!normalDialogType.toString().contains(EntityConfig.ConversationType.NORMAL_DIALOG.toString())) {
+            throw new IllegalArgumentException("Calling setNormalDialog with invalid type");
+        }
+
+        entityConversationConfigOverrideMap.put(entityName, new ConversationConfigOverride(normalDialogType));
     }
 
     public void clearConversationConfig(EntityFactory.EntityName entityName) {
@@ -1685,6 +1693,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                             if (conversationConfig != null) {
                                 switch (conversationConfig.type) {
                                     case NORMAL_DIALOG:
+                                    case NORMAL_DIALOG1:
+                                    case NORMAL_DIALOG2:
+                                    case NORMAL_DIALOG3:
                                     case ACTIVE_QUEST_DIALOG1:
                                     case ACTIVE_QUEST_DIALOG2:
                                     case ACTIVE_QUEST_DIALOG3:

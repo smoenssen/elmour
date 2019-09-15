@@ -30,13 +30,13 @@ public class WeaponsRoom extends Map {
         initSpecialEntityPosition(justin);
         mapEntities.add(justin);
         */
-
+/*
         for( Vector2 position: _npcStartPositions){
             Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityName.JUSTIN);
             entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
             mapEntities.add(entity);
         }
-
+*/
     }
 
     @Override

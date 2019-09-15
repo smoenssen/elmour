@@ -10,6 +10,9 @@ Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
 Allow apostrophes in conversation popups: use copyright symbol
 Compass sign is broken with paragraph line feed
 
+Issue getting into tony's house
+Tony's conversation config is null
+
 Ben's phone 1440 x 2960 or 1080 x 2220
 
 Ben

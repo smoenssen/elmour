@@ -19,6 +19,7 @@ import com.smoftware.elmour.components.PlayerPhysicsComponent;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.screens.CutSceneManager;
+import com.smoftware.elmour.screens.chapters.Chapter2;
 import com.smoftware.elmour.sfx.ClockActor;
 
 public class MapManager extends MapManagerSubject implements ProfileObserver, ComponentObserver {
@@ -199,24 +200,31 @@ public class MapManager extends MapManagerSubject implements ProfileObserver, Co
             if (chapters != null) {
                 String [] sa = chapters.split("-");
                 int minChapter = Integer.parseInt(sa[0].trim());
-                int maxChapter = 0x7fffffff;
+                int maxChapter;
                 if (sa.length > 1) {
                     maxChapter = Integer.parseInt(sa[1].trim());
                 }
+                else {
+                    maxChapter = minChapter;
+                }
 
                 if (currentChapter >= minChapter && currentChapter <= maxChapter) {
-                    Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
-                    _currentMap.getMapEntities().add(entity);
-                    _currentMap.initSpecialEntityPosition(entity);
+                    if (okayToSpawn(object)) {
+                        Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
+                        _currentMap.getMapEntities().add(entity);
+                        _currentMap.initSpecialEntityPosition(entity);
+                    }
                 }
             }
             else {
                 String name = object.getName();
                 if (name != null && !name.contains("PLAYER_START") && !name.contains("NPC_START")) {
                     try {
-                        Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
-                        _currentMap.getMapEntities().add(entity);
-                        _currentMap.initSpecialEntityPosition(entity);
+                        if (okayToSpawn(object)) {
+                            Entity entity = EntityFactory.getInstance().getEntityByName(object.getName().toUpperCase());
+                            _currentMap.getMapEntities().add(entity);
+                            _currentMap.initSpecialEntityPosition(entity);
+                        }
                     }
                     catch (NullPointerException ex) {
                         Gdx.app.log(TAG, "setNPCSpawnEntitiesByChapter: No entity named " + name + " so ignoring");
@@ -224,6 +232,25 @@ public class MapManager extends MapManagerSubject implements ProfileObserver, Co
                 }
             }
         }
+    }
+
+    private boolean okayToSpawn(MapObject object) {
+        boolean isCondtionTrue = true;
+
+        String conditions = (String)object.getProperties().get("conditions");
+        if (conditions != null) {
+            String[] sa = conditions.split(";");
+
+            for (String condition : sa) {
+                switch (Map.SpawnCondition.valueOf(condition)) {
+                    case WEAPON_NOT_SELECTED:
+                        isCondtionTrue = !Chapter2.isWeaponSelected();
+                        break;
+                }
+            }
+        }
+
+        return isCondtionTrue;
     }
 
     public void unregisterCurrentMapEntityObservers(){

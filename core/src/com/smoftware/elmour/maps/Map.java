@@ -36,6 +36,10 @@ import java.util.Stack;
 public abstract class Map extends MapSubject implements AudioSubject{
     private static final String TAG = Map.class.getSimpleName();
 
+    protected enum SpawnCondition {
+        WEAPON_NOT_SELECTED
+    }
+
     public final static float UNIT_SCALE  = 1 / 16f;//ElmourGame.PPM;
 
     private Array<AudioObserver> _observers;

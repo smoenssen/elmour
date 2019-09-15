@@ -18,3 +18,8 @@ Add weapon to inventory when selected from chapter 2 cut scene
 
 Where possible, use json.toJson() to send in notifications and json.fromJson() to receive
 
+Add ability to spawn on specific graphic layer (like Z_UP)
+
+Add custom property to NPC to only look in certain directions when not interacting (semi-colon delimited list)
+
+Finish implementing quest task discovery to cut scene

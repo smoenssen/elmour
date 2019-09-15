@@ -70,6 +70,9 @@ public class EntityConfig {
 
     public enum ConversationType {
         NORMAL_DIALOG,
+        NORMAL_DIALOG1,
+        NORMAL_DIALOG2,
+        NORMAL_DIALOG3,
         PRE_QUEST_CUTSCENE,
         QUEST_TASK_DIALOG,
         QUEST_TASK_CUTSCENE,

@@ -7,7 +7,12 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/JustinNormalDialog.json"
+		config: "RPGGame/maps/Game/Text/Normal_Dialog/JustinNormal_Dialog.json"
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: NORMAL_DIALOG
+		config: "RPGGame/maps/Game/Text/Normal_Dialog1/JustinNormal_Dialog.json"
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
