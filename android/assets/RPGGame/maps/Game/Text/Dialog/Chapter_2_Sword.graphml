@@ -148,7 +148,7 @@ a different weapon later.<y:LabelModel>
     </node>
     <node id="n7">
       <data key="d4"/>
-      <data key="d5"><![CDATA[CENTER;ELMOUR]]></data>
+      <data key="d5"><![CDATA[ARMORY;ELMOUR]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="1227.4628503203567" y="532.6435252473265"/>
@@ -247,7 +247,6 @@ a different weapon later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e6" source="n4" target="n8">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -258,7 +257,6 @@ a different weapon later.<y:LabelModel>
       </data>
     </edge>
     <edge id="e7" source="n5" target="n7">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

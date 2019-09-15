@@ -18,7 +18,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 						FindButton3: {
@@ -28,7 +28,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 						FindButton2: {
@@ -38,7 +38,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: OPHION
 							conversationType: ACTIVE_QUEST_DIALOG1
-							taskPhrase: Find a Missing Button
+							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
 						}
 					}
@@ -82,6 +82,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_CUTSCENE2
+							postTaskConversationType: POST_TASK_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
 							parentQuestId: GetWires1
 						}
@@ -92,7 +93,7 @@ questTasks: {
 							questTaskStatus: NOT_STARTED
 							targetEntity: JAXON_1
 							conversationType: ACTIVE_QUEST_CUTSCENE1
-							postTaskConversationType: ACTIVE_QUEST_DIALOG1
+							postTaskConversationType: POST_TASK_DIALOG1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
 						}

@@ -8,6 +8,7 @@ conversationConfigs : [
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
 		config: "RPGGame/maps/Game/Text/Normal_Dialog/JustinNormal_Dialog.json"
+<<<<<<< HEAD
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
@@ -61,6 +62,8 @@ conversationConfigs : [
 		type: POST_QUEST_DIALOG
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/DogsQuest/JustinPostQuestDialog.json"
 		questID: DogsQuest
+=======
+>>>>>>> master
 	}
 ]
 entityProperties: {

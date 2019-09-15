@@ -1,0 +1,315 @@
+{
+conversations: {
+	n9: {
+		id: n9
+		dialog: TONY_WALK_LEFT
+		data: null
+		type: ACTION
+	}
+	n8: {
+		id: n8
+		dialog: A lead pipe?
+		data: Tony
+		type: NPC
+	}
+	n6: {
+		id: n6
+		dialog: "Oh, so you^re that fellow.\n§To be honest, I was expecting someone\na little more... burly."
+		data: Tony
+		type: NPC
+	}
+	n19: {
+		id: n19
+		dialog: Sorry.\n§I lost my cool.
+		data: Tony
+		type: NPC
+	}
+	n4: {
+		id: n4
+		dialog: What are you doing here?
+		data: Tony
+		type: NPC
+	}
+	n18: {
+		id: n18
+		dialog: TONY_LOOK_DOWN
+		data: null
+		type: ACTION
+	}
+	n3: {
+		id: n3
+		dialog: CHAR1_ENTER
+		data: null
+		type: ACTION
+	}
+	n17: {
+		id: n17
+		dialog: TONY_LOOK_RIGHT
+		data: null
+		type: ACTION
+	}
+	n2: {
+		id: n2
+		dialog: Too bad protein shakes aren^t a thing\nanymore.
+		data: Tony
+		type: NPC
+	}
+	n16: {
+		id: n16
+		dialog: "Do you know what I had to go through to\nget this darn pipe?\n§I had to sneak into a bear^s den!\n§And then, right as I was almost out of the\nwoods, surprise! The bear returned!\n§Yes, I had to fight a bear for this thing,\nand if you think I^m going to part with it for\nfree. Well, you^d be dead wrong."
+		data: Tony
+		type: NPC
+	}
+	n1: {
+		id: n1
+		dialog: TONY_WALK_AROUND
+		data: null
+		type: ACTION
+	}
+	n15: {
+		id: n15
+		dialog: CHAR1_SHOCK
+		data: null
+		type: ACTION
+	}
+	n0: {
+		id: n0
+		dialog: Oh man! Am I awesome or what?
+		data: Tony
+		type: NPC
+	}
+	n14: {
+		id: n14
+		dialog: What? Why?
+		data: Me
+		type: NPC
+	}
+	n13: {
+		id: n13
+		dialog: I refuse.
+		data: Tony
+		type: NPC
+	}
+	n12: {
+		id: n12
+		dialog: TONY_WALK_LEFT
+		data: null
+		type: ACTION
+	}
+	n11: {
+		id: n11
+		dialog: "Oh, you^re that fellow.\n§To be honest, I was expecting someone\na little more... burly."
+		data: Tony
+		type: NPC
+	}
+	n10: {
+		id: n10
+		dialog: "You want the pipe, right?\n§I refuse."
+		data: Tony
+		type: NPC
+	}
+	n22: {
+		id: n22
+		dialog: TASK_COMPLETE_CUTSCENE
+		data: CloningMaterials::GiveJaxonMaterials;TTJAXON1;ARMORY
+		type: ACTION
+	}
+	n21: {
+		id: n21
+		dialog: "Listen, I kinda like ya, kid, so I guess I^d be\nwilling to part with this pipe.\n§But!\n§Not for free, of course.\n§I need to punish Justin for making me\nthink that this was an easy job, so if he\nwants the lead pipe, then he will have to\npay for it.\n§Tell him that I need a toolbox stock\nwith the finest tools he has. Only then will\nhe get his precious pipe."
+		data: Tony
+		type: NPC
+	}
+	n20: {
+		id: n20
+		dialog: TONY_LOOK_RIGHT
+		data: null
+		type: ACTION
+	}
+}
+associatedChoices: {
+	n9: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n9
+			destinationId: n10
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n8: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n8
+			destinationId: n11
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n7: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n7
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n6: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n6
+			destinationId: n9
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n5: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n6
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n19: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n4: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n6
+			choicePhrase: Justin sent me.
+		}
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n4
+			destinationId: n8
+			choicePhrase: I need a lead pipe.
+		}
+	]
+	n18: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n18
+			destinationId: n19
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n4
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n17: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n17
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n16: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n16
+			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n1: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n1
+			destinationId: n2
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n15: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n15
+			destinationId: n14
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n0: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n0
+			destinationId: n1
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n14: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n14
+			destinationId: n17
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n13: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n13
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n12: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n12
+			destinationId: n13
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n11: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n11
+			destinationId: n12
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n10: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n10
+			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n21: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n21
+			destinationId: n22
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n20: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n20
+			destinationId: n21
+			choicePhrase: NO_CHOICE
+		}
+	]
+}
+currentConversationID: n0
+}

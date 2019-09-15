@@ -149,7 +149,7 @@ are you sure?<y:LabelModel>
     </node>
     <node id="n7">
       <data key="d4"/>
-      <data key="d5"><![CDATA[CENTER;ELMOUR]]></data>
+      <data key="d5"><![CDATA[ARMORY;ELMOUR]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="1252.3081185871943" y="556.4652878709895"/>
@@ -236,7 +236,6 @@ are you sure?<y:LabelModel>
       </data>
     </edge>
     <edge id="e5" source="n3" target="n8">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -250,12 +249,24 @@ are you sure?<y:LabelModel>
       </data>
     </edge>
     <edge id="e6" source="n4" target="n7">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
             <y:Point x="1339.2734608056544" y="513.3761691828213"/>
             <y:Point x="1338.4503037523573" y="513.3761691828213"/>
+          </y:Path>
+          <y:LineStyle color="#000000" type="line" width="1.0"/>
+          <y:Arrows source="none" target="standard"/>
+          <y:BendStyle smoothed="false"/>
+        </y:PolyLineEdge>
+      </data>
+    </edge>
+    <edge id="e7" source="n5" target="n2">
+      <data key="d9"/>
+      <data key="d10">
+        <y:PolyLineEdge>
+          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
+            <y:Point x="858.72166623265" y="515.287050494653"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>

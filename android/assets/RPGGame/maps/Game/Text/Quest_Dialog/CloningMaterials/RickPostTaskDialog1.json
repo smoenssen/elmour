@@ -3,13 +3,13 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: EXIT_CHAT
-		data: null
+		data: TTJAXON_DECLINE;ARMORY
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: You should really return that teddy bear.
-		data: Justin
+		dialog: Now then... I need to prepare the lab for\nwhen you bring me all of the materials.
+		data: Jaxon
 		type: NPC
 	}
 }

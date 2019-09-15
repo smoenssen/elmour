@@ -1,5 +1,17 @@
 {
 conversations: {
+	n8: {
+		id: n8
+		dialog: EXIT_CONVERSATION_2
+		data: NO;WEAPONS_ROOM
+		type: ACTION
+	}
+	n7: {
+		id: n7
+		dialog: EXIT_CONVERSATION_5
+		data: ARMORY;ELMOUR
+		type: ACTION
+	}
 	n6: {
 		id: n6
 		dialog: WALK_OUT_OF_WAY
@@ -18,17 +30,17 @@ conversations: {
 		data: Justin
 		type: NPC
 	}
+	n3: {
+		id: n3
+		dialog: "No pressure. Remember, we can always get\na different weapon later."
+		data: "{CHARACTER_2}"
+		type: NPC
+	}
 	n0: {
 		id: n0
 		dialog: Obtained Staff.
 		data: null
 		type: NPC
-	}
-	n7: {
-		id: n7
-		dialog: EXIT_CONVERSATION_5
-		data: CENTER;ELMOUR
-		type: ACTION
 	}
 }
 associatedChoices: {
@@ -47,12 +59,34 @@ associatedChoices: {
 			destinationId: n0
 			choicePhrase: Yes.
 		}
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n5
+			destinationId: n3
+			choicePhrase: No.
+		}
 	]
 	n4: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n4
 			destinationId: n7
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n3: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n3
+			destinationId: n8
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
 			choicePhrase: NO_CHOICE
 		}
 	]
