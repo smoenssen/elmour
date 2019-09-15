@@ -7,15 +7,12 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Normal_Dialog/JaxonNormal_Dialog.json"
-<<<<<<< HEAD
+		config: "RPGGame/maps/Game/Text/Normal_Dialog/JaxonNormalDialog.json"
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG1
 		config: "RPGGame/maps/Game/Text/Normal_Dialog/JaxonNormal_Dialog1.json"
-=======
->>>>>>> master
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
