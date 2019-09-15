@@ -9,7 +9,7 @@ conversations: {
 	n7: {
 		id: n7
 		dialog: EXIT_CONVERSATION_5
-		data: CENTER;ELMOUR
+		data: ARMORY;ELMOUR
 		type: ACTION
 	}
 	n6: {

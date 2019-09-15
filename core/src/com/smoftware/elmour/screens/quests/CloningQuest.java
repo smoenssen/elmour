@@ -6,6 +6,7 @@ package com.smoftware.elmour.screens.quests;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
@@ -36,12 +37,13 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
     private Action cloningMaterialsOpeningScene;
     private Action cloningMaterialsTTJaxon;
     private Action cloningMaterialsGiveJaxonMaterials;
-    private Action setupDogsQuestOpeningScene;
+    private Action cloningMaterialsTTTony;
 
     private AnimatedImage character1;
     private AnimatedImage rick;
     private AnimatedImage justin;
     private AnimatedImage jaxon;
+    private AnimatedImage tony;
 
     private AnimatedImage camactor;
     private AnimatedImage misc;
@@ -57,6 +59,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         rick = getAnimatedImage(EntityFactory.EntityName.RICK);
         justin = getAnimatedImage(EntityFactory.EntityName.JUSTIN);
         jaxon = getAnimatedImage(EntityFactory.EntityName.JAXON_1);
+        tony = getAnimatedImage(EntityFactory.EntityName.TONY);
 
         camactor = getAnimatedImage(EntityFactory.EntityName.STEVE);
         misc = getAnimatedImage(EntityFactory.EntityName.MISC_ANIMATIONS);
@@ -77,6 +80,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         _stage.addActor(rick);
         _stage.addActor(justin);
         _stage.addActor(jaxon);
+        _stage.addActor(tony);
 
         _stage.addActor(camactor);
         _stage.addActor(misc);
@@ -123,7 +127,10 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 misc3.setCurrentAnimationType(Entity.AnimationType.SHOCK_OFF);
 
                 justin.setVisible(false);
+
                 jaxon.setVisible(false);
+
+                tony.setVisible(false);
             }
         };
 
@@ -158,6 +165,8 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 jaxon.setPosition(3.5f, 7.1f);
                 jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 jaxon.setCurrentDirection(Entity.Direction.LEFT);
+
+                tony.setVisible(false);
 
                 camactor.setPosition(4.5f, 5);
 
@@ -197,7 +206,42 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 jaxon.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 jaxon.setCurrentDirection(Entity.Direction.LEFT);
 
-                camactor.setPosition(4.5f, 5);
+                tony.setVisible(false);
+            }
+        };
+
+        cloningMaterialsTTTony = new RunnableAction() {
+            @Override
+            public void run() {
+                _playerHUD.hideMessage();
+                _mapMgr.loadMap(MapFactory.MapType.M3DOOR1, true);
+                _mapMgr.disableCurrentmapMusic();
+                setCameraPosition(7, 6);
+                keepCamInMap = false;
+
+                rick.setVisible(false);
+
+                character1.setVisible(false);
+                character1.setPosition(12, 8.5f);
+                character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                character1.setCurrentDirection(Entity.Direction.UP);
+
+                misc.setVisible(false);
+
+                misc2.setVisible(false);
+
+                misc3.setVisible(false);
+
+                justin.setVisible(false);
+
+                jaxon.setVisible(false);
+
+                tony.setVisible(false);
+                tony.setPosition(11, 13.5f);
+                tony.setCurrentAnimationType(Entity.AnimationType.IDLE);
+                tony.setCurrentDirection(Entity.Direction.DOWN);
+
+                camactor.setPosition(7, 4);
 
                 followActor(camactor);
             }
@@ -635,7 +679,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 _playerHUD.acceptQuest(questID);
 
                 if (questID.equals("CloningMaterials")) {
-                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.RICK, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG1);
+                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.RICK, questID, EntityConfig.ConversationType.POST_TASK_DIALOG1);
                 }
 
                 fadeToMainScreen();
@@ -646,8 +690,8 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 fadeToMainScreen();
                 break;
             case TASK_COMPLETE_CUTSCENE:
-                if (currentPartNumber.equals("CloningMaterialsOpen")) {
-
+                if (currentPartNumber.equals("GiveJaxonMaterials")) {
+                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.JUSTIN, questID, EntityConfig.ConversationType.POST_TASK_DIALOG1);
                 }
                 else if (currentPartNumber.equals("TTJaxon")) {
 
@@ -729,6 +773,28 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         );
     }
 
+    private Action getTTTony() {
+        cloningMaterialsTTTony.reset();
+        return Actions.sequence(
+                Actions.addAction(cloningMaterialsTTTony),
+                new setFading(true),
+                Actions.addAction(Actions.moveBy(0, 2, 2, Interpolation.fade), camactor),
+
+                Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
+                Actions.delay(2),
+                Actions.run(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+                                _playerHUD.loadConversationForCutScene("RPGGame/maps/Game/Text/Quest_Dialog/CloningMaterials/CloningMaterialsTTTony.json", thisScreen);
+                                _playerHUD.doConversation();
+                                // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
+                            }
+                        }),
+                Actions.delay(2)
+        );
+    }
+
     @Override
     public void show() {
         baseShow();
@@ -746,6 +812,10 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         else if (currentPartNumber.equals("GiveJaxonMaterials")) {
             questID = "CloningMaterials";
             _stage.addAction(getGiveJaxonMaterials());
+        }
+        else if (currentPartNumber.equals("TTTony")) {
+            questID = "CloningMaterials";
+            _stage.addAction(getTTTony());
         }
 
         baseShow();

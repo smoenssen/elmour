@@ -3,13 +3,13 @@ conversations: {
 	n1: {
 		id: n1
 		dialog: EXIT_CHAT
-		data: null
+		data: TTJAXON_DECLINE;ARMORY
 		type: ACTION
 	}
 	n0: {
 		id: n0
-		dialog: You probably shouldn^t be back here.
-		data: Rick
+		dialog: Wow...\n§I can^t believe that Justin would do something\nlike that.\n§Actually... I can.
+		data: Jaxon
 		type: NPC
 	}
 }

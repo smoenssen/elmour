@@ -6,7 +6,7 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/OphionNormalDialog.json"
+		config: "RPGGame/maps/Game/Text/Normal_Dialog/OphionNormal_Dialog.json"
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig

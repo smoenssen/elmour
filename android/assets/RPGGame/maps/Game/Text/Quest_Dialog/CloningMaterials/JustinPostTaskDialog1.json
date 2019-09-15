@@ -8,8 +8,8 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: My cloning machine is almost complete!
-		data: Rick
+		dialog: Just get me a lead pipe from Tony and the\nwire is your^s.
+		data: Justin
 		type: NPC
 	}
 }

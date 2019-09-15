@@ -68,7 +68,7 @@ conversations: {
 	}
 	n21: {
 		id: n21
-		dialog: It looks like everything in this book is writen in\nChinese.
+		dialog: It looks like everything in this book is written in\nChinese.
 		data: My Thoughts
 		type: NPC
 	}

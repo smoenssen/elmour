@@ -7,12 +7,18 @@ conversationConfigs : [
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: NORMAL_DIALOG
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/NormalDialog/JaxonNormalDialog.json"
+		config: "RPGGame/maps/Game/Text/Normal_Dialog/JaxonNormal_Dialog.json"
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: POST_TASK_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/Cloning_Quest/JaxonPostTaskDialog1.json"
+		questID: CloningMaterials
+	}
+	{
+		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
+		type: POST_TASK_DIALOG2
+		config: "RPGGame/maps/Game/Text/Quest_Dialog/Cloning_Quest/JaxonPostTaskDialog2.json"
 		questID: CloningMaterials
 	}
 	{
@@ -25,18 +31,6 @@ conversationConfigs : [
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: ACTIVE_QUEST_CUTSCENE2
 		config: "CloningQuestScreen_GiveJaxonMaterials"
-		questID: CloningMaterials
-	}
-	{
-		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
-		type: RETURN_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/OphionReturnQuestDialog.json"
-		questID: CloningMaterials
-	}
-	{
-		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
-		type: POST_QUEST_DIALOG
-		config: "RPGGame/maps/Game/Text/Quest_Dialog/TeddyBear/OphionPostQuestDialog.json"
 		questID: CloningMaterials
 	}
 ]

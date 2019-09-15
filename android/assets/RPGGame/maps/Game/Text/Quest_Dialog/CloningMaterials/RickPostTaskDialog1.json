@@ -8,8 +8,8 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: "It^s all fun and games ^til you get hurt out\nhere.\n§If you need to rest, let me know.\n¶Just know that it won^t be free.\n§...\n§What? I^ve gotta get dibs somehow!"
-		data: Tony
+		dialog: Now then... I need to prepare the lab for\nwhen you bring me all of the materials.
+		data: Jaxon
 		type: NPC
 	}
 }

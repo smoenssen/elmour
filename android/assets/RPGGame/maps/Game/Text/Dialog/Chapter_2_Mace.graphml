@@ -33,7 +33,7 @@
     </node>
     <node id="n1">
       <data key="d4"/>
-      <data key="d5"><![CDATA[CENTER;ELMOUR]]></data>
+      <data key="d5"><![CDATA[ARMORY;ELMOUR]]></data>
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="30.0" width="172.28437033032606" x="1201.6286376602893" y="505.8217626236632"/>
