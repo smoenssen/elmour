@@ -21,9 +21,9 @@ public class MapSubject {
         _observers.removeValue(mapObserver, true);
     }
 
-    protected void notify(MapObserver.MapEvent event){
+    protected void notify(MapObserver.MapEvent event, String value){
         for(MapObserver observer: _observers){
-            observer.onNotify(event);
+            observer.onNotify(event, value);
         }
     }
 }

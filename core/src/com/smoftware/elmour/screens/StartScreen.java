@@ -123,7 +123,7 @@ public class StartScreen  extends GameScreen {
             stage.addActor(effect);
         }
         stage.addActor(continueButton);
-        //stage.addActor(newGameButton);
+        stage.addActor(newGameButton);
         stage.addActor(message);
 
         if (ElmourGame.DEV_MODE) {

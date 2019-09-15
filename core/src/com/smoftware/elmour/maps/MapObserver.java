@@ -7,8 +7,9 @@ package com.smoftware.elmour.maps;
 public interface MapObserver {
     public static enum MapEvent {
         SHAKE_CAM,
+        DISPLAY_CONVERSATION,
         NONE
     }
 
-    void onNotify(MapEvent event);
+    void onNotify(MapEvent event, String value);
 }

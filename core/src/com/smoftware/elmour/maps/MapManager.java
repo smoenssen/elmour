@@ -21,7 +21,7 @@ import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.screens.CutSceneManager;
 import com.smoftware.elmour.sfx.ClockActor;
 
-public class MapManager implements ProfileObserver, ComponentObserver {
+public class MapManager extends MapManagerSubject implements ProfileObserver, ComponentObserver {
     private static final String TAG = MapManager.class.getSimpleName();
 
     private Camera _camera;
@@ -178,7 +178,7 @@ public class MapManager implements ProfileObserver, ComponentObserver {
         }
 
         _currentMap = map;
-        _mapChanged = true;
+        setMapChanged(true);
         clearCurrentSelectedMapEntity();
         refreshMapHiddenItemEntities();
 
@@ -515,7 +515,12 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void setMapChanged(boolean hasMapChanged){
-        this._mapChanged = hasMapChanged;
+        _mapChanged = hasMapChanged;
+
+        if (_mapChanged) {
+            Vector2 position = _currentMap.getPlayerStart();
+            notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(position));
+        }
     }
 
     public void registerMapObserver(MapObserver observer) {
@@ -528,7 +533,9 @@ public class MapManager implements ProfileObserver, ComponentObserver {
     }
 
     public void unregisterMapObserver(MapObserver observer) {
-        _currentMap.removeObserver(observer);
+        if (_currentMap != null) {
+            _currentMap.removeObserver(observer);
+        }
     }
 
     @Override

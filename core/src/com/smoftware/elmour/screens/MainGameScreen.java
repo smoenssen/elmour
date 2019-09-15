@@ -259,7 +259,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         _mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         if( _mapMgr.hasMapChanged() ){
+            _mapMgr.unregisterMapObserver(this);
             _mapMgr.registerMapObserver(this);
+            _mapMgr.unregisterMapObserver(_playerHUD);
+            _mapMgr.registerMapObserver(_playerHUD);
+
             _mapRenderer.setMap(_mapMgr.getCurrentTiledMap());
 
             if (_playerHUD.isPlayerComingFromBattle()) {
@@ -551,7 +555,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     }
 
     @Override
-    public void onNotify(MapEvent event) {
+    public void onNotify(MapEvent event, String value) {
         switch(event) {
             case SHAKE_CAM:
                 if( shakeCam == null ){

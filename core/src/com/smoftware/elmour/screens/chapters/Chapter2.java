@@ -1336,6 +1336,10 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
 
                 break;
             case EXIT_CONVERSATION_5:
+                if (currentPartNumber.equals("Sword") || currentPartNumber.equals("Staff") || currentPartNumber.equals("Mace") || currentPartNumber.equals("Dagger")) {
+                    setWeaponIsSelected();
+                }
+
                 _stage.addAction(Actions.sequence(
                         myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_DOWN),
                         myActions.new setWalkDirection(character2, Entity.AnimationType.WALK_DOWN),
@@ -1357,6 +1361,10 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
                 }
                 else if (currentPartNumber.equals("P3")) {
                     ProfileManager.getInstance().setProperty(ElmourGame.ScreenType.Chapter2Screen.toString() + "_P3", CutSceneObserver.CutSceneStatus.DONE);
+                }
+                else if (currentPartNumber.equals("Sword") || currentPartNumber.equals("Staff") || currentPartNumber.equals("Mace") || currentPartNumber.equals("Dagger")) {
+                    String property = ElmourGame.ScreenType.Chapter2Screen. toString() + "_" + currentPartNumber;
+                    ProfileManager.getInstance().setProperty(property, CutSceneObserver.CutSceneStatus.NOT_STARTED);
                 }
 
                 if (isDoneWithExploring()) {
@@ -1382,6 +1390,51 @@ public class Chapter2 extends CutSceneBase implements ConversationGraphObserver 
                         )
                 );        }
 
+    }
+
+    public static boolean isWeaponSelected() {
+        String property;
+        CutSceneObserver.CutSceneStatus status;
+
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Sword";
+        status = ProfileManager.getInstance().getProperty(property, CutSceneObserver.CutSceneStatus.class);
+        if (status != null && !status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            return true;
+        }
+
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Staff";
+        status = ProfileManager.getInstance().getProperty(property, CutSceneObserver.CutSceneStatus.class);
+        if (status != null && !status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            return true;
+        }
+
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Mace";
+        status = ProfileManager.getInstance().getProperty(property, CutSceneObserver.CutSceneStatus.class);
+        if (status != null && !status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            return true;
+        }
+
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Dagger";
+        status = ProfileManager.getInstance().getProperty(property, CutSceneObserver.CutSceneStatus.class);
+        if (status != null && !status.equals(CutSceneObserver.CutSceneStatus.NOT_STARTED)) {
+            return true;
+        }
+
+        // Else, no weapon selected
+        return false;
+    }
+
+    private void setWeaponIsSelected() {
+        String property;
+
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Sword";
+        ProfileManager.getInstance().setProperty(property, CutSceneObserver.CutSceneStatus.DONE);
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Staff";
+        ProfileManager.getInstance().setProperty(property, CutSceneObserver.CutSceneStatus.DONE);
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Mace";
+        ProfileManager.getInstance().setProperty(property, CutSceneObserver.CutSceneStatus.DONE);
+        property = ElmourGame.ScreenType.Chapter2Screen.toString() + "_Dagger";
+        ProfileManager.getInstance().setProperty(property, CutSceneObserver.CutSceneStatus.DONE);
     }
 
     @Override

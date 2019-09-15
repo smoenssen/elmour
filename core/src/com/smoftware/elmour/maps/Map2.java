@@ -79,7 +79,7 @@ public class Map2 extends Map {
             else {
                 switchEnabled = true;
                 _currentMap.getLayers().get("Switch Press").setVisible(false);
-                notify(MapObserver.MapEvent.SHAKE_CAM);
+                notify(MapObserver.MapEvent.SHAKE_CAM, null);
                 notify(AudioObserver.AudioCommand.MUSIC_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_MOUNTAIN_AVALANCHE);
                 ProfileManager.getInstance().setProperty(interaction.toString(), "");
             }

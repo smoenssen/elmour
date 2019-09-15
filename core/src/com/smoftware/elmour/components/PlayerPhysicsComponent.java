@@ -16,11 +16,13 @@ import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.main.Utility;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.maps.MapManagerObserver;
+import com.smoftware.elmour.maps.MapObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.screens.CutSceneManager;
 
-public class PlayerPhysicsComponent extends PhysicsComponent {
+public class PlayerPhysicsComponent extends PhysicsComponent implements MapManagerObserver {
     private static final String TAG = PlayerPhysicsComponent.class.getSimpleName();
 
     private Entity.State _state;
@@ -49,6 +51,9 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     private boolean isShowHiddenItemMsgSent = false;
     private boolean isHiddenItemColliding = false;
     private KeyItem discoveredHiddenItem = null;
+
+    private boolean isRegisteredWithMapManager = false;
+    private boolean playerStartJustChanged = false;
 
     public PlayerPhysicsComponent(){
         //_boundingBoxLocation = BoundingBoxLocation.CENTER;
@@ -308,7 +313,20 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
     @Override
     public void update(Entity entity, com.smoftware.elmour.maps.MapManager mapMgr, float delta) {
         MapObject object = null;
-        updateBoundingBoxPosition(_nextEntityPosition);
+
+        if (!isRegisteredWithMapManager) {
+            mapMgr.addObserver(this);
+            isRegisteredWithMapManager = true;
+        }
+
+        if (playerStartJustChanged) {
+            // don't update bounding box this frame otherwise player position from previous map will be used
+            playerStartJustChanged = false;
+        }
+        else {
+            updateBoundingBoxPosition(_nextEntityPosition);
+        }
+
         updatePortalLayerActivation(mapMgr);
         updateQuestLayerActivation(mapMgr);
         updateEnemySpawnLayerActivation(mapMgr);
@@ -867,6 +885,17 @@ public class PlayerPhysicsComponent extends PhysicsComponent {
                 break;
             case SAVED_PROFILE:
                 isGameSaving = false;
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(MapManagerEvent event, String value) {
+        switch (event) {
+            case PLAYER_START_CHANGED:
+                Vector2 position = _json.fromJson(Vector2.class, value);
+                updateBoundingBoxPosition(position);
+                playerStartJustChanged = true;
                 break;
         }
     }

@@ -69,6 +69,7 @@ import com.smoftware.elmour.UI.dialog.PopUpObserver;
 import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
+import com.smoftware.elmour.maps.MapObserver;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.profile.ProfileObserver;
 import com.smoftware.elmour.quest.QuestGraph;
@@ -98,7 +99,8 @@ public class PlayerHUD implements Screen, AudioSubject,
                                 InputDialogSubject,
                                 PlayerHudSubject,
                                 InventoryHudObserver,
-                                QuestHudObserver {
+                                QuestHudObserver,
+                                MapObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
 
     ElmourGame game;
@@ -569,7 +571,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemGroup.addActor(hiddenItemTextArea);
         hiddenItemGroup.addActor(hiddenItemImage);
 
-        ///////////////////////
+        /*//////////////////////
         Texture texture = new Texture("Untitled.jpg");
         Image image1 = new Image(texture);
         image1.setPosition(0,0);
@@ -577,7 +579,7 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         //_stage.addActor(image1);
         _stage.addActor(ShockWave.getInstance());
-        ///////////////////////////
+        *///////////////////////////
 
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
@@ -2725,6 +2727,16 @@ public class PlayerHUD implements Screen, AudioSubject,
                 break;
             case QUEST_HUD_HIDDEN:
                 menuButton.setVisible(true);
+                break;
+        }
+    }
+
+    @Override
+    public void onNotify(MapEvent event, String value) {
+        switch (event) {
+            case DISPLAY_CONVERSATION:
+                loadConversationForCutScene(value, this);
+                doConversation();
                 break;
         }
     }
