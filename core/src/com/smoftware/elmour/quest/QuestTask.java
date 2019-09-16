@@ -34,6 +34,7 @@ public class QuestTask {
     private boolean isSpoiler;
     private QuestList subQuestList;
     private String parentQuestId;
+    private String hint;
 
     public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
 
@@ -86,6 +87,10 @@ public class QuestTask {
     public void setParentQuestId(String questTaskId) { parentQuestId = questTaskId; }
 
     public String getParentQuestId() { return parentQuestId; }
+
+    public void setHint(String hint) { this.hint = hint; }
+
+    public String getHint() { return hint; }
 
     // convenience functions
     public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }

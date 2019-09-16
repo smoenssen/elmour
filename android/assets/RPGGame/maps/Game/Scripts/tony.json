@@ -11,7 +11,7 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
-		type: ACTIVE_QUEST_CUTSCENE1
+		type: QUEST_TASK_CUTSCENE
 		config: "CloningQuestScreen_TTTony"
 		questID: CloningMaterials
 	}

@@ -303,14 +303,17 @@ public class MapManager extends MapManagerSubject implements ProfileObserver, Co
 
     public void setStartPositionFromPreviousMap() {
         _currentMap.setStartPositionFromPreviousMap(_currentMap.getPreviousMapType().toString());
+        notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(_currentMap.getPlayerStart()));
     }
 
     public void setStartPositionFromPreviousMap(String mapType) {
         _currentMap.setStartPositionFromPreviousMap(mapType);
+        notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(_currentMap.getPlayerStart()));
     }
 
     public void setStartPostionByNameExtension(String nameExtension) {
         _currentMap.setStartPositionByNameExtension(nameExtension);
+        notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(_currentMap.getPlayerStart()));
     }
 
     public MapLayer getCollisionLayer(){
@@ -545,8 +548,7 @@ public class MapManager extends MapManagerSubject implements ProfileObserver, Co
         _mapChanged = hasMapChanged;
 
         if (_mapChanged) {
-            Vector2 position = _currentMap.getPlayerStart();
-            notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(position));
+            notify(MapManagerObserver.MapManagerEvent.PLAYER_START_CHANGED, json.toJson(_currentMap.getPlayerStart()));
         }
     }
 

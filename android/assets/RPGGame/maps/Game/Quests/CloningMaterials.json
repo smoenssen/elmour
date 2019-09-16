@@ -150,6 +150,7 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 		targetNumber: 2
+		hint: Hint for getting CDs
 	}
 	GiveRickSupplies: {
 		yedNodeId: n2::n1

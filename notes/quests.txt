@@ -149,7 +149,7 @@ Color = task types
 	RETURN		= ffcc00	(gold)
 	DISCOVER	= 00ff00	(green)
 Text = task ID
-Phrase = URL
+URL = Phrase with an optional Hint using # as a delimiter (e.g., "Get CDs#Hint for getting CDs")
 Description will be <Target Entity>;<ConversationType>;<Post Task ConversationType>;<Target Number>
 	For FETCH "Target Entity" is the KeyItem ID
 	The last two are optional, but if you want a Target Number but not Post Task ConversationType, then you still need the extra semi-colon:

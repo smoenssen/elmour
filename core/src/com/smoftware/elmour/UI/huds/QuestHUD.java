@@ -1,5 +1,6 @@
 package com.smoftware.elmour.UI.huds;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,6 +31,7 @@ import com.smoftware.elmour.quest.QuestTask;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Hashtable;
 
 /**
  * Created by steve on 5/14/19.
@@ -86,6 +88,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private MyTextArea taskBackground;
     private float taskListWidth;
     private float taskListHeight;
+    private Hashtable<String, String> taskHintMap;
 
     private Table mainTable;
 
@@ -283,6 +286,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         /*
         **  TASK LIST
         */
+        taskHintMap = new Hashtable<>();
         WidgetGroup groupTasks = new WidgetGroup();
         taskTableView = new Table();
         //taskTableView.debugAll();
@@ -485,6 +489,25 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                            }
                                        }
         );
+
+        taskScrollPaneList.addListener(new ClickListener() {
+                                      @Override
+                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                          return true;
+                                      }
+
+                                      @Override
+                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                          if (event.getTarget() instanceof Label) {
+                                              Label label = (Label) event.getTarget();
+                                              String hint = taskHintMap.get(label.getText().toString());
+                                              if (hint != null) {
+                                                  Gdx.app.log(TAG, hint);
+                                              }
+                                          }
+                                      }
+                                  }
+        );
     }
 
     private void setSortingOrder(String sortingOrder) {
@@ -680,6 +703,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
     private void setTaskListViewItems(ArrayList<QuestTask> taskList, String questID) {
         taskTableView.clear();
+        taskHintMap.clear();
 
         float usedSpace = 16;
 
@@ -706,6 +730,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     bullet = new Image(new Texture("graphics/bullet.png"));
                     text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
                     bulletSize = 16;
+                    taskHintMap.put(getTaskText(questTask), "Hint = " + questTask.getHint());
                 }
 
                 text.setWrap(true);
@@ -738,6 +763,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
                         } else {
                             subBullet = new Image(new Texture("graphics/bullet2.png"));
                             text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "battle");
+                            taskHintMap.put(getTaskText(subQuestTask), "Hint = " + subQuestTask.getHint());
                         }
 
                         text.setWrap(true);

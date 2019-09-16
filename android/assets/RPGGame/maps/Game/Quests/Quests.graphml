@@ -205,7 +205,7 @@
       </data>
       <graph edgedefault="directed" id="n2:">
         <node id="n2::n0">
-          <data key="d4"><![CDATA[Get CDs]]></data>
+          <data key="d4"><![CDATA[Get CDs#Hint for getting CDs]]></data>
           <data key="d5"><![CDATA[OPHION;ACTIVE_QUEST_DIALOG1;;2]]></data>
           <data key="d6">
             <y:ShapeNode>

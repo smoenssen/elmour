@@ -616,8 +616,14 @@ public final class Utility {
 				String key = data_element.getAttribute("key");
 
 				if (key.equals("d4")) {
-					// Data URL is quest task phrase, or in the case of a TASK_COMPLETE it is the KeyItem ID
-					taskNode.setTaskPhrase(data_element.getText());
+					// Data URL is quest task phrase followed by an optional # delimited hint,
+                    // or in the case of a TASK_COMPLETE it is the KeyItem ID
+					String url = data_element.getText();
+					String [] sa = url.split("#");
+					taskNode.setTaskPhrase(sa[0]);
+					if (sa.length > 1) {
+						taskNode.setHint(sa[1]);
+					}
 				} else if (key.equals("d5")) {
 					// Data Description is in the form <Target Entity>;<ConversationType>;<Post task ConversationType>;<Target Number>
 					String[] sa = data_element.getText().split(";", 4);
