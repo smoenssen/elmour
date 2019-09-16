@@ -150,7 +150,6 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 		targetNumber: 2
-		hint: Hint for getting CDs
 	}
 	GiveRickSupplies: {
 		yedNodeId: n2::n1
@@ -189,7 +188,7 @@ questTasks: {
 							questTaskType: RETURN
 							questTaskStatus: NOT_STARTED
 							targetEntity: TONY
-							conversationType: ACTIVE_QUEST_DIALOG1
+							conversationType: ACTIVE_QUEST_CUTSCENE1
 							taskPhrase: Talk to Tony
 							parentQuestId: GetWires2
 						}
