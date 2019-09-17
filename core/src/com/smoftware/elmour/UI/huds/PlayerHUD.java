@@ -30,6 +30,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.smoftware.elmour.UI.devtools.AdjustKeyItemsInputListener;
 import com.smoftware.elmour.UI.devtools.GotoMapListener;
 import com.smoftware.elmour.UI.devtools.SaveFileListener;
 import com.smoftware.elmour.UI.graphics.AnimatedImage;
@@ -161,15 +162,20 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton saveButton;
     private TextButton debugButton;
 
-    // for debugging
+    ////// for debugging
     private TextButton utilityButton;
     private TextButton noClipModeButton;
-    private TextButton adjustInventoryButton;
-    private TextButton adjustSpellsPowersButton;
-    private TextButton adjustStatsButton;
-    private AdjustStatsUI adjustStatsUI;
     private TextButton gotoMapButton;
     private TextButton saveAsButton;
+
+    private TextButton adjustInventoryButton;
+    private TextButton adjustSpellsPowersButton;
+    private TextButton adjustKeyItemsButton;
+    private TextButton adjustStatsButton;
+    private TextButton adjustQuestsButton;
+
+    private AdjustStatsUI adjustStatsUI;
+    /////////////////////
 
     private Dialog _messageBoxUI;
     private Label _label;
@@ -248,7 +254,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _shakeCam = new ShakeCamera(0, 0, 30.0f);
 
         inventoryHUD = new InventoryHUD(this.game, _stage);
-        questHUD = new QuestHUD(this.game, _stage);
+        questHUD = new QuestHUD(this, _stage);
 
         game.battleState.addObserver(this);
         inventoryHUD.addObserver(this);
@@ -382,11 +388,14 @@ public class PlayerHUD implements Screen, AudioSubject,
 
         utilityButton = new TextButton("Utility", Utility.ELMOUR_UI_SKIN);
         noClipModeButton = new TextButton("No clip for you", Utility.ELMOUR_UI_SKIN);
-        adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
-        adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
-        adjustStatsButton = new TextButton("Adjust Stats", Utility.ELMOUR_UI_SKIN);
         gotoMapButton = new TextButton("Go to map", Utility.ELMOUR_UI_SKIN);
         saveAsButton = new TextButton("Save as...", Utility.ELMOUR_UI_SKIN);
+
+        adjustInventoryButton = new TextButton("Adjust Inventory", Utility.ELMOUR_UI_SKIN);
+        adjustSpellsPowersButton = new TextButton("Adjust Spells", Utility.ELMOUR_UI_SKIN);
+        adjustKeyItemsButton = new TextButton("Adjust Key Items", Utility.ELMOUR_UI_SKIN);
+        adjustQuestsButton = new TextButton("Adjust Quests", Utility.ELMOUR_UI_SKIN);
+        adjustStatsButton = new TextButton("Adjust Stats", Utility.ELMOUR_UI_SKIN);
 
         float menuPadding = 12;
         float menuItemWidth = _stage.getWidth() / 3f;
@@ -394,15 +403,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         float menuItemX = _stage.getWidth() - menuItemWidth - menuPadding;
         float menuItemY = _stage.getHeight() - menuItemHeight - menuPadding;
 
+        //////// Main menu
         partyButton.setWidth(menuItemWidth);
         partyButton.setHeight(menuItemHeight);
         partyButton.setPosition(menuItemX, menuItemY);
         partyButton.setVisible(false);
-
-        utilityButton.setWidth(menuItemWidth);
-        utilityButton.setHeight(menuItemHeight);
-        utilityButton.setPosition(menuItemX, menuItemY);
-        utilityButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         inventoryButton.setWidth(menuItemWidth);
@@ -410,21 +415,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryButton.setPosition(menuItemX, menuItemY);
         inventoryButton.setVisible(false);
 
-        noClipModeButton.setWidth(menuItemWidth);
-        noClipModeButton.setHeight(menuItemHeight);
-        noClipModeButton.setPosition(menuItemX, menuItemY);
-        noClipModeButton.setVisible(false);
-
         menuItemY -= menuItemHeight - 2;
         questsButton.setWidth(menuItemWidth);
         questsButton.setHeight(menuItemHeight);
         questsButton.setPosition(menuItemX, menuItemY);
         questsButton.setVisible(false);
-
-        adjustInventoryButton.setWidth(menuItemWidth);
-        adjustInventoryButton.setHeight(menuItemHeight);
-        adjustInventoryButton.setPosition(menuItemX, menuItemY);
-        adjustInventoryButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         optionsButton.setWidth(menuItemWidth);
@@ -432,21 +427,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         optionsButton.setPosition(menuItemX, menuItemY);
         optionsButton.setVisible(false);
 
-        adjustSpellsPowersButton.setWidth(menuItemWidth);
-        adjustSpellsPowersButton.setHeight(menuItemHeight);
-        adjustSpellsPowersButton.setPosition(menuItemX, menuItemY);
-        adjustSpellsPowersButton.setVisible(false);
-
         menuItemY -= menuItemHeight - 2;
         saveButton.setWidth(menuItemWidth);
         saveButton.setHeight(menuItemHeight);
         saveButton.setPosition(menuItemX, menuItemY);
         saveButton.setVisible(false);
-
-        adjustStatsButton.setWidth(menuItemWidth);
-        adjustStatsButton.setHeight(menuItemHeight);
-        adjustStatsButton.setPosition(menuItemX, menuItemY);
-        adjustStatsButton.setVisible(false);
 
         menuItemY -= menuItemHeight - 2;
         debugButton.setWidth(menuItemWidth);
@@ -454,6 +439,22 @@ public class PlayerHUD implements Screen, AudioSubject,
         debugButton.setPosition(menuItemX, menuItemY);
         debugButton.setVisible(false);
 
+        //////// Right debug menu
+        menuItemX = _stage.getWidth() - menuItemWidth - menuPadding;
+        menuItemY = _stage.getHeight() - menuItemHeight - menuPadding;
+
+        utilityButton.setWidth(menuItemWidth);
+        utilityButton.setHeight(menuItemHeight);
+        utilityButton.setPosition(menuItemX, menuItemY);
+        utilityButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        noClipModeButton.setWidth(menuItemWidth);
+        noClipModeButton.setHeight(menuItemHeight);
+        noClipModeButton.setPosition(menuItemX, menuItemY);
+        noClipModeButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
         gotoMapButton.setWidth(menuItemWidth);
         gotoMapButton.setHeight(menuItemHeight);
         gotoMapButton.setPosition(menuItemX, menuItemY);
@@ -464,6 +465,39 @@ public class PlayerHUD implements Screen, AudioSubject,
         saveAsButton.setHeight(menuItemHeight);
         saveAsButton.setPosition(menuItemX, menuItemY);
         saveAsButton.setVisible(false);
+
+        //////// Left debug menu
+        menuItemX = menuPadding;
+        menuItemY = _stage.getHeight() - menuItemHeight - menuPadding;
+
+        adjustInventoryButton.setWidth(menuItemWidth);
+        adjustInventoryButton.setHeight(menuItemHeight);
+        adjustInventoryButton.setPosition(menuItemX, menuItemY);
+        adjustInventoryButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        adjustSpellsPowersButton.setWidth(menuItemWidth);
+        adjustSpellsPowersButton.setHeight(menuItemHeight);
+        adjustSpellsPowersButton.setPosition(menuItemX, menuItemY);
+        adjustSpellsPowersButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        adjustKeyItemsButton.setWidth(menuItemWidth);
+        adjustKeyItemsButton.setHeight(menuItemHeight);
+        adjustKeyItemsButton.setPosition(menuItemX, menuItemY);
+        adjustKeyItemsButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        adjustQuestsButton.setWidth(menuItemWidth);
+        adjustQuestsButton.setHeight(menuItemHeight);
+        adjustQuestsButton.setPosition(menuItemX, menuItemY);
+        adjustQuestsButton.setVisible(false);
+
+        menuItemY -= menuItemHeight - 2;
+        adjustStatsButton.setWidth(menuItemWidth);
+        adjustStatsButton.setHeight(menuItemHeight);
+        adjustStatsButton.setPosition(menuItemX, menuItemY);
+        adjustStatsButton.setVisible(false);
 
         float swipeBarHeight = _stage.getHeight() / 10;
         float swipeBarWidth = 1000;
@@ -616,6 +650,8 @@ public class PlayerHUD implements Screen, AudioSubject,
             _stage.addActor(noClipModeButton);
             _stage.addActor(adjustInventoryButton);
             _stage.addActor(adjustSpellsPowersButton);
+            _stage.addActor(adjustKeyItemsButton);
+            _stage.addActor(adjustQuestsButton);
             _stage.addActor(adjustStatsButton);
             _stage.addActor(gotoMapButton);
             _stage.addActor(saveAsButton);
@@ -715,7 +751,7 @@ public class PlayerHUD implements Screen, AudioSubject,
                                         Gdx.app.log(TAG, "quests button up");
                                         if (touchPointIsInButton(questsButton)) {
                                             hideMenu(true);
-                                            showQuestHUD();
+                                            showQuestHUD(false);
                                         }
                                     }
                                 }
@@ -877,6 +913,43 @@ public class PlayerHUD implements Screen, AudioSubject,
                                              }
         );
 
+        adjustKeyItemsButton.addListener(new ClickListener() {
+                                             @Override
+                                             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                                 return true;
+                                             }
+
+                                             @Override
+                                             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                                 // make sure touch point is still on this button
+                                                 if (touchPointIsInButton(adjustKeyItemsButton)) {
+                                                     hideDebugMenu();
+                                                     Gdx.app.log(TAG, "adjustKeyItemsButton clicked");
+
+                                                     AdjustKeyItemsInputListener listener = new AdjustKeyItemsInputListener(_stage);
+                                                     Gdx.input.getTextInput(listener, "Enter Quantity", "", "");
+                                                 }
+                                             }
+                                         }
+        );
+
+        adjustQuestsButton.addListener(new ClickListener() {
+
+                                           @Override
+                                           public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                               return true;
+                                           }
+
+                                           @Override
+                                           public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                               if (touchPointIsInButton(adjustQuestsButton)) {
+                                                   hideDebugMenu();
+                                                   showQuestHUD(true);
+                                               }
+                                           }
+                                       }
+        );
+
         adjustStatsButton.addListener(new ClickListener() {
 
                                        @Override
@@ -990,6 +1063,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton.setVisible(false);
         adjustInventoryButton.setVisible(false);
         adjustSpellsPowersButton.setVisible(false);
+        adjustKeyItemsButton.setVisible(false);
+        adjustQuestsButton.setVisible(false);
         adjustStatsButton.setVisible(false);
         gotoMapButton.setVisible(false);
         saveAsButton.setVisible(false);
@@ -1016,6 +1091,8 @@ public class PlayerHUD implements Screen, AudioSubject,
         noClipModeButton.setVisible(true);
         adjustInventoryButton.setVisible(true);
         adjustSpellsPowersButton.setVisible(true);
+        adjustKeyItemsButton.setVisible(true);
+        adjustQuestsButton.setVisible(true);
         adjustStatsButton.setVisible(true);
         gotoMapButton.setVisible(true);
         saveAsButton.setVisible(true);
@@ -1035,8 +1112,13 @@ public class PlayerHUD implements Screen, AudioSubject,
         inventoryHUD.show();
     }
 
-    private void showQuestHUD() {
-        questHUD.show();
+    private void showQuestHUD(boolean debug) {
+        if (debug) {
+            questHUD.showDebug();
+        }
+        else {
+            questHUD.show();
+        }
     }
 
     private boolean touchPointIsInButton(TextButton button) {

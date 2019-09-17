@@ -130,8 +130,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 _playerHUD = new PlayerHUD(game, _hudCamera, _player, _mapMgr);
 
                 _multiplexer = new InputMultiplexer();
-                _multiplexer.addProcessor(mobileControls.getStage());
+                // Note: playerHUD needs to be added before controls otherwise left debug menu doesn't work
                 _multiplexer.addProcessor(_playerHUD.getStage());
+                _multiplexer.addProcessor(mobileControls.getStage());
                 Gdx.input.setInputProcessor(_multiplexer);
             } else {
                 _player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);

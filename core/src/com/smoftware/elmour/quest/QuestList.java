@@ -165,6 +165,7 @@ public class QuestList implements ProfileObserver {
         return questTitles;
     }
 */
+
     public ArrayList<String> getAllQuestIDsInProgressOrComplete() {
         ArrayList<String> questIDs = new ArrayList<>();
 

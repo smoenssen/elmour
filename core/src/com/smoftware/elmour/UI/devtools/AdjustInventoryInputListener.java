@@ -31,7 +31,6 @@ public class AdjustInventoryInputListener implements Input.TextInputListener {
     private InputState state = InputState.GET_QUANTITY;
     private Stage stage;
     private static int quantity;
-    //private static
 
     public AdjustInventoryInputListener(Stage stage) {
         this.stage = stage;

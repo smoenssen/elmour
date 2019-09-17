@@ -96,6 +96,7 @@ questTasks: {
 							postTaskConversationType: POST_TASK_DIALOG1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
+							hint: TTJ hint
 						}
 						GetMaterials1: {
 							yedNodeId: n2::n3::n1
@@ -150,6 +151,7 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 		targetNumber: 2
+		hint: Get CDs hint
 	}
 	GiveRickSupplies: {
 		yedNodeId: n2::n1

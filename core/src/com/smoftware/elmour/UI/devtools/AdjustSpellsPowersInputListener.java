@@ -120,7 +120,7 @@ public class AdjustSpellsPowersInputListener implements Input.TextInputListener 
                                 }
                             }
                         } catch (IllegalArgumentException ex) {
-                            displayErrorDialog("\"" + text + "\"" + " is not a valid inventory item ID!");
+                            displayErrorDialog("\"" + text + "\"" + " is not a valid power or spell ID!");
                         }
                     }
 

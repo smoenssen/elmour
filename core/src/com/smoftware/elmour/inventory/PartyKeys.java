@@ -60,7 +60,7 @@ public class PartyKeys extends PartyKeysSubject {
         }
     }
 
-    public String getInventoryProfileString() {
+    public String getKeyItemsProfileString() {
         // return delimited string of inventory element ids and quantities
         String profileString = "";
 
@@ -96,7 +96,7 @@ public class PartyKeys extends PartyKeysSubject {
         }
 
         // Save new list to profile
-        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getKeyItemsProfileString());
 
         if (notify)
             notify(listItem, KEY_ITEM_ADDED);
@@ -116,7 +116,7 @@ public class PartyKeys extends PartyKeysSubject {
             }
 
             // Save new list to profile and notify
-            ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+            ProfileManager.getInstance().setProperty(PROPERTY_NAME, getKeyItemsProfileString());
             notify(listItem, KEY_ITEM_REMOVED);
         }
     }
@@ -141,7 +141,7 @@ public class PartyKeys extends PartyKeysSubject {
         }
 
         // Save new list to profile and notify to reset inventory
-        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getInventoryProfileString());
+        ProfileManager.getInstance().setProperty(PROPERTY_NAME, getKeyItemsProfileString());
         notify(item1, item2, KEY_ITEM_SWAP);
     }
 }

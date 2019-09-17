@@ -53,7 +53,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private final String SORT_QUEST_BY_PREFERENCE = "sortQuestByPreference";
     private final String SHOW_QUEST_PREFERENCE = "showQuestPreference";
 
-    private ElmourGame game;
+    private PlayerHUD playerHUD;
     private Stage stage;
     private Array<QuestHudObserver> observers;
     private static QuestList questList;
@@ -88,11 +88,14 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private MyTextArea taskBackground;
     private float taskListWidth;
     private float taskListHeight;
-    private Hashtable<String, String> taskHintMap;
+    private Hashtable<String, QuestTask> taskMap;
 
     private Table mainTable;
 
-    ImageTextButton selectedImageTextButton;
+    private ImageTextButton selectedImageTextButton;
+
+    private boolean isDebug;
+    private long touchTimer;
 
     public class QuestNameComparatorAscending implements Comparator<String> {
         @Override
@@ -167,13 +170,16 @@ public class QuestHUD implements Screen, QuestHudSubject {
         }
     }
 
-    public QuestHUD(final ElmourGame game, Stage stage) {
-        this.game = game;
+    public QuestHUD(final PlayerHUD playerHUD, Stage stage) {
+        this.playerHUD = playerHUD;
         this.stage = stage;
         observers = new Array<>();
 
         questList = new QuestList(Quest.getAllQuestGraphs(), false);
         visibleQuestList = new QuestList();
+
+        isDebug = false;
+        touchTimer = 0;
 
         float sortPanelHeight = 40;
         float labelHeight = 35;
@@ -286,7 +292,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         /*
         **  TASK LIST
         */
-        taskHintMap = new Hashtable<>();
+        taskMap = new Hashtable<>();
         WidgetGroup groupTasks = new WidgetGroup();
         taskTableView = new Table();
         //taskTableView.debugAll();
@@ -491,22 +497,51 @@ public class QuestHUD implements Screen, QuestHudSubject {
         );
 
         taskScrollPaneList.addListener(new ClickListener() {
-                                      @Override
-                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                          return true;
-                                      }
+                                                     @Override
+                                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                                         touchTimer = Utility.getStartTime();
+                                                         return true;
+                                                     }
 
-                                      @Override
-                                      public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                          if (event.getTarget() instanceof Label) {
-                                              Label label = (Label) event.getTarget();
-                                              String hint = taskHintMap.get(label.getText().toString());
-                                              if (hint != null) {
-                                                  Gdx.app.log(TAG, hint);
-                                              }
-                                          }
-                                      }
-                                  }
+                                                     @Override
+                                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                                         if (event.getTarget() instanceof Label) {
+                                                             Label label = (Label) event.getTarget();
+
+                                                             if (isDebug && Utility.getElapsedTime(touchTimer) > 250) {
+                                                                 // detected long press so set task and all sub-tasks to complete
+                                                                 QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
+                                                                 QuestTask questTask = taskMap.get(label.getText().toString());
+                                                                 questGraph.setQuestTaskComplete(questTask.getId());
+
+                                                                 QuestList subQuestList = questTask.getSubQuestList();
+                                                                 if (subQuestList != null) {
+                                                                     QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+                                                                     ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+                                                                     for (QuestTask subTask : subQuestTaskList) {
+                                                                         subTask.setTaskComplete();
+                                                                     }
+                                                                 }
+
+                                                                 // set quest active if it isn't already
+                                                                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.NOT_STARTED) {
+                                                                     playerHUD.acceptQuest(questGraph.getQuestID());
+                                                                 }
+
+                                                                 setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
+                                                             }
+                                                             else {
+                                                                 QuestTask questTask = taskMap.get(label.getText().toString());
+                                                                 if (questTask != null) {
+                                                                     String hint = questTask.getHint();
+                                                                     if (hint != null) {
+                                                                         Gdx.app.log(TAG, hint);
+                                                                     }
+                                                                 }
+                                                             }
+                                                         }
+                                                     }
+                                                 }
         );
     }
 
@@ -569,7 +604,13 @@ public class QuestHUD implements Screen, QuestHudSubject {
         taskTableView.clearChildren();
 
         visibleQuestList.clear();
-        setQuestListItems(questList.getAllQuestIDsInProgressOrComplete());
+
+        if (isDebug) {
+            setQuestListItems(questList.getAllQuestIDs());
+        }
+        else {
+            setQuestListItems(questList.getAllQuestIDsInProgressOrComplete());
+        }
 
         if (visibleQuestList.size() == 0) {
             ImageTextButton button = new ImageTextButton(NO_QUESTS_AVAILABLE, Utility.ELMOUR_UI_SKIN);
@@ -703,7 +744,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
     private void setTaskListViewItems(ArrayList<QuestTask> taskList, String questID) {
         taskTableView.clear();
-        taskHintMap.clear();
+        taskMap.clear();
 
         float usedSpace = 16;
 
@@ -713,80 +754,89 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         // Only show available or completed tasks
         QuestGraph questGraph = questList.getQuestByID(questID);
-        taskList = questGraph.getVisibleTaskList(taskList);
 
-        for(int i=0;i<1;i++) {
-            for (QuestTask questTask : taskList) {
-                Image bullet;
-                Image subBullet;
-                Label text;
-                float bulletSize;
+        if (isDebug) {
+            taskList = questGraph.getAllQuestTasks();
+        }
+        else {
+            taskList = questGraph.getVisibleTaskList(taskList);
+        }
 
-                if (questTask.isTaskComplete() || questGraph.isQuestComplete()) {
-                    bullet = new Image(new Texture("graphics/blackCheckmark.png"));
-                    text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
-                    bulletSize = 16;
-                } else {
-                    bullet = new Image(new Texture("graphics/bullet.png"));
-                    text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
-                    bulletSize = 16;
-                    taskHintMap.put(getTaskText(questTask), "Hint = " + questTask.getHint());
+        for (QuestTask questTask : taskList) {
+            Image bullet;
+            Image subBullet;
+            Label text;
+            float bulletSize;
+
+            if (questTask.isTaskComplete() || questGraph.isQuestComplete()) {
+                bullet = new Image(new Texture("graphics/blackCheckmark.png"));
+                text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                bulletSize = 16;
+            } else {
+                bullet = new Image(new Texture("graphics/bullet.png"));
+                text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
+                bulletSize = 16;
+                taskMap.put(getTaskText(questTask), questTask);
+            }
+
+            text.setWrap(true);
+            text.setAlignment(Align.topLeft);
+            text.pack();
+
+            taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY();
+            taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(bulletSize).height(bulletSize);
+            taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
+
+            usedSpace += text.getHeight();
+
+            QuestList subQuestList = questTask.getSubQuestList();
+            if (subQuestList != null) {
+                QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+                Table subTable = new Table();
+                ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+
+                // Order tasks by dependencies
+                Collections.sort(subQuestTaskList, new TaskDependencyComparator(subQuestGraph));
+                Collections.reverse(subQuestTaskList);
+
+                if (isDebug) {
+                    subQuestTaskList = subQuestGraph.getAllQuestTasks();
                 }
-
-                text.setWrap(true);
-                text.setAlignment(Align.topLeft);
-                text.pack();
-
-                taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY();
-                taskTableView.add(bullet).align(Align.top).pad(7, 9, 0, 2).width(bulletSize).height(bulletSize);
-                taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
-
-                usedSpace += text.getHeight();
-
-                QuestList subQuestList = questTask.getSubQuestList();
-                if (subQuestList != null) {
-                    QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
-                    Table subTable = new Table();
-                    ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
-
-                    // Order tasks by dependencies
-                    Collections.sort(subQuestTaskList, new TaskDependencyComparator(subQuestGraph));
-                    Collections.reverse(subQuestTaskList);
-
+                else {
                     // Only show available or completed tasks
                     subQuestTaskList = subQuestGraph.getVisibleTaskList(subQuestTaskList);
-
-                    for (QuestTask subQuestTask : subQuestTaskList) {
-                        if (subQuestTask.isTaskComplete()) {
-                            subBullet = new Image(new Texture("graphics/blackCheckmark.png"));
-                            text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
-                        } else {
-                            subBullet = new Image(new Texture("graphics/bullet2.png"));
-                            text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "battle");
-                            taskHintMap.put(getTaskText(subQuestTask), "Hint = " + subQuestTask.getHint());
-                        }
-
-                        text.setWrap(true);
-                        text.setWidth(taskListWidth - 40);
-                        text.setAlignment(Align.topLeft);
-                        text.pack();
-
-                        subTable.row().align(Align.top).width(taskListWidth - 40).expandY().fillY();
-                        subTable.add(subBullet).align(Align.top).pad(7, 9, 5, 2).width(16).height(16);
-                        subTable.add(text).pad(5).width(taskListWidth - 40);
-
-                        usedSpace += text.getHeight();
-                    }
-
-                    Image blank = new Image(new Texture("graphics/blank_16x16.png"));
-                    taskTableView.row().align(Align.top).expandY().fillY();
-                    taskTableView.add(blank).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                    taskTableView.add(subTable).width(taskListWidth - 40);
-
-                    usedSpace += 30;
                 }
 
+                for (QuestTask subQuestTask : subQuestTaskList) {
+                    if (subQuestTask.isTaskComplete()) {
+                        subBullet = new Image(new Texture("graphics/blackCheckmark.png"));
+                        text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
+                    } else {
+                        subBullet = new Image(new Texture("graphics/bullet2.png"));
+                        text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "battle");
+                        taskMap.put(getTaskText(subQuestTask), subQuestTask);
+                    }
+
+                    text.setWrap(true);
+                    text.setWidth(taskListWidth - 40);
+                    text.setAlignment(Align.topLeft);
+                    text.pack();
+
+                    subTable.row().align(Align.top).width(taskListWidth - 40).expandY().fillY();
+                    subTable.add(subBullet).align(Align.top).pad(7, 9, 5, 2).width(16).height(16);
+                    subTable.add(text).pad(5).width(taskListWidth - 40);
+
+                    usedSpace += text.getHeight();
+                }
+
+                Image blank = new Image(new Texture("graphics/blank_16x16.png"));
+                taskTableView.row().align(Align.top).expandY().fillY();
+                taskTableView.add(blank).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
+                taskTableView.add(subTable).width(taskListWidth - 40);
+
+                usedSpace += 30;
             }
+
         }
 
         // hack to fill in dummy rows to get first row at top of scroll panel, otherwise table is vertically centered
@@ -849,8 +899,18 @@ public class QuestHUD implements Screen, QuestHudSubject {
         questList.questTaskComplete(questID, questTaskID);
     }
 
+    public void showDebug() {
+        isDebug = true;
+        stage.addActor(mainTable);
+        notify(QuestHudObserver.QuestHudEvent.QUEST_HUD_SHOWN);
+
+        setQuestListItems(questList.getAllQuestIDs());
+        getSortingPreferences();
+    }
+
     @Override
     public void show() {
+        isDebug = false;
         stage.addActor(mainTable);
         notify(QuestHudObserver.QuestHudEvent.QUEST_HUD_SHOWN);
 
