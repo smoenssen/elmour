@@ -500,6 +500,13 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                      @Override
                                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                                                          touchTimer = Utility.getStartTime();
+                                                         if (event.getTarget() instanceof Label) {
+                                                             Label label = (Label) event.getTarget();
+                                                             QuestTask questTask = taskMap.get(label.getText().toString());
+                                                             if (questTask != null && !questTask.isTaskComplete()) {
+                                                                 label.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", Label.LabelStyle.class));
+                                                             }
+                                                         }
                                                          return true;
                                                      }
 
@@ -509,33 +516,40 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                              Label label = (Label) event.getTarget();
 
                                                              if (isDebug && Utility.getElapsedTime(touchTimer) > 250) {
+                                                                 //todo: allow unselecting
                                                                  // detected long press so set task and all sub-tasks to complete
                                                                  QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
                                                                  QuestTask questTask = taskMap.get(label.getText().toString());
-                                                                 questGraph.setQuestTaskComplete(questTask.getId());
+                                                                 if (questTask != null) {
+                                                                     questGraph.setQuestTaskComplete(questTask.getId());
 
-                                                                 QuestList subQuestList = questTask.getSubQuestList();
-                                                                 if (subQuestList != null) {
-                                                                     QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
-                                                                     ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
-                                                                     for (QuestTask subTask : subQuestTaskList) {
-                                                                         subTask.setTaskComplete();
+                                                                     QuestList subQuestList = questTask.getSubQuestList();
+                                                                     if (subQuestList != null) {
+                                                                         QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+                                                                         ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+                                                                         for (QuestTask subTask : subQuestTaskList) {
+                                                                             subTask.setTaskComplete();
+                                                                         }
                                                                      }
-                                                                 }
 
-                                                                 // set quest active if it isn't already
-                                                                 if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.NOT_STARTED) {
-                                                                     playerHUD.acceptQuest(questGraph.getQuestID());
-                                                                 }
+                                                                     // set quest active if it isn't already
+                                                                     if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.NOT_STARTED) {
+                                                                         playerHUD.acceptQuest(questGraph.getQuestID());
+                                                                     }
 
-                                                                 setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
+                                                                     setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
+                                                                 }
                                                              }
                                                              else {
                                                                  QuestTask questTask = taskMap.get(label.getText().toString());
                                                                  if (questTask != null) {
-                                                                     String hint = questTask.getHint();
-                                                                     if (hint != null) {
-                                                                         Gdx.app.log(TAG, hint);
+                                                                     if (!questTask.isTaskComplete()) {
+                                                                         label.setStyle(Utility.ELMOUR_UI_SKIN.get("battle", Label.LabelStyle.class));
+
+                                                                         String hint = questTask.getHint();
+                                                                         if (hint != null) {
+                                                                             Gdx.app.log(TAG, hint);
+                                                                         }
                                                                      }
                                                                  }
                                                              }
