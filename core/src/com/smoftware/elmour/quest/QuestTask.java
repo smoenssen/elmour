@@ -101,5 +101,7 @@ public class QuestTask {
 
     public void setTaskComplete() { questTaskStatus = QuestTaskStatus.COMPLETE; }
 
+    public void setTaskNotStarted() { questTaskStatus = QuestTaskStatus.NOT_STARTED; }
+
     public String toString(){ return taskPhrase; }
 }

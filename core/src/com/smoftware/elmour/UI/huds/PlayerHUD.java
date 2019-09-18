@@ -2092,6 +2092,16 @@ public class PlayerHUD implements Screen, AudioSubject,
         }
     }
 
+    public void unAcceptQuest(String questID) {
+        QuestGraph questGraph = questHUD.getQuestByID(questID);
+
+        if (questGraph != null) {
+            questGraph.setQuestStatus(QuestGraph.QuestStatus.NOT_STARTED);
+            updateEntityObservers();
+            updateMapHiddenItemStatus();
+        }
+    }
+
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
         //Gdx.app.log(TAG, "onNotify event = " + event.toString());

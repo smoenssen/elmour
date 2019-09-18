@@ -503,9 +503,9 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                          if (event.getTarget() instanceof Label) {
                                                              Label label = (Label) event.getTarget();
                                                              QuestTask questTask = taskMap.get(label.getText().toString());
-                                                             if (questTask != null && !questTask.isTaskComplete()) {
+                                                             //if (questTask != null && !questTask.isTaskComplete()) {
                                                                  label.setStyle(Utility.ELMOUR_UI_SKIN.get("force_down", Label.LabelStyle.class));
-                                                             }
+                                                             //}
                                                          }
                                                          return true;
                                                      }
@@ -516,31 +516,24 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                              Label label = (Label) event.getTarget();
 
                                                              if (isDebug && Utility.getElapsedTime(touchTimer) > 250) {
-                                                                 //todo: allow unselecting
-                                                                 // detected long press so set task and all sub-tasks to complete
+                                                                 // detected long press
                                                                  QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
                                                                  QuestTask questTask = taskMap.get(label.getText().toString());
                                                                  if (questTask != null) {
-                                                                     questGraph.setQuestTaskComplete(questTask.getId());
-
-                                                                     QuestList subQuestList = questTask.getSubQuestList();
-                                                                     if (subQuestList != null) {
-                                                                         QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
-                                                                         ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
-                                                                         for (QuestTask subTask : subQuestTaskList) {
-                                                                             subTask.setTaskComplete();
-                                                                         }
+                                                                     if (questTask.isTaskComplete()) {
+                                                                         // set task and all parent tasks to inomplete
+                                                                         setQuestTaskIncompleteDebug(questGraph, questTask);
                                                                      }
-
-                                                                     // set quest active if it isn't already
-                                                                     if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.NOT_STARTED) {
-                                                                         playerHUD.acceptQuest(questGraph.getQuestID());
+                                                                     else {
+                                                                         // set task and all sub-tasks to complete
+                                                                         setQuestTaskCompleteDebug(questGraph, questTask);
                                                                      }
 
                                                                      setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
                                                                  }
                                                              }
                                                              else {
+                                                                 // handle displaying hint
                                                                  QuestTask questTask = taskMap.get(label.getText().toString());
                                                                  if (questTask != null) {
                                                                      if (!questTask.isTaskComplete()) {
@@ -551,12 +544,59 @@ public class QuestHUD implements Screen, QuestHudSubject {
                                                                              Gdx.app.log(TAG, hint);
                                                                          }
                                                                      }
+                                                                     else {
+                                                                         label.setStyle(Utility.ELMOUR_UI_SKIN.get("grayed_out", Label.LabelStyle.class));
+                                                                     }
                                                                  }
                                                              }
                                                          }
                                                      }
                                                  }
         );
+    }
+
+    private void setQuestTaskIncompleteDebug(QuestGraph questGraph, QuestTask questTask) {
+        questTask.setTaskNotStarted();
+
+        QuestList subQuestList = questTask.getSubQuestList();
+        if (subQuestList != null) {
+            QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+            ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+            for (QuestTask subTask : subQuestTaskList) {
+                subTask.setTaskNotStarted();
+            }
+        }
+
+        boolean allTasksAreNotStarted = true;
+        ArrayList<QuestTask> tasks = questGraph.getAllQuestTasks();
+        for (QuestTask task: tasks) {
+            if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
+                allTasksAreNotStarted = false;
+                break;
+            }
+        }
+
+        if (allTasksAreNotStarted) {
+            playerHUD.unAcceptQuest(questGraph.getQuestID());
+        }
+    }
+
+    private void setQuestTaskCompleteDebug(QuestGraph questGraph, QuestTask questTask) {
+        questGraph.setQuestTaskComplete(questTask.getId());
+
+        QuestList subQuestList = questTask.getSubQuestList();
+        if (subQuestList != null) {
+            QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+            ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+            for (QuestTask subTask : subQuestTaskList) {
+                subTask.setTaskComplete();
+            }
+        }
+
+        // set quest active if it isn't already
+        if (questGraph.getQuestStatus() == QuestGraph.QuestStatus.NOT_STARTED) {
+            playerHUD.acceptQuest(questGraph.getQuestID());
+        }
     }
 
     private void setSortingOrder(String sortingOrder) {
@@ -790,8 +830,9 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 bullet = new Image(new Texture("graphics/bullet.png"));
                 text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
                 bulletSize = 16;
-                taskMap.put(getTaskText(questTask), questTask);
             }
+
+            taskMap.put(getTaskText(questTask), questTask);
 
             text.setWrap(true);
             text.setAlignment(Align.topLeft);
@@ -828,8 +869,9 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     } else {
                         subBullet = new Image(new Texture("graphics/bullet2.png"));
                         text = new Label(getTaskText(subQuestTask), Utility.ELMOUR_UI_SKIN, "battle");
-                        taskMap.put(getTaskText(subQuestTask), subQuestTask);
                     }
+
+                    taskMap.put(getTaskText(subQuestTask), subQuestTask);
 
                     text.setWrap(true);
                     text.setWidth(taskListWidth - 40);
