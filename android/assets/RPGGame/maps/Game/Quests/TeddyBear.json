@@ -8,6 +8,7 @@ questTasks: {
 		targetEntity: TEDDY_BEAR
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Find teddy bear
+		isExpanded: true
 	}
 	ReturnTeddyBear: {
 		yedNodeId: n0::n0
@@ -17,6 +18,7 @@ questTasks: {
 		targetEntity: OPHION
 		conversationType: RETURN_QUEST_DIALOG
 		taskPhrase: Return teddy bear
+		isExpanded: true
 	}
 }
 questTaskDependencies: {

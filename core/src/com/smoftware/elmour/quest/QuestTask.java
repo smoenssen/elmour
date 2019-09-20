@@ -35,6 +35,7 @@ public class QuestTask {
     private QuestList subQuestList;
     private String parentQuestId;
     private String hint;
+    private boolean isExpanded;
 
     public QuestTask() { /* defaulting variables here could mess up serialization to .json */ }
 
@@ -91,6 +92,10 @@ public class QuestTask {
     public void setHint(String hint) { this.hint = hint; }
 
     public String getHint() { return hint; }
+
+    public void setIsExpanded(boolean isExpanded) { this.isExpanded = isExpanded; }
+
+    public boolean getIsExpanded() { return isExpanded; }
 
     // convenience functions
     public boolean isTaskStarted(){ return questTaskStatus == QuestTaskStatus.STARTED || questTaskStatus == QuestTaskStatus.COMPLETE; }

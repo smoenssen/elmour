@@ -585,6 +585,7 @@ public final class Utility {
 			boolean taskHasSubQuest = false;
 			XmlReader.Element node2_element = (XmlReader.Element) iterator_node2.next();
 			taskNode.yedNodeId = node2_element.getAttribute("id");
+			taskNode.setIsExpanded(true);
 
 			ObjectMap<String, String> attributes = node2_element.getAttributes();
 			if (attributes.get("yfiles.foldertype") != null) {
