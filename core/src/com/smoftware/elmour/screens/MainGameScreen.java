@@ -163,6 +163,8 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         blackScreen.setWidth(stage.getWidth());
         blackScreen.setHeight(stage.getHeight());
         blackScreen.setPosition(0, 0);
+
+        if (ElmourGame.QUIET_MODE)
         blackScreen.setVisible(true);
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());

@@ -108,10 +108,7 @@ public class StartScreen  extends GameScreen {
         continueButton.setWidth(menuItemWidth);
         continueButton.setHeight(menuItemHeight);
         continueButton.setPosition(menuItemX, menuItemY);
-
-        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
-            continueButton.setVisible(false);
-        }
+        continueButton.setVisible(false);
 
         menuItemY -= menuItemHeight + 10;
         newGameButton.setWidth(menuItemWidth);
@@ -430,7 +427,10 @@ public class StartScreen  extends GameScreen {
     @Override
     public void show() {
         newGameButton.setVisible(true);
-        continueButton.setVisible(true);
+
+        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
+            continueButton.setVisible(false);
+        }
 
         Gdx.input.setInputProcessor(stage);
 

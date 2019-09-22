@@ -101,7 +101,7 @@ questTasks: {
 							postTaskConversationType: POST_TASK_DIALOG1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
-							hint: TTJ hint
+							hint: he is usually in the Armory
 							isExpanded: true
 						}
 						GetMaterials1: {
@@ -159,7 +159,7 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 		targetNumber: 2
-		hint: Get CDs hint
+		hint: maybe somewhere in Shnarfulapogus
 		isExpanded: true
 	}
 	GiveRickSupplies: {

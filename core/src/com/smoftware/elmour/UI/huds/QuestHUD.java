@@ -93,6 +93,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
     private ImageTextButton selectedImageTextButton;
 
+    private Hashtable<QuestTask, Boolean> showTaskHintMap;
+
     private boolean isDebug;
     private long touchTimer;
 
@@ -176,6 +178,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         questList = new QuestList(Quest.getAllQuestGraphs(), false);
         visibleQuestList = new QuestList();
+
+        showTaskHintMap = new Hashtable<>();
 
         isDebug = false;
         touchTimer = 0;
@@ -545,7 +549,15 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
                                                                          String hint = questTask.getHint();
                                                                          if (hint != null) {
-                                                                             Gdx.app.log(TAG, hint);
+                                                                             Boolean showHint = showTaskHintMap.get(questTask);
+                                                                             if (showHint != null && showHint.equals(Boolean.TRUE)) {
+                                                                                 showTaskHintMap.put(questTask, Boolean.FALSE);
+                                                                             }
+                                                                             else {
+                                                                                 showTaskHintMap.put(questTask, Boolean.TRUE);
+                                                                             }
+                                                                             QuestGraph questGraph = questList.getQuestByQuestTitle(selectedImageTextButton.getText().toString());
+                                                                             setTaskListViewItems(questGraph.getAllQuestTasks(), questGraph.getQuestID());
                                                                          }
                                                                      }
 
@@ -805,11 +817,9 @@ public class QuestHUD implements Screen, QuestHudSubject {
         questListTableView.clearChildren();
         visibleQuestList.clear();
 
-        for (int i=0; i<1; i++) {
-            for (String questID : items) {
-                QuestGraph questGraph = questList.getQuestByID(questID);
-                addQuestListViewItem(questGraph);
-            }
+        for (String questID : items) {
+            QuestGraph questGraph = questList.getQuestByID(questID);
+            addQuestListViewItem(questGraph);
         }
 
         // hack to fill a dummy row to get first row at top of scroll panel, otherwise table is vertically centered
@@ -823,7 +833,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
 
         float remainingSpace = questListTableView.getHeight() - usedSpace;
 
-        if (remainingSpace > 0) {
+        if (remainingSpace > 0 && visibleQuestList.size() > 0) {
             questScrollPaneList.setScrollingDisabled(true, true);
 
             ImageTextButton dummy = new ImageTextButton("", Utility.ELMOUR_UI_SKIN);
@@ -859,9 +869,6 @@ public class QuestHUD implements Screen, QuestHudSubject {
             Image bullet;
             Image subBullet;
             Label text;
-            float bulletSize;
-            float bulletWidth = 24;
-            float bulletHeight = 16;
 
             if (questTask.isTaskComplete() || questGraph.isQuestComplete()) {
                 if (questTask.getSubQuestList() == null) {
@@ -874,7 +881,6 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     bullet = new Image(new Texture("graphics/blackCheckmark_plus.png"));
                 }
                 text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "grayed_out");
-                bulletSize = 16;
             } else {
                 if (questTask.getSubQuestList() == null) {
                     bullet = new Image(new Texture("graphics/bullet.png"));
@@ -886,7 +892,6 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     bullet = new Image(new Texture("graphics/bullet_plus.png"));
                 }
                 text = new Label(getTaskText(questTask), Utility.ELMOUR_UI_SKIN, "battle");
-                bulletSize = 16;
             }
 
             bullet.setUserObject(questTask);
@@ -896,7 +901,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
             text.setAlignment(Align.topLeft);
             text.pack();
 
-            taskTableView.row().align(Align.top).height(text.getHeight()).expandY().fillY();
+            taskTableView.row().align(Align.top).expandY().fillY();
             taskTableView.add(bullet).align(Align.top).pad(7, 24, 0, 2).width(24).height(16);
             taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
 
@@ -983,17 +988,25 @@ public class QuestHUD implements Screen, QuestHudSubject {
     private String getTaskText(QuestTask questTask) {
         String taskPhrase = questTask.getTaskPhrase();
         String [] sa = taskPhrase.split(";");
+        String hint = "";
+
+        if (questTask.getHint() != null) {
+            Boolean showHint = showTaskHintMap.get(questTask);
+            if (showHint != null && showHint.equals(Boolean.TRUE)) {
+                hint = " (" + questTask.getHint() + ")";
+            }
+        }
 
         if (sa.length > 1) {
             if (questTask.isTaskComplete()) {
-                return sa[1];
+                return sa[1] + hint;
             }
             else {
-                return sa[0];
+                return sa[0] + hint;
             }
         }
         else {
-            return taskPhrase;
+            return taskPhrase + hint;
         }
     }
 
