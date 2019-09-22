@@ -993,7 +993,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
         if (questTask.getHint() != null) {
             Boolean showHint = showTaskHintMap.get(questTask);
             if (showHint != null && showHint.equals(Boolean.TRUE)) {
-                hint = " (" + questTask.getHint() + ")";
+                hint = "\n(" + questTask.getHint() + ")";
             }
         }
 

@@ -196,6 +196,11 @@ public class QuestList implements ProfileObserver {
         questTitleMap.put(questGraph.getQuestTitle(), questGraph.getQuestID());
     }
 
+    public void setQuestGraph(String questID, QuestGraph questGraph) {
+        quests.put(questID, questGraph);
+        questTitleMap.put(questGraph.getQuestTitle(), questGraph.getQuestID());
+    }
+
 /*
     //todo?
     public void initQuests(MapManager mapMgr){
@@ -226,6 +231,34 @@ public class QuestList implements ProfileObserver {
         public long timestamp;
     }
 
+    private QuestGraph mergeQuestGraphs(QuestGraph questGraphSaved, QuestGraph questGraphFromJson) {
+        // Use .json quest graph but just update things that may have changed:
+        //      1. Quest task status
+        //      2. Expanded status
+        QuestGraph mergedQuestGraph = questGraphFromJson;
+
+        // set overall quest status
+        mergedQuestGraph.setQuestStatus(questGraphSaved.getQuestStatus());
+
+        // set status for each task
+        for (QuestTask savedTask : questGraphSaved.getAllQuestTasks()) {
+            QuestTask mergedTask = mergedQuestGraph.getQuestTaskByID(savedTask.getId());
+            mergedTask.setQuestTaskStatus(savedTask.getQuestTaskStatus());
+            mergedTask.setIsExpanded(savedTask.getIsExpanded());
+
+            // set status for each sub-task
+            QuestList savedSubQuestList = savedTask.getSubQuestList();
+            QuestList mergedSubQuestList = mergedTask.getSubQuestList();
+
+            if (savedSubQuestList != null && mergedSubQuestList != null) {
+                QuestGraph mergedSubQuestGraph = mergeQuestGraphs(savedSubQuestList.getQuestByID(savedTask.getId()), mergedSubQuestList.getQuestByID(mergedTask.getId()));
+                mergedSubQuestList.setQuestGraph(mergedSubQuestGraph.getQuestID(), mergedSubQuestGraph);
+            }
+        }
+
+        return mergedQuestGraph;
+    }
+
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         Array<CompletedQuest> completedQuests;
@@ -240,6 +273,8 @@ public class QuestList implements ProfileObserver {
 
                             QuestGraph questGraphInProfile = ProfileManager.getInstance().getProperty(questID, QuestGraph.class);
                             if (questGraphInProfile != null) {
+                                // In case quest .json file changed, need to merge saved quest with .json quest
+                                questGraphInProfile = mergeQuestGraphs(questGraphInProfile, quests.get(questID));
                                 quests.put(questID, questGraphInProfile);
                             }
                         }

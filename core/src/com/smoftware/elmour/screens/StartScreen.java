@@ -428,8 +428,8 @@ public class StartScreen  extends GameScreen {
     public void show() {
         newGameButton.setVisible(true);
 
-        if (!ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
-            continueButton.setVisible(false);
+        if (ProfileManager.getInstance().doesProfileExist(ProfileManager.SAVED_GAME_PROFILE)) {
+            continueButton.setVisible(true);
         }
 
         Gdx.input.setInputProcessor(stage);
