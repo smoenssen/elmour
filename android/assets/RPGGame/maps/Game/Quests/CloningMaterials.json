@@ -20,6 +20,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
+							hint: Hint: It should be somewhere in Elmour.
 							isExpanded: true
 						}
 						FindButton3: {
@@ -31,6 +32,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
+							hint: Hint: It should be somewhere in Elmour.
 							isExpanded: true
 						}
 						FindButton2: {
@@ -42,6 +44,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG1
 							taskPhrase: Find a Computer Key
 							parentQuestId: FindButtons
+							hint: Hint: It should be somewhere in Elmour.
 							isExpanded: true
 						}
 					}
@@ -89,6 +92,7 @@ questTasks: {
 							postTaskConversationType: POST_TASK_DIALOG2
 							taskPhrase: Bring Jaxon the Materials
 							parentQuestId: GetWires1
+							hint: Hint: I should head back to the armory.
 							isExpanded: true
 						}
 						TalkToJaxon: {
@@ -101,7 +105,7 @@ questTasks: {
 							postTaskConversationType: POST_TASK_DIALOG1
 							taskPhrase: Talk to Jaxon
 							parentQuestId: GetWires1
-							hint: he is usually in the Armory
+							hint: Hint: Doesn't he help around the armory?
 							isExpanded: true
 						}
 						GetMaterials1: {
@@ -112,6 +116,7 @@ questTasks: {
 							taskPhrase: Get "Mystery Materials"
 							isSpoiler: true
 							parentQuestId: GetWires1
+							hint: Hint: Behind a tree in the area with a compass... isn't that place to the West of Elmour?
 							isExpanded: true
 						}
 					}
@@ -159,7 +164,7 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Get CDs
 		targetNumber: 2
-		hint: maybe somewhere in Shnarfulapogus
+		hint: Hint: I should ask around Shnarfulapogus to see if anyone has any spare CDs lying around.
 		isExpanded: true
 	}
 	GiveRickSupplies: {
@@ -171,6 +176,7 @@ questTasks: {
 		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Give Rick supplies
 		isSpoiler: true
+		hint: "Hint: If I haven't forgotten, Rick's house should be in Elmour."
 		isExpanded: true
 	}
 	GetWires2: {
@@ -193,6 +199,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Give Tony the Tools
 							parentQuestId: GetWires2
+							hint: Hint: Return to the house that is past Shnarfulapogus.
 							isExpanded: true
 						}
 						TalkToTony: {
@@ -204,6 +211,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_CUTSCENE1
 							taskPhrase: Talk to Tony
 							parentQuestId: GetWires2
+							hint: "Hint: I pestered Justin for more information, but all he said was that Tony's house was somewhere past Shnarfulapogus."
 							isExpanded: true
 						}
 						GetMaterials2: {
@@ -216,6 +224,7 @@ questTasks: {
 							taskPhrase: Get Tools From Justin
 							isSpoiler: true
 							parentQuestId: GetWires2
+							hint: Hint: Go back to the armory and have Justin pay the price.
 							isExpanded: true
 						}
 						GiveJustinMaterials: {
@@ -227,6 +236,7 @@ questTasks: {
 							conversationType: ACTIVE_QUEST_DIALOG2
 							taskPhrase: Give Justin the Lead Pipe
 							parentQuestId: GetWires2
+							hint: Hint: Return to the armory one last time.
 							isExpanded: true
 						}
 					}

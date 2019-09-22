@@ -222,7 +222,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 rick.setVisible(false);
 
                 character1.setVisible(false);
-                character1.setPosition(12, 8.5f);
+                character1.setPosition(12, 7.25f);
                 character1.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 character1.setCurrentDirection(Entity.Direction.UP);
 
@@ -241,7 +241,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 tony.setCurrentAnimationType(Entity.AnimationType.IDLE);
                 tony.setCurrentDirection(Entity.Direction.DOWN);
 
-                camactor.setPosition(7, 4);
+                camactor.setPosition(7.5f, 7.75f);
 
                 followActor(camactor);
             }
@@ -668,6 +668,140 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 );
                 break;
 
+                //TTTony
+            case TONY_WALK_AROUND:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_DOWN),
+                        Actions.addAction(Actions.moveBy(0, -1.5f, oneBlockTime * 2.5f), tony),
+                        Actions.delay(oneBlockTime * 2.5f),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveTo(9, 12, oneBlockTime * 3), tony),
+                        Actions.delay(oneBlockTime * 2),
+
+                        myActions.new setCharacterVisible(character1, true),
+                        Actions.delay(oneBlockTime * 1),
+                        myActions.new setIdleDirection(tony, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case CHAR1_ENTER:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_UP),
+                        Actions.addAction(Actions.moveBy(0, 4.75f, oneBlockTime * 5), character1),
+                        Actions.delay(oneBlockTime * 4),
+                        myActions.new setIdleDirection(tony, Entity.Direction.RIGHT),
+                        Actions.delay(oneBlockTime * 1),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime * 0.5f),
+
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(-1.5f, 0, oneBlockTime * 1.5f), character1),
+                        Actions.delay(oneBlockTime * 1.5f),
+                        myActions.new setIdleDirection(character1, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(character1, Entity.AnimationType.IDLE),
+
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case TONY_WALK_LEFT:
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_LEFT),
+                        Actions.addAction(Actions.moveBy(-1, 0, oneBlockTime * 1.5f), tony),
+                        Actions.delay(oneBlockTime * 2f),
+                        myActions.new setIdleDirection(tony, Entity.Direction.LEFT),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case CHAR1_SHOCK:
+                _stage.addAction(Actions.sequence(
+                        Actions.addAction(Actions.moveTo(character1.getX() + emoteX, character1.getY() + emoteY), misc),
+                        myActions.new setCharacterVisible(misc, true),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_ON),
+                        Actions.delay(emoteOn),
+                        myActions.new setWalkDirection(misc, Entity.AnimationType.SHOCK_OFF),
+                        Actions.delay(emoteOff),
+                        myActions.new setCharacterVisible(misc, false),
+                        Actions.delay(oneBlockTime),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case TONY_LOOK_RIGHT:
+                iterationNumber2 = 4;
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(tony, Entity.Direction.RIGHT),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case TONY_INCH_FORWARD:
+                iterationNumber1 += 0.0025f;
+                iterationNumber2 += -1;
+                _stage.addAction(Actions.sequence(
+                        Actions.addAction(Actions.moveBy((((character1.getX() - tony.getX()) / 2) + tony.getX() - camactor.getX()) / iterationNumber2, (tony.getY() - camactor.getY()) / iterationNumber2, oneBlockTime), camactor),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(0.35f, 0, oneBlockTime), tony),
+
+                        new setZoomRate(-0.005f - iterationNumber1),
+                        Actions.delay(oneBlockTime),
+                        new setZoomRate(0),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case TONY_LEAP_FORWARD:
+                iterationNumber1 = 0;
+                iterationNumber2 = 0;
+                _stage.addAction(Actions.sequence(
+                        Actions.addAction(Actions.moveTo(character1.getX() - 0.325f, tony.getY() + 0.5f, oneBlockTime * 0.5f), camactor),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(0.75f, 0, oneBlockTime * 0.5f), tony),
+
+                        new setZoomRate(-0.03125f),
+                        Actions.delay(oneBlockTime * 0.5f),
+                        new setZoomRate(0),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.IDLE),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+            case TONY_LOOK_DOWN:
+                iterationNumber2 = 4;
+                _stage.addAction(Actions.sequence(
+                        Actions.delay(oneBlockTime),
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.WALK_RIGHT),
+                        Actions.addAction(Actions.moveBy(-0.5f, 0, oneBlockTime * 0.5f), tony),
+
+                        new setZoomRate(0.03125f),
+                        Actions.delay(oneBlockTime * 0.5f),
+                        new setZoomRate(0),
+
+                        myActions.new setWalkDirection(tony, Entity.AnimationType.IDLE),
+                        Actions.delay(oneBlockTime),
+                        myActions.new setIdleDirection(tony, Entity.Direction.DOWN),
+
+                        myActions.new continueConversation(_playerHUD)
+                        )
+                );
+                break;
+
 
 
 
@@ -693,8 +827,8 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                 if (currentPartNumber.equals("GiveJaxonMaterials")) {
                     _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.JUSTIN, questID, EntityConfig.ConversationType.POST_TASK_DIALOG1);
                 }
-                else if (currentPartNumber.equals("TTJaxon")) {
-
+                else if (currentPartNumber.equals("TTTony")) {
+                    _playerHUD.setActiveConversationConfigForQuest(EntityFactory.EntityName.JUSTIN, questID, EntityConfig.ConversationType.ACTIVE_QUEST_DIALOG1);
                 }
                 fadeToMainScreen();
                 break;
@@ -778,10 +912,12 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
         return Actions.sequence(
                 Actions.addAction(cloningMaterialsTTTony),
                 new setFading(true),
-                Actions.addAction(Actions.moveBy(0, 2, 2, Interpolation.fade), camactor),
+                Actions.addAction(Actions.moveBy(0, 2.5f, 3, Interpolation.fade), camactor),
 
                 Actions.addAction(ScreenTransitionAction.transition(ScreenTransitionAction.ScreenTransitionType.FADE_IN, 2), _transitionActor),
-                Actions.delay(2),
+                Actions.delay(3),
+                myActions.new setCharacterVisible(tony, true),
+                Actions.delay(0.5f),
                 Actions.run(
                         new Runnable() {
                             @Override
@@ -791,7 +927,7 @@ public class CloningQuest extends CutSceneBase implements ConversationGraphObser
                                 // NOTE: This just kicks off the conversation. The actions in the conversation are handled in the onNotify() function.
                             }
                         }),
-                Actions.delay(2)
+                Actions.delay(1)
         );
     }
 

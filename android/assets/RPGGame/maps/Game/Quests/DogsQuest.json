@@ -5,30 +5,27 @@ questTasks: {
 		id: FindElliot
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetEntity: OPHION
-		conversationType: ACTIVE_QUEST_DIALOG1
+		targetType: OPHION
+		targetLocation: MAP1
 		taskPhrase: Find Elliot
-		isExpanded: true
 	}
 	ReturnTheDogs: {
 		yedNodeId: n1::n0
 		id: ReturnTheDogs
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
-		targetEntity: CARMEN
-		conversationType: RETURN_QUEST_DIALOG
+		targetType: CARMEN
+		targetLocation: COMPASS
 		taskPhrase: Return the dogs
-		isExpanded: true
 	}
 	FindSeymour: {
 		yedNodeId: n1::n2
 		id: FindSeymour
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetEntity: JUSTIN
-		conversationType: ACTIVE_QUEST_DIALOG1
+		targetType: JUSTIN
+		targetLocation: COMPASS
 		taskPhrase: Find Seymour
-		isExpanded: true
 	}
 }
 questTaskDependencies: {
@@ -37,12 +34,12 @@ questTaskDependencies: {
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindElliot
+			destinationId: FindSeymour
 		}
 		{
 			class: com.smoftware.elmour.quest.QuestTaskDependency
 			sourceId: ReturnTheDogs
-			destinationId: FindSeymour
+			destinationId: FindElliot
 		}
 	]
 	FindSeymour: []

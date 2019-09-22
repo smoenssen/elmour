@@ -1,5 +1,11 @@
 {
 conversations: {
+	n30: {
+		id: n30
+		dialog: TONY_LEAP_FORWARD
+		data: null
+		type: ACTION
+	}
 	n9: {
 		id: n9
 		dialog: TONY_WALK_LEFT
@@ -24,17 +30,17 @@ conversations: {
 		data: Tony
 		type: NPC
 	}
-	n4: {
-		id: n4
-		dialog: What are you doing here?
-		data: Tony
-		type: NPC
-	}
 	n18: {
 		id: n18
 		dialog: TONY_LOOK_DOWN
 		data: null
 		type: ACTION
+	}
+	n4: {
+		id: n4
+		dialog: What are you doing here?
+		data: Tony
+		type: NPC
 	}
 	n3: {
 		id: n3
@@ -48,15 +54,15 @@ conversations: {
 		data: null
 		type: ACTION
 	}
-	n2: {
-		id: n2
-		dialog: Too bad protein shakes aren^t a thing\nanymore.
+	n16: {
+		id: n16
+		dialog: You^d be DEAD WRONG.
 		data: Tony
 		type: NPC
 	}
-	n16: {
-		id: n16
-		dialog: "Do you know what I had to go through to\nget this darn pipe?\n§I had to sneak into a bear^s den!\n§And then, right as I was almost out of the\nwoods, surprise! The bear returned!\n§Yes, I had to fight a bear for this thing,\nand if you think I^m going to part with it for\nfree. Well, you^d be dead wrong."
+	n2: {
+		id: n2
+		dialog: Too bad protein shakes aren^t a thing\nanymore.\n§It^s would^ve been the perfect thing to drink\nafter that workout.
 		data: Tony
 		type: NPC
 	}
@@ -108,15 +114,57 @@ conversations: {
 		data: Tony
 		type: NPC
 	}
+	n29: {
+		id: n29
+		dialog: "Yes, I had to fight a bear for this thing,\nand if you think I^m going to part with it for\nfree. Well..."
+		data: Tony
+		type: NPC
+	}
+	n28: {
+		id: n28
+		dialog: TONY_INCH_FORWARD
+		data: null
+		type: ACTION
+	}
+	n27: {
+		id: n27
+		dialog: "And then, right as I was almost out of the\nwoods, surprise! The bear returned!"
+		data: Tony
+		type: NPC
+	}
+	n26: {
+		id: n26
+		dialog: TONY_INCH_FORWARD
+		data: null
+		type: ACTION
+	}
+	n25: {
+		id: n25
+		dialog: I had to sneak into a bear^s den!
+		data: Tony
+		type: NPC
+	}
+	n24: {
+		id: n24
+		dialog: TONY_INCH_FORWARD
+		data: null
+		type: ACTION
+	}
+	n23: {
+		id: n23
+		dialog: Do you know what I had to go through to\nget this darn pipe?
+		data: Tony
+		type: NPC
+	}
 	n22: {
 		id: n22
 		dialog: TASK_COMPLETE_CUTSCENE
-		data: CloningMaterials::GiveJaxonMaterials;TTJAXON1;ARMORY
+		data: CloningMaterials::TalkToTony;TTTony;M3DOOR1
 		type: ACTION
 	}
 	n21: {
 		id: n21
-		dialog: "Listen, I kinda like ya, kid, so I guess I^d be\nwilling to part with this pipe.\n§But!\n§Not for free, of course.\n§I need to punish Justin for making me\nthink that this was an easy job, so if he\nwants the lead pipe, then he will have to\npay for it.\n§Tell him that I need a toolbox stock\nwith the finest tools he has. Only then will\nhe get his precious pipe."
+		dialog: "Listen, I kinda like ya, kid, so I guess I^d be\nwilling to part with this pipe.\n§But!\n§Not for free, of course.\n§I need to punish Justin for making me\nthink that this was an easy job, so if he\nwants the lead pipe, then he will have to\npay for it.\n§Tell him that I need a toolbox stock full\nwith the finest tools he has. Only then will\nhe get his precious pipe."
 		data: Tony
 		type: NPC
 	}
@@ -128,6 +176,14 @@ conversations: {
 	}
 }
 associatedChoices: {
+	n30: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n30
+			destinationId: n16
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n9: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
@@ -160,6 +216,14 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
+	n19: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n19
+			destinationId: n20
+			choicePhrase: NO_CHOICE
+		}
+	]
 	n5: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
@@ -168,11 +232,11 @@ associatedChoices: {
 			choicePhrase: NO_CHOICE
 		}
 	]
-	n19: [
+	n18: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
-			sourceId: n19
-			destinationId: n20
+			sourceId: n18
+			destinationId: n19
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -190,14 +254,6 @@ associatedChoices: {
 			choicePhrase: I need a lead pipe.
 		}
 	]
-	n18: [
-		{
-			class: com.smoftware.elmour.UI.dialog.ConversationChoice
-			sourceId: n18
-			destinationId: n19
-			choicePhrase: NO_CHOICE
-		}
-	]
 	n3: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
@@ -210,15 +266,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n17
-			destinationId: n16
-			choicePhrase: NO_CHOICE
-		}
-	]
-	n2: [
-		{
-			class: com.smoftware.elmour.UI.dialog.ConversationChoice
-			sourceId: n2
-			destinationId: n3
+			destinationId: n23
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -227,6 +275,14 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n16
 			destinationId: n18
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n2: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n2
+			destinationId: n3
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -291,6 +347,62 @@ associatedChoices: {
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n10
 			destinationId: n15
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n29: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n29
+			destinationId: n30
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n28: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n28
+			destinationId: n29
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n27: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n27
+			destinationId: n28
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n26: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n26
+			destinationId: n27
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n25: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n25
+			destinationId: n26
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n24: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n24
+			destinationId: n25
+			choicePhrase: NO_CHOICE
+		}
+	]
+	n23: [
+		{
+			class: com.smoftware.elmour.UI.dialog.ConversationChoice
+			sourceId: n23
+			destinationId: n24
 			choicePhrase: NO_CHOICE
 		}
 	]

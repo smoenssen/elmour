@@ -159,6 +159,8 @@ public class CutSceneBase extends GameScreen {
     protected float zoomRate = 0;
     protected boolean isFading = true;
     protected String currentPartNumber = "";
+    protected float iterationNumber1 = 0;
+    protected float iterationNumber2 = 0;
     private boolean isFirstTime = true;
 
     public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {

@@ -15,7 +15,6 @@ Ben's phone 1440 x 2960 or 1080 x 2220
 
 Ben
 ---
-ophion.json: entityID should be OPHION
 When calling loadMap from cutscene, need to pass true as second parameter
 Need to handle transition back to main screen in quest cutscene
 Chapter 1 cutscene: EXIT_CUTSCENE doesn't have any data
