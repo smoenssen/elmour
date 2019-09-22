@@ -30,7 +30,7 @@ None
 Todo:
 -----
 Add chapter range to NORMAL_DIALOG
-Add hint to tasks
+Can RETURN_QUEST be removed?
 
 Ben
 ---
@@ -82,32 +82,6 @@ yEd for quest conversations
   Use TASK_COMPLETE in task dialog, which includes data <questID::taskID>
 	Use TASK_COMPLETE_CUTSCENE in task dialog, which includes data <questID::taskID>;<map spawn location>;<map>
 
-Character .json files
----------------------
-	Remove conversationConfigPath
-	Remove questConfigPath
-	Add all possible conversationConfigs for quests. Possible conversation types for configs so far are:
-		NORMAL_DIALOG,
-	  NORMAL_DIALOG1,
-	  NORMAL_DIALOG2,
-	  NORMAL_DIALOG3,
-	  PRE_QUEST_CUTSCENE,
-	  QUEST_TASK_DIALOG,
-	  QUEST_TASK_CUTSCENE,
-	  ACTIVE_QUEST_DIALOG1,
-	  ACTIVE_QUEST_DIALOG2,
-	  ACTIVE_QUEST_DIALOG3,
-	  ACTIVE_QUEST_CUTSCENE1,
-	  ACTIVE_QUEST_CUTSCENE2,
-	  ACTIVE_QUEST_CUTSCENE3,
-	  RETURN_QUEST_DIALOG,
-	  RETURN_QUEST_CUTSCENE,
-	  POST_QUEST_DIALOG,
-	  POST_TASK_DIALOG1,
-	  POST_TASK_DIALOG2,
-	  POST_TASK_DIALOG3
-
-
 yEd for quest graphs
 --------------------
 Color = task types
@@ -124,6 +98,7 @@ Description will be <Target Entity>;<ConversationType>;<Post Task ConversationTy
 	For FETCH "Target Entity" is the KeyItem ID
 	The last two are optional, but if you want a Target Number but not Post Task ConversationType, then you still need the extra semi-colon:
 		e.g., OPHION;ACTIVE_QUEST_DIALOG1;;5
+Note: Description is not needed for  (this is set in the map custom property)
 
 Quests will be Groups
 URL = Quest Title
