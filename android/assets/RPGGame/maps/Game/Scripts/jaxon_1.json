@@ -11,11 +11,6 @@ conversationConfigs : [
 	}
 	{
 		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
-		type: NORMAL_DIALOG1
-		config: "RPGGame/maps/Game/Text/Normal_Dialog/JaxonNormal_Dialog1.json"
-	}
-	{
-		class: com.smoftware.elmour.entities.EntityConfig$ConversationConfig
 		type: POST_TASK_DIALOG1
 		config: "RPGGame/maps/Game/Text/Quest_Dialog/Cloning_Quest/JaxonPostTaskDialog1.json"
 		questID: CloningMaterials

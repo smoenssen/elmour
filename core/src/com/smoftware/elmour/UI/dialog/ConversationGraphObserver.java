@@ -135,6 +135,14 @@ public interface ConversationGraphObserver {
         JUSTIN_WALK_DOWN,
         JUSTIN_LOOK_AWAY,
 
+        TONY_WALK_AROUND,
+        CHAR1_ENTER,
+        TONY_WALK_LEFT,
+        TONY_LOOK_RIGHT,
+        TONY_INCH_FORWARD,
+        TONY_LEAP_FORWARD,
+        TONY_LOOK_DOWN,
+
 
         WALK_AROUND_TOWN,
 
