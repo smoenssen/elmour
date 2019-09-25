@@ -8,7 +8,7 @@ conversations: {
 	}
 	n0: {
 		id: n0
-		dialog: What^s up bro?
+		dialog: What are you doing back here?
 		data: Justin
 		type: NPC
 	}

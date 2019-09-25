@@ -2,29 +2,29 @@
 conversations: {
 	n2: {
 		id: n2
-		dialog: Thanks man.
-		data: Me
-		type: NPC
+		dialog: TASK_COMPLETE
+		data: CloningMaterials::GetMaterials2
+		type: ACTION
 	}
 	n1: {
 		id: n1
-		dialog: TASK_COMPLETE
-		data: TeddyBear::FindTeddyBear
-		type: ACTION
+		dialog: What was that?\n§Tony wants...\n§Ugh. You^ve got to be kidding me!\n§Fine. Here it is. Just make sure that you\nget the lead pipe in return.
+		data: null
+		type: NPC
 	}
 	n0: {
 		id: n0
-		dialog: You look like you need a teddy bear. Here you go.
+		dialog: What are you doing back here?
 		data: Justin
 		type: NPC
 	}
 }
 associatedChoices: {
-	n2: [
+	n1: [
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
-			sourceId: n2
-			destinationId: n1
+			sourceId: n1
+			destinationId: n2
 			choicePhrase: NO_CHOICE
 		}
 	]
@@ -32,7 +32,7 @@ associatedChoices: {
 		{
 			class: com.smoftware.elmour.UI.dialog.ConversationChoice
 			sourceId: n0
-			destinationId: n2
+			destinationId: n1
 			choicePhrase: NO_CHOICE
 		}
 	]

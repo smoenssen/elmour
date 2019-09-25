@@ -324,6 +324,8 @@ public class QuestHUD implements Screen, QuestHudSubject {
         groupTasks.addActor(taskBackground);
         groupTasks.addActor(taskScrollPaneList);
 
+        //taskTableView.debugAll();
+
         /*
         **  MAIN TABLE
         */
@@ -901,9 +903,15 @@ public class QuestHUD implements Screen, QuestHudSubject {
             text.setAlignment(Align.topLeft);
             text.pack();
 
+            int bulletTopMargin = 7;
+            int bulletBottomMargin = 0;
+            int bulletLeftMargin = 24;
+            int bulletRightMargin = 2;
+            int bulletMargin = bulletLeftMargin + bulletRightMargin;
+
             taskTableView.row().align(Align.top).expandY().fillY();
-            taskTableView.add(bullet).align(Align.top).pad(7, 24, 0, 2).width(24).height(16);
-            taskTableView.add(text).pad(5).width(taskListWidth - 30).fillX();
+            taskTableView.add(bullet).align(Align.top).pad(bulletTopMargin, bulletLeftMargin, bulletBottomMargin, bulletRightMargin).width(24).height(16);
+            taskTableView.add(text).pad(5).align(Align.left).width(taskListWidth - bullet.getWidth() - bulletMargin);
 
             usedSpace += text.getHeight();
 
@@ -937,13 +945,19 @@ public class QuestHUD implements Screen, QuestHudSubject {
                     text.setUserObject(subQuestTask);
 
                     text.setWrap(true);
-                    text.setWidth(taskListWidth - 40);
                     text.setAlignment(Align.topLeft);
                     text.pack();
 
+                    int subBulletTopMargin = 7;
+                    int subBulletBottomMargin = 5;
+                    int subBulletLeftMargin = 2;
+                    int subBulletRightMargin = 2;
+                    int subBulletMargin = subBulletLeftMargin + subBulletRightMargin;
+
                     subTable.row().align(Align.top).width(taskListWidth - 40).expandY().fillY();
-                    subTable.add(subBullet).align(Align.top).pad(7, 9, 5, 2).width(16).height(16);
-                    subTable.add(text).pad(5).width(taskListWidth - 40);
+                    subTable.add(subBullet).align(Align.top).pad(subBulletTopMargin, subBulletLeftMargin, subBulletBottomMargin, subBulletRightMargin).width(16).height(16);
+                    subTable.add(text).pad(5).align(Align.left).width(taskListWidth - bullet.getWidth() - bulletMargin - subBullet.getWidth() - subBulletMargin);
+                    //subTable.debugAll();
 
                     usedSpace += text.getHeight();
                 }
@@ -951,11 +965,10 @@ public class QuestHUD implements Screen, QuestHudSubject {
                 Image blank = new Image(new Texture("graphics/blank_16x16.png"));
                 taskTableView.row().align(Align.top).expandY().fillY();
                 taskTableView.add(blank).align(Align.top).pad(7, 9, 0, 2).width(16).height(16);
-                taskTableView.add(subTable).width(taskListWidth - 40);
+                taskTableView.add(subTable).align(Align.left);
 
                 usedSpace += 30;
             }
-
         }
 
         // hack to fill in dummy rows to get first row at top of scroll panel, otherwise table is vertically centered

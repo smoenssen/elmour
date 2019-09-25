@@ -428,12 +428,13 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         stage.act(delta);
         stage.draw();
-
+/*
         if (ElmourGame.QUIET_MODE) {
             _mapRenderer.getBatch().begin();
             blackScreen.draw(_mapRenderer.getBatch(), 1);
             _mapRenderer.getBatch().end();
         }
+*/
     }
 
     @Override

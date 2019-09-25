@@ -5,18 +5,20 @@ questTasks: {
 		id: FindTeddyBear
 		questTaskType: FETCH
 		questTaskStatus: NOT_STARTED
-		targetType: JUSTIN
-		targetLocation: COMPASS
+		targetEntity: TEDDY_BEAR
+		conversationType: ACTIVE_QUEST_DIALOG1
 		taskPhrase: Find teddy bear
+		isExpanded: true
 	}
 	ReturnTeddyBear: {
 		yedNodeId: n0::n0
 		id: ReturnTeddyBear
 		questTaskType: RETURN
 		questTaskStatus: NOT_STARTED
-		targetType: OPHION
-		targetLocation: MAP1
+		targetEntity: OPHION
+		conversationType: RETURN_QUEST_DIALOG
 		taskPhrase: Return teddy bear
+		isExpanded: true
 	}
 }
 questTaskDependencies: {
