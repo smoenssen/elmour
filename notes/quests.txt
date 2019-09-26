@@ -31,6 +31,11 @@ Todo:
 -----
 Add chapter range to NORMAL_DIALOG
 Can RETURN_QUEST be removed?
+EXIT_CUTSCENE for quests?
+Need to figure out FETCH task - see GetMaterials2 trying to get tools, talk to Justin
+Add sequence number to task - Data description maybe? Super tasks also have an order.
+Add function that cut scene can call to remove key item from inventory
+Adjust quests: setting task to complete should cascade down and set all tasks complete in that path. Also allow setting quest complete (same thing with cascading downstream quests).
 
 Ben
 ---

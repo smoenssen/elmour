@@ -10,8 +10,7 @@ Sometimes in cut scene the action is displayed in popup (e.g., LOOK_AROUND)
 Allow apostrophes in conversation popups: use copyright symbol
 Compass sign is broken with paragraph line feed
 
-
-Ben's phone 1440 x 2960 or 1080 x 2220
+Debug listener dialogs disappear when minimizing
 
 Ben
 ---
