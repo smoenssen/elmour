@@ -7,7 +7,8 @@ public interface PlayerHudObserver {
         SHOWING_STATS_UI,
         HIDING_STATS_UI,
         SHOWING_MENU,
-        HIDING_MENU
+        HIDING_MENU,
+        SEND_SHOCKWAVE
     }
 
     void onNotify(PlayerHudEvent event, String value);

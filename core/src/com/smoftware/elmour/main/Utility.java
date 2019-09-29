@@ -1090,6 +1090,9 @@ public final class Utility {
 	}
 
 	public static Pixmap getScreenshot(int x, int y, int w, int h, boolean yDown){
+		// Calling example:
+		//		 Pixmap pixmap = Utility.getScreenshot(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		//
 		// android 2076 x 1080
 		// desktop 640 x 480
 		final Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(x, y, w, h);
@@ -1133,6 +1136,7 @@ public final class Utility {
 	public static Pixmap getScreenshot2(int x, int y, int w, int h,
 										boolean yDown) {
 
+		//todo: I don't think this one works
 		Gdx.gl.glPixelStorei(GL20.GL_PACK_ALIGNMENT, 1);
 
 		final Pixmap pixmap1 = new Pixmap(w, h, Pixmap.Format.RGBA8888);

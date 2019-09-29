@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.smoftware.elmour.main.ElmourGame;
+import com.smoftware.elmour.sfx.WaterExperiment;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -23,6 +24,8 @@ public class DesktopLauncher {
 		//cfg.backgroundFPS = 0; // Setting to 0 disables background fps throttling
 
 		Application app = new LwjglApplication(new ElmourGame(), cfg);
+
+		//Application app = new LwjglApplication(new WaterExperiment(), cfg);
 
 		Gdx.app = app;
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);

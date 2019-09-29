@@ -82,7 +82,6 @@ import com.smoftware.elmour.sfx.ClockActor;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
-import com.smoftware.elmour.sfx.ShockWave;
 import com.smoftware.elmour.tests.MyTextAreaTest;
 
 import java.util.ArrayList;
@@ -605,16 +604,6 @@ public class PlayerHUD implements Screen, AudioSubject,
         hiddenItemGroup.addActor(hiddenItemTextArea);
         hiddenItemGroup.addActor(hiddenItemImage);
 
-        /*//////////////////////
-        Texture texture = new Texture("Untitled.jpg");
-        Image image1 = new Image(texture);
-        image1.setPosition(0,0);
-        image1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
-        //_stage.addActor(image1);
-        _stage.addActor(ShockWave.getInstance());
-        *///////////////////////////
-
         _stage.addActor(screenSwipe1);
         _stage.addActor(screenSwipe2);
         _stage.addActor(screenSwipe3);
@@ -823,17 +812,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                                               //MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
                                               //test.run();
 
-                                              Texture texture = new Texture("Untitled.jpg");
-                                              Image image1 = new Image(texture);
-                                              image1.setPosition(0,0);
-                                              image1.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-                                              //ShockWave.getInstance().addActor(image1);
+                                              notifySendShockwave(new Vector2(ElmourGame.V_WIDTH/2, ElmourGame.V_HEIGHT/2));
 
-                                              Pixmap pixmap = Utility.getScreenshot(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-                                              ShockWave.getInstance().setImage(pixmap);
-                                              pixmap.dispose();
 
-                                              ShockWave.getInstance().start(ElmourGame.V_WIDTH/2, ElmourGame.V_HEIGHT/2);
                                             /*
                                               FileHandle file = Gdx.files.local("Ben.csv");
 
@@ -1106,6 +1087,10 @@ public class PlayerHUD implements Screen, AudioSubject,
 
     public void notifyHidingStatsUI() {
         notify(PlayerHudObserver.PlayerHudEvent.HIDING_STATS_UI, "");
+    }
+
+    public void notifySendShockwave(Vector2 position) {
+        notify(PlayerHudObserver.PlayerHudEvent.SEND_SHOCKWAVE, _json.toJson(position, Vector2.class));
     }
 
     private void showInventoryHUD() {

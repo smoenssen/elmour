@@ -5,21 +5,27 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.smoftware.elmour.UI.graphics.AnimatedImage;
 import com.smoftware.elmour.components.Component;
 import com.smoftware.elmour.main.ElmourGame;
 import com.smoftware.elmour.entities.Entity;
@@ -36,13 +42,12 @@ import com.smoftware.elmour.maps.Map;
 import com.smoftware.elmour.maps.MapFactory;
 import com.smoftware.elmour.maps.MapManager;
 import com.smoftware.elmour.maps.MapObserver;
-import com.smoftware.elmour.maps.Shnarfulapogus;
 import com.smoftware.elmour.profile.ProfileManager;
 import com.smoftware.elmour.sfx.ScreenTransitionAction;
 import com.smoftware.elmour.sfx.ScreenTransitionActor;
 import com.smoftware.elmour.sfx.ShakeCamera;
-import com.smoftware.elmour.sfx.ShockWave;
-import com.smoftware.elmour.tests.MyTextAreaTest;
+
+import javax.xml.bind.util.ValidationEventCollector;
 
 public class MainGameScreen extends GameScreen implements MapObserver, InventoryHudObserver, QuestHudObserver, CutSceneObserver, PlayerHudObserver {
     private static final String TAG = MainGameScreen.class.getSimpleName();
@@ -51,6 +56,15 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
     //private final float V_HEIGHT = 8;//1.6f;
 
     private ShakeCamera shakeCam;
+
+    // Shockwave
+    ShaderProgram shockWaveShader;
+    FrameBuffer fbo;
+    TextureRegion fboTextureRegion;
+    float shockWaveTime = 0;
+    private float shockWavePositionX;
+    private float shockWavePositionY;
+    private boolean sendShockWave = false;
 
     public static class VIEWPORT {
         public static float viewportWidth;
@@ -101,6 +115,25 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         shakeCam = null;
 
         setGameState(GameState.RUNNING);
+
+        ShaderProgram.pedantic = false;
+        shockWaveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
+        //ensure it compiled
+        if (!shockWaveShader.isCompiled()) {
+            throw new GdxRuntimeException("Could not compile shader: " + shockWaveShader.getLog());
+        }
+        //print any warnings
+        if (shockWaveShader.getLog().length()!=0) {
+            System.out.println(shockWaveShader.getLog());
+        }
+
+        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        fboTextureRegion = new TextureRegion(fbo.getColorBufferTexture());
+        fboTextureRegion.flip(false, true);
+
+        // todo: move this into function when setting the coordinates
+        shockWavePositionX = ElmourGame.V_WIDTH/2;
+        shockWavePositionY = ElmourGame.V_HEIGHT/2;
 
         //_camera setup
         setupViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
@@ -164,8 +197,9 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         blackScreen.setHeight(stage.getHeight());
         blackScreen.setPosition(0, 0);
 
-        if (ElmourGame.QUIET_MODE)
-        blackScreen.setVisible(true);
+        //if (ElmourGame.QUIET_MODE) {
+        //    blackScreen.setVisible(true);
+        //}
 
         //Gdx.app.debug(TAG, "UnitScale value is: " + _mapRenderer.getUnitScale());
     }
@@ -225,6 +259,25 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         //test.run();
     }
 
+    private void sendShockWave(float x, float y) {
+        shockWavePositionX = x;
+        shockWavePositionY = y;
+        shockWaveTime = 0;
+        sendShockWave = true;
+        if (!resetShockwaveTimer().isScheduled()) {
+            Timer.schedule(resetShockwaveTimer(), 0.5f);
+        }
+    }
+
+    private Timer.Task resetShockwaveTimer() {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                sendShockWave = false;
+            }
+        };
+    }
+
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
@@ -249,12 +302,21 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             return;
         }
 
+        if (sendShockWave) {
+            fbo.begin();
+        }
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (_mapRenderer == null) {
+            if (sendShockWave) {
+                fbo.end();
+            }
             return;
         }
+
+        _mapRenderer.getBatch().setShader(null);
 
         _mapRenderer.setView(_camera);
 
@@ -428,6 +490,31 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         stage.act(delta);
         stage.draw();
+
+        if (sendShockWave) {
+            fbo.end();
+
+            _mapRenderer.getBatch().flush(); // is this necessary?
+
+            // POST PROCESS
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            shockWaveTime += delta;
+
+            Matrix4 matrix = new Matrix4();
+            matrix.setToOrtho2D(0, 0, ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
+            _mapRenderer.getBatch().setProjectionMatrix(matrix);
+            _mapRenderer.getBatch().begin();
+            _mapRenderer.getBatch().setShader(shockWaveShader);
+            Vector2 v = new Vector2(shockWavePositionX, shockWavePositionY);
+            v.x = v.x / ElmourGame.V_WIDTH;
+            v.y = v.y / ElmourGame.V_HEIGHT;
+            shockWaveShader.setUniformf("time", shockWaveTime);
+            shockWaveShader.setUniformf("center", v);
+            _mapRenderer.getBatch().draw(fboTextureRegion, 0, 0, fbo.getWidth(), fbo.getHeight());
+            _mapRenderer.getBatch().end();
+        }
+
+
 /*
         if (ElmourGame.QUIET_MODE) {
             _mapRenderer.getBatch().begin();
@@ -650,6 +737,10 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
                 if (ElmourGame.isAndroid()) {
                     mobileControls.show();
                 }
+                break;
+            case SEND_SHOCKWAVE:
+                Vector2 position = _json.fromJson(Vector2.class, value);
+                sendShockWave(position.x, position.y);
                 break;
         }
     }
