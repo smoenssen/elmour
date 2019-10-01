@@ -4,6 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -12,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -19,7 +24,9 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.smoftware.elmour.main.ElmourGame;
@@ -100,6 +107,22 @@ public class CutSceneBase extends GameScreen {
         }
     }
 
+    public class shockWave extends Action {
+        float x, y, duration;
+
+        public shockWave(float x, float y, float duration) {
+            this.x = x;
+            this.y = y;
+            this.duration = duration;
+        }
+
+        @Override
+        public boolean act (float delta) {
+            sendShockWave(x, y, duration);
+            return true; // An action returns true when it's completed
+        }
+    }
+
     // End common cut scene actions
     /////////////////////////////////////////////////////////
 
@@ -163,6 +186,16 @@ public class CutSceneBase extends GameScreen {
     protected float iterationNumber2 = 0;
     private boolean isFirstTime = true;
 
+    // Shockwave
+    private ShaderProgram shockWaveShader;
+    private FrameBuffer fbo;
+    private TextureRegion fboTextureRegion;
+    private float shockWaveTime = 0;
+    private float shockWavePositionX;
+    private float shockWavePositionY;
+    private float shockWaveDuration;
+    private boolean sendShockWave = false;
+
     public CutSceneBase(ElmourGame game, PlayerHUD playerHUD) {
 
         _game = game;
@@ -192,6 +225,22 @@ public class CutSceneBase extends GameScreen {
         _transitionActor = new ScreenTransitionActor();
         _followingActor = new Actor();
 
+        // Shockwave
+        ShaderProgram.pedantic = false;
+        shockWaveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
+        //ensure it compiled
+        if (!shockWaveShader.isCompiled()) {
+            throw new GdxRuntimeException("Could not compile shader: " + shockWaveShader.getLog());
+        }
+        //print any warnings
+        if (shockWaveShader.getLog().length()!=0) {
+            System.out.println(shockWaveShader.getLog());
+        }
+
+        fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        fboTextureRegion = new TextureRegion(fbo.getColorBufferTexture());
+        fboTextureRegion.flip(false, true);
+
         _switchScreenToMainAction = new
                 RunnableAction() {
                     @Override
@@ -199,6 +248,25 @@ public class CutSceneBase extends GameScreen {
                         _game.setScreen(_game.getScreenType(ElmourGame.ScreenType.MainGame));
                     }
                 };
+    }
+
+    private void sendShockWave(float x, float y, float duration) {
+        shockWavePositionX = x;
+        shockWavePositionY = y;
+        shockWaveTime = 0;
+        sendShockWave = true;
+        if (!resetShockWaveTimer().isScheduled()) {
+            Timer.schedule(resetShockWaveTimer(), duration);
+        }
+    }
+
+    private Timer.Task resetShockWaveTimer() {
+        return new Timer.Task() {
+            @Override
+            public void run() {
+                sendShockWave = false;
+            }
+        };
     }
 
     protected AnimatedImage setEntityAnimation(Entity entity){
@@ -359,6 +427,10 @@ public class CutSceneBase extends GameScreen {
             _mapMgr.loadMap(MapFactory.MapType.ELMOUR);
         }
 
+        if (sendShockWave) {
+            fbo.begin();
+        }
+
         _mapRenderer.setView(_camera);
 
         _mapRenderer.getBatch().enableBlending();
@@ -425,5 +497,28 @@ public class CutSceneBase extends GameScreen {
         _playerHUD.render(delta);
 
         isFirstTime = false;
+
+        if (sendShockWave) {
+            fbo.end();
+
+            _mapRenderer.getBatch().flush(); // is this necessary?
+
+            // POST PROCESS
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            shockWaveTime += delta;
+
+            Matrix4 matrix = new Matrix4();
+            matrix.setToOrtho2D(0, 0, ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
+            _mapRenderer.getBatch().setProjectionMatrix(matrix);
+            _mapRenderer.getBatch().begin();
+            _mapRenderer.getBatch().setShader(shockWaveShader);
+            Vector2 v = new Vector2(shockWavePositionX, shockWavePositionY);
+            v.x = v.x / ElmourGame.V_WIDTH;
+            v.y = v.y / ElmourGame.V_HEIGHT;
+            shockWaveShader.setUniformf("time", shockWaveTime);
+            shockWaveShader.setUniformf("center", v);
+            _mapRenderer.getBatch().draw(fboTextureRegion, 0, 0, fbo.getWidth(), fbo.getHeight());
+            _mapRenderer.getBatch().end();
+        }
     }
 }

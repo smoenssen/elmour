@@ -1,0 +1,6 @@
+10 (will look bad if it is anything else (sharpness of the edges)), Strength of Shockwave (Maybe dissipation), Overall Size
+
+CurrentTime = larger # means greater radius
+powDiff = 0.0 ; If it is not, it will grab pixels that are not in the center
+diff = dissipation
+diffUV = what dirrection the shift is in (i.e. diagonally)

@@ -131,10 +131,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         fboTextureRegion = new TextureRegion(fbo.getColorBufferTexture());
         fboTextureRegion.flip(false, true);
 
-        // todo: move this into function when setting the coordinates
-        shockWavePositionX = ElmourGame.V_WIDTH/2;
-        shockWavePositionY = ElmourGame.V_HEIGHT/2;
-
         //_camera setup
         setupViewport(ElmourGame.V_WIDTH, ElmourGame.V_HEIGHT);
 
