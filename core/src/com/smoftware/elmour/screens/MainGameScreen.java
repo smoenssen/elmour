@@ -117,7 +117,10 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         setGameState(GameState.RUNNING);
 
         ShaderProgram.pedantic = false;
-        shockWaveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
+        shockWaveShader = new ShaderProgram(
+                Gdx.files.internal("shaders/vertex3.glsl").readString(),
+                Gdx.files.internal("shaders/fragment3.glsl").readString());
+
         //ensure it compiled
         if (!shockWaveShader.isCompiled()) {
             throw new GdxRuntimeException("Could not compile shader: " + shockWaveShader.getLog());
@@ -261,7 +264,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         shockWaveTime = 0;
         sendShockWave = true;
         if (!resetShockwaveTimer().isScheduled()) {
-            Timer.schedule(resetShockwaveTimer(), 0.5f);
+            Timer.schedule(resetShockwaveTimer(), 2.5f);
         }
     }
 
@@ -311,8 +314,6 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             }
             return;
         }
-
-        _mapRenderer.getBatch().setShader(null);
 
         _mapRenderer.setView(_camera);
 
@@ -504,10 +505,11 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             Vector2 v = new Vector2(shockWavePositionX, shockWavePositionY);
             v.x = v.x / ElmourGame.V_WIDTH;
             v.y = v.y / ElmourGame.V_HEIGHT;
-            shockWaveShader.setUniformf("time", shockWaveTime);
+            shockWaveShader.setUniformf("time", shockWaveTime/2);
             shockWaveShader.setUniformf("center", v);
             _mapRenderer.getBatch().draw(fboTextureRegion, 0, 0, fbo.getWidth(), fbo.getHeight());
             _mapRenderer.getBatch().end();
+            _mapRenderer.getBatch().setShader(null);
         }
 
 

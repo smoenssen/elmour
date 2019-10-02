@@ -2,6 +2,14 @@
 precision highp float;
 #endif
 
+//10 (will look bad if it is anything else (sharpness of the edges)), Strength of Shockwave (Maybe dissipation), Overall Size
+
+//CurrentTime = larger # means greater radius
+//powDiff = 0.0 ; If it is not, it will grab pixels that are not in the center
+//diff = dissipation
+//diffUV = what dirrection the shift is in (i.e. diagonally)
+
+
 uniform sampler2D sceneTex; // 0
 uniform vec2 center; // Mouse position
 uniform float time; // effect elapsed time
@@ -14,7 +22,8 @@ void main()
 	// get pixel coordinates
 	vec2 l_texCoords = v_texCoords;
 	//vec2 center = vec2(0.5, 0.5);
-	vec3 shockParams = vec3(10.0, 0.8, 0.1);
+	//vec3 shockParams = vec3(10.0, 0.8, 0.1);
+	vec3 shockParams = vec3(10.0, 0.8, 0.0075);
 
     float offset = (time- floor(time))/time;
 	float CurrentTime = (time)*(offset);

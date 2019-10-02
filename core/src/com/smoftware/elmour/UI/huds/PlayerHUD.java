@@ -174,6 +174,8 @@ public class PlayerHUD implements Screen, AudioSubject,
     private TextButton adjustQuestsButton;
 
     private AdjustStatsUI adjustStatsUI;
+
+    private Image testImage;
     /////////////////////
 
     private Dialog _messageBoxUI;
@@ -240,6 +242,11 @@ public class PlayerHUD implements Screen, AudioSubject,
         entityConversationConfigOverrideMap = new Hashtable<>();
 
         adjustStatsUI = new AdjustStatsUI(this.game, this, _stage);
+
+        testImage = new Image(new Texture("graphics/Untitled.png"));
+        testImage.setWidth(Gdx.graphics.getWidth());
+        testImage.setHeight(Gdx.graphics.getHeight());
+        testImage.setPosition(0, 0);
 
         isCutScene = false;
         isEnabled = true;
@@ -632,6 +639,7 @@ public class PlayerHUD implements Screen, AudioSubject,
         _stage.addActor(saveButton);
         _stage.addActor(savingGroup);
         _stage.addActor(hiddenItemGroup);
+        //_stage.addActor(testImage);
 
         if (ElmourGame.DEV_MODE) {
             _stage.addActor(debugButton);
@@ -985,6 +993,21 @@ public class PlayerHUD implements Screen, AudioSubject,
                                           }
                                       }
                                   }
+        );
+
+        testImage.addListener(new ClickListener() {
+
+                                     @Override
+                                     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                                         return true;
+                                     }
+
+                                     @Override
+                                     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                                         Gdx.app.log(TAG, "testImage clicked");
+                                         notifySendShockwave(new Vector2(x, y));
+                                     }
+                                 }
         );
 
         //Music/Sound loading
