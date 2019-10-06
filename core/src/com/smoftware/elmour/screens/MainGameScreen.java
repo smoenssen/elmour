@@ -14,8 +14,11 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapImageLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
@@ -118,8 +121,8 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
 
         ShaderProgram.pedantic = false;
         shockWaveShader = new ShaderProgram(
-                Gdx.files.internal("shaders/vertex3.glsl").readString(),
-                Gdx.files.internal("shaders/fragment3.glsl").readString());
+                Gdx.files.internal("shaders/vertex.glsl").readString(),
+                Gdx.files.internal("shaders/normalWave.glsl").readString());
 
         //ensure it compiled
         if (!shockWaveShader.isCompiled()) {
@@ -264,7 +267,7 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
         shockWaveTime = 0;
         sendShockWave = true;
         if (!resetShockwaveTimer().isScheduled()) {
-            Timer.schedule(resetShockwaveTimer(), 2.5f);
+            Timer.schedule(resetShockwaveTimer(), 1f);
         }
     }
 
@@ -505,11 +508,13 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             Vector2 v = new Vector2(shockWavePositionX, shockWavePositionY);
             v.x = v.x / ElmourGame.V_WIDTH;
             v.y = v.y / ElmourGame.V_HEIGHT;
-            shockWaveShader.setUniformf("time", shockWaveTime/2);
+            shockWaveShader.setUniformf("time", shockWaveTime);
             shockWaveShader.setUniformf("center", v);
             _mapRenderer.getBatch().draw(fboTextureRegion, 0, 0, fbo.getWidth(), fbo.getHeight());
             _mapRenderer.getBatch().end();
             _mapRenderer.getBatch().setShader(null);
+
+            //testFunction(shockWaveTime);
         }
 
 
@@ -520,6 +525,70 @@ public class MainGameScreen extends GameScreen implements MapObserver, Inventory
             _mapRenderer.getBatch().end();
         }
 */
+    }
+
+    float distance(Vector2 v1, Vector2 v2) {
+        Ray ray = new Ray(new Vector3(), new Vector3());
+        ray.set(v1.x, v1.y, 0.0f, v2.x, v2.y, 0.0f);
+        float distance =  ray.origin.dst(ray.direction);
+        return distance;
+    }
+
+    boolean initialized = false;
+    Vector2 v_texCoords = new Vector2(0,0);
+
+    void testFunction(float time) {
+        float offset = (time - MathUtils.floor(time))/time;
+        float CurrentTime = (time)*(offset);
+
+        Vector2 center = new Vector2(0, 0);
+
+        String[] attributes = shockWaveShader.getAttributes();
+        int i = shockWaveShader.getAttributeLocation("a_texCoord0");
+
+        Vector3 shockParams = new Vector3(10.0f, 0.8f, 0.1f);
+
+        /*
+        if (!initialized) {
+            v_texCoords.x = shockWavePositionX;
+            v_texCoords.y = shockWavePositionY;
+            initialized = true;
+        }
+        */
+        v_texCoords.x += 0.01f;
+        v_texCoords.y += 0.01f;
+
+        float distance = distance(v_texCoords, center);
+
+        Gdx.app.log(TAG, "time: " + time + ", offset: " + offset + ", CurrentTime: " + CurrentTime + ", distance:" + distance);
+
+        if ((distance <= (CurrentTime + shockParams.z)) && (distance >= (CurrentTime - shockParams.z)) )
+        {
+            float diff = (distance - CurrentTime);
+
+            float powDiff = 0.0f;
+            float minRadius = 0.3f;
+
+            if (distance > minRadius) {
+                powDiff = 1.0f - (float)Math.pow((double)Math.abs(diff*shockParams.x), shockParams.y);
+
+                Gdx.app.log(TAG, "---------  distance > minRadius: diff: " + diff + ", powDiff: " + powDiff);
+            }
+            else {
+                //float TimeTill = 0.3;
+                //float percent = CurrentTime / (TimeTill);
+                //diff = (distance - CurrentTime);
+                //powDiff = (1.0 - pow(abs(diff*shockParams.x), shockParams.y)) * percent;
+
+                Gdx.app.log(TAG, "*********  distance < minRadius: diff: " + diff + ", powDiff: " + powDiff);
+            }
+/*
+            float diffTime = diff  * powDiff;
+            vec2 diffUV = normalize(v_texCoords - center);
+            //Perform the distortion and reduce the effect over time
+            fragCoord = v_texCoords + ((diffUV * diffTime)/(CurrentTime * distance * -40.0)); // negative 40 helped reverse the wave
+*/
+        }
     }
 
     @Override

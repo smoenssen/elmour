@@ -820,7 +820,9 @@ public class PlayerHUD implements Screen, AudioSubject,
                                               //MyTextAreaTest test = new MyTextAreaTest(thisPlayerHUD);
                                               //test.run();
 
-                                              notifySendShockwave(new Vector2(ElmourGame.V_WIDTH/2, ElmourGame.V_HEIGHT/2));
+                                              //notifySendShockwave(new Vector2(ElmourGame.V_WIDTH/2, ElmourGame.V_HEIGHT/2));
+
+                                              notifySendShockwave(new Vector2(ElmourGame.V_WIDTH/2 + 16, ElmourGame.V_HEIGHT/2 + 16));
 
 
                                             /*

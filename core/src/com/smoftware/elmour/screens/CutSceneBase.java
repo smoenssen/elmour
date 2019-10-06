@@ -227,7 +227,7 @@ public class CutSceneBase extends GameScreen {
 
         // Shockwave
         ShaderProgram.pedantic = false;
-        shockWaveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/fragment.glsl").readString());
+        shockWaveShader = new ShaderProgram(Gdx.files.internal("shaders/vertex.glsl").readString(), Gdx.files.internal("shaders/normalWave.glsl").readString());
         //ensure it compiled
         if (!shockWaveShader.isCompiled()) {
             throw new GdxRuntimeException("Could not compile shader: " + shockWaveShader.getLog());
