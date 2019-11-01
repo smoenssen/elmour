@@ -27,11 +27,13 @@ import com.smoftware.elmour.quest.Quest;
 import com.smoftware.elmour.quest.QuestGraph;
 import com.smoftware.elmour.quest.QuestList;
 import com.smoftware.elmour.quest.QuestTask;
+import com.smoftware.elmour.quest.QuestTaskDependency;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * Created by steve on 5/14/19.
@@ -596,7 +598,7 @@ public class QuestHUD implements Screen, QuestHudSubject {
             }
         }
     }
-
+/*
     private void setQuestTaskIncompleteDebug(QuestGraph questGraph, QuestTask questTask) {
         // handle this task
         questTask.setTaskNotStarted();
@@ -633,10 +635,106 @@ public class QuestHUD implements Screen, QuestHudSubject {
         if (allTasksAreNotStarted) {
             playerHUD.unAcceptQuest(questGraph.getQuestID());
         }
-    }
 
+        // handle any tasks dependent on this task
+        Hashtable<String, ArrayList<QuestTaskDependency>> all = questGraph.getAllQuestTaskDependencies();
+        Set<String> keys = all.keySet();
+        for (String id: keys) {
+
+            if (subQuestList != null) {
+                QuestGraph subQuestGraph = subQuestList.getQuestByID(id);
+                Hashtable<String, ArrayList<QuestTaskDependency>> allSub = subQuestGraph.getAllQuestTaskDependencies();
+                ArrayList<QuestTaskDependency> depList = allSub.get(id);
+                for (QuestTaskDependency dep : depList) {
+                    if (dep.getDestinationId().equals(questTask.getId())) {
+                        // recursive call to set tasks that depend on this incomplete
+                        setQuestTaskIncompleteDebug(subQuestGraph, subQuestGraph.getQuestTaskByID(dep.getSourceId()));
+                    }
+                }
+            }
+
+            ArrayList<QuestTaskDependency> depList = all.get(id);
+            for (QuestTaskDependency dep : depList) {
+                if (dep.getDestinationId().equals(questTask.getId())) {
+                    // recursive call to set tasks that depend on this incomplete
+                    setQuestTaskIncompleteDebug(questGraph, questGraph.getQuestTaskByID(dep.getSourceId()));
+                }
+            }
+        }
+    }
+*/
+
+    private void setQuestTaskIncompleteDebug(QuestGraph questGraph, QuestTask questTask) {
+        // handle this task
+        questTask.setTaskNotStarted();
+
+        // handle sub-tasks
+        QuestList subQuestList = questTask.getSubQuestList();
+        if (subQuestList != null) {
+            QuestGraph subQuestGraph = subQuestList.getQuestByID(questTask.getId());
+            ArrayList<QuestTask> subQuestTaskList = subQuestGraph.getAllQuestTasks();
+            for (QuestTask subTask : subQuestTaskList) {
+                subTask.setTaskNotStarted();
+            }
+        }
+
+        // handle any tasks dependent on this task
+        ArrayList<QuestTask> allMainQuestTasks = questGraph.getAllQuestTasks();
+        for (QuestTask mainTask: allMainQuestTasks) {
+            if (questGraph.doesTask1DependOnTask2(mainTask, questTask)) {
+                mainTask.setTaskNotStarted();
+            }
+
+            QuestList subList = mainTask.getSubQuestList();
+            if (subList != null) {
+                ArrayList<QuestGraph> subQuestGraphs = subList.getAllQuestGraphs();
+                for (QuestGraph subQuestGraph : subQuestGraphs) {
+                    ArrayList<QuestTask> allSubQuestTasks = subQuestGraph.getAllQuestTasks();
+                    for (QuestTask subTask: allSubQuestTasks) {
+                        if (subQuestGraph.doesTask1DependOnTask2(subTask, questTask)) {
+                            subTask.setTaskNotStarted();
+                        }
+                    }
+                }
+            }
+        }
+
+        // handle parent task
+        String parentQuestId = questTask.getParentQuestId();
+        if (parentQuestId != null) {
+            QuestTask parentQuestTask = questGraph.getQuestTaskByID(parentQuestId);
+            if (parentQuestTask != null) {
+                parentQuestTask.setTaskNotStarted();
+                // recursive call to set tasks that depend on this incomplete
+                //setQuestTaskIncompleteDebug(questGraph, parentQuestTask);
+            }
+        }
+
+        // handle main quest
+        boolean allTasksAreNotStarted = true;
+        ArrayList<QuestTask> tasks = questGraph.getAllQuestTasks();
+        for (QuestTask task: tasks) {
+            if (task.getQuestTaskStatus() == QuestTask.QuestTaskStatus.NOT_STARTED) {
+                allTasksAreNotStarted = false;
+                break;
+            }
+        }
+
+        if (allTasksAreNotStarted) {
+            playerHUD.unAcceptQuest(questGraph.getQuestID());
+        }
+    }
+    
     private void setQuestTaskCompleteDebug(QuestGraph questGraph, QuestTask questTask) {
         questGraph.setQuestTaskComplete(questTask.getId());
+
+        if (questGraph.doesQuestTaskHaveDependencies(questTask.getId())) {
+            ArrayList<QuestTaskDependency> depList = questGraph.getQuestTaskDependencies(questTask.getId());
+            for (QuestTaskDependency dep : depList) {
+                // recursive call to set dependency task(s) complete
+                setQuestTaskCompleteDebug(questGraph, questGraph.getQuestTaskByID(dep.getDestinationId()));
+            }
+        }
 
         QuestList subQuestList = questTask.getSubQuestList();
         if (subQuestList != null) {

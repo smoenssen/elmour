@@ -327,11 +327,19 @@ public class QuestGraph {
         if( task == null) return false;
         ArrayList<QuestTaskDependency> list = questTaskDependencies.get(id);
 
-        if( list.isEmpty() || list.size() == 0){
+        if( list == null || list.isEmpty() || list.size() == 0){
             return false;
         }else{
             return true;
         }
+    }
+
+    public ArrayList<QuestTaskDependency> getQuestTaskDependencies(String taskID) {
+        return questTaskDependencies.get(taskID);
+    }
+
+    public Hashtable<String, ArrayList<QuestTaskDependency>> getAllQuestTaskDependencies() {
+        return questTaskDependencies;
     }
 
     public boolean updateQuestForReturn(){
